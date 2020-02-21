@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Security
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -39,7 +40,14 @@ Source code is available upon request via <support@sitkatech.com>.
     @foreach (var project in ViewDataTyped.Projects)
     {
         <tr>
-            <td><a href="@project.GetFactSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a>
+            @if (OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(ViewDataTyped.CurrentFirmaSession, project))
+            {
+            <td><a href="@project.GetFactSheetUrl()">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon</a></td>
+            }
+            else
+            {
+            <td>%nbsp;</td>
+            }
             <td><a href="@project.GetDetailUrl()">@project.ProjectName</a></td>
             <td style="white-space: nowrap">@project.ProjectStage.ProjectStageDisplayName</td>
             <td style="text-align: right">@project.ImplementationStartYear</td>

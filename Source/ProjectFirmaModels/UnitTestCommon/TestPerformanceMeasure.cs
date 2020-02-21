@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using ApprovalUtilities.Utilities;
 using ProjectFirmaModels.Models;
@@ -31,7 +32,9 @@ namespace ProjectFirmaModels.UnitTestCommon
         {
             public static PerformanceMeasure Create()
             {
-                var performanceMeasure = new PerformanceMeasure("Foo", MeasurementUnitType.Acres, PerformanceMeasureType.Action, false, PerformanceMeasureDataSourceType.Project, false)
+                var randomGuid = Guid.NewGuid();
+                var performanceMeasureDisplayName = $"PerformanceMeasureFakeName_{randomGuid}";
+                var performanceMeasure = new PerformanceMeasure(performanceMeasureDisplayName, MeasurementUnitType.Acres, PerformanceMeasureType.Action, false, PerformanceMeasureDataSourceType.Project, false)
                 {
                     PerformanceMeasureSubcategories = new List<PerformanceMeasureSubcategory>()
                 };
@@ -47,7 +50,7 @@ namespace ProjectFirmaModels.UnitTestCommon
                 var subcategory3 = TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 3, $"{performanceMeasureName}Subcategory3");
                 performanceMeasure.PerformanceMeasureSubcategories.AddAll(new List<PerformanceMeasureSubcategory> {subcategory1, subcategory2, subcategory3});
 
-                return performanceMeasure;                
+                return performanceMeasure;
             }
         }
     }

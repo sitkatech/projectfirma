@@ -24,8 +24,8 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             // Public properties
             OrganizationName = organization.OrganizationName;
             OrganizationShortName = organization.OrganizationShortName;
-            OrganizationTypeName = organization.OrganizationType.OrganizationTypeName;
-            OrganizationTypeAbbreviation = organization.OrganizationType.OrganizationTypeAbbreviation;
+            OrganizationTypeName = organization.OrganizationType?.OrganizationTypeName;
+            OrganizationTypeAbbreviation = organization.OrganizationType?.OrganizationTypeAbbreviation;
 
         }
 

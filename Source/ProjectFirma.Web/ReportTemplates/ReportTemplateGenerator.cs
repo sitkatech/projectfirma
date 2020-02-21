@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web.Mvc;
+﻿using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.ReportTemplates.Models;
 using ProjectFirmaModels.Models;
 using SharpDocx;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.ReportTemplates
 {
     public class ReportTemplateGenerator
     {
         public const string TemplateTempDirectory = "ProjectFirmaReportTemplates";
-        public const int TemplateTempDirectoryFileLifespanInDays = 1;
+        public const int TemplateTempDirectoryFileLifespanInDays = 2;
         protected ReportTemplate ReportTemplate { get; set; }
         protected ReportTemplateModelEnum ReportTemplateModelEnum { get; set; }
         protected ReportTemplateModelTypeEnum ReportTemplateModelTypeEnum { get; set; }
@@ -54,7 +55,7 @@ namespace ProjectFirma.Web.ReportTemplates
             var compilePath = GetCompilePath();
             document.Generate(compilePath);
 
-            DeleteDirectory(GetFullTemporaryTemplateDirectory());
+            CleanDirectoryOfOldTemplates(GetFullTemporaryTemplateDirectory());
         }
 
         public ActionResult GenerateAndDownload()
@@ -65,20 +66,20 @@ namespace ProjectFirma.Web.ReportTemplates
             return new FileResourceResult(ReportTemplate.FileResource.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
         }
 
-        private void DeleteDirectory(string targetDirectory)
+        private void CleanDirectoryOfOldTemplates(string targetDirectory)
         {
             if (Directory.Exists(targetDirectory))
             {
                 var fileEntries = Directory.GetFiles(targetDirectory);
                 foreach (string fileName in fileEntries)
-                    DeleteFile(fileName);
+                    DeleteFileIfOlderThanLifespan(fileName);
                 var directories = Directory.GetDirectories(targetDirectory);
                 foreach (string directory in directories)
-                    DeleteDirectory(directory);
+                    CleanDirectoryOfOldTemplates(directory);
             }
         }
 
-        private void DeleteFile(string filePath)
+        private void DeleteFileIfOlderThanLifespan(string filePath)
         {
             var fileInfo = new FileInfo(filePath);
             if(fileInfo.LastAccessTime < DateTime.Now.AddDays(-TemplateTempDirectoryFileLifespanInDays))
@@ -118,7 +119,8 @@ namespace ProjectFirma.Web.ReportTemplates
 
         private string GetFullTemporaryTemplateDirectory()
         {
-            return $"{Path.GetTempPath()}{TemplateTempDirectory}\\";
+            var tempPath = new DirectoryInfo(SitkaConfiguration.GetRequiredAppSetting("TempFolder"));
+            return $"{tempPath.FullName}\\{TemplateTempDirectory}\\";
         }
 
         private List<ReportTemplateBaseModel> GetListOfModels()
@@ -150,6 +152,7 @@ namespace ProjectFirma.Web.ReportTemplates
             {
                 case ReportTemplateModelEnum.Project:
                     // select 10 random models to test the report with
+                    // SMG 2/17/2020 this can cause problems with templates failing only some of the time, but it feels costly to validate against every single model in the system
                     selectedModelIDs = HttpRequestStorage.DatabaseEntities.Projects
                         .Select(x => x.ProjectID).Take(10).ToList();
                     break;
@@ -164,9 +167,10 @@ namespace ProjectFirma.Web.ReportTemplates
         {
             errorMessage = "";
             sourceCode = "";
+            var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
+            var tempDirectory = reportTemplateGenerator.GetCompilePath();
             try
             {
-                var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
                 reportTemplateGenerator.Generate();
                 reportIsValid = true;
             }
@@ -175,6 +179,7 @@ namespace ProjectFirma.Web.ReportTemplates
                 errorMessage = exception.Errors;
                 sourceCode = exception.SourceCode;
                 reportIsValid = false;
+                SitkaLogger.Instance.LogDetailedErrorMessage($"There was a SharpDocxCompilationException validating a report template. Temporary template file location:\"{tempDirectory}\" Error Message: \"{errorMessage}\". Source Code: \"{sourceCode}\"", exception);
             }
             catch (Exception exception)
             {
@@ -196,6 +201,7 @@ namespace ProjectFirma.Web.ReportTemplates
                 }
 
                 sourceCode = exception.StackTrace;
+                SitkaLogger.Instance.LogDetailedErrorMessage($"There was a SharpDocxCompilationException validating a report template. Temporary template file location:\"{tempDirectory}\". Error Message: \"{errorMessage}\".", exception);
             }
         }
 

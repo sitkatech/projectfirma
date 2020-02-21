@@ -1,35 +1,21 @@
-﻿--begin tran
-
-
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE TABLE [dbo].[ProjectCategory](
 	[ProjectCategoryID] [int] NOT NULL,
-	[ProjectCategoryName] [varchar](100) NOT NULL,
-	[ProjectCategoryDisplayName] [varchar](100) NOT NULL
- 
- 
+	[ProjectCategoryName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ProjectCategoryDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_ProjectCategory_ProjectCategoryID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectCategoryID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- 
- 
  CONSTRAINT [AK_ProjectCategory_ProjectCategoryDisplayName] UNIQUE NONCLUSTERED 
 (
 	[ProjectCategoryDisplayName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- 
- 
  CONSTRAINT [AK_ProjectCategory_ProjectCategoryName] UNIQUE NONCLUSTERED 
 (
 	[ProjectCategoryName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
-GO
-
-insert dbo.ProjectCategory (ProjectCategoryID, ProjectCategoryName, ProjectCategoryDisplayName) values 
-(1, 'Normal', 'Normal'),
-(2, 'Administrative', 'Administrative')
-GO
-
-
---rollback tran

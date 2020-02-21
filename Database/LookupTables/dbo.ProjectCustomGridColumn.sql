@@ -29,4 +29,4 @@ values
 (24, 'ProjectLastUpdated', 'Last Updated', 1),
 (25, 'ProjectStatus', 'Status', 1),
 (26, 'FinalStatusUpdateStatus', 'Final Status Update', 1),
-(27, 'ProjectType', 'Project Type', 1)
+(27, 'ProjectCategory', 'Project Category', 1)

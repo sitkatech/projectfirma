@@ -34,13 +34,26 @@ namespace ProjectFirmaModels.UnitTestCommon
                 return performanceMeasureActualUpdate;
             }
 
-            public static PerformanceMeasureActualUpdate Create(ProjectUpdateBatch projectUpdateBatch, int calendarYear, double? actualValue)
+            public static PerformanceMeasureActualUpdate Create(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasure performanceMeasure, int calendarYear)
             {
-                var performanceMeasure = TestPerformanceMeasure.Create();
-                var performanceMeasureReportingPeriod = TestPerformanceMeasureReportingPeriod.Create(performanceMeasure, calendarYear);
-                var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasure, performanceMeasureReportingPeriod) {ActualValue = actualValue};
+                var performanceMeasureActualUpdate = Create(projectUpdateBatch, performanceMeasure, calendarYear, null);
                 return performanceMeasureActualUpdate;
             }
+
+            public static PerformanceMeasureActualUpdate Create(ProjectUpdateBatch projectUpdateBatch, int calendarYear, double? actualValue)
+            {
+                var newTestPerformanceMeasure = TestPerformanceMeasure.Create();
+                return Create(projectUpdateBatch, newTestPerformanceMeasure, calendarYear, actualValue);
+            }
+
+            public static PerformanceMeasureActualUpdate Create(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasure performanceMeasure, int calendarYear, double? actualValue)
+            {
+                var performanceMeasureReportingPeriod = TestPerformanceMeasureReportingPeriod.Create(performanceMeasure, calendarYear);
+                var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasure, performanceMeasureReportingPeriod) { ActualValue = actualValue };
+                return performanceMeasureActualUpdate;
+            }
+
+
         }
     }
 }

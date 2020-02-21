@@ -41,8 +41,16 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string DiffUrl { get; }
         public string ReportingYearLabel { get; }
 
-        public ReportedPerformanceMeasuresViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularEditor viewDataForAngularEditor, ProjectUpdateStatus projectUpdateStatus, PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
-            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, performanceMeasuresValidationResult.GetWarningMessages(), ProjectUpdateSection.ReportedAccomplishments.ProjectUpdateSectionDisplayName)
+        public ReportedPerformanceMeasuresViewData(FirmaSession currentFirmaSession, 
+                                                   ProjectUpdateBatch projectUpdateBatch, 
+                                                   ViewDataForAngularEditor viewDataForAngularEditor, 
+                                                   ProjectUpdateStatus projectUpdateStatus,
+                                                   List<PerformanceMeasuresValidationResult> performanceMeasuresValidationResults)
+            : base(currentFirmaSession, 
+                   projectUpdateBatch, 
+                   projectUpdateStatus,
+                   PerformanceMeasuresValidationResult.GetAllWarningMessages(performanceMeasuresValidationResults),
+                   ProjectUpdateSection.ReportedAccomplishments.ProjectUpdateSectionDisplayName)
         {
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshReportedPerformanceMeasures(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffReportedPerformanceMeasures(projectUpdateBatch.Project));

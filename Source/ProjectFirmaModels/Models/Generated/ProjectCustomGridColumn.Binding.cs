@@ -44,7 +44,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnProjectLastUpdated ProjectLastUpdated = ProjectCustomGridColumnProjectLastUpdated.Instance;
         public static readonly ProjectCustomGridColumnProjectStatus ProjectStatus = ProjectCustomGridColumnProjectStatus.Instance;
         public static readonly ProjectCustomGridColumnFinalStatusUpdateStatus FinalStatusUpdateStatus = ProjectCustomGridColumnFinalStatusUpdateStatus.Instance;
-        public static readonly ProjectCustomGridColumnProjectType ProjectType = ProjectCustomGridColumnProjectType.Instance;
+        public static readonly ProjectCustomGridColumnProjectCategory ProjectCategory = ProjectCustomGridColumnProjectCategory.Instance;
 
         public static readonly List<ProjectCustomGridColumn> All;
         public static readonly ReadOnlyDictionary<int, ProjectCustomGridColumn> AllLookupDictionary;
@@ -54,7 +54,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridColumn()
         {
-            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectType };
+            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridColumn>(All.ToDictionary(x => x.ProjectCustomGridColumnID));
         }
 
@@ -154,6 +154,8 @@ namespace ProjectFirmaModels.Models
                     return PrimaryContactOrganization;
                 case ProjectCustomGridColumnEnum.PrimaryTaxonomyLeaf:
                     return PrimaryTaxonomyLeaf;
+                case ProjectCustomGridColumnEnum.ProjectCategory:
+                    return ProjectCategory;
                 case ProjectCustomGridColumnEnum.ProjectDescription:
                     return ProjectDescription;
                 case ProjectCustomGridColumnEnum.ProjectID:
@@ -172,8 +174,6 @@ namespace ProjectFirmaModels.Models
                     return ProjectStage;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
                     return ProjectStatus;
-                case ProjectCustomGridColumnEnum.ProjectType:
-                    return ProjectType;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     return SecondaryTaxonomyLeaf;
                 case ProjectCustomGridColumnEnum.SecuredFunding:
@@ -214,7 +214,7 @@ namespace ProjectFirmaModels.Models
         ProjectLastUpdated = 24,
         ProjectStatus = 25,
         FinalStatusUpdateStatus = 26,
-        ProjectType = 27
+        ProjectCategory = 27
     }
 
     public partial class ProjectCustomGridColumnProjectName : ProjectCustomGridColumn
@@ -373,9 +373,9 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnFinalStatusUpdateStatus Instance = new ProjectCustomGridColumnFinalStatusUpdateStatus(26, @"FinalStatusUpdateStatus", @"Final Status Update", true);
     }
 
-    public partial class ProjectCustomGridColumnProjectType : ProjectCustomGridColumn
+    public partial class ProjectCustomGridColumnProjectCategory : ProjectCustomGridColumn
     {
-        private ProjectCustomGridColumnProjectType(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
-        public static readonly ProjectCustomGridColumnProjectType Instance = new ProjectCustomGridColumnProjectType(27, @"ProjectType", @"Project Type", true);
+        private ProjectCustomGridColumnProjectCategory(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnProjectCategory Instance = new ProjectCustomGridColumnProjectCategory(27, @"ProjectCategory", @"Project Category", true);
     }
 }

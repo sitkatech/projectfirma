@@ -84,7 +84,7 @@
 <div class="row">
         <div class="col-xs-12">
             <div ng-app="ProjectFirmaApp" ng-controller="PerformanceMeasuresController">
-                @if (Model.ProjectExemptReportingYears != null && Model.ProjectExemptReportingYears.Any())
+                @if (Model.ProjectExemptReportingYearSimples != null && Model.ProjectExemptReportingYearSimples.Any())
                 {
                     <div style="margin-top: 5px">
                         <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears">
@@ -205,25 +205,25 @@
                         </tbody>
                     </table>
                     <div ng-repeat="performanceMeasureActual in AngularModel.PerformanceMeasureActuals | orderBy:'PerformanceMeasureID'">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].ActualValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.ActualValue}}">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.CalendarYear}}">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].PerformanceMeasureActualID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.PerformanceMeasureActualID}}">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.ProjectID}}">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.PerformanceMeasureID}}">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].PerformanceMeasureReportingPeriodID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.PerformanceMeasureReportingPeriodID}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].ActualValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.ActualValue}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.CalendarYear}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].PerformanceMeasureActualID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.PerformanceMeasureActualID}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.ProjectID}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.PerformanceMeasureID}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].PerformanceMeasureReportingPeriodID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureActual.PerformanceMeasureReportingPeriodID}}">
 
                         <div ng-repeat="performanceMeasureActualSubcategoryOption in getSubcategoryOptionsSelected(performanceMeasureActual)">
-                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].PerformanceMeasureActualSubcategoryOptions[1].PerformanceMeasureSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}">
-                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].PerformanceMeasureActualSubcategoryOptions[1].PerformanceMeasureSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID}}">
-                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActuals[0].PerformanceMeasureActualSubcategoryOptions[1].PerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOption.PerformanceMeasureID}}">
+                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].PerformanceMeasureActualSubcategoryOptions[1].PerformanceMeasureSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}">
+                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].PerformanceMeasureActualSubcategoryOptions[1].PerformanceMeasureSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID}}">
+                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureActualSimples[0].PerformanceMeasureActualSubcategoryOptions[1].PerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureActualSubcategoryOption.PerformanceMeasureID}}">
                         </div>
                     </div>
                     <div ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears">
-                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYear}}" />
-                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYearDisplay).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYearDisplay}}" />
-                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectID}}" />
-                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectExemptReportingYearID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectExemptReportingYearID}}" />
-                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].IsExempt).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.IsExempt}}" />
+                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYearSimples[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYear}}" />
+                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYearSimples[0].CalendarYearDisplay).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYearDisplay}}" />
+                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYearSimples[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectID}}" />
+                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYearSimples[0].ProjectExemptReportingYearID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectExemptReportingYearID}}" />
+                        <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYearSimples[0].IsExempt).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.IsExempt}}" />
                     </div>
                     <input type="hidden" name="@Html.NameFor(x => x.Explanation)" value="{{AngularModel.Explanation}}" />
                     <div class="row">

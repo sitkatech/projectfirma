@@ -107,7 +107,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectMapPopup(ProjectPrimaryKey primaryKeyProject)
         {
             var project = primaryKeyProject.EntityObject;
-            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(project, true));
+            var projectMapPopupViewData = new ProjectMapPopupViewData(this.CurrentFirmaSession, project, true);
+            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(projectMapPopupViewData);
         }
 
         [CrossAreaRoute]
@@ -115,7 +116,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectSimpleMapPopup(ProjectPrimaryKey primaryKeyProject)
         {
             var project = primaryKeyProject.EntityObject;
-            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(new ProjectMapPopupViewData(project, false));
+            var projectMapPopupViewData = new ProjectMapPopupViewData(this.CurrentFirmaSession, project, false);
+            return RazorPartialView<ProjectMapPopup, ProjectMapPopupViewData>(projectMapPopupViewData);
         }
 
         [ProjectViewFeature]
@@ -205,7 +207,7 @@ namespace ProjectFirma.Web.Controllers
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession)).OrderBy(x => x.SortOrder).ToList();
-            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).Distinct().OrderBy(x => x.SortOrder).ToList();
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).Distinct().OrderBy(x => x.SortOrder).ToList();
             
             var projectCustomAttributeTypesViewData = new DisplayProjectCustomAttributesViewData(
                 projectCustomAttributeTypes,
@@ -393,10 +395,16 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ProjectsViewFullListFeature]
-        public ViewResult FactSheet(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult FactSheet(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.");
+            if (project.ProjectStage == ProjectStage.Terminated)
+            {
+                // This happens often enough that it deserves a friendlier error
+                string noFactSheetError = $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.";
+                SetErrorForDisplay(noFactSheetError);
+                return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(project)));
+            }
             return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, false) : ViewForwardLookingFactSheet(project, false);
         }
 
