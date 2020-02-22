@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             UpdateDate = projectProjectStatus.ProjectProjectStatusUpdateDate.ToShortDateString();
             CreatePersonName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
             CreateDate = projectProjectStatus.ProjectProjectStatusCreateDate.ToShortDateString();
-            LastEditedPersonName = projectProjectStatus.ProjectProjectStatusLastEditedPerson?.GetFullNameFirstLast();
+            LastEditedPersonName = projectProjectStatus.ProjectProjectStatusLastEditedPerson?.GetFullNameFirstLast() ?? projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
             LastEditedDate = projectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? projectProjectStatus.ProjectProjectStatusLastEditedDate.Value.ToShortDateString() : String.Empty;
             ProjectStatusComment = projectProjectStatus.ProjectProjectStatusComment;
 
