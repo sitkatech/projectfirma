@@ -81,14 +81,14 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
         </div>
     </div>
-    @if (ViewDataTyped.TenantAttribute.EnableProjectTypes)
+    @if (ViewDataTyped.TenantAttribute.EnableProjectCategories)
     {
         <div class="row">
             <div class="col-xs-5">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectType.ToType())
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectCategory.ToType())
             </div>
             <div class="col-xs-7">
-                @ViewDataTyped.Project.ProjectType.ProjectTypeDisplayName
+                @ViewDataTyped.Project.ProjectCategory.ProjectCategoryDisplayName
             </div>
         </div>
     }

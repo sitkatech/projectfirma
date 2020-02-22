@@ -358,6 +358,8 @@
     <Compile Include="Models\Generated\ProjectAttachmentUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectAttachmentUpdateConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectAttachmentUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCategory.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCategoryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectClassification.Binding.cs" />
     <Compile Include="Models\Generated\ProjectClassification.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectClassificationConfiguration.Binding.cs" />
@@ -384,10 +386,10 @@
     <Compile Include="Models\Generated\ProjectCustomAttributeGroup.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeGroupConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeGroupPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectType.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectCategory.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectCategory.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectCategoryConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectCategoryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.DatabaseContextExtensions.cs" />
@@ -562,8 +564,6 @@
     <Compile Include="Models\Generated\ProjectTag.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectTagConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectTagPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectType.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatch.Binding.cs" />
@@ -666,6 +666,7 @@
     <Compile Include="Models\Generated\vGeoServerProjectDetailedLocationsConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerProjectSimpleLocations.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerProjectSimpleLocationsConfiguration.Binding.cs" />
+    <Compile Include="Models\FieldDefinitionTest.cs" />
     <Compile Include="Models\EvaluationCriteriaValue.cs" />
     <Compile Include="Models\EvaluationCriteria.cs" />
     <Compile Include="Models\Evaluation.cs" />
@@ -737,7 +738,7 @@
     <Compile Include="Models\ProjectBudgetFinancialsForExcel.cs" />
     <Compile Include="Models\ProjectCalendarYearExpenditure.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
-    <Compile Include="Models\ProjectCustomAttributeGroupProjectType.cs" />
+    <Compile Include="Models\ProjectCustomAttributeGroupProjectCategory.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectAttachment.cs" />

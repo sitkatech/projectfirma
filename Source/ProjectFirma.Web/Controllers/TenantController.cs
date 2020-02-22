@@ -203,7 +203,7 @@ namespace ProjectFirma.Web.Controllers
             var disabledBudgetTypeValues = new List<int>() { BudgetType.NoBudget.BudgetTypeID, BudgetType.AnnualBudget.BudgetTypeID };
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeName).ToList();
             // if any projects exist that are not ProjectType.Normal we do not want them to be able to turn off Enable Project Type checkbox
-            bool canEditEnableProjectTypeCheckbox = !HttpRequestStorage.DatabaseEntities.Projects.Any(x => x.ProjectTypeID != (int)ProjectTypeEnum.Normal);
+            bool canEditEnableProjectTypeCheckbox = !HttpRequestStorage.DatabaseEntities.Projects.Any(x => x.ProjectCategoryID != (int)ProjectCategoryEnum.Normal);
             var viewData = new EditBasicsViewData(CurrentFirmaSession, tenantPeople, taxonomyLevels, budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes, canEditEnableProjectTypeCheckbox);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
         }

@@ -34,3 +34,11 @@ ALTER TABLE [dbo].[FieldDefinitionData]  WITH CHECK ADD  CONSTRAINT [FK_FieldDef
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[FieldDefinitionData] CHECK CONSTRAINT [FK_FieldDefinitionData_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[FieldDefinitionData]  WITH CHECK ADD  CONSTRAINT [CK_FieldDefinitionData_FieldDefinitionDataValue_IsNotEmptyString] CHECK  (([FieldDefinitionDataValue]<>''))
+GO
+ALTER TABLE [dbo].[FieldDefinitionData] CHECK CONSTRAINT [CK_FieldDefinitionData_FieldDefinitionDataValue_IsNotEmptyString]
+GO
+ALTER TABLE [dbo].[FieldDefinitionData]  WITH CHECK ADD  CONSTRAINT [CK_FieldDefinitionData_FieldDefinitionLabel_IsNotEmptyString] CHECK  (([FieldDefinitionLabel]<>''))
+GO
+ALTER TABLE [dbo].[FieldDefinitionData] CHECK CONSTRAINT [CK_FieldDefinitionData_FieldDefinitionLabel_IsNotEmptyString]

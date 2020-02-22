@@ -1,0 +1,2 @@
+﻿fieldDefinitionDefinitionID	DefaultSystemFieldDefinitionDisplayName	dataFieldDefinitionID	FieldDefinitionDataID	TenantID	TenantOverriddenFieldDefinitionDisplayName
+25	Primary Contact	252	1661	11	Primary Contact

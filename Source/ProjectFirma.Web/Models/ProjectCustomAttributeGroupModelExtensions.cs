@@ -17,9 +17,9 @@ namespace ProjectFirma.Web.Models
         public static string GetDeleteUrl(this ProjectCustomAttributeGroup projectCustomAttributeGroup) => DeleteUrlTemplate.ParameterReplace(projectCustomAttributeGroup.ProjectCustomAttributeGroupID);
         public static string GetEditUrl(this ProjectCustomAttributeGroup projectCustomAttributeGroup) => EditUrlTemplate.ParameterReplace(projectCustomAttributeGroup.ProjectCustomAttributeGroupID);
 
-        public static string GetProjectTypeDisplayNamesAsCommaDelimitedList(this ProjectCustomAttributeGroup projectCustomAttributeGroup)
+        public static string GetProjectCategoryDisplayNamesAsCommaDelimitedList(this ProjectCustomAttributeGroup projectCustomAttributeGroup)
         {
-            return string.Join(", ", projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Select(x => x.ProjectType.ProjectTypeDisplayName).ToList());
+            return string.Join(", ", projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Select(x => x.ProjectCategory.ProjectCategoryDisplayName).ToList());
         }
 
     }

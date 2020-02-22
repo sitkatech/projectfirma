@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
 
             ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
             TenantAttribute = MultiTenantHelpers.GetTenantAttribute();
-            ProjectTypeSelectListItems = ProjectType.All.ToSelectList(x => x.ProjectTypeID.ToString(), x => x.ProjectTypeDisplayName );
+            ProjectTypeSelectListItems = ProjectCategory.All.ToSelectList(x => x.ProjectCategoryID.ToString(), x => x.ProjectCategoryDisplayName );
 
             if (projectCustomAttributeGroup != null && projectCustomAttributeGroup.ProjectCustomAttributeTypes.Any(x => x.ProjectCustomAttributes.Any(y => y.ProjectCustomAttributeValues.Any())))
             {
