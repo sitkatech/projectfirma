@@ -1,4 +1,5 @@
-﻿using LtInfo.Common;
+﻿using DocumentFormat.OpenXml.Packaging;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.ReportTemplates.Models;
 using ProjectFirmaModels.Models;
@@ -6,8 +7,10 @@ using SharpDocx;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace ProjectFirma.Web.ReportTemplates
@@ -53,9 +56,12 @@ namespace ProjectFirma.Web.ReportTemplates
             var templatePath = GetTemplatePath();
             ProjectFirmaDocxDocument document;
             SaveTemplateFileToTempDirectory();
-            // todo: find a way to skip saving the image files altogether if the report doesn't use the images
+
             // todo: if someone generates a report with all projects, the resulting .docx can get up to 3gb+ depending on the tenant, how do we want to handle this situation?
-            SaveImageFilesToTempDirectory();
+            if (TemplateHasImages(templatePath))
+            {
+                SaveImageFilesToTempDirectory();
+            }
 
             switch (ReportTemplateModelEnum)
             {
@@ -76,6 +82,25 @@ namespace ProjectFirma.Web.ReportTemplates
             document.Generate(compilePath);
 
             CleanTempDirectoryOfOldFiles(FullTemplateTempDirectory);
+        }
+
+        /// <summary>
+        /// Simple regex to test to see if a word document template has any Image() methods in it.
+        /// </summary>
+        /// <param name="templatePath"></param>
+        /// <returns></returns>
+        private static bool TemplateHasImages(string templatePath)
+        {
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(templatePath, true))
+            {
+                using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
+                {
+                    var docText = sr.ReadToEnd();
+                    var regexForImage = @"Image\(";
+                    var match = Regex.Match(docText, regexForImage);
+                    return match.Success;
+                }
+            }
         }
 
         /// <summary>
@@ -111,6 +136,9 @@ namespace ProjectFirma.Web.ReportTemplates
         ///
         /// It is likely that doing this will fix other potential issues with uploaded images to ProjectFirma
         ///
+        /// We can also take the opportunity here to do some scaling of the images so that they don't need to generate massive images files that have been uploaded
+        /// to ProjectFirma
+        ///
         /// todo: let the owner of the SharpDocx repository know about these issues to be able to set defaults there instead
         /// </summary>
         /// <param name="projectImage"></param>
@@ -129,11 +157,11 @@ namespace ProjectFirma.Web.ReportTemplates
                 var bitmap = new Bitmap(ms);
                 using (Bitmap newBitmap = new Bitmap(bitmap))
                 {
-                    newBitmap.Save(imagePath);
+                    newBitmap.Save(imagePath, ImageFormat.Jpeg);
                 }
             }
         }
-
+        
         public ActionResult GenerateAndDownload()
         {
             Generate();
