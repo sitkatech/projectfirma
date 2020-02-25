@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
 
             // Public properties
             ProjectName = Project.ProjectName;
-            ProjectUrl = Project.GetDetailUrl();
+            ProjectUrl = Project.GetDetailAbsoluteUrl();
             PrimaryContactOrganization = Project.GetPrimaryContactOrganization() != null ? new ReportTemplateOrganizationModel(Project.GetPrimaryContactOrganization()) : null;
             
             ProjectStage = Project.ProjectStage.ProjectStageDisplayName;
