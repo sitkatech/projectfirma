@@ -18,10 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.FieldDefinition.Index
 @section JavascriptAndStylesContent
@@ -32,6 +34,40 @@ Source code is available upon request via <support@sitkatech.com>.
 <p>
     Use this page to update the definitions for fields used in this system. These definitions provide guidance or help to users who are viewing or editing information in this system. These definitions are visible to users when viewing a page or editor that lists these fields (e.g. the summary page for a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), and its popup editors).
 </p>
+
+@if (ViewDataTyped.FieldDefinitionsWithConflict.Any())
+{
+    <div class="alert alert-warning">
+        <p>We have found Custom Label(s) you entered that have the same Label as a different system Default Label.</p>
+    <p>We are displaying this warning because having two labels with the same value could potentially be confusing to end users or to development staff. 
+    You can update the custom label to remove the conflict or <a href="mailto:@Html.Raw(FirmaWebConfiguration.SitkaSupportEmail)?subject=Field Definition Conflict in @ViewDataTyped.TenantName">contact support</a></p>
+        <table class="table">
+        <thead>
+        <tr>
+            <th scope="col" colspan="2">Default</th>
+            <th scope="col" colspan="2">Custom</th>
+            <th scope="col" colspan="2">Default in Conflict</th>
+        </tr>
+        <tr>
+            <th scope="col">ID</th><th scope="col">Label</th>
+            <th scope="col">ID</th><th scope="col">Label</th>
+            <th scope="col">ID</th><th scope="col">Label</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var fieldDefinition in ViewDataTyped.FieldDefinitionsWithConflict)
+        {
+            <tr>
+                <td>@fieldDefinition.DefaultFieldDefinitionID</td><td>@fieldDefinition.DefaultFieldDefinitionDisplayName</td>
+                <td>@fieldDefinition.CustomFieldDefinitionDataID</td><td class="alert-danger">@fieldDefinition.CustomFieldDefinitionLabel</td>
+                <td>@fieldDefinition.DefaultInConflictFieldDefinitionID</td><td class="alert-danger">@fieldDefinition.DefaultInConflictFieldDefinitionDisplayName</td>
+            </tr>
+        }
+        </tbody>
+
+        </table>
+    </div>
+}
 
 <div class="container-fluid">
     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

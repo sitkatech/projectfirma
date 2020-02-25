@@ -600,7 +600,7 @@ namespace ProjectFirma.Web.Models
                     return string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
                 }
             }
-            else if(projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.All(x => x.ProjectTypeID != project.ProjectTypeID))
+            else if(projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.All(x => x.ProjectCategoryID != project.ProjectCategoryID))
             {
                 //This ProjectCustomAttributeType is not applicable to this Project Type, therefore it is Not Applicable(N/A)
                 return "N/A";

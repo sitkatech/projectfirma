@@ -33,7 +33,7 @@ CREATE TABLE [dbo].[Project](
 	[NoFundingSourceIdentifiedYet] [money] NULL,
 	[ExpectedFundingUpdateNote] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LastUpdatedDate] [datetime] NOT NULL,
-	[ProjectTypeID] [int] NOT NULL,
+	[ProjectCategoryID] [int] NOT NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC
@@ -51,7 +51,7 @@ CREATE TABLE [dbo].[Project](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[Project] ADD  DEFAULT ((1)) FOR [ProjectTypeID]
+ALTER TABLE [dbo].[Project] ADD  DEFAULT ((1)) FOR [ProjectCategoryID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_FundingType_FundingTypeID] FOREIGN KEY([FundingTypeID])
 REFERENCES [dbo].[FundingType] ([FundingTypeID])
@@ -93,6 +93,11 @@ REFERENCES [dbo].[ProjectApprovalStatus] ([ProjectApprovalStatusID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectApprovalStatus_ProjectApprovalStatusID]
 GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectCategory_ProjectCategoryID] FOREIGN KEY([ProjectCategoryID])
+REFERENCES [dbo].[ProjectCategory] ([ProjectCategoryID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectCategory_ProjectCategoryID]
+GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectLocationSimpleType_ProjectLocationSimpleTypeID] FOREIGN KEY([ProjectLocationSimpleTypeID])
 REFERENCES [dbo].[ProjectLocationSimpleType] ([ProjectLocationSimpleTypeID])
 GO
@@ -102,11 +107,6 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectStage
 REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectStage_ProjectStageID]
-GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectType_ProjectTypeID] FOREIGN KEY([ProjectTypeID])
-REFERENCES [dbo].[ProjectType] ([ProjectTypeID])
-GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectType_ProjectTypeID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_TaxonomyLeafID] FOREIGN KEY([TaxonomyLeafID])
 REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID])

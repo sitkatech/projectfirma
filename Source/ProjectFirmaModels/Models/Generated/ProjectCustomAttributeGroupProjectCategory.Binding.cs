@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectCustomAttributeGroupProjectType]
+//  Source Table: [dbo].[ProjectCustomAttributeGroupProjectCategory]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ProjectCustomAttributeGroupProjectType] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[ProjectCustomAttributeGroupProjectType]")]
-    public partial class ProjectCustomAttributeGroupProjectType : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[ProjectCustomAttributeGroupProjectCategory] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[ProjectCustomAttributeGroupProjectCategory]")]
+    public partial class ProjectCustomAttributeGroupProjectCategory : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected ProjectCustomAttributeGroupProjectType()
+        protected ProjectCustomAttributeGroupProjectCategory()
         {
 
         }
@@ -30,44 +30,44 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeGroupProjectType(int projectCustomAttributeGroupProjectTypeID, int projectCustomAttributeGroupID, int projectTypeID) : this()
+        public ProjectCustomAttributeGroupProjectCategory(int projectCustomAttributeGroupProjectCategoryID, int projectCustomAttributeGroupID, int projectCategoryID) : this()
         {
-            this.ProjectCustomAttributeGroupProjectTypeID = projectCustomAttributeGroupProjectTypeID;
+            this.ProjectCustomAttributeGroupProjectCategoryID = projectCustomAttributeGroupProjectCategoryID;
             this.ProjectCustomAttributeGroupID = projectCustomAttributeGroupID;
-            this.ProjectTypeID = projectTypeID;
+            this.ProjectCategoryID = projectCategoryID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeGroupProjectType(int projectCustomAttributeGroupID, int projectTypeID) : this()
+        public ProjectCustomAttributeGroupProjectCategory(int projectCustomAttributeGroupID, int projectCategoryID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectCustomAttributeGroupProjectTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectCustomAttributeGroupProjectCategoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectCustomAttributeGroupID = projectCustomAttributeGroupID;
-            this.ProjectTypeID = projectTypeID;
+            this.ProjectCategoryID = projectCategoryID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectCustomAttributeGroupProjectType(ProjectCustomAttributeGroup projectCustomAttributeGroup, ProjectType projectType) : this()
+        public ProjectCustomAttributeGroupProjectCategory(ProjectCustomAttributeGroup projectCustomAttributeGroup, ProjectCategory projectCategory) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectCustomAttributeGroupProjectTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectCustomAttributeGroupProjectCategoryID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectCustomAttributeGroupID = projectCustomAttributeGroup.ProjectCustomAttributeGroupID;
             this.ProjectCustomAttributeGroup = projectCustomAttributeGroup;
-            projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Add(this);
-            this.ProjectTypeID = projectType.ProjectTypeID;
+            projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Add(this);
+            this.ProjectCategoryID = projectCategory.ProjectCategoryID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectCustomAttributeGroupProjectType CreateNewBlank(ProjectCustomAttributeGroup projectCustomAttributeGroup, ProjectType projectType)
+        public static ProjectCustomAttributeGroupProjectCategory CreateNewBlank(ProjectCustomAttributeGroup projectCustomAttributeGroup, ProjectCategory projectCategory)
         {
-            return new ProjectCustomAttributeGroupProjectType(projectCustomAttributeGroup, projectType);
+            return new ProjectCustomAttributeGroupProjectCategory(projectCustomAttributeGroup, projectCategory);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeGroupProjectType).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeGroupProjectCategory).Name};
 
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllProjectCustomAttributeGroupProjectTypes.Remove(this);
+            dbContext.AllProjectCustomAttributeGroupProjectCategories.Remove(this);
         }
         
         /// <summary>
@@ -103,16 +103,16 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ProjectCustomAttributeGroupProjectTypeID { get; set; }
+        public int ProjectCustomAttributeGroupProjectCategoryID { get; set; }
         public int TenantID { get; set; }
         public int ProjectCustomAttributeGroupID { get; set; }
-        public int ProjectTypeID { get; set; }
+        public int ProjectCategoryID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ProjectCustomAttributeGroupProjectTypeID; } set { ProjectCustomAttributeGroupProjectTypeID = value; } }
+        public int PrimaryKey { get { return ProjectCustomAttributeGroupProjectCategoryID; } set { ProjectCustomAttributeGroupProjectCategoryID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectCustomAttributeGroup ProjectCustomAttributeGroup { get; set; }
-        public ProjectType ProjectType { get { return ProjectType.AllLookupDictionary[ProjectTypeID]; } }
+        public ProjectCategory ProjectCategory { get { return ProjectCategory.AllLookupDictionary[ProjectCategoryID]; } }
 
         public static class FieldLengths
         {

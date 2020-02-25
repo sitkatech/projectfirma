@@ -182,7 +182,7 @@ namespace ProjectFirma.Web.Service
         [Description("We have had prior issues with web services not working on particular tenants, so this test ensures we have consistent access")]
         public void CanRetrieveWebServiceListForAllTenants()
         {
-            AssertCustom.IgnoreUntil(DateTime.Parse("02/20/2020 12:00"),"Test added by SLG and SMG 12/10/2019 is not working, may not be able to make it work properly as written. Tests attempt to see web services urls but that requires login through Keystone which is not easy to do. May be able to re-write as a controller test. Ignoring for now. -MF");
+            AssertCustom.IgnoreUntil(DateTime.Parse("03/23/2020 12:00"),"Test added by SLG and SMG 12/10/2019 is not working, may not be able to make it work properly as written. Tests attempt to see web services urls but that requires login through Keystone which is not easy to do. May be able to re-write as a controller test. Ignoring for now. -MF");
             var allTenantCanonicalHostnames = ProjectFirmaModels.Models.Tenant.All.Select(t => t.CanonicalHostNameLocal).ToList();
             var sitkaTenantCanonicalHostName = ProjectFirmaModels.Models.Tenant.SitkaTechnologyGroup.CanonicalHostNameLocal;
             var testUrlForSitkaTenant = SitkaRoute<WebServicesController>.BuildAbsoluteUrlFromExpression(wsc => wsc.List());

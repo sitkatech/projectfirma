@@ -29,16 +29,16 @@ namespace ProjectFirma.Web.Views.Tenant
         public IEnumerable<SelectListItem> TenantPeople { get; }
         public IEnumerable<SelectListItem> TaxonomyLevels { get; }
         public EditBasicsViewDataForAngular ViewDataForAngular { get; }
-        public bool CanEditEnableProjectTypesCheckbox { get; }
+        public bool CanEditEnableProjectCategoriesCheckbox { get; }
 
         public EditBasicsViewData(FirmaSession currentFirmaSession, IEnumerable<SelectListItem> tenantPeople, IEnumerable<SelectListItem> taxonomyLevels, 
-            int budgetTypeID, Dictionary<int, string> budgetTypes, IEnumerable<int> disabledBudgetTypeValues, List<string> costTypes, bool canEditEnableProjectTypesCheckbox)
+            int budgetTypeID, Dictionary<int, string> budgetTypes, IEnumerable<int> disabledBudgetTypeValues, List<string> costTypes, bool canEditEnableProjectCategoriesCheckbox)
             : base(currentFirmaSession)
         {
             TenantPeople = tenantPeople;
             TaxonomyLevels = taxonomyLevels;
             ViewDataForAngular = new EditBasicsViewDataForAngular(budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes);
-            CanEditEnableProjectTypesCheckbox = canEditEnableProjectTypesCheckbox;
+            CanEditEnableProjectCategoriesCheckbox = canEditEnableProjectCategoriesCheckbox;
         }
 
         public class EditBasicsViewDataForAngular

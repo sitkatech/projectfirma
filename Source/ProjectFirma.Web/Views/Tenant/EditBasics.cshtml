@@ -252,19 +252,19 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableProjectTypes)</div>
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableProjectCategories)</div>
         <div class="col-md-8">
-            @if (ViewDataTyped.CanEditEnableProjectTypesCheckbox)
+            @if (ViewDataTyped.CanEditEnableProjectCategoriesCheckbox)
             {
-                @Html.CheckBoxFor(x => x.EnableProjectTypes)
+                @Html.CheckBoxFor(x => x.EnableProjectCategories)
             }
             else
             {
-                @Html.CheckBoxFor(x => x.EnableProjectTypes, new { @checked = "checked", disabled = "disabled" })
-                <span class="systemText">You cannot edit this because there are projects in the database of a type other than @ProjectTypeEnum.Normal</span>
+                @Html.CheckBoxFor(x => x.EnableProjectCategories, new { @checked = "checked", disabled = "disabled" })
+                <span class="systemText">You cannot edit this because there are projects in the database of a type other than @ProjectCategoryEnum.Normal</span>
             }
 
-            @Html.ValidationMessageFor(x => x.EnableProjectTypes)
+            @Html.ValidationMessageFor(x => x.EnableProjectCategories)
         </div>
     </div>
     <div class="form-group">

@@ -209,11 +209,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectType.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        @FieldDefinitionEnum.EnableProjectType.ToType().GetFieldDefinitionLabel()?
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectCategory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableProjectCategory.ToType().GetFieldDefinitionLabel()?
                     </div>
                     <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.EnableProjectTypes.ToYesNo()
+                        @ViewDataTyped.TenantAttribute.EnableProjectCategories.ToYesNo()
                     </div>
                 </div>
                 <div class="row">

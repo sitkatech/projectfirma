@@ -48,7 +48,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.UseProjectTimeline).HasColumnName(@"UseProjectTimeline").HasColumnType("bit").IsRequired();
             Property(x => x.GeoServerNamespace).HasColumnName(@"GeoServerNamespace").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(256);
             Property(x => x.EnableEvaluations).HasColumnName(@"EnableEvaluations").HasColumnType("bit").IsRequired();
-            Property(x => x.EnableProjectTypes).HasColumnName(@"EnableProjectTypes").HasColumnType("bit").IsRequired();
+            Property(x => x.EnableProjectCategories).HasColumnName(@"EnableProjectCategories").HasColumnType("bit").IsRequired();
             Property(x => x.EnableReportCenter).HasColumnName(@"EnableReportCenter").HasColumnType("bit").IsRequired();
 
             // Foreign keys
