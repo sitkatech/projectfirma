@@ -236,7 +236,6 @@ namespace ProjectFirma.Web.Views
             
             // Group 4
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group4"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Index()), currentFirmaSession, $"Report Center", "Group4"));
             // Group 4 - Other
 
             // Group 5 - Project Firma Configuration stuff
