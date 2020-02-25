@@ -42,12 +42,14 @@
     </div>
 
     <p>This report will be generated for the following @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() (@ViewDataTyped.Projects.Count selected):</p>
-    <ul>
-        @foreach (var project in ViewDataTyped.Projects)
-        {
-            <li>@project.ProjectName @project.ProjectID</li>
-        }
-    </ul>
+    <div style="max-height: 400px; overflow-y: scroll;">
+        <ul>
+            @foreach (var project in ViewDataTyped.Projects)
+            {
+                <li>@project.ProjectName</li>
+            }
+        </ul>
+    </div>
     foreach (var projectID in Model.ProjectIDList)
     {
         <input type="hidden" name="@Html.NameFor(x => x.ProjectIDList)" value="@projectID"/>

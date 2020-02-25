@@ -51,6 +51,21 @@ namespace ProjectFirma.Web.ReportTemplates
             };
         }
 
+        protected void PageBreak()
+        {
+            var paragraph = CurrentCodeBlock.Placeholder.GetParent<Paragraph>();
+            if (paragraph.ParagraphProperties == null)
+            {
+                paragraph.ParagraphProperties = new ParagraphProperties();
+            }
+            paragraph.ParagraphProperties.PageBreakBefore = new PageBreakBefore();
+            if (!paragraph.HasText())
+            {
+                // Insert a zero-width space, so the break doesn't get deleted by CodeBlock.RemoveEmptyParagraphs.
+                CurrentCodeBlock.Placeholder.Text = "\u200B";
+            }
+        }
+
         protected void SetTextColor(string color)
         {
             var run = CurrentCodeBlock.Placeholder.GetParent<Run>();

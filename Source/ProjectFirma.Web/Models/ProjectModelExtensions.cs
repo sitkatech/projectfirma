@@ -49,9 +49,15 @@ namespace ProjectFirma.Web.Models
     {
         public const int MaxLengthForProjectDescription = 700;
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> DetailAbsoluteUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildAbsoluteUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
         public static string GetDetailUrl(this Project project)
         {
             return DetailUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
+        public static string GetDetailAbsoluteUrl(this Project project)
+        {
+            return DetailAbsoluteUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
