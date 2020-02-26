@@ -19,22 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-using System.Web.Mvc;
-using System.Web.WebPages;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.ReportTemplates;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ReportCenter;
 using ProjectFirma.Web.Views.Shared;
-using SharpDocx;
+using ProjectFirmaModels.Models;
+using System.Linq;
+using System.Web.Mvc;
+using System.Web.WebPages;
 
 namespace ProjectFirma.Web.Controllers
 {

@@ -543,6 +543,10 @@
     <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
       <DependentUpon>bor.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\Training\ProjectFirma-Report-Center-Model-Documentation.xlsx" />
+    <Content Include="Content\Training\ProjectFirma-Report-Center-User-Guide.docx" />
+    <Content Include="Content\Training\ProjectFirma-Report-Center-User-Guide.pdf" />
+    <Content Include="Content\Training\ProjectFirma-Report-Center-Example-Report.docx" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
