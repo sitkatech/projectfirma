@@ -22,7 +22,7 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
-@inherits ProjectFirma.Web.Views.ReportCenter.Index
+@inherits ProjectFirma.Web.Views.Reports.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
@@ -37,7 +37,7 @@
 
 @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 
-<div class="report-center-files" style="margin-top: 30px;">
+<div class="reports-files" style="margin-top: 30px;">
     <h3>Documentation</h3>
     <table class="table table-firma">
         <thead>
@@ -51,17 +51,17 @@
         <tr>
             <td>Report Center User Guide</td>
             <td>The Report Center User Guide contains documentation on the general functionality of the Report Center. Use this to get started building your own templates. Contains examples of code that can be used in templates.</td>
-            <td><a href="/Content/Training/ProjectFirma-Report-Center-User-Guide.pdf">User Guide</a></td>
+            <td><a href="/Content/Training/ProjectFirma-Reports-User-Guide.pdf">User Guide</a></td>
         </tr>
         <tr>
             <td>Model Documentation</td>
             <td>This Model Documentation has detailed documentation on the "Models" that can be accessed with the Report Center. Contains detailed examples of the attributes that can be accessed in your report templates.</td>
-            <td><a href="/Content/Training/ProjectFirma-Report-Center-Model-Documentation.xlsx">Model Documentation</a></td>
+            <td><a href="/Content/Training/ProjectFirma-Reports-Model-Documentation.xlsx">Model Documentation</a></td>
         </tr>
         <tr>
             <td>Example Report</td>
             <td>The Example Report is a functional report template that can help you get started with building your own report templates.</td>
-            <td><a href="/Content/Training/ProjectFirma-Report-Center-Example-Report.docx">Example Report</a></td>
+            <td><a href="/Content/Training/ProjectFirma-Reports-Example-Report.docx">Example Report</a></td>
         </tr>
         </tbody>
     </table>

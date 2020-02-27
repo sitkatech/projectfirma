@@ -26,7 +26,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 
-namespace ProjectFirma.Web.Views.ReportCenter
+namespace ProjectFirma.Web.Views.Reports
 {
     public class GenerateReportsViewData : FirmaViewData
     {

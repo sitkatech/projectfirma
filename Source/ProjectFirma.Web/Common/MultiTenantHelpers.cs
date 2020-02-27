@@ -331,9 +331,9 @@ namespace ProjectFirma.Web.Common
             }
         }
 
-        public static bool DisplayReportCenter()
+        public static bool DisplayReportsLink()
         {
-            return GetTenantAttribute().EnableReportCenter;
+            return GetTenantAttribute().EnableReports;
         }
 
     }

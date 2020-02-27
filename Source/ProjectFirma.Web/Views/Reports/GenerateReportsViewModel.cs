@@ -5,7 +5,7 @@ using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ReportCenter
+namespace ProjectFirma.Web.Views.Reports
 {
     public class GenerateReportsViewModel : FormViewModel
     {
@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
         public List<int> ProjectIDList { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterSelectedReportTemplate)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.SelectedReportTemplate)]
         public int ReportTemplateID { get; set; }
 
         public GenerateReportsViewModel()

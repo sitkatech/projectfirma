@@ -78,7 +78,7 @@
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
     <Compile Include="Controllers\ProjectNoteController.cs" />
     <Compile Include="Controllers\ProjectStatusController.cs" />
-    <Compile Include="Controllers\ReportCenterController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
@@ -286,17 +286,17 @@
     <Compile Include="Views\Organization\EditPrimaryContact.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewData.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
-    <Compile Include="Views\ReportCenter\GenerateReports.cs" />
-    <Compile Include="Views\ReportCenter\GenerateReportsViewModel.cs" />
-    <Compile Include="Views\ReportCenter\Edit.cs" />
-    <Compile Include="Views\ReportCenter\EditViewData.cs" />
-    <Compile Include="Views\ReportCenter\EditViewModel.cs" />
-    <Compile Include="Views\ReportCenter\GenerateReportsViewData.cs" />
-    <Compile Include="Views\ReportCenter\Projects.cs" />
-    <Compile Include="Views\ReportCenter\ProjectsViewData.cs" />
-    <Compile Include="Views\ReportCenter\ReportTemplateGridSpec.cs" />
-    <Compile Include="Views\ReportCenter\Index.cs" />
-    <Compile Include="Views\ReportCenter\IndexViewData.cs" />
+    <Compile Include="Views\Reports\GenerateReports.cs" />
+    <Compile Include="Views\Reports\GenerateReportsViewModel.cs" />
+    <Compile Include="Views\Reports\Edit.cs" />
+    <Compile Include="Views\Reports\EditViewData.cs" />
+    <Compile Include="Views\Reports\EditViewModel.cs" />
+    <Compile Include="Views\Reports\GenerateReportsViewData.cs" />
+    <Compile Include="Views\Reports\Projects.cs" />
+    <Compile Include="Views\Reports\ProjectsViewData.cs" />
+    <Compile Include="Views\Reports\ReportTemplateGridSpec.cs" />
+    <Compile Include="Views\Reports\Index.cs" />
+    <Compile Include="Views\Reports\IndexViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
@@ -543,10 +543,10 @@
     <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
       <DependentUpon>bor.theme.css</DependentUpon>
     </Content>
-    <Content Include="Content\Training\ProjectFirma-Report-Center-Model-Documentation.xlsx" />
-    <Content Include="Content\Training\ProjectFirma-Report-Center-User-Guide.docx" />
-    <Content Include="Content\Training\ProjectFirma-Report-Center-User-Guide.pdf" />
-    <Content Include="Content\Training\ProjectFirma-Report-Center-Example-Report.docx" />
+    <Content Include="Content\Training\ProjectFirma-Reports-Model-Documentation.xlsx" />
+    <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.docx" />
+    <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.pdf" />
+    <Content Include="Content\Training\ProjectFirma-Reports-Example-Report.docx" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -1719,10 +1719,10 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
-    <Content Include="Views\ReportCenter\Index.cshtml" />
-    <Content Include="Views\ReportCenter\Edit.cshtml" />
-    <Content Include="Views\ReportCenter\GenerateReports.cshtml" />
-    <Content Include="Views\ReportCenter\Projects.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\Edit.cshtml" />
+    <Content Include="Views\Reports\GenerateReports.cshtml" />
+    <Content Include="Views\Reports\Projects.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

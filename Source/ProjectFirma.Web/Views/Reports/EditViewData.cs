@@ -26,7 +26,7 @@ using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ReportCenter
+namespace ProjectFirma.Web.Views.Reports
 {
     public class EditViewData : FirmaViewData
     {

@@ -42,9 +42,9 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.ManageProjectCustomGrids.GetFirmaPage();
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var projectCustomFullGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var projectCustomReportCenterGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.ReportCenter.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var projectCustomReportsGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Reports.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-            var viewData = new ManageProjectCustomGridsViewData(CurrentFirmaSession, firmaPage, projectCustomDefaultGridConfigurations, projectCustomFullGridConfigurations, projectCustomReportCenterGridConfigurations);
+            var viewData = new ManageProjectCustomGridsViewData(CurrentFirmaSession, firmaPage, projectCustomDefaultGridConfigurations, projectCustomFullGridConfigurations, projectCustomReportsGridConfigurations);
             return RazorView<ManageProjectCustomGrids, ManageProjectCustomGridsViewData>(viewData);
         }
 
@@ -112,10 +112,10 @@ namespace ProjectFirma.Web.Controllers
 
         // All projects for report center grid grid. This includes active projects and active proposals
         [ProjectsViewFullListFeature]
-        public GridJsonNetJObjectResult<Project> AllActiveProjectsAndProposalsCustomGridReportCenterJsonData()
+        public GridJsonNetJObjectResult<Project> AllActiveProjectsAndProposalsCustomGridReportsJsonData()
         {
-            var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.ReportCenter.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations, ProjectCustomGridType.ReportCenter.ToEnum);
+            var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Reports.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations, ProjectCustomGridType.Reports.ToEnum);
             var projects = GetProjectEnumerableWithIncludesForPerformance().ToList().GetActiveProjectsAndProposals(true);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;

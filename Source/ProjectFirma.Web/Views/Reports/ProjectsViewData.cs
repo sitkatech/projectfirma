@@ -5,7 +5,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ReportCenter
+namespace ProjectFirma.Web.Views.Reports
 {
     public class ProjectsViewData : FirmaViewData
     {
@@ -15,10 +15,10 @@ namespace ProjectFirma.Web.Views.ReportCenter
 
         public ProjectsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectCustomGridConfiguration> projectCustomFullGridConfigurations) : base(currentFirmaSession, firmaPage)
         {
-            ProjectCustomFullGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomFullGridConfigurations, ProjectCustomGridType.ReportCenter.ToEnum);
-            GridName = "ReportCenterProjects";
+            ProjectCustomFullGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomFullGridConfigurations, ProjectCustomGridType.Reports.ToEnum);
+            GridName = "ReportProjects";
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
-            GridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsAndProposalsCustomGridReportCenterJsonData());
+            GridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsAndProposalsCustomGridReportsJsonData());
         }
     }
 }

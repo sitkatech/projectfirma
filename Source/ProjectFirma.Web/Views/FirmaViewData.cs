@@ -114,13 +114,14 @@ namespace ProjectFirma.Web.Views
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentFirmaSession));
             }
 
+            if (MultiTenantHelpers.DisplayReportsLink())
+            {
+                TopLevelLtInfoMenuItems.Add(BuildReportsMenu(currentFirmaSession));
+            }
+
             TopLevelLtInfoMenuItems.Add(BuildManageMenu(currentFirmaSession));
             TopLevelLtInfoMenuItems.Add(BuildConfigureMenu(currentFirmaSession));
 
-            if (MultiTenantHelpers.DisplayReportCenter())
-            {
-                TopLevelLtInfoMenuItems.Add(BuildReportCenterMenu(currentFirmaSession));
-            }
 
             TopLevelLtInfoMenuItems.ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-root-item" });
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
@@ -291,20 +292,20 @@ namespace ProjectFirma.Web.Views
             return configureMenu;
         }
 
-        private static LtInfoMenuItem BuildReportCenterMenu(FirmaSession currentFirmaSession)
+        private static LtInfoMenuItem BuildReportsMenu(FirmaSession currentFirmaSession)
         {
-            var reportCenterMenu = new LtInfoMenuItem("Report Center");
+            var reportsMenu = new LtInfoMenuItem("Reports");
 
-            reportCenterMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Projects()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
+            reportsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportsController>(c => c.Projects()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
 
             if (new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
             {
-                reportCenterMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Index()), currentFirmaSession, "Manage Report Templates", "Group2"));
+                reportsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportsController>(c => c.Index()), currentFirmaSession, "Manage Report Templates", "Group2"));
             }
 
             
 
-            return reportCenterMenu;
+            return reportsMenu;
         }
 
         private static LtInfoMenuItem BuildProjectsMenu(FirmaSession currentFirmaSession)

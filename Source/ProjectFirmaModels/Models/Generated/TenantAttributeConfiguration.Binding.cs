@@ -49,7 +49,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GeoServerNamespace).HasColumnName(@"GeoServerNamespace").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(256);
             Property(x => x.EnableEvaluations).HasColumnName(@"EnableEvaluations").HasColumnType("bit").IsRequired();
             Property(x => x.EnableProjectCategories).HasColumnName(@"EnableProjectCategories").HasColumnType("bit").IsRequired();
-            Property(x => x.EnableReportCenter).HasColumnName(@"EnableReportCenter").HasColumnType("bit").IsRequired();
+            Property(x => x.EnableReports).HasColumnName(@"EnableReports").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID

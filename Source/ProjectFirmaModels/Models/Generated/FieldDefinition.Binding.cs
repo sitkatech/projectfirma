@@ -289,11 +289,11 @@ namespace ProjectFirmaModels.Models
         UseProjectTimeline = 339,
         ProjectCategory = 340,
         EnableProjectCategory = 341,
-        EnableReportCenter = 342,
-        ReportCenterReportTitle = 343,
-        ReportCenterReportDescription = 344,
-        ReportCenterReportFile = 345,
-        ReportCenterReportModel = 346,
-        ReportCenterSelectedReportTemplate = 347
+        EnableReports = 342,
+        ReportTitle = 343,
+        ReportDescription = 344,
+        ReportFile = 345,
+        ReportModel = 346,
+        SelectedReportTemplate = 347
     }
 }

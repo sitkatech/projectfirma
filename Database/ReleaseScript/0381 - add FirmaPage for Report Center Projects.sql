@@ -1,7 +1,7 @@
 --begin tran
 
 INSERT INTO dbo.FirmaPageType (FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
-values (78, 'ReportCenterProjects', 'Report Center Projects' , 1)
+values (78, 'ReportProjects', 'Report Projects' , 1)
 
 INSERT INTO dbo.FirmaPage (TenantID, FirmaPageTypeID, FirmaPageContent)
 select 

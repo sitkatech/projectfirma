@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IndexViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="Edit.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,14 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
+using LtInfo.Common.Mvc;
 
-namespace ProjectFirma.Web.Views.ReportCenter
+namespace ProjectFirma.Web.Views.Reports
 {
-    public abstract class GenerateReports : LtInfo.Common.Mvc.TypedWebPartialViewPage<GenerateReportsViewData, GenerateReportsViewModel>
+    public abstract class Edit : TypedWebPartialViewPage<EditViewData, EditViewModel>
     {
     }
 }

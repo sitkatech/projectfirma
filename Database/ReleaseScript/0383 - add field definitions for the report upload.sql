@@ -2,10 +2,10 @@
 
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 
-(343, N'ReportCenterReportTitle', 'Title'),
-(344, N'ReportCenterReportDescription', 'Description'),
-(345, N'ReportCenterReportFile', 'File'),
-(346, N'ReportCenterReportModel', 'Model')
+(343, N'ReportTitle', 'Report Title'),
+(344, N'ReportDescription', 'Report Description'),
+(345, N'ReportFile', 'Report File'),
+(346, N'ReportModel', 'Report Model')
 
 INSERT into dbo.FieldDefinitionDefault (FieldDefinitionID, DefaultDefinition)
 VALUES

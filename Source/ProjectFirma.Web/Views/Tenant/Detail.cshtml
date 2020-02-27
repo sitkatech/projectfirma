@@ -218,11 +218,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableReportCenter.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        @FieldDefinitionEnum.EnableReportCenter.ToType().GetFieldDefinitionLabel()?
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableReports.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableReports.ToType().GetFieldDefinitionLabel()?
                     </div>
                     <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.EnableReportCenter.ToYesNo()
+                        @ViewDataTyped.TenantAttribute.EnableReports.ToYesNo()
                     </div>
                 </div>
                 <div class="row">

@@ -5,4 +5,4 @@ insert into dbo.ProjectCustomGridType(ProjectCustomGridTypeID, ProjectCustomGrid
 values
 (1, 'Default', 'Default'),
 (2, 'Full', 'Full'),
-(3, 'ReportCenter', 'Report Center')
+(3, 'Reports', 'Reports')

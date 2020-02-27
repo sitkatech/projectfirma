@@ -23,7 +23,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 
-namespace ProjectFirma.Web.Views.ReportCenter
+namespace ProjectFirma.Web.Views.Reports
 {
     public class IndexViewData : FirmaViewData
     {
@@ -43,9 +43,9 @@ namespace ProjectFirma.Web.Views.ReportCenter
             };
             GridName = "ReportTemplates";
             PageTitle = "Report Center";
-            GridDataUrl = SitkaRoute<ReportCenterController>.BuildUrlFromExpression(rcc => rcc.IndexGridJsonData());
+            GridDataUrl = SitkaRoute<ReportsController>.BuildUrlFromExpression(rcc => rcc.IndexGridJsonData());
             HasManageReportTemplatePermissions = new ReportTemplateManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            NewUrl = SitkaRoute<ReportCenterController>.BuildUrlFromExpression(t => t.New());
+            NewUrl = SitkaRoute<ReportsController>.BuildUrlFromExpression(t => t.New());
         }
     }
 }

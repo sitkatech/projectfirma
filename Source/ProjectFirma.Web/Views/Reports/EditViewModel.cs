@@ -32,7 +32,7 @@ using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Views.ReportCenter
+namespace ProjectFirma.Web.Views.Reports
 {
     public class EditViewModel : FormViewModel, IValidatableObject
     {
@@ -43,10 +43,10 @@ namespace ProjectFirma.Web.Views.ReportCenter
 
         [Required]
         [StringLength(50)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterReportTitle)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportTitle)]
         public string DisplayName { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterReportDescription)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportDescription)]
         [StringLength(250)]
         public string Description { get; set; }
 
@@ -55,10 +55,10 @@ namespace ProjectFirma.Web.Views.ReportCenter
         public int ReportTemplateModelTypeID { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterReportModel)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportModel)]
         public int ReportTemplateModelID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterReportFile)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportFile)]
         [SitkaFileExtensions("docx")]
         public HttpPostedFileBase FileResourceData { get; set; }
 

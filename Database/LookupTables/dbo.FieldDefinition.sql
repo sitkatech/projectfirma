@@ -164,9 +164,9 @@ VALUES
 (339, N'UseProjectTimeline', 'Use Project Timeline'),
 (340, N'ProjectCategory', 'Project Category'),
 (341, N'EnableProjectCategory', 'Enable Project Categories'),
-(342, N'EnableReportCenter', 'Enable Report Center'),
-(343, N'ReportCenterReportTitle', 'Title'),
-(344, N'ReportCenterReportDescription', 'Report Description'),
-(345, N'ReportCenterReportFile', 'File'),
-(346, N'ReportCenterReportModel', 'Model'),
-(347, N'ReportCenterSelectedReportTemplate', 'Selected Report Template')
+(342, N'EnableReports', 'Enable Reports'),
+(343, N'ReportTitle', 'Report Title'),
+(344, N'ReportDescription', 'Report Description'),
+(345, N'ReportFile', 'Report File'),
+(346, N'ReportModel', 'Report Model'),
+(347, N'SelectedReportTemplate', 'Selected Report Template')

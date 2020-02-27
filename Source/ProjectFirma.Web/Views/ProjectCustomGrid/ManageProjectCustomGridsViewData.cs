@@ -44,16 +44,16 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         public string ProjectCustomFullGridDataUrl { get; }
         public string CustomizeFullGridUrl { get; }
 
-        public ProjectCustomGridSpec ProjectCustomReportCenterGridSpec { get; }
-        public string ProjectCustomReportCenterGridName { get; }
-        public string ProjectCustomReportCenterGridDataUrl { get; }
-        public string CustomizeReportCenterGridUrl { get; }
+        public ProjectCustomGridSpec ProjectCustomReportsGridSpec { get; }
+        public string ProjectCustomReportsGridName { get; }
+        public string ProjectCustomReportsGridDataUrl { get; }
+        public string CustomizeReportsGridUrl { get; }
 
 
         public ManageProjectCustomGridsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, 
                                                 List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations, 
                                                 List<ProjectCustomGridConfiguration>  projectCustomFullGridConfigurations,
-                                                List<ProjectCustomGridConfiguration> projectCustomReportCenterGridConfigurations) 
+                                                List<ProjectCustomGridConfiguration> projectCustomReportsGridConfigurations) 
                                                 : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Grids";
@@ -77,15 +77,15 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
 
 
 
-            ProjectCustomReportCenterGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomReportCenterGridConfigurations, ProjectCustomGridType.ReportCenter.ToEnum) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomReportsGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomReportsGridConfigurations, ProjectCustomGridType.Reports.ToEnum) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (currentFirmaSession.Person.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
             {
-                ProjectCustomReportCenterGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
+                ProjectCustomReportsGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
-            ProjectCustomReportCenterGridName = "projectsCustomReportCenterGrid";
-            ProjectCustomReportCenterGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsAndProposalsCustomGridReportCenterJsonData());
-            CustomizeReportCenterGridUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.EditProjectCustomGrid(3));
+            ProjectCustomReportsGridName = "projectsCustomReportsGrid";
+            ProjectCustomReportsGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsAndProposalsCustomGridReportsJsonData());
+            CustomizeReportsGridUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.EditProjectCustomGrid(3));
 
 
 

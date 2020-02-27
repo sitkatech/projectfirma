@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Index.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="IndexViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.ReportCenter
+using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Common;
+
+namespace ProjectFirma.Web.Views.Reports
 {
-    public abstract class Index : LtInfo.Common.Mvc.TypedWebViewPage<IndexViewData>
+    public abstract class GenerateReports : LtInfo.Common.Mvc.TypedWebPartialViewPage<GenerateReportsViewData, GenerateReportsViewModel>
     {
     }
 }

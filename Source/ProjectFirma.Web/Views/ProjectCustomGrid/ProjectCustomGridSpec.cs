@@ -295,11 +295,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                             $"<span class=\"sr-only\">Download the Fact Sheet for {x.ProjectName}</span>"), 30,
                         DhtmlxGridColumnFilterType.None);
                     break;
-                case ProjectCustomGridTypeEnum.ReportCenter:
+                case ProjectCustomGridTypeEnum.Reports:
                     if (userHasReportDownloadPermissions)
                     {
                         GenerateReportModalDialogForm = new SelectProjectsModalDialogForm(
-                            SitkaRoute<ReportCenterController>.BuildUrlFromExpression(x =>
+                            SitkaRoute<ReportsController>.BuildUrlFromExpression(x =>
                                 x.SelectReportToGenerateFromSelectedProjects()), $"Generate Reports", $"Confirm Report Generation");
                     }
                     AddCheckBoxColumn();

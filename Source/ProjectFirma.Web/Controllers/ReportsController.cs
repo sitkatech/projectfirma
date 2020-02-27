@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ReportCenterController.cs" company="Sitka Technology Group">
+<copyright file="ReportsController.cs" company="Sitka Technology Group">
 Copyright (c) Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -26,7 +26,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.ReportTemplates;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ReportCenter;
+using ProjectFirma.Web.Views.Reports;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System.Linq;
@@ -35,7 +35,7 @@ using System.Web.WebPages;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ReportCenterController : FirmaBaseController
+    public class ReportsController : FirmaBaseController
     {
 
         [CrossAreaRoute]
@@ -43,9 +43,9 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Projects()
         {
-            var firmaPage = FirmaPageTypeEnum.ReportCenterProjects.GetFirmaPage();
-            var projectCustomReportCenterGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.ReportCenter.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new ProjectsViewData(CurrentFirmaSession, firmaPage, projectCustomReportCenterGridConfigurations);
+            var firmaPage = FirmaPageTypeEnum.ReportProjects.GetFirmaPage();
+            var projectCustomReportsGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Reports.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var viewData = new ProjectsViewData(CurrentFirmaSession, firmaPage, projectCustomReportsGridConfigurations);
             return RazorView<Projects, ProjectsViewData>(viewData);
         }
 
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Index()
         {
-            var firmaPage = FirmaPageTypeEnum.ReportCenter.GetFirmaPage();
+            var firmaPage = FirmaPageTypeEnum.Reports.GetFirmaPage();
             var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -148,14 +148,14 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var firmaPage = FirmaPageTypeEnum.ReportCenterAddReport.GetFirmaPage();
+            var firmaPage = FirmaPageTypeEnum.ReportAddReport.GetFirmaPage();
             var viewData = new EditViewData(CurrentFirmaSession, firmaPage);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, ReportTemplate reportTemplate)
         {
-            var firmaPage = FirmaPageTypeEnum.ReportCenterAddReport.GetFirmaPage();
+            var firmaPage = FirmaPageTypeEnum.ReportAddReport.GetFirmaPage();
             var viewData = new EditViewData(CurrentFirmaSession, firmaPage, reportTemplate);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }

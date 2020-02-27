@@ -26,7 +26,7 @@ using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Views.ReportCenter
+namespace ProjectFirma.Web.Views.Reports
 {
     public class ReportTemplateGridSpec : GridSpec<ProjectFirmaModels.Models.ReportTemplate>
     {
@@ -34,8 +34,8 @@ namespace ProjectFirma.Web.Views.ReportCenter
         {
             if (hasManagePermissions)
             {
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<ReportCenterController>.BuildUrlFromExpression(t => t.Delete(a)), true), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<ReportCenterController>.BuildUrlFromExpression(t => t.Edit(a)), "Edit Report Template"), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<ReportsController>.BuildUrlFromExpression(t => t.Delete(a)), true), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<ReportsController>.BuildUrlFromExpression(t => t.Edit(a)), "Edit Report Template"), 30, DhtmlxGridColumnFilterType.None);
             }
             Add("Display Name", a => a.DisplayName, 200);
             Add("Description", a => a.Description, 400);

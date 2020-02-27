@@ -23,11 +23,11 @@
 @using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.ReportCenter.GenerateReports
+@inherits ProjectFirma.Web.Views.Reports.GenerateReports
 
 @Html.ValidationSummary()
 
-@using (Html.BeginForm<ReportCenterController>(x => x.GenerateReportsFromSelectedProjects(null)))
+@using (Html.BeginForm<ReportsController>(x => x.GenerateReportsFromSelectedProjects(null)))
 {
     <div class="form-horizontal">
         <div class="form-group">

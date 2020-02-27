@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
     {
         public static readonly ProjectCustomGridTypeDefault Default = ProjectCustomGridTypeDefault.Instance;
         public static readonly ProjectCustomGridTypeFull Full = ProjectCustomGridTypeFull.Instance;
-        public static readonly ProjectCustomGridTypeReportCenter ReportCenter = ProjectCustomGridTypeReportCenter.Instance;
+        public static readonly ProjectCustomGridTypeReports Reports = ProjectCustomGridTypeReports.Instance;
 
         public static readonly List<ProjectCustomGridType> All;
         public static readonly ReadOnlyDictionary<int, ProjectCustomGridType> AllLookupDictionary;
@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridType()
         {
-            All = new List<ProjectCustomGridType> { Default, Full, ReportCenter };
+            All = new List<ProjectCustomGridType> { Default, Full, Reports };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridType>(All.ToDictionary(x => x.ProjectCustomGridTypeID));
         }
 
@@ -104,8 +104,8 @@ namespace ProjectFirmaModels.Models
                     return Default;
                 case ProjectCustomGridTypeEnum.Full:
                     return Full;
-                case ProjectCustomGridTypeEnum.ReportCenter:
-                    return ReportCenter;
+                case ProjectCustomGridTypeEnum.Reports:
+                    return Reports;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -116,7 +116,7 @@ namespace ProjectFirmaModels.Models
     {
         Default = 1,
         Full = 2,
-        ReportCenter = 3
+        Reports = 3
     }
 
     public partial class ProjectCustomGridTypeDefault : ProjectCustomGridType
@@ -131,9 +131,9 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridTypeFull Instance = new ProjectCustomGridTypeFull(2, @"Full", @"Full");
     }
 
-    public partial class ProjectCustomGridTypeReportCenter : ProjectCustomGridType
+    public partial class ProjectCustomGridTypeReports : ProjectCustomGridType
     {
-        private ProjectCustomGridTypeReportCenter(int projectCustomGridTypeID, string projectCustomGridTypeName, string projectCustomGridTypeDisplayName) : base(projectCustomGridTypeID, projectCustomGridTypeName, projectCustomGridTypeDisplayName) {}
-        public static readonly ProjectCustomGridTypeReportCenter Instance = new ProjectCustomGridTypeReportCenter(3, @"ReportCenter", @"Report Center");
+        private ProjectCustomGridTypeReports(int projectCustomGridTypeID, string projectCustomGridTypeName, string projectCustomGridTypeDisplayName) : base(projectCustomGridTypeID, projectCustomGridTypeName, projectCustomGridTypeDisplayName) {}
+        public static readonly ProjectCustomGridTypeReports Instance = new ProjectCustomGridTypeReports(3, @"Reports", @"Reports");
     }
 }
