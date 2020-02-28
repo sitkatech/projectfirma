@@ -128,18 +128,9 @@ Source code is available upon request via <support@sitkatech.com>.
                                    name="EvaluationCriteriaValueSimples[{{$index}}].EvaluationCriteriaValueID" />
                             <input type="hidden" value="{{valueSimple.SortOrder}}"
                                    name="EvaluationCriteriaValueSimples[{{$index}}].SortOrder" />
-
-                            <a href="javascript:void(0)" ng-show="$index > 0 && AngularModel.EvaluationCriteriaValueSimples.length > 0" ng-click="moveCriteriaValueUp(valueSimple)">
-                                <i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i>
-                            </a>
-
-                            <a href="javascript:void(0)" ng-show="$index < AngularModel.EvaluationCriteriaValueSimples.length - 1 && AngularModel.EvaluationCriteriaValueSimples.length > 0" ng-click="moveCriteriaValueDown(valueSimple)">
-                                <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
-                            </a>
-
-                            <a href="javascript:void(0)" ng-show="!valueSimple.HasAssociatedActuals" ng-click="removeEvaluationCriteriaValue(valueSimple)">
-                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabel()" alt="Remove  @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabel()"></i>
-                            </a>
+                            <a href="javascript:void(0)" ng-show="$index > 0 && AngularModel.EvaluationCriteriaValueSimples.length > 0" ng-click="moveCriteriaValueUp(valueSimple)"><i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i></a>
+                            <a href="javascript:void(0)" ng-show="$index < AngularModel.EvaluationCriteriaValueSimples.length - 1 && AngularModel.EvaluationCriteriaValueSimples.length > 0" ng-click="moveCriteriaValueDown(valueSimple)"><i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i></a>
+                            <a href="javascript:void(0)" ng-show="!valueSimple.HasAssociatedActuals" ng-click="removeEvaluationCriteriaValue(valueSimple)"><i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabel()" alt="Remove  @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabel()"></i></a>
                         </td>
                         <td>
                             <div class="input-group input-group-sm" style="width: 100%;" ng-class="{'has-error': validateValueRating(valueSimple).length != 0}">
