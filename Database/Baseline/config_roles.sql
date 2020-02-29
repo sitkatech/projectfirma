@@ -6,6 +6,7 @@ select '${db-user}' as AccountName, 'U' as AccountType
 into #accountsToCreate
 union select '${db-batch-user}', 'U'
 union select '${db-geoserver-user}', 'U'
+union select '${db-geoserver-docker-user}', 'S'
 union select 'Sitka\Rocket QA Support', 'G'
 union select 'Sitka\Rocket QA Tester', 'G'
 union select 'Sitka\Hawk Moth QA Support', 'G'
@@ -28,6 +29,9 @@ from
 	union select '${local-db-geoserver-user}', 'U'
 	union select '${qa-db-geoserver-user}', 'U'
 	union select '${prod-db-geoserver-user}', 'U'
+    union select '${local-db-geoserver-docker-user}', 'S'
+	union select '${qa-db-geoserver-docker-user}', 'S'
+	union select '${prod-db-geoserver-docker-user}', 'S'
     union select 'Sitka\Rocket QA Support', 'G'
     union select 'Sitka\Rocket QA Tester', 'G'
     union select 'Sitka\Hawk Moth QA Support', 'G'
