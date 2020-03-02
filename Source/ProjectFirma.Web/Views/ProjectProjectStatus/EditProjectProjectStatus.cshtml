@@ -39,7 +39,7 @@
 </style>
 
 <script type="text/javascript">
-    angular.module("ProjectFirmaApp").controller('TimepickerDemoCtrl', function ($scope, $log) {
+    angular.module("ProjectFirmaApp").controller('timepickerController', function ($scope, $log) {
 
         @{ string mytime = Model.ProjectStatusUpdateDate.HasValue ? string.Format("$scope.mytime = new Date({0}, {1}, {2}, {3}, {4}, {5});", Model.ProjectStatusUpdateDate.Value.Year, Model.ProjectStatusUpdateDate.Value.Month, Model.ProjectStatusUpdateDate.Value.Day, Model.ProjectStatusUpdateDate.Value.Hour, Model.ProjectStatusUpdateDate.Value.Minute, Model.ProjectStatusUpdateDate.Value.Second) : "$scope.mytime = new Date();"; }
 
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-sm-6" style="display: flex; flex-direction: column; justify-content: center;">
                                     
-                                    <div ng-app="ProjectFirmaApp" ng-controller="TimepickerDemoCtrl" id="timeTesting">
+                                    <div ng-app="ProjectFirmaApp" ng-controller="timepickerController" id="TimePicker">
                                         <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
                                         <input type="hidden" name="ProjectStatusUpdateTime" ng-value="mytime | date:'HH:mm:ss a'" />
                                     </div>
@@ -276,7 +276,7 @@
 
         setColorOfStatusDropdown();
 
-        angular.bootstrap(jQuery("#timeTesting"), ["ProjectFirmaApp"]);
+        angular.bootstrap(jQuery("#TimePicker"), ["ProjectFirmaApp"]);
 
     });
 </script>
