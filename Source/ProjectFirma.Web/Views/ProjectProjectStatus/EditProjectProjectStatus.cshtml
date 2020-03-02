@@ -29,17 +29,51 @@
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.EditProjectProjectStatus
 
-
 <style>
-
     .deleteProjectProjectStatusRow .btn-firma .glyphicon {
         color: white;
     }
-
     .deleteProjectProjectStatusRow .btn-firma {
         margin-left: 15px;
     }
 </style>
+
+<script type="text/javascript">
+    angular.module("ProjectFirmaApp").controller('TimepickerDemoCtrl', function ($scope, $log) {
+
+        @{ string mytime = Model.ProjectStatusUpdateDate.HasValue ? string.Format("$scope.mytime = new Date({0}, {1}, {2}, {3}, {4}, {5});", Model.ProjectStatusUpdateDate.Value.Year, Model.ProjectStatusUpdateDate.Value.Month, Model.ProjectStatusUpdateDate.Value.Day, Model.ProjectStatusUpdateDate.Value.Hour, Model.ProjectStatusUpdateDate.Value.Minute, Model.ProjectStatusUpdateDate.Value.Second) : "$scope.mytime = new Date();"; }
+
+        @mytime
+        
+        $scope.hstep = 1;
+        $scope.mstep = 1;
+
+        $scope.options = {
+            hstep: [1, 2, 3],
+            mstep: [1, 5, 10, 15, 25, 30]
+        };
+
+        $scope.ismeridian = true;
+        $scope.toggleMode = function() {
+            $scope.ismeridian = ! $scope.ismeridian;
+        };
+
+        $scope.update = function() {
+            var d = new Date();
+            d.setHours( 14 );
+            d.setMinutes( 0 );
+            $scope.mytime = d;
+        };
+
+        $scope.changed = function () {
+            $log.log('Time changed to: ' + $scope.mytime);
+        };
+
+        $scope.clear = function() {
+            $scope.mytime = null;
+        };
+    });
+</script>
 
 <div class="validationError">
     @Html.ValidationSummary()
@@ -62,19 +96,30 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">
+                <div class="form-group" style="display: flex;">
+                    <div class="col-sm-4 control-label" style="display: flex; flex-direction: column; justify-content: center;">
                         @Html.LabelWithSugarFor(x => x.ProjectStatusUpdateDate)
                     </div>
                     <div class="col-sm-8">
                         @if (ViewDataTyped.AllowEditUpdateDate)
                         {
-                            @Html.EditorFor(m => m.ProjectStatusUpdateDate, new { @class = "form-control" })
+                            <div class="row" style="display: flex;">
+                                <div class="col-sm-6" style="display: flex; flex-direction: column; justify-content: center;">
+                                    @Html.EditorFor(m => m.ProjectStatusUpdateDate, new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-6" style="display: flex; flex-direction: column; justify-content: center;">
+                                    
+                                    <div ng-app="ProjectFirmaApp" ng-controller="TimepickerDemoCtrl" id="timeTesting">
+                                        <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                        <input type="hidden" name="ProjectStatusUpdateTime" ng-value="mytime | date:'HH:mm:ss a'" />
+                                    </div>
+                                </div>
+                            </div>
                         }
                         else
                         {
-                            @Html.HiddenFor(m => m.ProjectStatusUpdateDate);
-                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
+                            @Html.HiddenFor(m => m.ProjectStatusUpdateDate)
+                            <input type="text" class="form-control" value="@DateTime.Now.ToString()" readonly/>
                         }
                         @Html.ValidationMessageFor(m => m.ProjectStatusUpdateDate)
                     </div>
@@ -182,7 +227,6 @@
 
         });
 
-
         var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]');
         //console.log(radio);
         var value = false;
@@ -201,9 +245,6 @@
             jQuery('#lessonsLearnedDiv').hide();
             jQuery('#lessonsLearnedDiv :input').attr("required", false);
         }
-
-
-
 
         jQuery('select#@Html.IdFor(m => m.ProjectStatusID) option').each(function () {
             var option = jQuery(this);
@@ -234,8 +275,8 @@
         });
 
         setColorOfStatusDropdown();
+
+        angular.bootstrap(jQuery("#timeTesting"), ["ProjectFirmaApp"]);
+
     });
-
-
 </script>
-
