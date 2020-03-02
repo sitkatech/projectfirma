@@ -105,7 +105,7 @@
                                                                 <span class="timeline-event-edit-link">@projectTimelineEvent.EditButton</span>
                                                             }
                                                             <span class="timeline-event-type">@projectTimelineEvent.TimelineEventTypeDisplayName</span>
-                                                            <span class="timeline-event-date">@projectTimelineEvent.DateDisplay</span>
+                                                            <span class="timeline-event-date" title="@projectTimelineEvent.Date.ToString()">@projectTimelineEvent.DateDisplay</span>
                                                         </div>
 
                                                         @if (!string.IsNullOrWhiteSpace(projectTimelineEvent.TimelineEventPersonDisplayName))

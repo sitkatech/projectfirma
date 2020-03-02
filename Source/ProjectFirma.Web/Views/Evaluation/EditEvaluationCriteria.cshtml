@@ -59,15 +59,12 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
 <div ng-app="ProjectFirmaApp" ng-controller="EditEvaluationCriteriaController">
-
-
     <div class="row">
         <div class="col-md-12">
             @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
         </div>
     </div>
-
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-xs-12 col-sm-4 control-label">
@@ -89,15 +86,12 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
-    
     <div class="row">
         <div class="col-md-12">
             <strong>@FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabelPluralized()</strong>
             <hr style="border-bottom: 2px solid #ddd; margin: 0; border-top: 0;" />
         </div>
     </div>
-
-
     <div class="form-horizontal">
         <div class="form-group-condensed">
             <div class="col-sm-3 col-sm-offset-9">
@@ -149,11 +143,5 @@ Source code is available upon request via <support@sitkatech.com>.
             </table>
         </div>
     </div>
-
-
-
-
-
-
 </div>
 }
