@@ -51,7 +51,7 @@ namespace ProjectFirma.Api.Controllers
             var projectsWithBudgets = _databaseEntities.ProjectFundingSourceBudgets.ToList().Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).GroupBy(x => x.Project).Select(x => x.Key).ToList();
             var projectWithExpenditures = _databaseEntities.ProjectFundingSourceExpenditures.ToList().Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).GroupBy(x => x.Project).Select(x => x.Key).ToList();
             var projects = projectsWithBudgets.Union(projectWithExpenditures);
-            result = projects.Select(x => new ProjectDto(x)).ToList();
+            result = projects.Select(x => new ProjectDto(x, fundingSourceIDs)).ToList();
             
             return Ok(result);
         }
