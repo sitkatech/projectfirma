@@ -59,7 +59,9 @@
         }
     </style>
     <div style="width:@(ViewDataTyped.KeyPhoto != null ? "425px": "300px")">
-        <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
+        <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">
+            <a href="@ViewDataTyped.ProjectUrl">@ViewDataTyped.DisplayName</a>
+        </div>
         <div class="row popupRow">
             @if (ViewDataTyped.KeyPhoto != null)
             {

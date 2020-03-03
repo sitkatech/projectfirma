@@ -157,9 +157,10 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult ReleaseNotes()
         {
+            var firmaPage = FirmaPageTypeEnum.ReleaseNotes.GetFirmaPage();
             var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
             var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var viewData = new ReleaseNotesViewData(CurrentFirmaSession, releaseNotes, SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()), "Release Notes", userHasEditReleaseNotePermission);
+            var viewData = new ReleaseNotesViewData(CurrentFirmaSession, releaseNotes, SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()), "Release Notes", userHasEditReleaseNotePermission, firmaPage);
             return RazorView<ReleaseNotes, ReleaseNotesViewData>(viewData);
         }
 

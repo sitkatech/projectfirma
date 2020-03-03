@@ -34,8 +34,9 @@ namespace ProjectFirma.Web.Views.Home
                                     List<ProjectFirmaModels.Models.ReleaseNote> notes,
                                     string addNoteUrl,
                                     string entityName,
-                                    bool canEditNotes) :
-                                    base(currentFirmaSession)
+                                    bool canEditNotes,
+                                    ProjectFirmaModels.Models.FirmaPage releaseNotesFirmaPage) :
+                                    base(currentFirmaSession, releaseNotesFirmaPage)
         {
             PageTitle = "Release Notes";
             Notes = notes;
