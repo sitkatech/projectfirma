@@ -58,7 +58,6 @@ namespace ProjectFirma.Web.Views.User
             string userNotificationGridName,
             string userNotificationGridDataUrl,
             string activateInactivateUrl)
-            // TOOD: Must pass in FirmaSession
             : base(currentFirmaSession)
         {
             Person = personToView;

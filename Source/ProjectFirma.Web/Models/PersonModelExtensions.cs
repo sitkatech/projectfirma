@@ -134,12 +134,22 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static List<Project> GetPrimaryContactProjects(this Person person, FirmaSession currentFirmaSession)
         {
-            var isPersonViewingThePrimaryContact = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == person.PersonID;
-            if (isPersonViewingThePrimaryContact)
+            var isPersonTheCurrentUser = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == person.PersonID;
+            if (isPersonTheCurrentUser)
             {
                 return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
             }
             return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
+        }
+
+        /// <summary>
+        /// List of Projects for which this Person is a contact
+        /// </summary>
+        public static List<Project> GetProjectsWhereYouAreAContact(this Person person)
+        {
+            var projectsUserIsAContact = person.ProjectContactsWhereYouAreTheContact.Select(x => x.Project).ToList();
+            projectsUserIsAContact.AddRange(person.ProjectsWhereYouAreThePrimaryContactPerson);
+            return projectsUserIsAContact;
         }
 
         public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, FirmaSession currentFirmaSession)
