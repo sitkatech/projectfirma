@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string EstimatedTotalCost { get; set; }
         public Dictionary<ProjectFirmaModels.Models.ClassificationSystem, string> ClassificationsBySystem { get; set; }
         public string FactSheetUrl { get; set; }
+        public string ProjectUrl { get; set; }
         public TaxonomyLevel TaxonomyLevel { get; }
 
         public bool ShowDetailedInformation { get; }
@@ -56,6 +57,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
             //Project = project;
             DisplayName = project.GetDisplayName();
+            ProjectUrl = project.GetDetailUrl();
             KeyPhoto = project.GetKeyPhoto();
             Duration = project.GetDuration();
             ProjectStage = project.ProjectStage;
