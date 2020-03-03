@@ -235,10 +235,10 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                @string.Format("{0} for which {1} is a {2}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Person.GetFullNameFirstLast(), FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel())
+                @string.Format("{0} for which {1} is a contact", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.Person.GetFullNameFirstLast())
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                @Html.DhtmlxGrid(ViewDataTyped.UserProjectGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
             </div>
         </div>
     </div>

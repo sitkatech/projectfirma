@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.User
         public bool UserHasViewEverythingPermissions { get; }
         public bool CurrentPersonCanBeImpersonatedByCurrentUser { get; }
         public bool IsViewingSelf { get; }
-        public Project.BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public Project.UserProjectGridSpec UserProjectGridSpec { get; }
         public string BasicProjectInfoGridName { get; }
         public string BasicProjectInfoGridDataUrl { get; }
         public UserNotificationGridSpec UserNotificationGridSpec { get; }
@@ -51,14 +51,13 @@ namespace ProjectFirma.Web.Views.User
 
         public DetailViewData(FirmaSession currentFirmaSession,
             Person personToView,
-            Project.BasicProjectInfoGridSpec basicProjectInfoGridSpec,
+            Project.UserProjectGridSpec userProjectGridSpec,
             string basicProjectInfoGridName,
             string basicProjectInfoGridDataUrl,
             UserNotificationGridSpec userNotificationGridSpec,
             string userNotificationGridName,
             string userNotificationGridDataUrl,
             string activateInactivateUrl)
-            // TOOD: Must pass in FirmaSession
             : base(currentFirmaSession)
         {
             Person = personToView;
@@ -82,7 +81,7 @@ namespace ProjectFirma.Web.Views.User
                     true)
                 : new HtmlString(string.Empty);
 
-            BasicProjectInfoGridSpec = basicProjectInfoGridSpec;
+            UserProjectGridSpec = userProjectGridSpec;
             BasicProjectInfoGridName = basicProjectInfoGridName;
             BasicProjectInfoGridDataUrl = basicProjectInfoGridDataUrl;
 
