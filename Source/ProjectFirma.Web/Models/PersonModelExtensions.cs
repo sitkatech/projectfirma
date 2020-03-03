@@ -148,8 +148,9 @@ namespace ProjectFirma.Web.Models
         public static List<Project> GetProjectsWhereYouAreAContact(this Person person)
         {
             var projectsUserIsAContact = person.ProjectContactsWhereYouAreTheContact.Select(x => x.Project).ToList();
-            projectsUserIsAContact.AddRange(person.ProjectsWhereYouAreThePrimaryContactPerson);
-            return projectsUserIsAContact;
+            var projectsUserIsThePrimaryContactPerson = person.ProjectsWhereYouAreThePrimaryContactPerson;
+            projectsUserIsAContact.AddRange(projectsUserIsThePrimaryContactPerson);
+            return projectsUserIsAContact.Distinct().ToList();
         }
 
         public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, FirmaSession currentFirmaSession)
@@ -254,8 +255,20 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static HtmlString GetPersonDisplayNameWithContactTypesListForProject(this Person person, Project project)
         {
+            var personContactTypesList = person.GetListOfContactTypeStringsForProject(project);
+
+            if (!personContactTypesList.Any())
+            {
+                return new HtmlString(person.GetFullNameFirstLast());
+            }
+
+            return new HtmlString($"{person.GetFullNameFirstLast()} <span class=\"small\">({string.Join(", ", personContactTypesList)})</span>");
+        }
+
+        public static List<string> GetListOfContactTypeStringsForProject(this Person person, Project project)
+        {
             var personContactTypesList = new List<string>();
-            
+
             // Project primary contact
             if (person.PersonID == project.PrimaryContactPerson.PersonID)
             {
@@ -269,12 +282,7 @@ namespace ProjectFirma.Web.Models
                 personContactTypesList.Add(projectContact.ContactRelationshipType.ContactRelationshipTypeName);
             }
 
-            if (!personContactTypesList.Any())
-            {
-                return new HtmlString(person.GetFullNameFirstLast());
-            }
-
-            return new HtmlString($"{person.GetFullNameFirstLast()} <span class=\"small\">({string.Join(", ", personContactTypesList)})</span>");
+            return personContactTypesList;
         }
 
     }
