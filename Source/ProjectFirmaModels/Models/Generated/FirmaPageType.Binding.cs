@@ -192,6 +192,7 @@ namespace ProjectFirmaModels.Models
         AddProjectToEvaluationPortfolioInstructions = 76,
         Reports = 77,
         ReportProjects = 78,
-        ReportAddReport = 79
+        ReportAddReport = 79,
+        ReleaseNotes = 80
     }
 }
