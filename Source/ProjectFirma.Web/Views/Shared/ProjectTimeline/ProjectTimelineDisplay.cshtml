@@ -108,7 +108,7 @@
                                                             <span class="timeline-event-date" title="@projectTimelineEvent.Date.ToString()">@projectTimelineEvent.DateDisplay</span>
                                                         </div>
 
-                                                        @if (!string.IsNullOrWhiteSpace(projectTimelineEvent.TimelineEventPersonDisplayName))
+                                                        @if (!string.IsNullOrWhiteSpace(projectTimelineEvent.TimelineEventPersonDisplayName.ToString()))
                                                         {
                                                             <span>By @projectTimelineEvent.TimelineEventPersonDisplayName</span>
                                                         }

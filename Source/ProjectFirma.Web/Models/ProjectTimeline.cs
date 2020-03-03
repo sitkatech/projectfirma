@@ -158,7 +158,7 @@ namespace ProjectFirma.Web.Models
      
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
-        public string TimelineEventPersonDisplayName { get; }
+        public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
@@ -177,7 +177,7 @@ namespace ProjectFirma.Web.Models
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Create;
             TimelineEventTypeDisplayName = "Created";
-            TimelineEventPersonDisplayName = project.ProposingPerson.GetFullNameFirstLast();
+            TimelineEventPersonDisplayName = project.ProposingPerson.GetPersonDisplayNameWithContactTypesListForProject(project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Models
         public CalendarQuarter Quarter { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
-        public string TimelineEventPersonDisplayName { get; }
+        public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
@@ -208,7 +208,7 @@ namespace ProjectFirma.Web.Models
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.ProjectStatusChange;
             TimelineEventTypeDisplayName = projectProjectStatus.IsFinalStatusUpdate ? "Final Status Update" : "Status Updated";
-            TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
+            TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectProjectStatus.Project);
             ProjectTimelineSide = ProjectTimelineSide.Right;
 
             EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
@@ -226,7 +226,7 @@ namespace ProjectFirma.Web.Models
         public int Year { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
-        public string TimelineEventPersonDisplayName { get; }
+        public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
@@ -244,7 +244,7 @@ namespace ProjectFirma.Web.Models
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Approve;
             TimelineEventTypeDisplayName = "Approved";
-            TimelineEventPersonDisplayName = project.ReviewedByPerson?.GetFullNameFirstLast();
+            TimelineEventPersonDisplayName = project.ReviewedByPerson?.GetPersonDisplayNameWithContactTypesListForProject(project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
@@ -259,7 +259,7 @@ namespace ProjectFirma.Web.Models
         public CalendarQuarter Quarter { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
-        public string TimelineEventPersonDisplayName { get; }
+        public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
@@ -275,7 +275,7 @@ namespace ProjectFirma.Web.Models
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Update;
             TimelineEventTypeDisplayName = "Update";
-            TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetFullNameFirstLast();
+            TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectUpdateBatch.Project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectUpdateDetailsLinkButton(projectUpdateBatch);
@@ -291,7 +291,7 @@ namespace ProjectFirma.Web.Models
         CalendarQuarter Quarter { get; }
         ProjectTimelineEventType ProjectTimelineEventType { get; }
         string TimelineEventTypeDisplayName { get; }
-        string TimelineEventPersonDisplayName { get; }
+        HtmlString TimelineEventPersonDisplayName { get; }
         string TimelineDetailsLink { get; }
         ProjectTimelineSide ProjectTimelineSide { get; }
         string Color { get; }
