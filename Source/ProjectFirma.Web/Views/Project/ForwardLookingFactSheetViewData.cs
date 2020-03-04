@@ -143,7 +143,7 @@ namespace ProjectFirma.Web.Views.Project
             TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
 
             FundingBudget = project.ProjectFundingSourceBudgets.Any() ? project.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount).ToStringCurrency() : ViewUtilities.Unknown;
-            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
+            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, currentFirmaSession);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
 

@@ -130,7 +130,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
-            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, false);
+            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, currentFirmaSession);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
 
