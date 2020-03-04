@@ -41,6 +41,21 @@ namespace ProjectFirma.Api.Controllers
 
         }
 
+        [Route("api/Projects/ListNTAsForFundingSources/{apiKey}/{fundingSourceIDsAsString}")]
+        [HttpGet]
+        public IHttpActionResult ListNTAsForFundingSources(string apiKey, string fundingSourceIDsAsString)
+        {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
+            List<ProjectDto> result;
+            var fundingSourceIDs = fundingSourceIDsAsString.Split(',').Select(int.Parse).ToList();
+            var projectsWithBudgets = _databaseEntities.ProjectFundingSourceBudgets.ToList().Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).GroupBy(x => x.Project).Select(x => x.Key).ToList();
+            var projectWithExpenditures = _databaseEntities.ProjectFundingSourceExpenditures.ToList().Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).GroupBy(x => x.Project).Select(x => x.Key).ToList();
+            var projects = projectsWithBudgets.Union(projectWithExpenditures);
+            result = projects.Select(x => new ProjectDto(x, fundingSourceIDs)).ToList();
+            
+            return Ok(result);
+        }
+
         [Route("api/Projects/Get/{apiKey}/{id}")]
         [HttpGet]
         public IHttpActionResult Get(string apiKey, int id)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
+using ProjectFirma.Api.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Api.Models
@@ -50,7 +51,18 @@ namespace ProjectFirma.Api.Models
             }
             LastUpdatedDate = project.LastUpdatedDate;
 
-            //ProjectCustomAttributes = project.ProjectCustomAttributes.OrderBy(x => x.ProjectCustomAttributeType.ProjectCustomAttributeTypeName).Select(x => new ProjectCustomAttributeDto(x)).ToList();
+            ProjectCustomAttributes = project.ProjectCustomAttributes.OrderBy(x => x.ProjectCustomAttributeType.ProjectCustomAttributeTypeName).Select(x => new ProjectCustomAttributeDto(x)).ToList();
+        }
+
+        public ProjectDto(Project project, List<int> fundingSourceIDs) : this(project)
+        {
+            // SecuredFunding and TargetingFunding are the amounts provided by the specified funding sources. The funding provided by other funding sources is considered Leveraged Funds
+            var securedFundingForFundingSources = project.GetSecuredFundingForFundingSources(fundingSourceIDs);
+            var targetedFundingForFundingSources = project.GetTargetedFundingForFundingSources(fundingSourceIDs);
+            SecuredFundingLeveragedFunds = SecuredFunding - securedFundingForFundingSources;
+            TargetedFundingLeveragedFunds = TargetedFunding - targetedFundingForFundingSources;
+            SecuredFunding = securedFundingForFundingSources;
+            TargetedFunding = targetedFundingForFundingSources;
         }
 
         public ProjectDto()
@@ -78,12 +90,14 @@ namespace ProjectFirma.Api.Models
 
         public decimal? SecuredFunding { get; set; }
         public decimal? TargetedFunding { get; set; }
+        public decimal? SecuredFundingLeveragedFunds { get; set; }
+        public decimal? TargetedFundingLeveragedFunds { get; set; }
 
         public decimal? EstimatedTotalCost { get; set; }
         public Feature LocationPointAsGeoJsonFeature { get; set; }
 
         public DateTime LastUpdatedDate { get; set; }
 
-//        public List<ProjectCustomAttributeDto> ProjectCustomAttributes { get; set; }
+        public List<ProjectCustomAttributeDto> ProjectCustomAttributes { get; set; }
     }
 }
