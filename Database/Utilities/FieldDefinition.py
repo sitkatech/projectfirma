@@ -37,8 +37,12 @@ def get_next_release_script_number():
         search = re.search(r"(\d\d\d\d)", file)
         if (search):
             release_script_number_list.append(search.group(0))
-    release_script_number_list.sort()
-    next_number = int(release_script_number_list[-1]) + 1
+    if any(release_script_number_list):
+        release_script_number_list.sort()
+        next_number = int(release_script_number_list[-1]) + 1
+    else:
+        next_number = int(input('Could not find any release scripts to guess the next number. '
+                            'Please enter the release script number you want to use:'))
     return '%04d' % next_number
 
 
