@@ -117,7 +117,7 @@ else
 {
          <div style="max-width: 200px">
              <div class="text-center">
-                 if (ViewDataTyped.OfferFactSheetLink)
+                 @if (ViewDataTyped.OfferFactSheetLink)
                  {
                  <a href="@ViewDataTyped.FactSheetUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet"><strong>@ViewDataTyped.DisplayName</strong></a>
                  }
