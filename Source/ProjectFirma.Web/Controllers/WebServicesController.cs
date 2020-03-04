@@ -32,7 +32,6 @@ using ProjectFirma.Web.Views.WebServices;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
@@ -54,12 +53,12 @@ namespace ProjectFirma.Web.Controllers
         {
         }
 
-        [LoggedInUnclassifiedFeature]
+        [AnonymousUnclassifiedFeature]
         public ViewResult Index()
         {
             var firmaPage = FirmaPageTypeEnum.WebServicesIndex.GetFirmaPage();
             var webServicesListUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.List());
-            var getWebServiceAccessTokenUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.GetWebServiceAccessToken(CurrentPerson));
+            var getWebServiceAccessTokenUrl = !CurrentFirmaSession.IsAnonymousOrUnassigned() ? SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.GetWebServiceAccessToken(CurrentPerson)) : null;
             var viewData = new IndexViewData(CurrentFirmaSession, CurrentPerson?.WebServiceAccessToken, webServicesListUrl, getWebServiceAccessTokenUrl, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
