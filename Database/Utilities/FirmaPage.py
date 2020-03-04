@@ -138,7 +138,7 @@ file.write("INSERT [dbo].[FirmaPage] ([TenantID], [FirmaPageTypeID], [FirmaPageC
 for tenant in list_of_tenant_dicts:
     file.write("UPDATE [dbo].[FirmaPage] "
                "SET FirmaPageContent = '" + str(tenant["FirmaPageContent"]) + "'\n"
-               "WHERE TenantID = " + str(tenant["TenantID"]))
+               "WHERE TenantID = " + str(tenant["TenantID"]) + " and FirmaPageTypeID = " + str(firma_page_type_id) + "\n\n")
 file.close()
 print("Added new release script to project")
 print("DONE")
