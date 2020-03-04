@@ -270,9 +270,12 @@ namespace ProjectFirma.Web.Models
             var personContactTypesList = new List<string>();
 
             // Project primary contact
-            if (person.PersonID == project.PrimaryContactPerson.PersonID)
+            if (project.PrimaryContactPerson != null)
             {
-                personContactTypesList.Add($"{FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()}");
+                if (person.PersonID == project.PrimaryContactPerson.PersonID)
+                {
+                    personContactTypesList.Add($"{FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()}");
+                }
             }
 
             // The rest of the project contacts
