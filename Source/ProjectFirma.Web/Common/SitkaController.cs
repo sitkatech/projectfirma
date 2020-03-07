@@ -341,8 +341,29 @@ namespace ProjectFirma.Web.Common
             var xml = Request.Form["grid_xml"];
             xml = Server.UrlDecode(xml);
             xml = xml.Replace("<![CDATA[$", "<![CDATA["); // RL 7/11/2015 Poor man's hack to remove currency and allow for total rows
+            xml = BlankRowFixup(xml);
             var stream = generator.Generate(xml);
-            return File(stream.ToArray(), generator.ContentType, string.Format("{0}.xlsx", gridName));
+            var fileDownloadName = $"{gridName}.xlsx";
+            return File(stream.ToArray(), generator.ContentType, fileDownloadName);
+        }
+
+		// There is an arguable bug in DHTMLX.Export.Excel that causes a crash when a grid being downloaded has NO rows.
+		// It would probably be best to fix the bug in the actual library (it IS open source and has a git repo), but this
+		// only took a few minutes in the meantime. 
+        private string BlankRowFixup(string xml)
+        {
+            // No existing rows? Fake them up.
+            if (!xml.Contains("<row>"))
+            {
+                const string blankCellXml = "<cell><![CDATA[ ]]></cell>";
+                int rowInsertPosition = xml.IndexOf("</rows>") - 1;
+				// We seem to be able to get away with only having ONE cell be inserted. It's gross, but it does work, so we 
+				// thought it good enough. -- SLG & TK 3/6/2020
+                string rowXml = $"<row>{blankCellXml}</row>";
+                xml = xml.Insert(rowInsertPosition, rowXml);
+            }
+
+            return xml;
         }
 
         /// <summary>
