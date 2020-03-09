@@ -45,6 +45,7 @@ namespace ProjectFirma.Api.Models
             SecuredFunding = project.GetSecuredFunding();
             TargetedFunding = project.GetTargetedFunding();
             NoFundingSourceIdentifiedFunding = project.GetNoFundingSourceIdentifiedAmount();
+            TotalExpenditures = project.TotalExpenditures;
             if (project.ProjectLocationPoint != null)
             {
                 LocationPointAsGeoJsonFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint);
@@ -94,6 +95,7 @@ namespace ProjectFirma.Api.Models
         public decimal? TargetedFundingLeveragedFunds { get; set; }
 
         public decimal? EstimatedTotalCost { get; set; }
+        public decimal? TotalExpenditures { get; set; }
         public Feature LocationPointAsGeoJsonFeature { get; set; }
 
         public DateTime LastUpdatedDate { get; set; }

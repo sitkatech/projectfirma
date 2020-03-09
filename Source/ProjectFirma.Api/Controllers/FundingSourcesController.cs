@@ -13,22 +13,20 @@ namespace ProjectFirma.Api.Controllers
 
         /// API endpoint - currently only used by PS Info
         /// Any changes made here could have adverse effects on dependent applications 
-        [Route("api/FundingSources/GetProjectBudgetsForAFundingSource/{apiKey}/{fundingSourceID}")]
+        [Route("api/FundingSources/GetProjectCalendarYearBudgetsForAFundingSource/{apiKey}/{fundingSourceID}")]
         [HttpGet]
-        public IHttpActionResult GetProjectBudgetsForAFundingSource(string apiKey, int fundingSourceID)
+        public IHttpActionResult GetProjectCalendarYearBudgetsForAFundingSource(string apiKey, int fundingSourceID)
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
-            var result = new List<ProjectBudgetDto>();
+            var result = new List<ProjectCalendarYearBudgetsDto>();
             var fundingSource = _databaseEntities.FundingSources.SingleOrDefault(x => x.FundingSourceID == fundingSourceID);
             if (fundingSource != null)
             {
                 var projectFundingSourceBudgets = fundingSource.ProjectFundingSourceBudgets.ToList();
                 foreach (var projectFundingSourceBudget in projectFundingSourceBudgets.GroupBy(x => x.Project))
                 {
-                    var budgets = projectFundingSourceBudget.Where(x => x.ProjectID == projectFundingSourceBudget.Key.ProjectID).ToList();
-                    var securedFunding = budgets.Any(x => x.SecuredAmount != null) ? budgets.Sum(x => x.SecuredAmount) : null;
-                    var targetedFunding = budgets.Any(x => x.TargetedAmount != null) ? budgets.Sum(x => x.TargetedAmount) : null;
-                    result.Add(new ProjectBudgetDto(projectFundingSourceBudget.Key, securedFunding, targetedFunding));
+                    var calendarYearBudgets = projectFundingSourceBudget.Where(x => x.ProjectID == projectFundingSourceBudget.Key.ProjectID).GroupBy(x => x.CalendarYear).ToDictionary(x => x.Key.Value, x => x.Sum(y => y.SecuredAmount));
+                    result.Add(new ProjectCalendarYearBudgetsDto(projectFundingSourceBudget.Key, calendarYearBudgets));
                 }
             }
             return Ok(result);

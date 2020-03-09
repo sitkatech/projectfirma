@@ -159,6 +159,7 @@
     <Compile Include="Models\OrganizationDto.cs" />
     <Compile Include="Models\ProjectBudgetDto.cs" />
     <Compile Include="Models\FundingSourceFinancialTotalsDto.cs" />
+    <Compile Include="Models\ProjectCalendarYearBudgetsDto.cs" />
     <Compile Include="Models\ProjectCalendarYearExpendituresDtoTest.cs" />
     <Compile Include="Models\ProjectCustomAttributeDto.cs" />
     <Compile Include="Models\ProjectCalendarYearExpendituresDto.cs" />
