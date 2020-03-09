@@ -10,7 +10,7 @@ insert into dbo.FirmaPage (TenantID, FirmaPageTypeID, FirmaPageContent)
 select 
     TenantID,
     80,
-    '<p class="lead">Interested staying informed about this platform and the growing community using it? Sign up to receive periodic <a href="http://go.sitkatech.com/ProjectFirmaCommunity" title="Open a new tab to sign up for ProjectFirma Community Updates" target="_blank">ProjectFirma Community Updates <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a></p>'
+    '<p>Interested staying informed about this platform and the growing community using it? Sign up to receive periodic <a href="http://go.sitkatech.com/ProjectFirmaCommunity" title="Open a new tab to sign up for ProjectFirma Community Updates" target="_blank">ProjectFirma Community Updates <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a></p>'
  from dbo.Tenant
 
 --rollback tran
