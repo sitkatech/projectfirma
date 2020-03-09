@@ -42,20 +42,17 @@ namespace ProjectFirma.Api.Controllers
             var testFundingSource = _databaseEntities.FundingSources.FirstOrDefault(x => x.ProjectFundingSourceBudgets.Count() > 1);
             if (testFundingSource != null)
             {
-                var maxSecured = testFundingSource.ProjectFundingSourceBudgets.OrderByDescending(x => x.SecuredAmount).First();
-                var minSecured = testFundingSource.ProjectFundingSourceBudgets.OrderBy(x => x.SecuredAmount).First();
-                var maxTargeted = testFundingSource.ProjectFundingSourceBudgets.OrderByDescending(x => x.TargetedAmount).First();
-                var minTargeted = testFundingSource.ProjectFundingSourceBudgets.OrderBy(x => x.TargetedAmount).First();
+                var groupedBudgets = testFundingSource.ProjectFundingSourceBudgets.GroupBy(x => x.Project);
+                var firstProjectGroup = groupedBudgets.First();
+                var lastProjectGroup = groupedBudgets.Last();
+                var firstTotal = firstProjectGroup.Sum(x => x.SecuredAmount);
+                var lastTotal = lastProjectGroup.Sum(x => x.SecuredAmount);
                 var controller = new FundingSourcesController();
-                var result = controller.GetProjectBudgetsForAFundingSource(FirmaWebApiConfiguration.PsInfoApiKey, testFundingSource.FundingSourceID) as OkNegotiatedContentResult<List<ProjectBudgetDto>>;
-                var maxSecuredResult = result.Content.Single(x => x.ProjectDto.ProjectID == maxSecured.ProjectID);
-                Assert.That(maxSecuredResult.SecuredFunding, Is.EqualTo(maxSecured.SecuredAmount));
-                var minSecuredResult = result.Content.Single(x => x.ProjectDto.ProjectID == minSecured.ProjectID);
-                Assert.That(minSecuredResult.SecuredFunding, Is.EqualTo(minSecured.SecuredAmount));
-                var maxTargetedResult = result.Content.Single(x => x.ProjectDto.ProjectID == maxTargeted.ProjectID);
-                Assert.That(maxTargetedResult.TargetedFunding, Is.EqualTo(maxTargeted.TargetedAmount));
-                var minTargetedResult = result.Content.Single(x => x.ProjectDto.ProjectID == minTargeted.ProjectID);
-                Assert.That(minTargetedResult.TargetedFunding, Is.EqualTo(minTargeted.TargetedAmount));
+                var result = controller.GetProjectCalendarYearBudgetsForAFundingSource(FirmaWebApiConfiguration.PsInfoApiKey, testFundingSource.FundingSourceID) as OkNegotiatedContentResult<List<ProjectCalendarYearBudgetsDto>>;
+                var firstResultTotal = result.Content.Single(x => x.ProjectDto.ProjectID == firstProjectGroup.Key.ProjectID).CalendarYearBudgets.Sum(x => x.Value);
+                Assert.That(firstResultTotal, Is.EqualTo(firstTotal));
+                var lastResultTotal = result.Content.Single(x => x.ProjectDto.ProjectID == lastProjectGroup.Key.ProjectID).CalendarYearBudgets.Sum(x => x.Value);
+                Assert.That(lastResultTotal, Is.EqualTo(lastTotal));
             }
         }
 
