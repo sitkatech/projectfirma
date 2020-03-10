@@ -106,15 +106,15 @@ OrgTechRef:    http://whois.arin.net/rest/poc/AWC12-ARIN
             var resultOfIpAddressWithRecursion = WhoisUtility.Lookup(ipAddressThatRequiresRecursion, WhoisUtility.StartingWhoisServer, false);
             var recursiveWhoisServer = WhoisUtility.CalculateNextServerLookupIfAny(resultOfIpAddressWithRecursion);
             Assert.That(recursiveWhoisServer, Is.Not.Null, string.Format("Test precondition: the ip address {0} is supposed to be one that requires recursion but it doesn't seem to.", ipAddressThatRequiresRecursion.ToString()));
-            Assert.That(resultOfIpAddressWithRecursion, Is.Not.StringContaining("inetnum:"), "Test precondition: Should not yet have completed the lookup");
-            Assert.That(resultOfIpAddressWithRecursion, Is.Not.StringContaining("netname:"), "Test precondition: Should not yet have completed the lookup");
+            Assert.That(resultOfIpAddressWithRecursion, Does.Not.Contain("inetnum:"), "Test precondition: Should not yet have completed the lookup");
+            Assert.That(resultOfIpAddressWithRecursion, Does.Not.Contain("netname:"), "Test precondition: Should not yet have completed the lookup");
 
             // Act
             // ---
             var answer = WhoisUtility.Lookup(ipAddressThatRequiresRecursion);
             Assert.That(WhoisUtility.CalculateNextServerLookupIfAny(answer), Is.Null, "Should not be a reponse that requires further recursion");
-            Assert.That(answer, Is.StringContaining("inetnum:"), "Should have completed the lookup");
-            Assert.That(answer, Is.StringContaining("netname:"), "Should have completed the lookup");
+            Assert.That(answer, Does.Contain("inetnum:"), "Should have completed the lookup");
+            Assert.That(answer, Does.Contain("netname:"), "Should have completed the lookup");
         }
 
         [Test]
@@ -209,8 +209,8 @@ Real Output 1 NET170 (NET-170-0-0-0-0) 170.0.0.0 - 170.255.255.255
 " + "# Comment with CR end of line\r# Comment with CR LF end of line\r\n# Comment with LF end of line\n" + "    \r  \r\n \n";
             var filteredOutput = WhoisUtility.FilterOutBlankLinesAndComment(sampleOutput);
 
-            Assert.That(filteredOutput, Is.StringMatching("Real Output 1"), "Real output should be preserved");
-            Assert.That(filteredOutput, Is.StringMatching("Real Output 2"), "Real output should be preserved");
+            Assert.That(filteredOutput, Does.Match("Real Output 1"), "Real output should be preserved");
+            Assert.That(filteredOutput, Does.Match("Real Output 2"), "Real output should be preserved");
             AssertResponseIsTrimmedOfCommentsAndWhitespace(filteredOutput);
 
             Trace.WriteLine(">>" + filteredOutput + "<<");
@@ -218,9 +218,9 @@ Real Output 1 NET170 (NET-170-0-0-0-0) 170.0.0.0 - 170.255.255.255
 
         private static void AssertResponseIsTrimmedOfCommentsAndWhitespace(string filteredOutput)
         {
-            Assert.That(filteredOutput, Is.Not.StringMatching("(?m)^#"), "Minimal output - should not have any comment lines starting with #");
-            Assert.That(filteredOutput, Is.Not.StringMatching("(?m)^%"), "Minimal output - should not have any comment lines starting with %");
-            Assert.That(filteredOutput, Is.Not.StringMatching(@"(?m)^\s+$"), "Minimal output - should not have any blank lines");
+            Assert.That(filteredOutput, !Does.Match("(?m)^#"), "Minimal output - should not have any comment lines starting with #");
+            Assert.That(filteredOutput, Does.Not.Match("(?m)^%"), "Minimal output - should not have any comment lines starting with %");
+            Assert.That(filteredOutput, Does.Not.Match(@"(?m)^\s+$"), "Minimal output - should not have any blank lines");
         }
     }
 }

@@ -30,13 +30,13 @@ namespace LtInfo.Common.GdalOgr
     {
         private const int CoordinateSystemId = 4326;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetup()
         {
             BaseFixtureSetup();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTeardown()
         {
             BaseFixtureTeardown();
@@ -81,7 +81,7 @@ namespace LtInfo.Common.GdalOgr
             // Arrange
             // -------
 
-        var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
+            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(new DirectoryInfo(@"C:\SVN\Sitkatech\Trunk\LtInfo\LtInfo.Common\GdalOgr"), @"SampleFileGeodatabase.gdb.zip");
             const string sourceLayerName = "MySampleFeatureClass";
 
             // Act

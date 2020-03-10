@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.IO;
 using LtInfo.Common;
 using LtInfo.Common.GdalOgr;
 using NUnit.Framework;
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void CanCreateBoundingBoxFromGeoJson()
         {
-            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
+            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(new DirectoryInfo(@"C:\SVN\Sitkatech\Trunk\LtInfo\LtInfo.Common\GdalOgr"), @"SampleFileGeodatabase.gdb.zip");
             const string sourceLayerName = "MySampleFeatureClass";
             // Act
             // ---

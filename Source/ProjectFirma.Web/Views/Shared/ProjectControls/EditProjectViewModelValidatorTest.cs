@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     //    private EditProjectViewModel _viewModel;
     //    private Models.Project _project;
 
-    //    [SetUp]
+    //    [OneTimeSetUp]
     //    public void Setup()
     //    {
     //        _project = TestFramework.TestProject.Create();

@@ -53,7 +53,7 @@ namespace LtInfo.Common.GeoJson
             public string Geometry { get; private set; }
         }
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Init()
         {
             _testGeospatialObjects = new List<TestGeospatialObject>

@@ -9,13 +9,13 @@ namespace ProjectFirmaModels.Models
     public class FieldDefinitionTest : DatabaseDirectAccessTestFixtureBase
     {
 
-        [TestFixtureSetUp]
+        [OneTimeSetUpAttribute]
         public void TestFixtureSetup()
         {
             BaseFixtureSetup();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDownAttribute]
         public void TestFixtureTeardown()
         {
             BaseFixtureTeardown();

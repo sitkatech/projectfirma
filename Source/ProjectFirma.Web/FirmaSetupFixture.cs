@@ -35,7 +35,7 @@ public class FirmaSetupFixture
     public static bool HasAlreadySetUpRouteTable = false;
     public static object RouteTableLockObject = new object();
 
-    [SetUp]
+    [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
         lock (RouteTableLockObject)

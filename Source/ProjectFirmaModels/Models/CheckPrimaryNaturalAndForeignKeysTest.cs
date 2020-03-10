@@ -395,13 +395,13 @@ order by t.table_schema, t.table_name, c.ordinal_position";
             Approvals.Verify(ExecAdHocSql(sql).TableToHumanReadableString());
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUpAttribute]
         public void TestFixtureSetup()
         {
             BaseFixtureSetup();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDownAttribute]
         public void TestFixtureTeardown()
         {
             BaseFixtureTeardown();

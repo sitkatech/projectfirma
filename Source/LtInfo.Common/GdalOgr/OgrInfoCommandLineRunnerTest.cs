@@ -67,7 +67,7 @@ namespace LtInfo.Common.GdalOgr
             // Arrange
             // -------
 
-            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LtInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
+            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(new DirectoryInfo(@"C:\SVN\Sitkatech\Trunk\LtInfo\LtInfo.Common\GdalOgr"), @"SampleFileGeodatabase.gdb.zip");
             var gdbFileInfoWith2FeatureClasses = FileUtility.FirstMatchingFileUpDirectoryTree(@"LtInfo.Common\GdalOgr\SampleFileGeodatabaseWith2FeatureClasses.gdb.zip");
 
             // Act
@@ -86,7 +86,7 @@ namespace LtInfo.Common.GdalOgr
         [Test]
         public void CanReadExtentFromGeoJsonFile()
         {
-            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
+            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(new DirectoryInfo(@"C:\SVN\Sitkatech\Trunk\LtInfo\LtInfo.Common\GdalOgr"), @"SampleFileGeodatabase.gdb.zip");
             const string sourceLayerName = "MySampleFeatureClass";
             // Act
             // ---

@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
         private bool _projectFirmaDatabaseIsSetUp = false;
         private readonly object _setupLockObject = new Object();
 
-        [TestFixtureSetUp]
+        [OneTimeSetUpAttribute]
         public void TestFixtureSetup()
         {
             lock (_setupLockObject)

@@ -114,7 +114,7 @@ X-Forwarded-For: 127.0.0.1
                                         new Uri("http://localhost.cbfish.org"), "UserAgent");
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetup()
         {
             _filter = new TrendMicroFilter();

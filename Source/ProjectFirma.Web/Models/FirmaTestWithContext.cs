@@ -29,7 +29,7 @@ namespace ProjectFirmaModels.Models
     [TestFixture]
     public abstract class FirmaTestWithContext
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void TheSetUp()
         {
             HttpRequestStorage.StartContextForTest();
@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.Models
             HttpRequestStorage.FirmaSession = new FirmaSession(randomPerson);
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TheTearDown()
         {
             HttpRequestStorage.EndContextForTest();

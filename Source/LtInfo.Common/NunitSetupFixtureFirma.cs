@@ -30,7 +30,7 @@ using LtInfo.Common;
 public class NunitSetupFixtureLtInfoCommon
 // ReSharper restore CheckNamespace
 {
-    [SetUp]
+    [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
         SitkaLogger.RegisterLogger();

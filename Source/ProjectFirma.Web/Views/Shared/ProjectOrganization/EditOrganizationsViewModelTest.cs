@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         private ProjectFirmaModels.Models.Organization _organization2;
         private ProjectFirmaModels.Models.Organization _organization3;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _project = TestFramework.TestProject.Create();
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         }
 
         [Test]
-        [Ignore]
+        [Ignore("[Was Set to ignore before Reason was a mandatory parm to nunit Ignore]")]
         public void UpdateModelTest()
         {
             //// Arrange

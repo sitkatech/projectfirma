@@ -36,14 +36,14 @@ namespace ProjectFirma.Web.Common
     [TestFixture]
     public class RouteTableBuilderTest
     {
-        [SetUp]
+        [OneTimeSetUpAttribute]
         public void OneTimeSetUp()
         {
             RestoreRouteTableBuilderToNormalState();
         }
 
-        [TearDown]
-        public void TearDown()
+        [OneTimeTearDownAttribute]
+        public void OneTimeTearDown()
         {
             RestoreRouteTableBuilderToNormalState();
         }
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Common
                                 "Should have been able to create url for TestAction with non-null string as first parameter!");
             var exception = Assert.Catch(() => SitkaRoute<MyTest1Controller>.BuildUrlFromExpression(c => c.MyAction1(null, 1, 1, 1, 1, 1)),
                                                "Should NOT have been able to create url for TestAction with null string as first parameter!");
-            Assert.That(exception.Message, Is.StringContaining("Could not find a route entry"), "Should be message about illegal route");
+            Assert.That(exception.Message, Does.Contain("Could not find a route entry"), "Should be message about illegal route");
         }
 
         [Test]
@@ -159,9 +159,9 @@ namespace ProjectFirma.Web.Common
 
 
             var ex = Assert.Catch(() => SitkaRoute<MyTest2Controller>.BuildUrlFromExpression(c => c.ActionWithThreeOptionalParameters(null, 1, null)), "Expected throw exception when converting UrlParameter to QueryStringParameter");
-            Assert.That(ex.Message, Is.StringContaining("?"), "Expected message to show the query string it was about to make");
-            Assert.That(ex.Message, Is.StringContaining("optional"), "Expected message to mention the optional parameter was in conflict");
-            Assert.That(ex.Message, Is.StringContaining("p1"), "Expected message to mention parameter that was in conflict");
+            Assert.That(ex.Message, Does.Contain("?"), "Expected message to show the query string it was about to make");
+            Assert.That(ex.Message, Does.Contain("optional"), "Expected message to mention the optional parameter was in conflict");
+            Assert.That(ex.Message, Does.Contain("p1"), "Expected message to mention parameter that was in conflict");
 
             Assert.Catch(() => SitkaRoute<MyTest2Controller>.BuildUrlFromExpression(c => c.ActionWithClassParameterIsNotOptionalAtEnd(1, null)), "Expected throw exception when converting UrlParameter to QueryStringParameter");
             Assert.Catch(() => SitkaRoute<MyTest2Controller>.BuildUrlFromExpression(c => c.ActionWithClassParameterIsNotOptionalAtStart(null, 1)), "Expected throw exception when converting UrlParameter to QueryStringParameter");

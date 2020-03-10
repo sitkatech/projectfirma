@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Service
 
         [Test]
         [Description("This test verifies the shape of all of the CSV download files")]
-        [Ignore]
+        [Ignore("[Was Set to ignore before Reason was a mandatory parm to nunit Ignore]")]
         public void AllWebServicesHaveCorrectCsvColumns()
         {
             var testSubject = new WebServicesController();
@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Service
                 {
                     var responseText = HttpHelper.GetUrl(currentTestUrl);
                     Assert.That(!responseText.Contains("<title>Sitka Keystone", StringComparison.InvariantCultureIgnoreCase), "Test Precondition - hoping to end up on the service site not on the keystone website");
-                    Assert.That(responseText, Is.StringContaining("service"));
+                    Assert.That(responseText, Does.Contain("service"));
                 }
                 catch (Exception e)
                 {

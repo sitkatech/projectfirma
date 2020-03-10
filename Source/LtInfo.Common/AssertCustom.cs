@@ -28,6 +28,11 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.MvcResults;
 using NUnit.Framework;
 
+//using LtInfo.Common.DesignByContract;
+//using LtInfo.Common.DhtmlWrappers;
+//using LtInfo.Common.MvcResults;
+//using NUnit.Framework;
+
 namespace LtInfo.Common
 {
     /// <summary>
@@ -145,7 +150,7 @@ namespace LtInfo.Common
             var expectedColumn = gridSpec.SingleOrDefault(c => String.Equals(c.ColumnNameInnerText, expectColumnName, StringComparison.InvariantCultureIgnoreCase));
             Assert.That(expectedColumn, Is.Not.Null, String.Format("Missing Column \"{0}\"", expectColumnName));
             // ReSharper disable PossibleNullReferenceException
-            Assert.That(expectedColumn.CalculateStringValue(sampleObject), Is.StringContaining(expectedValue), String.Format("Column \"{0}\" had an unexpected value.", expectColumnName));
+            Assert.That(expectedColumn.CalculateStringValue(sampleObject), Does.Contain(expectedValue), String.Format("Column \"{0}\" had an unexpected value.", expectColumnName));
             // ReSharper restore PossibleNullReferenceException
         }
 

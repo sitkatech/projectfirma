@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 
@@ -34,7 +35,7 @@ namespace LtInfo.Common.GdalOgr
         {
             // Arrange
             // -------
-            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
+            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(new DirectoryInfo(@"C:\SVN\Sitkatech\Trunk\LtInfo\LtInfo.Common\GdalOgr"), @"SampleFileGeodatabase.gdb.zip");
             const string sourceLayerName = "MySampleFeatureClass";
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";

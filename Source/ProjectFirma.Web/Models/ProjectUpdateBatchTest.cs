@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -53,7 +54,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        [Ignore]
+        [Ignore("[Was Set to ignore before Reason was a mandatory parm to nunit Ignore]")]
         public void ProjectUpdateBatchStatesTest()
         {
             var firmaSession = TestFramework.TestFirmaSession.Create();
@@ -73,7 +74,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.InEditableState(), Is.True);
 
             var preconditionException = Assert.Catch<PreconditionException>(() => projectUpdateBatch.SubmitToReviewer(firmaSession, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
-            Assert.That(preconditionException.Message, Is.StringContaining($"You cannot submit a Project update that is not ready to be submitted"));
+            Assert.That(preconditionException.Message, Does.Contain($"You cannot submit a Project update that is not ready to be submitted"));
             TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear, 1000);
             var organization1 = TestFramework.TestOrganization.Create("Org1");
             var fundingSource1 = TestFramework.TestFundingSource.Create(organization1, "Funding Source 1");
@@ -104,7 +105,7 @@ namespace ProjectFirma.Web.Models
                         projectUpdateBatch.Approve(firmaSession,
                             DateTime.Now.AddDays(4), HttpRequestStorageForTest.DatabaseEntities),
                     "Should not be allowed to approve yet");
-            Assert.That(preconditionException.Message, Is.StringContaining($"You cannot approve a Project update that has not been submitted"));
+            Assert.That(preconditionException.Message, Does.Contain($"You cannot approve a Project update that has not been submitted"));
 
             // we have to re submit to get to approve
             projectUpdateBatch.SubmitToReviewer(firmaSession, DateTime.Now.AddDays(3));
@@ -323,7 +324,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        [Ignore]
+        [Ignore("[Was Set to ignore before Reason was a mandatory parm to nunit Ignore]")]
         public void ValidateExpendituresAndForceValidationTest()
         {
             var projectUpdate = TestFramework.TestProjectUpdate.Create();
@@ -692,7 +693,7 @@ namespace ProjectFirma.Web.Models
                         $"{expectedMissingYears.Min()}-{expectedMissingYears.Max()}";
 
                     Assert.That(result.Count, Is.EqualTo(1), message: $"Expected only one error message but got:\r\n{String.Join("\r\n", result)}");
-                    Assert.That(result.First(), Is.StringStarting("Missing Expenditures ").And.EndsWith(yearRangeString), assertionMessage);
+                    Assert.That(result.First(), Does.StartWith("Missing Expenditures ").And.EndsWith(yearRangeString), assertionMessage);
                 }
                 else
                 {
@@ -734,13 +735,13 @@ namespace ProjectFirma.Web.Models
                 if (expectedMissingYears.Any() && missingReportedValues.Any())
                 {
                     Assert.That(currentWarningMessages, Has.Count.EqualTo(expectedWarningMessageCount));
-                    Assert.That(currentWarningMessages[0], Is.StringEnding(missingYearsMessage));
-                    Assert.That(currentWarningMessages[1], Is.StringEnding("You must either delete irrelevant rows, or provide complete information for each row."));
+                    Assert.That(currentWarningMessages[0], Does.EndWith(missingYearsMessage));
+                    Assert.That(currentWarningMessages[1], Does.EndWith("You must either delete irrelevant rows, or provide complete information for each row."));
                 }
                 else if (expectedMissingYears.Any())
                 {
                     Assert.That(currentWarningMessages, Has.Count.EqualTo(1));
-                    Assert.That(currentWarningMessages[0], Is.StringEnding(missingYearsMessage));
+                    Assert.That(currentWarningMessages[0], Does.EndWith(missingYearsMessage));
                 }
                 else if (missingReportedValues.Any())
                 {
