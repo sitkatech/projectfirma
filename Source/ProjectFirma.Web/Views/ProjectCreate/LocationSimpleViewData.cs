@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
 
@@ -25,14 +28,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class LocationSimpleViewData : ProjectCreateViewData
     {
-        public readonly ProjectLocationSimpleViewData ProjectLocationSimpleViewData;
-
+        public ProjectLocationSimpleViewData ProjectLocationSimpleViewData { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
         public LocationSimpleViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             ProjectLocationSimpleViewData projectLocationSimpleViewData) : base(currentFirmaSession, project, ProjectCreateSection.LocationSimple.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
+            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
     }
 }

@@ -20,6 +20,7 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications
@@ -62,35 +63,58 @@
 
         @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
         {
-            <h4>@Html.LabelWithSugarFor(classificationSystem)
-                <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
-            </h4>
-            foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
-            {
-                var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
-                var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
-                <div class="row" style="padding-top: 20px">
-                    <div class="col-xs-12 col-sm-4">
-                        <label>
-                            @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
-                            <span style="font-weight: bold">@classification.DisplayName</span>
-                        </label>
-                        <div class="help-block">
-                            @classification.ClassificationDescription
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-8">
-                        <div>
-                            @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> {"form-control"})
-                        </div>
-                        @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
-                        @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
+            <h4>
+                @Html.LabelWithSugarFor(classificationSystem)
+            <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
+        </h4>
+        foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
+        {
+            var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
+            var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
+            <div class="row" style="padding-top: 20px">
+                <div class="col-xs-12 col-sm-4">
+                    <label>
+                        @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
+                        <span style="font-weight: bold">@classification.DisplayName</span>
+                    </label>
+                    <div class="help-block">
+                        @classification.ClassificationDescription
                     </div>
                 </div>
-            }
-            <hr/>
+                <div class="col-xs-12 col-sm-8">
+                    <div>
+                        @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> { "form-control" })
+                    </div>
+                    @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
+                    @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
+                </div>
+            </div>
         }
+        <hr />
+    }
     </div>
+
+    if (@ViewDataTyped.ShowCommentsSection)
+    {
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelFor(m => m.Comments)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @if (ViewDataTyped.CanEditComments)
+                {
+                    @Html.TextAreaFor(m => m.Comments, new { style = "width: 100%", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Comments)
+                }
+                else
+                {
+                    @Html.Raw(ViewDataTyped.Project.ProposalClassificationsComment.HtmlEncodeWithBreaks())
+                }
+            </div>
+        </div>
+        <hr />
+    }
+
 
     <div id="bottomOfForm"></div>
     <div id="bottomOfForm" style="margin: 5px 0;">

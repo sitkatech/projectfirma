@@ -425,7 +425,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualSimples,
                 project.PerformanceMeasureActualYearsExemptionExplanation,
-                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList())
+                projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList(), project)
             {ProjectID = projectPrimaryKey.PrimaryKeyValue};
             return ViewPerformanceMeasures(project, viewModel);
         }
@@ -674,7 +674,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectClassificationSimples = GetProjectClassificationSimples(project);
-            var viewModel = new EditProposalClassificationsViewModel(projectClassificationSimples);
+            var viewModel = new EditProposalClassificationsViewModel(projectClassificationSimples, project);
             return ViewEditClassifications(project, viewModel);
         }
 
@@ -832,7 +832,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult EditLocationDetailed(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new LocationDetailedViewModel();
+            var viewModel = new LocationDetailedViewModel(project);
             return ViewEditLocationDetailed(project, viewModel);
         }
 
@@ -866,6 +866,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditLocationDetailed(project, viewModel);
             }
+            viewModel.UpdateModel(project);
             SaveDetailedLocations(viewModel, project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detailed Location successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.LocationDetailed.ProjectCreateSectionDisplayName);
@@ -1010,7 +1011,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var geospatialAreaIDs = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialAreaID).ToList();
             var geospatialAreaNotes = project.ProjectGeospatialAreaTypeNotes.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)?.Notes;
-            var viewModel = new GeospatialAreaViewModel(geospatialAreaIDs, geospatialAreaNotes);
+            var viewModel = new GeospatialAreaViewModel(geospatialAreaIDs, geospatialAreaNotes, project);
             return ViewEditGeospatialArea(project, viewModel, geospatialAreaType);
         }
 
@@ -1087,7 +1088,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult BulkSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new BulkSetSpatialInformationViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList());
+            var viewModel = new BulkSetSpatialInformationViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), project);
             return ViewBulkSetSpatialInformation(project, viewModel);
         }
         
@@ -1141,11 +1142,17 @@ namespace ProjectFirma.Web.Controllers
         #endregion "GeospatialAreas"
 
         #region "Attachments and Notes"
-
+        [HttpGet]
         [ProjectCreateFeature]
         public ViewResult AttachmentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            var viewModel = new AttachmentsAndNotesViewModel(project);
+            return ViewAttachmentsAndNotes(project, viewModel);
+        }
+
+        private ViewResult ViewAttachmentsAndNotes(Project project, AttachmentsAndNotesViewModel viewModel)
+        {
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
 
             var canEditAttachmentsAndNotes = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
@@ -1155,14 +1162,30 @@ namespace ProjectFirma.Web.Controllers
 
             var attachmentTypes = project.GetAllAttachmentTypes().ToList();
             var projectAttachmentsDetailViewData = new ProjectAttachmentsDetailViewData(
-                                                                                        EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
-                                                                                        SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
-                                                                                        canEditAttachmentsAndNotes,
-                                                                                        attachmentTypes,
+                EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
+                SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
+                canEditAttachmentsAndNotes,
+                attachmentTypes,
 
-                                                                                        CurrentFirmaSession);
+                CurrentFirmaSession);
             var viewData = new AttachmentsAndNotesViewData(CurrentFirmaSession, project, proposalSectionsStatus, entityNotesViewData, projectAttachmentsDetailViewData);
-            return RazorView<AttachmentsAndNotes, AttachmentsAndNotesViewData>(viewData);
+            return RazorView<AttachmentsAndNotes, AttachmentsAndNotesViewData, AttachmentsAndNotesViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult AttachmentsAndNotes(ProjectPrimaryKey projectPrimaryKey, AttachmentsAndNotesViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewAttachmentsAndNotes(project, viewModel);
+            }
+
+            viewModel.UpdateModel(project);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Attachments and Notes successfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.AttachmentsAndNotes.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]
@@ -1355,26 +1378,39 @@ namespace ProjectFirma.Web.Controllers
         }
 
         #endregion "Attachments and Notes"
-
+        [HttpGet]
         [ProjectCreateFeature]
         public ViewResult Photos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-
-            var viewData = BuildImageGalleryViewData(project, CurrentFirmaSession);
-            return RazorView<Photos, PhotoViewData>(viewData);
+            var viewModel = new PhotoViewModel(project);
+            return ViewPhotos(project, CurrentFirmaSession, viewModel);
         }
 
-
-        private static PhotoViewData BuildImageGalleryViewData(Project project, FirmaSession currentFirmaSession)
+        private ViewResult ViewPhotos(Project project, FirmaSession currentFirmaSession, PhotoViewModel viewModel)
         {
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.NewFromProposal(project));
             var galleryName = $"ProjectImage{project.ProjectID}";
             var projectImages = project.ProjectImages.ToList();
 
-            var imageGalleryViewData = new PhotoViewData(currentFirmaSession, galleryName, projectImages.Select(x => new FileResourcePhoto(x)), newPhotoForProjectUrl, x => x.CaptionOnFullView, project, proposalSectionsStatus);
-            return imageGalleryViewData;
+            var viewData = new PhotoViewData(currentFirmaSession, galleryName, projectImages.Select(x => new FileResourcePhoto(x)), newPhotoForProjectUrl, x => x.CaptionOnFullView, project, proposalSectionsStatus);
+            return RazorView<Photos, PhotoViewData, PhotoViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Photos(ProjectPrimaryKey projectPrimaryKey, PhotoViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return Photos(projectPrimaryKey);
+            }
+            viewModel.UpdateModel(project);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Photos successfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.Photos.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]
@@ -1828,7 +1864,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
 
 
-            viewModel.UpdateModel(project, CurrentFirmaSession);
+            viewModel.UpdateCreateModel(project, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Attributes successfully saved.");
@@ -1836,6 +1872,5 @@ namespace ProjectFirma.Web.Controllers
         }
 
         #endregion "ProjectCustomAttributes"
-
     }
 }

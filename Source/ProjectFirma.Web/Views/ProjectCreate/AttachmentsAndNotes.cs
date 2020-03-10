@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class AttachmentsAndNotes : LtInfo.Common.Mvc.TypedWebViewPage<AttachmentsAndNotesViewData>
+    public abstract class AttachmentsAndNotes : LtInfo.Common.Mvc.TypedWebViewPage<AttachmentsAndNotesViewData, AttachmentsAndNotesViewModel>
     {
     }
 }

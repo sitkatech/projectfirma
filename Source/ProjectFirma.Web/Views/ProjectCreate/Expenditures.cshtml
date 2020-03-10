@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common.Views
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectCreate
 @using Newtonsoft.Json.Linq
@@ -239,7 +240,26 @@ enter the amount contributed by year. If the @FieldDefinitionEnum.Project.ToType
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].IsRelevant).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.IsRelevant}}" />
             </div>
         </div>
-
+        if (@ViewDataTyped.ShowCommentsSection)
+        {
+            <hr />
+            <div class="row form-group">
+                <div class="col-xs-12 col-sm-4 control-label">
+                    @Html.LabelFor(m => m.Comments)
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    @if (ViewDataTyped.CanEditComments)
+                    {
+                        @Html.TextAreaFor(m => m.Comments, new { style = "width: 100%", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Comments)
+                    }
+                    else
+                    {
+                        @Html.Raw(ViewDataTyped.Project.ExpendituresComment.HtmlEncodeWithBreaks())
+                    }
+                </div>
+            </div>
+        }
         <div class="row">
             <div style="text-align: right; white-space: nowrap">
                 <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>

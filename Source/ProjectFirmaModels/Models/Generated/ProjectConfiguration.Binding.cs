@@ -46,6 +46,20 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ExpectedFundingUpdateNote).HasColumnName(@"ExpectedFundingUpdateNote").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
             Property(x => x.LastUpdatedDate).HasColumnName(@"LastUpdatedDate").HasColumnType("datetime").IsRequired();
             Property(x => x.ProjectCategoryID).HasColumnName(@"ProjectCategoryID").HasColumnType("int").IsRequired();
+            Property(x => x.BasicsComment).HasColumnName(@"BasicsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.CustomAttributesComment).HasColumnName(@"CustomAttributesComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.LocationSimpleComment).HasColumnName(@"LocationSimpleComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.LocationDetailedComment).HasColumnName(@"LocationDetailedComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.OrganizationsComment).HasColumnName(@"OrganizationsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.ContactsComment).HasColumnName(@"ContactsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.GeospatialAreaComment).HasColumnName(@"GeospatialAreaComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.ExpectedAccomplishmentsComment).HasColumnName(@"ExpectedAccomplishmentsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.ReportedAccomplishmentsComment).HasColumnName(@"ReportedAccomplishmentsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.BudgetComment).HasColumnName(@"BudgetComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.ExpendituresComment).HasColumnName(@"ExpendituresComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.ProposalClassificationsComment).HasColumnName(@"ProposalClassificationsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.AttachmentsNotesComment).HasColumnName(@"AttachmentsNotesComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.PhotosComment).HasColumnName(@"PhotosComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
 
             // Foreign keys
             HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.Projects).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_TaxonomyLeafID

@@ -37,12 +37,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string RefreshUrl { get; }
         public PerformanceMeasureReportedValuesSummaryViewData PerformanceMeasureReportedValuesSummaryViewData { get; }
         public ViewDataForAngularEditor ViewDataForAngular { get; }
-
         public bool IsImplementationStartYearValid { get; }
         public string DiffUrl { get; }
-
         public string ReportingYearLabel { get; }
         public string ConfigurePerformanceMeasuresUrl { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public PerformanceMeasuresViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ViewDataForAngularEditor viewDataForAngularEditor, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentFirmaSession, project, ProjectCreateSection.ReportedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
@@ -64,6 +64,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 ConfigurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.Manage());
             }
+            ShowCommentsSection = project.IsPendingApproval() || (project.ReportedAccomplishmentsComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
 
         public class ViewDataForAngularEditor

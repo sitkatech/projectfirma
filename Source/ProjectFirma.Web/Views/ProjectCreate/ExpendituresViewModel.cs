@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -42,6 +43,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ExpendituresNote { get; set; }
         public bool HasExpenditures { get; set; }
 
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ExpendituresComment)]
+        public string Comments { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -57,6 +61,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectFundingSourceExpenditures = projectFundingSourceExpenditures;
             ShowValidationWarnings = true;
             HasExpenditures = projectFundingSourceExpenditures.Any();
+            Comments = project.ExpendituresComment;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
@@ -71,7 +76,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
             project.ExpendituresNote = ExpendituresNote;
-
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.ExpendituresComment = Comments;
+            }
             currentProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,
                 allProjectFundingSourceExpenditures,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,

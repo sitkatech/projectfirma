@@ -21,9 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
-using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -34,6 +34,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string DiffUrl { get; }
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             ViewDataForAngularClass viewDataForAngularClass,
@@ -44,6 +46,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpenditures(project));
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
+            ShowCommentsSection = project.IsPendingApproval() || (project.ExpendituresComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
 
         public class ViewDataForAngularClass

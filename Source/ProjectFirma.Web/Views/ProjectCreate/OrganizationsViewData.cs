@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
@@ -26,13 +28,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class OrganizationsViewData : ProjectCreateViewData
     {
-        public readonly EditOrganizationsViewData EditOrganizationsViewData;
+        public EditOrganizationsViewData EditOrganizationsViewData { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public OrganizationsViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus, EditOrganizationsViewData editOrganizationsViewData) : base(currentFirmaSession, project, ProjectCreateSection.Organizations.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditOrganizationsViewData = editOrganizationsViewData;
+            ShowCommentsSection = project.IsPendingApproval() || (project.OrganizationsComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
     }
 }

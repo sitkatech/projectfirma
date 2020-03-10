@@ -20,6 +20,7 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Views
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ProjectAttachment
@@ -43,3 +44,37 @@
         @{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }
     </div>
 </div>
+@if (@ViewDataTyped.ShowCommentsSection)
+{
+    using (Html.BeginForm())
+    {
+        <hr />
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelFor(m => m.Comments)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @if (ViewDataTyped.CanEditComments)
+                {
+                    @Html.TextAreaFor(m => m.Comments, new { style = "width: 100%", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Comments)
+                }
+                else
+                {
+                    @Html.Raw(ViewDataTyped.Project.AttachmentsNotesComment.HtmlEncodeWithBreaks())
+                }
+            </div>
+        </div>
+        if (ViewDataTyped.CanEditComments)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr/>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-xs btn-firma" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}

@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
@@ -28,6 +30,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {    
     public class BulkSetSpatialInformationViewModel : BulkSetProjectSpatialInformationViewModel
     {
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.GeospatialAreaComment)]
+        public string Comments { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -35,12 +41,17 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public BulkSetSpatialInformationViewModel(List<int> geospatialAreaIDs) : base(geospatialAreaIDs)
+        public BulkSetSpatialInformationViewModel(List<int> geospatialAreaIDs, ProjectFirmaModels.Models.Project project) : base(geospatialAreaIDs)
         {
+            Comments = project.GeospatialAreaComment;
         }
         
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, ObservableCollection<ProjectGeospatialArea> allProjectGeospatialAreas)
         {
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.GeospatialAreaComment = Comments;
+            }
             base.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
         }
     }    

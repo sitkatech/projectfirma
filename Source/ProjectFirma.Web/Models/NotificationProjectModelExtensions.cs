@@ -229,7 +229,7 @@ Thank you,<br />
             var message = $@"
 <p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
 <p>The {MultiTenantHelpers.GetToolDisplayName()} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
-<p>The {fieldDefinitionLabelProject} was returned by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}. {project.ReviewedByPerson.FirstName} will contact you for additional information before this {fieldDefinitionLabelProject} can move forward.</p>
+<p>The {fieldDefinitionLabelProject} was returned by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}. Please review this {fieldDefinitionLabelProject} and address the comments that {project.ReviewedByPerson.FirstName} left for you. If you have questions please email: {project.ReviewedByPerson.Email}.</p>
 <a href=""{basicsUrl}"">View this {fieldDefinitionLabelProject}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
 <p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>

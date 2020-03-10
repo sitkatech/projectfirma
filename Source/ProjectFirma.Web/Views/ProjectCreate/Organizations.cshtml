@@ -19,6 +19,8 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @inherits ProjectFirma.Web.Views.ProjectCreate.Organizations
 
@@ -26,23 +28,7 @@
 {
     <script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectOrganization/ProjectOrganizationController.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap-select/bootstrap-select.min.js")"></script>
-    <script type="text/javascript">
-        // <![CDATA[
-
-        function saveForm(autoAdvance) {
-            var form = jQuery("form");
-            // Do not submit if the form
-            // does not pass client side validation
-
-            if (!form.valid()) {
-                return false;
-            }
-            jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);
-            form.submit();
-            return true;
-        }
-        // ]]>
-    </script>
+    
 }
 <div class="row">
     <div class="col-xs-12">
@@ -50,6 +36,26 @@
 
     </div>
 </div>
+@if (@ViewDataTyped.ShowCommentsSection)
+{
+    <hr />
+    <div class="row form-group">
+        <div class="col-xs-12 col-sm-4 control-label">
+            @Html.LabelFor(m => m.Comments)
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            @if (ViewDataTyped.CanEditComments)
+            {
+                @Html.TextAreaFor(m => m.Comments, new { style = "width: 100%", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Comments)
+            }
+            else
+            {
+                @Html.Raw(ViewDataTyped.Project.OrganizationsComment.HtmlEncodeWithBreaks())
+            }
+        </div>
+    </div>
+}
 <div class="row">
     <div class="col-xs-12">
         <hr />
@@ -61,10 +67,30 @@
 </div>
 
 <script>
-    // <![CDATA[
-    jQuery(document).ready(function () {
-        HookupCheckIfFormIsDirty("form");
-    });
-    // ]]>
+        // <![CDATA[
+    jQuery(document).ready(function () { HookupCheckIfFormIsDirty("form") });
+
+        function saveForm(autoAdvance) {
+            var form = jQuery("form");
+            // Do not submit if the form
+            // does not pass client side validation
+
+            if (!form.valid()) {
+                return false;
+            }
+
+            @if (ViewDataTyped.CanEditComments)
+            {
+                <text>
+                    var comments = jQuery("#@Html.IdFor(x => x.Comments)").val();
+                    form.append('<input type="hidden" name="@Html.NameFor(x => x.Comments)" value="' + comments + '" />');
+                </text>
+            }
+
+            form.append("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />");
+            form.submit();
+            return true;
+            }
+        // ]]>
 </script>
 

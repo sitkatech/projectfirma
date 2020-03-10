@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ContactsViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="AttachmentAndNoteViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,41 +19,37 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Views.Shared.ProjectContact;
-using ProjectFirmaModels.Models;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using LtInfo.Common.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class ContactsViewModel : EditContactsViewModel
+    public class AttachmentsAndNotesViewModel : FormViewModel
     {
         [DisplayName("Reviewer Comments")]
-        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ContactsComment)]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.AttachmentsNotesComment)]
         public string Comments { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public ContactsViewModel()
+        public AttachmentsAndNotesViewModel()
         {
         }
 
-        public ContactsViewModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession) : base(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), currentFirmaSession)
+        public AttachmentsAndNotesViewModel(ProjectFirmaModels.Models.Project project)
         {
-            Comments = project.ContactsComment;
+            Comments = project.AttachmentsNotesComment;
         }
-
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, ObservableCollection<ProjectContact> allProjectContacts)
+        
+        public void UpdateModel(ProjectFirmaModels.Models.Project project)
         {
             if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
             {
-                project.ContactsComment = Comments;
+                project.AttachmentsNotesComment = Comments;
             }
-            base.UpdateModel(project, allProjectContacts);
         }
     }    
 }
