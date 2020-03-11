@@ -33,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>
-            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFactSheetCustomTextUrl, string.Format("Edit {0} Fact Sheet Custom Text", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, true)
+            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFactSheetCustomTextUrl, string.Format("Edit {0}", FieldDefinitionEnum.FactSheetCustomText.ToType().GetFieldDefinitionLabel()), 950, true)
             @Html.LabelWithSugarFor(FieldDefinitionEnum.FactSheetCustomText.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
             @FieldDefinitionEnum.FactSheetCustomText.ToType().GetFieldDefinitionLabel()
         </h2>
