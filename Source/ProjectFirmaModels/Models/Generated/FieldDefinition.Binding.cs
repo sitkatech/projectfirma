@@ -295,6 +295,7 @@ namespace ProjectFirmaModels.Models
         ReportFile = 345,
         ReportModel = 346,
         SelectedReportTemplate = 347,
-        FactSheetCustomText = 348
+        FactSheetCustomText = 348,
+        FactSheetLogo = 349
     }
 }
