@@ -50,12 +50,14 @@ namespace ProjectFirmaModels.Models
             Property(x => x.EnableEvaluations).HasColumnName(@"EnableEvaluations").HasColumnType("bit").IsRequired();
             Property(x => x.EnableProjectCategories).HasColumnName(@"EnableProjectCategories").HasColumnType("bit").IsRequired();
             Property(x => x.EnableReports).HasColumnName(@"EnableReports").HasColumnType("bit").IsRequired();
+            Property(x => x.TenantFactSheetLogoFileResourceID).HasColumnName(@"TenantFactSheetLogoFileResourceID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID
             HasOptional(a => a.TenantSquareLogoFileResource).WithMany(b => b.TenantAttributesWhereYouAreTheTenantSquareLogoFileResource).HasForeignKey(c => c.TenantSquareLogoFileResourceID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID
             HasOptional(a => a.TenantBannerLogoFileResource).WithMany(b => b.TenantAttributesWhereYouAreTheTenantBannerLogoFileResource).HasForeignKey(c => c.TenantBannerLogoFileResourceID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID
             HasOptional(a => a.TenantStyleSheetFileResource).WithMany(b => b.TenantAttributesWhereYouAreTheTenantStyleSheetFileResource).HasForeignKey(c => c.TenantStyleSheetFileResourceID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID
+            HasOptional(a => a.TenantFactSheetLogoFileResource).WithMany(b => b.TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource).HasForeignKey(c => c.TenantFactSheetLogoFileResourceID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_FileResourceID
         }
     }
 }
