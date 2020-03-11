@@ -133,16 +133,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                     FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear,
                     m => m.CompletionYear);
             }
-
-            if (ProjectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
+            
+            var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
+            if (isCompletedOrPostImplementation && !CompletionYear.HasValue)
             {
-                yield return new SitkaValidationResult<EditProjectViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Completed stage, the Completion year is required", m => m.CompletionYear);
+                yield return new SitkaValidationResult<EditProjectViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the {ProjectStage.ToType(ProjectStageID).ProjectStageDisplayName} stage, the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} is required", m => m.CompletionYear);
             }
 
-            var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
             if (isCompletedOrPostImplementation && CompletionYear > DateTime.Now.Year)
             {
-                var errorMessage = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Completed or Post-Implementation stage: " +
+                var errorMessage = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the {ProjectStage.ToType(ProjectStageID).ProjectStageDisplayName} stage: " +
                                    $"the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} must be less than or equal to the current year";
                 yield return new SitkaValidationResult<EditProjectViewModel, int?>(errorMessage, m => m.CompletionYear);
             }
