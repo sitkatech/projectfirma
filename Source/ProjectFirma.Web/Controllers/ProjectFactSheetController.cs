@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
         [HttpGet]
-        [SitkaAdminFeature]
+        [ProjectFactSheetAdminFeature]
         public PartialViewResult EditBasics()
         {
             var tenant = HttpRequestStorage.Tenant;
@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [SitkaAdminFeature]
+        [ProjectFactSheetAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditBasics(EditBasicsViewModel viewModel)
         {
