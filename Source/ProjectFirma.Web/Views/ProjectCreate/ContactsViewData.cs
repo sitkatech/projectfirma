@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectContact;
 
@@ -26,13 +28,19 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ContactsViewData : ProjectCreateViewData
     {
-        public readonly EditContactsViewData EditContactsViewData;
+        public EditContactsViewData EditContactsViewData { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public ContactsViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus, EditContactsViewData editContactsViewData) : base(currentFirmaSession, project, ProjectCreateSection.Contacts.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditContactsViewData = editContactsViewData;
+            ShowCommentsSection = project.IsPendingApproval() || (project.ContactsComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
+
         }
     }
 }

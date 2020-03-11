@@ -18,14 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -41,6 +42,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; private set; }
         private string ProjectDisplayName { get; }
         public TenantAttribute TenantAttribute { get; private set; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public bool IsEditable = true;
 
@@ -64,6 +67,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             TenantAttribute tenantAttribute)
             : base(currentFirmaSession, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
+            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != string.Empty &&
+                           project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
             ProjectDisplayName = project.GetDisplayName();
             AssignParameters(taxonomyLeafs, fundingTypes, tenantAttribute);

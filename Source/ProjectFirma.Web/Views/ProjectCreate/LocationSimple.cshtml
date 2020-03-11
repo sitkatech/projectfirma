@@ -1,26 +1,28 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="LocationSimple.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="LocationSimple.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectCreate.LocationSimple
 
 @section JavascriptAndStylesContent
@@ -34,12 +36,32 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div style="margin: 5px 0;">
 </div>
-
+@if (@ViewDataTyped.ShowCommentsSection)
+{
+    <hr />
+    <div class="row form-group">
+        <div class="col-xs-12 col-sm-4 control-label">
+            @Html.LabelFor(m => m.Comments)
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            @if (ViewDataTyped.CanEditComments)
+            {
+                @Html.TextAreaFor(m => m.Comments, new { style = "width: 100%", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Comments)
+            }
+            else
+            {
+                @Html.Raw(ViewDataTyped.Project.LocationSimpleComment.HtmlEncodeWithBreaks())
+            }
+        </div>
+    </div>
+}
 <hr />
 <div class="pull-right">
     <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
     <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
 </div>
+
 
 @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
 <script type="text/javascript">
@@ -53,6 +75,14 @@ Source code is available upon request via <support@sitkatech.com>.
 
         if (!form.valid()) {
             return false;
+        }
+
+        @if (ViewDataTyped.CanEditComments)
+        {
+            <text>
+                var comments = jQuery("#@Html.IdFor(x => x.Comments)").val();
+                form.append('<input type="hidden" name="@Html.NameFor(x => x.Comments)" value="' + comments + '" />');
+            </text>
         }
 
         jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);

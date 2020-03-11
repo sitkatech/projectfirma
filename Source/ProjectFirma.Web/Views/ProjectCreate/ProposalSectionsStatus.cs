@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             // Classifications section
             var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
-            var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples).GetValidationResults();
+            var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples, project).GetValidationResults();
             IsClassificationsComplete = !classificationValidationResults.Any();
 
             // Assessment section

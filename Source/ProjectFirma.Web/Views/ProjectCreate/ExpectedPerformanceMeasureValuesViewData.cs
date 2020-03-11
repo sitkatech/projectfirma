@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
@@ -25,7 +28,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpectedPerformanceMeasureValuesViewData : ProjectCreateViewData
     {
-        public readonly EditPerformanceMeasureExpectedViewData EditPerformanceMeasureExpectedViewData;
+        public EditPerformanceMeasureExpectedViewData EditPerformanceMeasureExpectedViewData { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public ExpectedPerformanceMeasureValuesViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
@@ -34,6 +39,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             : base(currentFirmaSession, project, ProjectCreateSection.ExpectedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditPerformanceMeasureExpectedViewData = editPerformanceMeasureExpectedViewData;
+            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
     }
 }

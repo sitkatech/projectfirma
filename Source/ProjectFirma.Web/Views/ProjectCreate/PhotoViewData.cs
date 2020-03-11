@@ -24,6 +24,7 @@ using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 
@@ -32,7 +33,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     public class PhotoViewData : ProjectCreateViewData
     {
         public string AddNewUrl { get; }
-        public readonly ImageGalleryViewData ImageGalleryViewData;
+        public ImageGalleryViewData ImageGalleryViewData { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public PhotoViewData(FirmaSession currentFirmaSession, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<FileResourcePhoto, object> sortFunction, ProjectFirmaModels.Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentFirmaSession, project, ProjectCreateSection.Photos.ProjectCreateSectionDisplayName, proposalSectionsStatus)
@@ -41,7 +44,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var selectKeyImageUrl =
                 SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x =>
                     x.SetKeyPhoto(UrlTemplate.Parameter1Int));
-            ImageGalleryViewData = new ImageGalleryViewData(currentFirmaSession, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");                        
+            ImageGalleryViewData = new ImageGalleryViewData(currentFirmaSession, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");
+            ShowCommentsSection = project.IsPendingApproval() || (project.PhotosComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }        
     }
 }

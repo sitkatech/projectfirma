@@ -19,14 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -74,6 +75,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCategory)]
         public ProjectCategoryEnum ProjectCategoryEnum { get; set; }
 
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BasicsComment)]
+        public string Comments { get; set; }    
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -93,6 +98,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
             ProjectCategoryEnum = project.ProjectCategory.ToEnum;
+            Comments = project.BasicsComment;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
@@ -114,6 +120,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
             project.ProjectCategoryID = (int) ProjectCategoryEnum;
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.BasicsComment = Comments;
+            }
 
             var secondaryProjectTaxonomyLeavesToUpdate = SecondaryProjectTaxonomyLeafIDs
                 .Select(x => new SecondaryProjectTaxonomyLeaf(project.ProjectID, x) { TenantID = HttpRequestStorage.Tenant.TenantID })

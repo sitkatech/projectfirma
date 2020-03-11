@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -29,6 +32,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public EntityNotesViewData EntityNotesViewData { get; }
 
         public ProjectAttachmentsDetailViewData ProjectAttachmentsDetailViewData { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public AttachmentsAndNotesViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
@@ -38,6 +43,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             EntityNotesViewData = entityNotesViewData;
             ProjectAttachmentsDetailViewData = projectAttachmentsDetailViewData;
+            ShowCommentsSection = project.IsPendingApproval() || (project.ContactsComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
     }
 }

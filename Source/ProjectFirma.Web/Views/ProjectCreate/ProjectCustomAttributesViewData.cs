@@ -19,21 +19,27 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using ProjectFirmaModels.Models;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ProjectCustomAttributesViewData : ProjectCreateViewData
     {
-        public readonly EditProjectCustomAttributesViewData EditCustomAttributesViewData;
+        public EditProjectCustomAttributesViewData EditCustomAttributesViewData { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public ProjectCustomAttributesViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData, ProjectCustomAttributesValidationResult projectCustomAttributesValidationResult) : base(currentFirmaSession, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
+            ShowCommentsSection = project.IsPendingApproval() || (project.CustomAttributesComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
     }
 }

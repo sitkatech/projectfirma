@@ -35,6 +35,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForClassification { get; }
         public string ConfigureClassificationSystemsUrl { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public EditProposalClassificationsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentFirmaSession, project, currentSectionDisplayName, proposalSectionsStatus)
@@ -47,6 +49,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 ConfigureClassificationSystemsUrl = SitkaRoute<TenantController>.BuildUrlFromExpression(tc => tc.Detail());
             }
+            ShowCommentsSection = project.IsPendingApproval() || (project.ProposalClassificationsComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
     }
 }

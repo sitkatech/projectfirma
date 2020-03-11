@@ -24,14 +24,16 @@ using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpectedFundingViewData : ProjectCreateViewData
     {
         public string RequestFundingSourceUrl { get; }
-
         public ViewDataForAngularClass ViewDataForAngular { get; }
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public ExpectedFundingViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
@@ -41,6 +43,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             ViewDataForAngular = viewDataForAngularClass;
+            ShowCommentsSection = project.IsPendingApproval() || (project.BudgetComment != string.Empty &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
 
         public class ViewDataForAngularClass

@@ -34,6 +34,20 @@ CREATE TABLE [dbo].[Project](
 	[ExpectedFundingUpdateNote] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LastUpdatedDate] [datetime] NOT NULL,
 	[ProjectCategoryID] [int] NOT NULL,
+	[BasicsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[CustomAttributesComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LocationSimpleComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LocationDetailedComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OrganizationsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ContactsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[GeospatialAreaComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ExpectedAccomplishmentsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ReportedAccomplishmentsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[BudgetComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ExpendituresComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ProposalClassificationsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[AttachmentsNotesComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PhotosComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC

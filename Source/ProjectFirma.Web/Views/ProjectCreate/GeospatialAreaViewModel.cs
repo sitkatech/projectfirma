@@ -19,15 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
-{    
+{
     public class GeospatialAreaViewModel : EditProjectGeospatialAreasViewModel
     {
+
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.GeospatialAreaComment)]
+        public string Comments { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -35,12 +42,17 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public GeospatialAreaViewModel(List<int> geospatialAreaIDs, string geospatialAreaNotes) : base(geospatialAreaIDs, geospatialAreaNotes)
+        public GeospatialAreaViewModel(List<int> geospatialAreaIDs, string geospatialAreaNotes, ProjectFirmaModels.Models.Project project) : base(geospatialAreaIDs, geospatialAreaNotes)
         {
+            Comments = project.GeospatialAreaComment;
         }
         
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, ObservableCollection<ProjectGeospatialArea> allProjectGeospatialAreas)
         {
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.GeospatialAreaComment = Comments;
+            }
             base.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
         }
     }    

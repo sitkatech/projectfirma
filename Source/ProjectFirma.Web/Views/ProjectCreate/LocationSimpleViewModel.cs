@@ -18,12 +18,20 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {    
     public class LocationSimpleViewModel : ProjectLocationSimpleViewModel
     {
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.LocationSimpleComment)]
+        public string Comments { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -33,10 +41,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public LocationSimpleViewModel(ProjectFirmaModels.Models.Project project) : base(project.ProjectLocationPoint, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes)
         {
+            Comments = project.LocationSimpleComment;
         }
         
         public void UpdateModel(ProjectFirmaModels.Models.Project project)
         {
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.LocationSimpleComment = Comments;
+            }
             base.UpdateModel(project);
         }
     }    

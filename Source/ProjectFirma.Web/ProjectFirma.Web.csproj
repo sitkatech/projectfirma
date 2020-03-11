@@ -296,6 +296,8 @@
     <Compile Include="Views\ProjectFactSheet\EditFactSheetLogoViewModel.cs" />
     <Compile Include="Views\ProjectFactSheet\Manage.cs" />
     <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
+    <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
     <Compile Include="Views\Project\UserProjectGridSpec.cs" />
     <Compile Include="Views\Reports\GenerateReports.cs" />
     <Compile Include="Views\Reports\GenerateReportsViewModel.cs" />

@@ -57,7 +57,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, decimal? noFundingSourceIdentifiedYet, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID) : this()
+        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, decimal? noFundingSourceIdentifiedYet, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string geospatialAreaComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyLeafID = taxonomyLeafID;
@@ -89,6 +89,20 @@ namespace ProjectFirmaModels.Models
             this.ExpectedFundingUpdateNote = expectedFundingUpdateNote;
             this.LastUpdatedDate = lastUpdatedDate;
             this.ProjectCategoryID = projectCategoryID;
+            this.BasicsComment = basicsComment;
+            this.CustomAttributesComment = customAttributesComment;
+            this.LocationSimpleComment = locationSimpleComment;
+            this.LocationDetailedComment = locationDetailedComment;
+            this.OrganizationsComment = organizationsComment;
+            this.ContactsComment = contactsComment;
+            this.GeospatialAreaComment = geospatialAreaComment;
+            this.ExpectedAccomplishmentsComment = expectedAccomplishmentsComment;
+            this.ReportedAccomplishmentsComment = reportedAccomplishmentsComment;
+            this.BudgetComment = budgetComment;
+            this.ExpendituresComment = expendituresComment;
+            this.ProposalClassificationsComment = proposalClassificationsComment;
+            this.AttachmentsNotesComment = attachmentsNotesComment;
+            this.PhotosComment = photosComment;
         }
 
         /// <summary>
@@ -348,6 +362,20 @@ namespace ProjectFirmaModels.Models
         public string ExpectedFundingUpdateNote { get; set; }
         public DateTime LastUpdatedDate { get; set; }
         public int ProjectCategoryID { get; set; }
+        public string BasicsComment { get; set; }
+        public string CustomAttributesComment { get; set; }
+        public string LocationSimpleComment { get; set; }
+        public string LocationDetailedComment { get; set; }
+        public string OrganizationsComment { get; set; }
+        public string ContactsComment { get; set; }
+        public string GeospatialAreaComment { get; set; }
+        public string ExpectedAccomplishmentsComment { get; set; }
+        public string ReportedAccomplishmentsComment { get; set; }
+        public string BudgetComment { get; set; }
+        public string ExpendituresComment { get; set; }
+        public string ProposalClassificationsComment { get; set; }
+        public string AttachmentsNotesComment { get; set; }
+        public string PhotosComment { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
@@ -398,6 +426,20 @@ namespace ProjectFirmaModels.Models
             public const int ProjectLocationNotes = 4000;
             public const int PerformanceMeasureNotes = 500;
             public const int ExpectedFundingUpdateNote = 500;
+            public const int BasicsComment = 1000;
+            public const int CustomAttributesComment = 1000;
+            public const int LocationSimpleComment = 1000;
+            public const int LocationDetailedComment = 1000;
+            public const int OrganizationsComment = 1000;
+            public const int ContactsComment = 1000;
+            public const int GeospatialAreaComment = 1000;
+            public const int ExpectedAccomplishmentsComment = 1000;
+            public const int ReportedAccomplishmentsComment = 1000;
+            public const int BudgetComment = 1000;
+            public const int ExpendituresComment = 1000;
+            public const int ProposalClassificationsComment = 1000;
+            public const int AttachmentsNotesComment = 1000;
+            public const int PhotosComment = 1000;
         }
     }
 }

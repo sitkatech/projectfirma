@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
@@ -41,6 +42,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public List<PerformanceMeasureActualSimple> PerformanceMeasureActualSimples { get; set; }
         public int? ProjectID { get; set; }
 
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ReportedAccomplishmentsComment)]
+        public string Comments { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -50,11 +55,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public PerformanceMeasuresViewModel(List<PerformanceMeasureActualSimple> performanceMeasureActualSimples,
                                             string explanation,
-                                            List<ProjectExemptReportingYearSimple> projectExemptReportingYearSimples)
+                                            List<ProjectExemptReportingYearSimple> projectExemptReportingYearSimples,
+                                            ProjectFirmaModels.Models.Project project)
+
         {
             PerformanceMeasureActualSimples = performanceMeasureActualSimples;
             Explanation = explanation;
             ProjectExemptReportingYearSimples = projectExemptReportingYearSimples;
+            Comments = project.ReportedAccomplishmentsComment;
         }
 
         public void UpdateModel(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
@@ -139,6 +147,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 allProjectExemptYears,
                 (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.ReportedAccomplishmentsComment = Comments;
+            }
         }
 
         /// <summary>

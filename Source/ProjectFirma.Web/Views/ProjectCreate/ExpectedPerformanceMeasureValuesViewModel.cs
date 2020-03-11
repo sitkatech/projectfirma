@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirmaModels.Models;
@@ -32,6 +33,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureNotes)]
         public string PerformanceMeasureNotes { get; set; }
 
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ExpectedAccomplishmentsComment)]
+        public string Comments { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -43,6 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             : base(project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasure.GetSortOrder()).ThenBy(x=>x.PerformanceMeasure.GetDisplayName()).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList())
         {
             PerformanceMeasureNotes = project.PerformanceMeasureNotes;
+            Comments = project.ExpectedAccomplishmentsComment;
         }
 
         public override void UpdateModel(List<PerformanceMeasureExpected> currentPerformanceMeasureExpecteds,
@@ -51,6 +57,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectFirmaModels.Models.Project project)
         {
             project.PerformanceMeasureNotes = PerformanceMeasureNotes;
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.ExpectedAccomplishmentsComment = Comments;
+            }
 
             base.UpdateModel(currentPerformanceMeasureExpecteds, allPerformanceMeasureExpecteds,
                 allPerformanceMeasureExpectedSubcategoryOptions, project);
