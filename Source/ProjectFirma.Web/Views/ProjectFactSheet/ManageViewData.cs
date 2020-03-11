@@ -26,17 +26,22 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
 {
     public class ManageViewData : FirmaViewData
     {
-
         public ViewPageContentViewData FactSheetCustomTextViewData { get; }
         public string EditFactSheetCustomTextUrl { get; }
+        public string DeleteFactSheetLogoFileResourceUrl { get; }
+        public string EditFactSheetLogoUrl { get; }
+        public TenantAttribute TenantAttribute { get; }
 
         public ManageViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage, ViewPageContentViewData factSheetCustomTextViewData,
-            string editFactSheetCustomTextUrl) : base(currentFirmaSession, firmaPage)
+            string editFactSheetCustomTextUrl, string deleteFactSheetLogoFileResourceUrl, string editFactSheetLogoUrl, TenantAttribute tenantAttribute) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"Manage {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Fact Sheets";
             FactSheetCustomTextViewData = factSheetCustomTextViewData;
             EditFactSheetCustomTextUrl = editFactSheetCustomTextUrl;
+            DeleteFactSheetLogoFileResourceUrl = deleteFactSheetLogoFileResourceUrl;
+            TenantAttribute = tenantAttribute;
+            EditFactSheetLogoUrl = editFactSheetLogoUrl;
         }
     }
 }
