@@ -81,6 +81,11 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_FileResourceID]
 GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_TenantID] FOREIGN KEY([TenantFactSheetLogoFileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_TenantID]
+GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID] FOREIGN KEY([TenantSquareLogoFileResourceID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO

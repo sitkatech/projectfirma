@@ -8,8 +8,6 @@ GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_FileResourceID]
 GO
 
-alter table dbo.TenantAttribute add constraint FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_TenantID foreign key (TenantFactSheetLogoFileResourceID, TenantID) references dbo.FileResource(FileResourceID, TenantID)
-
 -- duplicate row in file resource 
 if exists(select 1 from dbo.TenantAttribute where TenantID = 1 and TenantSquareLogoFileResourceID is not null)
 begin
