@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
 using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.ProjectFactSheet

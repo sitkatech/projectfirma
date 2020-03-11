@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditBasicsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditFactSheetLogoViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,18 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectFactSheet
 {
     public class EditFactSheetLogoViewData : FirmaViewData
     {
-
-        public EditFactSheetLogoViewData(FirmaSession currentFirmaSession)
-            : base(currentFirmaSession)
+        public EditFactSheetLogoViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
-
         }
     }
 }

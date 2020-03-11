@@ -765,7 +765,7 @@
     <Content Include="Views\ProjectStatus\Edit.cshtml" />
     <Content Include="Views\ProjectStatus\Manage.cshtml" />
     <Content Include="Views\ProjectFactSheet\Manage.cshtml" />
-    <Content Include="Views\ProjectFactSheet\EditFactsheetLogo.cshtml" />
+    <Content Include="Views\ProjectFactSheet\EditFactSheetLogo.cshtml" />
     <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />

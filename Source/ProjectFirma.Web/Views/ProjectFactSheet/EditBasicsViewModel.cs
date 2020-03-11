@@ -19,20 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
-using System.Web;
-using LtInfo.Common;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
-using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectFirma.Web.Views.ProjectFactSheet
 {
@@ -41,11 +32,9 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
         [Required]
         public int? TenantID { get; set; }
 
-        
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet)]
         public bool ShowLeadImplementerLogoOnFactSheet { get; set; }
-
-
+        
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -64,13 +53,9 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
             attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
         }
 
-       
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-
-            
-
             return errors;
         }
     }

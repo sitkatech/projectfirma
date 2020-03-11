@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="EditBasics.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditFactSheetLogo.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
-@using ProjectFirma.Web.Views.Tenant
 @inherits ProjectFirma.Web.Views.ProjectFactSheet.EditFactSheetLogo
 
 @using (Html.BeginForm())
@@ -37,6 +35,5 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(x => x.FactSheetLogoFileResourceData)
         </div>
     </div>
-
 </div>
 }
