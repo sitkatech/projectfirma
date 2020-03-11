@@ -76,6 +76,7 @@
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\ProjectAttachmentController.cs" />
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
+    <Compile Include="Controllers\ProjectFactSheetController.cs" />
     <Compile Include="Controllers\ProjectNoteController.cs" />
     <Compile Include="Controllers\ProjectStatusController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
+    <Compile Include="Security\ProjectFactSheetAdminFeature.cs" />
     <Compile Include="Security\ProjectStartUpdateWorkflowFeature.cs" />
     <Compile Include="Security\ProjectEvaluationManageFeature.cs" />
     <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
@@ -286,6 +288,14 @@
     <Compile Include="Views\Organization\EditPrimaryContact.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewData.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditBasics.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditBasicsViewData.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditBasicsViewModel.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditFactSheetLogo.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditFactSheetLogoViewData.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditFactSheetLogoViewModel.cs" />
+    <Compile Include="Views\ProjectFactSheet\Manage.cs" />
+    <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
     <Compile Include="Views\Project\UserProjectGridSpec.cs" />
     <Compile Include="Views\Reports\GenerateReports.cs" />
     <Compile Include="Views\Reports\GenerateReportsViewModel.cs" />
@@ -754,6 +764,9 @@
     <Content Include="Views\ProjectProjectStatus\ProjectProjectStatusDetails.cshtml" />
     <Content Include="Views\ProjectStatus\Edit.cshtml" />
     <Content Include="Views\ProjectStatus\Manage.cshtml" />
+    <Content Include="Views\ProjectFactSheet\Manage.cshtml" />
+    <Content Include="Views\ProjectFactSheet\EditFactSheetLogo.cshtml" />
+    <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

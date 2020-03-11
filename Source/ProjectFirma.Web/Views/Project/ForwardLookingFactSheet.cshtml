@@ -113,7 +113,7 @@
 <div class="container factSheet">
     <div class="row section">
         <div class="col-sm-2 col-md-2">
-            <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetPrimaryLogo" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantShortDisplayName()" />
+            <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetPrimaryLogo" src="@MultiTenantHelpers.GetTenantFactSheetLogoUrl()" alt="@MultiTenantHelpers.GetTenantShortDisplayName()" />
             @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
             {
                 @*If the logo is not null then perforce the organization must not be null, so this is fine.*@

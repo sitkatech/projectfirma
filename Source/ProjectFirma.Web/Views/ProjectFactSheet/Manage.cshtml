@@ -1,0 +1,108 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Manage.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.ModalDialog
+@using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ProjectFactSheet
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
+@inherits Manage
+
+<div>
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBasicsUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                Basics
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet.ToType().GetFieldDefinitionLabel()
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.ShowLeadImplementerLogoOnFactSheet.ToYesNo()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditFactSheetLogoUrl, string.Format("Edit {0}", FieldDefinitionEnum.FactSheetLogo.ToType().GetFieldDefinitionLabel()), 800, "Save", "Cancel", new List<string>(), null, null)
+                Logo
+            </div>
+            <div class="row panel-body">
+                <div class="col-sm-4 fieldLabel text-right">
+                    @if (ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResource != null)
+                    {
+                        @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteFactSheetLogoFileResourceUrl, null, true)
+                    }
+                    @Html.LabelWithSugarFor(@FieldDefinitionEnum.FactSheetLogo.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.FactSheetLogo.ToType().GetFieldDefinitionLabel()
+                </div>
+                <div class="col-sm-7">
+                    @if (ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResource != null)
+                    {
+                        <div style="margin-bottom: 15px;">
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResource.GetFileResourceUrl(), new {style = "max-width: 100%;"})
+                        </div>
+                    }
+                    else
+                    {
+                        <em>@FieldDefinitionEnum.FactSheetLogo.ToType().GetFieldDefinitionLabel() is set to the default.</em>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFactSheetCustomTextUrl, string.Format("Edit {0}", FieldDefinitionEnum.FactSheetCustomText.ToType().GetFieldDefinitionLabel()), 950, true)
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.FactSheetCustomText.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                    @FieldDefinitionEnum.FactSheetCustomText.ToType().GetFieldDefinitionLabel()
+                </h2>
+            </div>
+            <div class="panel-body">
+                @if (ViewDataTyped.FactSheetCustomTextViewData.HasPageContent)
+                {
+                    ViewPageContent.RenderPartialView(Html, ViewDataTyped.FactSheetCustomTextViewData);
+                }
+                else
+                {
+                    <p><em>There is no @FieldDefinitionEnum.FactSheetCustomText.ToType().GetFieldDefinitionLabel() currently set</em></p>
+                }
+            </div>  
+        </div>
+    </div>
+</div>

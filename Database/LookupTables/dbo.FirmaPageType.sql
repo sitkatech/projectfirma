@@ -62,4 +62,5 @@ values
 (77, 'Reports', 'Reports' , 1),
 (78, 'ReportProjects', 'Report Projects' , 1),
 (79, 'ReportAddReport', 'Add a Report' , 2),
-(80, 'ReleaseNotes', 'Release Notes' , 1)
+(80, 'ReleaseNotes', 'Release Notes' , 1),
+(81, 'ManageProjectFactSheet', 'Manage Project Fact Sheet', 1)
