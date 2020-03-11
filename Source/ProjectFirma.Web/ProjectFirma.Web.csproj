@@ -288,6 +288,9 @@
     <Compile Include="Views\Organization\EditPrimaryContact.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewData.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditBasics.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditBasicsViewData.cs" />
+    <Compile Include="Views\ProjectFactSheet\EditBasicsViewModel.cs" />
     <Compile Include="Views\ProjectFactSheet\EditFactSheetLogo.cs" />
     <Compile Include="Views\ProjectFactSheet\EditFactSheetLogoViewData.cs" />
     <Compile Include="Views\ProjectFactSheet\EditFactSheetLogoViewModel.cs" />
@@ -763,6 +766,7 @@
     <Content Include="Views\ProjectStatus\Manage.cshtml" />
     <Content Include="Views\ProjectFactSheet\Manage.cshtml" />
     <Content Include="Views\ProjectFactSheet\EditFactsheetLogo.cshtml" />
+    <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

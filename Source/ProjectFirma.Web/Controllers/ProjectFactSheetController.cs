@@ -42,8 +42,9 @@ namespace ProjectFirma.Web.Controllers
             var editCustomFactSheetTextUrl =  SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(factSheetCustomTextFirmaPage));
             var deleteFactSheetLogoFileResourceUrl = new SitkaRoute<ProjectFactSheetController>(c => c.DeleteTenantFactSheetLogoFileResource()).BuildUrlFromExpression();
             var editFactSheetLogoUrl = new SitkaRoute<ProjectFactSheetController>(c => c.EditFactSheetLogo()).BuildUrlFromExpression();
+            var editBasicsUrl = new SitkaRoute<ProjectFactSheetController>(c => c.EditBasics()).BuildUrlFromExpression();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
-            var viewData = new ManageViewData(CurrentFirmaSession, firmaPage, factSheetCustomTextViewData, editCustomFactSheetTextUrl, deleteFactSheetLogoFileResourceUrl, editFactSheetLogoUrl, tenantAttribute);
+            var viewData = new ManageViewData(CurrentFirmaSession, firmaPage, factSheetCustomTextViewData, editCustomFactSheetTextUrl, deleteFactSheetLogoFileResourceUrl, editFactSheetLogoUrl, editBasicsUrl, tenantAttribute);
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
@@ -115,7 +116,38 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
+        [HttpGet]
+        [SitkaAdminFeature]
+        public PartialViewResult EditBasics()
+        {
+            var tenant = HttpRequestStorage.Tenant;
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var viewModel = new EditBasicsViewModel(tenant, tenantAttribute);
+            return ViewEditBasics(viewModel);
+        }
 
+        [HttpPost]
+        [SitkaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditBasics(EditBasicsViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditBasics(viewModel);
+            }
+
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
+            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession);
+            
+            return new ModalDialogFormJsonResult(new SitkaRoute<ProjectFactSheetController>(c => c.Manage()).BuildUrlFromExpression());
+        }
+
+        private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel)
+        {
+            var adminFeature = new FirmaAdminFeature();
+            var viewData = new EditBasicsViewData(CurrentFirmaSession);
+            return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
+        }
 
     }
 }
