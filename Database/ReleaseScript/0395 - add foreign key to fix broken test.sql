@@ -1,0 +1,1 @@
+alter table dbo.TenantAttribute add constraint FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_TenantID_FileResourceID_TenantID foreign key (TenantFactSheetLogoFileResourceID, TenantID) references dbo.FileResource(FileResourceID, TenantID)

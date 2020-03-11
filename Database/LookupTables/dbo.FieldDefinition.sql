@@ -169,4 +169,6 @@ VALUES
 (344, N'ReportDescription', 'Report Description'),
 (345, N'ReportFile', 'Report File'),
 (346, N'ReportModel', 'Report Model'),
-(347, N'SelectedReportTemplate', 'Selected Report Template')
+(347, N'SelectedReportTemplate', 'Selected Report Template'),
+(348, N'FactSheetCustomText', N'Fact Sheet Custom Text'),
+(349, N'FactSheetLogo', N'Fact Sheet Logo')
