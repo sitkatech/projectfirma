@@ -95,10 +95,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowProposalsToThePublic)]
         [Required]
         public bool? ShowProposalsToThePublic { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet)]
-        public bool ShowLeadImplementerLogoOnFactSheet { get; set; }
-
+        
         [DisplayName("Enable Accomplishments Dashboard")]
         public bool EnableAccomplishmentsDashboard { get; set; }
 
@@ -148,7 +145,6 @@ namespace ProjectFirma.Web.Views.Tenant
             BudgetTypeID = tenantAttribute.BudgetTypeID;
             ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
-            ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
             EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
             EnableSecondaryProjectTaxonomyLeaf = tenantAttribute.EnableSecondaryProjectTaxonomyLeaf;
             CanManageCustomAttributes = tenantAttribute.CanManageCustomAttributes;
@@ -166,7 +162,6 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.TenantShortDisplayName = TenantShortDisplayName;
             attribute.ToolDisplayName = ToolDisplayName;
             attribute.ShowProposalsToThePublic = ShowProposalsToThePublic.GetValueOrDefault();
-            attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
             attribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
             attribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
             attribute.CanManageCustomAttributes = CanManageCustomAttributes;
