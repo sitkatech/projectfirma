@@ -57,6 +57,17 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ProjectController : FirmaBaseController
     {
+        /// <summary>
+        /// This enum was initially used to separate GoogleCharts scripts on Fact Sheet pages because wkhtmltopdf
+        /// uses a version of QT Browser that doesn't support modern javascript. It can also be used to differ
+        /// content on the fact sheets (if other pdf/print differences arise). See: https://projects.sitkatech.com/projects/projectfirma/cards/1330
+        /// </summary>
+        public enum FactSheetPdfEnum
+        {
+            NoPdf,
+            Pdf
+        }
+
         [HttpGet]
         [ProjectEditAsAdminFeature]
         public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey)
@@ -405,18 +416,32 @@ namespace ProjectFirma.Web.Controllers
                 SetErrorForDisplay(noFactSheetError);
                 return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(project)));
             }
-            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, false) : ViewForwardLookingFactSheet(project, false);
+            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, false, FactSheetPdfEnum.NoPdf) : ViewForwardLookingFactSheet(project, false, FactSheetPdfEnum.NoPdf);
         }
 
         [ProjectsViewFullListFeature]
-        public ViewResult FactSheetWithCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult FactSheetForPdf(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (project.ProjectStage == ProjectStage.Terminated)
+            {
+                // This happens often enough that it deserves a friendlier error
+                string noFactSheetError = $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.";
+                SetErrorForDisplay(noFactSheetError);
+                return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(project)));
+            }
+            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, false, FactSheetPdfEnum.Pdf) : ViewForwardLookingFactSheet(project, false, FactSheetPdfEnum.Pdf);
+        }
+
+        [ProjectsViewFullListFeature]
+        public ViewResult FactSheetWithCustomAttributesForPdf(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.");
-            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, true) : ViewForwardLookingFactSheet(project, true);
+            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf) : ViewForwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf);
         }
 
-        private ViewResult ViewBackwardLookingFactSheet(Project project, bool withCustomAttributes)
+        private ViewResult ViewBackwardLookingFactSheet(Project project, bool withCustomAttributes, FactSheetPdfEnum factSheetPdfEnum)
         {
             new ProjectViewFeature().DemandPermission(CurrentFirmaSession, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
@@ -436,11 +461,11 @@ namespace ProjectFirma.Web.Controllers
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
             var viewData = new BackwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
-                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes);
+                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes, factSheetPdfEnum);
             return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
         }
 
-        private ViewResult ViewForwardLookingFactSheet(Project project, bool withCustomAttributes)
+        private ViewResult ViewForwardLookingFactSheet(Project project, bool withCustomAttributes, FactSheetPdfEnum factSheetPdfEnum)
         {
             new ProjectViewFeature().DemandPermission(CurrentFirmaSession, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
@@ -462,7 +487,7 @@ namespace ProjectFirma.Web.Controllers
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
 
             var viewData = new ForwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
-                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes);
+                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes, factSheetPdfEnum);
             return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
 
@@ -994,7 +1019,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
                 var pfCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
                 var pdfConversionSettings = new PDFUtility.PdfConversionSettings(CookieHelper.GetAllAuthenticationCookies(Request.Cookies, pfCookieName)) { Zoom = 0.9 };
                 PDFUtility.ConvertURLToPDF(
-                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheet(project)).BuildAbsoluteUrlHttpsFromExpression()),
+                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetForPdf(project)).BuildAbsoluteUrlHttpsFromExpression()),
                     outputFile.FileInfo,
                     pdfConversionSettings);
 
@@ -1017,7 +1042,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
                 var pfCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
                 var pdfConversionSettings = new PDFUtility.PdfConversionSettings(CookieHelper.GetAllAuthenticationCookies(Request.Cookies, pfCookieName)) { Zoom = 0.9 };
                 PDFUtility.ConvertURLToPDF(
-                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributes(project)).BuildAbsoluteUrlHttpsFromExpression()),
+                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributesForPdf(project)).BuildAbsoluteUrlHttpsFromExpression()),
                     outputFile.FileInfo,
                     pdfConversionSettings);
 
