@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProposalSectionsStatus proposalSectionsStatus, EditOrganizationsViewData editOrganizationsViewData) : base(currentFirmaSession, project, ProjectCreateSection.Organizations.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditOrganizationsViewData = editOrganizationsViewData;
-            ShowCommentsSection = project.IsPendingApproval() || (project.OrganizationsComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.OrganizationsComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }

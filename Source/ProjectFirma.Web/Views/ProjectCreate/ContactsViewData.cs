@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProposalSectionsStatus proposalSectionsStatus, EditContactsViewData editContactsViewData) : base(currentFirmaSession, project, ProjectCreateSection.Contacts.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditContactsViewData = editContactsViewData;
-            ShowCommentsSection = project.IsPendingApproval() || (project.ContactsComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.ContactsComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
 

@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x =>
                     x.SetKeyPhoto(UrlTemplate.Parameter1Int));
             ImageGalleryViewData = new ImageGalleryViewData(currentFirmaSession, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");
-            ShowCommentsSection = project.IsPendingApproval() || (project.PhotosComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.PhotosComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }        

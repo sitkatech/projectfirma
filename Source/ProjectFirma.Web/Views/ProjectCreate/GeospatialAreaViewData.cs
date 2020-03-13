@@ -29,8 +29,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     public class GeospatialAreaViewData : ProjectCreateViewData
     {
         public EditProjectGeospatialAreasViewData EditProjectGeospatialAreasViewData { get; }
-        public bool ShowCommentsSection { get; }
-        public bool CanEditComments { get; }
 
         public GeospatialAreaViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
@@ -39,9 +37,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData) : base(currentFirmaSession, project, geospatialAreaType.GeospatialAreaTypeNamePluralized, proposalSectionsStatus)
         {
             EditProjectGeospatialAreasViewData = editProjectGeospatialAreasViewData;
-            ShowCommentsSection = project.IsPendingApproval() || (project.GeospatialAreaComment != string.Empty &&
-                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
-            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
     }
 }

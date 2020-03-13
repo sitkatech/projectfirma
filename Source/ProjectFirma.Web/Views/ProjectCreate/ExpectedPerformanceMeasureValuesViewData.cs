@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             : base(currentFirmaSession, project, ProjectCreateSection.ExpectedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditPerformanceMeasureExpectedViewData = editPerformanceMeasureExpectedViewData;
-            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }

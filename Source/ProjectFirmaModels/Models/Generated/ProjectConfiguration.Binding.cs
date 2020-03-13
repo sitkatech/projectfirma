@@ -52,7 +52,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.LocationDetailedComment).HasColumnName(@"LocationDetailedComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.OrganizationsComment).HasColumnName(@"OrganizationsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ContactsComment).HasColumnName(@"ContactsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
-            Property(x => x.GeospatialAreaComment).HasColumnName(@"GeospatialAreaComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ExpectedAccomplishmentsComment).HasColumnName(@"ExpectedAccomplishmentsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ReportedAccomplishmentsComment).HasColumnName(@"ReportedAccomplishmentsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.BudgetComment).HasColumnName(@"BudgetComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);

@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData, ProjectCustomAttributesValidationResult projectCustomAttributesValidationResult) : base(currentFirmaSession, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
-            ShowCommentsSection = project.IsPendingApproval() || (project.CustomAttributesComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.CustomAttributesComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
