@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             ViewDataForAngular = viewDataForAngularClass;
-            ShowCommentsSection = project.IsPendingApproval() || (project.BudgetComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.BudgetComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }

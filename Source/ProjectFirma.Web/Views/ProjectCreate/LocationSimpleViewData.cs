@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectLocationSimpleViewData projectLocationSimpleViewData) : base(currentFirmaSession, project, ProjectCreateSection.LocationSimple.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
-            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }

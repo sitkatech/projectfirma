@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             : base(currentFirmaSession, project, ProjectCreateSection.LocationDetailed.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ProjectLocationDetailViewData = projectLocationDetailViewData;
-            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }

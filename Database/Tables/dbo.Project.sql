@@ -40,7 +40,6 @@ CREATE TABLE [dbo].[Project](
 	[LocationDetailedComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ContactsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[GeospatialAreaComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExpectedAccomplishmentsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ReportedAccomplishmentsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[BudgetComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

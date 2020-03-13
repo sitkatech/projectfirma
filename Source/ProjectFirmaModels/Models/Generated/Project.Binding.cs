@@ -57,7 +57,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, decimal? noFundingSourceIdentifiedYet, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string geospatialAreaComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment) : this()
+        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, decimal? noFundingSourceIdentifiedYet, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyLeafID = taxonomyLeafID;
@@ -95,7 +95,6 @@ namespace ProjectFirmaModels.Models
             this.LocationDetailedComment = locationDetailedComment;
             this.OrganizationsComment = organizationsComment;
             this.ContactsComment = contactsComment;
-            this.GeospatialAreaComment = geospatialAreaComment;
             this.ExpectedAccomplishmentsComment = expectedAccomplishmentsComment;
             this.ReportedAccomplishmentsComment = reportedAccomplishmentsComment;
             this.BudgetComment = budgetComment;
@@ -368,7 +367,6 @@ namespace ProjectFirmaModels.Models
         public string LocationDetailedComment { get; set; }
         public string OrganizationsComment { get; set; }
         public string ContactsComment { get; set; }
-        public string GeospatialAreaComment { get; set; }
         public string ExpectedAccomplishmentsComment { get; set; }
         public string ReportedAccomplishmentsComment { get; set; }
         public string BudgetComment { get; set; }
@@ -432,7 +430,6 @@ namespace ProjectFirmaModels.Models
             public const int LocationDetailedComment = 1000;
             public const int OrganizationsComment = 1000;
             public const int ContactsComment = 1000;
-            public const int GeospatialAreaComment = 1000;
             public const int ExpectedAccomplishmentsComment = 1000;
             public const int ReportedAccomplishmentsComment = 1000;
             public const int BudgetComment = 1000;

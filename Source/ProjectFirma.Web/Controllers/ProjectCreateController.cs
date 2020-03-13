@@ -1011,7 +1011,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var geospatialAreaIDs = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialAreaID).ToList();
             var geospatialAreaNotes = project.ProjectGeospatialAreaTypeNotes.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)?.Notes;
-            var viewModel = new GeospatialAreaViewModel(geospatialAreaIDs, geospatialAreaNotes, project);
+            var viewModel = new GeospatialAreaViewModel(geospatialAreaIDs, geospatialAreaNotes);
             return ViewEditGeospatialArea(project, viewModel, geospatialAreaType);
         }
 
@@ -1088,7 +1088,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult BulkSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new BulkSetSpatialInformationViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), project);
+            var viewModel = new BulkSetSpatialInformationViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList());
             return ViewBulkSetSpatialInformation(project, viewModel);
         }
         

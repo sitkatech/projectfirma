@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             TenantAttribute tenantAttribute)
             : base(currentFirmaSession, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
-            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.BasicsComment != null &&
                            project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;

@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 ConfigureClassificationSystemsUrl = SitkaRoute<TenantController>.BuildUrlFromExpression(tc => tc.Detail());
             }
-            ShowCommentsSection = project.IsPendingApproval() || (project.ProposalClassificationsComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.ProposalClassificationsComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }

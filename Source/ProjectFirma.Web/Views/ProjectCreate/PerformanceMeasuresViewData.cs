@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 ConfigurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.Manage());
             }
-            ShowCommentsSection = project.IsPendingApproval() || (project.ReportedAccomplishmentsComment != string.Empty &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.ReportedAccomplishmentsComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
