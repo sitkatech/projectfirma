@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.props')" />
   <Import Project="..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.props" Condition="Exists('..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -102,10 +103,10 @@
       <HintPath>..\NuGetPackages\EmptyFiles.0.7.0\lib\net472\EmptyFiles.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\NuGetPackages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\NuGetPackages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
@@ -113,8 +114,8 @@
     <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
     </Reference>
-    <Reference Include="GeoJSON.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\GeoJSON.Net.1.1.70\lib\net45\GeoJSON.Net.dll</HintPath>
+    <Reference Include="GeoJSON.Net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=42c00ea87f5f14d4, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\GeoJSON.Net.1.2.15\lib\net45\GeoJSON.Net.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -141,8 +142,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlClient, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\System.Data.SqlClient.4.7.0\lib\net461\System.Data.SqlClient.dll</HintPath>
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\System.Data.SqlClient.4.8.1\lib\net461\System.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -489,9 +490,12 @@
     <Error Condition="!Exists('..\NuGetPackages\EmptyFiles.0.7.0\build\EmptyFiles.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\EmptyFiles.0.7.0\build\EmptyFiles.targets'))" />
     <Error Condition="!Exists('..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.props')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.props'))" />
     <Error Condition="!Exists('..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.targets'))" />
+    <Error Condition="!Exists('..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="..\NuGetPackages\EmptyFiles.0.7.0\build\EmptyFiles.targets" Condition="Exists('..\NuGetPackages\EmptyFiles.0.7.0\build\EmptyFiles.targets')" />
   <Import Project="..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.targets" Condition="Exists('..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.targets')" />
+  <Import Project="..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

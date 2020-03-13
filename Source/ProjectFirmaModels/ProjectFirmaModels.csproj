@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.props')" />
   <Import Project="..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.props" Condition="Exists('..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -832,13 +833,13 @@
       <HintPath>..\NuGetPackages\EmptyFiles.0.7.0\lib\net472\EmptyFiles.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\NuGetPackages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\NuGetPackages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GeoJSON.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\GeoJSON.Net.1.1.70\lib\net45\GeoJSON.Net.dll</HintPath>
+    <Reference Include="GeoJSON.Net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=42c00ea87f5f14d4, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\GeoJSON.Net.1.2.15\lib\net45\GeoJSON.Net.dll</HintPath>
     </Reference>
     <Reference Include="Keystone.Common.OpenID, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.10\lib\net45\Keystone.Common.OpenID.dll</HintPath>
@@ -862,8 +863,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SqlClient, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\System.Data.SqlClient.4.7.0\lib\net461\System.Data.SqlClient.dll</HintPath>
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\System.Data.SqlClient.4.8.1\lib\net461\System.Data.SqlClient.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
@@ -902,14 +903,14 @@
     <Reference Include="TextCopy, Version=3.0.1.0, Culture=neutral, PublicKeyToken=1ca091877d12ca03, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\TextCopy.3.0.1\lib\net461\TextCopy.dll</HintPath>
     </Reference>
-    <Reference Include="Z.EntityFramework.Extensions, Version=4.0.55.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\Z.EntityFramework.Extensions.4.0.55\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+    <Reference Include="Z.EntityFramework.Extensions, Version=4.0.56.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Z.EntityFramework.Extensions.4.0.56\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.12.15.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Z.EntityFramework.Plus.EF6.1.12.15\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="Z.Expressions.Eval, Version=3.1.6.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\Z.Expressions.Eval.3.1.6\lib\net45\Z.Expressions.Eval.dll</HintPath>
+    <Reference Include="Z.Expressions.Eval, Version=3.1.7.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Z.Expressions.Eval.3.1.7\lib\net45\Z.Expressions.Eval.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -1053,7 +1054,10 @@
     <Error Condition="!Exists('..\NuGetPackages\EmptyFiles.0.7.0\build\EmptyFiles.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\EmptyFiles.0.7.0\build\EmptyFiles.targets'))" />
     <Error Condition="!Exists('..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.props')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.props'))" />
     <Error Condition="!Exists('..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.targets'))" />
+    <Error Condition="!Exists('..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="..\NuGetPackages\EmptyFiles.0.7.0\build\EmptyFiles.targets" Condition="Exists('..\NuGetPackages\EmptyFiles.0.7.0\build\EmptyFiles.targets')" />
   <Import Project="..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.targets" Condition="Exists('..\NuGetPackages\ApprovalTests.4.5.1\build\ApprovalTests.targets')" />
+  <Import Project="..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\NuGetPackages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
 </Project>
