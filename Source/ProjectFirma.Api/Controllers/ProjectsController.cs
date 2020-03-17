@@ -48,8 +48,8 @@ namespace ProjectFirma.Api.Controllers
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             List<ProjectDto> result;
             var fundingSourceIDs = fundingSourceIDsAsString.Split(',').Select(int.Parse).ToList();
-            var projectsWithBudgets = _databaseEntities.ProjectFundingSourceBudgets.ToList().Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).GroupBy(x => x.Project).Select(x => x.Key).ToList();
-            var projectWithExpenditures = _databaseEntities.ProjectFundingSourceExpenditures.ToList().Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).GroupBy(x => x.Project).Select(x => x.Key).ToList();
+            var projectsWithBudgets = _databaseEntities.ProjectFundingSourceBudgets.ToList().Where(x => fundingSourceIDs.Contains(x.FundingSourceID) && x.SecuredAmount != null && x.SecuredAmount > 0).GroupBy(x => x.Project).Select(x => x.Key).ToList();
+            var projectWithExpenditures = _databaseEntities.ProjectFundingSourceExpenditures.ToList().Where(x => fundingSourceIDs.Contains(x.FundingSourceID) && x.ExpenditureAmount > 0).GroupBy(x => x.Project).Select(x => x.Key).ToList();
             var projects = projectsWithBudgets.Union(projectWithExpenditures);
             result = projects.Select(x => new ProjectDto(x, fundingSourceIDs)).ToList();
             
