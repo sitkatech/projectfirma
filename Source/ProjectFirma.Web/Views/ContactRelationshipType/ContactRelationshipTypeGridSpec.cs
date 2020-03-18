@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
             }
 
             Add($"{FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.ContactRelationshipTypeName, 240);
-            Add($"Must be Related to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add(FieldDefinitionEnum.IsContactRelationshipTypeRequired.ToType().ToGridHeaderString(), a => a.IsContactRelationshipTypeRequired.ToCheckboxImageOrEmptyForGrid(), 90);
 
 
         }

@@ -31,24 +31,24 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ContactRelationshipType(int contactRelationshipTypeID, string contactRelationshipTypeName, bool canOnlyBeRelatedOnceToAProject, string contactRelationshipTypeDescription) : this()
+        public ContactRelationshipType(int contactRelationshipTypeID, string contactRelationshipTypeName, bool isContactRelationshipTypeRequired, string contactRelationshipTypeDescription) : this()
         {
             this.ContactRelationshipTypeID = contactRelationshipTypeID;
             this.ContactRelationshipTypeName = contactRelationshipTypeName;
-            this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
+            this.IsContactRelationshipTypeRequired = isContactRelationshipTypeRequired;
             this.ContactRelationshipTypeDescription = contactRelationshipTypeDescription;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ContactRelationshipType(string contactRelationshipTypeName, bool canOnlyBeRelatedOnceToAProject) : this()
+        public ContactRelationshipType(string contactRelationshipTypeName, bool isContactRelationshipTypeRequired) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ContactRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ContactRelationshipTypeName = contactRelationshipTypeName;
-            this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
+            this.IsContactRelationshipTypeRequired = isContactRelationshipTypeRequired;
         }
 
 
@@ -112,7 +112,7 @@ namespace ProjectFirmaModels.Models
         public int ContactRelationshipTypeID { get; set; }
         public int TenantID { get; set; }
         public string ContactRelationshipTypeName { get; set; }
-        public bool CanOnlyBeRelatedOnceToAProject { get; set; }
+        public bool IsContactRelationshipTypeRequired { get; set; }
         public string ContactRelationshipTypeDescription { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ContactRelationshipTypeID; } set { ContactRelationshipTypeID = value; } }

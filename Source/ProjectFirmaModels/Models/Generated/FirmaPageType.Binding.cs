@@ -194,6 +194,7 @@ namespace ProjectFirmaModels.Models
         ReportProjects = 78,
         ReportAddReport = 79,
         ReleaseNotes = 80,
-        ManageProjectFactSheet = 81
+        ManageProjectFactSheet = 81,
+        ManageContactTypes = 82
     }
 }

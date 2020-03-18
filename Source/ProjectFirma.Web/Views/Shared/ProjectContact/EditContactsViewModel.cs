@@ -81,16 +81,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same contact multiple times."));
             }
             
-            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
+            var relationshipTypeThatIsRequiredAndOnlyOneSelected = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
 
             var projectContactsGroupedByRelationshipTypeID = ProjectContactSimples.GroupBy(x => x.ContactRelationshipTypeID).ToList();
 
-            errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+            errors.AddRange(relationshipTypeThatIsRequiredAndOnlyOneSelected
                 .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
                     $"Cannot have more than one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
 
-            errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+            errors.AddRange(relationshipTypeThatIsRequiredAndOnlyOneSelected
                 .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
                 .Select(relationshipType => new ValidationResult(
                     $"Must have one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));

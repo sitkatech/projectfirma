@@ -18,7 +18,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ContactRelationshipTypeID).HasColumnName(@"ContactRelationshipTypeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ContactRelationshipTypeName).HasColumnName(@"ContactRelationshipTypeName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
-            Property(x => x.CanOnlyBeRelatedOnceToAProject).HasColumnName(@"CanOnlyBeRelatedOnceToAProject").HasColumnType("bit").IsRequired();
+            Property(x => x.IsContactRelationshipTypeRequired).HasColumnName(@"IsContactRelationshipTypeRequired").HasColumnType("bit").IsRequired();
             Property(x => x.ContactRelationshipTypeDescription).HasColumnName(@"ContactRelationshipTypeDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(360);
 
             // Foreign keys

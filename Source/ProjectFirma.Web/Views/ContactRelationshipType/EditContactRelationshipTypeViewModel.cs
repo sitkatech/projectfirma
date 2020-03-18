@@ -26,6 +26,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ContactRelationshipType
@@ -41,8 +42,8 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         public string ContactRelationshipTypeName { get; set; }
 
         [Required]
-        [DisplayName("Must be Related to Once?")]
-        public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IsContactRelationshipTypeRequired)]
+        public bool? IsContactRelationshipTypeRequired { get; set; }
 
         [Required]
         [DisplayName("Relationship Type Description")]
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         {
             RelationshipTypeID = contactRelationshipType.ContactRelationshipTypeID;
             ContactRelationshipTypeName = contactRelationshipType.ContactRelationshipTypeName;
-            CanOnlyBeRelatedOnceToAProject = contactRelationshipType.CanOnlyBeRelatedOnceToAProject;
+            IsContactRelationshipTypeRequired = contactRelationshipType.IsContactRelationshipTypeRequired;
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
         }
 
@@ -68,7 +69,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         {
             contactRelationshipType.ContactRelationshipTypeName = ContactRelationshipTypeName;
 
-            contactRelationshipType.CanOnlyBeRelatedOnceToAProject = CanOnlyBeRelatedOnceToAProject ?? false;
+            contactRelationshipType.IsContactRelationshipTypeRequired = IsContactRelationshipTypeRequired ?? false;
             contactRelationshipType.ContactRelationshipTypeDescription = ContactRelationshipTypeDescription;
         }
 

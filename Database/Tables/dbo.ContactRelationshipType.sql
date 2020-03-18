@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[ContactRelationshipType](
 	[ContactRelationshipTypeID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[ContactRelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[CanOnlyBeRelatedOnceToAProject] [bit] NOT NULL,
+	[IsContactRelationshipTypeRequired] [bit] NOT NULL,
 	[ContactRelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ContactRelationshipType_ContactRelationshipTypeID] PRIMARY KEY CLUSTERED 
 (
