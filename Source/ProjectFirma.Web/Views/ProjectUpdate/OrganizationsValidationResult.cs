@@ -46,19 +46,19 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 _warningMessages.Add($"Cannot have the same organization relationship type listed for the same {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} multiple times.");
             }
 
-            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
+            var relationshipTypesThatAreRequired = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.Where(x => x.IsOrganizationRelationshipTypeRequired).ToList();
 
             // no more than one todo right linq?
             var projectOrganizationsGroupedByOrganizationRelationshipTypeID =
                 projectOrganizationSimples.GroupBy(x => x.OrganizationRelationshipTypeID).ToList();
 
-            _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+            _warningMessages.AddRange(relationshipTypesThatAreRequired
                 .Where(rt => projectOrganizationsGroupedByOrganizationRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) > 1)
                 .Select(relationshipType => 
                     $"Cannot have more than one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\"."));
 
             // not zero todo right linq?
-            _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+            _warningMessages.AddRange(relationshipTypesThatAreRequired
                 .Where(rt => projectOrganizationsGroupedByOrganizationRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) == 0)
                 .Select(relationshipType => 
                     $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\"."));

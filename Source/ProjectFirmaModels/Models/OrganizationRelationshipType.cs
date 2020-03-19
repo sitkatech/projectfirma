@@ -21,7 +21,7 @@ namespace ProjectFirmaModels.Models
 
         public Organization GetOrganizationContainingProjectSimpleLocation(IProject project)
         {
-            if (!(HasOrganizationsWithSpatialBoundary() && CanOnlyBeRelatedOnceToAProject))
+            if (!(HasOrganizationsWithSpatialBoundary() && IsOrganizationRelationshipTypeRequired))
             {
                 return null;
             }

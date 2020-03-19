@@ -64,4 +64,5 @@ values
 (79, 'ReportAddReport', 'Add a Report' , 2),
 (80, 'ReleaseNotes', 'Release Notes' , 1),
 (81, 'ManageProjectFactSheet', 'Manage Project Fact Sheet', 1),
-(82, 'ManageContactTypes', 'Manage Contact Types', 1)
+(82, 'ManageContactTypes', 'Manage Contact Types', 1),
+(83, 'ManageOrganizationTypes', 'Manage Organization Types', 1)

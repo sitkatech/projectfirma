@@ -172,4 +172,5 @@ VALUES
 (347, N'SelectedReportTemplate', 'Selected Report Template'),
 (348, N'FactSheetCustomText', N'Fact Sheet Custom Text'),
 (349, N'FactSheetLogo', N'Fact Sheet Logo'),
-(350, N'IsContactRelationshipTypeRequired', N'Is Contact Relationship Type Required?')
+(350, N'IsContactRelationshipTypeRequired', N'Is Contact Relationship Type Required?'),
+(351, N'IsOrganizationRelationshipTypeRequired', N'Is Organization Relationship Type Required?')

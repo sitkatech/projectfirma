@@ -29,7 +29,7 @@ namespace ProjectFirmaModels.Models
         {
             OrganizationRelationshipTypeID = organizationRelationshipType.OrganizationRelationshipTypeID;
             OrganizationRelationshipTypeName = organizationRelationshipType.OrganizationRelationshipTypeName;
-            OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject = organizationRelationshipType.CanOnlyBeRelatedOnceToAProject;
+            OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject = organizationRelationshipType.IsOrganizationRelationshipTypeRequired;
             OrganizationRelationshipTypeHasOrganizationsWithSpatialBoundary = organizationRelationshipType.HasOrganizationsWithSpatialBoundary();
             OrganizationRelationshipTypeDescription = organizationRelationshipType.OrganizationRelationshipTypeDescription;
             OrganizationRelationshipTypeIsPrimaryContact = organizationRelationshipType.IsPrimaryContact;

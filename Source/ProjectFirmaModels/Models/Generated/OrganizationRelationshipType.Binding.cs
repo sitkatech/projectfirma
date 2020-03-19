@@ -32,13 +32,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationRelationshipType(int organizationRelationshipTypeID, string organizationRelationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, string organizationRelationshipTypeDescription, bool reportInAccomplishmentsDashboard, bool showOnFactSheet) : this()
+        public OrganizationRelationshipType(int organizationRelationshipTypeID, string organizationRelationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool isOrganizationRelationshipTypeRequired, string organizationRelationshipTypeDescription, bool reportInAccomplishmentsDashboard, bool showOnFactSheet) : this()
         {
             this.OrganizationRelationshipTypeID = organizationRelationshipTypeID;
             this.OrganizationRelationshipTypeName = organizationRelationshipTypeName;
             this.CanStewardProjects = canStewardProjects;
             this.IsPrimaryContact = isPrimaryContact;
-            this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
+            this.IsOrganizationRelationshipTypeRequired = isOrganizationRelationshipTypeRequired;
             this.OrganizationRelationshipTypeDescription = organizationRelationshipTypeDescription;
             this.ReportInAccomplishmentsDashboard = reportInAccomplishmentsDashboard;
             this.ShowOnFactSheet = showOnFactSheet;
@@ -47,7 +47,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationRelationshipType(string organizationRelationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, bool reportInAccomplishmentsDashboard, bool showOnFactSheet) : this()
+        public OrganizationRelationshipType(string organizationRelationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool isOrganizationRelationshipTypeRequired, bool reportInAccomplishmentsDashboard, bool showOnFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -55,7 +55,7 @@ namespace ProjectFirmaModels.Models
             this.OrganizationRelationshipTypeName = organizationRelationshipTypeName;
             this.CanStewardProjects = canStewardProjects;
             this.IsPrimaryContact = isPrimaryContact;
-            this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
+            this.IsOrganizationRelationshipTypeRequired = isOrganizationRelationshipTypeRequired;
             this.ReportInAccomplishmentsDashboard = reportInAccomplishmentsDashboard;
             this.ShowOnFactSheet = showOnFactSheet;
         }
@@ -128,7 +128,7 @@ namespace ProjectFirmaModels.Models
         public string OrganizationRelationshipTypeName { get; set; }
         public bool CanStewardProjects { get; set; }
         public bool IsPrimaryContact { get; set; }
-        public bool CanOnlyBeRelatedOnceToAProject { get; set; }
+        public bool IsOrganizationRelationshipTypeRequired { get; set; }
         public string OrganizationRelationshipTypeDescription { get; set; }
         public bool ReportInAccomplishmentsDashboard { get; set; }
         public bool ShowOnFactSheet { get; set; }

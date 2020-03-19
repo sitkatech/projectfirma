@@ -297,6 +297,7 @@ namespace ProjectFirmaModels.Models
         SelectedReportTemplate = 347,
         FactSheetCustomText = 348,
         FactSheetLogo = 349,
-        IsContactRelationshipTypeRequired = 350
+        IsContactRelationshipTypeRequired = 350,
+        IsOrganizationRelationshipTypeRequired = 351
     }
 }

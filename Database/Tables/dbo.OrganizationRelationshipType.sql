@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[OrganizationRelationshipType](
 	[OrganizationRelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CanStewardProjects] [bit] NOT NULL,
 	[IsPrimaryContact] [bit] NOT NULL,
-	[CanOnlyBeRelatedOnceToAProject] [bit] NOT NULL,
+	[IsOrganizationRelationshipTypeRequired] [bit] NOT NULL,
 	[OrganizationRelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ReportInAccomplishmentsDashboard] [bit] NOT NULL,
 	[ShowOnFactSheet] [bit] NOT NULL,
@@ -50,6 +50,6 @@ REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[OrganizationRelationshipType] CHECK CONSTRAINT [FK_OrganizationRelationshipType_Tenant_TenantID]
 GO
-ALTER TABLE [dbo].[OrganizationRelationshipType]  WITH CHECK ADD  CONSTRAINT [CK_OrganizationRelationshipType_CanOnlyBeRelatedOnceToAProjectMustBeTrueIfIsPrimaryContact] CHECK  (([IsPrimaryContact]=(1) AND [CanOnlyBeRelatedOnceToAProject]=(1) OR [IsPrimaryContact]=(0)))
+ALTER TABLE [dbo].[OrganizationRelationshipType]  WITH CHECK ADD  CONSTRAINT [CK_OrganizationRelationshipType_IsOrganizationRelationshipTypeRequiredMustBeTrueIfIsPrimaryContact] CHECK  (([IsPrimaryContact]=(1) AND [IsOrganizationRelationshipTypeRequired]=(1) OR [IsPrimaryContact]=(0)))
 GO
-ALTER TABLE [dbo].[OrganizationRelationshipType] CHECK CONSTRAINT [CK_OrganizationRelationshipType_CanOnlyBeRelatedOnceToAProjectMustBeTrueIfIsPrimaryContact]
+ALTER TABLE [dbo].[OrganizationRelationshipType] CHECK CONSTRAINT [CK_OrganizationRelationshipType_IsOrganizationRelationshipTypeRequiredMustBeTrueIfIsPrimaryContact]
