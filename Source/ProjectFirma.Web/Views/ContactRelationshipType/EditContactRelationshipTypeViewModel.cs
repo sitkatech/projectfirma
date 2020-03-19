@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -80,6 +81,42 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
             {
                 yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, string>("Name already exists.",
                     x => x.ContactRelationshipTypeName);
+            }
+
+            // if contact relationship type is required we need to verify that there is only one on each project selected.
+            if (IsContactRelationshipTypeRequired.HasValue && IsContactRelationshipTypeRequired.Value == true)
+            {
+                var contactRelationshipType =
+                    HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.SingleOrDefault(x =>
+                        x.ContactRelationshipTypeID == RelationshipTypeID);
+                if (contactRelationshipType != null)
+                {
+                    var projectUpdateContactsWithThisRelationshipType = contactRelationshipType.ProjectContactUpdates.Select(x => x.ProjectUpdateBatchID).ToList();
+                    if (projectUpdateContactsWithThisRelationshipType.Count >
+                        projectUpdateContactsWithThisRelationshipType.Distinct().Count())
+                    {
+                        yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool?>(
+                            "There are Project Updates that have more than one contact selected with this Contact Type. Please fix those Project Updates before setting this to true.", 
+                            x => x.IsContactRelationshipTypeRequired);
+                    }
+
+                    var projectContactsWithThisRelationshipType =
+                        contactRelationshipType.ProjectContacts.Select(x => x.ProjectID).ToList();
+                    if (projectContactsWithThisRelationshipType.Count >
+                        projectContactsWithThisRelationshipType.Distinct().Count())
+                    {
+                        /*
+                         * To find the Projects that have more than one of a particular ContactRelationshipType:
+                         * select ProjectID, count(*) as ProjectIDCount from dbo.ProjectContact as pc 
+                            where pc.ContactRelationshipTypeID = 4
+                            group by ProjectID
+                            order by count(*) desc
+                         */
+                        yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool?>(
+                            "There are Projects that have more than one contact selected with this Contact Type. Please fix those Projects before setting this to true.",
+                            x => x.IsContactRelationshipTypeRequired);
+                    }
+                }
             }
 
         }
