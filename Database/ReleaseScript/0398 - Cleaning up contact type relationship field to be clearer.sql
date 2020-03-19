@@ -57,7 +57,7 @@ VALUES
 
 INSERT into [dbo].[FieldDefinitionData] ([TenantID], [FieldDefinitionID], [FieldDefinitionDataValue], [FieldDefinitionLabel])
 VALUES
-(11, 351, N'When defining a near term action''s organizations, this organization type is required and there can only be one organization assigned to this organization type.', N'IsOrganizationRelationshipTypeRequired')
+(11, 351, N'When defining a near term action''s organizations, this organization type is required and there can only be one organization assigned to this organization type.', N'Is Organization Relationship Type Required?')
 
 INSERT [dbo].[FirmaPageType] ([FirmaPageTypeID], [FirmaPageTypeName], [FirmaPageTypeDisplayName], [FirmaPageRenderTypeID])
 VALUES
