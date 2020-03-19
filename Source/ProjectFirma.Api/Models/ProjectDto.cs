@@ -64,6 +64,11 @@ namespace ProjectFirma.Api.Models
             TargetedFundingLeveragedFunds = TargetedFunding - targetedFundingForFundingSources;
             SecuredFunding = securedFundingForFundingSources;
             TargetedFunding = targetedFundingForFundingSources;
+
+            var projectFundingSourceIDs = new List<int>();
+            projectFundingSourceIDs.AddRange(project.ProjectFundingSourceBudgets.Select(x => x.FundingSourceID));
+            projectFundingSourceIDs.AddRange(project.ProjectFundingSourceExpenditures.Select(x => x.FundingSourceID));
+            FundingSourceIDs = projectFundingSourceIDs;
         }
 
         public ProjectDto()
@@ -96,6 +101,8 @@ namespace ProjectFirma.Api.Models
 
         public decimal? EstimatedTotalCost { get; set; }
         public decimal? TotalExpenditures { get; set; }
+        public List<int> FundingSourceIDs { get; set; }
+
         public Feature LocationPointAsGeoJsonFeature { get; set; }
 
         public DateTime LastUpdatedDate { get; set; }

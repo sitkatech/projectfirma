@@ -38,6 +38,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[EnableEvaluations] [bit] NOT NULL,
 	[EnableProjectCategories] [bit] NOT NULL,
 	[EnableReports] [bit] NOT NULL,
+	[TenantFactSheetLogoFileResourceID] [int] NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -74,6 +75,16 @@ ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttrib
 REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_TenantID_FileResourceID_TenantID]
+GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_FileResourceID] FOREIGN KEY([TenantFactSheetLogoFileResourceID])
+REFERENCES [dbo].[FileResource] ([FileResourceID])
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_FileResourceID]
+GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_TenantID_FileResourceID_TenantID] FOREIGN KEY([TenantFactSheetLogoFileResourceID], [TenantID])
+REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_TenantID_FileResourceID_TenantID]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID] FOREIGN KEY([TenantSquareLogoFileResourceID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])

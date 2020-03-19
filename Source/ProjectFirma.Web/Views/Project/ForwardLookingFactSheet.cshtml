@@ -27,6 +27,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
 @inherits ForwardLookingFactSheet
 
@@ -58,17 +59,32 @@
 
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-        google.load("visualization", "1", {packages:["corechart"]});
-        google.setOnLoadCallback(drawChart);
+    @if (ViewDataTyped.FactSheetPdfEnum == ProjectController.FactSheetPdfEnum.Pdf)
+    {
+        // This if else is used to provide wkhtmlktopdf (which uses an old version of qt browser that doesn't 
+        // support more modern javascript) older versions of the google charts api in order to render the 
+        // charts on downloaded pdfs of the page
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+            google.load("visualization", "1", {packages:["corechart"]});
+            google.setOnLoadCallback(drawChart);
 
-        function drawChart() {
+            function drawChart() {
+                var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
+                var chartWrapper = new google.visualization.ChartWrapper(chartJson);
+                chartWrapper.draw();
+            }
+        </script>
+    }
+    else
+    {
+        // The Sitka GoogleCharts.js that is used to render the charts when loaded in a browser
+        <script type="text/javascript">
             var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
-            var chartWrapper = new google.visualization.ChartWrapper(chartJson);
-            chartWrapper.draw();
-        }
-    </script>
+            GoogleCharts.drawCharts([chartJson]);
+        </script>
+    }
+
     <script type="text/javascript">
         /**
          * Toggle to control custom attributes visibility, I didn't think it was necessary to use angular for something so simple
@@ -99,9 +115,9 @@
     <div style="margin: 15px 0;">
         @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
         {
-        <div class="pull-left">
-            <label><input type="checkbox" data-toggle="toggle" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /></label> Extra Details
-        </div>
+            <div class="pull-left">
+                <label><input type="checkbox" data-toggle="toggle" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /></label> Extra Details
+            </div>
         }
         <div class="pull-right">
             <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
@@ -113,7 +129,7 @@
 <div class="container factSheet">
     <div class="row section">
         <div class="col-sm-2 col-md-2">
-            <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetPrimaryLogo" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantShortDisplayName()" />
+            <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetPrimaryLogo" src="@MultiTenantHelpers.GetTenantFactSheetLogoUrl()" alt="@MultiTenantHelpers.GetTenantShortDisplayName()" />
             @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
             {
                 @*If the logo is not null then perforce the organization must not be null, so this is fine.*@

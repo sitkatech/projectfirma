@@ -543,6 +543,11 @@ namespace ProjectFirma.Web.Models
             return !project.IsProposal() && project.ProjectApprovalStatus != ProjectApprovalStatus.Approved;
         }
 
+        public static bool IsPendingApproval(this Project project)
+        {
+            return project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
+        }
+
         public static bool IsRejected(this Project project)
         {
             return project.ProjectApprovalStatus == ProjectApprovalStatus.Rejected;

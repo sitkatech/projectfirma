@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
                     var pmValidationResults = new PerformanceMeasuresViewModel(
                         project.PerformanceMeasureActuals.Select(x => new PerformanceMeasureActualSimple(x)).ToList(),
                         project.PerformanceMeasureActualYearsExemptionExplanation,
-                        project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList())
+                        project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList(), project)
                     {
                         ProjectID = project.ProjectID
                     }.GetValidationResults();
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Models
 
                 case ProjectCreateSectionEnum.Classifications:
                     var projectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
-                    var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples).GetValidationResults();
+                    var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples, project).GetValidationResults();
                     return !classificationValidationResults.Any();
                 case ProjectCreateSectionEnum.Assessment:
                     return !new EditAssessmentViewModel(project.ProjectAssessmentQuestions.Select(x => new ProjectAssessmentQuestionSimple(x)).ToList()).GetValidationResults().Any();

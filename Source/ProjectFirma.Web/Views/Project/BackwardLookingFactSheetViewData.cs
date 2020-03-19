@@ -67,6 +67,7 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectCustomAttribute> ViewableProjectCustomAttributes { get; }
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
         public DateTime LastUpdated { get; }
+        public ProjectController.FactSheetPdfEnum FactSheetPdfEnum { get; }
 
         public BackwardLookingFactSheetViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
@@ -74,7 +75,8 @@ namespace ProjectFirma.Web.Views.Project
             List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange,
             ProjectFirmaModels.Models.FirmaPage firmaPageFactSheet,
             List<TechnicalAssistanceParameter> technicalAssistanceParameters,
-            bool withCustomAttributes) : base(currentFirmaSession, project)
+            bool withCustomAttributes,
+            ProjectController.FactSheetPdfEnum factSheetPdfEnum) : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
@@ -130,7 +132,7 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
-            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, currentFirmaSession);
+            CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, false);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
 
@@ -139,6 +141,7 @@ namespace ProjectFirma.Web.Views.Project
             
             WithCustomAttributes = withCustomAttributes;
             LastUpdated = project.LastUpdatedDate;
+            FactSheetPdfEnum = factSheetPdfEnum;
         }
     }
 }

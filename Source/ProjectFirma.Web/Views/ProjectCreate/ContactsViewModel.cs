@@ -19,15 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectContact;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
-{    
+{
     public class ContactsViewModel : EditContactsViewModel
     {
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ContactsComment)]
+        public string Comments { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -37,7 +44,16 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public ContactsViewModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession) : base(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), currentFirmaSession)
         {
-            
+            Comments = project.ContactsComment;
+        }
+
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, ObservableCollection<ProjectContact> allProjectContacts)
+        {
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.ContactsComment = Comments;
+            }
+            base.UpdateModel(project, allProjectContacts);
         }
     }    
 }

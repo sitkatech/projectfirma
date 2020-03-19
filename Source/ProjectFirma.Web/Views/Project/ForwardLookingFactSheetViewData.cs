@@ -72,6 +72,8 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
         public DateTime LastUpdated { get; }
 
+        public ProjectController.FactSheetPdfEnum FactSheetPdfEnum { get; }
+
         public ForwardLookingFactSheetViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
@@ -79,7 +81,8 @@ namespace ProjectFirma.Web.Views.Project
             List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices, 
             ProjectFirmaModels.Models.FirmaPage firmaPageFactSheetCustomText,
             List<TechnicalAssistanceParameter> technicalAssistanceParameters,
-            bool withCustomAttributes) : base(currentFirmaSession, project)
+            bool withCustomAttributes,
+            ProjectController.FactSheetPdfEnum factSheetPdfEnum) : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
@@ -143,7 +146,7 @@ namespace ProjectFirma.Web.Views.Project
             TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
 
             FundingBudget = project.ProjectFundingSourceBudgets.Any() ? project.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount).ToStringCurrency() : ViewUtilities.Unknown;
-            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, currentFirmaSession);
+            CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
 
@@ -152,6 +155,7 @@ namespace ProjectFirma.Web.Views.Project
             
             WithCustomAttributes = withCustomAttributes;
             LastUpdated = project.LastUpdatedDate;
+            FactSheetPdfEnum = factSheetPdfEnum;
         }
 
         public HtmlString LegendHtml

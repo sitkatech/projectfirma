@@ -1,4 +1,5 @@
 ﻿
+@using LtInfo.Common.Views
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 @inherits ProjectFirma.Web.Views.ProjectCreate.BulkSetSpatialInformation
@@ -13,8 +14,6 @@
         @{ BulkSetProjectSpatialInformation.RenderPartialView(Html, ViewDataTyped.BulkSetProjectSpatialInformationViewData, Model); }
     </div>
 </div>
-
-
 <hr />
 <div class="pull-right">
     <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
@@ -37,6 +36,6 @@
 
         jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);
         form.submit();
-    }
+        };
     // ]]>
 </script>

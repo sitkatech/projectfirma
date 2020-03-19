@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
@@ -26,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class GeospatialAreaViewData : ProjectCreateViewData
     {
-        public readonly EditProjectGeospatialAreasViewData EditProjectGeospatialAreasViewData;
+        public EditProjectGeospatialAreasViewData EditProjectGeospatialAreasViewData { get; }
 
         public GeospatialAreaViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,

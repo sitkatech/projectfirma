@@ -19,8 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using DocumentFormat.OpenXml.Presentation;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
@@ -32,6 +34,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     public class EditProposalClassificationsViewModel : FormViewModel, IValidatableObject
     {
         public List<ProjectClassificationSimple> ProjectClassificationSimples { get; set; }
+        
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProposalClassificationsComment)]
+        public string Comments { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -40,9 +46,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public EditProposalClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples)
+        public EditProposalClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples, ProjectFirmaModels.Models.Project project)
         {
             ProjectClassificationSimples = projectClassificationSimples;
+            Comments = project.ProposalClassificationsComment;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
@@ -72,6 +79,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     var existingProjectClassification = project.ProjectClassifications.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
                     existingProjectClassification.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
+            }
+
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.ProposalClassificationsComment = Comments;
             }
         }
 

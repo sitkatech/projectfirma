@@ -19,15 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
-{    
+{
     public class GeospatialAreaViewModel : EditProjectGeospatialAreasViewModel
     {
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>

@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 

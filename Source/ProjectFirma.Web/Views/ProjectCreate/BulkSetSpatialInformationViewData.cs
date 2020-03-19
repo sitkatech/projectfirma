@@ -1,4 +1,6 @@
-﻿using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+﻿using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate

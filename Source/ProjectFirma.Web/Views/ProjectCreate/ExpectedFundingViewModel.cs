@@ -26,6 +26,7 @@ using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -37,6 +38,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public Money? NoFundingSourceIdentifiedYet { get; set; }
 
         public ViewModelForAngularEditor ViewModelForAngular { get; set; }
+
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BudgetComment)]
+        public string Comments { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -50,6 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
             var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
             ViewModelForAngular = new ViewModelForAngularEditor(project.FundingTypeID ?? 0, projectFundingSourceBudgets, NoFundingSourceIdentifiedYet);
+            Comments = project.BudgetComment;
         }
 
         public class ViewModelForAngularEditor
@@ -100,6 +106,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     x.SecuredAmount = y.SecuredAmount;
                     x.TargetedAmount = y.TargetedAmount;
                 }, HttpRequestStorage.DatabaseEntities);
+
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            {
+                project.BudgetComment = Comments;
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

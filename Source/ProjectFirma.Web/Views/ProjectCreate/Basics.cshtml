@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Views
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -228,7 +229,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ProjectCategoryEnum)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.EnumDropDownListFor(m => m.ProjectCategoryEnum, new {@class = "form-control"})
+                @Html.EnumDropDownListFor(m => m.ProjectCategoryEnum, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.ProjectCategoryEnum)
                 <span class="smallExplanationText">
                     The @FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel() cannot be changed after a proposal is accepted.
@@ -240,7 +241,27 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         @Html.HiddenFor(m => m.ProjectCategoryEnum)
     }
-</div>
+    @if (@ViewDataTyped.ShowCommentsSection)
+    {
+        <hr />
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelFor(m => m.Comments)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @if (ViewDataTyped.CanEditComments)
+                {
+                    @Html.TextAreaFor(m => m.Comments, new { style = "width: 100%", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Comments)
+                }
+                else
+                {
+                    @Html.Raw(ViewDataTyped.Project.BasicsComment.HtmlEncodeWithBreaks())
+                }
+            </div>
+        </div>
+    }
+    </div>
 
     @Html.HiddenFor(m => m.ProjectID)
     @Html.HiddenFor(m => m.ImportExternalProjectStagingID)
