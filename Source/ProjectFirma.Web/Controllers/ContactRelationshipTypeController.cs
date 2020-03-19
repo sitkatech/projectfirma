@@ -49,7 +49,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var viewData = new IndexViewData(CurrentFirmaSession);
+            var firmaPage = FirmaPageTypeEnum.ManageContactTypes.GetFirmaPage();
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
