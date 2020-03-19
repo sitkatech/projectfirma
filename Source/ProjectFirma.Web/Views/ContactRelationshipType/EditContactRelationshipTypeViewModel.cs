@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
                         projectUpdateContactsWithThisRelationshipType.Distinct().Count())
                     {
                         yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool?>(
-                            "There are Project Updates that have more than one contact selected with this Contact Type. Please fix those Project Updates before setting this to true.", 
+                            $"There are {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates that have more than one contact selected with this Contact Type. Please fix those {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates before setting '{FieldDefinitionEnum.IsContactRelationshipTypeRequired.ToType().FieldDefinitionDisplayName}' to true.", 
                             x => x.IsContactRelationshipTypeRequired);
                     }
 
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
                             order by count(*) desc
                          */
                         yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool?>(
-                            "There are Projects that have more than one contact selected with this Contact Type. Please fix those Projects before setting this to true.",
+                            $"There are {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} that have more than one contact selected with this Contact Type. Please fix those {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} before setting '{FieldDefinitionEnum.IsContactRelationshipTypeRequired.ToType().FieldDefinitionDisplayName}' to true.",
                             x => x.IsContactRelationshipTypeRequired);
                     }
                 }
