@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
@@ -252,8 +253,15 @@ namespace ProjectFirma.Web.Common
 
         public static ProjectUpdateSetting GetProjectUpdateConfiguration()
         {
-            return HttpRequestStorage.DatabaseEntities.ProjectUpdateSettings.SingleOrDefault(x =>
+            var projectUpdateConfiguration = HttpRequestStorage.DatabaseEntities.ProjectUpdateSettings.SingleOrDefault(x =>
                 x.TenantID == HttpRequestStorage.Tenant.TenantID);
+            if (projectUpdateConfiguration == null)
+            {
+                // 3/27/2020 TK - You need to create an entry for your tenant in dbo.ProjectUpdateSetting
+                throw new SitkaDisplayErrorException(
+                    $"{GetTenantAttribute().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
+            }
+            return projectUpdateConfiguration;
         }
 
         public static DateTime GetStartDayOfReportingYear()

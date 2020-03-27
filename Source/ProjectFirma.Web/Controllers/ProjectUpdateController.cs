@@ -2185,7 +2185,7 @@ namespace ProjectFirma.Web.Controllers
                 contactsReceivingReminderGridSpec,
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PeopleReceivingReminderGridJsonData(true)),
                 projectsWithNoContactCount,
-                MultiTenantHelpers.GetProjectUpdateConfiguration() ?? ProjectUpdateSetting.CreateNewBlank());
+                MultiTenantHelpers.GetProjectUpdateConfiguration());
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
