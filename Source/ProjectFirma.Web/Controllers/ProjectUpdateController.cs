@@ -3552,7 +3552,7 @@ namespace ProjectFirma.Web.Controllers
 
             var emailContentPreview = new ProjectUpdateNotificationHelper(
                 tenantAttribute.PrimaryContactPerson.Email, introContent, "",
-                tenantAttribute.TenantSquareLogoFileResource,
+                tenantAttribute.TenantSquareLogoFileResource ?? tenantAttribute.TenantBannerLogoFileResource,
                 MultiTenantHelpers.GetToolDisplayName()).GetEmailContentPreview();
 
             return emailContentPreview;
