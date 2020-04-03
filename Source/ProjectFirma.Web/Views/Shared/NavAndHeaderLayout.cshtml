@@ -212,8 +212,18 @@ Source code is available upon request via <support@sitkatech.com>.
                             }
                             else
                             {
-                                <li>
+                                <li class="dropdown join-button-left">
                                     <a href="@ViewDataTyped.LogInUrl" title="Log In">Log In</a>
+                                </li>
+                                <li class="dropdown join-button-right">
+                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-menu-down"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                        <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                    </ul>
                                 </li>
                             }
                             @ViewDataTyped.HelpMenu.RenderMenu()
