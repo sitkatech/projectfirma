@@ -45,6 +45,7 @@
     <add key="KeystoneUserProfileUrl" value="${keystone-user-profile-endpoint}" />
     <add key="KeystoneOrganizationEditUrl" value="${keystone-organization-edit-endpoint}" />
     <add key="KeystoneRegisterUrl" value="${keystone-register-endpoint}" />
+    <add key="KeystoneForgotPasswordUrl" value="${keystone-forgot-password-endpoint}" />
     <add key="KeystoneOpenIDUrl" value="https://${keystone-base-url}/core" />
     <add key="ImpersonationAllowed" value="${impersonation-allowed}" />
     <add key="GeoServerUrl" value="${geoserver-url}" />
