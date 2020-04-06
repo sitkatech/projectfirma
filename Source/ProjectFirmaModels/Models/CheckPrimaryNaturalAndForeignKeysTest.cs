@@ -18,6 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
@@ -32,15 +36,28 @@ namespace ProjectFirmaModels.Models
         [UseReporter(typeof(DiffReporter))]
         public void AssureEachTableHasPrimaryKeyOrAlternateKey()
         {
-            const string sqlQueryString = @"
+            // These schemas will be exempted from the check
+            List<string> exemptSchemas = new List<String> {"ReclamationOneTimeImport", "Staging"};
+            List<string> exemptSchemasSingleQuoted = exemptSchemas.Select(es => $"'{es}'").ToList();
+            string exemptSchemasCommaDelimitedWithSingleQuotes = string.Join(", ", exemptSchemasSingleQuoted);
+
+            string sqlQueryString = @"
                         select *
                         from INFORMATION_SCHEMA.TABLES t 
-                             left join INFORMATION_SCHEMA.TABLE_CONSTRAINTS c on t.TABLE_NAME = c.TABLE_NAME and c.CONSTRAINT_TYPE in ('primary key', 'unique')
-                        where t.TABLE_TYPE = 'BASE TABLE' and c.CONSTRAINT_TYPE is null
-                        order by t.TABLE_CATALOG, t.TABLE_SCHEMA, t.TABLE_NAME";
+                                left join INFORMATION_SCHEMA.TABLE_CONSTRAINTS c on t.TABLE_NAME = c.TABLE_NAME and c.CONSTRAINT_TYPE in ('primary key', 'unique')
+                        where t.TABLE_TYPE = 'BASE TABLE' 
+                              and
+                              c.CONSTRAINT_TYPE is null
+                              and
+                              t.TABLE_SCHEMA not in ([[REPLACE_WITH_COMMA_SCHEMAS]])
+                        order by t.TABLE_CATALOG, t.TABLE_SCHEMA, t.TABLE_NAME
+            ";
+            sqlQueryString = sqlQueryString.Replace("[[REPLACE_WITH_COMMA_SCHEMAS]]",  exemptSchemasCommaDelimitedWithSingleQuotes);
             var result = ExecAdHocSql(sqlQueryString);
             Approvals.Verify(result.TableToHumanReadableString());
-        }
+        }		
+		
+		
 
         [Test]
         [UseReporter(typeof(DiffReporter))]
