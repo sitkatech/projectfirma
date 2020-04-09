@@ -44,7 +44,10 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectImage contextModelObject)
         {
-            if (contextModelObject.Project.IsPendingProject())
+            bool isProposal = contextModelObject.Project.IsProposal();
+            bool isPending = contextModelObject.Project.IsPendingProject();
+
+            if (isProposal || isPending)
             {
                 return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject.Project);
             }
