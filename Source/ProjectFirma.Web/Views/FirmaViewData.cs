@@ -51,6 +51,8 @@ namespace ProjectFirma.Web.Views
         public string FirmaHomeUrl { get; }
         public string LogInUrl { get; }
         public string LogOutUrl { get; }
+        public string RegisterAccountUrl { get; }
+        public string ForgotPasswordUrl { get; }
         public string RequestSupportUrl { get; }
         public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
@@ -82,6 +84,8 @@ namespace ProjectFirma.Web.Views
 
             LogInUrl = FirmaHelpers.GenerateLogInUrl();
             LogOutUrl = FirmaHelpers.GenerateLogOutUrlWithReturnUrl();
+            ForgotPasswordUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneForgotPasswordUrl");
+            RegisterAccountUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneRegisterUrl");
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 
