@@ -195,6 +195,12 @@ form .form-group-condensed {
 .header .headerText a:active {
   text-decoration: none;
 }
+.header .environment {
+  padding: 6px 15px;
+  float: left;
+  margin-top: 17px;
+  margin-right: 15px;
+}
 @media (max-width: 991px) {
   div.header {
     height: auto;
@@ -246,6 +252,9 @@ form .form-group-condensed {
 @media (max-width: 767px) {
   .navbar-right {
     padding-right: 0;
+  }
+  .header .environment {
+    margin-top: 0;
   }
 }
 .dropdown-menu {
