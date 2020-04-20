@@ -38,7 +38,7 @@ namespace LtInfo.Common.Views
         public const string NoneString = "None";
         public const string NoAnswerProvided = "<No answer provided>";
         public const string NoCommentString = "<no comment>";
-        public const string NaString = "n/a";
+        public const string NaString = "N/A";
         public const string NotFoundString = "(not found)";
         public const string NotAvailableString = "Not available";
         public const string NotProvidedString = "not provided";
