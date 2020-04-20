@@ -68,5 +68,9 @@ namespace ProjectFirma.Web.Service
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the list of all {0} geometries for the specified {1}. ", FieldDefinitionEnum.ProjectLocation, FieldDefinitionEnum.Project)]
         List<WebServiceProjectGeometry> GetProjectGeometries(string returnType, string webServiceToken, int projectID);
+
+        [OperationContract]
+        [WebServiceDocumentationAttribute("Provides the list of ‘Simple Locations’ (latitude, longitude coordinates) for all {0}s. ", FieldDefinitionEnum.Project)]
+        List<WebServiceProjectSimpleLocationCoordinates> GetProjectSimpleLocationCoordinates(string returnType, string webServiceToken);
     }
 }
