@@ -28,6 +28,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace ProjectFirma.Web.Views
 {
@@ -84,8 +85,10 @@ namespace ProjectFirma.Web.Views
 
             LogInUrl = FirmaHelpers.GenerateLogInUrl();
             LogOutUrl = FirmaHelpers.GenerateLogOutUrlWithReturnUrl();
-            ForgotPasswordUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneForgotPasswordUrl");
-            RegisterAccountUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneRegisterUrl");
+
+            var currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(currentUrl);
+            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(currentUrl);
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 
