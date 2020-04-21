@@ -69,6 +69,18 @@ namespace ProjectFirma.Web.Common
             return OnErrorOrNotFoundPage(returnUrl) ? logOutUrl : String.Format("{0}?returnUrl={1}", logOutUrl, HttpUtility.UrlEncode(returnUrl));
         }
 
+        public static string GenerateCreateAccountWithReturnUrl(string returnUrl)
+        {
+            var createAccountUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneRegisterUrl");
+            return $"{createAccountUrl}?RedirectUrl={HttpUtility.UrlEncode(returnUrl)}";
+        }
+
+        public static string GenerateForgotPasswordUrlWithReturnUrl(string returnUrl)
+        {
+            var forgotPasswordUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneForgotPasswordUrl");
+            return $"{forgotPasswordUrl}?RedirectUrl={HttpUtility.UrlEncode(returnUrl)}";
+        }
+
         private static bool OnErrorOrNotFoundPage(string url)
         {
             var returnUrlPathAndQuery = new Uri(url).PathAndQuery;
