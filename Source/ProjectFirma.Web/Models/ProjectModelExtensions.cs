@@ -626,6 +626,16 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NaString);
         }
 
+        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int,vGeospatialArea> geospatialDictionary)
+        {
+            var projectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
+            return new HtmlString(projectGeospatialAreas.Any()
+                ? String.Join(", ", projectGeospatialAreas.OrderBy(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaName).Select(x => geospatialDictionary[x.GeospatialAreaID].GetDisplayNameAsUrl()))
+                : ViewUtilities.NaString);
+        }
+
+
+
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this Project project)
         {
             var performanceMeasureReportedValues = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure)

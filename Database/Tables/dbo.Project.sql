@@ -64,6 +64,17 @@ CREATE TABLE [dbo].[Project](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
+SET ANSI_PADDING ON
+
+GO
+CREATE NONCLUSTERED INDEX [IDX_Project_TaxonomyLeaf] ON [dbo].[Project]
+(
+	[TaxonomyLeafID] ASC
+)
+INCLUDE ( 	[TenantID],
+	[ProjectName],
+	[PrimaryContactPersonID]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Project] ADD  DEFAULT ((1)) FOR [ProjectCategoryID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_FundingType_FundingTypeID] FOREIGN KEY([FundingTypeID])
