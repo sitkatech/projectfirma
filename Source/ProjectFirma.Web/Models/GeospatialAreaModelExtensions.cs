@@ -55,6 +55,16 @@ namespace ProjectFirma.Web.Models
             return UrlTemplate.MakeHrefString(geospatialArea.GetDetailUrl(), geospatialArea.GetDisplayName());
         }
 
+        public static HtmlString GetDisplayNameAsUrl(this vGeospatialArea geospatialArea)
+        {
+            return UrlTemplate.MakeHrefString(geospatialArea.GetDetailUrl(), geospatialArea.GeospatialAreaName);
+        }
+
+        public static string GetDetailUrl(this vGeospatialArea geospatialArea)
+        {
+            return GetDetailUrl(geospatialArea.GeospatialAreaID);
+        }
+
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
 
