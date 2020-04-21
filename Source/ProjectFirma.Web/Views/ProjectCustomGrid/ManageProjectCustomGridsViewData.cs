@@ -58,13 +58,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         {
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Grids";
             var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, currentFirmaSession.Tenant) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "projectsCustomDefaultGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsCustomGridDefaultJsonData());
 
             CustomizeDefaultGridUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.EditProjectCustomGrid(1));
-            ProjectCustomFullGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomFullGridConfigurations, ProjectCustomGridType.Full.ToEnum, projectDetails) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomFullGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomFullGridConfigurations, ProjectCustomGridType.Full.ToEnum, projectDetails, currentFirmaSession.Tenant) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (currentFirmaSession.Person.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
             {
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             CustomizeFullGridUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.EditProjectCustomGrid(2));
 
 
-            ProjectCustomReportsGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomReportsGridConfigurations, ProjectCustomGridType.Reports.ToEnum, projectDetails) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomReportsGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomReportsGridConfigurations, ProjectCustomGridType.Reports.ToEnum, projectDetails, currentFirmaSession.Tenant) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (currentFirmaSession.Person.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
             {

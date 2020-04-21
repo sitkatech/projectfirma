@@ -25,7 +25,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vProjectDetail(int projectID, Guid? primaryKey, int tenantID, string projectName, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount) : this()
+        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount) : this()
         {
             this.ProjectID = projectID;
             this.PrimaryKey = primaryKey;
@@ -74,7 +74,7 @@ namespace ProjectFirmaModels.Models
         partial void CallAfterConstructor(vProjectDetail vProjectDetail);
 
         public int ProjectID { get; set; }
-        public Guid? PrimaryKey { get; set; }
+        public int PrimaryKey { get; set; }
         public int TenantID { get; set; }
         public string ProjectName { get; set; }
         public int? PrimaryContactOrganizationID { get; set; }
