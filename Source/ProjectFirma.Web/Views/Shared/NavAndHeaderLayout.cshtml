@@ -102,7 +102,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         @if(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType != FirmaEnvironmentType.Prod)
                         { 
                             <div class="environment alert alert-warning @FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
-                                Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()</strong>
+                                Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
                             </div>
                         }
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
