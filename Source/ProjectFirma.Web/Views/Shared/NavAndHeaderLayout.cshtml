@@ -218,11 +218,9 @@ Source code is available upon request via <support@sitkatech.com>.
                             }
                             else
                             {
-                                <li class="dropdown join-button-left">
-                                    <a href="@ViewDataTyped.LogInUrl" title="Log In">Log In</a>
-                                </li>
-                                <li class="dropdown join-button-right">
-                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <li class="dropdown joined-buttons">
+                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left">Log In</a>
+                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right">
                                         <span class="glyphicon glyphicon-menu-down"></span>
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </a>
@@ -231,6 +229,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
                                     </ul>
                                 </li>
+                                
                             }
                             @ViewDataTyped.HelpMenu.RenderMenu()
                         </ul>

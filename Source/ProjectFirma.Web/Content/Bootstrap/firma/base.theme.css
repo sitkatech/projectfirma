@@ -234,10 +234,13 @@ form .form-group-condensed {
   color: #777;
   font-family: "Open Sans", sans-serif;
 }
-.navbar-nav > li.join-button-left > a {
+.navbar-nav .joined-buttons a {
+  display: inline-block;
+}
+.navbar-nav .joined-buttons .join-button-left {
   padding: 15px 2px 15px 15px;
 }
-.navbar-nav > li.join-button-right > a {
+.navbar-nav .joined-buttons .join-button-right {
   padding: 15px 15px 15px 2px;
 }
 .nav .open > a,
