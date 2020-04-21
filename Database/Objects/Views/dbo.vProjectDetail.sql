@@ -7,7 +7,7 @@ as
 select 
 
 p.ProjectID
-, (SELECT NEWID()) as PrimaryKey
+, p.ProjectID as PrimaryKey
 , p.TenantID
 , p.ProjectName
 , po.OrganizationID as PrimaryContactOrganizationID
