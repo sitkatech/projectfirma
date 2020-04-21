@@ -93,6 +93,12 @@ namespace ProjectFirma.Web.Service
             });
         }
 
+        public List<WebServiceProjectSimpleLocationCoordinates> GetProjectSimpleLocationCoordinates(string returnType, string webServiceToken)
+        {
+            var filteredProjects = WebServiceProjectSimpleLocationCoordinates.GetProjectSimpleLocationCoordinates();
+            return filteredProjects;
+        }
+
         // 11/25/2019 SMG -- [projectfirma/#1963] Expose project web feature service: Commented out because not required for the time being
         //public List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string returnType, string webServiceToken, int projectID)
         //{
@@ -241,12 +247,11 @@ namespace ProjectFirma.Web.Service
                 ),
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
-                        c.GetProjectGeometries(WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString()
-                            , sampleProjectID)),
+                        c.GetProjectSimpleLocationCoordinates(WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(),
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString())),
                     new SitkaRoute<WebServicesController>(c =>
-                        c.GetProjectGeometries(WebServicesController.WebServiceReturnTypeEnum.CSV,
-                            WebServiceToken.WebServiceTokenForParameterizedReplacements, sampleProjectID))
+                        c.GetProjectSimpleLocationCoordinates(WebServicesController.WebServiceReturnTypeEnum.CSV,
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
                     , new List<string> {"Return Type", "Authorization Token"}
                 ),
@@ -323,8 +328,19 @@ namespace ProjectFirma.Web.Service
                         c.GetProjectGeometries(WebServicesController.WebServiceReturnTypeEnum.JSON,
                             WebServiceToken.WebServiceTokenForParameterizedReplacements, sampleProjectID))
                     , WebServicesController.WebServiceReturnTypeEnum.JSON
+                    , new List<string> {"Return Type", "Authorization Token", "Project Number"}
+                ),
+                new SampleRouteEntry(
+                    MethodNameFromExpression(c =>
+                        c.GetProjectSimpleLocationCoordinates(WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(),
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString())),
+                    new SitkaRoute<WebServicesController>(c =>
+                        c.GetProjectSimpleLocationCoordinates(WebServicesController.WebServiceReturnTypeEnum.JSON,
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements))
+                    , WebServicesController.WebServiceReturnTypeEnum.JSON
                     , new List<string> {"Return Type", "Authorization Token"}
                 )
+
             };
             return webServiceRouteMap;
         }

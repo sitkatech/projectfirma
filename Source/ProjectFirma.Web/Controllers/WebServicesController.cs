@@ -177,6 +177,15 @@ namespace ProjectFirma.Web.Controllers
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projectGeometries, gridSpec, "ProjectGeometries");
         }
 
+        [AnonymousUnclassifiedFeature]
+        public ActionResult GetProjectSimpleLocationCoordinates(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
+        {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
+            var projectSimpleLocationCoordinates = WebServiceProjectSimpleLocationCoordinates.GetProjectSimpleLocationCoordinates();
+            var gridSpec = new WebServiceProjectSimpleLocationCoordinatesGridSpec();
+            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projectSimpleLocationCoordinates, gridSpec, "ProjectSimpleLocationCoordinates");
+        }
+
         private ActionResult GetResultsAsCsvDowloadOrJsonResult<T>(WebServiceReturnTypeEnum webServiceReturnTypeEnum, IEnumerable<T> results, GridSpec<T> gridSpec, string downloadFileDescriptorPrefix)
         {
             switch (webServiceReturnTypeEnum)

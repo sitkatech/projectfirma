@@ -249,6 +249,7 @@
     <Compile Include="Security\ReportTemplateViewListFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Service\ServiceModels\WebServiceProjectSimpleLocationCoordinates.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\AttachmentType\AttachmentTypeGridSpec.cs" />
     <Compile Include="Views\AttachmentType\EditAttachmentType.cs" />

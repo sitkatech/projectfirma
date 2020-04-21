@@ -74,6 +74,8 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), x => x.GetNoFundingSourceIdentifiedAmount());
             AddColumn("State", a => a.GetProjectLocationStateProvince());
             AddColumn($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
+            AddColumn("Latitude", x => x.ProjectLocationPoint?.YCoordinate);
+            AddColumn("Longitude", x => x.ProjectLocationPoint?.XCoordinate);
         }
     }
 
