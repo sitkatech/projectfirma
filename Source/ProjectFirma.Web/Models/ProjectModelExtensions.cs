@@ -630,6 +630,36 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static string GetProjectCustomAttributesValue(this Project project, ProjectCustomAttributeType projectCustomAttributeType, Dictionary<int, List<vProjectCustomAttributeValue>> projectCustomAttributeDictionary)
+        {
+            var listExists = projectCustomAttributeDictionary.ContainsKey(project.ProjectID);
+            var projectCustomAttribute = listExists ? projectCustomAttributeDictionary[project.ProjectID].SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID) : null;
+           
+            if (projectCustomAttribute != null)
+            {
+                if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                {
+                    return DateTime.TryParse(projectCustomAttribute.ProjectCustomAttributeValuesConcatenated, out var date) ? date.ToShortDateString() : null;
+                }
+                else
+                {
+                    return projectCustomAttribute.ProjectCustomAttributeValuesConcatenated;
+                }
+            }
+            else if (projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.All(x => x.ProjectCategoryID != project.ProjectCategoryID))
+            {
+                //This ProjectCustomAttributeType is not applicable to this Project Type, therefore it is Not Applicable(N/A)
+                return "N/A";
+            }
+            else
+            {
+                //This just has no value
+                return "None";
+            }
+        }
+
+
+
 
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType)
         {
@@ -639,9 +669,10 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NaString);
         }
 
-        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int,vGeospatialArea> geospatialDictionary)
+        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int,vGeospatialArea> geospatialDictionary, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
         {
-            var projectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
+            var areThereAny = projectGeospatialAreaDictionary.ContainsKey(project.ProjectID);
+            var projectGeospatialAreas = areThereAny ? projectGeospatialAreaDictionary[project.ProjectID].Where(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList() : new List<ProjectGeospatialArea>();
             return new HtmlString(projectGeospatialAreas.Any()
                 ? String.Join(", ", projectGeospatialAreas.OrderBy(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaName).Select(x => geospatialDictionary[x.GeospatialAreaID].GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);

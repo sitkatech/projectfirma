@@ -19,6 +19,17 @@ CREATE TABLE [dbo].[ProjectGeospatialArea](
 ) ON [PRIMARY]
 
 GO
+CREATE NONCLUSTERED INDEX [IDX_ProjectGeospatialArea_Project] ON [dbo].[ProjectGeospatialArea]
+(
+	[ProjectID] ASC
+)
+INCLUDE ( 	[TenantID]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [IDX_ProjectGeospatialArea_Tenant] ON [dbo].[ProjectGeospatialArea]
+(
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[ProjectGeospatialArea]  WITH CHECK ADD  CONSTRAINT [FK_ProjectGeospatialArea_GeospatialArea_GeospatialAreaID] FOREIGN KEY([GeospatialAreaID])
 REFERENCES [dbo].[GeospatialArea] ([GeospatialAreaID])
 GO

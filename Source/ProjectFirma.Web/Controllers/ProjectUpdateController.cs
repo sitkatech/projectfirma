@@ -1408,7 +1408,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.GeospatialAreaComment = viewModel.Comments;
             }
-            SetMessageForDisplay($"Detailed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaLayerName}s successfully saved.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {geospatialAreaType.GetFirmaPageDisplayName()}s successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, geospatialAreaType.GeospatialAreaTypeNamePluralized);
         }
 
