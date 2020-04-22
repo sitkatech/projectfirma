@@ -125,6 +125,7 @@ namespace ProjectFirma.Web.Controllers
 
             var fileResource = (viewModel.FileResourceData != null) ? FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession) : HttpRequestStorage.DatabaseEntities.FileResources.First(x => x.FileResourceID == viewModel.FileResourceID);
             var reportTemplate = reportTemplatePrimaryKey.EntityObject;
+            reportTemplate.FileResource = fileResource;
 
             ReportTemplateGenerator.ValidateReportTemplate(reportTemplate, out var reportIsValid, out var errorMessage, out var sourceCode);
 
