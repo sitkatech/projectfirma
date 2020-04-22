@@ -266,16 +266,34 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             AddMandatoryFieldsBefore(userHasTagManagePermissions, userHasReportDownloadPermissions, userHasDeletePermissions, projectCustomGridTypeEnum);
             
             // Implement configured fields here
-            AddConfiguredFields(currentFirmaSession, projectCustomGridConfigurations, userHasEditProjectAsAdminPermissions, projectDetailsDictionary, geospatialAreas, taxonomyLeafs, projectGeospatialAreas, projectCustomAttributes);
+            AddConfiguredFields(currentFirmaSession
+                , projectCustomGridConfigurations
+                , userHasEditProjectAsAdminPermissions
+                , projectDetailsDictionary
+                , geospatialAreas
+                , taxonomyLeafs
+                , projectGeospatialAreas
+                , projectCustomAttributes
+                , projectLabel
+                , hasProjectApprovalPermissionBySession
+                , statusUpdateLabel);
 
             // Mandatory fields appearing AFTER configurable fields
             AddMandatoryFieldsAfter(userHasTagManagePermissions);
             
         }
 
-        private void AddConfiguredFields(FirmaSession currentFirmaSession, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations,
-            bool userHasEditProjectAsAdminPermissions, Dictionary<int, vProjectDetail> projectDetailsDictionary
-            , Dictionary<int, ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafDictionary, string projectLabel, bool hasProjectApprovalPermissionBySession, string statusUpdateLabel)
+        private void AddConfiguredFields(FirmaSession currentFirmaSession
+            , List<ProjectCustomGridConfiguration> projectCustomGridConfigurations
+            , bool userHasEditProjectAsAdminPermissions
+            , Dictionary<int, vProjectDetail> projectDetailsDictionary
+            , Dictionary<int, ProjectFirmaModels.Models.vGeospatialArea> geospatialAreaDictionary
+            , Dictionary<int, ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafDictionary
+            , Dictionary<int, List<ProjectFirmaModels.Models.ProjectGeospatialArea>> projectGeospatialAreaDictionary
+            , Dictionary<int, List<ProjectFirmaModels.Models.vProjectCustomAttributeValue>> projectCustomAttributeDictionary
+            , string projectLabel
+            , bool hasProjectApprovalPermissionBySession
+            , string statusUpdateLabel)
         {
             
             foreach (var projectCustomGridConfiguration in projectCustomGridConfigurations.OrderBy(x => x.SortOrder))
