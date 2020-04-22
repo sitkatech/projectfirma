@@ -44,13 +44,13 @@
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v12/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v13/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
 }
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v12/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v13/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
 }
 html,
 body {
@@ -195,6 +195,12 @@ form .form-group-condensed {
 .header .headerText a:active {
   text-decoration: none;
 }
+.header .environment {
+  padding: 6px 15px;
+  float: left;
+  margin-top: 17px;
+  margin-right: 15px;
+}
 @media (max-width: 991px) {
   div.header {
     height: auto;
@@ -228,6 +234,15 @@ form .form-group-condensed {
   color: #777;
   font-family: "Open Sans", sans-serif;
 }
+.navbar-nav .joined-buttons a {
+  display: inline-block;
+}
+.navbar-nav .joined-buttons .join-button-left {
+  padding: 15px 2px 15px 15px;
+}
+.navbar-nav .joined-buttons .join-button-right {
+  padding: 15px 15px 15px 2px;
+}
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {
@@ -240,6 +255,9 @@ form .form-group-condensed {
 @media (max-width: 767px) {
   .navbar-right {
     padding-right: 0;
+  }
+  .header .environment {
+    margin-top: 0;
   }
 }
 .dropdown-menu {

@@ -102,17 +102,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} multiple times."));
             }
             
-            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
+            var relationshipTypesThatAreRequired = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.Where(x => x.IsOrganizationRelationshipTypeRequired).ToList();
 
             var projectOrganizationsGroupedByRelationshipTypeID =
                 ProjectOrganizationSimples.GroupBy(x => x.OrganizationRelationshipTypeID).ToList();
 
-            errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+            errors.AddRange(relationshipTypesThatAreRequired
                 .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
                     $"Cannot have more than one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\".")));
 
-            errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+            errors.AddRange(relationshipTypesThatAreRequired
                 .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) == 0)
                 .Select(relationshipType => new ValidationResult(
                     $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\".")));

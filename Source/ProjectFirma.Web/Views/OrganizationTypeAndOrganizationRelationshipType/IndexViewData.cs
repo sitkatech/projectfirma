@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
         public string NewOrganizationTypeUrl { get; }
         public string NewProjectAssociationUrl { get; }
 
-        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"Manage {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}";
 

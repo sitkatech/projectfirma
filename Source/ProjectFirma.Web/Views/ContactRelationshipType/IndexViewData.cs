@@ -29,14 +29,13 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
 {
     public class IndexViewData : FirmaViewData
     {
-
         public ContactRelationshipTypeGridSpec ContactRelationshipTypeGridSpec { get; }
         public string ContactRelationshipTypeGridName { get; }
         public string ContactRelationshipTypeGridDataUrl { get; }
         public bool HasManagePermissions { get; }
         public string NewProjectAssociationUrl { get; }
 
-        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"Manage {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}";
 

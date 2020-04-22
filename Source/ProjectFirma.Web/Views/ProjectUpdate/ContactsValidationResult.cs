@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 _warningMessages.Add($"Cannot have the same contact relationship type listed for the same Contact multiple times.");
             }
 
-            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
+            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
 
             var projectContactsGroupedByContactRelationshipTypeID =
                 projectContactSimples.GroupBy(x => x.ContactRelationshipTypeID).ToList();

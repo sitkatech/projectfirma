@@ -28,6 +28,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace ProjectFirma.Web.Views
 {
@@ -51,6 +52,8 @@ namespace ProjectFirma.Web.Views
         public string FirmaHomeUrl { get; }
         public string LogInUrl { get; }
         public string LogOutUrl { get; }
+        public string RegisterAccountUrl { get; }
+        public string ForgotPasswordUrl { get; }
         public string RequestSupportUrl { get; }
         public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
@@ -82,6 +85,10 @@ namespace ProjectFirma.Web.Views
 
             LogInUrl = FirmaHelpers.GenerateLogInUrl();
             LogOutUrl = FirmaHelpers.GenerateLogOutUrlWithReturnUrl();
+
+            var currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(currentUrl);
+            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(currentUrl);
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 

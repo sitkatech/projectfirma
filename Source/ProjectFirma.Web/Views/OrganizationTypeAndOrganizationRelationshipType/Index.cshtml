@@ -30,7 +30,9 @@
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<br />
+<div style="margin-bottom: 20px;">
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
 <div>
     <h4>@FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()</h4>
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewOrganizationTypeUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)

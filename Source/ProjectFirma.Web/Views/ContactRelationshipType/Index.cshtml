@@ -30,7 +30,10 @@
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<br />
+<div style="margin-bottom: 20px;">
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
+
 <div>
     <h4>@FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabelPluralized()</h4>
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewProjectAssociationUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)

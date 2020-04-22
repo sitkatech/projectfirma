@@ -90,19 +90,19 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanOnlyBeRelatedOnceToAProject)</div>
+                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.IsOrganizationRelationshipTypeRequired)</div>
                 <div class="col-sm-9">
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="@Html.NameFor(m => m.CanOnlyBeRelatedOnceToAProject)" ng-value="true" ng-model="CanOnlyBeRelatedOnceToAProject" ng-change="" /> Yes
+                            <input type="radio" name="@Html.NameFor(m => m.IsOrganizationRelationshipTypeRequired)" ng-value="true" ng-model="IsOrganizationRelationshipTypeRequired" ng-change="" /> Yes
                         </label>
                     </div>
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="@Html.NameFor(m => m.CanOnlyBeRelatedOnceToAProject)" ng-value="false" ng-model="CanOnlyBeRelatedOnceToAProject" ng-disabled="IsPrimaryContact || CanStewardProjects" /> No
+                            <input type="radio" name="@Html.NameFor(m => m.IsOrganizationRelationshipTypeRequired)" ng-value="false" ng-model="IsOrganizationRelationshipTypeRequired" ng-disabled="IsPrimaryContact || CanStewardProjects" /> No
                         </label>
                     </div>
-                    @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
+                    @Html.ValidationMessageFor(m => m.IsOrganizationRelationshipTypeRequired)
                 </div>
             </div>
             <div class="form-group">
@@ -126,7 +126,7 @@
                 <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.OrganizationRelationshipTypeDescription)</div>
                 <div class="col-sm-9">
                     @Html.TextAreaFor(m => m.OrganizationRelationshipTypeDescription, new Dictionary<string, object> {{"class", "form-control"}})
-                    @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
+                    @Html.ValidationMessageFor(m => m.IsOrganizationRelationshipTypeRequired)
                 </div>
             </div>
 

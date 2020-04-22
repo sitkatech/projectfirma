@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.OrganizationRelationshipTypeName).HasColumnName(@"OrganizationRelationshipTypeName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
             Property(x => x.CanStewardProjects).HasColumnName(@"CanStewardProjects").HasColumnType("bit").IsRequired();
             Property(x => x.IsPrimaryContact).HasColumnName(@"IsPrimaryContact").HasColumnType("bit").IsRequired();
-            Property(x => x.CanOnlyBeRelatedOnceToAProject).HasColumnName(@"CanOnlyBeRelatedOnceToAProject").HasColumnType("bit").IsRequired();
+            Property(x => x.IsOrganizationRelationshipTypeRequired).HasColumnName(@"IsOrganizationRelationshipTypeRequired").HasColumnType("bit").IsRequired();
             Property(x => x.OrganizationRelationshipTypeDescription).HasColumnName(@"OrganizationRelationshipTypeDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(360);
             Property(x => x.ReportInAccomplishmentsDashboard).HasColumnName(@"ReportInAccomplishmentsDashboard").HasColumnType("bit").IsRequired();
             Property(x => x.ShowOnFactSheet).HasColumnName(@"ShowOnFactSheet").HasColumnType("bit").IsRequired();

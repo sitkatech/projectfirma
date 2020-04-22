@@ -55,8 +55,8 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
         public bool? IsPrimaryContact { get; set; }
 
         [Required]
-        [DisplayName("Can Only be Related to Once?")]
-        public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IsOrganizationRelationshipTypeRequired)]
+        public bool? IsOrganizationRelationshipTypeRequired { get; set; }
 
         [Required]
         [DisplayName("Relationship Type Description")]
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
                 .ToList();
             CanStewardProjects = organizationRelationshipType.CanStewardProjects;
             IsPrimaryContact = organizationRelationshipType.IsPrimaryContact;
-            CanOnlyBeRelatedOnceToAProject = organizationRelationshipType.CanOnlyBeRelatedOnceToAProject;
+            IsOrganizationRelationshipTypeRequired = organizationRelationshipType.IsOrganizationRelationshipTypeRequired;
             OrganizationRelationshipTypeDescription = organizationRelationshipType.OrganizationRelationshipTypeDescription;
             ShowOnFactSheet = organizationRelationshipType.ShowOnFactSheet;
         }
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
 
             organizationRelationshipType.CanStewardProjects = CanStewardProjects ?? false; // Should never be null due to required validation attribute
             organizationRelationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
-            organizationRelationshipType.CanOnlyBeRelatedOnceToAProject = organizationRelationshipType.CanStewardProjects || organizationRelationshipType.IsPrimaryContact || (CanOnlyBeRelatedOnceToAProject ?? false); // can steward projects and isprimarycontact can only related once to a project
+            organizationRelationshipType.IsOrganizationRelationshipTypeRequired = organizationRelationshipType.CanStewardProjects || organizationRelationshipType.IsPrimaryContact || (IsOrganizationRelationshipTypeRequired ?? false); // can steward projects and isprimarycontact can only related once to a project
             organizationRelationshipType.ShowOnFactSheet = ShowOnFactSheet ?? false; // sShould never be null due to required validation attribute
             organizationRelationshipType.OrganizationRelationshipTypeDescription = OrganizationRelationshipTypeDescription;
         }
@@ -130,10 +130,10 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
                     m => m.IsPrimaryContact);
             }
 
-            // if the edit for the relationship type is changing the relationship to only must be related to once,
+            // if the edit for the relationship type is changing the relationship to IsOrganizationRelationshipTypeRequired,
             // prevent them from doing that if there are already projects that have multiple organizations for that relationship type
             // This ensures that when we are looking for a primary contact through an organization, that there can only be one organization selected
-            if (CanOnlyBeRelatedOnceToAProject == true || IsPrimaryContact == true || CanStewardProjects == true)
+            if (IsOrganizationRelationshipTypeRequired == true || IsPrimaryContact == true || CanStewardProjects == true)
             {
                 var projectOrganizations = HttpRequestStorage.DatabaseEntities.ProjectOrganizations.ToList();
                 var projectOrganizationsWithThisRelationshipTypeGroupedByProjectID = projectOrganizations.Where(x => x.OrganizationRelationshipTypeID == RelationshipTypeID).GroupBy(x => x.ProjectID).ToList();
@@ -141,14 +141,14 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
                 {
                     yield return new SitkaValidationResult<EditOrganizationRelationshipTypeViewModel, bool?>(
                         $"There are already {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} in the system with more than one {OrganizationRelationshipTypeName} selected.",
-                        m => m.CanOnlyBeRelatedOnceToAProject);
+                        m => m.IsOrganizationRelationshipTypeRequired);
                 }
             }
 
-            // if the edit for the relationship type is changing the relationship to only must be related to once,
+            // if the edit for the relationship type is changing the relationship to IsOrganizationRelationshipTypeRequired,
             // prevent them from doing that if there are already projects that have multiple organization updates for that relationship type
             // This ensures that when we are looking for a primary contact through an organization, that there can only be one organization selected
-            if (CanOnlyBeRelatedOnceToAProject == true || IsPrimaryContact == true || CanStewardProjects == true)
+            if (IsOrganizationRelationshipTypeRequired == true || IsPrimaryContact == true || CanStewardProjects == true)
             {
                 var projectOrganizationUpdatess = HttpRequestStorage.DatabaseEntities.ProjectOrganizationUpdates.ToList();
                 var projectOrganizationUpdatesWithThisRelationshipTypeGroupedByProjectID = projectOrganizationUpdatess.Where(x => x.OrganizationRelationshipTypeID == RelationshipTypeID).GroupBy(x => x.ProjectUpdateBatchID).ToList();
@@ -156,7 +156,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
                 {
                     yield return new SitkaValidationResult<EditOrganizationRelationshipTypeViewModel, bool?>(
                         $"There are already {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates in the system with more than one {OrganizationRelationshipTypeName} selected.",
-                        m => m.CanOnlyBeRelatedOnceToAProject);
+                        m => m.IsOrganizationRelationshipTypeRequired);
                 }
             }
         }

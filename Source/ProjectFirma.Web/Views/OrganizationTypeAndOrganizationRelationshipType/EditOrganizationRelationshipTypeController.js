@@ -3,11 +3,11 @@
 
     $scope.CanStewardProjects = $scope.AngularModel.CanStewardProjects;
     $scope.IsPrimaryContact = $scope.AngularModel.IsPrimaryContact;
-    $scope.CanOnlyBeRelatedOnceToAProject = $scope.AngularModel.CanOnlyBeRelatedOnceToAProject;
+    $scope.IsOrganizationRelationshipTypeRequired = $scope.AngularModel.IsOrganizationRelationshipTypeRequired;
 
     $scope.radioButtonChanged = function () {
         if ($scope.CanStewardProjects === true || $scope.IsPrimaryContact === true) {
-            $scope.CanOnlyBeRelatedOnceToAProject = true;
+            $scope.IsOrganizationRelationshipTypeRequired = true;
         }
     }
 });

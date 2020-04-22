@@ -25,6 +25,11 @@ CREATE TABLE [dbo].[ProjectCustomAttribute](
 ) ON [PRIMARY]
 
 GO
+CREATE NONCLUSTERED INDEX [IDX_ProjectCustomAttribute_Tenant] ON [dbo].[ProjectCustomAttribute]
+(
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[ProjectCustomAttribute]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttribute_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO

@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
             Add($"{FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.OrganizationRelationshipTypeName, 240);
             Add($"Can Steward {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}?", a => a.CanStewardProjects.ToCheckboxImageOrEmptyForGrid(), 90);
             Add($"Serves as {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
-            Add($"Can only be Related to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add(FieldDefinitionEnum.IsOrganizationRelationshipTypeRequired.ToType().ToGridHeaderString(), a => a.IsOrganizationRelationshipTypeRequired.ToCheckboxImageOrEmptyForGrid(), 90);
             Add($"Show on {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Fact Sheet", a => a.ShowOnFactSheet.ToCheckboxImageOrEmptyForGrid(), 90);
 
             foreach (var organizationType in allOrganizationTypes)

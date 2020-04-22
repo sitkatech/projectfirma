@@ -2185,7 +2185,7 @@ namespace ProjectFirma.Web.Controllers
                 contactsReceivingReminderGridSpec,
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PeopleReceivingReminderGridJsonData(true)),
                 projectsWithNoContactCount,
-                MultiTenantHelpers.GetProjectUpdateConfiguration() ?? ProjectUpdateSetting.CreateNewBlank());
+                MultiTenantHelpers.GetProjectUpdateConfiguration());
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
@@ -3552,7 +3552,7 @@ namespace ProjectFirma.Web.Controllers
 
             var emailContentPreview = new ProjectUpdateNotificationHelper(
                 tenantAttribute.PrimaryContactPerson.Email, introContent, "",
-                tenantAttribute.TenantSquareLogoFileResource,
+                tenantAttribute.TenantSquareLogoFileResource ?? tenantAttribute.TenantBannerLogoFileResource,
                 MultiTenantHelpers.GetToolDisplayName()).GetEmailContentPreview();
 
             return emailContentPreview;
