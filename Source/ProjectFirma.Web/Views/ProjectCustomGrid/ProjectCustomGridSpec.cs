@@ -39,17 +39,23 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
         
-        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
+        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project
+            , FirmaSession currentFirmaSession
+            , vProjectDetail projectDetail
+            , string projectLabel
+            , bool hasProjectApprovalPermissionBySession
+            , string statusUpdateLabel)
         {
+            
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
-            var isEditableToThisFirmaSession = project.IsEditableToThisFirmaSession(currentFirmaSession);
+            var isEditableToThisFirmaSession = project.IsEditableToThisFirmaSession(currentFirmaSession, projectDetail, projectLabel, hasProjectApprovalPermissionBySession);
 
             var returnString = new HtmlString("");
             if (!isEditableToThisFirmaSession) return returnString;
 
             editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
                 project.GetAddProjectProjectStatusFromGridUrl()
-                , $"Add {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()}");
+                , $"Add {statusUpdateLabel}");
 
             var currentProjectStatus = project.GetCurrentProjectStatus();
             var colorString = currentProjectStatus != null ? currentProjectStatus.ProjectStatusColor : "transparent";
@@ -64,7 +70,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             , ProjectCustomGridConfiguration projectCustomGridConfiguration
             ,bool userHasEditProjectAsAdminPermissions
             , Dictionary<int, vProjectDetail> projectDetailsDictionary
-            , Dictionary<int,ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafDictionary)
+            , Dictionary<int,ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafDictionary
+            , string projectLabel
+            , bool hasProjectApprovalPermissionBySession
+            , string statusUpdateLabel)
         {
 
             switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
@@ -161,7 +170,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
                     {
                         Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString()
-                            , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession)
+                            , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession, projectDetailsDictionary[x.ProjectID], projectLabel, hasProjectApprovalPermissionBySession, statusUpdateLabel)
                             , 100
                             , DhtmlxGridColumnFilterType.SelectFilterHtmlStrict
                         );
@@ -248,24 +257,43 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var projectGeospatialAreas = HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas
                 .GroupBy(x => x.ProjectID).ToDictionary(grp => grp.Key, y => y.ToList());
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToDictionary(x => x.TaxonomyLeafID);
+            var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+            var hasProjectApprovalPermissionBySession =
+                new ProjectApproveFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var statusUpdateLabel = FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel();
 
             // Mandatory fields before
             AddMandatoryFieldsBefore(userHasTagManagePermissions, userHasReportDownloadPermissions, userHasDeletePermissions, projectCustomGridTypeEnum);
             
             // Implement configured fields here
-            AddConfiguredFields(currentFirmaSession, projectCustomGridConfigurations, userHasEditProjectAsAdminPermissions, projectDetailsDictionary, geospatialAreas, taxonomyLeafs, projectGeospatialAreas, projectCustomAttributes);
+            AddConfiguredFields(currentFirmaSession
+                , projectCustomGridConfigurations
+                , userHasEditProjectAsAdminPermissions
+                , projectDetailsDictionary
+                , geospatialAreas
+                , taxonomyLeafs
+                , projectGeospatialAreas
+                , projectCustomAttributes
+                , projectLabel
+                , hasProjectApprovalPermissionBySession
+                , statusUpdateLabel);
 
             // Mandatory fields appearing AFTER configurable fields
             AddMandatoryFieldsAfter(userHasTagManagePermissions);
             
         }
 
-        private void AddConfiguredFields(FirmaSession currentFirmaSession, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations,
-            bool userHasEditProjectAsAdminPermissions, Dictionary<int, vProjectDetail> projectDetailsDictionary
-            , Dictionary<int, vGeospatialArea> geospatialAreaDictionary
+        private void AddConfiguredFields(FirmaSession currentFirmaSession
+            , List<ProjectCustomGridConfiguration> projectCustomGridConfigurations
+            , bool userHasEditProjectAsAdminPermissions
+            , Dictionary<int, vProjectDetail> projectDetailsDictionary
+            , Dictionary<int, ProjectFirmaModels.Models.vGeospatialArea> geospatialAreaDictionary
             , Dictionary<int, ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafDictionary
-            , Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary
-            , Dictionary<int,List<vProjectCustomAttributeValue>> projectCustomAttributeDictionary)
+            , Dictionary<int, List<ProjectFirmaModels.Models.ProjectGeospatialArea>> projectGeospatialAreaDictionary
+            , Dictionary<int, List<ProjectFirmaModels.Models.vProjectCustomAttributeValue>> projectCustomAttributeDictionary
+            , string projectLabel
+            , bool hasProjectApprovalPermissionBySession
+            , string statusUpdateLabel)
         {
             
             foreach (var projectCustomGridConfiguration in projectCustomGridConfigurations.OrderBy(x => x.SortOrder))
@@ -284,7 +312,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 else
                 {
                     AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration,
-                        userHasEditProjectAsAdminPermissions, projectDetailsDictionary, taxonomyLeafDictionary);
+                        userHasEditProjectAsAdminPermissions
+                        , projectDetailsDictionary
+                        , taxonomyLeafDictionary
+                        , projectLabel
+                        , hasProjectApprovalPermissionBySession
+                        , statusUpdateLabel);
                 }
             }
         }

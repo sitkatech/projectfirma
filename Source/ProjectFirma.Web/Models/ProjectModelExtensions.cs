@@ -125,6 +125,13 @@ namespace ProjectFirma.Web.Models
             return !currentFirmaSession.IsAnonymousUser() && (project.IsPersonThePrimaryContact(currentFirmaSession.Person) || currentFirmaSession.Person.Organization.IsMyProject(project) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
         }
 
+        public static bool IsMyProject(this vProjectDetail projectDetail, FirmaSession currentFirmaSession)
+        {
+            var personID = currentFirmaSession.PersonID;
+            var isPrimaryContact = projectDetail.PrimaryContactPersonID == personID;
+            return !currentFirmaSession.IsAnonymousUser() && (isPrimaryContact || currentFirmaSession.Person.Organization.IsMyProject(projectDetail) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(projectDetail)));
+        }
+
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
         {
             var startYear = projectUpdate?.ImplementationStartYear;
@@ -462,6 +469,12 @@ namespace ProjectFirma.Web.Models
         public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession)
         {
             return project.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project).HasPermission;
+        }
+
+        public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession, vProjectDetail projectDetail, string projectLabel, bool hasPermissionBySession)
+        {
+            
+            return projectDetail.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project, projectLabel, hasPermissionBySession).HasPermission;
         }
 
         public static HtmlString GetDisplayNameAsUrl(this Project project) => UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName());
