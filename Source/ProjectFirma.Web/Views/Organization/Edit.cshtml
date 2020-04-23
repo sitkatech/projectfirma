@@ -29,7 +29,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     if (ViewDataTyped.IsInKeystone)
     {
-        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is managed in Keystone. To change this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s name, please send an @ModalDialogFormHelper.ModalDialogFormLink("email to support", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)</p>
+        <p class="systemText">Because this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() has user accounts associated with it, its Name, Short Name, and Home Page information come from Keystone. To change this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Name, please @ModalDialogFormHelper.ModalDialogFormLink("submit a support request", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null). While you may update this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Short Name and Home Page here, try syncing from Keystone first.</p>
     }
     <div class="form-horizontal">
         <div class="form-group">
@@ -54,10 +54,32 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.OrganizationShortName)
             </div>
             <div class="col-sm-9">
-               @Html.TextBoxFor(m => m.OrganizationShortName, new { @class="form-control", style = "width:100%" })
-            @Html.ValidationMessageFor(m => m.OrganizationShortName)
+                @Html.TextBoxFor(m => m.OrganizationShortName, new {@class = "form-control", style = "width:100%"})
+                @Html.ValidationMessageFor(m => m.OrganizationShortName)
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.OrganizationUrl)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.OrganizationUrl, new { @class="form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.OrganizationUrl)
+            </div>
+        </div>
+        @if (ViewDataTyped.IsInKeystone && ViewDataTyped.UserHasAdminPermissions)
+        {
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(m => m.SyncWithKeystone)
+                </div>
+                <div class="col-sm-9">
+                    @Html.CheckBoxFor(m => m.SyncWithKeystone)
+                    @Html.ValidationMessageFor(m => m.SyncWithKeystone)
+                </div>
+            </div>
+        }
+        <hr/>
         <div class="form-group">
             <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
@@ -74,15 +96,6 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-sm-9">
                 @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People)
                 @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.OrganizationUrl)
-            </div>
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.OrganizationUrl, new { @class="form-control", style = "width:100%" })
-                @Html.ValidationMessageFor(m => m.OrganizationUrl)
             </div>
         </div>
         <div class="form-group">
@@ -131,5 +144,20 @@ Source code is available upon request via <support@sitkatech.com>.
     jQuery(document).ready(function ()
     {
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
+
+        jQuery("#@Html.IdFor(x => x.SyncWithKeystone)").on('change', function () {
+            var isChecked = jQuery(this).is(':checked');
+            var shortNameInput = jQuery("#@Html.IdFor(x => x.OrganizationShortName)");
+            var urlInput = jQuery("#@Html.IdFor(x => x.OrganizationUrl)");
+            shortNameInput.prop("disabled", isChecked);
+            urlInput.prop("disabled", isChecked);
+            if (isChecked) {
+                shortNameInput.prop("title", "Cannot edit. Will be synced with Keystone.");
+                urlInput.prop("title", "Cannot edit. Will be synced with Keystone.");
+            } else {
+                shortNameInput.prop("title", "");
+                urlInput.prop("title", "");
+            }
+        });
     });
 </script>
