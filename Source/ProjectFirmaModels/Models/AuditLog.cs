@@ -228,7 +228,7 @@ namespace ProjectFirmaModels.Models
         {
             var recordID = (int) dbEntry.Property(PrimaryKeyName).CurrentValue;
             var newValueString = newValue != null ? newValue.ToString() : string.Empty;
-            var auditLog = new AuditLog(person, changeDate, auditLogEventType, tableName, recordID, propertyName, newValueString)
+            var auditLog = new AuditLog(person, changeDate, auditLogEventType, tableName, recordID, propertyName, newValueString, true)
             {
                 OriginalValue = originalValue?.ToString(),
                 AuditDescription = optionalAuditDescriptionString,
@@ -236,6 +236,20 @@ namespace ProjectFirmaModels.Models
             };
             AddAdditionalRecordColumns(dbEntry, tableName, auditLog);
             return auditLog;
+        }
+
+        public AuditLog(Person person, DateTime auditLogDate, AuditLogEventType auditLogEventType, string tableName, int recordID, string columnName, string newValue, bool dontadd) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.AuditLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PersonID = person.PersonID;
+            this.Person = person;
+            this.AuditLogDate = auditLogDate;
+            this.AuditLogEventTypeID = auditLogEventType.AuditLogEventTypeID;
+            this.TableName = tableName;
+            this.RecordID = recordID;
+            this.ColumnName = columnName;
+            this.NewValue = newValue;
         }
 
         /// <summary>
