@@ -150,7 +150,8 @@ namespace ProjectFirma.Web.Controllers
             var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
                 x => x.GetFullNameFirstLastAndOrg());
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
+            var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin, userHasAdminPermissions);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -420,7 +421,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == organizationGuid);
             if (firmaOrganization != null)
             {
-                SetErrorForDisplay("Organization not added - it already exists in ProjectFirma");
+                SetErrorForDisplay("This organization already exists in ProjectFirma. Go to the organization’s basics editor to sync its information with Keystone.");
                 return new ModalDialogFormJsonResult();
             }
 

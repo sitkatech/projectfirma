@@ -30,14 +30,16 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly bool IsInKeystone;
         public readonly string RequestOrganizationChangeUrl;
         public readonly bool IsSitkaAdmin;
+        public readonly bool UserHasAdminPermissions;
 
-        public EditViewData(IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin)
+        public EditViewData(IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin, bool userHasAdminPermissions)
         {
             OrganizationTypes = organizationTypes;
             People = people;
             IsInKeystone = isInKeystone;
             RequestOrganizationChangeUrl = requestOrganizationChangeUrl;
             IsSitkaAdmin = isSitkaAdmin;
+            UserHasAdminPermissions = userHasAdminPermissions;
         }
     }
 }

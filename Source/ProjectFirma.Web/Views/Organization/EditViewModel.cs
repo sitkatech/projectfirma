@@ -70,6 +70,9 @@ namespace ProjectFirma.Web.Views.Organization
         [DisplayName("Keystone Organization Guid")]
         public Guid? OrganizationGuid { get; set; }
 
+        [DisplayName("Sync with Keystone")]
+        public bool SyncWithKeystone { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -108,6 +111,14 @@ namespace ProjectFirma.Web.Views.Organization
             {
                 organization.OrganizationGuid = OrganizationGuid;
             }
+
+            if (SyncWithKeystone)
+            {
+                var keystoneClient = new KeystoneDataClient();
+                var keystoneOrganization = keystoneClient.GetOrganization(organization.OrganizationGuid.Value);
+                organization.OrganizationShortName = keystoneOrganization.ShortName;
+                organization.OrganizationUrl = keystoneOrganization.URL;
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -140,6 +151,20 @@ namespace ProjectFirma.Web.Views.Organization
                         validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("Organization Guid not found in Keystone", x => x.OrganizationGuid));
                     }
                     
+                }
+            }
+
+            if (SyncWithKeystone)
+            {
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.Single(x => x.OrganizationID == OrganizationID);
+                try
+                {
+                    var keystoneClient = new KeystoneDataClient();
+                    var keystoneOrganization = keystoneClient.GetOrganization(organization.OrganizationGuid.Value);
+                }
+                catch (Exception)
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, bool?>("Cannot sync: Organization Guid not found in Keystone", x => x.SyncWithKeystone));
                 }
             }
 
