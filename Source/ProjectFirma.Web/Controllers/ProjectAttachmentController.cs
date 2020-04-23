@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
@@ -24,12 +25,13 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [FirmaAdminFeature]
-        public GridJsonNetJObjectResult<ProjectAttachment> ProjectAttachmentGridJsonData()
+        public GridJsonNetJObjectResult<vProjectAttachment> ProjectAttachmentGridJsonData()
         {
             var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new ProjectAttachmentGridSpec(hasManagePermissions);
-            var projectAttachments = HttpRequestStorage.DatabaseEntities.ProjectAttachments.ToList().OrderBy(x => x.DisplayName).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectAttachment>(projectAttachments, gridSpec);
+            var projectAttachments = HttpRequestStorage.DatabaseEntities.vProjectAttachments.Where(x => x.TenantID == CurrentFirmaSession.TenantID)
+                .ToList().OrderBy(x => x.ProjectAttachmentDisplayName).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<vProjectAttachment>(projectAttachments, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
