@@ -238,12 +238,16 @@ namespace ProjectFirmaModels.Models
             return auditLog;
         }
 
-        public AuditLog(Person person, DateTime auditLogDate, AuditLogEventType auditLogEventType, string tableName, int recordID, string columnName, string newValue, bool dontadd) : this()
+        public AuditLog(Person person, DateTime auditLogDate, AuditLogEventType auditLogEventType, string tableName, int recordID, string columnName, string newValue, bool skipAddingAuditLogToPersonInMemory) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.AuditLogID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PersonID = person.PersonID;
             this.Person = person;
+            if (!skipAddingAuditLogToPersonInMemory)
+            {
+                person.AuditLogs.Add(this);
+            }
             this.AuditLogDate = auditLogDate;
             this.AuditLogEventTypeID = auditLogEventType.AuditLogEventTypeID;
             this.TableName = tableName;
