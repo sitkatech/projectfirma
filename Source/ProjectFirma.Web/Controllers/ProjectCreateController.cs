@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public PartialViewResult ProjectTypeSelection()
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
             var viewModel = new ProjectTypeSelectionViewModel();
             return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ProjectTypeSelection(ProjectTypeSelectionViewModel viewModel)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
 
             if (!ModelState.IsValid)
@@ -250,7 +250,7 @@ namespace ProjectFirma.Web.Controllers
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
 
             var fundingTypes = FundingType.All.ToList();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             var viewData = new BasicsViewData(CurrentFirmaSession, fundingTypes, taxonomyLeafs, newProjectIsHistoric,
                 instructionsPageUrl, tenantAttribute);
@@ -283,7 +283,7 @@ namespace ProjectFirma.Web.Controllers
             
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
             var fundingTypes =FundingType.All.ToList();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             var viewData = new BasicsViewData(CurrentFirmaSession, project, proposalSectionsStatus, taxonomyLeafs,
                 fundingTypes, tenantAttribute);
@@ -1732,7 +1732,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectCreateNewFeature]
         public ActionResult ImportExternal()
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             if (!tenantAttribute.ProjectExternalDataSourceEnabled)
             {
                 return new HttpNotFoundResult();
@@ -1746,7 +1746,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectCreateNewFeature]
         public ActionResult ImportExternal(ImportExternalViewModel viewModel)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             if (!tenantAttribute.ProjectExternalDataSourceEnabled)
             {
                 return new HttpNotFoundResult();

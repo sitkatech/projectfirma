@@ -58,7 +58,7 @@ namespace ProjectFirma.Web
                     HttpRequestStorage.Tenant = tenant;
 
                     var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
-                    var tenantAttributes = MultiTenantHelpers.GetTenantAttribute();
+                    var tenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
                     branch.UseCookieAuthentication(new CookieAuthenticationOptions
                     {
                         AuthenticationType = "Cookies",

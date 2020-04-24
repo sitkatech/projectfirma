@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 
             Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30, DhtmlxGridColumnFilterType.None);
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
-            if (MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf)
             {
                 Add($"Relationship to {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}",
                     x => x.TaxonomyLeafID == taxonomyLeaf.TaxonomyLeafID ? "Primary" : "Secondary",

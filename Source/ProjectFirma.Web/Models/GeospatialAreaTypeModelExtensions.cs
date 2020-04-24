@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Models
 
         public static string MapServiceUrl(this GeospatialAreaType geospatialAreaType)
         {
-            var geoServerNamespace = MultiTenantHelpers.GetTenantAttribute().GeoServerNamespace;
+            var geoServerNamespace = MultiTenantHelpers.GetTenantAttributeFromCache().GeoServerNamespace;
             return $"{FirmaWebConfiguration.GeoServerUrl}{geoServerNamespace}/wms";
         }
 

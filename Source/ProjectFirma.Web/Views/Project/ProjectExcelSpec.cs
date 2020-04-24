@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Project
 
 
             AddColumn($"Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}", x => x.TaxonomyLeaf.GetDisplayName());
-            var enableSecondaryProjectTaxonomyLeaf = MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf;
+            var enableSecondaryProjectTaxonomyLeaf = MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf;
             if (enableSecondaryProjectTaxonomyLeaf)
             {
                 AddColumn(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized(), x => string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayName())));

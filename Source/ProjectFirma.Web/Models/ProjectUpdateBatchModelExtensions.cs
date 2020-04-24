@@ -442,7 +442,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<string> ValidateExpendituresAndForceValidation(this ProjectUpdateBatch projectUpdateBatch)
         {
-            if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
             {
                 return projectUpdateBatch.ValidateExpendituresByCostType();
             }
@@ -538,7 +538,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool AreExpendituresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
             {
                 return projectUpdateBatch.ValidateExpendituresByCostType().Count == 0;
             }
