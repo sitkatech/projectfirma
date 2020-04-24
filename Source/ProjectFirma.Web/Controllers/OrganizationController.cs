@@ -33,6 +33,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
@@ -69,7 +70,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new IndexGridSpec(CurrentFirmaSession, hasDeleteOrganizationPermission);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations
+                .Include(x => x.PrimaryContactPerson)
+                .Include(x => x.ProjectOrganizations.Select(y => y.Project))
+                .ToList();
 
             switch (organizationStatusFilterType)
             {
@@ -344,7 +348,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentFirmaSession, false);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllActiveProjects(CurrentPerson), gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllActiveProjects(), gridSpec);
             return gridJsonNetJObjectResult;
         }
 
