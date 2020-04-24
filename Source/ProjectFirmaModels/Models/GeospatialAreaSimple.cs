@@ -42,7 +42,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public GeospatialAreaSimple(GeospatialArea geospatialArea)
+        public GeospatialAreaSimple(vGeospatialArea geospatialArea)
             : this()
         {
             GeospatialAreaID = geospatialArea.GeospatialAreaID;

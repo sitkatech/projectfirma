@@ -59,10 +59,24 @@ namespace ProjectFirma.Web.Common
             if (tenantAttribute == null)
             {
                 tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault();
+                if (tenantAttribute != null)
+                {
+                    ForceLoadVirtualMembers(tenantAttribute);
+                }
+                
                 TenantAttributeCache.Add(tenantAttribute);
             }
             Check.EnsureNotNull(tenantAttribute, $"You need to add a Tenant Attribute table entry for TenantID {HttpRequestStorage.DatabaseEntities.TenantID}");
             return tenantAttribute;
+        }
+
+        private static void ForceLoadVirtualMembers(TenantAttribute tenantAttribute)
+        {
+            var person = tenantAttribute.PrimaryContactPerson;
+            var tenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResource;
+            var tenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResource;
+            var tenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResource;
+            var tenantStyleSheetFileResource = tenantAttribute.TenantStyleSheetFileResource;
         }
 
         public static string GetTaxonomySystemName()
