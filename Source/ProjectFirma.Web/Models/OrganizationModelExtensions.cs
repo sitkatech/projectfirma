@@ -140,14 +140,65 @@ namespace ProjectFirma.Web.Models
                 .ToList();
         }
 
+        public static List<Project> GetAllAssociatedProjects(this Organization organization
+           , Dictionary<int, List<FundingSource>> fundingSourceDictionary
+           , Dictionary<int, List<ProjectFundingSourceBudget>> projectFundingSourceBudgetsDictionary
+           , Dictionary<int, List<ProjectFundingSourceExpenditure>> projectFundingSourceExpendituresDictionary
+           , Dictionary<int, Project> projectDictionary)
+        {
+            var fundingSources = fundingSourceDictionary.ContainsKey(organization.OrganizationID)
+                ? fundingSourceDictionary[organization.OrganizationID]
+                : new List<FundingSource>();
+
+            return fundingSources.SelectMany(x => x.AssociatedProjectsFromBudget(projectFundingSourceBudgetsDictionary)).Select(x => projectDictionary[x.ProjectID])
+                .Union(fundingSources.SelectMany(x => x.AssociatedProjectsFromExpenditures(projectFundingSourceExpendituresDictionary))
+                    .Select(x => projectDictionary[x.ProjectID]), new HavePrimaryKeyComparer<Project>())
+                .Union(organization.ProjectOrganizations.Select(x => projectDictionary[x.ProjectID]), new HavePrimaryKeyComparer<Project>())
+                .ToList();
+        }
+
+        public static List<ProjectFundingSourceBudget> AssociatedProjectsFromBudget(this FundingSource fundingSource, Dictionary<int, List<ProjectFundingSourceBudget>> projectFundingSourceBudget)
+        {
+            var projectFundingSourceBudgets = projectFundingSourceBudget.ContainsKey(fundingSource.FundingSourceID)
+                ? projectFundingSourceBudget[fundingSource.FundingSourceID]
+                : new List<ProjectFundingSourceBudget>();
+            return projectFundingSourceBudgets;
+        }
+
+        public static List<ProjectFundingSourceExpenditure> AssociatedProjectsFromExpenditures(this FundingSource fundingSource, Dictionary<int, List<ProjectFundingSourceExpenditure>> projectFundingSourceExpendituresDictionary)
+        {
+            var projectFundingSourceExpenditures = projectFundingSourceExpendituresDictionary.ContainsKey(fundingSource.FundingSourceID)
+                ? projectFundingSourceExpendituresDictionary[fundingSource.FundingSourceID]
+                : new List<ProjectFundingSourceExpenditure>();
+            return projectFundingSourceExpenditures;
+        }
+
         public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, Person person)
         {
             return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
 
-        public static List<Project> GetAllActiveProjects(this Organization organization, Person person)
+        public static List<Project> GetAllActiveProjects(this Organization organization
+            , Dictionary<int, List<FundingSource>> fundingSourceDictionary
+            , Dictionary<int, List<ProjectFundingSourceBudget>> projectFundingSourceBudgetsDictionary
+            , Dictionary<int, List<ProjectFundingSourceExpenditure>> projectFundingSourceExpendituresDictionary
+            , Dictionary<int, Project> projectDictionary)
+        {
+            return organization.GetAllAssociatedProjects(fundingSourceDictionary, projectFundingSourceBudgetsDictionary, projectFundingSourceExpendituresDictionary, projectDictionary).GetActiveProjects();
+        }
+
+        public static List<Project> GetAllActiveProjects(this Organization organization)
         {
             return organization.GetAllAssociatedProjects().GetActiveProjects();
+        }
+
+        public static List<Project> GetProposalsVisibleToUser(this Organization organization, FirmaSession firmaSession
+            , Dictionary<int, List<FundingSource>> fundingSourceDictionary
+            , Dictionary<int, List<ProjectFundingSourceBudget>> projectFundingSourceBudgetsDictionary
+            , Dictionary<int, List<ProjectFundingSourceExpenditure>> projectFundingSourceExpendituresDictionary
+            , Dictionary<int, Project> projectDictionary)
+        {
+            return organization.GetAllAssociatedProjects(fundingSourceDictionary, projectFundingSourceBudgetsDictionary, projectFundingSourceExpendituresDictionary, projectDictionary).GetProposalsVisibleToUser(firmaSession);
         }
 
         public static List<Project> GetProposalsVisibleToUser(this Organization organization, FirmaSession firmaSession)
