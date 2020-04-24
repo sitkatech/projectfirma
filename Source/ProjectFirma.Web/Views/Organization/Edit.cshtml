@@ -51,7 +51,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.OrganizationShortName)
+                @Html.LabelWithSugarFor(m => m.OrganizationShortName, true)
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.OrganizationShortName, new {@class = "form-control", style = "width:100%"})
@@ -152,8 +152,8 @@ Source code is available upon request via <support@sitkatech.com>.
             shortNameInput.prop("disabled", isChecked);
             urlInput.prop("disabled", isChecked);
             if (isChecked) {
-                shortNameInput.prop("title", "Cannot edit. Will be synced with Keystone.");
-                urlInput.prop("title", "Cannot edit. Will be synced with Keystone.");
+                shortNameInput.prop("title", "Synced with Keystone on Save is selected. Cannot edit.");
+                urlInput.prop("title", "Synced with Keystone on Save is selected. Cannot edit");
             } else {
                 shortNameInput.prop("title", "");
                 urlInput.prop("title", "");
