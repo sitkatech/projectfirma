@@ -20,11 +20,34 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 
 namespace ProjectFirmaModels.Models
 {
     public partial class FundingSource : IAuditableEntity, IComparable<FundingSource>
     {
+
+
+        public List<ProjectFundingSourceBudget> GetProjectFundingSourceBudgetsFromDictionary(
+            Dictionary<int, List<ProjectFundingSourceBudget>> dictionary)
+        {
+            if (dictionary.ContainsKey(FundingSourceID))
+            {
+                return dictionary[FundingSourceID];
+            }
+            return new List<ProjectFundingSourceBudget>();
+        }
+
+        public List<ProjectFundingSourceExpenditure> GetProjectFundingSourceExpendituresFromDictionary(
+            Dictionary<int, List<ProjectFundingSourceExpenditure>> dictionary)
+        {
+            if (dictionary.ContainsKey(FundingSourceID))
+            {
+                return dictionary[FundingSourceID];
+            }
+            return new List<ProjectFundingSourceExpenditure>();
+        }
+
         public string GetAuditDescriptionString() => FundingSourceName;
         public int CompareTo(FundingSource other)
         {

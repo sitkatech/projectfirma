@@ -154,7 +154,9 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return FundingSourceID; } set { FundingSourceID = value; } }
 
         public virtual ICollection<FundingSourceCustomAttribute> FundingSourceCustomAttributes { get; set; }
-        public virtual ICollection<ProjectFundingSourceBudget> ProjectFundingSourceBudgets { get; set; }
+        public virtual ICollection<ProjectFundingSourceBudget> ProjectFundingSourceBudgets { 
+            get;
+            set; }
         public virtual ICollection<ProjectFundingSourceBudgetUpdate> ProjectFundingSourceBudgetUpdates { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
