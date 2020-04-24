@@ -339,7 +339,7 @@ namespace ProjectFirma.Web.Controllers
                 "Project",
                 project.ProjectID,
                 "ProjectID",
-                project.ProjectID.ToString())
+                project.ProjectID.ToString(), true)
             {
                 ProjectID = project.ProjectID,
                 AuditDescription = $"Project: created {project.GetDisplayName()}"
@@ -1513,7 +1513,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void GenerateApprovalAuditLogEntries(Project project)
         {
-            var auditLog = new AuditLog(CurrentPerson, DateTime.Now, AuditLogEventType.Added, "Project", project.ProjectID, "ProjectID", project.ProjectID.ToString())
+            var auditLog = new AuditLog(CurrentPerson, DateTime.Now, AuditLogEventType.Added, "Project", project.ProjectID, "ProjectID", project.ProjectID.ToString(), true)
             {
                 ProjectID = project.ProjectID,
                 AuditDescription = $"Proposal {project.GetDisplayName()} approved."

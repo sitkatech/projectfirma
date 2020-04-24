@@ -32,23 +32,26 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectAttachment
 {
-    public class ProjectAttachmentGridSpec : GridSpec<ProjectFirmaModels.Models.ProjectAttachment>
+    public class ProjectAttachmentGridSpec : GridSpec<ProjectFirmaModels.Models.vProjectAttachment>
     {
         public ProjectAttachmentGridSpec(bool hasManagePermissions)
         {
+            var projectFieldDefinitionLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+            var attachmentTypeFieldDefinitionLabel = FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel();
             if (hasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(t => t.Edit(a)),
-                        $"Edit Attachment \"{a.DisplayName}\"")),
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(a.GetEditUrl(),
+                        $"Edit Attachment \"{a.ProjectAttachmentDisplayName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
             }
 
-            Add($"Attachment Name", a => UrlTemplate.MakeHrefString(a.Attachment.GetFileResourceUrl(), a.DisplayName + " " + BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download"), new Dictionary<string, string> { { "target", "_blank" } }), 240);
-            Add($"Attachment Description", a => a.Description, 240);
-            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Name", a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.ProjectName), 240, DhtmlxGridColumnFilterType.Text);
-            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}", a => a.AttachmentType.AttachmentTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add($"File Type", a => a.Attachment.FileResourceMimeType.FileResourceMimeTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"Attachment Name", a => UrlTemplate.MakeHrefString(a.GetFileResourceUrl(), a.ProjectAttachmentDisplayName + " " + BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download"), new Dictionary<string, string> { { "target", "_blank" } }), 240);
+            Add($"Attachment Description", a => a.ProjectAttachmentDescription, 240);
+            
+            Add($"{projectFieldDefinitionLabel} Name", a => UrlTemplate.MakeHrefString(a.GetProjectDetailUrl(), a.ProjectName), 240, DhtmlxGridColumnFilterType.Text);
+            Add($"{attachmentTypeFieldDefinitionLabel}", a => a.AttachmentTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"File Type", a =>  FileResourceMimeType.AllLookupDictionary[a.FileResourceMimeTypeID].FileResourceMimeTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

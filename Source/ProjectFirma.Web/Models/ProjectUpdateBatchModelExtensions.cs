@@ -696,7 +696,9 @@ namespace ProjectFirma.Web.Models
                     $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update",
                     projectUpdateHistory.ProjectUpdateHistoryID,
                     $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update record",
-                    projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = projectUpdateBatch.ProjectID};
+                    projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName
+                    , true) {ProjectID = projectUpdateBatch.ProjectID};
+                HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
             }
         }
 

@@ -55,6 +55,11 @@ namespace ProjectFirma.Web.Models
             return DetailUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static string GetProjectDetailUrl(this vProjectAttachment projectAttachment)
+        {
+            return DetailUrlTemplate.ParameterReplace(projectAttachment.ProjectID);
+        }
+
         public static string GetDetailAbsoluteUrl(this Project project)
         {
             return DetailAbsoluteUrlTemplate.ParameterReplace(project.ProjectID);
