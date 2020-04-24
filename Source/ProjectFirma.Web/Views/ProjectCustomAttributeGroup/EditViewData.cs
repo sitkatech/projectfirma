@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
             SubmitUrl = submitUrl;
 
             ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
-            TenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            TenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             ProjectTypeSelectListItems = ProjectCategory.All.ToSelectList(x => x.ProjectCategoryID.ToString(), x => x.ProjectCategoryDisplayName );
 
             if (projectCustomAttributeGroup != null && projectCustomAttributeGroup.ProjectCustomAttributeTypes.Any(x => x.ProjectCustomAttributes.Any(y => y.ProjectCustomAttributeValues.Any())))

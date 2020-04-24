@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Models
                     // todo: more complicated than that.
                     return ProjectCreateSection.Basics.IsComplete(project);
                 case ProjectCreateSectionEnum.ReportedExpenditures:
-                    if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
                     {
                         var expectedYears =
                             project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
@@ -116,14 +116,14 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Budget:
                     return ProjectCreateSection.Basics.IsComplete(project)
-                        ? MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
+                        ? MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType
                             ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFundingByCostType(project.ProjectID))
                             : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID))
                         : null;
 
                 case ProjectCreateSectionEnum.ReportedExpenditures:
                     return ProjectCreateSection.Basics.IsComplete(project) 
-                        ? MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
+                        ? MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType
                             ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project.ProjectID)) 
                             : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID))
                         : null;

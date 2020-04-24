@@ -37,6 +37,13 @@ namespace ProjectFirma.Web.Common
 {
     public static class MultiTenantHelpers
     {
+        private static List<TenantAttribute> TenantAttributeCache = new List<TenantAttribute>();
+
+        public static void ClearTenantAttributeCacheForAllTenants()
+        {
+            TenantAttributeCache = new List<TenantAttribute>();
+        }
+
         private static readonly EnglishPluralizationService PluralizationService = new EnglishPluralizationService();
 
         public static Tenant GetTenantFromHostUrl(Uri urlHost)
@@ -46,9 +53,14 @@ namespace ProjectFirma.Web.Common
             return tenant;
         }
 
-        public static TenantAttribute GetTenantAttribute()
+        public static TenantAttribute GetTenantAttributeFromCache()
         {
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault();
+            var tenantAttribute = TenantAttributeCache.SingleOrDefault(ta => ta.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
+            if (tenantAttribute == null)
+            {
+                tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault();
+                TenantAttributeCache.Add(tenantAttribute);
+            }
             Check.EnsureNotNull(tenantAttribute, $"You need to add a Tenant Attribute table entry for TenantID {HttpRequestStorage.DatabaseEntities.TenantID}");
             return tenantAttribute;
         }
@@ -75,7 +87,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTenantShortDisplayName()
         {
-            return GetTenantAttribute().TenantShortDisplayName;
+            return GetTenantAttributeFromCache().TenantShortDisplayName;
         }
 
         public static string GetTenantName()
@@ -85,49 +97,50 @@ namespace ProjectFirma.Web.Common
 
         public static string GetToolDisplayName()
         {
-            return GetTenantAttribute().ToolDisplayName;
+            return GetTenantAttributeFromCache().ToolDisplayName;
         }
 
         public static string GetTenantSquareLogoUrl()
         {
-            return GetTenantAttribute().TenantSquareLogoFileResource != null
-                ? GetTenantAttribute().TenantSquareLogoFileResource.GetFileResourceUrl()
+            return GetTenantAttributeFromCache().TenantSquareLogoFileResource != null
+                ? GetTenantAttributeFromCache().TenantSquareLogoFileResource.GetFileResourceUrl()
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
         public static string GetTenantSquareLogScaledAsIconoUrl()
         {
-            return GetTenantAttribute().TenantSquareLogoFileResource != null
-                ? GetTenantAttribute().TenantSquareLogoFileResource
+            return GetTenantAttributeFromCache().TenantSquareLogoFileResource != null
+                ? GetTenantAttributeFromCache().TenantSquareLogoFileResource
                     .FileResourceUrlScaledThumbnail(100)
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
         public static string GetTenantBannerLogoUrl()
         {
-            return GetTenantAttribute().TenantBannerLogoFileResource != null
-                ? GetTenantAttribute().TenantBannerLogoFileResource.GetFileResourceUrl()
+            var tenantBannerLogoFileResource = GetTenantAttributeFromCache().TenantBannerLogoFileResource;
+            return tenantBannerLogoFileResource != null
+                ? tenantBannerLogoFileResource.GetFileResourceUrl()
                 : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
 
         public static string GetTenantBannerLogoScaledAsIconUrl()
         {
-            return GetTenantAttribute().TenantBannerLogoFileResource != null
-                ? GetTenantAttribute().TenantBannerLogoFileResource
+            return GetTenantAttributeFromCache().TenantBannerLogoFileResource != null
+                ? GetTenantAttributeFromCache().TenantBannerLogoFileResource
                     .FileResourceUrlScaledThumbnail(32)
                 : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
 
         public static string GetTenantFactSheetLogoUrl()
         {
-            return GetTenantAttribute().TenantFactSheetLogoFileResource != null
-                ? GetTenantAttribute().TenantFactSheetLogoFileResource.GetFileResourceUrl()
+            return GetTenantAttributeFromCache().TenantFactSheetLogoFileResource != null
+                ? GetTenantAttributeFromCache().TenantFactSheetLogoFileResource.GetFileResourceUrl()
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
         public static string GetTenantStyleSheetUrl()
         {
-            return GetTenantAttribute().TenantStyleSheetFileResource != null
+            return GetTenantAttributeFromCache().TenantStyleSheetFileResource != null
                 ? new SitkaRoute<TenantController>(c => c.Style(HttpRequestStorage.Tenant.TenantName))
                     .BuildUrlFromExpression()
                 : "~/Content/Bootstrap/firma/base.theme.css";
@@ -135,12 +148,12 @@ namespace ProjectFirma.Web.Common
 
         public static DbGeometry GetDefaultBoundingBox()
         {
-            return GetTenantAttribute().DefaultBoundingBox;
+            return GetTenantAttributeFromCache().DefaultBoundingBox;
         }
 
         public static int GetMinimumYear()
         {
-            return GetTenantAttribute().MinimumYear;
+            return GetTenantAttributeFromCache().MinimumYear;
         }
 
         public static List<TaxonomyTier> GetTopLevelTaxonomyTiers()
@@ -161,12 +174,12 @@ namespace ProjectFirma.Web.Common
 
         public static TaxonomyLevel GetTaxonomyLevel()
         {
-            return GetTenantAttribute().TaxonomyLevel;
+            return GetTenantAttributeFromCache().TaxonomyLevel;
         }
 
         public static TaxonomyLevel GetAssociatePerformanceMeasureTaxonomyLevel()
         {
-            return GetTenantAttribute().AssociatePerfomanceMeasureTaxonomyLevel;
+            return GetTenantAttributeFromCache().AssociatePerfomanceMeasureTaxonomyLevel;
         }
 
         public static bool IsTaxonomyLevelTrunk()
@@ -212,7 +225,7 @@ namespace ProjectFirma.Web.Common
 
         public static bool DisplayAccomplishmentDashboard()
         {
-            return GetTenantAttribute().EnableAccomplishmentsDashboard;
+            return GetTenantAttributeFromCache().EnableAccomplishmentsDashboard;
         }
 
         public static OrganizationRelationshipType GetIsPrimaryContactOrganizationRelationship()
@@ -222,12 +235,12 @@ namespace ProjectFirma.Web.Common
 
         public static bool ShowProposalsToThePublic()
         {
-            return GetTenantAttribute().ShowProposalsToThePublic;
+            return GetTenantAttributeFromCache().ShowProposalsToThePublic;
         }
 
         public static bool ShowLeadImplementerLogoOnFactSheet()
         {
-            return GetTenantAttribute().ShowLeadImplementerLogoOnFactSheet;
+            return GetTenantAttributeFromCache().ShowLeadImplementerLogoOnFactSheet;
         }
 
         public static List<ClassificationSystem> GetClassificationSystems()
@@ -242,12 +255,12 @@ namespace ProjectFirma.Web.Common
 
         public static AccomplishmentsDashboardFundingDisplayType GetAccomplishmentsDashboardFundingDisplayType()
         {
-            return GetTenantAttribute().AccomplishmentsDashboardFundingDisplayType;
+            return GetTenantAttributeFromCache().AccomplishmentsDashboardFundingDisplayType;
         }
 
         public static bool GetAccomplishmentsDashboardIncludeReportingOrganizationType()
         {
-            return GetTenantAttribute()
+            return GetTenantAttributeFromCache()
                 .AccomplishmentsDashboardIncludeReportingOrganizationType;
         }
 
@@ -259,7 +272,7 @@ namespace ProjectFirma.Web.Common
             {
                 // 3/27/2020 TK - You need to create an entry for your tenant in dbo.ProjectUpdateSetting
                 throw new SitkaDisplayErrorException(
-                    $"{GetTenantAttribute().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
+                    $"{GetTenantAttributeFromCache().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
             }
             return projectUpdateConfiguration;
         }
@@ -325,17 +338,17 @@ namespace ProjectFirma.Web.Common
 
         public static ProjectStewardshipAreaType GetProjectStewardshipAreaType()
         {
-            return GetTenantAttribute().ProjectStewardshipAreaType;
+            return GetTenantAttributeFromCache().ProjectStewardshipAreaType;
         }
 
         public static string GetTenantGoogleAnalyticsTrackingCode()
         {
-            return GetTenantAttribute().GoogleAnalyticsTrackingCode;
+            return GetTenantAttributeFromCache().GoogleAnalyticsTrackingCode;
         }
 
         public static bool UsesEvaluations()
         {
-            return GetTenantAttribute().EnableEvaluations;
+            return GetTenantAttributeFromCache().EnableEvaluations;
         }
         public static void AddEvaluationsMenuItem(LtInfoMenuItem manageMenu, FirmaSession currentFirmaSession, string menuGroupName)
         {
@@ -348,7 +361,7 @@ namespace ProjectFirma.Web.Common
 
         public static bool DisplayReportsLink()
         {
-            return GetTenantAttribute().EnableReports;
+            return GetTenantAttributeFromCache().EnableReports;
         }
 
     }

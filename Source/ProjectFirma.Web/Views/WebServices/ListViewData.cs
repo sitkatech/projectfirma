@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.WebServices
             PageTitle = "List of Web Services";
             GeospatialAreaTypeList = geospatialAreaTypeList;
             
-            if (MultiTenantHelpers.GetTenantAttribute().GeoServerNamespace != null)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().GeoServerNamespace != null)
             {
                 GeoServerServiceDocumentationList = new List<GeoServerServiceDocumentation>
                 {
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.WebServices
         {
             ServiceName = serviceName;
             ServiceDescription = serviceDescription;
-            var geoServerNamespace = MultiTenantHelpers.GetTenantAttribute().GeoServerNamespace;
+            var geoServerNamespace = MultiTenantHelpers.GetTenantAttributeFromCache().GeoServerNamespace;
             var geoServerUrl = FirmaWebConfiguration.GeoServerUrl;
             ServiceUrl = $"{geoServerUrl}{geoServerNamespace}/{geoServerServiceEndpoint}";
         }
