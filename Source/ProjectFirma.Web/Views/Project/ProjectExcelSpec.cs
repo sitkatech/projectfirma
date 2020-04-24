@@ -190,6 +190,12 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectFundingSourceBudgetExcelSpec(List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes, bool reportFinancialsByCostType)
         {
+            var fundingSourceCustomAttributeDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributes
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var fundingSourceCustomAttributeValueDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeValues
+                .GroupBy(x => x.FundingSourceCustomAttributeID)
+                .ToDictionary(x => x.Key, y => y.ToList());
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource?.FundingSourceName);
@@ -198,7 +204,7 @@ namespace ProjectFirma.Web.Views.Project
             foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes)
             {
                 AddColumn($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}",
-                    a => a.FundingSource?.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType));
+                    a => a.FundingSource?.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType, fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary));
             }
             AddColumn(MultiTenantHelpers.UseFiscalYears() ? "Fiscal Year" : "Calendar Year", x => x.CalendarYear);
             if (reportFinancialsByCostType)
