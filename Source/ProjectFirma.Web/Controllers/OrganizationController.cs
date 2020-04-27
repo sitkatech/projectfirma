@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(organization, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Organization {organization.GetDisplayName()} successfully created.");
+            SetMessageForDisplay($"Organization {organization.GetDisplayNameAsUrl()} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
