@@ -153,53 +153,49 @@
   </log4net>
   <runtime>
     <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
-			<dependentAssembly>
-				<assemblyIdentity name="System.Web.Mvc" publicKeyToken="31BF3856AD364E35" culture="neutral" />
-				<bindingRedirect oldVersion="0.0.0.0-5.2.7.0" newVersion="5.2.7.0" />
-			</dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="WebMatrix.Data" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+        <assemblyIdentity name="WebMatrix.Data" publicKeyToken="31bf3856ad364e35" culture="neutral"/>
+        <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="System.Web.WebPages.Razor" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
+        <assemblyIdentity name="System.Web.WebPages.Razor" publicKeyToken="31bf3856ad364e35" culture="neutral"/>
+        <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="WebGrease" publicKeyToken="31bf3856ad364e35" />
-        <bindingRedirect oldVersion="0.0.0.0-1.6.5135.21930" newVersion="1.6.5135.21930" />
+        <assemblyIdentity name="WebGrease" publicKeyToken="31bf3856ad364e35"/>
+        <bindingRedirect oldVersion="0.0.0.0-1.6.5135.21930" newVersion="1.6.5135.21930"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="Antlr3.Runtime" publicKeyToken="eb42632606e9261f" />
-        <bindingRedirect oldVersion="0.0.0.0-3.5.0.2" newVersion="3.5.0.2" />
+        <assemblyIdentity name="Antlr3.Runtime" publicKeyToken="eb42632606e9261f"/>
+        <bindingRedirect oldVersion="0.0.0.0-3.5.0.2" newVersion="3.5.0.2"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="Microsoft.Data.OData" publicKeyToken="31bf3856ad364e35" />
-        <bindingRedirect oldVersion="1.0.0.0-5.6.0.0" newVersion="5.6.0.0" />
+        <assemblyIdentity name="Microsoft.Data.OData" publicKeyToken="31bf3856ad364e35"/>
+        <bindingRedirect oldVersion="1.0.0.0-5.6.0.0" newVersion="5.6.0.0"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="Microsoft.Data.Edm" publicKeyToken="31bf3856ad364e35" />
-        <bindingRedirect oldVersion="1.0.0.0-5.6.0.0" newVersion="5.6.0.0" />
+        <assemblyIdentity name="Microsoft.Data.Edm" publicKeyToken="31bf3856ad364e35"/>
+        <bindingRedirect oldVersion="1.0.0.0-5.6.0.0" newVersion="5.6.0.0"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="System.Spatial" publicKeyToken="31bf3856ad364e35" />
-        <bindingRedirect oldVersion="1.0.0.0-5.6.0.0" newVersion="5.6.0.0" />
+        <assemblyIdentity name="System.Spatial" publicKeyToken="31bf3856ad364e35"/>
+        <bindingRedirect oldVersion="1.0.0.0-5.6.0.0" newVersion="5.6.0.0"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="MvcExtensions" publicKeyToken="ee6190c4449c24bc" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-2.5.1.0" newVersion="2.5.1.0" />
+        <assemblyIdentity name="MvcExtensions" publicKeyToken="ee6190c4449c24bc" culture="neutral"/>
+        <bindingRedirect oldVersion="0.0.0.0-2.5.1.0" newVersion="2.5.1.0"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="EntityFramework" publicKeyToken="b77a5c561934e089" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0" />
+        <assemblyIdentity name="EntityFramework" publicKeyToken="b77a5c561934e089" culture="neutral"/>
+        <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0"/>
       </dependentAssembly>
       <dependentAssembly>
         <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-12.0.0.0" newVersion="12.0.0.0" />
+        <bindingRedirect oldVersion="0.0.0.0-11.0.0.0" newVersion="11.0.0.0" />
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="System.Web.Razor" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-2.0.0.0" newVersion="2.0.0.0" />
+        <assemblyIdentity name="System.Web.Razor" publicKeyToken="31bf3856ad364e35" culture="neutral"/>
+        <bindingRedirect oldVersion="0.0.0.0-2.0.0.0" newVersion="2.0.0.0"/>
       </dependentAssembly>
       <dependentAssembly>
         <assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="31bf3856ad364e35" culture="neutral" />
@@ -235,32 +231,12 @@
       </dependentAssembly>
       <dependentAssembly>
         <assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
-        <bindingRedirect oldVersion="0.0.0.0-5.2.7.0" newVersion="5.2.7.0" />
+        <bindingRedirect oldVersion="0.0.0.0-5.2.3.0" newVersion="5.2.3.0" />
       </dependentAssembly>
       <dependentAssembly>
 		    <assemblyIdentity name="DocumentFormat.OpenXml" culture="neutral" publicKeyToken="8fb06cb64d019a17" />
-		    <bindingRedirect oldVersion="0.0.0.0-2.10.1.0" newVersion="2.10.1.0" />
+		    <bindingRedirect oldVersion="0.0.0.0-2.10.0.0" newVersion="2.10.0.0" />
 	    </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="TextCopy" publicKeyToken="1ca091877d12ca03" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-3.0.1.0" newVersion="3.0.1.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="ExcelNumberFormat" publicKeyToken="23c6f5d73be07eca" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-1.0.10.0" newVersion="1.0.10.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="log4net" publicKeyToken="669e0ddf0bb1aa2a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-2.0.8.0" newVersion="2.0.8.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="Z.EntityFramework.Extensions" publicKeyToken="59b66d028979105b" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-4.0.56.0" newVersion="4.0.56.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="Z.Expressions.Eval" publicKeyToken="59b66d028979105b" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-3.1.7.0" newVersion="3.1.7.0" />
-      </dependentAssembly>
     </assemblyBinding>
   </runtime>
   <entityFramework>
@@ -287,17 +263,17 @@
       <serviceBehaviors>
         <behavior name="WebServices.ServiceBehavior">
           <!-- maxItemsInObjectGraph allows more objects to come back -->
-          <dataContractSerializer maxItemsInObjectGraph="2147483647" />
+          <dataContractSerializer maxItemsInObjectGraph="2147483647"/>
           <!-- publish metadata for the service -->
-          <serviceMetadata httpGetEnabled="true" httpsGetEnabled="true" />
+          <serviceMetadata httpGetEnabled="true" httpsGetEnabled="true"/>
           <!-- To receive exception details in faults for debugging purposes, set the value below to true. Set to false to avoid disclosing exception information -->
-          <serviceDebug includeExceptionDetailInFaults="true" />
+          <serviceDebug includeExceptionDetailInFaults="true"/>
         </behavior>
       </serviceBehaviors>
       <!-- Services being CONSUMED -->
       <endpointBehaviors>
         <behavior name="WebServices.EndpointBehavior">
-          <dataContractSerializer maxItemsInObjectGraph="2147483647" />
+          <dataContractSerializer maxItemsInObjectGraph="2147483647"/>
         </behavior>
       </endpointBehaviors>
     </behaviors>
@@ -306,33 +282,33 @@
         <binding name="HttpBindingWithVeryLargeLimits" closeTimeout="00:10:00" openTimeout="00:10:00" receiveTimeout="00:15:00" sendTimeout="00:15:00" allowCookies="false" bypassProxyOnLocal="false" hostNameComparisonMode="StrongWildcard" maxBufferPoolSize="2147483647" maxBufferSize="2147483647" maxReceivedMessageSize="2147483647" messageEncoding="Text" textEncoding="utf-8" transferMode="Buffered" useDefaultWebProxy="true">
           <readerQuotas maxArrayLength="2147483647" maxNameTableCharCount="2147483647" maxStringContentLength="2147483647" maxDepth="2147483647" maxBytesPerRead="2147483647"/>
           <security mode="None">
-            <transport clientCredentialType="None" proxyCredentialType="None" realm="" />
-            <message clientCredentialType="UserName" algorithmSuite="Default" />
+            <transport clientCredentialType="None" proxyCredentialType="None" realm=""/>
+            <message clientCredentialType="UserName" algorithmSuite="Default"/>
           </security>
         </binding>
         <binding name="HttpsBindingWithVeryLargeLimits" closeTimeout="00:10:00" openTimeout="00:10:00" receiveTimeout="00:15:00" sendTimeout="00:15:00" allowCookies="false" bypassProxyOnLocal="false" hostNameComparisonMode="StrongWildcard" maxBufferPoolSize="2147483647" maxBufferSize="2147483647" maxReceivedMessageSize="2147483647" messageEncoding="Text" textEncoding="utf-8" transferMode="Buffered" useDefaultWebProxy="true">
           <readerQuotas maxArrayLength="2147483647" maxNameTableCharCount="2147483647" maxStringContentLength="2147483647" maxDepth="2147483647" maxBytesPerRead="2147483647"/>
           <security mode="Transport">
-            <transport clientCredentialType="None" proxyCredentialType="None" realm="" />
-            <message clientCredentialType="UserName" algorithmSuite="Default" />
+            <transport clientCredentialType="None" proxyCredentialType="None" realm=""/>
+            <message clientCredentialType="UserName" algorithmSuite="Default"/>
           </security>
         </binding>
         <!-- Reference to self for use in unit testing for WebServices -->
         <binding name="BasicHttpBinding_IWebServices" closeTimeout="00:01:00" openTimeout="00:01:00" receiveTimeout="00:10:00" sendTimeout="00:01:00" allowCookies="false" bypassProxyOnLocal="false" hostNameComparisonMode="StrongWildcard" maxBufferSize="2147483647" maxBufferPoolSize="2147483647" maxReceivedMessageSize="2147483647" messageEncoding="Text" textEncoding="utf-8" transferMode="Buffered" useDefaultWebProxy="true">
           <readerQuotas maxDepth="32" maxStringContentLength="2147483647" maxArrayLength="2147483647" maxBytesPerRead="2147483647" maxNameTableCharCount="2147483647"/>
           <security mode="Transport">
-            <transport clientCredentialType="None" proxyCredentialType="None" realm="" />
-            <message clientCredentialType="UserName" algorithmSuite="Default" />
+            <transport clientCredentialType="None" proxyCredentialType="None" realm=""/>
+            <message clientCredentialType="UserName" algorithmSuite="Default"/>
           </security>
         </binding>
       </basicHttpBinding>
       <wsHttpBinding>
         <binding name="WSHttpBinding_IKeystoneData" closeTimeout="00:01:00" openTimeout="00:01:00" receiveTimeout="00:10:00" sendTimeout="00:01:00" bypassProxyOnLocal="false" transactionFlow="false" hostNameComparisonMode="StrongWildcard" maxBufferPoolSize="2147483647" maxReceivedMessageSize="2147483647" messageEncoding="Text" textEncoding="utf-8" useDefaultWebProxy="true" allowCookies="false">
-          <readerQuotas maxDepth="32" maxStringContentLength="2147483647" maxArrayLength="2147483647" maxBytesPerRead="2147483647" maxNameTableCharCount="2147483647" />
-          <reliableSession ordered="true" inactivityTimeout="00:10:00" enabled="false" />
+          <readerQuotas maxDepth="32" maxStringContentLength="2147483647" maxArrayLength="2147483647" maxBytesPerRead="2147483647" maxNameTableCharCount="2147483647"/>
+          <reliableSession ordered="true" inactivityTimeout="00:10:00" enabled="false"/>
           <security mode="Message">
-            <transport clientCredentialType="Windows" proxyCredentialType="None" realm="" />
-            <message clientCredentialType="Windows" negotiateServiceCredential="true" algorithmSuite="Default" />
+            <transport clientCredentialType="Windows" proxyCredentialType="None" realm=""/>
+            <message clientCredentialType="Windows" negotiateServiceCredential="true" algorithmSuite="Default"/>
           </security>
         </binding>
       </wsHttpBinding>
