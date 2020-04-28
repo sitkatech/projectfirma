@@ -243,25 +243,33 @@ namespace LtInfo.Common.DesignByContract
         public static void Ensure(bool assertion)
         {
             if (!assertion)
+            {
                 throw new PostconditionException();
+            }
         }
 
         public static void Ensure(bool assertion, string message)
         {
             if (!assertion)
+            {
                 throw new PostconditionException(message);
+            }
         }
 
         public static void Ensure(bool assertion, string message, Exception inner)
         {
             if (!assertion)
+            {
                 throw new PostconditionException(message, inner);
+            }
         }
 
         public static void Ensure(bool assertion, Exception ex)
         {
             if (!assertion)
+            {
                 throw ex;
+            }
         }
 
         public static void EnsureNotNull(object thisObject)

@@ -49,12 +49,12 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
             TenantID = tenant.TenantID;
         }
 
-        public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
+        public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
         {
             if (FactSheetLogoFileResourceData != null)
             {
-                var attributeTenantFactSheetLogoFileResource = attribute.TenantFactSheetLogoFileResource;
-                attribute.TenantFactSheetLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FactSheetLogoFileResourceData, currentFirmaSession);
+                var attributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResource;
+                tenantAttribute.TenantFactSheetLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FactSheetLogoFileResourceData, currentFirmaSession);
                 attributeTenantFactSheetLogoFileResource?.Delete(databaseEntities);
             }
         }

@@ -55,6 +55,11 @@ namespace ProjectFirma.Web.Models
             return DetailUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static string GetProjectDetailUrl(this vProjectAttachment projectAttachment)
+        {
+            return DetailUrlTemplate.ParameterReplace(projectAttachment.ProjectID);
+        }
+
         public static string GetDetailAbsoluteUrl(this Project project)
         {
             return DetailAbsoluteUrlTemplate.ParameterReplace(project.ProjectID);
@@ -123,6 +128,13 @@ namespace ProjectFirma.Web.Models
         public static bool IsMyProject(this Project project, FirmaSession currentFirmaSession)
         {
             return !currentFirmaSession.IsAnonymousUser() && (project.IsPersonThePrimaryContact(currentFirmaSession.Person) || currentFirmaSession.Person.Organization.IsMyProject(project) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
+        }
+
+        public static bool IsMyProject(this vProjectDetail projectDetail, FirmaSession currentFirmaSession)
+        {
+            var personID = currentFirmaSession.PersonID;
+            var isPrimaryContact = projectDetail.PrimaryContactPersonID == personID;
+            return !currentFirmaSession.IsAnonymousUser() && (isPrimaryContact || currentFirmaSession.Person.Organization.IsMyProject(projectDetail) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(projectDetail)));
         }
 
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
@@ -464,6 +476,12 @@ namespace ProjectFirma.Web.Models
             return project.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project).HasPermission;
         }
 
+        public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession, vProjectDetail projectDetail, string projectLabel, bool hasPermissionBySession)
+        {
+            
+            return projectDetail.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project, projectLabel, hasPermissionBySession).HasPermission;
+        }
+
         public static HtmlString GetDisplayNameAsUrl(this Project project) => UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName());
 
         public static List<Person> GetPrimaryContactPeople(this IList<Project> projects)
@@ -708,7 +726,7 @@ namespace ProjectFirma.Web.Models
         public static string GetProjectOrganizationNamesForFactSheet(this Project project)
         {
             // get the list of funders so we can exclude any that have other project associations
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var fundingOrganizations = project.GetFundingOrganizations(tenantAttribute.ExcludeTargetedFundingOrganizations).Select(x => x.Organization.OrganizationID);
             // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
             var associatedOrganizations = project.ProjectOrganizations
@@ -723,7 +741,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetFundingOrganizationNamesForFactSheet(this Project project)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             return String.Join(", ",
                 project.GetFundingOrganizations(tenantAttribute.ExcludeTargetedFundingOrganizations).OrderBy(x => x.Organization.OrganizationName)
                     .Select(x => x.Organization.OrganizationName));

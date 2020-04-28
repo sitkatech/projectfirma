@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.User
             PersonCanBeImpersonated = personToImpersonate != null;
             SwitchUserVerb = IsOriginalIdentityWhenImpersonating ? "Resume being" : "Impersonate";
 
-            var tenantAttributes = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             // Tenant configuration - is impersonation allowed.
             ShouldShowButton = FirmaWebConfiguration.ImpersonationAllowedInEnvironment && HasRightsToImpersonate && PersonCanBeImpersonated && IsDifferentUserFromCurrentLoggedInUser;

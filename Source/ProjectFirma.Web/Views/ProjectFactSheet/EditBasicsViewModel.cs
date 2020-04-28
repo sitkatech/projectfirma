@@ -48,9 +48,9 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
         }
 
-        public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
+        public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
         {
-            attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
+            tenantAttribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

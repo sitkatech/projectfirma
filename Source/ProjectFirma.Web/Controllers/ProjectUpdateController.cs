@@ -918,7 +918,7 @@ namespace ProjectFirma.Web.Controllers
                 fundingTypes);
 
             var expectedFundingUpdateValidationResult = new ExpectedFundingValidationResult();
-            var reportFinancialsByCostType = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType;
+            var reportFinancialsByCostType = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType;
             var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentFirmaSession, projectUpdateBatch);
             var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentFirmaSession, projectUpdateBatch) : null;
 
@@ -1408,7 +1408,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.GeospatialAreaComment = viewModel.Comments;
             }
-            SetMessageForDisplay($"Detailed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaLayerName}s successfully saved.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {geospatialAreaType.GetFirmaPageDisplayName()}s successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, geospatialAreaType.GeospatialAreaTypeNamePluralized);
         }
 
@@ -1946,7 +1946,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void WriteHtmlDiffLogs(ProjectPrimaryKey projectPrimaryKey, ProjectUpdateBatch projectUpdateBatch)
         {
-            var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
+            var budgetType = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType;
             var basicsDiffContainer = DiffBasicsImpl(projectPrimaryKey);
             if (basicsDiffContainer.HasChanged)
             {
@@ -2313,7 +2313,7 @@ namespace ProjectFirma.Web.Controllers
         private string GeneratePartialViewForProjectBasics(Project project)
         {
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
             var partialViewAsString = RenderPartialViewToString(ProjectBasicsPartialViewPath, viewData);
             return partialViewAsString;
@@ -3151,8 +3151,8 @@ namespace ProjectFirma.Web.Controllers
                 return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false);
             }
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
-            var isExpendituresUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; 
-            var isBudgetsUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isExpendituresUpdated = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; 
+            var isBudgetsUpdated = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -3548,7 +3548,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static string EmailContentPreview(string introContent)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             var emailContentPreview = new ProjectUpdateNotificationHelper(
                 tenantAttribute.PrimaryContactPerson.Email, introContent, "",

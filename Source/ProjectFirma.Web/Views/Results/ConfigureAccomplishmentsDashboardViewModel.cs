@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.Results
 
         public void UpdateModel(IQueryable<OrganizationRelationshipType> organizationRelationshipTypes)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString =
                 AccomplishmentsButtonTextHtmlString;
             tenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString =

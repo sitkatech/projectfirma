@@ -45,6 +45,11 @@ namespace ProjectFirma.Web.Models
             return FileResourceByGuidUrlTemplate.ParameterReplace(fileResource.GetFileResourceGUIDAsString());
         }
 
+        public static string GetFileResourceUrl(this vProjectAttachment projectAttachment)
+        {
+            return FileResourceByGuidUrlTemplate.ParameterReplace(projectAttachment.FileResourceGUID.ToString());
+        }
+
         public static string FileResourceUrlScaledThumbnail(this FileResource fileResource, int maxHeight)
         {
             return SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.GetFileResourceResized(fileResource.GetFileResourceGUIDAsString(), maxHeight, maxHeight));

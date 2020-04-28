@@ -48,22 +48,22 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var projectCustomGridConfigurationSimples = new List<ProjectCustomGridConfigurationSimple>();
             var projectCustomGridColumns = GeneralUtility.EnumGetValues<ProjectCustomGridColumnEnum>();
             // Remove the Secondary Taxonomy Leaf Column if Tenant doesn't use them
-            if (!MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf)
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf).ToList();
             }
             // Remove the Project Status Column if Tenant doesn't use the timeline
-            if (!MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.ProjectStatus).ToList();
             }
             // Remove the Final Status Update Status Column if Tenant doesn't use the require submitting lessons learned
-            if (!MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.FinalStatusUpdateStatus).ToList();
             }
             // Remove the Project Type Column if Tenant doesn't use the attribute
-            if (!MultiTenantHelpers.GetTenantAttribute().EnableProjectCategories)
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableProjectCategories)
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.ProjectCategory).ToList();
             }

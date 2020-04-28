@@ -1,19 +1,19 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source View: [dbo].[vProjectDetail]
+//  Source View: [dbo].[vProjectAttachment]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace ProjectFirmaModels.Models
 {
-    public class vProjectDetailConfiguration : EntityTypeConfiguration<vProjectDetail>
+    public class vProjectAttachmentConfiguration : EntityTypeConfiguration<vProjectAttachment>
     {
-        public vProjectDetailConfiguration() : this("dbo"){}
+        public vProjectAttachmentConfiguration() : this("dbo"){}
 
-        public vProjectDetailConfiguration(string schema)
+        public vProjectAttachmentConfiguration(string schema)
         {
-            ToTable("vProjectDetail", schema);
+            ToTable("vProjectAttachment", schema);
             HasKey(x => x.PrimaryKey);
             
             

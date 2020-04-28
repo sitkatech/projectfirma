@@ -442,7 +442,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<string> ValidateExpendituresAndForceValidation(this ProjectUpdateBatch projectUpdateBatch)
         {
-            if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
             {
                 return projectUpdateBatch.ValidateExpendituresByCostType();
             }
@@ -538,7 +538,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool AreExpendituresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
             {
                 return projectUpdateBatch.ValidateExpendituresByCostType().Count == 0;
             }
@@ -696,7 +696,9 @@ namespace ProjectFirma.Web.Models
                     $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update",
                     projectUpdateHistory.ProjectUpdateHistoryID,
                     $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update record",
-                    projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = projectUpdateBatch.ProjectID};
+                    projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName
+                    , true) {ProjectID = projectUpdateBatch.ProjectID};
+                HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
             }
         }
 

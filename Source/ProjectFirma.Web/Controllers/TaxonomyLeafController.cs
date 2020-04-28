@@ -128,7 +128,7 @@ namespace ProjectFirma.Web.Controllers
                 canHaveAssociatedPerformanceMeasures);
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             var performanceMeasures = taxonomyLeaf.TaxonomyLeafPerformanceMeasures.Select(x => x.PerformanceMeasure)
                 .ToList();

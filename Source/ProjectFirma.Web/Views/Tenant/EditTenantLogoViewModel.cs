@@ -58,19 +58,18 @@ namespace ProjectFirma.Web.Views.Tenant
             TenantID = tenant.TenantID;
         }
 
-        public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
+        public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
         {
-           
             if (TenantSquareLogoFileResourceData != null)
             {
-                var attributeTenantSquareLogoFileResource = attribute.TenantSquareLogoFileResource;
-                attribute.TenantSquareLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentFirmaSession);
+                var attributeTenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResource;
+                tenantAttribute.TenantSquareLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentFirmaSession);
                 attributeTenantSquareLogoFileResource?.Delete(databaseEntities);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
-                var attributeTenantBannerLogoFileResource = attribute.TenantBannerLogoFileResource;
-                attribute.TenantBannerLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentFirmaSession);
+                var attributeTenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResource;
+                tenantAttribute.TenantBannerLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentFirmaSession);
                 attributeTenantBannerLogoFileResource?.Delete(databaseEntities);
             }
         }

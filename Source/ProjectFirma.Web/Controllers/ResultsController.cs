@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult AccomplishmentsDashboard()
         {
             var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             List<Organization> organizations;
             // default to Funding Organizations if no relationship type is selected to report in the dashboard.
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
 
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var taxonomyTiers = tenantAttribute.TaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase).ToList();
 
             var viewData = new SpendingByOrganizationTypeByOrganizationViewData(tenantAttribute, organizationTypes, projectFundingSourceExpenditures, taxonomyTiers);
@@ -477,7 +477,7 @@ namespace ProjectFirma.Web.Controllers
         [SitkaAdminFeature]
         public PartialViewResult ConfigureAccomplishmentsDashboard()
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewModel = new ConfigureAccomplishmentsDashboardViewModel(tenantAttribute);
             return ViewConfigureAccomplishmentsDashboard(viewModel);
         }
@@ -495,7 +495,7 @@ namespace ProjectFirma.Web.Controllers
             var organizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes;
 
             viewModel.UpdateModel(organizationRelationshipTypes);
-
+            MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();
         }
 

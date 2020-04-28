@@ -26,10 +26,12 @@ p.ProjectID
        when coalesce(pps.FinalStatusUpdateCount, 0) = 0 and pendingCompletedBatch.FunctionallyComplete = 1 then 'Not Submitted'
        else 'n/a' end as FinalStatusReportStatusDescription
 , coalesce(pfse.ProjectFundingSourceExpenditureCount,0) as ProjectFundingSourceExpenditureCount
+, proposer.OrganizationID as ProposingOrganizationID
 
  from dbo.Project p
  join dbo.TaxonomyLeaf tl on p.TaxonomyLeafID = tl.TaxonomyLeafID
  join dbo.vProjectFunctionallyComplete pendingCompletedBatch on pendingCompletedBatch.ProjectID = p.ProjectID
+ left join dbo.Person proposer on proposer.PersonID = p.ProposingPersonID
  left join dbo.Person person on p.PrimaryContactPersonID = person.PersonID
 left join (select 
             o.OrganizationID

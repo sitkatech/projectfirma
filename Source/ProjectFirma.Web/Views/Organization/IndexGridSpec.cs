@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Linq;
 using System.Web;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
@@ -33,6 +35,20 @@ namespace ProjectFirma.Web.Views.Organization
     {
         public IndexGridSpec(FirmaSession currentFirmaSession, bool hasDeletePermissions)
         {
+            var projectDictionary = HttpRequestStorage.DatabaseEntities.Projects.ToDictionary(x => x.ProjectID);
+            var fundingSourceDictionary = HttpRequestStorage.DatabaseEntities.FundingSources
+                .GroupBy(x => x.OrganizationID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var projectFundingSourceExpenditureDictionary = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var projectFundingSourceBudgetsDictionary = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var peopleDictionary = HttpRequestStorage.DatabaseEntities.People
+                .GroupBy(x => x.OrganizationID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+
             var userViewFeature = new UserViewFeature();
             if (hasDeletePermissions)
             {
@@ -42,13 +58,15 @@ namespace ProjectFirma.Web.Views.Organization
             Add("Short Name", a => a.OrganizationShortName, 100);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.OrganizationType?.OrganizationTypeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), a => userViewFeature.HasPermission(currentFirmaSession, a.PrimaryContactPerson).HasPermission ? a.GetPrimaryContactPersonAsUrl() : new HtmlString(a.GetPrimaryContactPersonAsString()), 120);
-            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(currentFirmaSession.Person).Count, 90);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(fundingSourceDictionary, projectFundingSourceBudgetsDictionary, projectFundingSourceExpenditureDictionary, projectDictionary).Count, 90);
             if (currentFirmaSession.Person.CanViewProposals())
             {
-                Add($"# of {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", a => a.GetProposalsVisibleToUser(currentFirmaSession).Count, 90);
+                Add($"# of {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}"
+                    , a => a.GetProposalsVisibleToUser(currentFirmaSession, fundingSourceDictionary, projectFundingSourceBudgetsDictionary, projectFundingSourceExpenditureDictionary, projectDictionary).Count, 90);
             }
-            Add($"# of {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}", a => a.FundingSources.Count, 90);
-            Add("# of Users", a => a.People.Count, 90);
+            Add($"# of {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}", a => fundingSourceDictionary.ContainsKey(a.OrganizationID) ? fundingSourceDictionary[a.OrganizationID].Count : 0, 90);
+            Add("# of Users", a =>
+                peopleDictionary.ContainsKey(a.OrganizationID) ? peopleDictionary[a.OrganizationID].Count : 0, 90);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmpty(), 70);
         }

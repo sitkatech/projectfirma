@@ -157,34 +157,34 @@ namespace ProjectFirma.Web.Views.Tenant
             EnableReports = tenantAttribute.EnableReports;
         }
 
-        public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
+        public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
         {
-            attribute.TenantShortDisplayName = TenantShortDisplayName;
-            attribute.ToolDisplayName = ToolDisplayName;
-            attribute.ShowProposalsToThePublic = ShowProposalsToThePublic.GetValueOrDefault();
-            attribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
-            attribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
-            attribute.CanManageCustomAttributes = CanManageCustomAttributes;
-            attribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
-            attribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
-            attribute.UseProjectTimeline = UseProjectTimeline;
-            attribute.GeoServerNamespace = GeoServerNamespace;
-            attribute.EnableProjectCategories = EnableProjectCategories;
+            tenantAttribute.TenantShortDisplayName = TenantShortDisplayName;
+            tenantAttribute.ToolDisplayName = ToolDisplayName;
+            tenantAttribute.ShowProposalsToThePublic = ShowProposalsToThePublic.GetValueOrDefault();
+            tenantAttribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
+            tenantAttribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
+            tenantAttribute.CanManageCustomAttributes = CanManageCustomAttributes;
+            tenantAttribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
+            tenantAttribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
+            tenantAttribute.UseProjectTimeline = UseProjectTimeline;
+            tenantAttribute.GeoServerNamespace = GeoServerNamespace;
+            tenantAttribute.EnableProjectCategories = EnableProjectCategories;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
             {
                 primaryContactPerson = HttpRequestStorage.DatabaseEntities.People.GetPerson(PrimaryContactPersonID.Value);
             }
-            attribute.PrimaryContactPerson = primaryContactPerson;
-            attribute.TaxonomyLevelID = TaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
-            attribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
-            attribute.MinimumYear = MinimumYear ?? 0;
-            attribute.BudgetTypeID = BudgetTypeID;
+            tenantAttribute.PrimaryContactPerson = primaryContactPerson;
+            tenantAttribute.TaxonomyLevelID = TaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
+            tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
+            tenantAttribute.MinimumYear = MinimumYear ?? 0;
+            tenantAttribute.BudgetTypeID = BudgetTypeID;
 
-            attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
-            attribute.EnableEvaluations = EnableProjectEvaluations;
-            attribute.EnableReports = EnableReports;
+            tenantAttribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
+            tenantAttribute.EnableEvaluations = EnableProjectEvaluations;
+            tenantAttribute.EnableReports = EnableReports;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)

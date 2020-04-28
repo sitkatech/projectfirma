@@ -57,6 +57,16 @@ namespace ProjectFirmaModels.Models
                    IsProposingOrganization(project);
         }
 
+        public bool IsMyProject(vProjectDetail projectDetail)
+        {
+            var isLeadImplementingOrganizationForProject = projectDetail.PrimaryContactOrganizationID == OrganizationID;
+            var isProjectStewardOrganizationForProject = projectDetail.CanStewardProjectsOrganizationID == OrganizationID;
+            var isProposingOrganization = projectDetail.ProposingOrganizationID == OrganizationID;
+            return isLeadImplementingOrganizationForProject ||
+                   isProjectStewardOrganizationForProject ||
+                   isProposingOrganization;
+        }
+
         private bool IsProposingOrganization(Project project)
         {
             return project.ProposingPerson?.OrganizationID == OrganizationID;

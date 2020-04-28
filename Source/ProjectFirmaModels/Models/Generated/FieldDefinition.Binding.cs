@@ -298,6 +298,7 @@ namespace ProjectFirmaModels.Models
         FactSheetCustomText = 348,
         FactSheetLogo = 349,
         IsContactRelationshipTypeRequired = 350,
-        IsOrganizationRelationshipTypeRequired = 351
+        IsOrganizationRelationshipTypeRequired = 351,
+        SyncWithKeystoneOnSave = 352
     }
 }

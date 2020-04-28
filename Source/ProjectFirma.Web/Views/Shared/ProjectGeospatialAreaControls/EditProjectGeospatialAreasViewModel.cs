@@ -25,7 +25,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -74,6 +76,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         {
             var errors = new List<ValidationResult>();
             var noGeospatialAreasSelected = GeospatialAreaIDs == null || GeospatialAreaIDs.Count().Equals(0);
+
+            if (noGeospatialAreasSelected && ProjectGeospatialAreaNotes.IsNullOrWhiteSpace())
+            {
+                errors.Add(new ValidationResult("Select at least one area, or if information is unavailable/irrelevant provide explanatory information in the Notes section. "));
+            }
  
             return errors;
         }

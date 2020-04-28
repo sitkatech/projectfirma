@@ -31,6 +31,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -60,8 +61,12 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<FundingSource> IndexGridJsonData()
         {
             var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
+           
             var gridSpec = new IndexGridSpec(CurrentFirmaSession, fundingSourceCustomAttributeTypes);
-            var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.GetDisplayName()).ToList();
+            var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources
+                .Include(x => x.Organization)
+                .ToList()
+                .OrderBy(ht => ht.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FundingSource>(fundingSources, gridSpec);
             return gridJsonNetJObjectResult;
         }

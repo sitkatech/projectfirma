@@ -44,7 +44,6 @@ namespace ProjectFirma.Web.Views.Organization
         [DisplayName("Name")]
         public string OrganizationName { get; set; }
 
-        [Required]
         [StringLength(ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationShortName)]
         [DisplayName("Short Name")]
         public string OrganizationShortName { get; set; }
@@ -69,6 +68,9 @@ namespace ProjectFirma.Web.Views.Organization
 
         [DisplayName("Keystone Organization Guid")]
         public Guid? OrganizationGuid { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.SyncWithKeystoneOnSave)]
+        public bool SyncWithKeystone { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -103,16 +105,32 @@ namespace ProjectFirma.Web.Views.Organization
                 organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentFirmaSession);
             }
 
+            if (SyncWithKeystone)
+            {
+                var keystoneClient = new KeystoneDataClient();
+                var keystoneOrganization = keystoneClient.GetOrganization(organization.OrganizationGuid.Value);
+                organization.OrganizationName = keystoneOrganization.FullName;
+                organization.OrganizationShortName = keystoneOrganization.ShortName;
+                organization.OrganizationUrl = keystoneOrganization.URL;
+            }
+
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (isSitkaAdmin)
             {
                 organization.OrganizationGuid = OrganizationGuid;
             }
+
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
+
+            if (!SyncWithKeystone && string.IsNullOrEmpty(OrganizationShortName))
+            {
+                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("The Short Name field is required.", x => x.OrganizationShortName));
+
+            }
 
             if (LogoFileResourceData != null && LogoFileResourceData.ContentLength > MaxLogoSizeInBytes)
             {
@@ -140,6 +158,30 @@ namespace ProjectFirma.Web.Views.Organization
                         validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("Organization Guid not found in Keystone", x => x.OrganizationGuid));
                     }
                     
+                }
+            }
+
+            if (SyncWithKeystone)
+            {
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.Single(x => x.OrganizationID == OrganizationID);
+                if (!OrganizationGuid.HasValue && isSitkaAdmin)
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, bool>("Cannot sync with Keystone if Organization Guid is blank", x => x.SyncWithKeystone));
+                    //reset short name and home page
+                    OrganizationShortName = organization.OrganizationShortName;
+                    OrganizationUrl = organization.OrganizationUrl;
+                }
+                try
+                {
+                    var keystoneClient = new KeystoneDataClient();
+                    var keystoneOrganization = keystoneClient.GetOrganization(organization.OrganizationGuid.Value);
+                }
+                catch (Exception)
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, bool>("Cannot sync: Organization Guid not found in Keystone", x => x.SyncWithKeystone));
+                    //reset short name and home page
+                    OrganizationShortName = organization.OrganizationShortName;
+                    OrganizationUrl = organization.OrganizationUrl;
                 }
             }
 
