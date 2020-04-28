@@ -50,7 +50,9 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
         {
             var fundingTypeID = project.FundingTypeID ?? 0;
-            NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
+            NoFundingSourceIdentifiedYet = project.FundingType == FundingType.BudgetVariesByYear
+                ? project.ProjectNoFundingSourceIdentifieds.FirstOrDefault()?.NoFundingSourceIdentifiedYet
+                : project.NoFundingSourceIdentifiedYet;
             ViewModelForAngular = new ViewModelForAngularEditor(fundingTypeID, projectFundingSourceBudgets, NoFundingSourceIdentifiedYet);
 
         }
@@ -79,10 +81,32 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
             List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
-            IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
+            IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets,
+            List<ProjectFirmaModels.Models.ProjectNoFundingSourceIdentified> currentProjectNoFundingSourceIdentifieds,
+            IList<ProjectFirmaModels.Models.ProjectNoFundingSourceIdentified> allProjectNoFundingSourceIdentifieds)
         {
             project.FundingTypeID = ViewModelForAngular.FundingTypeID;
-            project.NoFundingSourceIdentifiedYet = ViewModelForAngular.NoFundingSourceIdentifiedYet;
+            if (FundingType.BudgetVariesByYear.FundingTypeID == ViewModelForAngular.FundingTypeID)
+            {
+                var projectProjectNoFundingSourceIdentifiedsUpdated = new List<ProjectFirmaModels.Models.ProjectNoFundingSourceIdentified>();
+                if (ViewModelForAngular?.NoFundingSourceIdentifiedYet != null)
+                {
+                    // Completely rebuild the list
+                    projectProjectNoFundingSourceIdentifiedsUpdated.Add(new ProjectNoFundingSourceIdentified(project.ProjectID) {NoFundingSourceIdentifiedYet = ViewModelForAngular.NoFundingSourceIdentifiedYet });
+                }
+
+                currentProjectNoFundingSourceIdentifieds.Merge(projectProjectNoFundingSourceIdentifiedsUpdated,
+                    allProjectNoFundingSourceIdentifieds,
+                    (x, y) => x.ProjectID == y.ProjectID,
+                    (x, y) =>
+                    {
+                        x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet;
+                    }, HttpRequestStorage.DatabaseEntities);
+            }
+            else
+            {
+                project.NoFundingSourceIdentifiedYet = ViewModelForAngular.NoFundingSourceIdentifiedYet;
+            }
 
             var projectFundingSourceBudgetsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>();
             if (ViewModelForAngular?.ProjectFundingSourceBudgets != null)
