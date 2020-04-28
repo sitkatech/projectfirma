@@ -789,7 +789,10 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgetUpdates.Load();
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
             var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgetUpdates.Local;
-            viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceBudgetUpdates, allProjectFundingSourceExpectedFunding);
+            HttpRequestStorage.DatabaseEntities.ProjectNoFundingSourceIdentifiedUpdates.Load();
+            var pllProjectNoFundingSourceIdentifiedUpdates = projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.ToList();
+            var allProjectNoFundingSourceIdentifiedUpdates = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifiedUpdates.Local;
+            viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceBudgetUpdates, allProjectFundingSourceExpectedFunding, pllProjectNoFundingSourceIdentifiedUpdates, allProjectNoFundingSourceIdentifiedUpdates);
             if (projectUpdateBatch.IsSubmitted())
             {
                 projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;

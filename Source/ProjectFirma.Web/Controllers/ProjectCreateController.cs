@@ -521,7 +521,10 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
             var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
             var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            viewModel.UpdateModel(project, projectFundingSourceBudgets, allProjectFundingSourceBudgets);
+            HttpRequestStorage.DatabaseEntities.ProjectNoFundingSourceIdentifieds.Load();
+            var projectNoFundingSourceIdentifieds = project.ProjectNoFundingSourceIdentifieds.ToList();
+            var allProjectNoFundingSourceIdentifieds = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
+            viewModel.UpdateModel(project, projectFundingSourceBudgets, allProjectFundingSourceBudgets, projectNoFundingSourceIdentifieds, allProjectNoFundingSourceIdentifieds);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName);
         }
