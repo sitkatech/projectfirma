@@ -645,9 +645,35 @@ namespace ProjectFirma.Web.Controllers
             workSheets.Add(wsProjectFundingSourceExpenditures);
 
             var projectFundingSourceBudgetExcelSpec = new ProjectFundingSourceBudgetExcelSpec(fundingSourceCustomAttributeTypes, reportFinancialsByCostType);
-            // add ProjectFundingSourceBudgets and ProjectNoFundingSourceIdentifieds for "varies by year"
-            var projectBudgetFinancialsForExcels = projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectFundingSourceBudgets.Select(y => new ProjectBudgetFinancialsForExcel(y, reportFinancialsByCostType, null))).ToList();
-            projectBudgetFinancialsForExcels.AddRange(projects.SelectMany(p => p.ProjectNoFundingSourceIdentifieds.Select(y => new ProjectBudgetFinancialsForExcel(y))).ToList());
+            var projectBudgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
+            // add ProjectFundingSourceBudgets and ProjectNoFundingSourceIdentifieds for "varies by year" for Tenants that use Annual Budget by Cost Type or Annual Budget (current no tenants use this, but adding for future support)
+            if (reportFinancialsByCostType || budgetType == BudgetType.AnnualBudget)
+            {
+                projectBudgetFinancialsForExcels = projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectFundingSourceBudgets.Select(y => new ProjectBudgetFinancialsForExcel(y, reportFinancialsByCostType, null))).ToList();
+                projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.Select(y => new ProjectBudgetFinancialsForExcel(y, null))).ToList());
+            }
+            else
+            {
+                // add ProjectFundingSourceBudgets and ProjectNoFundingSourceIdentifieds for "varies by year" for Tenants that use Simple Budget. Need to add one row per year of the project, because current CalendarYear not set for these ProjectFundingSourceBudgets
+                projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p =>
+                {
+                    var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
+                    for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
+                    {
+                        budgetFinancialsForExcels.AddRange(p.ProjectFundingSourceBudgets.Select(pfsb => new ProjectBudgetFinancialsForExcel(pfsb, reportFinancialsByCostType, i)).ToList());
+                    }
+                    return budgetFinancialsForExcels;
+                }).ToList());
+                projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.SelectMany(y =>
+                {
+                    var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
+                    for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
+                    {
+                        budgetFinancialsForExcels.Add(new ProjectBudgetFinancialsForExcel(y, i));
+                    }
+                    return budgetFinancialsForExcels;
+                })).ToList());
+            }
             // add ProjectFundingSourceBudgets for "same each year"
             projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p =>
             {
@@ -659,15 +685,15 @@ namespace ProjectFirma.Web.Controllers
                 return budgetFinancialsForExcels;
             }).ToList());
             // add no funding source identified for "same each year"
-            projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p =>
+            projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.SelectMany(y =>
             {
                 var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
                 for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
                 {
-                    budgetFinancialsForExcels.Add(new ProjectBudgetFinancialsForExcel(p, i));
+                    budgetFinancialsForExcels.Add(new ProjectBudgetFinancialsForExcel(y, i));
                 }
                 return budgetFinancialsForExcels;
-            }).ToList());
+            })).ToList());
             projectBudgetFinancialsForExcels = projectBudgetFinancialsForExcels.OrderBy(x => x.Project.ProjectID)
                 .ThenBy(x => x.FundingSource).ThenBy(x => x.CalendarYear).ToList();
             var wsProjectFundingSourceBudgets = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Budgets", projectFundingSourceBudgetExcelSpec, projectBudgetFinancialsForExcels);

@@ -87,11 +87,7 @@ namespace ProjectFirma.Web.Models
 
             // Expected Funding
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-
-            if (project.FundingType == FundingType.BudgetVariesByYear)
-            {
-                ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            }
+            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // expected performance measures
             PerformanceMeasureExpectedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
