@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeType) :
             base(currentFirmaSession, firmaPage)
         {
-            PageTitle = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
+            PageTitle = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}";
 
             GridSpec = new IndexGridSpec(currentFirmaSession, fundingSourceCustomAttributeType)
             {
