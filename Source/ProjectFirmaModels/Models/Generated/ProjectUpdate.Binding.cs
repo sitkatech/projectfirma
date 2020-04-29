@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? primaryContactPersonID, int? fundingTypeID, decimal? noFundingSourceIdentifiedYet) : this()
+        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? primaryContactPersonID, int? fundingTypeID) : this()
         {
             this.ProjectUpdateID = projectUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -46,7 +46,6 @@ namespace ProjectFirmaModels.Models
             this.EstimatedAnnualOperatingCostDeprecated = estimatedAnnualOperatingCostDeprecated;
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.FundingTypeID = fundingTypeID;
-            this.NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
         }
 
         /// <summary>
@@ -133,7 +132,6 @@ namespace ProjectFirmaModels.Models
         public decimal? EstimatedAnnualOperatingCostDeprecated { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public int? FundingTypeID { get; set; }
-        public decimal? NoFundingSourceIdentifiedYet { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 

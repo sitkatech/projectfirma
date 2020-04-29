@@ -57,9 +57,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ExpectedFundingViewModel(ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceBudgetUpdate> projectFundingSourceBudgetUpdates,
             string comments)
         {
-            NoFundingSourceIdentifiedYet = projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetVariesByYear
-                ? projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.FirstOrDefault()?.NoFundingSourceIdentifiedYet
-                : projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet;
+            NoFundingSourceIdentifiedYet = projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.FirstOrDefault()?.NoFundingSourceIdentifiedYet;
             Comments = comments;
             ExpectedFundingUpdateNote = projectUpdateBatch.ExpectedFundingUpdateNote;
             ViewModelForAngular = new ViewModelForAngularEditor(projectUpdateBatch.ProjectUpdate.FundingTypeID ?? 0, projectFundingSourceBudgetUpdates, NoFundingSourceIdentifiedYet);
@@ -98,29 +96,20 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 projectUpdateBatch.ProjectUpdate.FundingTypeID = ViewModelForAngular.FundingTypeID;
             }
 
-            if (FundingType.BudgetVariesByYear.FundingTypeID == ViewModelForAngular.FundingTypeID)
+            var projectProjectNoFundingSourceIdentifiedsUpdated = new List<ProjectFirmaModels.Models.ProjectNoFundingSourceIdentifiedUpdate>();
+            if (ViewModelForAngular?.NoFundingSourceIdentifiedYet != null)
             {
-                var projectProjectNoFundingSourceIdentifiedsUpdated = new List<ProjectFirmaModels.Models.ProjectNoFundingSourceIdentifiedUpdate>();
-                if (ViewModelForAngular?.NoFundingSourceIdentifiedYet != null)
+                // Completely rebuild the list
+                projectProjectNoFundingSourceIdentifiedsUpdated.Add(new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID) { NoFundingSourceIdentifiedYet = ViewModelForAngular.NoFundingSourceIdentifiedYet });
+            }
+            currentProjectNoFundingSourceIdentifiedUpdates.Merge(projectProjectNoFundingSourceIdentifiedsUpdated,
+                allProjectNoFundingSourceIdentifiedUpdates,
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear,
+                (x, y) =>
                 {
-                    // Completely rebuild the list
-                    projectProjectNoFundingSourceIdentifiedsUpdated.Add(new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID) { NoFundingSourceIdentifiedYet = ViewModelForAngular.NoFundingSourceIdentifiedYet });
-                }
+                    x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet;
+                }, HttpRequestStorage.DatabaseEntities);
             
-                currentProjectNoFundingSourceIdentifiedUpdates.Merge(projectProjectNoFundingSourceIdentifiedsUpdated,
-                    allProjectNoFundingSourceIdentifiedUpdates,
-                    (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID,
-                    (x, y) =>
-                    {
-                        x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet;
-                    }, HttpRequestStorage.DatabaseEntities);
-            }
-            else
-            {
-                projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = ViewModelForAngular.NoFundingSourceIdentifiedYet;
-            }
-
-            projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = ViewModelForAngular.NoFundingSourceIdentifiedYet;
             projectUpdateBatch.ExpectedFundingUpdateNote = ExpectedFundingUpdateNote;
             var projectFundingSourceBudgetUpdatesUpdated = new List<ProjectFundingSourceBudgetUpdate>();
             if (ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples != null)

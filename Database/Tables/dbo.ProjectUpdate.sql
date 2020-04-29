@@ -18,7 +18,6 @@ CREATE TABLE [dbo].[ProjectUpdate](
 	[EstimatedAnnualOperatingCostDeprecated] [decimal](18, 0) NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[FundingTypeID] [int] NULL,
-	[NoFundingSourceIdentifiedYet] [money] NULL,
  CONSTRAINT [PK_ProjectUpdate_ProjectUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateID] ASC
