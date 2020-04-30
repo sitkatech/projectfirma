@@ -839,6 +839,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
+            projectUpdateBatch.DeleteProjectNoFundingSourceIdentifiedUpdates();
             // refresh data
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -958,9 +959,9 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectNoFundingSourceIdentifiedUpdates();
             // refresh data
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             // Need to revert project-level budget data too
             projectUpdateBatch.ProjectUpdate.FundingTypeID = project.FundingTypeID;
-            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully reverted.");
             return new ModalDialogFormJsonResult();
