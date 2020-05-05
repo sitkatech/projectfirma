@@ -40,7 +40,12 @@ namespace ProjectFirma.Web.Views.Project
                 return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteProposalUrl(),
                         userHasDeletePermission, true);
             }, 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsHyperlinkBootstrap(x.GetProjectCreateUrl(), new ProjectCreateFeature().HasPermission(firmaSession, x).HasPermission), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty,
+                x => DhtmlxGridHtmlHelpers.MakeEditIconAsHyperlinkBootstrap(x.GetProjectCreateUrl(),
+                    new ProjectCreateFeature().HasPermission(firmaSession, x).HasPermission &&
+                    !(x.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval &&
+                      firmaSession.Role == ProjectFirmaModels.Models.Role.Normal)), 30,
+                DhtmlxGridColumnFilterType.None);
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
             Add("Submittal Status", a => a.ProjectApprovalStatus.ProjectApprovalStatusDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
