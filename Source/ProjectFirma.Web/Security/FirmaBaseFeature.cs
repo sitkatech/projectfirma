@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Security
             bool personIsAnonymous = person == null;
 
             // Inactive Tenants disallow anonymous/unassigned traffic
-            bool tenantIsActive = MultiTenantHelpers.GetTenantAttribute().IsActive;
+            bool tenantIsActive = MultiTenantHelpers.GetTenantAttributeFromCache().IsActive;
             if (!tenantIsActive && (personIsAnonymous || person.IsUnassigned()))
             {
                 return false;

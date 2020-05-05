@@ -59,12 +59,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 </head>
-<body>
+<body class="environment-@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
     <div class="expandToFillScreen">
         <div class="header">
             <div class="optionalContainer">
                 <div class="row">
-                    <div class="headerText col-sm-12 col-md-8">
+                    <div class="headerText col-sm-12 col-md-7">
                         @if (ViewDataTyped.TenantName == "ActionAgendaForPugetSound")
                         {
                             <nav class="navbar projectFirmaNavbar actionAgendaCustomSiteExplorer">
@@ -98,7 +98,13 @@ Source code is available upon request via <support@sitkatech.com>.
                             </a>
                         }
                     </div>
-                    <div class="col-sm-12 col-md-4">
+                    <div class="col-sm-12 col-md-5">
+                        @if(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType != FirmaEnvironmentType.Prod)
+                        { 
+                            <div class="environment alert alert-warning @FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
+                                Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
+                            </div>
+                        }
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
                             <label for="@SearchResults.ProjectSearchInputTextboxID" class="sr-only">Search</label>
                             <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
@@ -212,11 +218,9 @@ Source code is available upon request via <support@sitkatech.com>.
                             }
                             else
                             {
-                                <li class="dropdown join-button-left">
-                                    <a href="@ViewDataTyped.LogInUrl" title="Log In">Log In</a>
-                                </li>
-                                <li class="dropdown join-button-right">
-                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <li class="dropdown joined-buttons">
+                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left">Log In</a>
+                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right">
                                         <span class="glyphicon glyphicon-menu-down"></span>
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </a>
@@ -225,6 +229,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
                                     </ul>
                                 </li>
+                                
                             }
                             @ViewDataTyped.HelpMenu.RenderMenu()
                         </ul>

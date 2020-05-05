@@ -48,11 +48,7 @@ namespace ProjectFirmaModels.Models
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
-            if (FundingType == FundingType.BudgetVariesByYear)
-            {
-                return ProjectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
-            }
-            return NoFundingSourceIdentifiedYet;
+            return ProjectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
         }
 
         public decimal? GetEstimatedTotalRegardlessOfFundingType()
@@ -78,7 +74,6 @@ namespace ProjectFirmaModels.Models
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
             FundingTypeID = project.FundingTypeID;
         }
 

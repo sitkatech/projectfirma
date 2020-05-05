@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Models
         {
             var project = projectUpdateBatch.Project;
             projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates = project.ProjectNoFundingSourceIdentifieds.Select(x => 
-                new ProjectNoFundingSourceIdentifiedUpdate(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), projectUpdateBatch.ProjectUpdateBatchID, x.CalendarYear.Value, x.NoFundingSourceIdentifiedYet)).ToList();
+                new ProjectNoFundingSourceIdentifiedUpdate(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), projectUpdateBatch.ProjectUpdateBatchID, x.CalendarYear.HasValue ? x.CalendarYear.Value : (int?)null, x.NoFundingSourceIdentifiedYet)).ToList();
         }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)

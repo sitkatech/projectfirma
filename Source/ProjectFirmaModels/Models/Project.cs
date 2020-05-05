@@ -51,6 +51,7 @@ namespace ProjectFirmaModels.Models
             return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
+
         public decimal? GetSecuredFundingForFundingSources(List<int> fundingSourceIDs)
         {
             return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
@@ -68,11 +69,7 @@ namespace ProjectFirmaModels.Models
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
-            if (FundingType == FundingType.BudgetVariesByYear)
-            {
-                return ProjectNoFundingSourceIdentifieds.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
-            }
-            return NoFundingSourceIdentifiedYet;
+            return ProjectNoFundingSourceIdentifieds.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
         }
 
         public decimal? GetEstimatedTotalRegardlessOfFundingType()

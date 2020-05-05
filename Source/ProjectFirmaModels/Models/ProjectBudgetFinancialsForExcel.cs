@@ -48,18 +48,12 @@ namespace ProjectFirmaModels.Models
             }
         }
 
-        public ProjectBudgetFinancialsForExcel(ProjectNoFundingSourceIdentified projectNoFundingSourceIdentified)
+        public ProjectBudgetFinancialsForExcel(ProjectNoFundingSourceIdentified projectNoFundingSourceIdentified, int? calendarYear)
         {
             Project = projectNoFundingSourceIdentified.Project;
             NoFundingSourceIdentifiedAmount = projectNoFundingSourceIdentified.NoFundingSourceIdentifiedYet;
-            CalendarYear = projectNoFundingSourceIdentified.CalendarYear;
+            CalendarYear = calendarYear ?? projectNoFundingSourceIdentified.CalendarYear;
         }
 
-        public ProjectBudgetFinancialsForExcel(Project project, int calendarYear)
-        {
-            Project = project;
-            CalendarYear = calendarYear;
-            NoFundingSourceIdentifiedAmount = project.NoFundingSourceIdentifiedYet;
-        }
     }
 }

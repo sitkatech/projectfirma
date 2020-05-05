@@ -20,10 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.Mvc;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.AttachmentType
@@ -39,7 +37,9 @@ namespace ProjectFirma.Web.Views.AttachmentType
         {
             AllFileResourceMimeTypes = fileResourceMimeTypes;
             AllTaxonomyTrunks = allTaxonomyTrunks.Select(x => new TaxonomyTrunkSimple(x)).ToList();
-            // 8/7/2019 TK - AttachmentTypeTaxonomyTrunk is configured to only be FK'ed to the TaxonomyTrunk table. If we want to support clients applying attachment types to branches or leaves, we will need to add FK's to those tables as well. Then update the AttachmentTypeTaxonomyTrunk class to return the correct list of taxonomy objects based on the clients set taxonomy level
+            // 8/7/2019 TK - AttachmentTypeTaxonomyTrunk is configured to only be FK'ed to the TaxonomyTrunk table.
+            // If we want to support clients applying attachment types to branches or leaves, we will need to add FK's to those tables as well.
+            // Then update the AttachmentTypeTaxonomyTrunk class to return the correct list of taxonomy objects based on the clients set taxonomy level.
             HasTaxonomyTrunks = hasTaxonomyTrunks;
             MaxFileSizes = new List<SelectListItem>();
             for (var i = 10; i <= 50; i += 10)

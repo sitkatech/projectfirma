@@ -75,9 +75,10 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewAddGeospatialAreaToPerformanceMeasure(PerformanceMeasure performanceMeasure, AddGeospatialAreaToPerformanceMeasureViewModel viewModel)
         {
             var geospatialAreaTypeSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().Select(x => new GeospatialAreaTypeSimple(x)).ToList();
-
             //build list of geospatial areas and remove any we have already setup a connection to this performance measure
-            var geospatialAreaSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().Select(x => new GeospatialAreaSimple(x)).ToList();//todo: probably want this data coming from an AJAX call
+            var geospatialAreaSimples = HttpRequestStorage.DatabaseEntities.vGeospatialAreas
+                .Where(x => x.TenantID == HttpRequestStorage.DatabaseEntities.TenantID)
+                .ToList().Select(x => new GeospatialAreaSimple(x)).ToList();//todo: probably want this data coming from an AJAX call
             var selectedGeospatialAreas = GetSelectedGeospatialAreasFromPerformanceMeasure(performanceMeasure);
             var selectedGeospatialAreaSimples = geospatialAreaSimples.Where(x => selectedGeospatialAreas.Contains(x.GeospatialAreaID)).ToList();
             var setToRemove = new HashSet<GeospatialAreaSimple>(selectedGeospatialAreaSimples);

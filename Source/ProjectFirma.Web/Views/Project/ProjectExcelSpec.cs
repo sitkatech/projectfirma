@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Project
 
 
             AddColumn($"Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}", x => x.TaxonomyLeaf.GetDisplayName());
-            var enableSecondaryProjectTaxonomyLeaf = MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf;
+            var enableSecondaryProjectTaxonomyLeaf = MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf;
             if (enableSecondaryProjectTaxonomyLeaf)
             {
                 AddColumn(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized(), x => string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayName())));
@@ -74,6 +74,8 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), x => x.GetNoFundingSourceIdentifiedAmount());
             AddColumn("State", a => a.GetProjectLocationStateProvince());
             AddColumn($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
+            AddColumn("Latitude", x => x.ProjectLocationPoint?.YCoordinate);
+            AddColumn("Longitude", x => x.ProjectLocationPoint?.XCoordinate);
         }
     }
 
@@ -188,6 +190,12 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectFundingSourceBudgetExcelSpec(List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes, bool reportFinancialsByCostType)
         {
+            var fundingSourceCustomAttributeDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributes
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var fundingSourceCustomAttributeValueDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeValues
+                .GroupBy(x => x.FundingSourceCustomAttributeID)
+                .ToDictionary(x => x.Key, y => y.ToList());
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource?.FundingSourceName);
@@ -196,7 +204,7 @@ namespace ProjectFirma.Web.Views.Project
             foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes)
             {
                 AddColumn($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}",
-                    a => a.FundingSource?.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType));
+                    a => a.FundingSource?.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType, fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary));
             }
             AddColumn(MultiTenantHelpers.UseFiscalYears() ? "Fiscal Year" : "Calendar Year", x => x.CalendarYear);
             if (reportFinancialsByCostType)

@@ -30,7 +30,6 @@ CREATE TABLE [dbo].[Project](
 	[ReviewedByPersonID] [int] NULL,
 	[DefaultBoundingBox] [geometry] NULL,
 	[ExpendituresNote] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[NoFundingSourceIdentifiedYet] [money] NULL,
 	[ExpectedFundingUpdateNote] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LastUpdatedDate] [datetime] NOT NULL,
 	[ProjectCategoryID] [int] NOT NULL,
@@ -63,6 +62,17 @@ CREATE TABLE [dbo].[Project](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
+GO
+SET ANSI_PADDING ON
+
+GO
+CREATE NONCLUSTERED INDEX [IDX_Project_TaxonomyLeaf] ON [dbo].[Project]
+(
+	[TaxonomyLeafID] ASC
+)
+INCLUDE ( 	[TenantID],
+	[ProjectName],
+	[PrimaryContactPersonID]) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Project] ADD  DEFAULT ((1)) FOR [ProjectCategoryID]
 GO

@@ -52,20 +52,24 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var currentProjectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            var currentProjectNoFundingSourceIdentifieds = project.ProjectNoFundingSourceIdentifieds.ToList();
             if (!ModelState.IsValid)
             {
                 return ViewEditProjectFundingSourceBudgets(project, viewModel);
             }
-            return UpdateProjectFundingSourceBudgets(viewModel, project, currentProjectFundingSourceBudgets);
+            return UpdateProjectFundingSourceBudgets(viewModel, project, currentProjectFundingSourceBudgets, currentProjectNoFundingSourceIdentifieds);
         }
 
         private static ActionResult UpdateProjectFundingSourceBudgets(EditProjectFundingSourceBudgetViewModel viewModel,
             Project project,
-             List<ProjectFundingSourceBudget> currentProjectFundingSourceBudgets)
+            List<ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
+            List<ProjectNoFundingSourceIdentified> currentProjectNoFundingSourceIdentifieds)
         {
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
             var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            viewModel.UpdateModel(project, currentProjectFundingSourceBudgets, allProjectFundingSourceBudgets);
+            HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Load();
+            var allProjectNoFundingSourceIdentifieds = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
+            viewModel.UpdateModel(project, currentProjectFundingSourceBudgets, allProjectFundingSourceBudgets, currentProjectNoFundingSourceIdentifieds, allProjectNoFundingSourceIdentifieds);
 
             return new ModalDialogFormJsonResult();
         }

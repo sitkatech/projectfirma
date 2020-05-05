@@ -36,7 +36,20 @@ namespace ProjectFirma.Web.Views.FundingSource
         public IndexGridSpec(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
         {
             var currentPerson = currentFirmaSession.Person;
+            var projectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var projectFundingSourceExpenditureDictionary = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
 
+            var fundingSourceCustomAttributeDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributes
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var fundingSourceCustomAttributeValueDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeValues
+                .GroupBy(x => x.FundingSourceCustomAttributeID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var projectDictionary = HttpRequestStorage.DatabaseEntities.Projects.ToDictionary(x => x.ProjectID);
             var fundingSourceDeleteFeature = new FundingSourceDeleteFeature();
             if (fundingSourceDeleteFeature.HasPermissionByFirmaSession(currentFirmaSession))
             {
@@ -47,17 +60,23 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.FundingSourceDescription, 300);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            
             Add(FieldDefinitionEnum.FundingSourceAmount.ToType().ToGridHeaderString(), a => a.FundingSourceAmount, 80, DhtmlxGridColumnFormatType.Currency);
-            Add($"{FieldDefinitionEnum.NumberOfProjectsWithExpendedFunds.ToType().ToGridHeaderString()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
-            Add($"{FieldDefinitionEnum.TotalExpenditures.ToType().ToGridHeaderString()}", a => a.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount), 100, DhtmlxGridColumnFormatType.Currency);
-            Add($"{FieldDefinitionEnum.NumberOfProjectsWithSecuredFunds.ToType().ToGridHeaderString()}", a => a.GetAssociatedProjectsWithSecuredFunding(currentPerson).Count, 90);
-            Add($"{FieldDefinitionEnum.TotalProjectSecuredFunds.ToType().ToGridHeaderString()}", a => a.ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount), 80, DhtmlxGridColumnFormatType.Currency);
-            Add($"{FieldDefinitionEnum.TotalProjectTargetedFunds.ToType().ToGridHeaderString()}", a => a.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount), 80, DhtmlxGridColumnFormatType.Currency);
+            
+            Add($"{FieldDefinitionEnum.NumberOfProjectsWithExpendedFunds.ToType().ToGridHeaderString()}", a => a.GetAssociatedProjects(currentPerson, a.GetProjectFundingSourceExpendituresFromDictionary(projectFundingSourceExpenditureDictionary)).Count, 90);
+            Add($"{FieldDefinitionEnum.TotalExpenditures.ToType().ToGridHeaderString()}", a => a.GetProjectFundingSourceExpendituresFromDictionary(projectFundingSourceExpenditureDictionary).Sum(x => x.ExpenditureAmount), 100, DhtmlxGridColumnFormatType.Currency);
+            Add($"{FieldDefinitionEnum.NumberOfProjectsWithSecuredFunds.ToType().ToGridHeaderString()}"
+                , a => a.GetAssociatedProjectsWithSecuredFunding(currentPerson, a.GetProjectFundingSourceBudgetsFromDictionary(projectFundingSourceBudgets), projectDictionary).Count
+                , 90);
+            Add($"{FieldDefinitionEnum.TotalProjectSecuredFunds.ToType().ToGridHeaderString()}", a => a.GetProjectFundingSourceBudgetsFromDictionary(projectFundingSourceBudgets).Sum(x => x.SecuredAmount), 80, DhtmlxGridColumnFormatType.Currency);
+            Add($"{FieldDefinitionEnum.TotalProjectTargetedFunds.ToType().ToGridHeaderString()}", a => a.GetProjectFundingSourceBudgetsFromDictionary(projectFundingSourceBudgets).Sum(x => x.TargetedAmount), 80, DhtmlxGridColumnFormatType.Currency);
             foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes.OrderBy(x => x.FundingSourceCustomAttributeTypeName))
             {
                 if (fundingSourceCustomAttributeType.IncludeInFundingSourceGrid && fundingSourceCustomAttributeType.HasViewPermission(currentFirmaSession))
                 {
-                    Add($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}", a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
+                    Add($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}"
+                        , a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType, fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary)
+                        , 150, DhtmlxGridColumnFilterType.Text);
                 }
             }
         }

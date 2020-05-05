@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
             var deleteFactSheetLogoFileResourceUrl = new SitkaRoute<ProjectFactSheetController>(c => c.DeleteTenantFactSheetLogoFileResource()).BuildUrlFromExpression();
             var editFactSheetLogoUrl = new SitkaRoute<ProjectFactSheetController>(c => c.EditFactSheetLogo()).BuildUrlFromExpression();
             var editBasicsUrl = new SitkaRoute<ProjectFactSheetController>(c => c.EditBasics()).BuildUrlFromExpression();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewData = new ManageViewData(CurrentFirmaSession, firmaPage, factSheetCustomTextViewData, editCustomFactSheetTextUrl, deleteFactSheetLogoFileResourceUrl, editFactSheetLogoUrl, editBasicsUrl, tenantAttribute);
             return RazorView<Manage, ManageViewData>(viewData);
         }
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
 
             viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
-
+            MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult(new SitkaRoute<ProjectFactSheetController>(c => c.Manage()).BuildUrlFromExpression());
         }
 
@@ -81,13 +81,12 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditFactSheetLogo, EditFactSheetLogoViewData, EditFactSheetLogoViewModel>(viewData, viewModel);
         }
 
-
         [HttpGet]
         [ProjectFactSheetAdminFeature]
         public PartialViewResult DeleteTenantFactSheetLogoFileResource()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantFactSheetLogoFileResource(viewModel, tenantAttribute);
         }
@@ -98,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantFactSheetLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantFactSheetLogoFileResource(viewModel, tenantAttribute);
@@ -107,6 +106,7 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResource;
             tenantAttribute.TenantFactSheetLogoFileResource = null;
             tenantAttributeTenantFactSheetLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
+            MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();
         }
 
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditBasics()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewModel = new EditBasicsViewModel(tenant, tenantAttribute);
             return ViewEditBasics(viewModel);
         }
@@ -138,7 +138,7 @@ namespace ProjectFirma.Web.Controllers
 
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
             viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession);
-            
+            MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult(new SitkaRoute<ProjectFactSheetController>(c => c.Manage()).BuildUrlFromExpression());
         }
 

@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
             var project = projectUpdateBatch.Project;
-            if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
             {
                 projectUpdateBatch.ProjectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.Select(
                     projectFundingSourceBudget =>
@@ -46,7 +46,6 @@ namespace ProjectFirma.Web.Models
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
-            project.NoFundingSourceIdentifiedYet = projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet;
             project.ExpectedFundingUpdateNote = projectUpdateBatch.ExpectedFundingUpdateNote;
             project.FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingTypeID;
             var projectFundingSourceExpectedFundingFromProjectUpdate = projectUpdateBatch

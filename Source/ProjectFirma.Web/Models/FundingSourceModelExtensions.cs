@@ -30,12 +30,17 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjects(this FundingSource fundingSource, Person person)
         {
-            return fundingSource.ProjectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return GetAssociatedProjects(fundingSource, person, fundingSource.ProjectFundingSourceExpenditures.ToList());
         }
 
-        public static List<Project> GetAssociatedProjectsWithSecuredFunding(this FundingSource fundingSource, Person person)
+        public static List<Project> GetAssociatedProjects(this FundingSource fundingSource, Person person, List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
-            return fundingSource.ProjectFundingSourceBudgets.Where(x => x.SecuredAmount > 0).Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return projectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+        }
+
+        public static List<Project> GetAssociatedProjectsWithSecuredFunding(this FundingSource fundingSource, Person person, List<ProjectFundingSourceBudget> projectFundingSourceBudgets, Dictionary<int,Project> projectDictionary)
+        {
+            return projectFundingSourceBudgets.Where(x => x.SecuredAmount > 0).Select(x => projectDictionary[x.ProjectID]).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
 
         public static string GetDisplayName(this FundingSource fundingSource) =>
@@ -76,19 +81,33 @@ namespace ProjectFirma.Web.Models
                 : (int?)null;
         }
 
-        public static string GetFundingSourceCustomAttributesValue(this FundingSource fundingSource, FundingSourceCustomAttributeType fundingSourceCustomAttributeType)
+        public static string GetFundingSourceCustomAttributesValue(this FundingSource fundingSource
+            , FundingSourceCustomAttributeType fundingSourceCustomAttributeType
+            , Dictionary<int,List<FundingSourceCustomAttribute>> fundingSourceCustomAttributeDictionary
+            , Dictionary<int,List<FundingSourceCustomAttributeValue>> fundingSourceCustomAttributeValueDictionary)
         {
-            var fundingSourceCustomAttribute = fundingSource.FundingSourceCustomAttributes.SingleOrDefault(x => x.FundingSourceCustomAttributeTypeID == fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeID);
+            var fundingSourceCustomAttributesList =
+                fundingSourceCustomAttributeDictionary.ContainsKey(fundingSource.FundingSourceID)
+                    ? fundingSourceCustomAttributeDictionary[fundingSource.FundingSourceID]
+                    : new List<FundingSourceCustomAttribute>();
+            var fundingSourceCustomAttribute = fundingSourceCustomAttributesList.SingleOrDefault(x => x.FundingSourceCustomAttributeTypeID == fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeID);
             if (fundingSourceCustomAttribute != null)
             {
+                var fundingSourceCustomAttributeValues =
+                    fundingSourceCustomAttributeValueDictionary.ContainsKey(fundingSourceCustomAttribute
+                        .FundingSourceCustomAttributeID)
+                        ? fundingSourceCustomAttributeValueDictionary[
+                            fundingSourceCustomAttribute.FundingSourceCustomAttributeID]
+                        : new List<FundingSourceCustomAttributeValue>();
+
                 if (fundingSourceCustomAttributeType.FundingSourceCustomAttributeDataType == FundingSourceCustomAttributeDataType.DateTime)
                 {
-                    return DateTime.TryParse(fundingSourceCustomAttribute.GetCustomAttributeValues().Single().AttributeValue, out var date) ? date.ToShortDateString() : null;
+                    return DateTime.TryParse(fundingSourceCustomAttributeValues.Single().AttributeValue, out var date) ? date.ToShortDateString() : null;
                 }
                 else
                 {
                     return string.Join(", ",
-                        fundingSourceCustomAttribute.FundingSourceCustomAttributeValues.Select(x => x.AttributeValue));
+                        fundingSourceCustomAttributeValues.Select(x => x.AttributeValue));
                 }
             }
             else

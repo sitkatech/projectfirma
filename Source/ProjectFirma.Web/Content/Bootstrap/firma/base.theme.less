@@ -232,6 +232,13 @@ form {
             text-decoration: none;
         }
     }
+
+    .environment {
+        padding:6px 15px;
+        float:left;
+        margin-top:17px;
+        margin-right:15px;
+    }
 }
 
 @media (max-width: 991px){ 
@@ -277,14 +284,14 @@ form {
 }
 
 .navbar-nav {
-    > li.join-button-left {
-        > a {
+    .joined-buttons {
+        a {
+            display:inline-block;
+        }
+        .join-button-left {
             padding: 15px 2px 15px 15px;
         }
-    }
-
-    > li.join-button-right {
-        > a {
+        .join-button-right {
             padding: 15px 15px 15px 2px;
         }
     }
@@ -302,6 +309,11 @@ form {
 @media(max-width: 767px ) {
     .navbar-right {
         padding-right: 0;
+    }
+    .header {
+        .environment {
+            margin-top:0;
+        }
     }
 }
 

@@ -28,6 +28,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace ProjectFirma.Web.Views
 {
@@ -84,8 +85,10 @@ namespace ProjectFirma.Web.Views
 
             LogInUrl = FirmaHelpers.GenerateLogInUrl();
             LogOutUrl = FirmaHelpers.GenerateLogOutUrlWithReturnUrl();
-            ForgotPasswordUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneForgotPasswordUrl");
-            RegisterAccountUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneRegisterUrl");
+
+            var currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(currentUrl);
+            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(currentUrl);
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 
@@ -258,19 +261,19 @@ namespace ProjectFirma.Web.Views
             var configureMenu = new LtInfoMenuItem("Configure");
 
             // Group 1 - Projects
-            if (MultiTenantHelpers.GetTenantAttribute().CanManageCustomAttributes)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().CanManageCustomAttributes)
             {
                 configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomAttributeTypeController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
                 configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomAttributeGroupController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
             }
             configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomGridController>(c => c.ManageProjectCustomGrids()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Grids", "Group1"));
 
-            if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
             {
                 configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
             }
 
-            if (MultiTenantHelpers.GetTenantAttribute().CanManageCustomAttributes)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().CanManageCustomAttributes)
             {
                 // Group 2 - Funding source
                 configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceCustomAttributeTypeController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));

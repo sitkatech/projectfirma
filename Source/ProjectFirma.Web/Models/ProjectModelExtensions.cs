@@ -55,6 +55,11 @@ namespace ProjectFirma.Web.Models
             return DetailUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static string GetProjectDetailUrl(this vProjectAttachment projectAttachment)
+        {
+            return DetailUrlTemplate.ParameterReplace(projectAttachment.ProjectID);
+        }
+
         public static string GetDetailAbsoluteUrl(this Project project)
         {
             return DetailAbsoluteUrlTemplate.ParameterReplace(project.ProjectID);
@@ -123,6 +128,13 @@ namespace ProjectFirma.Web.Models
         public static bool IsMyProject(this Project project, FirmaSession currentFirmaSession)
         {
             return !currentFirmaSession.IsAnonymousUser() && (project.IsPersonThePrimaryContact(currentFirmaSession.Person) || currentFirmaSession.Person.Organization.IsMyProject(project) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
+        }
+
+        public static bool IsMyProject(this vProjectDetail projectDetail, FirmaSession currentFirmaSession)
+        {
+            var personID = currentFirmaSession.PersonID;
+            var isPrimaryContact = projectDetail.PrimaryContactPersonID == personID;
+            return !currentFirmaSession.IsAnonymousUser() && (isPrimaryContact || currentFirmaSession.Person.Organization.IsMyProject(projectDetail) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(projectDetail)));
         }
 
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
@@ -464,6 +476,12 @@ namespace ProjectFirma.Web.Models
             return project.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project).HasPermission;
         }
 
+        public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession, vProjectDetail projectDetail, string projectLabel, bool hasPermissionBySession)
+        {
+            
+            return projectDetail.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project, projectLabel, hasPermissionBySession).HasPermission;
+        }
+
         public static HtmlString GetDisplayNameAsUrl(this Project project) => UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName());
 
         public static List<Person> GetPrimaryContactPeople(this IList<Project> projects)
@@ -617,6 +635,36 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static string GetProjectCustomAttributesValue(this Project project, ProjectCustomAttributeType projectCustomAttributeType, Dictionary<int, List<vProjectCustomAttributeValue>> projectCustomAttributeDictionary)
+        {
+            var listExists = projectCustomAttributeDictionary.ContainsKey(project.ProjectID);
+            var projectCustomAttribute = listExists ? projectCustomAttributeDictionary[project.ProjectID].SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID) : null;
+           
+            if (projectCustomAttribute != null)
+            {
+                if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                {
+                    return DateTime.TryParse(projectCustomAttribute.ProjectCustomAttributeValuesConcatenated, out var date) ? date.ToShortDateString() : null;
+                }
+                else
+                {
+                    return projectCustomAttribute.ProjectCustomAttributeValuesConcatenated;
+                }
+            }
+            else if (projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.All(x => x.ProjectCategoryID != project.ProjectCategoryID))
+            {
+                //This ProjectCustomAttributeType is not applicable to this Project Type, therefore it is Not Applicable(N/A)
+                return "N/A";
+            }
+            else
+            {
+                //This just has no value
+                return "None";
+            }
+        }
+
+
+
 
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType)
         {
@@ -625,6 +673,17 @@ namespace ProjectFirma.Web.Models
                 ? String.Join(", ", projectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
         }
+
+        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int,vGeospatialArea> geospatialDictionary, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
+        {
+            var areThereAny = projectGeospatialAreaDictionary.ContainsKey(project.ProjectID);
+            var projectGeospatialAreas = areThereAny ? projectGeospatialAreaDictionary[project.ProjectID].Where(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList() : new List<ProjectGeospatialArea>();
+            return new HtmlString(projectGeospatialAreas.Any()
+                ? String.Join(", ", projectGeospatialAreas.OrderBy(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaName).Select(x => geospatialDictionary[x.GeospatialAreaID].GetDisplayNameAsUrl()))
+                : ViewUtilities.NaString);
+        }
+
+
 
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this Project project)
         {
@@ -667,7 +726,7 @@ namespace ProjectFirma.Web.Models
         public static string GetProjectOrganizationNamesForFactSheet(this Project project)
         {
             // get the list of funders so we can exclude any that have other project associations
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var fundingOrganizations = project.GetFundingOrganizations(tenantAttribute.ExcludeTargetedFundingOrganizations).Select(x => x.Organization.OrganizationID);
             // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
             var associatedOrganizations = project.ProjectOrganizations
@@ -682,7 +741,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetFundingOrganizationNamesForFactSheet(this Project project)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             return String.Join(", ",
                 project.GetFundingOrganizations(tenantAttribute.ExcludeTargetedFundingOrganizations).OrderBy(x => x.Organization.OrganizationName)
                     .Select(x => x.Organization.OrganizationName));

@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public PartialViewResult ProjectTypeSelection()
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
             var viewModel = new ProjectTypeSelectionViewModel();
             return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ProjectTypeSelection(ProjectTypeSelectionViewModel viewModel)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
 
             if (!ModelState.IsValid)
@@ -250,7 +250,7 @@ namespace ProjectFirma.Web.Controllers
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
 
             var fundingTypes = FundingType.All.ToList();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             var viewData = new BasicsViewData(CurrentFirmaSession, fundingTypes, taxonomyLeafs, newProjectIsHistoric,
                 instructionsPageUrl, tenantAttribute);
@@ -283,7 +283,7 @@ namespace ProjectFirma.Web.Controllers
             
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
             var fundingTypes =FundingType.All.ToList();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             var viewData = new BasicsViewData(CurrentFirmaSession, project, proposalSectionsStatus, taxonomyLeafs,
                 fundingTypes, tenantAttribute);
@@ -339,7 +339,7 @@ namespace ProjectFirma.Web.Controllers
                 "Project",
                 project.ProjectID,
                 "ProjectID",
-                project.ProjectID.ToString())
+                project.ProjectID.ToString(), true)
             {
                 ProjectID = project.ProjectID,
                 AuditDescription = $"Project: created {project.GetDisplayName()}"
@@ -521,7 +521,10 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
             var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
             var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            viewModel.UpdateModel(project, projectFundingSourceBudgets, allProjectFundingSourceBudgets);
+            HttpRequestStorage.DatabaseEntities.ProjectNoFundingSourceIdentifieds.Load();
+            var projectNoFundingSourceIdentifieds = project.ProjectNoFundingSourceIdentifieds.ToList();
+            var allProjectNoFundingSourceIdentifieds = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
+            viewModel.UpdateModel(project, projectFundingSourceBudgets, allProjectFundingSourceBudgets, projectNoFundingSourceIdentifieds, allProjectNoFundingSourceIdentifieds);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName);
         }
@@ -1513,7 +1516,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void GenerateApprovalAuditLogEntries(Project project)
         {
-            var auditLog = new AuditLog(CurrentPerson, DateTime.Now, AuditLogEventType.Added, "Project", project.ProjectID, "ProjectID", project.ProjectID.ToString())
+            var auditLog = new AuditLog(CurrentPerson, DateTime.Now, AuditLogEventType.Added, "Project", project.ProjectID, "ProjectID", project.ProjectID.ToString(), true)
             {
                 ProjectID = project.ProjectID,
                 AuditDescription = $"Proposal {project.GetDisplayName()} approved."
@@ -1732,7 +1735,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectCreateNewFeature]
         public ActionResult ImportExternal()
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             if (!tenantAttribute.ProjectExternalDataSourceEnabled)
             {
                 return new HttpNotFoundResult();
@@ -1746,7 +1749,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectCreateNewFeature]
         public ActionResult ImportExternal(ImportExternalViewModel viewModel)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             if (!tenantAttribute.ProjectExternalDataSourceEnabled)
             {
                 return new HttpNotFoundResult();
