@@ -61,7 +61,7 @@ def get_firma_page_type_display_name():
 
 
 def get_firma_page_render_type_id():
-    firma_page_render_type_id_input = int(input('Enter FirmaPageRenterTypeID (1 for Introductory Text, 2 for Page Content): '))
+    firma_page_render_type_id_input = int(input('Enter FirmaPageRenderTypeID (1 for Introductory Text, 2 for Page Content): '))
     if firma_page_render_type_id_input != 1 and firma_page_render_type_id_input != 2:
         print('FirmaPageTypeDisplayName must be 1 or 2')
         return get_firma_page_render_type_id()
