@@ -69,9 +69,6 @@ namespace ProjectFirma.Web.Views.Organization
         [DisplayName("Keystone Organization Guid")]
         public Guid? OrganizationGuid { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.SyncWithKeystoneOnSave)]
-        public bool SyncWithKeystone { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -105,15 +102,6 @@ namespace ProjectFirma.Web.Views.Organization
                 organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentFirmaSession);
             }
 
-            if (SyncWithKeystone)
-            {
-                var keystoneClient = new KeystoneDataClient();
-                var keystoneOrganization = keystoneClient.GetOrganization(organization.OrganizationGuid.Value);
-                organization.OrganizationName = keystoneOrganization.FullName;
-                organization.OrganizationShortName = keystoneOrganization.ShortName;
-                organization.OrganizationUrl = keystoneOrganization.URL;
-            }
-
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (isSitkaAdmin)
             {
@@ -126,7 +114,7 @@ namespace ProjectFirma.Web.Views.Organization
         {
             var validationResults = new List<ValidationResult>();
 
-            if (!SyncWithKeystone && string.IsNullOrEmpty(OrganizationShortName))
+            if (string.IsNullOrEmpty(OrganizationShortName))
             {
                 validationResults.Add(new SitkaValidationResult<EditViewModel, string>("The Short Name field is required.", x => x.OrganizationShortName));
 
@@ -158,30 +146,6 @@ namespace ProjectFirma.Web.Views.Organization
                         validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("Organization Guid not found in Keystone", x => x.OrganizationGuid));
                     }
                     
-                }
-            }
-
-            if (SyncWithKeystone)
-            {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.Single(x => x.OrganizationID == OrganizationID);
-                if (!OrganizationGuid.HasValue && isSitkaAdmin)
-                {
-                    validationResults.Add(new SitkaValidationResult<EditViewModel, bool>("Cannot sync with Keystone if Organization Guid is blank", x => x.SyncWithKeystone));
-                    //reset short name and home page
-                    OrganizationShortName = organization.OrganizationShortName;
-                    OrganizationUrl = organization.OrganizationUrl;
-                }
-                try
-                {
-                    var keystoneClient = new KeystoneDataClient();
-                    var keystoneOrganization = keystoneClient.GetOrganization(organization.OrganizationGuid.Value);
-                }
-                catch (Exception)
-                {
-                    validationResults.Add(new SitkaValidationResult<EditViewModel, bool>("Cannot sync: Organization Guid not found in Keystone", x => x.SyncWithKeystone));
-                    //reset short name and home page
-                    OrganizationShortName = organization.OrganizationShortName;
-                    OrganizationUrl = organization.OrganizationUrl;
                 }
             }
 
