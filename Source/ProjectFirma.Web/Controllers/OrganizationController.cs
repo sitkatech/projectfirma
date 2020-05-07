@@ -155,8 +155,20 @@ namespace ProjectFirma.Web.Controllers
                 x => x.GetFullNameFirstLastAndOrg());
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin, userHasAdminPermissions);
+            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin, userHasAdminPermissions, viewModel.OrganizationGuid);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [OrganizationManageFeature]
+        public JsonResult SyncWithKeystone(string organizationGuidAsString)
+        {
+            var keystoneClient = new KeystoneDataClient();
+            var organizationGuid = Guid.Parse(organizationGuidAsString);
+            var keystoneOrganization = keystoneClient.GetOrganization(organizationGuid);
+            // create an OrganizationSimple with fields to be synced from Keystone set (ShortName and URL)
+            var result = new OrganizationSimple(default(int), keystoneOrganization.OrganizationGuid, keystoneOrganization.FullName, keystoneOrganization.ShortName, default(int), null, true, keystoneOrganization.URL, null, string.Empty);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
