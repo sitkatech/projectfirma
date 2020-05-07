@@ -23,10 +23,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using System.Collections.Generic;
+using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
-    public class EditViewModel : FormViewModel
+    public class EditViewModel : FormViewModel, IValidatableObject
     {
         [DisplayName("Custom Definition")]
         public HtmlString FieldDefinitionDataValue { get; set; }
@@ -60,6 +62,16 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             {
                 fieldDefinitionDefault.DefaultDefinitionHtmlString = FieldDefinitionDefault;
             }
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var validationResults = new List<ValidationResult>();
+            if (FieldDefinitionDefault == null)
+            {
+                validationResults.Add(new SitkaValidationResult<EditViewModel, HtmlString>("Default Definition is required.", x => x.FieldDefinitionDefault));
+            }
+            return validationResults;
         }
     }
 }

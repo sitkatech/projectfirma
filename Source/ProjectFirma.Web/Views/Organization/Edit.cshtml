@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
@@ -29,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     if (ViewDataTyped.IsInKeystone)
     {
-        <p class="systemText">Because this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() has user accounts associated with it, its Name, Short Name, and Home Page information come from Keystone. To change this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Name, please @ModalDialogFormHelper.ModalDialogFormLink("submit a support request", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null). While you may update this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Short Name and Home Page here, try syncing from Keystone first.</p>
+        <p id="keystoneParagraph" class="systemText">Because this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() has user accounts associated with it, its Name, Short Name, and Home Page information come from Keystone. To change this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Name, please @ModalDialogFormHelper.ModalDialogFormLink("submit a support request", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null). While you may update this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Short Name and Home Page here, try syncing from Keystone first.</p>
     }
     <div class="form-horizontal">
         <div class="form-group">
@@ -71,11 +72,11 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             <div class="form-group">
                 <div class="col-sm-3 control-label">
-                    @Html.LabelWithSugarFor(m => m.SyncWithKeystone)
                 </div>
                 <div class="col-sm-9">
-                    @Html.CheckBoxFor(m => m.SyncWithKeystone)
-                    @Html.ValidationMessageFor(m => m.SyncWithKeystone)
+                    <button class="btn btn-firma" type="button" onclick="syncWithKeystone()" title="Sync Short Name and Home Page values with the values stored in Keystone for this Organization.">
+                        Sync with Keystone
+                    </button>
                 </div>
             </div>
         }
@@ -141,23 +142,35 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 <script type="text/javascript">
+
+    function syncWithKeystone() {
+        var organizationGuid = "@Html.Raw(ViewDataTyped.OrganizationGuid.ToString())";
+        var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.SyncWithKeystoneUrl.ToJS()));
+        var newUrl = urlTemplate.ParameterReplace(organizationGuid);
+
+        var successHandler = function(result) {
+            var shortNameInput = jQuery("#@Html.IdFor(x => x.OrganizationShortName)");
+            var urlInput = jQuery("#@Html.IdFor(x => x.OrganizationUrl)");
+            shortNameInput.val(result.OrganizationShortName);
+            urlInput.val(result.URL);
+
+            jQuery("#keystoneParagraph").prepend("<div class=\"alert alert-info\" role=\"alert\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>" +
+                "Sync with Keystone successfully replaced the Short Name and Home Page in this editor. You must save changes to update this Organization.</div>");
+        };
+
+        var errorHandler = function(error) {
+            jQuery("#keystoneParagraph").prepend("<div class=\"alert alert-danger\" role=\"alert\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>" +
+                "Cannot sync with Keystone. Organization not found in Keystone or unable to connect to Keystone.</div>");
+        };
+
+        SitkaAjax.get(newUrl, successHandler, errorHandler);
+    }
+
     jQuery(document).ready(function ()
     {
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
-
-        jQuery("#@Html.IdFor(x => x.SyncWithKeystone)").on('change', function () {
-            var isChecked = jQuery(this).is(':checked');
-            var shortNameInput = jQuery("#@Html.IdFor(x => x.OrganizationShortName)");
-            var urlInput = jQuery("#@Html.IdFor(x => x.OrganizationUrl)");
-            shortNameInput.prop("disabled", isChecked);
-            urlInput.prop("disabled", isChecked);
-            if (isChecked) {
-                shortNameInput.prop("title", "Synced with Keystone on Save is selected. Cannot edit.");
-                urlInput.prop("title", "Synced with Keystone on Save is selected. Cannot edit");
-            } else {
-                shortNameInput.prop("title", "");
-                urlInput.prop("title", "");
-            }
-        });
     });
+
 </script>
