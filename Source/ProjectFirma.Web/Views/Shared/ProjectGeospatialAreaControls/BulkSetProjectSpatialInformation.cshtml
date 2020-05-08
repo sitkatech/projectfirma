@@ -77,16 +77,16 @@
 
             </div>
             <div class="alert alert-danger" ng-if="hasProjectLocationPoint() && !projectLocationInstersectsGeospatialAreas()">
-                <span>The Project Simple Location does not instersect any geospatial areas.</span>
+                <span>The Project Simple Location does not intersect any geospatial areas.</span>
             </div>
 
 
             <div ng-if="canSetGeospatialAreaFromProjectLocation()">
-                <button type="button" class="btn btn-sm btn-firma btn-set-all" ng-click="setSelectedGeospatialAreaTypeFromProjectLocation()" ng-disabled="!canSetGeospatialAreaFromProjectLocation()">
+                <button type="button" class="btn btn-sm btn-firma btn-set-all" ng-click="setSelectedGeospatialAreaTypeFromProjectLocation()" ng-disabled="!canSetGeospatialAreaFromProjectLocation()" ng-if="AngularViewData.IsReadOnly === false">
                     <span class="glyphicon glyphicon-map-marker"></span>
                     Set Selected Layers from Simple Location
                 </button>
-                <div class="select-all-container">
+                <div class="select-all-container" ng-if="AngularViewData.IsReadOnly === false">
                     <label>
                         Select All <input type="checkbox" ng-click="selectAll($event)" />
                     </label>
@@ -94,12 +94,12 @@
                 <div class="well" ng-repeat="geospatialAreaType in AngularViewData.GeospatialAreaTypes">
                     <label style="width: 100%;">
                         {{geospatialAreaType.GeospatialAreaTypeName}}
-                        <input type="checkbox" name="geospatialAreaType" class="pull-right" ng-checked="isGeospatialAreaTypeSetBasedOnSimpleLocation(geospatialAreaType)" value="{{geospatialAreaType.GeospatialAreaTypeID}}" />
+                        <input type="checkbox" name="geospatialAreaType" class="pull-right" ng-checked="isGeospatialAreaTypeSetBasedOnSimpleLocation(geospatialAreaType)" value="{{geospatialAreaType.GeospatialAreaTypeID}}" ng-if="AngularViewData.IsReadOnly === false"/>
                     </label>
                     <div ng-if="isGeospatialAreaTypeSet(geospatialAreaType)">
                         <hr />
                         <div ng-repeat="geospatialAreaId in getSelectedAreasFromGeospatialAreaType(geospatialAreaType)">
-                            <a ng-click="removeGeospatialArea(geospatialAreaId)">
+                            <a ng-if="AngularViewData.IsReadOnly === false" ng-click="removeGeospatialArea(geospatialAreaId)">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
                             <span>{{getGeospatialAreaName(geospatialAreaId)}}</span>

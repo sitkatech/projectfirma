@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                                                          List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
                                                          bool hasProjectLocationPoint, 
                                                          bool hasProjectLocationDetail,
-                                                         string editSimpleLocationUrl) : base(currentFirmaSession)
+                                                         string editSimpleLocationUrl, bool isReadOnly) : base(currentFirmaSession)
         {
             ProjectSimpleLocation = project.ProjectLocationPoint;
             GeospatialAreaTypes = geospatialAreaTypes;
@@ -38,8 +38,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             HasProjectLocationPoint = hasProjectLocationPoint;
             HasProjectLocationDetail = hasProjectLocationDetail;
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
-
-            ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint, geospatialAreasOnProject);
+            ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint, geospatialAreasOnProject, isReadOnly);
 
             EditSimpleLocationUrl = editSimpleLocationUrl;
         }
@@ -54,12 +53,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public List<int> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
         public bool HasProjectLocationPoint { get; }
         public Dictionary<int, string> GeospatialAreaNameByID { get; }
+        public bool IsReadOnly { get; }
 
         public BulkSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson, 
                                                                   List<GeospatialAreaType> geospatialAreaTypes, 
                                                                   List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
                                                                   bool hasProjectLocationPoint,
-                                                                  List<ProjectFirmaModels.Models.GeospatialArea> selectedGeospatialAreas)
+                                                                  List<ProjectFirmaModels.Models.GeospatialArea> selectedGeospatialAreas, bool isReadOnly)
         {
 
             var possibleGeospatialAreas = new List<ProjectFirmaModels.Models.GeospatialArea>();
@@ -73,6 +73,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             }).ToList();
             GeospatialAreaNameByID = possibleGeospatialAreas.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaName);
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
+            IsReadOnly = isReadOnly;
 
             MapInitJson = mapInitJson;
             MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl();

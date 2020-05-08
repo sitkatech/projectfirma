@@ -27,7 +27,7 @@
     @* Funding Basics *@
 
     @* If the Budget Changes per year *@
-    @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+    @if (ViewDataTyped.Project.FundingType.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
     {
         @* Estimated Total Cost *@
         <div class="row">
@@ -70,7 +70,7 @@
         }
     }
     @* If the Budget is the Same Each Year *@
-    else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+    else if (ViewDataTyped.Project.FundingType.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
     {
         @* Estimated Annual Cost *@
         <div class="row">

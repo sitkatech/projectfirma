@@ -19,17 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
@@ -37,10 +28,16 @@ using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Spatial;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Web;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
 namespace ProjectFirma.Web.Models
@@ -911,8 +908,8 @@ namespace ProjectFirma.Web.Models
                 int projectCount = 0;
                 typeToProjectOrg.ForEach(x =>
                 {
-                    securedAmount += x.Project.GetSecuredFunding() ?? 0;
-                    targetedAmount += x.Project.GetTargetedFunding() ?? 0;
+                    securedAmount += x.Project.GetSecuredFunding();
+                    targetedAmount += x.Project.GetTargetedFunding();
                     noFundingSourceAmount += x.Project.GetNoFundingSourceIdentifiedAmountOrZero();
                     projectCount++;
                 });
