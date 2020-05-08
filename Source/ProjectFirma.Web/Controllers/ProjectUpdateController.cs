@@ -1473,10 +1473,12 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(projectUpdateBatch.ProjectUpdate).ToList();
 
+            var isReadOnly = ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null && new ProjectUpdateAdminFeatureWithProjectContext().HasPermissionByFirmaSession(CurrentFirmaSession);
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, projectUpdateBatch.ProjectUpdate, projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
                 geospatialAreasContainingProjectSimpleLocation, projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint,
-                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail, editSimpleLocationUrl);
+                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail, editSimpleLocationUrl, isReadOnly);
+
 
             var viewData = new BulkSetSpatialInformationViewData(CurrentFirmaSession, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch), quickSetProjectSpatialInformationViewData);
             return RazorView<BulkSetSpatialInformation, BulkSetSpatialInformationViewData, BulkSetSpatialInformationViewModel>(viewData, viewModel);
@@ -3569,12 +3571,15 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewProjectCustomAttributes(Project project, ProjectUpdateBatch projectUpdateBatch, ProjectCustomAttributesViewModel viewModel)
         {
             var customAttributesValidationResult = projectUpdateBatch.ValidateProjectCustomAttributes();
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
-
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession)).ToList();
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).Distinct().OrderBy(x => x.SortOrder).ToList();
+            var projectUpdate = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project).ProjectUpdate;
+            var projectCustomAttributes = new List<IProjectCustomAttribute>(projectUpdate.GetProjectCustomAttributes());
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
 
             var proposalSectionsStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new ProjectCustomAttributesViewData(CurrentFirmaSession, projectUpdateBatch, proposalSectionsStatus, customAttributesValidationResult.GetWarningMessages(), ProjectUpdateSection.CustomAttributes.ProjectUpdateSectionDisplayName, editCustomAttributesViewData);
+            var displayProjectCustomAttributesViewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributes, projectCustomAttributeGroups);
+            var viewData = new ProjectCustomAttributesViewData(CurrentFirmaSession, projectUpdateBatch, proposalSectionsStatus, customAttributesValidationResult.GetWarningMessages(), ProjectUpdateSection.CustomAttributes.ProjectUpdateSectionDisplayName, editCustomAttributesViewData, displayProjectCustomAttributesViewData);
 
             return RazorView<ProjectCustomAttributes, ProjectCustomAttributesViewData, ProjectCustomAttributesViewModel>(viewData, viewModel);
         }

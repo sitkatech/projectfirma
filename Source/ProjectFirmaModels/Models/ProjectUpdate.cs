@@ -51,6 +51,11 @@ namespace ProjectFirmaModels.Models
             return ProjectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
         }
 
+        public decimal GetNoFundingSourceIdentifiedAmountOrZero()
+        {
+            return GetNoFundingSourceIdentifiedAmount() ?? 0;
+        }
+
         public decimal? GetEstimatedTotalRegardlessOfFundingType()
         {
             var securedFunding = GetSecuredFunding();

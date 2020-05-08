@@ -48,5 +48,8 @@ namespace ProjectFirmaModels.Models
         IEnumerable<IProjectLocation> GetProjectLocationDetails();
         DbGeometry GetDefaultBoundingBox();
         IEnumerable<GeospatialArea> GetProjectGeospatialAreas();
+        decimal GetTargetedFunding();
+        decimal GetSecuredFunding();
+        decimal GetNoFundingSourceIdentifiedAmountOrZero();
     }
 }

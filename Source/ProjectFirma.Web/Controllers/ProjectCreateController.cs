@@ -1113,7 +1113,7 @@ namespace ProjectFirma.Web.Controllers
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
                 geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint,
-                project.HasProjectLocationDetail, editSimpleLocationUrl);
+                project.HasProjectLocationDetail, editSimpleLocationUrl, false);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;

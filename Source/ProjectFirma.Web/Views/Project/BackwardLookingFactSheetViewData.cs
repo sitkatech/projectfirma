@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Views.Project
             EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "";
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
             SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
-            TargetedFunding = Project.GetTargetedFunding() != null ? Project.GetTargetedFunding().ToStringCurrency() : "";
+            TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
            
             PerformanceMeasureReportedValues =
                 project.GetPerformanceMeasureReportedValues().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();

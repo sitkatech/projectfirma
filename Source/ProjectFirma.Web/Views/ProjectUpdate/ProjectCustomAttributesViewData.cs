@@ -33,18 +33,20 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly SectionCommentsViewData SectionCommentsViewData;
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
+        public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributesViewData { get; }
 
         public ProjectCustomAttributesViewData(FirmaSession currentFirmaSession,
             ProjectUpdateBatch projectUpdateBatch,
             ProjectUpdateStatus projectUpdateStatus,
             List<string> validationWarnings,
             string sectionDisplayName,
-            EditProjectCustomAttributesViewData editCustomAttributesViewData) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, validationWarnings, sectionDisplayName)
+            EditProjectCustomAttributesViewData editCustomAttributesViewData, DisplayProjectCustomAttributesViewData displayProjectCustomAttributesViewData) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, validationWarnings, sectionDisplayName)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.CustomAttributesComment, projectUpdateBatch.IsReturned());
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectCustomAttributes(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffProjectCustomAttributes(projectUpdateBatch.Project));
+            DisplayProjectCustomAttributesViewData = displayProjectCustomAttributesViewData;
         }
 
         
