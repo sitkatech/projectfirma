@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using System.Collections.Generic;
@@ -28,9 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
     {
 
         public int? ProjectID { get; }
-
         public ViewDataForAngularClass ViewDataForAngularClass { get; }
-
 
         public EditProjectFundingSourceExpendituresViewData( ViewDataForAngularClass viewDataForAngularClass)
         {

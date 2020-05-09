@@ -162,6 +162,8 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         return $scope.calculateBudgetTotal(_.filter(calendarYearBudgetsAsFlattenedArray, function (f) { return f.IsRelevant; }));
     };
 
+    $scope.formatCalendarYear = function (calendarYear) { return $scope.AngularViewData.UseFiscalYears ? "FY" + calendarYear : calendarYear; };
+
     $scope.addCalendarYear = function (calendarYear) {
         if (Sitka.Methods.isUndefinedNullOrEmpty(calendarYear)) {
             return;
