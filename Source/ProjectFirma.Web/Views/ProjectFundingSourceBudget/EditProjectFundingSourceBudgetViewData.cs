@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Mvc;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -37,6 +38,8 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public int? FundingSourceID { get; }
         public int? PlanningDesignStartYear { get; }
         public int? CompletionYear { get; }
+        public bool UseFiscalYears { get; }
+
 
         public EditProjectFundingSourceBudgetViewData(ProjectSimple project, 
             IEnumerable<FundingType> fundingTypes,
@@ -49,6 +52,8 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             ProjectID = project.ProjectID;
             PlanningDesignStartYear = planningDesignStartYear;
             CompletionYear = completionYear;
+            UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
+
         }
     }
 }

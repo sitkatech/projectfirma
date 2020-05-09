@@ -256,6 +256,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByC
             });
     };
 
+    $scope.formatCalendarYear = function (calendarYear) { return $scope.AngularViewData.UseFiscalYears ? "FY" + calendarYear : calendarYear; };
+
     $scope.canDeleteCalendarYear = function (calendarYear) {
         return $scope.calendarYearRange.length > 1 &&
             !_.includes($scope.AngularViewData.RequiredCalendarYearRange, calendarYear);
