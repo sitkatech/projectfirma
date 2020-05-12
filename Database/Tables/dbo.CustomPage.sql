@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[CustomPage](
 	[CustomPageVanityUrl] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CustomPageDisplayTypeID] [int] NOT NULL,
 	[CustomPageContent] [dbo].[html] NULL,
+	[DocumentLibraryID] [int] NULL,
  CONSTRAINT [PK_CustomPage_CustomPageID] PRIMARY KEY CLUSTERED 
 (
 	[CustomPageID] ASC
@@ -35,6 +36,11 @@ ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_Custom
 REFERENCES [dbo].[CustomPageDisplayType] ([CustomPageDisplayTypeID])
 GO
 ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_CustomPageDisplayType_CustomPageDisplayTypeID]
+GO
+ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_DocumentLibrary_DocumentLibraryID] FOREIGN KEY([DocumentLibraryID])
+REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID])
+GO
+ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_DocumentLibrary_DocumentLibraryID]
 GO
 ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
