@@ -1290,39 +1290,6 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
-            var projectLocationStagingUpdates = projectUpdateBatch.ProjectLocationStagingUpdates.OrderBy(x => x.ProjectLocationStagingUpdateID).ToList();
-            var layerGeoJsons =
-                projectLocationStagingUpdates.Select(
-                    (projectLocationStaging, i) =>
-                        new LayerGeoJson(projectLocationStaging.FeatureClassName,
-                            projectLocationStaging.ToGeoJsonFeatureCollection(),
-                            FirmaHelpers.DefaultColorRange[i],
-                            1,
-                            LayerInitialVisibility.Show)).ToList();
-            var validLayerGeoJsons = new List<LayerGeoJson>();
-            foreach (var layerGeoJson in layerGeoJsons)
-            {
-                var geoJsonFeatureCollection = layerGeoJson.GeoJsonFeatureCollection;
-                var validFeatureList = new List<Feature>();
-                var features = geoJsonFeatureCollection.Features;
-                for (int i = 0; i < features.Count; i++)
-                {
-                    var geoJson = features[i];
-                    var geometry = GeoJsonToSqlGeometryHelper.ToSqlGeometry(geoJson);
-                    var isValid = geometry.STIsValid();
-                    if (isValid)
-                    {
-                        validFeatureList.Add(geoJson);
-                    }
-                    
-                }
-
-                var validGeoJsonFeatureCollection = new FeatureCollection(validFeatureList);
-                var validLayerGeoJson = new LayerGeoJson(layerGeoJson.LayerName, validGeoJsonFeatureCollection,
-                    layerGeoJson.LayerColor, 1, LayerInitialVisibility.Show);
-                validLayerGeoJsons.Add(validLayerGeoJson);
-            }
-
             return ApproveGisUpload(project);
         }
 
@@ -1355,14 +1322,11 @@ namespace ProjectFirma.Web.Controllers
                             1,
                             LayerInitialVisibility.Show)).ToList();
 
-            layerGeoJsons = MakeValidLayerGeoJsons(layerGeoJsons, out var totalCount, out var invalidCount);
+            layerGeoJsons = MakeValidLayerGeoJsons(layerGeoJsons,  out var invalidWarningMessage);
 
-            if(invalidCount != 0)
+            if(!string.IsNullOrEmpty(invalidWarningMessage))
             {
-                var warningAboutInvalid =
-                    $"{invalidCount} out of your {totalCount} features were not valid, if you wish to upload all features in this file please make them valid and try again." +
-                    " Otherwise, if you'd like to upload only the displayed features you may proceed by hitting the approve button";
-                SetWarningForDisplay(warningAboutInvalid);
+                SetWarningForDisplay(invalidWarningMessage);
             }
 
 
@@ -1378,15 +1342,18 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ApproveGisUpload, ApproveGisUploadViewData, ProjectLocationDetailViewModel>(viewData, viewModel);
         }
 
-        public static List<LayerGeoJson> MakeValidLayerGeoJsons(List<LayerGeoJson> layerGeoJsons, out int totalCount, out int invalidCount)
+        public static List<LayerGeoJson> MakeValidLayerGeoJsons(List<LayerGeoJson> layerGeoJsons, out string invalidWarningMessage)
         {
             var validLayerGeoJsons = new List<LayerGeoJson>();
-            totalCount = 0;
-            invalidCount = 0;
+            var totalCount = 0;
+            var invalidCount = 0;
+            var colorIndex = 0;
+
             foreach (var layerGeoJson in layerGeoJsons)
             {
                 var geoJsonFeatureCollection = layerGeoJson.GeoJsonFeatureCollection;
                 var validFeatureList = new List<Feature>();
+                var invalidFeatureList = new List<Feature>();
                 var features = geoJsonFeatureCollection.Features;
                 for (int i = 0; i < features.Count; i++)
                 {
@@ -1401,14 +1368,34 @@ namespace ProjectFirma.Web.Controllers
                     else
                     {
                         invalidCount += 1;
+                        invalidFeatureList.Add(geoJson);
                     }
                 }
 
                 var validGeoJsonFeatureCollection = new FeatureCollection(validFeatureList);
                 var validLayerGeoJson = new LayerGeoJson(layerGeoJson.LayerName, validGeoJsonFeatureCollection,
-                    layerGeoJson.LayerColor, 1, LayerInitialVisibility.Show);
+                    FirmaHelpers.DefaultColorRange[colorIndex], 1, LayerInitialVisibility.Show);
                 validLayerGeoJsons.Add(validLayerGeoJson);
+                colorIndex += 1;
+
+                if (invalidFeatureList.Any())
+                {
+                    var invalidGeoJsonFeatureCollection = new FeatureCollection(invalidFeatureList);
+                    var invalidLayerGeoJson = new LayerGeoJson(layerGeoJson.LayerName+ "_invalid", invalidGeoJsonFeatureCollection,
+                        FirmaHelpers.DefaultColorRange[colorIndex], 1, LayerInitialVisibility.Hide);
+                    validLayerGeoJsons.Add(invalidLayerGeoJson);
+                    colorIndex += 1;
+                }
             }
+
+            invalidWarningMessage = string.Empty;
+            if (invalidCount > 0)
+            {
+                invalidWarningMessage = $"{invalidCount} out of your {totalCount} features were not valid and will not be uploaded. You can view the invalid features by selecting the layer names with the _invalid suffix." +
+                                        $" If you wish to upload all features in this file please make them valid and try again." +
+                                        " Otherwise, if you'd like to upload only the displayed features you may proceed by hitting the approve button";
+            }
+               
 
             return validLayerGeoJsons;
         }
