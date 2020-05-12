@@ -55,6 +55,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
+            modelBuilder.Configurations.Add(new DocumentLibraryConfiguration());
+            modelBuilder.Configurations.Add(new DocumentLibraryDocumentCategoryConfiguration());
             modelBuilder.Configurations.Add(new EvaluationConfiguration());
             modelBuilder.Configurations.Add(new EvaluationCriteriaConfiguration());
             modelBuilder.Configurations.Add(new EvaluationCriteriaValueConfiguration());
@@ -214,6 +216,9 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<DocumentLibrary> AllDocumentLibraries { get; set; }
+        public virtual IQueryable<DocumentLibrary> DocumentLibraries { get { return AllDocumentLibraries.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<DocumentLibraryDocumentCategory> DocumentLibraryDocumentCategories { get; set; }
         public virtual DbSet<EvaluationCriteria> AllEvaluationCriterias { get; set; }
         public virtual IQueryable<EvaluationCriteria> EvaluationCriterias { get { return AllEvaluationCriterias.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<EvaluationCriteriaValue> AllEvaluationCriteriaValues { get; set; }
@@ -527,6 +532,17 @@ namespace ProjectFirmaModels.Models
 
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);
+
+                case "DocumentCategory":
+                    var documentCategory = DocumentCategory.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(documentCategory, "DocumentCategory", primaryKey);
+                    return documentCategory;
+
+                case "DocumentLibrary":
+                    return DocumentLibraries.GetDocumentLibrary(primaryKey);
+
+                case "DocumentLibraryDocumentCategory":
+                    return DocumentLibraryDocumentCategories.GetDocumentLibraryDocumentCategory(primaryKey);
 
                 case "EvaluationCriteria":
                     return EvaluationCriterias.GetEvaluationCriteria(primaryKey);
