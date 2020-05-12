@@ -196,6 +196,15 @@ namespace ProjectFirma.Web.Controllers
                             FirmaHelpers.DefaultColorRange[i],
                             1,
                             LayerInitialVisibility.Show)).ToList();
+
+            layerGeoJsons = ProjectUpdateController.MakeValidLayerGeoJsons(layerGeoJsons, out var totalCount, out var invalidCount);
+            if (invalidCount != 0)
+            {
+                var warningAboutInvalid =
+                    $"{invalidCount} out of your {totalCount} features were not valid, if you wish to upload all features in this file please make them valid and try again." +
+                    " Otherwise, if you'd like to upload only the displayed features you may proceed by hitting the approve button";
+                SetWarningForDisplay(warningAboutInvalid);
+            }
             var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
