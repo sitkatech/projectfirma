@@ -49,5 +49,18 @@ namespace ProjectFirmaModels.Models
                 featureClassNames.Select(x => new ProjectLocationStagingUpdate(projectUpdateBatch, currentPerson, "", ogr2OgrCommandLineRunner.ImportFileKmlToGeoJson(kmlFile, true), true)).ToList();
             return projectLocationStagings;
         }
+
+        public static List<ProjectLocationStagingUpdate> CreateProjectLocationStagingUpdateListFromKmz(FileInfo disposableTempFileFileInfo, string fileName, ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
+        {
+            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
+                Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
+                FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
+
+            var featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileKmz(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), disposableTempFileFileInfo, fileName, Ogr2OgrCommandLineRunner.DefaultTimeOut);
+
+            var projectLocationStagings =
+                featureClassNames.Select(x => new ProjectLocationStagingUpdate(projectUpdateBatch, currentFirmaSession.Person, "", ogr2OgrCommandLineRunner.ImportFileKmzToGeoJson(disposableTempFileFileInfo, true), true)).ToList();
+            return projectLocationStagings;
+        }
     }
 }

@@ -134,6 +134,22 @@ namespace LtInfo.Common.GdalOgr
             return commandLineArguments;
         }
 
+        public static List<string> BuildOgrInfoCommandLineArgumentsToListFeatureClassesKmz(FileInfo inputKmzFile, DirectoryInfo gdalDataDirectoryInfo)
+        {
+            var commandLineArguments = new List<string>
+            {
+                "--config",
+                "GDAL_DATA",
+                gdalDataDirectoryInfo.FullName,
+                "-ro",
+                "-so",
+                "-q",
+                inputKmzFile.FullName
+            };
+
+            return commandLineArguments;
+        }
+
         public static List<string> BuildOgrInfoCommandLineArgumentsGetExtent(FileInfo inputGdbFile, DirectoryInfo gdalDataDirectoryInfo)
         {
             var commandLineArguments =  new List<string>
@@ -149,6 +165,21 @@ namespace LtInfo.Common.GdalOgr
             };
 
             return commandLineArguments;
+        }
+
+        public static List<string> GetFeatureClassNamesFromFileKmz(FileInfo ogrInfoExecutableFileInfo, FileInfo kmzFileInfo, string originalFilename, double totalMilliseconds)
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var gdalDataDirectory = new DirectoryInfo(Path.Combine(ogrInfoExecutableFileInfo.DirectoryName, "gdal-data"));
+            var commandLineArguments = BuildOgrInfoCommandLineArgumentsToListFeatureClassesKmz(kmzFileInfo, gdalDataDirectory);
+            var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoExecutableFileInfo.DirectoryName, ogrInfoExecutableFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
+            if (processUtilityResult.ReturnCode != 0)
+            {
+                throw new SitkaDisplayErrorException($"{ogrInfoExecutableFileInfo.FullName} unable to open KMZ file {kmzFileInfo.FullName} - original filename {originalFilename}.");
+            }
+
+            var featureClassesFromFileKmz = processUtilityResult.StdOut.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            return featureClassesFromFileKmz.Select(x => x.Split(new[] { ' ' }, 2).Skip(1).First()).ToList();
         }
     }
 }
