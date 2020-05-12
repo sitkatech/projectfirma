@@ -109,14 +109,14 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="form-group" ng-show="displayLatLngInputs()">
                 <div class="input-group">
                     <div class="input-group-addon">Lat</div>
-                    <input class="form-control text-right" type="number" placeholder="0.00" name="@Html.NameFor(m => m.ProjectLocationPointY)" ng-model="AngularModel.@Html.NameFor(m => m.ProjectLocationPointY)" ng-change="changedLatLngInput()" />
+                    <input class="form-control text-right" type="text" placeholder="0.00" name="@Html.NameFor(m => m.ProjectLocationPointY)" ng-model="AngularModel.@Html.NameFor(m => m.ProjectLocationPointY)" ng-change="changedLatLngInput()" ng-blur="checkInputsForDegreeMinutes()" />
                     @Html.ValidationMessageFor(x => x.ProjectLocationPointY)
                 </div>
             </div>
             <div class="form-group" ng-show="displayLatLngInputs()">
                 <div class="input-group">
                     <div class="input-group-addon">Lng</div>
-                    <input class="form-control text-right" type="number" placeholder="0.00" name="@Html.NameFor(m => m.ProjectLocationPointX)" ng-model="AngularModel.@Html.NameFor(m => m.ProjectLocationPointX)" ng-change="changedLatLngInput()" />
+                    <input class="form-control text-right" type="text" placeholder="0.00" name="@Html.NameFor(m => m.ProjectLocationPointX)" ng-model="AngularModel.@Html.NameFor(m => m.ProjectLocationPointX)" ng-change="changedLatLngInput()" ng-blur="checkInputsForDegreeMinutes()" />
                     @Html.ValidationMessageFor(x => x.ProjectLocationPointX)
                 </div>
             </div>
