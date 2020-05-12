@@ -201,6 +201,7 @@
     <Compile Include="DhtmlWrappers\SelectProjectsModalDialogForm.cs" />
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
+    <Compile Include="GeoJson\GeoJsonToSqlGeometryHelper.cs" />
     <Compile Include="HealthMonitor\HealthCheckStatus.cs" />
     <Compile Include="HtmlHelperExtensions\DropdownForExtensions.cs" />
     <Compile Include="HtmlHelperExtensions\IFieldDefinitionData.cs" />
