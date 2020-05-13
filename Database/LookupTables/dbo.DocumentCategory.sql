@@ -1,7 +1,6 @@
 delete from dbo.DocumentCategory
 
 insert into dbo.DocumentCategory(DocumentCategoryID, DocumentCategoryName, DocumentCategoryDisplayName, SortOrder) values 
-(1, 'ManualsAndGuidance', 'Manuals and Guidance', 10),
 (1, 'MeetingNotes', 'Meeting Notes', 10),
 (2, 'MeetingAgendas', 'Meeting Agendas', 20),
 (3, 'RequestForProposals', 'Request for Proposals', 30),
