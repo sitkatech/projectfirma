@@ -4,5 +4,5 @@ VALUES
 
 INSERT [dbo].[FieldDefinitionDefault] ([FieldDefinitionID], [DefaultDefinition])
 VALUES
-(354, N'KML Files may be saved using Google Earth')
+(354, N'KMZ Files may be saved using Google Earth')
 
