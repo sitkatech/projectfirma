@@ -1274,19 +1274,24 @@ namespace ProjectFirma.Web.Controllers
 
             var httpPostedFileBase = viewModel.FileResourceData;
             var isKml = httpPostedFileBase.FileName.EndsWith(".kml");
-            var fileEnding = isKml ? ".kml" : ".gdb.zip";
+            var isKmz = httpPostedFileBase.FileName.EndsWith(".kmz");
+            var fileEnding = isKml ? ".kml" : isKmz ? ".kmz" : ".gdb.zip";
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(fileEnding))
             {
-                var gdbOrKmlFile = disposableTempFile.FileInfo;
-                httpPostedFileBase.SaveAs(gdbOrKmlFile.FullName);
+                var disposableTempFileFileInfo = disposableTempFile.FileInfo;
+                httpPostedFileBase.SaveAs(disposableTempFileFileInfo.FullName);
                 projectUpdateBatch.DeleteProjectLocationStagingUpdates();
                 if (isKml)
                 {
-                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKml(gdbOrKmlFile, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
+                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
+                }
+                else if (isKmz)
+                {
+                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession);
                 }
                 else
                 {
-                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(gdbOrKmlFile, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
+                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
                 }
             }
 

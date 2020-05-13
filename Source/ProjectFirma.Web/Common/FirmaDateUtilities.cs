@@ -85,6 +85,11 @@ namespace ProjectFirma.Web.Common
             return ((DateUtilities.Month)dateTime.Month).GetFiscalQuarter();
         }
 
+        public static DateUtilities.FiscalQuarter CalculateFiscalQuarterFromStartMonth(DateTime calendarDateTime, DateUtilities.Month fiscalYearStartMonth)
+        {
+            return ((DateUtilities.Month)calendarDateTime.Month).GetFiscalQuarterFromStartMonth(fiscalYearStartMonth);
+        }
+
         public static DateUtilities.CalendarQuarter CalculateCalendarQuarter(DateTime dateTime)
         {
             return ((DateUtilities.Month)dateTime.Month).GetCalendarQuarter();
@@ -170,5 +175,28 @@ namespace ProjectFirma.Web.Common
         }
 
 
+        public static int CalculateQuarterForTenant(DateTime date)
+        {
+            var usesFiscalYears = MultiTenantHelpers.UseFiscalYears();
+            if (MultiTenantHelpers.UseFiscalYears())
+            {
+                var startMonthOfFiscalYear = (DateUtilities.Month) MultiTenantHelpers.GetStartDayOfReportingYear().Month;
+                return (int) FirmaDateUtilities.CalculateFiscalQuarterFromStartMonth(date, startMonthOfFiscalYear);
+            }
+
+            return (int) FirmaDateUtilities.CalculateCalendarQuarter(date);
+        }
+
+        public static int? CalculateFiscalYearForTenant(DateTime date)
+        {
+            var usesFiscalYears = MultiTenantHelpers.UseFiscalYears();
+            if (MultiTenantHelpers.UseFiscalYears())
+            {
+                var startMonthOfFiscalYear = (DateUtilities.Month)MultiTenantHelpers.GetStartDayOfReportingYear().Month;
+                return date.GetFiscalYearFromStartMonth(startMonthOfFiscalYear);
+            }
+
+            return null;
+        }
     }
 }
