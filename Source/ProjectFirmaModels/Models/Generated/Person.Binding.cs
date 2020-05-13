@@ -40,6 +40,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectsWhereYouAreThePrimaryContactPerson = new HashSet<Project>();
             this.ProjectsWhereYouAreTheProposingPerson = new HashSet<Project>();
             this.ProjectsWhereYouAreTheReviewedByPerson = new HashSet<Project>();
+            this.ProjectsWhereYouAreTheSubmittedByPerson = new HashSet<Project>();
             this.ProjectContactsWhereYouAreTheContact = new HashSet<ProjectContact>();
             this.ProjectContactUpdatesWhereYouAreTheContact = new HashSet<ProjectContactUpdate>();
             this.ProjectInternalNotesWhereYouAreTheCreatePerson = new HashSet<ProjectInternalNote>();
@@ -141,7 +142,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AuditLogs.Any() || EvaluationsWhereYouAreTheCreatePerson.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
+            return AuditLogs.Any() || EvaluationsWhereYouAreTheCreatePerson.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectsWhereYouAreTheSubmittedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
         }
 
         /// <summary>
@@ -248,6 +249,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in ProjectsWhereYouAreTheReviewedByPerson.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectsWhereYouAreTheSubmittedByPerson.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -395,6 +401,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<Project> ProjectsWhereYouAreThePrimaryContactPerson { get; set; }
         public virtual ICollection<Project> ProjectsWhereYouAreTheProposingPerson { get; set; }
         public virtual ICollection<Project> ProjectsWhereYouAreTheReviewedByPerson { get; set; }
+        public virtual ICollection<Project> ProjectsWhereYouAreTheSubmittedByPerson { get; set; }
         public virtual ICollection<ProjectContact> ProjectContactsWhereYouAreTheContact { get; set; }
         public virtual ICollection<ProjectContactUpdate> ProjectContactUpdatesWhereYouAreTheContact { get; set; }
         public virtual ICollection<ProjectInternalNote> ProjectInternalNotesWhereYouAreTheCreatePerson { get; set; }
