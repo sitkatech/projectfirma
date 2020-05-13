@@ -63,6 +63,7 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AttachmentTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\DocumentLibraryController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\ExternalMapLayerController.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplatePersonModel.cs" />
@@ -230,6 +232,7 @@
     <Compile Include="Security\EvaluationViewFeature.cs" />
     <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
     <Compile Include="Security\EvaluationManageFeature.cs" />
+    <Compile Include="Security\DocumentLibraryManageFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
@@ -257,6 +260,12 @@
     <Compile Include="Views\AttachmentType\EditAttachmentTypeViewModel.cs" />
     <Compile Include="Views\AttachmentType\Index.cs" />
     <Compile Include="Views\AttachmentType\IndexViewData.cs" />
+    <Compile Include="Views\DocumentLibrary\Edit.cs" />
+    <Compile Include="Views\DocumentLibrary\EditViewData.cs" />
+    <Compile Include="Views\DocumentLibrary\EditViewModel.cs" />
+    <Compile Include="Views\DocumentLibrary\Index.cs" />
+    <Compile Include="Views\DocumentLibrary\IndexGridSpec.cs" />
+    <Compile Include="Views\DocumentLibrary\IndexViewData.cs" />
     <Compile Include="Views\Evaluation\EditProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\AddProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\EditProjectEvaluationViewData.cs" />
@@ -587,6 +596,7 @@
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
     <Content Include="Views\AttachmentType\AttachmentTypeController.js" />
+    <Content Include="Views\DocumentLibrary\DocumentLibraryController.js" />
     <Content Include="Views\Evaluation\AddProjectEvaluationController.js" />
     <Content Include="Views\Evaluation\EditEvaluationCriteriaController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
@@ -635,6 +645,8 @@
     <Content Include="Views\Organization\EditPrimaryContact.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
+    <Content Include="Views\DocumentLibrary\Index.cshtml" />
+    <Content Include="Views\DocumentLibrary\Edit.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

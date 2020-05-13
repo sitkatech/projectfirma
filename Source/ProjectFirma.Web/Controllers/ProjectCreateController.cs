@@ -955,6 +955,12 @@ namespace ProjectFirma.Web.Controllers
                             FirmaHelpers.DefaultColorRange[i],
                             1,
                             LayerInitialVisibility.Show)).ToList();
+            layerGeoJsons = ProjectUpdateController.MakeValidLayerGeoJsons(layerGeoJsons, out var invalidWarningMessage);
+
+            if (!string.IsNullOrEmpty(invalidWarningMessage))
+            {
+                SetWarningForDisplay(invalidWarningMessage);
+            }
             var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);

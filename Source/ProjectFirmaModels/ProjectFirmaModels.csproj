@@ -104,6 +104,16 @@
     <Compile Include="Models\Generated\CustomPageImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CustomPagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DatabaseEntities.Context.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentCategory.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentCategoryPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibrary.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibrary.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryDocumentCategory.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryDocumentCategory.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryDocumentCategoryConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryDocumentCategoryPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Evaluation.Binding.cs" />
     <Compile Include="Models\Generated\Evaluation.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\EvaluationConfiguration.Binding.cs" />
@@ -676,6 +686,10 @@
     <Compile Include="Models\Generated\vProjectDetailConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyComplete.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyCompleteConfiguration.Binding.cs" />
+    <Compile Include="Models\CustomPageSimple.cs" />
+    <Compile Include="Models\DocumentCategory.cs" />
+    <Compile Include="Models\DocumentLibrary.cs" />
+    <Compile Include="Models\DocumentLibraryDocumentCategory.cs" />
     <Compile Include="Models\FieldDefinitionTest.cs" />
     <Compile Include="Models\EvaluationCriteriaValue.cs" />
     <Compile Include="Models\EvaluationCriteria.cs" />

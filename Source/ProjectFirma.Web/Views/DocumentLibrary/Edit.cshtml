@@ -1,0 +1,124 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.Mvc
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.DocumentLibrary.Edit
+
+<script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    jQuery(document).ready(function ()
+    {
+        angular.bootstrap(jQuery("#EditDocumentLibraryAngularApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+        jQuery(".modal").on("hidden.bs.modal",
+            function() {
+                jQuery(".bootstrap-select.open").removeClass("open");
+            });
+    });
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal" id="EditDocumentLibraryAngularApp" ng-controller="DocumentLibraryController">
+        <div class="alert alert-warning" role="alert" ng-repeat="customPage in getCustomPagesForOtherDocumentLibraries()">
+            The page {{customPage.CustomPageDisplayName}} already has a Document Library. Saving will overwrite it.
+            </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.DocumentLibraryName.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@Html.LabelWithSugarFor(m => m.DocumentLibraryName)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.DocumentLibraryName, new {style = "width:100%", @class = "form-control"})
+                @Html.ValidationMessageFor(m => m.DocumentLibraryName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.Description)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.Description, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.DocumentCategoryIDs)
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxListFor(x => x.DocumentCategoryIDs, ViewDataTyped.AllDocumentCategories.ToSelectList(x => x.DocumentCategoryID.ToString(), x => x.DocumentCategoryDisplayName), new {style = "display:block"}, CheckboxExtensions.ColNumber.twoCols)
+            </div>
+        </div>
+        <div class="form-group">
+            @*Selectpicker for Custom Pages*@
+            <div class="col-md-3 control-label">@Html.LabelWithSugarFor(m => m.CustomPageIDs)</div>
+            <div class="col-md-9">
+                <div class="input-group" style="width: 100%;">
+                    <select class="selectpicker" ng-model="CustomPageIDToAdd" data-live-search="true"  data-size="6" title="Select one">
+                        <option ng-repeat="customPage in getAvailableCustomPages()"
+                                ng-selected="CustomPageIDToAdd == customPage.CustomPageID"
+                                ng-bind="customPage.CustomPageDisplayName"
+                                ng-value="customPage.CustomPageID"
+                                data-tokens="{{customPage.CustomPageDisplayName}}"></option>
+                    </select>
+                    <div class="btn-group input-group-btn">
+                        <button type="button" class="btn btn-sm btn-firma" ng-click="addRow()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                    </div>
+                </div>
+            </div>
+            @*Selections for Custom Pages*@
+            <div class="col-md-9 col-md-offset-3" style="margin-top: 5px;">
+                <div class="col-md-12" ng-repeat="selectedCustomPageID in AngularModel.CustomPageIDs">
+                    <span>
+                        <a href="#" ng-click="deleteRow(selectedCustomPageID); $event.preventDefault();">
+                            <i class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row"></i>
+                        </a>
+                    </span>
+
+                    <span ng-bind="getCustomPageDisplayName(selectedCustomPageID)"></span>
+                </div>
+            </div>
+        </div>
+        <input ng-repeat="selectedCustomPageID in AngularModel.CustomPageIDs" type="hidden" name="@Html.NameFor(x => x.CustomPageIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{selectedCustomPageID}}">
+    </div>
+    @Html.HiddenFor(m => m.DocumentLibraryID)
+}
