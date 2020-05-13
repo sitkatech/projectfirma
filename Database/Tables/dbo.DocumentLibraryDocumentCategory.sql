@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[DocumentLibraryDocumentCategory](
 	[DocumentLibraryDocumentCategoryID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[DocumentLibraryID] [int] NOT NULL,
 	[DocumentCategoryID] [int] NOT NULL,
  CONSTRAINT [PK_DocumentLibraryDocumentCategory_DocumentLibraryDocumentCategoryID] PRIMARY KEY CLUSTERED 
@@ -22,3 +23,8 @@ ALTER TABLE [dbo].[DocumentLibraryDocumentCategory]  WITH CHECK ADD  CONSTRAINT 
 REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID])
 GO
 ALTER TABLE [dbo].[DocumentLibraryDocumentCategory] CHECK CONSTRAINT [FK_DocumentLibraryDocumentCategory_DocumentLibrary_DocumentLibraryID]
+GO
+ALTER TABLE [dbo].[DocumentLibraryDocumentCategory]  WITH CHECK ADD  CONSTRAINT [FK_DocumentLibraryDocumentCategory_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[DocumentLibraryDocumentCategory] CHECK CONSTRAINT [FK_DocumentLibraryDocumentCategory_Tenant_TenantID]
