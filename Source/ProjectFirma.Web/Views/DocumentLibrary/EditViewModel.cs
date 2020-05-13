@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
             CustomPageIDs = documentLibrary.CustomPages.Select(x => x.CustomPageID).ToList();
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.DocumentLibrary documentLibrary, List<DocumentLibraryDocumentCategory>  allDocumentLibraryDocumentCategories)
+        public void UpdateModel(ProjectFirmaModels.Models.DocumentLibrary documentLibrary, ICollection<DocumentLibraryDocumentCategory>  allDocumentLibraryDocumentCategories)
         {
             documentLibrary.DocumentLibraryName = DocumentLibraryName;
             documentLibrary.DocumentLibraryDescription = Description;
