@@ -1550,11 +1550,11 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(projectUpdateBatch.ProjectUpdate).ToList();
 
-            var isReadOnly = ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null && new ProjectUpdateAdminFeatureWithProjectContext().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var canEdit = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission && projectUpdateBatch.InEditableState();
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, projectUpdateBatch.ProjectUpdate, projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
                 geospatialAreasContainingProjectSimpleLocation, projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint,
-                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail, editSimpleLocationUrl, isReadOnly);
+                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail, editSimpleLocationUrl, canEdit);
 
 
             var viewData = new BulkSetSpatialInformationViewData(CurrentFirmaSession, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch), quickSetProjectSpatialInformationViewData);
