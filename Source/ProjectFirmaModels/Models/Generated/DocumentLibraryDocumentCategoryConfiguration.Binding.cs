@@ -16,6 +16,7 @@ namespace ProjectFirmaModels.Models
             ToTable("DocumentLibraryDocumentCategory", schema);
             HasKey(x => x.DocumentLibraryDocumentCategoryID);
             Property(x => x.DocumentLibraryDocumentCategoryID).HasColumnName(@"DocumentLibraryDocumentCategoryID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.DocumentLibraryID).HasColumnName(@"DocumentLibraryID").HasColumnType("int").IsRequired();
             Property(x => x.DocumentCategoryID).HasColumnName(@"DocumentCategoryID").HasColumnType("int").IsRequired();
 

@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Controllers
                 null);
 
             HttpRequestStorage.DatabaseEntities.DocumentLibraryDocumentCategories.Load();
-            var documentLibraryDocumentCategories = HttpRequestStorage.DatabaseEntities.DocumentLibraryDocumentCategories.Local;
+            var documentLibraryDocumentCategories = HttpRequestStorage.DatabaseEntities.AllDocumentLibraryDocumentCategories.Local;
 
             viewModel.UpdateModel(documentLibrary, documentLibraryDocumentCategories);
             HttpRequestStorage.DatabaseEntities.AllDocumentLibraries.Add(documentLibrary);
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             HttpRequestStorage.DatabaseEntities.DocumentLibraryDocumentCategories.Load();
-            var documentLibraryDocumentCategories = HttpRequestStorage.DatabaseEntities.DocumentLibraryDocumentCategories.Local;
+            var documentLibraryDocumentCategories = HttpRequestStorage.DatabaseEntities.AllDocumentLibraryDocumentCategories.Local;
 
             viewModel.UpdateModel(documentLibrary, documentLibraryDocumentCategories);
             SetMessageForDisplay($"Document Library {documentLibrary.DocumentLibraryName} successfully updated.");

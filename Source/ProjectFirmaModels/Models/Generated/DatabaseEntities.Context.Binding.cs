@@ -218,7 +218,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<DocumentLibrary> AllDocumentLibraries { get; set; }
         public virtual IQueryable<DocumentLibrary> DocumentLibraries { get { return AllDocumentLibraries.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<DocumentLibraryDocumentCategory> DocumentLibraryDocumentCategories { get; set; }
+        public virtual DbSet<DocumentLibraryDocumentCategory> AllDocumentLibraryDocumentCategories { get; set; }
+        public virtual IQueryable<DocumentLibraryDocumentCategory> DocumentLibraryDocumentCategories { get { return AllDocumentLibraryDocumentCategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<EvaluationCriteria> AllEvaluationCriterias { get; set; }
         public virtual IQueryable<EvaluationCriteria> EvaluationCriterias { get { return AllEvaluationCriterias.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<EvaluationCriteriaValue> AllEvaluationCriteriaValues { get; set; }
