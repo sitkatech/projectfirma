@@ -46,6 +46,7 @@ CREATE TABLE [dbo].[Project](
 	[ProposalClassificationsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[AttachmentsNotesComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PhotosComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SubmittedByPersonID] [int] NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC
@@ -110,6 +111,11 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Person_Revie
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Person_ReviewedByPersonID_TenantID_PersonID_TenantID]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Person_SubmittedByPersonID_PersonID] FOREIGN KEY([SubmittedByPersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Person_SubmittedByPersonID_PersonID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectApprovalStatus_ProjectApprovalStatusID] FOREIGN KEY([ProjectApprovalStatusID])
 REFERENCES [dbo].[ProjectApprovalStatus] ([ProjectApprovalStatusID])
