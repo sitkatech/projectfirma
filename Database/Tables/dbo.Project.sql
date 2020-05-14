@@ -117,6 +117,11 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Person_SubmittedByPersonID_PersonID]
 GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Person_SubmittedByPersonID_TenantID_PersonID_TenantID] FOREIGN KEY([SubmittedByPersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Person_SubmittedByPersonID_TenantID_PersonID_TenantID]
+GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectApprovalStatus_ProjectApprovalStatusID] FOREIGN KEY([ProjectApprovalStatusID])
 REFERENCES [dbo].[ProjectApprovalStatus] ([ProjectApprovalStatusID])
 GO

@@ -42,6 +42,11 @@ REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID])
 GO
 ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_DocumentLibrary_DocumentLibraryID]
 GO
+ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_DocumentLibrary_DocumentLibraryID_TenantID] FOREIGN KEY([DocumentLibraryID], [TenantID])
+REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID], [TenantID])
+GO
+ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_DocumentLibrary_DocumentLibraryID_TenantID]
+GO
 ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
