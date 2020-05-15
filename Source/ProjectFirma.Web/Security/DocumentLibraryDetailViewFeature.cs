@@ -20,8 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage Document Library")]
-    public class DocumentLibraryManageFeature : FirmaAdminFeature
+    [SecurityFeatureDescription("View Document Library Details")]
+    public class DocumentLibraryDetailViewFeature : FirmaAdminFeature
     {
     }
 }

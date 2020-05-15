@@ -1,0 +1,107 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.SortOrder
+@inherits ProjectFirma.Web.Views.DocumentLibrary.Detail
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+
+    <style>
+        .basicsPanelLabel {
+            max-width: 225px;
+        }
+    </style>
+
+}
+
+@section RightOfPageTitle
+{
+    <div class="pull-right">
+        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewDocumentUrl, "Upload Document", ViewDataTyped.UserHasDocumentLibraryManagePermissions)
+
+        @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditDocumentSortOrderUrl, ViewDataTyped.UserHasDocumentLibraryManagePermissions)
+    </div>
+}
+
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.DocumentLibraryPluralized</a>
+</div>
+
+<p>
+    Use this page to edit Document Library details and upload documents to the library.
+</p>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDocumentLibraryUrl, string.Format("Edit {0}", ViewDataTyped.DocumentLibraryDisplayName), ViewDataTyped.UserHasDocumentLibraryManagePermissions) Basics
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right basicsPanelLabel">@Html.LabelWithSugarFor(FieldDefinitionEnum.DocumentLibraryName.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.DocumentLibrary.DocumentLibraryName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right basicsPanelLabel">Description</div>
+                    <div class="col-xs-7">@Html.Raw(ViewDataTyped.DocumentLibrary.DocumentLibraryDescription.HtmlEncodeWithBreaks())</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right basicsPanelLabel">Document Categories</div>
+                    <div class="col-xs-7">@ViewDataTyped.DocumentLibrary.GetDocumentCategoryDisplayNamesAsCommaDelimitedString()</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right basicsPanelLabel">Pages</div>
+                    <div class="col-xs-7">@ViewDataTyped.DocumentLibrary.GetCustomPageDisplayNamesAsCommaDelimitedString()</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    Documents
+                </h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.DocumentLibraryDocumentGridSpec, ViewDataTyped.DocumentLibraryDocumentsGridName, ViewDataTyped.DocumentLibraryDocumentGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>
+
+

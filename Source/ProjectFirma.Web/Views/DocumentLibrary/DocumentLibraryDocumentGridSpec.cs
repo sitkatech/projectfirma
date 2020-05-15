@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IndexGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="DocumentLibraryDocumentGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -27,9 +27,9 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.DocumentLibrary
 {
-    public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.DocumentLibrary>
+    public class DocumentLibraryDocumentGridSpec : GridSpec<DocumentLibraryDocument>
     {
-        public IndexGridSpec(bool hasDeletePermissions)
+        public DocumentLibraryDocumentGridSpec(bool hasDeletePermissions)
         {
             if (hasDeletePermissions)
             {
@@ -37,13 +37,17 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
                     30,DhtmlxGridColumnFilterType.None);
                 Add(string.Empty,
-                    x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document Library {x.DocumentLibraryName}", true),
+                    x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document {x.DocumentTitle}", true),
                     30, DhtmlxGridColumnFilterType.None);
             }
 
-            Add(FieldDefinitionEnum.DocumentLibraryName.ToType().ToGridHeaderString(), x => x.GetDisplayNameAsUrl(), 250);
-            Add("Document Category", x => x.GetDocumentCategoryDisplayNamesAsCommaDelimitedString(), 300);
-            Add("Page Names", x => x.GetCustomPageDisplayNamesAsCommaDelimitedString(), 300);
+            Add("Document Title", x => x.DocumentTitle, 150);
+            Add("Description", x => x.DocumentDescription, 600);
+            Add("Document Category", x => x.DocumentCategory.DocumentCategoryDisplayName, 130);
+            Add(FieldDefinitionEnum.DocumentLibrary.ToType().ToGridHeaderString(), x => x.DocumentLibrary.GetDisplayNameAsUrl(), 130);
+            Add(FieldDefinitionEnum.DocumentLibraryDocumentViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
+            Add("Last Updated Date", x => x.LastUpdateDate, 120);
+            Add("Last Updated By", x => x.LastUpdatePerson.GetFullNameFirstLast(), 130);
         }
     }
 }

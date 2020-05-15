@@ -71,6 +71,11 @@ namespace ProjectFirma.Web.Models
             get { return $"{MaxUploadFileSizeInBytes / (1024 ^ 2):0.0} KB"; }
         }
 
+        public static string GetMaxFileSizeHumanReadable(int maxFileSizeInBytes)
+        { 
+            return $"{maxFileSizeInBytes / (1024 ^ 2):0.0} KB"; 
+        }
+
         /// <summary>
         /// Prepare the file bytes for going into the database
         /// </summary>
@@ -120,6 +125,17 @@ namespace ProjectFirma.Web.Models
                 var formattedUploadSize = $"~{(httpPostedFileBase.ContentLength / 1000).ToGroupedNumeric()} KB";
                 errors.Add(new ValidationResult(
                     $"File is too large - must be less than {MaxFileSizeHumanReadable} [Provided file was {formattedUploadSize}]", new[] { propertyName }));
+            }
+        }
+
+        public static void ValidateFileSize(HttpPostedFileBase httpPostedFileBase, List<ValidationResult> errors, string propertyName, int maxFileSize)
+        {
+            if (httpPostedFileBase.ContentLength > maxFileSize)
+            {
+                var maxFileSizeHumanReadable = GetMaxFileSizeHumanReadable(maxFileSize);
+                var formattedUploadSize = $"~{(httpPostedFileBase.ContentLength / 1000).ToGroupedNumeric()} KB";
+                errors.Add(new ValidationResult(
+                    $"File is too large - must be less than {maxFileSizeHumanReadable} [Provided file was {formattedUploadSize}]", new[] { propertyName }));
             }
         }
 
