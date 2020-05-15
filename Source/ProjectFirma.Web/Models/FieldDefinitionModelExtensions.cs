@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
 
         public static IFieldDefinitionData GetFieldDefinitionData(this FieldDefinition fieldDefinition)
         {
-            return fieldDefinition.FieldDefinitionDatas.SingleOrDefault(x => x.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
+            return fieldDefinition.FieldDefinitionDatas.SingleOrDefault(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
         }
 
         public static string GetContentUrl(this FieldDefinition fieldDefinition)
