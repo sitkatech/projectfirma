@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [DocumentLibraryDetailViewFeature]
+        [DocumentLibraryManageFeature]
         public ViewResult Detail(DocumentLibraryPrimaryKey documentLibraryPrimaryKey)
         {
             var documentLibrary = documentLibraryPrimaryKey.EntityObject;

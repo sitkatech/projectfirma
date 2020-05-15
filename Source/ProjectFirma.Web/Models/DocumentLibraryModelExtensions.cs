@@ -23,25 +23,10 @@ namespace ProjectFirma.Web.Models
             return DetailUrlTemplate.ParameterReplace(documentLibrary.DocumentLibraryID);
         }
 
-        // public static string GetDetailUrl(this DocumentLibrary documentLibrary)
-        // {
-        //     return SitkaRoute<DocumentLibraryController>.BuildUrlFromExpression(c => c.Detail(documentLibrary.DocumentLibraryID));
-        // }
-
         public static HtmlString GetDisplayNameAsUrl(this DocumentLibrary documentLibrary)
         {
             return UrlTemplate.MakeHrefString(documentLibrary.GetDetailUrl(), documentLibrary.DocumentLibraryName);
         }
-
-        // public static string GetEditUrl(this DocumentLibrary documentLibrary)
-        // {
-        //     return SitkaRoute<DocumentLibraryController>.BuildUrlFromExpression(c => c.Edit(documentLibrary.DocumentLibraryID));
-        // }
-        //
-        // public static string GetDeleteUrl(this DocumentLibrary documentLibrary)
-        // {
-        //     return SitkaRoute<DocumentLibraryController>.BuildUrlFromExpression(c => c.DeleteDocumentLibrary(documentLibrary.DocumentLibraryID));
-        // }
 
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(SitkaRoute<DocumentLibraryController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
         public static string GetEditUrl(this DocumentLibrary documentLibrary)

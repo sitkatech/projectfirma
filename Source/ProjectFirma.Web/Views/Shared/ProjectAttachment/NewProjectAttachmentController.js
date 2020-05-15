@@ -65,18 +65,18 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
     }
 
 
-//    $scope.$watch("attachmentForm.$valid", function (newVal, oldVal) {
-//        //console.log("watching things new:" + newVal);
-//        var submitButton = jQuery("form")
-//            .parents(".modal-dialog")
-//            .find("#ltinfo-modal-dialog-save-button-id");
-//
-//        if (newVal) {
-//            submitButton.prop("disabled", false);
-//        } else {
-//            submitButton.prop("disabled", true);
-//        }
-//    });
+    $scope.$watch("attachmentForm.$valid", function (newVal, oldVal) {
+        //console.log("watching things new:" + newVal);
+        var submitButton = jQuery("form")
+            .parents(".modal-dialog")
+            .find("#ltinfo-modal-dialog-save-button-id");
+
+        if (newVal) {
+            submitButton.prop("disabled", false);
+        } else {
+            submitButton.prop("disabled", true);
+        }
+    });
 
     $scope.populateAllowedMimeTypes($scope.AngularModel.AttachmentTypeID);
     $scope.populateAllowedExtensions($scope.AngularModel.AttachmentTypeID);
