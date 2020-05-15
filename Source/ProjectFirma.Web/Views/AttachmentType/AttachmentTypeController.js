@@ -32,11 +32,16 @@ angular.module("ProjectFirmaApp").controller("AttachmentTypeController", functio
         return fileTypesFilteredAndSorted;
     };
 
+    $scope.resetFileResourceMimeTypeIDToAdd = function () {
+        $scope.FileResourceMimeTypeIDToAdd = null;
+    };
+
     $scope.addRow = function () {
         if ($scope.FileResourceMimeTypeIDToAdd != null) {
             //debugger;
             $scope.AngularModel.FileResourceMimeTypeIDs.push(Number($scope.FileResourceMimeTypeIDToAdd));
         }
+        $scope.resetFileResourceMimeTypeIDToAdd();
     };
     $scope.addAllFileResourceMimeTypes = function () {
         $scope.AngularModel.FileResourceMimeTypeIDs = [];
@@ -66,11 +71,16 @@ angular.module("ProjectFirmaApp").controller("AttachmentTypeController", functio
         return taxonomyTrunksFilteredAndSorted;
     };
 
+    $scope.resetTaxonomyTrunkIDToAdd = function () {
+        $scope.TaxonomyTrunkIDToAdd = null;
+    };
+
     $scope.addRowTaxonomyTrunk = function () {
         if ($scope.TaxonomyTrunkIDToAdd != null) {
             //debugger;
             $scope.AngularModel.TaxonomyTrunkIDs.push(Number($scope.TaxonomyTrunkIDToAdd));
         }
+        $scope.resetTaxonomyTrunkIDToAdd();
     };
 
     $scope.addAllTaxonomyTrunks = function () {
@@ -89,7 +99,9 @@ angular.module("ProjectFirmaApp").controller("AttachmentTypeController", functio
     $scope.deleteRowTaxonomyTrunk = function (TaxonomyTrunkID) {
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.TaxonomyTrunkIDs, TaxonomyTrunkID);
     };
-    
+
+    $scope.resetTaxonomyTrunkIDToAdd();
+    $scope.resetFileResourceMimeTypeIDToAdd();
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 });
