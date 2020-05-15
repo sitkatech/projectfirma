@@ -1,10 +1,3 @@
---add Alternate Key and Foreign Keys that were missed with ProjectFirma/#1076
-alter table dbo.DocumentLibrary add constraint AK_DocumentLibrary_DocumentLibraryID_TenantID unique (DocumentLibraryID, TenantID)
-
---alter table dbo.DocumentLibraryDocumentCategory add constraint AK_DocumentLibraryDocumentCategory_DocumentLibraryDocumentCategoryID_TenantID unique (DocumentLibraryDocumentCategoryID, TenantID)
-alter table dbo.DocumentLibraryDocumentCategory add constraint FK_DocumentLibraryDocumentCategory_DocumentLibrary_DocumentLibraryID_TenantID foreign key (DocumentLibraryID, TenantID) references dbo.DocumentLibrary(DocumentLibraryID, TenantID)
-
-
 
 create table dbo.DocumentLibraryDocument (
 	DocumentLibraryDocumentID int identity(1,1) not null constraint PK_DocumentLibraryDocument_DocumentLibraryDocumentID primary key,

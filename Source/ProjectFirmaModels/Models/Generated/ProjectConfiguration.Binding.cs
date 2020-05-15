@@ -58,12 +58,14 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProposalClassificationsComment).HasColumnName(@"ProposalClassificationsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.AttachmentsNotesComment).HasColumnName(@"AttachmentsNotesComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.PhotosComment).HasColumnName(@"PhotosComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.SubmittedByPersonID).HasColumnName(@"SubmittedByPersonID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.Projects).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_TaxonomyLeafID
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.ProjectsWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_Project_Person_PrimaryContactPersonID_PersonID
             HasOptional(a => a.ProposingPerson).WithMany(b => b.ProjectsWhereYouAreTheProposingPerson).HasForeignKey(c => c.ProposingPersonID).WillCascadeOnDelete(false); // FK_Project_Person_ProposingPersonID_PersonID
             HasOptional(a => a.ReviewedByPerson).WithMany(b => b.ProjectsWhereYouAreTheReviewedByPerson).HasForeignKey(c => c.ReviewedByPersonID).WillCascadeOnDelete(false); // FK_Project_Person_ReviewedByPersonID_PersonID
+            HasOptional(a => a.SubmittedByPerson).WithMany(b => b.ProjectsWhereYouAreTheSubmittedByPerson).HasForeignKey(c => c.SubmittedByPersonID).WillCascadeOnDelete(false); // FK_Project_Person_SubmittedByPersonID_PersonID
         }
     }
 }

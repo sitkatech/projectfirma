@@ -57,7 +57,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment) : this()
+        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment, int? submittedByPersonID) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyLeafID = taxonomyLeafID;
@@ -101,6 +101,7 @@ namespace ProjectFirmaModels.Models
             this.ProposalClassificationsComment = proposalClassificationsComment;
             this.AttachmentsNotesComment = attachmentsNotesComment;
             this.PhotosComment = photosComment;
+            this.SubmittedByPersonID = submittedByPersonID;
         }
 
         /// <summary>
@@ -372,6 +373,7 @@ namespace ProjectFirmaModels.Models
         public string ProposalClassificationsComment { get; set; }
         public string AttachmentsNotesComment { get; set; }
         public string PhotosComment { get; set; }
+        public int? SubmittedByPersonID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
@@ -411,6 +413,7 @@ namespace ProjectFirmaModels.Models
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }
+        public virtual Person SubmittedByPerson { get; set; }
         public ProjectApprovalStatus ProjectApprovalStatus { get { return ProjectApprovalStatus.AllLookupDictionary[ProjectApprovalStatusID]; } }
         public ProjectCategory ProjectCategory { get { return ProjectCategory.AllLookupDictionary[ProjectCategoryID]; } }
 
