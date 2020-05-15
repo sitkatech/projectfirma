@@ -15,9 +15,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[DocumentLibraryDocumentCategory] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[DocumentLibraryDocumentCategory] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[DocumentLibraryDocumentCategory]")]
-    public partial class DocumentLibraryDocumentCategory : IHavePrimaryKey, ICanDeleteFull
+    public partial class DocumentLibraryDocumentCategory : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.DocumentLibraryDocumentCategories.Remove(this);
+            dbContext.AllDocumentLibraryDocumentCategories.Remove(this);
         }
         
         /// <summary>
@@ -104,11 +104,13 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int DocumentLibraryDocumentCategoryID { get; set; }
+        public int TenantID { get; set; }
         public int DocumentLibraryID { get; set; }
         public int DocumentCategoryID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return DocumentLibraryDocumentCategoryID; } set { DocumentLibraryDocumentCategoryID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual DocumentLibrary DocumentLibrary { get; set; }
         public DocumentCategory DocumentCategory { get { return DocumentCategory.AllLookupDictionary[DocumentCategoryID]; } }
 

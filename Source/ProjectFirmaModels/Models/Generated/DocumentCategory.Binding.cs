@@ -19,12 +19,15 @@ namespace ProjectFirmaModels.Models
     public abstract partial class DocumentCategory : IHavePrimaryKey
     {
         public static readonly DocumentCategoryManualsAndGuidance ManualsAndGuidance = DocumentCategoryManualsAndGuidance.Instance;
+        public static readonly DocumentCategoryMeetingAgendas MeetingAgendas = DocumentCategoryMeetingAgendas.Instance;
+        public static readonly DocumentCategoryMeetingNotes MeetingNotes = DocumentCategoryMeetingNotes.Instance;
+        public static readonly DocumentCategoryMonitoring Monitoring = DocumentCategoryMonitoring.Instance;
+        public static readonly DocumentCategoryPoliciesAndPlans PoliciesAndPlans = DocumentCategoryPoliciesAndPlans.Instance;
         public static readonly DocumentCategoryPresentations Presentations = DocumentCategoryPresentations.Instance;
         public static readonly DocumentCategoryProgramInformation ProgramInformation = DocumentCategoryProgramInformation.Instance;
         public static readonly DocumentCategoryProgramManagement ProgramManagement = DocumentCategoryProgramManagement.Instance;
         public static readonly DocumentCategoryProgressReport ProgressReport = DocumentCategoryProgressReport.Instance;
-        public static readonly DocumentCategoryPoliciesAndPlans PoliciesAndPlans = DocumentCategoryPoliciesAndPlans.Instance;
-        public static readonly DocumentCategoryResearchAndMonitoring ResearchAndMonitoring = DocumentCategoryResearchAndMonitoring.Instance;
+        public static readonly DocumentCategoryRequestForProposals RequestForProposals = DocumentCategoryRequestForProposals.Instance;
         public static readonly DocumentCategoryOther Other = DocumentCategoryOther.Instance;
 
         public static readonly List<DocumentCategory> All;
@@ -35,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static DocumentCategory()
         {
-            All = new List<DocumentCategory> { ManualsAndGuidance, Presentations, ProgramInformation, ProgramManagement, ProgressReport, PoliciesAndPlans, ResearchAndMonitoring, Other };
+            All = new List<DocumentCategory> { ManualsAndGuidance, MeetingAgendas, MeetingNotes, Monitoring, PoliciesAndPlans, Presentations, ProgramInformation, ProgramManagement, ProgressReport, RequestForProposals, Other };
             AllLookupDictionary = new ReadOnlyDictionary<int, DocumentCategory>(All.ToDictionary(x => x.DocumentCategoryID));
         }
 
@@ -109,6 +112,12 @@ namespace ProjectFirmaModels.Models
             {
                 case DocumentCategoryEnum.ManualsAndGuidance:
                     return ManualsAndGuidance;
+                case DocumentCategoryEnum.MeetingAgendas:
+                    return MeetingAgendas;
+                case DocumentCategoryEnum.MeetingNotes:
+                    return MeetingNotes;
+                case DocumentCategoryEnum.Monitoring:
+                    return Monitoring;
                 case DocumentCategoryEnum.Other:
                     return Other;
                 case DocumentCategoryEnum.PoliciesAndPlans:
@@ -121,8 +130,8 @@ namespace ProjectFirmaModels.Models
                     return ProgramManagement;
                 case DocumentCategoryEnum.ProgressReport:
                     return ProgressReport;
-                case DocumentCategoryEnum.ResearchAndMonitoring:
-                    return ResearchAndMonitoring;
+                case DocumentCategoryEnum.RequestForProposals:
+                    return RequestForProposals;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -132,13 +141,16 @@ namespace ProjectFirmaModels.Models
     public enum DocumentCategoryEnum
     {
         ManualsAndGuidance = 1,
-        Presentations = 2,
-        ProgramInformation = 3,
-        ProgramManagement = 4,
-        ProgressReport = 5,
-        PoliciesAndPlans = 6,
-        ResearchAndMonitoring = 7,
-        Other = 8
+        MeetingAgendas = 2,
+        MeetingNotes = 3,
+        Monitoring = 4,
+        PoliciesAndPlans = 5,
+        Presentations = 6,
+        ProgramInformation = 7,
+        ProgramManagement = 8,
+        ProgressReport = 9,
+        RequestForProposals = 10,
+        Other = 11
     }
 
     public partial class DocumentCategoryManualsAndGuidance : DocumentCategory
@@ -147,45 +159,63 @@ namespace ProjectFirmaModels.Models
         public static readonly DocumentCategoryManualsAndGuidance Instance = new DocumentCategoryManualsAndGuidance(1, @"ManualsAndGuidance", @"Manuals and Guidance", 10);
     }
 
-    public partial class DocumentCategoryPresentations : DocumentCategory
+    public partial class DocumentCategoryMeetingAgendas : DocumentCategory
     {
-        private DocumentCategoryPresentations(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryPresentations Instance = new DocumentCategoryPresentations(2, @"Presentations", @"Presentations", 20);
+        private DocumentCategoryMeetingAgendas(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryMeetingAgendas Instance = new DocumentCategoryMeetingAgendas(2, @"MeetingAgendas", @"Meeting Agendas", 20);
     }
 
-    public partial class DocumentCategoryProgramInformation : DocumentCategory
+    public partial class DocumentCategoryMeetingNotes : DocumentCategory
     {
-        private DocumentCategoryProgramInformation(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryProgramInformation Instance = new DocumentCategoryProgramInformation(3, @"ProgramInformation", @"Program Information", 30);
+        private DocumentCategoryMeetingNotes(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryMeetingNotes Instance = new DocumentCategoryMeetingNotes(3, @"MeetingNotes", @"Meeting Notes", 30);
     }
 
-    public partial class DocumentCategoryProgramManagement : DocumentCategory
+    public partial class DocumentCategoryMonitoring : DocumentCategory
     {
-        private DocumentCategoryProgramManagement(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryProgramManagement Instance = new DocumentCategoryProgramManagement(4, @"ProgramManagement", @"Program Management", 40);
-    }
-
-    public partial class DocumentCategoryProgressReport : DocumentCategory
-    {
-        private DocumentCategoryProgressReport(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryProgressReport Instance = new DocumentCategoryProgressReport(5, @"ProgressReport", @"Progress Report", 50);
+        private DocumentCategoryMonitoring(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryMonitoring Instance = new DocumentCategoryMonitoring(4, @"Monitoring", @"Monitoring", 40);
     }
 
     public partial class DocumentCategoryPoliciesAndPlans : DocumentCategory
     {
         private DocumentCategoryPoliciesAndPlans(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryPoliciesAndPlans Instance = new DocumentCategoryPoliciesAndPlans(6, @"PoliciesAndPlans", @"Policies and Plans", 60);
+        public static readonly DocumentCategoryPoliciesAndPlans Instance = new DocumentCategoryPoliciesAndPlans(5, @"PoliciesAndPlans", @"Policies and Plans", 50);
     }
 
-    public partial class DocumentCategoryResearchAndMonitoring : DocumentCategory
+    public partial class DocumentCategoryPresentations : DocumentCategory
     {
-        private DocumentCategoryResearchAndMonitoring(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryResearchAndMonitoring Instance = new DocumentCategoryResearchAndMonitoring(7, @"ResearchAndMonitoring", @"Research and Monitoring", 70);
+        private DocumentCategoryPresentations(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryPresentations Instance = new DocumentCategoryPresentations(6, @"Presentations", @"Presentations", 60);
+    }
+
+    public partial class DocumentCategoryProgramInformation : DocumentCategory
+    {
+        private DocumentCategoryProgramInformation(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryProgramInformation Instance = new DocumentCategoryProgramInformation(7, @"ProgramInformation", @"Program Information", 70);
+    }
+
+    public partial class DocumentCategoryProgramManagement : DocumentCategory
+    {
+        private DocumentCategoryProgramManagement(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryProgramManagement Instance = new DocumentCategoryProgramManagement(8, @"ProgramManagement", @"Program Management", 80);
+    }
+
+    public partial class DocumentCategoryProgressReport : DocumentCategory
+    {
+        private DocumentCategoryProgressReport(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryProgressReport Instance = new DocumentCategoryProgressReport(9, @"ProgressReport", @"Progress Report", 90);
+    }
+
+    public partial class DocumentCategoryRequestForProposals : DocumentCategory
+    {
+        private DocumentCategoryRequestForProposals(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryRequestForProposals Instance = new DocumentCategoryRequestForProposals(10, @"RequestForProposals", @"Request for Proposals", 100);
     }
 
     public partial class DocumentCategoryOther : DocumentCategory
     {
         private DocumentCategoryOther(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryOther Instance = new DocumentCategoryOther(8, @"Other", @"Other", 80);
+        public static readonly DocumentCategoryOther Instance = new DocumentCategoryOther(11, @"Other", @"Other", 110);
     }
 }

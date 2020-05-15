@@ -77,9 +77,10 @@
             @foreach (var yearGroup in groupedTimelineEvents)
             {
                 yearDisplayCount++;
+                var yeardisplay = ViewDataTyped.ProjectTimeline.UsesFiscalYears ? string.Format("FY{0}", yearGroup.Key.Year) : yearGroup.Key.Year.ToString();
                 var quarterDisplayCount = 0;
                 <div class="timeline-year-group">
-                    <button class="timeline-button @(yearDisplayCount == 1 ? ProjectTimeline.DisplayClass : String.Empty)"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>@yearGroup.Key.Year</button>
+                    <button class="timeline-button @(yearDisplayCount == 1 ? ProjectTimeline.DisplayClass : String.Empty)"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>@yeardisplay</button>
                     <div class="timeline-year-group-wrapper  @(yearDisplayCount == 1 ? ProjectTimeline.DisplayClass : String.Empty)">
                         @foreach (var quarterGroup in yearGroup)
                         {

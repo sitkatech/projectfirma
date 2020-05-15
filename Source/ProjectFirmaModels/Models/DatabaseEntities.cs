@@ -76,7 +76,7 @@ namespace ProjectFirmaModels.Models
             SetTenantIDForAllModifiedEntries(dbEntityEntries, tenantID);
 
             // Project is such an important piece to PF; if we generate an audit log record that has a ProjectID, we need to update the last update date on the Project
-            var projectIDsModified = new List<int>();
+            var distinctProjectIDsModified = new HashSet<int>();
 
             foreach (var entry in modifiedEntries)
             {
@@ -84,7 +84,7 @@ namespace ProjectFirmaModels.Models
                 var auditRecordsForChange =
                     AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, this, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
-                projectIDsModified.AddRange(ExtractProjectIDsFromAuditLogs(auditRecordsForChange));
+                ExtractProjectIDsFromAuditLogs(auditRecordsForChange).ForEach(x => distinctProjectIDsModified.Add(x));
             }
 
             int changes;
@@ -117,13 +117,14 @@ namespace ProjectFirmaModels.Models
                 // For each added record, get the audit record entries and add them
                 var auditRecordsForChange = AuditLog.GetAuditLogRecordsForAdded(entry, person, this, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
-                projectIDsModified.AddRange(ExtractProjectIDsFromAuditLogs(auditRecordsForChange));
+                ExtractProjectIDsFromAuditLogs(auditRecordsForChange).ForEach(x => distinctProjectIDsModified.Add(x));
             }
 
             // now update LastUpdatedDate of any Projects that were touched
-            if (projectIDsModified.Any())
+            if (distinctProjectIDsModified.Any())
             {
-                var projects = Projects.Where(x => projectIDsModified.Distinct().Contains(x.ProjectID));
+                var listForLinqToSqlTranslation = distinctProjectIDsModified.ToList();
+                List<Project> projects = Projects.Where(x => listForLinqToSqlTranslation.Contains(x.ProjectID)).ToList();
                 foreach (var project in projects)
                 {
                     project.LastUpdatedDate = DateTime.Now;
@@ -137,10 +138,10 @@ namespace ProjectFirmaModels.Models
             return changes;
         }
 
-        private static IEnumerable<int> ExtractProjectIDsFromAuditLogs(IEnumerable<AuditLog> auditRecordsForChange)
+        private static List<int> ExtractProjectIDsFromAuditLogs(IEnumerable<AuditLog> auditRecordsForChange)
         {
             var auditLogsWithProjectID = auditRecordsForChange.Where(x => x.ProjectID.HasValue).ToList();
-            return auditLogsWithProjectID.Any() ? auditLogsWithProjectID.Select(x => x.ProjectID.Value) : new List<int>();
+            return auditLogsWithProjectID.Any() ? auditLogsWithProjectID.Select(x => x.ProjectID.Value).Distinct().ToList() : new List<int>();
         }
 
         private static void SetTenantIDForAllModifiedEntries(List<DbEntityEntry> dbEntityEntries, int tenantID)

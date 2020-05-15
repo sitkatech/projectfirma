@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected DocumentLibrary()
         {
             this.CustomPages = new HashSet<CustomPage>();
+            this.DocumentLibraryDocuments = new HashSet<DocumentLibraryDocument>();
             this.DocumentLibraryDocumentCategories = new HashSet<DocumentLibraryDocumentCategory>();
         }
 
@@ -64,13 +65,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return CustomPages.Any() || DocumentLibraryDocumentCategories.Any();
+            return CustomPages.Any() || DocumentLibraryDocuments.Any() || DocumentLibraryDocumentCategories.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(DocumentLibrary).Name, typeof(CustomPage).Name, typeof(DocumentLibraryDocumentCategory).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(DocumentLibrary).Name, typeof(CustomPage).Name, typeof(DocumentLibraryDocument).Name, typeof(DocumentLibraryDocumentCategory).Name};
 
 
         /// <summary>
@@ -100,6 +101,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in DocumentLibraryDocuments.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in DocumentLibraryDocumentCategories.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -115,6 +121,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return DocumentLibraryID; } set { DocumentLibraryID = value; } }
 
         public virtual ICollection<CustomPage> CustomPages { get; set; }
+        public virtual ICollection<DocumentLibraryDocument> DocumentLibraryDocuments { get; set; }
         public virtual ICollection<DocumentLibraryDocumentCategory> DocumentLibraryDocumentCategories { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 

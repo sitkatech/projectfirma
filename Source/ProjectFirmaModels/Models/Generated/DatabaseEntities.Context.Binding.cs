@@ -56,7 +56,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryConfiguration());
+            modelBuilder.Configurations.Add(new DocumentLibraryDocumentConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryDocumentCategoryConfiguration());
+            modelBuilder.Configurations.Add(new DocumentLibraryDocumentRoleConfiguration());
             modelBuilder.Configurations.Add(new EvaluationConfiguration());
             modelBuilder.Configurations.Add(new EvaluationCriteriaConfiguration());
             modelBuilder.Configurations.Add(new EvaluationCriteriaValueConfiguration());
@@ -218,7 +220,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<DocumentLibrary> AllDocumentLibraries { get; set; }
         public virtual IQueryable<DocumentLibrary> DocumentLibraries { get { return AllDocumentLibraries.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<DocumentLibraryDocumentCategory> DocumentLibraryDocumentCategories { get; set; }
+        public virtual DbSet<DocumentLibraryDocumentCategory> AllDocumentLibraryDocumentCategories { get; set; }
+        public virtual IQueryable<DocumentLibraryDocumentCategory> DocumentLibraryDocumentCategories { get { return AllDocumentLibraryDocumentCategories.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<DocumentLibraryDocumentRole> AllDocumentLibraryDocumentRoles { get; set; }
+        public virtual IQueryable<DocumentLibraryDocumentRole> DocumentLibraryDocumentRoles { get { return AllDocumentLibraryDocumentRoles.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<DocumentLibraryDocument> AllDocumentLibraryDocuments { get; set; }
+        public virtual IQueryable<DocumentLibraryDocument> DocumentLibraryDocuments { get { return AllDocumentLibraryDocuments.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<EvaluationCriteria> AllEvaluationCriterias { get; set; }
         public virtual IQueryable<EvaluationCriteria> EvaluationCriterias { get { return AllEvaluationCriterias.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<EvaluationCriteriaValue> AllEvaluationCriteriaValues { get; set; }
@@ -543,6 +550,12 @@ namespace ProjectFirmaModels.Models
 
                 case "DocumentLibraryDocumentCategory":
                     return DocumentLibraryDocumentCategories.GetDocumentLibraryDocumentCategory(primaryKey);
+
+                case "DocumentLibraryDocumentRole":
+                    return DocumentLibraryDocumentRoles.GetDocumentLibraryDocumentRole(primaryKey);
+
+                case "DocumentLibraryDocument":
+                    return DocumentLibraryDocuments.GetDocumentLibraryDocument(primaryKey);
 
                 case "EvaluationCriteria":
                     return EvaluationCriterias.GetEvaluationCriteria(primaryKey);

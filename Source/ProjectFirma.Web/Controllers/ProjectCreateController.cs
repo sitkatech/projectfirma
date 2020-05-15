@@ -906,11 +906,13 @@ namespace ProjectFirma.Web.Controllers
 
             var httpPostedFileBase = viewModel.FileResourceData;
             var isKml = httpPostedFileBase.FileName.EndsWith(".kml");
-            var fileEnding = isKml ? ".kml" : ".gdb.zip";
+            var isKmz = httpPostedFileBase.FileName.EndsWith(".kmz");
+            var fileEnding = isKml ? ".kml" : isKmz ? ".kmz" : ".gdb.zip";
+
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(fileEnding))
             {
-                var gdbOrKmlFile = disposableTempFile.FileInfo;
-                httpPostedFileBase.SaveAs(gdbOrKmlFile.FullName);
+                var disposableTempFileFileInfo = disposableTempFile.FileInfo;
+                httpPostedFileBase.SaveAs(disposableTempFileFileInfo.FullName);
                 foreach (var projectLocationStaging in project.ProjectLocationStagings.ToList())
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
@@ -918,11 +920,15 @@ namespace ProjectFirma.Web.Controllers
 
                 if (isKml)
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(gdbOrKmlFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                }
+                else if (isKmz)
+                {
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
                 }
                 else
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbOrKmlFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
                 }
                 
             }
@@ -1472,6 +1478,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             project.ProjectApprovalStatusID = ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID;
             project.SubmissionDate = DateTime.Now;
+            project.SubmittedByPerson = CurrentPerson;
             NotificationProjectModelExtensions.SendSubmittedMessage(project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} successfully submitted for review.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
