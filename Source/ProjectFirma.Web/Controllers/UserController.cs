@@ -148,7 +148,18 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDelete(Person personToDelete, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !personToDelete.HasDependentObjects() && personToDelete != CurrentPerson;
+            
+            // todo: comment here that explains this. Maybe talk to the tech lead
+            // We are going to allow full cascade deletion of a Person from the system only if their only dependent objects are in the list below.
+            // It is worth being careful when adding any further objects to the list. 5/15/2020 SMG [#2148]
+            var dependentObjectsThatAreSafeToDelete = new List<string>()
+            {
+                typeof(AuditLog).Name
+            };
+
+            var dependentObjectsThatAreNotSafeToDelete = personToDelete.DependentObjectNames().Where(x => dependentObjectsThatAreSafeToDelete.Any(y => y != x)).ToList();
+            var canDelete = !dependentObjectsThatAreNotSafeToDelete.Any() && personToDelete != CurrentPerson;
+
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete {personToDelete.GetFullNameFirstLastAndOrg()}?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person",
