@@ -96,6 +96,35 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ProjectCustomAttributes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomAttribute).Name);
+            }
+
+            if(ProjectCustomAttributeTypeRoles.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomAttributeTypeRole).Name);
+            }
+
+            if(ProjectCustomAttributeUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomAttributeUpdate).Name);
+            }
+
+            if(ProjectCustomGridConfigurations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomGridConfiguration).Name);
+            }
+            return dependentObjects;
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeType).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectCustomAttributeTypeRole).Name, typeof(ProjectCustomAttributeUpdate).Name, typeof(ProjectCustomGridConfiguration).Name};

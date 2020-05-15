@@ -82,6 +82,20 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(FundingSourceCustomAttributeValues.Any())
+            {
+                dependentObjects.Add(typeof(FundingSourceCustomAttributeValue).Name);
+            }
+            return dependentObjects;
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingSourceCustomAttribute).Name, typeof(FundingSourceCustomAttributeValue).Name};

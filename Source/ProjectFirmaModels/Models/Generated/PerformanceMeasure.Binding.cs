@@ -116,6 +116,105 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ClassificationPerformanceMeasures.Any())
+            {
+                dependentObjects.Add(typeof(ClassificationPerformanceMeasure).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureFixedTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureNoTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureNoTarget).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name);
+            }
+
+            if(PerformanceMeasureActuals.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActual).Name);
+            }
+
+            if(PerformanceMeasureActualSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOption).Name);
+            }
+
+            if(PerformanceMeasureActualSubcategoryOptionUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name);
+            }
+
+            if(PerformanceMeasureActualUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualUpdate).Name);
+            }
+
+            if(PerformanceMeasureExpecteds.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpected).Name);
+            }
+
+            if(PerformanceMeasureExpectedSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOption).Name);
+            }
+
+            if(PerformanceMeasureExpectedSubcategoryOptionUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name);
+            }
+
+            if(PerformanceMeasureExpectedUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedUpdate).Name);
+            }
+
+            if(PerformanceMeasureFixedTargets.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureFixedTarget).Name);
+            }
+
+            if(PerformanceMeasureImages.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureImage).Name);
+            }
+
+            if(PerformanceMeasureNotes.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureNote).Name);
+            }
+
+            if(PerformanceMeasureReportingPeriodTargets.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureReportingPeriodTarget).Name);
+            }
+
+            if(PerformanceMeasureSubcategories.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureSubcategory).Name);
+            }
+
+            if(TaxonomyLeafPerformanceMeasures.Any())
+            {
+                dependentObjects.Add(typeof(TaxonomyLeafPerformanceMeasure).Name);
+            }
+            return dependentObjects;
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name, typeof(GeospatialAreaPerformanceMeasureNoTarget).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(PerformanceMeasureFixedTarget).Name, typeof(PerformanceMeasureImage).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};

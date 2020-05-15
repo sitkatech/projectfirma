@@ -90,6 +90,25 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ClassificationPerformanceMeasures.Any())
+            {
+                dependentObjects.Add(typeof(ClassificationPerformanceMeasure).Name);
+            }
+
+            if(ProjectClassifications.Any())
+            {
+                dependentObjects.Add(typeof(ProjectClassification).Name);
+            }
+            return dependentObjects;
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(ProjectClassification).Name};

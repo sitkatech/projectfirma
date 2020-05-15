@@ -89,6 +89,40 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(FundingSourceCustomAttributes.Any())
+            {
+                dependentObjects.Add(typeof(FundingSourceCustomAttribute).Name);
+            }
+
+            if(ProjectFundingSourceBudgets.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudget).Name);
+            }
+
+            if(ProjectFundingSourceBudgetUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudgetUpdate).Name);
+            }
+
+            if(ProjectFundingSourceExpenditures.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditure).Name);
+            }
+
+            if(ProjectFundingSourceExpenditureUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditureUpdate).Name);
+            }
+            return dependentObjects;
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingSource).Name, typeof(FundingSourceCustomAttribute).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name};

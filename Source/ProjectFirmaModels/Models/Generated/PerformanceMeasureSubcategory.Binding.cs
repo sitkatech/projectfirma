@@ -90,6 +90,40 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(PerformanceMeasureActualSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOption).Name);
+            }
+
+            if(PerformanceMeasureActualSubcategoryOptionUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name);
+            }
+
+            if(PerformanceMeasureExpectedSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOption).Name);
+            }
+
+            if(PerformanceMeasureExpectedSubcategoryOptionUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name);
+            }
+
+            if(PerformanceMeasureSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureSubcategoryOption).Name);
+            }
+            return dependentObjects;
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureSubcategory).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureSubcategoryOption).Name};

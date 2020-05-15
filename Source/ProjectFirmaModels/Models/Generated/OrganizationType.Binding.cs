@@ -77,6 +77,25 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(Organizations.Any())
+            {
+                dependentObjects.Add(typeof(Organization).Name);
+            }
+
+            if(OrganizationTypeOrganizationRelationshipTypes.Any())
+            {
+                dependentObjects.Add(typeof(OrganizationTypeOrganizationRelationshipType).Name);
+            }
+            return dependentObjects;
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationType).Name, typeof(Organization).Name, typeof(OrganizationTypeOrganizationRelationshipType).Name};

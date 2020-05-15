@@ -88,6 +88,50 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(GeospatialAreaImages.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaImage).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureFixedTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureNoTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureNoTarget).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name);
+            }
+
+            if(PersonStewardGeospatialAreas.Any())
+            {
+                dependentObjects.Add(typeof(PersonStewardGeospatialArea).Name);
+            }
+
+            if(ProjectGeospatialAreas.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialArea).Name);
+            }
+
+            if(ProjectGeospatialAreaUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaUpdate).Name);
+            }
+            return dependentObjects;
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(GeospatialAreaImage).Name, typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name, typeof(GeospatialAreaPerformanceMeasureNoTarget).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name};
