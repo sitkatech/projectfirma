@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         {
             this.ClassificationsWhereYouAreTheKeyImageFileResource = new HashSet<Classification>();
             this.CustomPageImages = new HashSet<CustomPageImage>();
+            this.DocumentLibraryDocuments = new HashSet<DocumentLibraryDocument>();
             this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
             this.FirmaHomePageImages = new HashSet<FirmaHomePageImage>();
             this.FirmaPageImages = new HashSet<FirmaPageImage>();
@@ -107,13 +108,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || CustomPageImages.Any() || FieldDefinitionDataImages.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || GeospatialAreaImages.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || PerformanceMeasureImages.Any() || ProjectAttachmentsWhereYouAreTheAttachment.Any() || ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ReportTemplates.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any();
+            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || CustomPageImages.Any() || DocumentLibraryDocuments.Any() || FieldDefinitionDataImages.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || GeospatialAreaImages.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || PerformanceMeasureImages.Any() || ProjectAttachmentsWhereYouAreTheAttachment.Any() || ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ReportTemplates.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(FieldDefinitionDataImage).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(GeospatialAreaImage).Name, typeof(Organization).Name, typeof(PerformanceMeasureImage).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ReportTemplate).Name, typeof(TenantAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(DocumentLibraryDocument).Name, typeof(FieldDefinitionDataImage).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(GeospatialAreaImage).Name, typeof(Organization).Name, typeof(PerformanceMeasureImage).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ReportTemplate).Name, typeof(TenantAttribute).Name};
 
 
         /// <summary>
@@ -144,6 +145,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in CustomPageImages.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in DocumentLibraryDocuments.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -239,6 +245,7 @@ namespace ProjectFirmaModels.Models
 
         public virtual ICollection<Classification> ClassificationsWhereYouAreTheKeyImageFileResource { get; set; }
         public virtual ICollection<CustomPageImage> CustomPageImages { get; set; }
+        public virtual ICollection<DocumentLibraryDocument> DocumentLibraryDocuments { get; set; }
         public virtual ICollection<FieldDefinitionDataImage> FieldDefinitionDataImages { get; set; }
         public virtual ICollection<FirmaHomePageImage> FirmaHomePageImages { get; set; }
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DocumentLibraryManageFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditDocumentViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,10 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Security
+using System.Collections.Generic;
+using System.Web.Mvc;
+
+namespace ProjectFirma.Web.Views.DocumentLibrary
 {
-    [SecurityFeatureDescription("Manage Document Library")]
-    public class DocumentLibraryManageFeature : FirmaAdminFeature
+    public class EditDocumentViewData : FirmaUserControlViewData
     {
+        public readonly ProjectFirmaModels.Models.DocumentLibraryDocument DocumentLibraryDocument;
+        public readonly IEnumerable<SelectListItem> DocumentCategories;
+        public readonly IEnumerable<SelectListItem> DocumentLibraries;
+
+        public EditDocumentViewData(ProjectFirmaModels.Models.DocumentLibraryDocument documentLibraryDocument, IEnumerable<SelectListItem> documentCategories, IEnumerable<SelectListItem> documentLibraries)
+        {
+            DocumentLibraryDocument = documentLibraryDocument;
+            DocumentCategories = documentCategories;
+            DocumentLibraries = documentLibraries;
+        }
     }
 }
