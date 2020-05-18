@@ -69,6 +69,30 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(CustomPages.Any())
+            {
+                dependentObjects.Add(typeof(CustomPage).Name);
+            }
+
+            if(DocumentLibraryDocuments.Any())
+            {
+                dependentObjects.Add(typeof(DocumentLibraryDocument).Name);
+            }
+
+            if(DocumentLibraryDocumentCategories.Any())
+            {
+                dependentObjects.Add(typeof(DocumentLibraryDocumentCategory).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(DocumentLibrary).Name, typeof(CustomPage).Name, typeof(DocumentLibraryDocument).Name, typeof(DocumentLibraryDocumentCategory).Name};

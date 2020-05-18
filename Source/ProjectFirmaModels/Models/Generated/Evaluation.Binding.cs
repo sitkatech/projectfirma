@@ -95,6 +95,25 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(EvaluationCriterias.Any())
+            {
+                dependentObjects.Add(typeof(EvaluationCriteria).Name);
+            }
+
+            if(ProjectEvaluations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectEvaluation).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Evaluation).Name, typeof(EvaluationCriteria).Name, typeof(ProjectEvaluation).Name};
