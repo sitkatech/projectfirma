@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared
@@ -25,6 +26,7 @@ namespace ProjectFirma.Web.Views.Shared
     public class DisplayPageContentViewData : FirmaViewData
     {
         public readonly ViewPageContentViewData ViewWholePageContentViewData;
+        public readonly DisplayDocumentLibraryViewData DisplayDocumentLibraryViewData;
 
         public DisplayPageContentViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, bool showEditButton) : base(currentFirmaSession)
         {
@@ -36,6 +38,8 @@ namespace ProjectFirma.Web.Views.Shared
         {
             PageTitle = customPage.GetFirmaPageDisplayName();
             ViewWholePageContentViewData = new ViewPageContentViewData(customPage, showEditButton);
+            DisplayDocumentLibraryViewData = new DisplayDocumentLibraryViewData(customPage, currentFirmaSession);
+
         }
     }
 }

@@ -6,6 +6,7 @@ using LtInfo.Common;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -30,6 +31,12 @@ namespace ProjectFirma.Web.Models
             return new HtmlString(documentLibraryDocumentRoles.Any()
                 ? string.Join(", ", documentLibraryDocumentRoles.OrderBy(x => x.RoleID).Select(x => x.Role == null ? "Anonymous (Public)" : x.Role.GetRoleDisplayName()).ToList())
                 : ViewUtilities.NoAnswerProvided);
+        }
+
+        public static bool HasViewPermission(this DocumentLibraryDocument documentLibraryDocument, FirmaSession currentFirmaSession)
+        {
+            var viewTypeRoles = documentLibraryDocument.DocumentLibraryDocumentRoles;
+            return (currentFirmaSession.Person != null && viewTypeRoles.Select(x => x.Role).Contains(currentFirmaSession.Role)) || new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession) || (currentFirmaSession.Person == null && viewTypeRoles.Any(x => x.Role == null));
         }
     }
 }
