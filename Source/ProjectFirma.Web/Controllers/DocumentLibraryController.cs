@@ -166,6 +166,12 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteDocumentLibrary(documentLibrary, viewModel);
             }
 
+            // unset document library from Custom Page
+            foreach (var documentLibraryCustomPage in documentLibrary.CustomPages)
+            {
+                documentLibraryCustomPage.DocumentLibraryID = null;
+            }
+            documentLibrary.CustomPages = new List<CustomPage>();
             documentLibrary.DeleteFull(HttpRequestStorage.DatabaseEntities);
 
             SetMessageForDisplay($"Document Library '{name}' successfully deleted.");

@@ -94,6 +94,7 @@
             <div class="col-md-9">
                 <div class="input-group" style="width: 100%;">
                     <select class="selectpicker dropup" ng-model="CustomPageIDToAdd" data-live-search="true"  data-size="6" title="Select one" data-dropup-auto="false">
+                        <option value="null" disabled selected>Select one</option>
                         <option ng-repeat="customPage in getAvailableCustomPages()"
                                 ng-selected="CustomPageIDToAdd == customPage.CustomPageID"
                                 ng-bind="customPage.CustomPageDisplayName"
