@@ -106,7 +106,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(ProjectRelevantCostTypeUpdate).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

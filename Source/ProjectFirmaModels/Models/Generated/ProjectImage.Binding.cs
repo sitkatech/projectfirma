@@ -107,7 +107,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(ProjectImageUpdate).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

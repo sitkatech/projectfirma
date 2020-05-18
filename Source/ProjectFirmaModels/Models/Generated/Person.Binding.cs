@@ -347,7 +347,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(TenantAttribute).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

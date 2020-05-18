@@ -86,7 +86,7 @@ namespace ProjectFirmaModels.Models
         {
             var dependentObjects = new List<string>();
             
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

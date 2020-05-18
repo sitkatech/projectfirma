@@ -89,7 +89,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(DocumentLibraryDocumentCategory).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

@@ -108,7 +108,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(DocumentLibraryDocumentRole).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

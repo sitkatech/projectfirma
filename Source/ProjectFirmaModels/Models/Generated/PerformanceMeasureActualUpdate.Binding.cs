@@ -98,7 +98,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

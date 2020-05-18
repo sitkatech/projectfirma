@@ -100,7 +100,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOption).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

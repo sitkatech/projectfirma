@@ -92,7 +92,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(FundingSourceCustomAttributeValue).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

@@ -103,7 +103,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(FundingSourceCustomAttributeTypeRole).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

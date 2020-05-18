@@ -88,7 +88,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(FirmaPageImage).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

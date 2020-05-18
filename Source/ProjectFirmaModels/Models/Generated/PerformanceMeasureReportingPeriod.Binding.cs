@@ -96,7 +96,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(PerformanceMeasureReportingPeriodTarget).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

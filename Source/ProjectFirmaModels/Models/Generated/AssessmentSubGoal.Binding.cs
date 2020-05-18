@@ -92,7 +92,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(AssessmentQuestion).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

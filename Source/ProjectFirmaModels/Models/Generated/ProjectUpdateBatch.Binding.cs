@@ -247,7 +247,7 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(TechnicalAssistanceRequestUpdate).Name);
             }
-            return dependentObjects;
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
