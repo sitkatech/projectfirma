@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.Views.Shared
             {
                 UserHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
                 DocumentLibraryUrl = SitkaRoute<DocumentLibraryController>.BuildUrlFromExpression(c => c.Detail(customPage.DocumentLibrary));
-                // ShowDocumentLibrary = true;
                 DocumentCategories = customPage.DocumentLibrary.DocumentLibraryDocumentCategories.Select(x => x.DocumentCategory).OrderBy(x => x.SortOrder).ToList();
                 Documents = customPage.DocumentLibrary.DocumentLibraryDocuments.Where(x => x.HasViewPermission(currentFirmaSession)).ToList();
                 ShowDocumentLibrary = Documents.Any() || UserHasAdminPermissions;
@@ -42,12 +41,6 @@ namespace ProjectFirma.Web.Views.Shared
                         ViewableDocumentCountPerCategory.Add(documentCategory.DocumentCategoryID, Documents.Count(x => x.DocumentCategoryID == documentCategory.DocumentCategoryID));
                     }
                 }
-
-                // if (TotalDocumentCountPerCategory.Values.Sum() > 0 && !Documents.Any())
-                // {
-                //     // documents exist, but user does not have permission to view any, so hide the whole document library
-                //     ShowDocumentLibrary = false;
-                // }
             }
         }
     }
