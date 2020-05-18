@@ -46,5 +46,11 @@ namespace ProjectFirma.Web.Views.Shared
         {
             return $"You can't delete this {objectName} because it has associations to other items. <span>Click {linkToObjectSummaryPage} to view it.</span>";
         }
+
+        public static string GetStandardCannotDeletePersonMessage(string objectName, string linkToObjectSummaryPage)
+        {
+            return $"<p>You can't delete this {objectName} because it is associated with important items in the system.<p>" +
+                   $"<p>If the {objectName} no longer needs access to this system, you can inactivate their account from their {linkToObjectSummaryPage}.";
+        }
     }
 }

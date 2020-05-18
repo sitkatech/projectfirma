@@ -162,8 +162,8 @@ namespace ProjectFirma.Web.Controllers
 
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete {personToDelete.GetFullNameFirstLastAndOrg()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person",
-                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(personToDelete), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeletePersonMessage("Person",
+                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(personToDelete), "User profile page"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
