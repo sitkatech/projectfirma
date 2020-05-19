@@ -486,6 +486,8 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroup.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewData.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
+    <Compile Include="Views\Shared\DisplayDocumentLibrary.cs" />
+    <Compile Include="Views\Shared\DisplayDocumentLibraryViewData.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
@@ -1768,6 +1770,7 @@
     <Content Include="Views\Reports\Edit.cshtml" />
     <Content Include="Views\Reports\GenerateReports.cshtml" />
     <Content Include="Views\Reports\Projects.cshtml" />
+    <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

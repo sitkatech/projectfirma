@@ -37,15 +37,28 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
         [SitkaFileExtensions("pdf|zip|doc|docx|xls|xlsx|ppt|pptx")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public override void UpdateModel(ProjectFirmaModels.Models.DocumentLibraryDocument documentLibraryDocument, FirmaSession currentFirmaSession, ICollection<DocumentLibraryDocumentRole> allDocumentLibraryDocumentRoles)
+        /// <summary>
+        /// Needed by the ModelBinder
+        /// </summary>
+        public NewDocumentViewModel()
+        {
+        }
+
+        public NewDocumentViewModel(ProjectFirmaModels.Models.DocumentLibrary documentLibrary)
+        {
+            DocumentLibraryID = documentLibrary.DocumentLibraryID;
+        }
+
+        public override void UpdateModel(DocumentLibraryDocument documentLibraryDocument, FirmaSession currentFirmaSession, ICollection<DocumentLibraryDocumentRole> allDocumentLibraryDocumentRoles)
         {
             documentLibraryDocument.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
+            documentLibraryDocument.DocumentLibraryID = DocumentLibraryID;
             base.UpdateModel(documentLibraryDocument, currentFirmaSession, allDocumentLibraryDocumentRoles);
         }
 
-        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var errors = GetValidationResults().ToList();
+            var errors = new List<ValidationResult>();
             var maxFileSize = (1024 ^ 2) * 50 * 1000; // 50 MB
             FileResourceModelExtensions.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData), maxFileSize);
             return errors;

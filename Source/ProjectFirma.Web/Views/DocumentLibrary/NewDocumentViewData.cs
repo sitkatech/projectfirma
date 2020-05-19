@@ -24,19 +24,13 @@ using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.DocumentLibrary
 {
-    public class NewDocumentViewData
+    public class NewDocumentViewData : EditDocumentViewData
     {
-        public readonly ProjectFirmaModels.Models.DocumentLibrary DocumentLibrary;
         public readonly string SupportedFileExtensionsCommaSeparated;
         public readonly List<string> SupportedFileExtensions;
-        public readonly IEnumerable<SelectListItem> DocumentCategories;
-        public readonly IEnumerable<SelectListItem> DocumentLibraries;
 
-        public NewDocumentViewData(ProjectFirmaModels.Models.DocumentLibrary documentLibrary, IEnumerable<SelectListItem> documentCategories, IEnumerable<SelectListItem> documentLibraries)
+        public NewDocumentViewData(IEnumerable<SelectListItem> documentCategories): base(documentCategories)
         {
-            DocumentLibrary = documentLibrary;
-            DocumentCategories = documentCategories;
-            DocumentLibraries = documentLibraries;
             SupportedFileExtensions = new List<string> { "pdf", "zip", "doc", "docx", "xls", "xlsx", "ppt", "pptx" };
             SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));
         }

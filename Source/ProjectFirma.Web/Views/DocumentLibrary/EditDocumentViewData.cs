@@ -25,15 +25,11 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
 {
     public class EditDocumentViewData : FirmaUserControlViewData
     {
-        public readonly ProjectFirmaModels.Models.DocumentLibraryDocument DocumentLibraryDocument;
         public readonly IEnumerable<SelectListItem> DocumentCategories;
-        public readonly IEnumerable<SelectListItem> DocumentLibraries;
 
-        public EditDocumentViewData(ProjectFirmaModels.Models.DocumentLibraryDocument documentLibraryDocument, IEnumerable<SelectListItem> documentCategories, IEnumerable<SelectListItem> documentLibraries)
+        public EditDocumentViewData(IEnumerable<SelectListItem> documentCategories)
         {
-            DocumentLibraryDocument = documentLibraryDocument;
             DocumentCategories = documentCategories;
-            DocumentLibraries = documentLibraries;
         }
     }
 }

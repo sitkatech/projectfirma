@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -30,8 +31,10 @@ using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.DocumentLibrary
 {
-    public class EditDocumentViewModel : FormViewModel, IValidatableObject
+    public class EditDocumentViewModel : FormViewModel
     {
+        public int DocumentLibraryID { get; set; }
+
         [Required]
         [DisplayName("Document Title")]
         [StringLength(ProjectFirmaModels.Models.DocumentLibraryDocument.FieldLengths.DocumentTitle)]
@@ -44,10 +47,6 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
         [Required]
         [DisplayName("Document Category")]
         public int DocumentCategoryID { get; set; }
-
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.DocumentLibrary)]
-        public int DocumentLibraryID { get; set; }
 
         [DisplayName("Public")]
         public bool ViewableByAnonymous { get; set; }
@@ -74,10 +73,10 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
 
         public EditDocumentViewModel(DocumentLibraryDocument documentLibraryDocument)
         {
+            DocumentLibraryID = documentLibraryDocument.DocumentLibraryID;
             DocumentTitle = documentLibraryDocument.DocumentTitle;
             Description = documentLibraryDocument.DocumentDescription;
             DocumentCategoryID = documentLibraryDocument.DocumentCategoryID;
-            DocumentLibraryID = documentLibraryDocument.DocumentLibraryID;
 
             ViewableByAnonymous = documentLibraryDocument.DocumentLibraryDocumentRoles.Any(x => x.RoleID == null);
             ViewableByUnassigned = documentLibraryDocument.DocumentLibraryDocumentRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
@@ -91,73 +90,48 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
             documentLibraryDocument.DocumentTitle = DocumentTitle;
             documentLibraryDocument.DocumentDescription = Description;
             documentLibraryDocument.DocumentCategoryID = DocumentCategoryID;
-            documentLibraryDocument.DocumentLibraryID = DocumentLibraryID;
+            documentLibraryDocument.LastUpdateDate = DateTime.Now;
+            documentLibraryDocument.LastUpdatePerson = currentFirmaSession.Person;
 
-            var newProjectCustomAttributeTypeRoles = new List<DocumentLibraryDocumentRole>();
+            var newDocumentLibraryDocumentRoles = new List<DocumentLibraryDocumentRole>();
 
             if (ViewableByAnonymous)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID));
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID));
             }
             if (ViewableByUnassigned)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.Unassigned.RoleID
                 });
             }
             if (ViewableByNormal)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.Normal.RoleID
                 });
             }
             if (ViewableByProjectSteward)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.ProjectSteward.RoleID
                 });
             }
             if (ViewableByAdmin)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.Admin.RoleID
                 });
             }
 
-            documentLibraryDocument.DocumentLibraryDocumentRoles.Merge(newProjectCustomAttributeTypeRoles,
+            documentLibraryDocument.DocumentLibraryDocumentRoles.Merge(newDocumentLibraryDocumentRoles,
                 allDocumentLibraryDocumentRoles,
                 (x, y) => x.DocumentLibraryDocumentID == y.DocumentLibraryDocumentID && x.RoleID == y.RoleID,
                 HttpRequestStorage.DatabaseEntities);
-        }
-
-        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            return GetValidationResults();
-        }
-
-        public IEnumerable<ValidationResult> GetValidationResults()
-        {
-            var errors = new List<ValidationResult>();
-            if (!(ViewableByAnonymous || ViewableByUnassigned || ViewableByNormal || ViewableByProjectSteward || ViewableByAdmin))
-            {
-                errors.Add(new ValidationResult("At least one Viewable By role must be selected."));
-            }
-
-            // validate that the document category selected valid for the document library selected
-            var documentLibrary = HttpRequestStorage.DatabaseEntities.DocumentLibraries.SingleOrDefault(x => x.DocumentLibraryID == DocumentLibraryID);
-            if (documentLibrary != null && documentLibrary.DocumentLibraryDocumentCategories.All(x => x.DocumentCategoryID != DocumentCategoryID))
-            {
-                var allowedCategories = string.Join(", ",
-                    documentLibrary.DocumentLibraryDocumentCategories.OrderBy(x => x.DocumentCategory.SortOrder)
-                        .Select(x => x.DocumentCategory.DocumentCategoryDisplayName).ToList());
-                errors.Add(new ValidationResult($"Document Category not allowed in selected Document Library. Allowed categories are: {allowedCategories}."));
-            }
-
-            return errors;
         }
     }
 }
