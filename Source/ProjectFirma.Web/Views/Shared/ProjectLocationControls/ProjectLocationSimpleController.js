@@ -70,10 +70,9 @@
             };
 
             $scope.changedLatLngInput = function () {
-                if (isNaN($scope.AngularModel.ProjectLocationPointY) || isNaN($scope.AngularModel.ProjectLocationPointX)) {
+                if (isNaN($scope.AngularModel.ProjectLocationPointY) || isNaN($scope.AngularModel.ProjectLocationPointX) || $scope.AngularModel.ProjectLocationPointY.toString().slice(-1) === "." || $scope.AngularModel.ProjectLocationPointX.toString().slice(-1) === ".") {
                     return;
                 }
-
                 // if either the lat or lng are falsy we should remove the selected point from the map
                 if ((!$scope.AngularModel.ProjectLocationPointY || !$scope.AngularModel.ProjectLocationPointX) && $scope.projectLocationMap.currentSelectedPoint) {
                     $scope.projectLocationMap.map.removeLayer($scope.projectLocationMap.currentSelectedPoint);
