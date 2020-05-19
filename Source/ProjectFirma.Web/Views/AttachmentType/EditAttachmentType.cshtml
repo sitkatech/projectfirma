@@ -95,7 +95,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="col-md-9">
                     <div class="input-group" style="width: 100%;">
                         <select class="selectpicker" ng-model="TaxonomyTrunkIDToAdd" data-size="6">
-                            <option value="">Select one</option>
+                            <option value="null" disabled selected>Select one</option>
                             <option ng-repeat="taxonomyTrunk in getAvailableTaxonomyTrunks()"
                                     ng-bind="taxonomyTrunk.TaxonomyTrunkName"
                                     ng-value="taxonomyTrunk.TaxonomyTrunkID"></option>
@@ -129,7 +129,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-9">
                 <div class="input-group" style="width: 100%;">
                     <select class="selectpicker" ng-model="FileResourceMimeTypeIDToAdd" data-live-search="true" data-size="6">
-                        <option value="">Select one</option>
+                        <option value="null" disabled selected>Select one</option>
                         <option ng-repeat="fileType in getAvailableFileTypes()"
                                 ng-bind="fileType.FileResourceMimeTypeDisplayName"
                                 ng-value="fileType.FileResourceMimeTypeID"></option>

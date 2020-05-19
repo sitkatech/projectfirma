@@ -137,6 +137,120 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(PerformanceMeasureActualUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualUpdate).Name);
+            }
+
+            if(PerformanceMeasureExpectedUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedUpdate).Name);
+            }
+
+            if(ProjectAttachmentUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectAttachmentUpdate).Name);
+            }
+
+            if(ProjectContactUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectContactUpdate).Name);
+            }
+
+            if(ProjectCustomAttributeUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomAttributeUpdate).Name);
+            }
+
+            if(ProjectExemptReportingYearUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectExemptReportingYearUpdate).Name);
+            }
+
+            if(ProjectExternalLinkUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectExternalLinkUpdate).Name);
+            }
+
+            if(ProjectFundingSourceBudgetUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudgetUpdate).Name);
+            }
+
+            if(ProjectFundingSourceExpenditureUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditureUpdate).Name);
+            }
+
+            if(ProjectGeospatialAreaTypeNoteUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaTypeNoteUpdate).Name);
+            }
+
+            if(ProjectGeospatialAreaUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaUpdate).Name);
+            }
+
+            if(ProjectImageUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectImageUpdate).Name);
+            }
+
+            if(ProjectLocationStagingUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectLocationStagingUpdate).Name);
+            }
+
+            if(ProjectLocationUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectLocationUpdate).Name);
+            }
+
+            if(ProjectNoFundingSourceIdentifiedUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectNoFundingSourceIdentifiedUpdate).Name);
+            }
+
+            if(ProjectNoteUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectNoteUpdate).Name);
+            }
+
+            if(ProjectOrganizationUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectOrganizationUpdate).Name);
+            }
+
+            if(ProjectRelevantCostTypeUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectRelevantCostTypeUpdate).Name);
+            }
+
+            if((ProjectUpdate != null))
+            {
+                dependentObjects.Add(typeof(ProjectUpdate).Name);
+            }
+
+            if(ProjectUpdateHistories.Any())
+            {
+                dependentObjects.Add(typeof(ProjectUpdateHistory).Name);
+            }
+
+            if(TechnicalAssistanceRequestUpdates.Any())
+            {
+                dependentObjects.Add(typeof(TechnicalAssistanceRequestUpdate).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectCustomAttributeUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name, typeof(ProjectGeospatialAreaUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoFundingSourceIdentifiedUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateHistory).Name, typeof(TechnicalAssistanceRequestUpdate).Name};

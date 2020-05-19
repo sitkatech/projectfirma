@@ -71,6 +71,35 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name);
+            }
+
+            if(PerformanceMeasureActuals.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActual).Name);
+            }
+
+            if(PerformanceMeasureActualUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualUpdate).Name);
+            }
+
+            if(PerformanceMeasureReportingPeriodTargets.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureReportingPeriodTarget).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureReportingPeriodTarget).Name};

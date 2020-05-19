@@ -18,16 +18,16 @@ namespace ProjectFirmaModels.Models
 {
     public abstract partial class DocumentCategory : IHavePrimaryKey
     {
-        public static readonly DocumentCategoryMeetingNotes MeetingNotes = DocumentCategoryMeetingNotes.Instance;
-        public static readonly DocumentCategoryMeetingAgendas MeetingAgendas = DocumentCategoryMeetingAgendas.Instance;
-        public static readonly DocumentCategoryRequestForProposals RequestForProposals = DocumentCategoryRequestForProposals.Instance;
         public static readonly DocumentCategoryManualsAndGuidance ManualsAndGuidance = DocumentCategoryManualsAndGuidance.Instance;
+        public static readonly DocumentCategoryMeetingAgendas MeetingAgendas = DocumentCategoryMeetingAgendas.Instance;
+        public static readonly DocumentCategoryMeetingNotes MeetingNotes = DocumentCategoryMeetingNotes.Instance;
+        public static readonly DocumentCategoryMonitoring Monitoring = DocumentCategoryMonitoring.Instance;
+        public static readonly DocumentCategoryPoliciesAndPlans PoliciesAndPlans = DocumentCategoryPoliciesAndPlans.Instance;
         public static readonly DocumentCategoryPresentations Presentations = DocumentCategoryPresentations.Instance;
         public static readonly DocumentCategoryProgramInformation ProgramInformation = DocumentCategoryProgramInformation.Instance;
         public static readonly DocumentCategoryProgramManagement ProgramManagement = DocumentCategoryProgramManagement.Instance;
         public static readonly DocumentCategoryProgressReport ProgressReport = DocumentCategoryProgressReport.Instance;
-        public static readonly DocumentCategoryPoliciesAndPlans PoliciesAndPlans = DocumentCategoryPoliciesAndPlans.Instance;
-        public static readonly DocumentCategoryMonitoring Monitoring = DocumentCategoryMonitoring.Instance;
+        public static readonly DocumentCategoryRequestForProposals RequestForProposals = DocumentCategoryRequestForProposals.Instance;
         public static readonly DocumentCategoryOther Other = DocumentCategoryOther.Instance;
 
         public static readonly List<DocumentCategory> All;
@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static DocumentCategory()
         {
-            All = new List<DocumentCategory> { MeetingNotes, MeetingAgendas, RequestForProposals, ManualsAndGuidance, Presentations, ProgramInformation, ProgramManagement, ProgressReport, PoliciesAndPlans, Monitoring, Other };
+            All = new List<DocumentCategory> { ManualsAndGuidance, MeetingAgendas, MeetingNotes, Monitoring, PoliciesAndPlans, Presentations, ProgramInformation, ProgramManagement, ProgressReport, RequestForProposals, Other };
             AllLookupDictionary = new ReadOnlyDictionary<int, DocumentCategory>(All.ToDictionary(x => x.DocumentCategoryID));
         }
 
@@ -140,23 +140,23 @@ namespace ProjectFirmaModels.Models
 
     public enum DocumentCategoryEnum
     {
-        MeetingNotes = 1,
+        ManualsAndGuidance = 1,
         MeetingAgendas = 2,
-        RequestForProposals = 3,
-        ManualsAndGuidance = 4,
-        Presentations = 5,
-        ProgramInformation = 6,
-        ProgramManagement = 7,
-        ProgressReport = 8,
-        PoliciesAndPlans = 9,
-        Monitoring = 10,
+        MeetingNotes = 3,
+        Monitoring = 4,
+        PoliciesAndPlans = 5,
+        Presentations = 6,
+        ProgramInformation = 7,
+        ProgramManagement = 8,
+        ProgressReport = 9,
+        RequestForProposals = 10,
         Other = 11
     }
 
-    public partial class DocumentCategoryMeetingNotes : DocumentCategory
+    public partial class DocumentCategoryManualsAndGuidance : DocumentCategory
     {
-        private DocumentCategoryMeetingNotes(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryMeetingNotes Instance = new DocumentCategoryMeetingNotes(1, @"MeetingNotes", @"Meeting Notes", 10);
+        private DocumentCategoryManualsAndGuidance(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryManualsAndGuidance Instance = new DocumentCategoryManualsAndGuidance(1, @"ManualsAndGuidance", @"Manuals and Guidance", 10);
     }
 
     public partial class DocumentCategoryMeetingAgendas : DocumentCategory
@@ -165,52 +165,52 @@ namespace ProjectFirmaModels.Models
         public static readonly DocumentCategoryMeetingAgendas Instance = new DocumentCategoryMeetingAgendas(2, @"MeetingAgendas", @"Meeting Agendas", 20);
     }
 
-    public partial class DocumentCategoryRequestForProposals : DocumentCategory
+    public partial class DocumentCategoryMeetingNotes : DocumentCategory
     {
-        private DocumentCategoryRequestForProposals(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryRequestForProposals Instance = new DocumentCategoryRequestForProposals(3, @"RequestForProposals", @"Request for Proposals", 30);
-    }
-
-    public partial class DocumentCategoryManualsAndGuidance : DocumentCategory
-    {
-        private DocumentCategoryManualsAndGuidance(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryManualsAndGuidance Instance = new DocumentCategoryManualsAndGuidance(4, @"ManualsAndGuidance", @"Manuals and Guidance", 40);
-    }
-
-    public partial class DocumentCategoryPresentations : DocumentCategory
-    {
-        private DocumentCategoryPresentations(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryPresentations Instance = new DocumentCategoryPresentations(5, @"Presentations", @"Presentations", 50);
-    }
-
-    public partial class DocumentCategoryProgramInformation : DocumentCategory
-    {
-        private DocumentCategoryProgramInformation(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryProgramInformation Instance = new DocumentCategoryProgramInformation(6, @"ProgramInformation", @"Program Information", 60);
-    }
-
-    public partial class DocumentCategoryProgramManagement : DocumentCategory
-    {
-        private DocumentCategoryProgramManagement(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryProgramManagement Instance = new DocumentCategoryProgramManagement(7, @"ProgramManagement", @"Program Management", 70);
-    }
-
-    public partial class DocumentCategoryProgressReport : DocumentCategory
-    {
-        private DocumentCategoryProgressReport(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryProgressReport Instance = new DocumentCategoryProgressReport(8, @"ProgressReport", @"Progress Report", 80);
-    }
-
-    public partial class DocumentCategoryPoliciesAndPlans : DocumentCategory
-    {
-        private DocumentCategoryPoliciesAndPlans(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryPoliciesAndPlans Instance = new DocumentCategoryPoliciesAndPlans(9, @"PoliciesAndPlans", @"Policies and Plans", 90);
+        private DocumentCategoryMeetingNotes(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryMeetingNotes Instance = new DocumentCategoryMeetingNotes(3, @"MeetingNotes", @"Meeting Notes", 30);
     }
 
     public partial class DocumentCategoryMonitoring : DocumentCategory
     {
         private DocumentCategoryMonitoring(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
-        public static readonly DocumentCategoryMonitoring Instance = new DocumentCategoryMonitoring(10, @"Monitoring", @"Monitoring", 100);
+        public static readonly DocumentCategoryMonitoring Instance = new DocumentCategoryMonitoring(4, @"Monitoring", @"Monitoring", 40);
+    }
+
+    public partial class DocumentCategoryPoliciesAndPlans : DocumentCategory
+    {
+        private DocumentCategoryPoliciesAndPlans(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryPoliciesAndPlans Instance = new DocumentCategoryPoliciesAndPlans(5, @"PoliciesAndPlans", @"Policies and Plans", 50);
+    }
+
+    public partial class DocumentCategoryPresentations : DocumentCategory
+    {
+        private DocumentCategoryPresentations(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryPresentations Instance = new DocumentCategoryPresentations(6, @"Presentations", @"Presentations", 60);
+    }
+
+    public partial class DocumentCategoryProgramInformation : DocumentCategory
+    {
+        private DocumentCategoryProgramInformation(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryProgramInformation Instance = new DocumentCategoryProgramInformation(7, @"ProgramInformation", @"Program Information", 70);
+    }
+
+    public partial class DocumentCategoryProgramManagement : DocumentCategory
+    {
+        private DocumentCategoryProgramManagement(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryProgramManagement Instance = new DocumentCategoryProgramManagement(8, @"ProgramManagement", @"Program Management", 80);
+    }
+
+    public partial class DocumentCategoryProgressReport : DocumentCategory
+    {
+        private DocumentCategoryProgressReport(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryProgressReport Instance = new DocumentCategoryProgressReport(9, @"ProgressReport", @"Progress Report", 90);
+    }
+
+    public partial class DocumentCategoryRequestForProposals : DocumentCategory
+    {
+        private DocumentCategoryRequestForProposals(int documentCategoryID, string documentCategoryName, string documentCategoryDisplayName, int sortOrder) : base(documentCategoryID, documentCategoryName, documentCategoryDisplayName, sortOrder) {}
+        public static readonly DocumentCategoryRequestForProposals Instance = new DocumentCategoryRequestForProposals(10, @"RequestForProposals", @"Request for Proposals", 100);
     }
 
     public partial class DocumentCategoryOther : DocumentCategory

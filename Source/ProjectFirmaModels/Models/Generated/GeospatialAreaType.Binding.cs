@@ -75,6 +75,35 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(GeospatialAreas.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialArea).Name);
+            }
+
+            if(ProjectCustomGridConfigurations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomGridConfiguration).Name);
+            }
+
+            if(ProjectGeospatialAreaTypeNotes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaTypeNote).Name);
+            }
+
+            if(ProjectGeospatialAreaTypeNoteUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaTypeNoteUpdate).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialAreaType).Name, typeof(GeospatialArea).Name, typeof(ProjectCustomGridConfiguration).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name};

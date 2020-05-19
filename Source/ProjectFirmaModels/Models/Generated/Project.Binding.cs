@@ -161,6 +161,155 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(NotificationProjects.Any())
+            {
+                dependentObjects.Add(typeof(NotificationProject).Name);
+            }
+
+            if(PerformanceMeasureActuals.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActual).Name);
+            }
+
+            if(PerformanceMeasureExpecteds.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpected).Name);
+            }
+
+            if(ProjectAssessmentQuestions.Any())
+            {
+                dependentObjects.Add(typeof(ProjectAssessmentQuestion).Name);
+            }
+
+            if(ProjectAttachments.Any())
+            {
+                dependentObjects.Add(typeof(ProjectAttachment).Name);
+            }
+
+            if(ProjectClassifications.Any())
+            {
+                dependentObjects.Add(typeof(ProjectClassification).Name);
+            }
+
+            if(ProjectContacts.Any())
+            {
+                dependentObjects.Add(typeof(ProjectContact).Name);
+            }
+
+            if(ProjectCustomAttributes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomAttribute).Name);
+            }
+
+            if(ProjectEvaluations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectEvaluation).Name);
+            }
+
+            if(ProjectExemptReportingYears.Any())
+            {
+                dependentObjects.Add(typeof(ProjectExemptReportingYear).Name);
+            }
+
+            if(ProjectExternalLinks.Any())
+            {
+                dependentObjects.Add(typeof(ProjectExternalLink).Name);
+            }
+
+            if(ProjectFundingSourceBudgets.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudget).Name);
+            }
+
+            if(ProjectFundingSourceExpenditures.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditure).Name);
+            }
+
+            if(ProjectGeospatialAreas.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialArea).Name);
+            }
+
+            if(ProjectGeospatialAreaTypeNotes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaTypeNote).Name);
+            }
+
+            if(ProjectImages.Any())
+            {
+                dependentObjects.Add(typeof(ProjectImage).Name);
+            }
+
+            if(ProjectInternalNotes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectInternalNote).Name);
+            }
+
+            if(ProjectLocations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectLocation).Name);
+            }
+
+            if(ProjectLocationStagings.Any())
+            {
+                dependentObjects.Add(typeof(ProjectLocationStaging).Name);
+            }
+
+            if(ProjectNoFundingSourceIdentifieds.Any())
+            {
+                dependentObjects.Add(typeof(ProjectNoFundingSourceIdentified).Name);
+            }
+
+            if(ProjectNotes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectNote).Name);
+            }
+
+            if(ProjectOrganizations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectOrganization).Name);
+            }
+
+            if(ProjectProjectStatuses.Any())
+            {
+                dependentObjects.Add(typeof(ProjectProjectStatus).Name);
+            }
+
+            if(ProjectRelevantCostTypes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectRelevantCostType).Name);
+            }
+
+            if(ProjectTags.Any())
+            {
+                dependentObjects.Add(typeof(ProjectTag).Name);
+            }
+
+            if(ProjectUpdateBatches.Any())
+            {
+                dependentObjects.Add(typeof(ProjectUpdateBatch).Name);
+            }
+
+            if(SecondaryProjectTaxonomyLeafs.Any())
+            {
+                dependentObjects.Add(typeof(SecondaryProjectTaxonomyLeaf).Name);
+            }
+
+            if(TechnicalAssistanceRequests.Any())
+            {
+                dependentObjects.Add(typeof(TechnicalAssistanceRequest).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectAttachment).Name, typeof(ProjectClassification).Name, typeof(ProjectContact).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectEvaluation).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectImage).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNoFundingSourceIdentified).Name, typeof(ProjectNote).Name, typeof(ProjectOrganization).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TechnicalAssistanceRequest).Name};

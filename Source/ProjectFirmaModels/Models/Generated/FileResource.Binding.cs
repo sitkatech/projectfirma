@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         {
             this.ClassificationsWhereYouAreTheKeyImageFileResource = new HashSet<Classification>();
             this.CustomPageImages = new HashSet<CustomPageImage>();
+            this.DocumentLibraryDocuments = new HashSet<DocumentLibraryDocument>();
             this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
             this.FirmaHomePageImages = new HashSet<FirmaHomePageImage>();
             this.FirmaPageImages = new HashSet<FirmaPageImage>();
@@ -107,13 +108,112 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || CustomPageImages.Any() || FieldDefinitionDataImages.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || GeospatialAreaImages.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || PerformanceMeasureImages.Any() || ProjectAttachmentsWhereYouAreTheAttachment.Any() || ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ReportTemplates.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any();
+            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || CustomPageImages.Any() || DocumentLibraryDocuments.Any() || FieldDefinitionDataImages.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || GeospatialAreaImages.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || PerformanceMeasureImages.Any() || ProjectAttachmentsWhereYouAreTheAttachment.Any() || ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ReportTemplates.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ClassificationsWhereYouAreTheKeyImageFileResource.Any())
+            {
+                dependentObjects.Add(typeof(Classification).Name);
+            }
+
+            if(CustomPageImages.Any())
+            {
+                dependentObjects.Add(typeof(CustomPageImage).Name);
+            }
+
+            if(DocumentLibraryDocuments.Any())
+            {
+                dependentObjects.Add(typeof(DocumentLibraryDocument).Name);
+            }
+
+            if(FieldDefinitionDataImages.Any())
+            {
+                dependentObjects.Add(typeof(FieldDefinitionDataImage).Name);
+            }
+
+            if(FirmaHomePageImages.Any())
+            {
+                dependentObjects.Add(typeof(FirmaHomePageImage).Name);
+            }
+
+            if(FirmaPageImages.Any())
+            {
+                dependentObjects.Add(typeof(FirmaPageImage).Name);
+            }
+
+            if(GeospatialAreaImages.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaImage).Name);
+            }
+
+            if(OrganizationsWhereYouAreTheLogoFileResource.Any())
+            {
+                dependentObjects.Add(typeof(Organization).Name);
+            }
+
+            if(PerformanceMeasureImages.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureImage).Name);
+            }
+
+            if(ProjectAttachmentsWhereYouAreTheAttachment.Any())
+            {
+                dependentObjects.Add(typeof(ProjectAttachment).Name);
+            }
+
+            if(ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any())
+            {
+                dependentObjects.Add(typeof(ProjectAttachmentUpdate).Name);
+            }
+
+            if(ProjectImages.Any())
+            {
+                dependentObjects.Add(typeof(ProjectImage).Name);
+            }
+
+            if(ProjectImageUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectImageUpdate).Name);
+            }
+
+            if(ReportTemplates.Any())
+            {
+                dependentObjects.Add(typeof(ReportTemplate).Name);
+            }
+
+            if(TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any())
+            {
+                dependentObjects.Add(typeof(TenantAttribute).Name);
+            }
+
+            if(TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource.Any())
+            {
+                dependentObjects.Add(typeof(TenantAttribute).Name);
+            }
+
+            if(TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any())
+            {
+                dependentObjects.Add(typeof(TenantAttribute).Name);
+            }
+
+            if(TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any())
+            {
+                dependentObjects.Add(typeof(TenantAttribute).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(FieldDefinitionDataImage).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(GeospatialAreaImage).Name, typeof(Organization).Name, typeof(PerformanceMeasureImage).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ReportTemplate).Name, typeof(TenantAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(DocumentLibraryDocument).Name, typeof(FieldDefinitionDataImage).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(GeospatialAreaImage).Name, typeof(Organization).Name, typeof(PerformanceMeasureImage).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ReportTemplate).Name, typeof(TenantAttribute).Name};
 
 
         /// <summary>
@@ -144,6 +244,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in CustomPageImages.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in DocumentLibraryDocuments.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -239,6 +344,7 @@ namespace ProjectFirmaModels.Models
 
         public virtual ICollection<Classification> ClassificationsWhereYouAreTheKeyImageFileResource { get; set; }
         public virtual ICollection<CustomPageImage> CustomPageImages { get; set; }
+        public virtual ICollection<DocumentLibraryDocument> DocumentLibraryDocuments { get; set; }
         public virtual ICollection<FieldDefinitionDataImage> FieldDefinitionDataImages { get; set; }
         public virtual ICollection<FirmaHomePageImage> FirmaHomePageImages { get; set; }
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }

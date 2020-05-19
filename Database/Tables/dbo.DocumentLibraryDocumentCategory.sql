@@ -24,6 +24,11 @@ REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID])
 GO
 ALTER TABLE [dbo].[DocumentLibraryDocumentCategory] CHECK CONSTRAINT [FK_DocumentLibraryDocumentCategory_DocumentLibrary_DocumentLibraryID]
 GO
+ALTER TABLE [dbo].[DocumentLibraryDocumentCategory]  WITH CHECK ADD  CONSTRAINT [FK_DocumentLibraryDocumentCategory_DocumentLibrary_DocumentLibraryID_TenantID] FOREIGN KEY([DocumentLibraryID], [TenantID])
+REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID], [TenantID])
+GO
+ALTER TABLE [dbo].[DocumentLibraryDocumentCategory] CHECK CONSTRAINT [FK_DocumentLibraryDocumentCategory_DocumentLibrary_DocumentLibraryID_TenantID]
+GO
 ALTER TABLE [dbo].[DocumentLibraryDocumentCategory]  WITH CHECK ADD  CONSTRAINT [FK_DocumentLibraryDocumentCategory_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

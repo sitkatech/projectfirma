@@ -70,6 +70,25 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ProjectContacts.Any())
+            {
+                dependentObjects.Add(typeof(ProjectContact).Name);
+            }
+
+            if(ProjectContactUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectContactUpdate).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ContactRelationshipType).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name};

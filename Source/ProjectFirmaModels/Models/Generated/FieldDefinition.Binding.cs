@@ -301,6 +301,8 @@ namespace ProjectFirmaModels.Models
         IsOrganizationRelationshipTypeRequired = 351,
         SyncWithKeystoneOnSave = 352,
         DocumentLibraryName = 353,
-        KMZFile = 354
+        KMZFile = 354,
+        DocumentLibrary = 355,
+        DocumentLibraryDocumentViewableBy = 356
     }
 }
