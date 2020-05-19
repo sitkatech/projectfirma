@@ -194,15 +194,15 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult NewDocument(DocumentLibraryPrimaryKey documentLibraryPrimaryKey)
         {
             var documentLibrary = documentLibraryPrimaryKey.EntityObject;
-            var viewModel = new NewDocumentViewModel();
+            var viewModel = new NewDocumentViewModel(documentLibrary);
             return ViewNewDocument(documentLibrary, viewModel);
         }
 
         private PartialViewResult ViewNewDocument(DocumentLibrary documentLibrary, NewDocumentViewModel viewModel)
         {
-            var documentCategories = DocumentCategory.All.ToSelectListWithEmptyFirstRow(x => x.DocumentCategoryID.ToString(CultureInfo.InvariantCulture), x => x.DocumentCategoryDisplayName);
-            var documentLibraries = HttpRequestStorage.DatabaseEntities.DocumentLibraries.ToList().ToSelectListWithEmptyFirstRow(x => x.DocumentLibraryID.ToString(CultureInfo.InvariantCulture), x => x.DocumentLibraryName);
-            var viewData = new NewDocumentViewData(documentLibrary, documentCategories, documentLibraries);
+            var documentCategories = documentLibrary.DocumentLibraryDocumentCategories.Select(x => x.DocumentCategory)
+                .ToSelectListWithEmptyFirstRow(x => x.DocumentCategoryID.ToString(CultureInfo.InvariantCulture), x => x.DocumentCategoryDisplayName);
+            var viewData = new NewDocumentViewData(documentCategories);
             return RazorPartialView<NewDocument, NewDocumentViewData, NewDocumentViewModel>(viewData, viewModel);
         }
 
@@ -239,9 +239,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditDocument(DocumentLibraryDocument documentLibraryDocument, EditDocumentViewModel viewModel)
         {
-            var documentCategories = DocumentCategory.All.ToSelectListWithEmptyFirstRow(x => x.DocumentCategoryID.ToString(CultureInfo.InvariantCulture), x => x.DocumentCategoryDisplayName);
-            var documentLibraries = HttpRequestStorage.DatabaseEntities.DocumentLibraries.ToList().ToSelectListWithEmptyFirstRow(x => x.DocumentLibraryID.ToString(CultureInfo.InvariantCulture), x => x.DocumentLibraryName);
-            var viewData = new EditDocumentViewData(documentLibraryDocument, documentCategories, documentLibraries);
+            var documentCategories = documentLibraryDocument.DocumentLibrary.DocumentLibraryDocumentCategories.Select(x => x.DocumentCategory)
+                .ToSelectListWithEmptyFirstRow(x => x.DocumentCategoryID.ToString(CultureInfo.InvariantCulture), x => x.DocumentCategoryDisplayName);
+            var viewData = new EditDocumentViewData(documentCategories);
             return RazorPartialView<EditDocument, EditDocumentViewData, EditDocumentViewModel>(viewData, viewModel);
         }
 
