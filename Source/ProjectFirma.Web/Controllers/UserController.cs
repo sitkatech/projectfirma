@@ -148,15 +148,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDelete(Person personToDelete, ConfirmDialogFormViewModel viewModel)
         {
-            // We are going to allow full cascade deletion of a Person from the system only if their only dependent objects are in the list below.
-            // It is worth being careful when adding any further objects to the list because cascade deletion might delete objects that you weren't aware of. 5/15/2020 SMG [#2148]
-            var dependentObjectsThatAreSafeToDelete = new List<string>()
-            {
-                typeof(AuditLog).Name
-            };
-
-            var dependentObjectsThatAreNotSafeToDelete = personToDelete.DependentObjectNames().Where(x => dependentObjectsThatAreSafeToDelete.Any(y => y != x)).ToList();
-            var canDelete = !dependentObjectsThatAreNotSafeToDelete.Any() && personToDelete != CurrentPerson;
+            // This CanDeletePerson extension method is important when deleting users. We want to prevent accidental data loss
+            // due to unforeseen cascade deletion.
+            var canDelete = personToDelete.CanDeletePerson(CurrentPerson);
 
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete {personToDelete.GetFullNameFirstLastAndOrg()}?"
