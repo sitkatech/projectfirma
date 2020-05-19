@@ -93,42 +93,42 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
             documentLibraryDocument.DocumentCategoryID = DocumentCategoryID;
             documentLibraryDocument.DocumentLibraryID = DocumentLibraryID;
 
-            var newProjectCustomAttributeTypeRoles = new List<DocumentLibraryDocumentRole>();
+            var newDocumentLibraryDocumentRoles = new List<DocumentLibraryDocumentRole>();
 
             if (ViewableByAnonymous)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID));
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID));
             }
             if (ViewableByUnassigned)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.Unassigned.RoleID
                 });
             }
             if (ViewableByNormal)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.Normal.RoleID
                 });
             }
             if (ViewableByProjectSteward)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.ProjectSteward.RoleID
                 });
             }
             if (ViewableByAdmin)
             {
-                newProjectCustomAttributeTypeRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
+                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.Admin.RoleID
                 });
             }
 
-            documentLibraryDocument.DocumentLibraryDocumentRoles.Merge(newProjectCustomAttributeTypeRoles,
+            documentLibraryDocument.DocumentLibraryDocumentRoles.Merge(newDocumentLibraryDocumentRoles,
                 allDocumentLibraryDocumentRoles,
                 (x, y) => x.DocumentLibraryDocumentID == y.DocumentLibraryDocumentID && x.RoleID == y.RoleID,
                 HttpRequestStorage.DatabaseEntities);
