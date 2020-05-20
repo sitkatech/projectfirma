@@ -98,6 +98,7 @@
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
+    <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplatePersonModel.cs" />
