@@ -58,11 +58,11 @@
                 @Html.LabelWithSugarFor(FieldDefinitionEnum.DocumentLibraryDocumentViewableBy.ToType(), "Viewable By") <sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>
             </div>
             <div class="col-md-9">
-                @Html.CheckBoxFor(x => x.ViewableByAnonymous) @Html.LabelFor(x => x.ViewableByAnonymous, new { style = "font-weight : normal; padding-right : 10px;" })
-                @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new { style = "font-weight : normal; padding-right : 10px;" })
-                @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new { style = "font-weight : normal; padding-right : 10px;" })
-                @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" })
-                @Html.CheckBoxFor(x => x.ViewableByAdmin) @Html.LabelFor(x => x.ViewableByAdmin, new { style = "font-weight : normal; padding-right : 10px;" })
+                @Html.CheckBoxFor(x => x.ViewableByAnonymous) @Html.LabelFor(x => x.ViewableByAnonymous, new { style = "font-weight : normal; padding-right : 10px;" }, true)
+                @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new { style = "font-weight : normal; padding-right : 10px;" }, true)
+                @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new { style = "font-weight : normal; padding-right : 10px;" }, true)
+                @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" }, true)
+                @Html.CheckBoxFor(x => x.ViewableByAdmin) @Html.LabelFor(x => x.ViewableByAdmin, new { style = "font-weight : normal; padding-right : 10px;" }, true)
             </div>
         </div>
     </div>

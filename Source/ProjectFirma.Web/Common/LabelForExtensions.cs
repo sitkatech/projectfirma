@@ -26,6 +26,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using LtInfo.Common;
 using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
@@ -78,6 +79,7 @@ namespace ProjectFirma.Web.Common
         {
             return LabelWithSugarFor(fieldDefinition, displayStyle, fieldDefinition.GetFieldDefinitionLabel());
         }
+
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
@@ -254,4 +256,146 @@ namespace ProjectFirma.Web.Common
             return new MvcHtmlString(fieldDefinitionLinkTag.ToString(TagRenderMode.Normal));
         }
     }
+
+    public static class LabelForExtensions
+    {
+        /// <summary>
+        /// ProjectFirma LabelFor that respects Tenant's Field Definition. Returns an HTML label element and the property name of the property that is represented by the specified expression.
+        /// </summary>
+        /// <returns>An HTML label element and the property name of the property that is represented by the expression.</returns>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="getTenantFieldDefinition">A dummy param to differentiate the method signature from LabelExtension.LabelFor</param>
+        /// <typeparam name="TViewModel">The type of the model.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        public static MvcHtmlString LabelFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, bool getTenantFieldDefinition)
+        {
+            return LabelWithoutSugarFor(html, expression, null, null);
+        }
+
+        /// <summary>
+        /// ProjectFirma LabelFor that respects Tenant's Field Definition. Returns an HTML label element and the property name of the property that is represented by the specified expression using the label text.
+        /// </summary>
+        /// <returns>An HTML label element and the property name of the property that is represented by the expression.</returns>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="labelText">The label text to display.</param>
+        /// <param name="getTenantFieldDefinition">A dummy param to differentiate the method signature from LabelExtension.LabelFor</param>
+        /// <typeparam name="TViewModel">The type of the model.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        public static MvcHtmlString LabelFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, string labelText, bool getTenantFieldDefinition)
+        {
+            return LabelWithoutSugarFor(html, expression, labelText, null);
+        }
+
+        /// <summary>
+        /// ProjectFirma LabelFor that respects Tenant's Field Definition. Returns an HTML label element and the property name of the property that is represented by the specified expression.
+        /// </summary>
+        /// <returns>An HTML label element and the property name of the property that is represented by the expression.</returns>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <param name="getTenantFieldDefinition">A dummy param to differentiate the method signature from LabelExtension.LabelFor </param>
+        /// <typeparam name="TViewModel">The type of the model.</typeparam>
+        /// <typeparam name="TValue">The value.</typeparam>
+        public static MvcHtmlString LabelFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, object htmlAttributes, bool getTenantFieldDefinition)
+        {
+            return LabelWithoutSugarFor(html, expression, null, htmlAttributes);
+        }
+
+        /// <summary>
+        /// ProjectFirma LabelFor that respects Tenant's Field Definition. Returns an HTML label element and the property name of the property that is represented by the specified expression.
+        /// </summary>
+        /// <returns>An HTML label element and the property name of the property that is represented by the expression.</returns>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <param name="getTenantFieldDefinition">A dummy param to differentiate the method signature from LabelExtension.LabelFor </param>
+        /// <typeparam name="TViewModel">The type of the model.</typeparam>
+        /// <typeparam name="TValue">The value.</typeparam>
+        public static MvcHtmlString LabelFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, IDictionary<string, object> htmlAttributes, bool getTenantFieldDefinition)
+        {
+            return LabelWithoutSugarFor(html, expression, null, htmlAttributes);
+        }
+
+        /// <summary>
+        /// ProjectFirma LabelFor that respects Tenant's Field Definition. Returns an HTML label element and the property name of the property that is represented by the specified expression using the label text.
+        /// </summary>
+        /// <returns>An HTML label element and the property name of the property that is represented by the expression.</returns>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="labelText">The label text to display.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <param name="getTenantFieldDefinition">A dummy param to differentiate the method signature from LabelExtension.LabelFor</param>
+        /// <typeparam name="TViewModel">The type of the model.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        public static MvcHtmlString LabelFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, string labelText, object htmlAttributes, bool getTenantFieldDefinition)
+        {
+            return LabelWithoutSugarFor(html, expression, labelText, htmlAttributes);
+        }
+
+
+        /// <summary>
+        /// ProjectFirma LabelFor that respects Tenant's Field Definition. Returns an HTML label element and the property name of the property that is represented by the specified expression using the label text.
+        /// </summary>
+        /// <returns>An HTML label element and the property name of the property that is represented by the expression.</returns>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="labelText">The label text to display.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <param name="getTenantFieldDefinition">A dummy param to differentiate the method signature from LabelExtension.LabelFor</param>
+        /// <typeparam name="TViewModel">The type of the model.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        public static MvcHtmlString LabelFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, string labelText, IDictionary<string, object> htmlAttributes, bool getTenantFieldDefinition)
+        {
+            return LabelWithoutSugarFor(html, expression, labelText, htmlAttributes);
+        }
+
+        private static MvcHtmlString LabelWithoutSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html,
+            Expression<Func<TViewModel, TValue>> expression, string labelText, object htmlAttributes)
+        {
+            var memberExpression = (expression.Body as MemberExpression);
+            if (memberExpression == null)
+            {
+                return new MvcHtmlString(string.Empty);
+            }
+            var fieldDefinitionDisplayAttributeType = typeof(IFieldDefinitionDisplayAttribute);
+            var fieldDefinitionDisplayAttribute = memberExpression.Member.GetCustomAttributes(fieldDefinitionDisplayAttributeType, true).Cast<IFieldDefinitionDisplayAttribute>().SingleOrDefault();
+
+            if (fieldDefinitionDisplayAttribute == null)
+            {
+                return html.LabelFor(expression, labelText, htmlAttributes);
+            }
+            else
+            {
+                var fieldDefinition = fieldDefinitionDisplayAttribute.FieldDefinition;
+                var fieldDefinitionDisplayName = string.IsNullOrWhiteSpace(labelText) ? fieldDefinition.GetFieldDefinitionLabel() : labelText;
+                return html.LabelFor(expression, fieldDefinitionDisplayName, htmlAttributes);
+            }
+        }
+
+        private static MvcHtmlString LabelWithoutSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html,
+            Expression<Func<TViewModel, TValue>> expression, string labelText, IDictionary<string, object> htmlAttributes)
+        {
+            var memberExpression = (expression.Body as MemberExpression);
+            if (memberExpression == null)
+            {
+                return new MvcHtmlString(string.Empty);
+            }
+            var fieldDefinitionDisplayAttributeType = typeof(IFieldDefinitionDisplayAttribute);
+            var fieldDefinitionDisplayAttribute = memberExpression.Member.GetCustomAttributes(fieldDefinitionDisplayAttributeType, true).Cast<IFieldDefinitionDisplayAttribute>().SingleOrDefault();
+
+            if (fieldDefinitionDisplayAttribute == null)
+            {
+                return html.LabelFor(expression, labelText, htmlAttributes);
+            }
+            else
+            {
+                var fieldDefinition = fieldDefinitionDisplayAttribute.FieldDefinition;
+                var fieldDefinitionDisplayName = string.IsNullOrWhiteSpace(labelText) ? fieldDefinition.GetFieldDefinitionLabel() : labelText;
+                return html.LabelFor(expression, fieldDefinitionDisplayName, htmlAttributes);
+            }
+        }
+    }
+
 }
