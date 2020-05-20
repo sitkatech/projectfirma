@@ -403,6 +403,14 @@ namespace ProjectFirma.Web.Controllers
             var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
             var homeUrl = SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var supportUrl = SitkaRoute<HelpController>.BuildAbsoluteUrlHttpsFromExpression(x => x.RequestSupport());
+
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var primaryContactFullName = tenantAttribute.PrimaryContactPerson
+                .GetFullNameFirstLast();
+            var primaryContactOrganizationName = tenantAttribute.PrimaryContactPerson
+                .Organization.OrganizationName;
+            var primaryContactEmail = tenantAttribute.PrimaryContactPerson.Email;
+
             var inviteModel = new KeystoneService.KeystoneInviteModel
             {
                 FirstName = viewModel.FirstName,
@@ -413,7 +421,7 @@ namespace ProjectFirma.Web.Controllers
                 WelcomeText =
                     $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
                 RedirectURL = homeUrl,
-                SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {MultiTenantHelpers.GetTenantAttributeFromCache().PrimaryContactPerson.GetFullNameFirstLast()} at {MultiTenantHelpers.GetTenantAttributeFromCache().PrimaryContactPerson.Organization.OrganizationName} ({MultiTenantHelpers.GetTenantAttributeFromCache().PrimaryContactPerson.Email})",
+                SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {primaryContactFullName} at {primaryContactOrganizationName} ({primaryContactEmail})",
                 OrganizationGuid = viewModel.OrganizationGuid,
                 SignatureBlock = $"The {toolDisplayName} team"
             };
