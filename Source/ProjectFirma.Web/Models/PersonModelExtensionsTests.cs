@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
     {
 
         [Test]
-        public void CanDeletePersonReturnsTrueForNewlyCreatedUserDeletingOtherNewlyCreatedUser()
+        public void CanDeletePersonReturnsTrueForNewlyCreatedUserDeletingOtherNewlyCreatedUserWithAuditLogs()
         {
             var tenant = Tenant.SitkaTechnologyGroup;
             var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.First(x => x.TenantID == tenant.TenantID && x.OrganizationShortName == "Sitka");
@@ -42,6 +42,40 @@ namespace ProjectFirma.Web.Models
 
             Assert.That(person1CanDeletePerson2, "A person should be able to delete another person if that user newly created. (i.e. the newly created person would not be associated to any other objects besides approved types of AuditLog entries)");
         }
+
+        [Test]
+        public void CanDeletePersonReturnsTrueForNewlyCreatedUserDeletingOtherNewlyCreatedUserWithoutAuditLogs()
+        {
+            var tenant = Tenant.SitkaTechnologyGroup;
+            var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.First(x => x.TenantID == tenant.TenantID && x.OrganizationShortName == "Sitka");
+
+            var person1 = TestFramework.TestPerson.Create(tenant);
+            person1.CreateDate = DateTime.Now;
+            person1.LoginName = person1.Email;
+            person1.Organization = organization;
+            person1.PersonGuid = Guid.NewGuid();
+            HttpRequestStorage.DatabaseEntities.AllPeople.Add(person1);
+            HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(tenant.TenantID);
+
+            var person2 = TestFramework.TestPerson.Create(tenant);
+            person2.CreateDate = DateTime.Now;
+            person2.LoginName = person2.Email;
+            person2.Organization = organization;
+            person2.PersonGuid = Guid.NewGuid();
+            HttpRequestStorage.DatabaseEntities.AllPeople.Add(person2);
+            HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(tenant.TenantID);
+
+            var person1CanDeletePerson2 = person2.CanDeletePerson(person1);
+
+            // clean up the DB
+            person1.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            person2.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(tenant.TenantID);
+
+            Assert.That(person1CanDeletePerson2, "A person should be able to delete another person if that user newly created and doesn't have any audit logs associated to them.");
+        }
+
+
 
         [Test]
         public void CanDeletePersonShouldReturnFalseIfPersonAttemptsToDeleteSelf()

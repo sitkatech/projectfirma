@@ -301,7 +301,7 @@ namespace ProjectFirma.Web.Models
 
             var dependentObjectsThatAreNotSafeToDelete = personsDependentObjectNames.Where(x => dependentObjectsThatAreSafeToDelete.Any(y => y != x)).ToList();
 
-            bool auditLogsAreSafeToDelete = false;
+            bool auditLogsAreSafeToDelete = !personToDelete.AuditLogs.Any();
             if (personsDependentObjectNames.Any(x => x == typeof(AuditLog).Name))
             {
                 auditLogsAreSafeToDelete = personToDelete.PersonsAuditLogsAreSafeToDelete();
