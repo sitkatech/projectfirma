@@ -14,12 +14,14 @@
     </div>
 </div>
 
-
-<hr />
-<div class="pull-right">
-    <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
-    <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
-</div>
+@if (ViewDataTyped.IsEditable)
+{
+    <hr />
+    <div class="pull-right">
+        <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
+        <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+    </div>
+}
 
 @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
 <script type="text/javascript">
