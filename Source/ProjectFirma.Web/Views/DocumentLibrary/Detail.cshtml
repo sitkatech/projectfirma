@@ -42,16 +42,6 @@
     </style>
 
 }
-
-@section RightOfPageTitle
-{
-    <div class="pull-right">
-        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewDocumentUrl, "Upload Document", ViewDataTyped.UserHasDocumentLibraryManagePermissions)
-
-        @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditDocumentSortOrderUrl, ViewDataTyped.UserHasDocumentLibraryManagePermissions)
-    </div>
-}
-
 <div>
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.DocumentLibraryPluralized</a>
 </div>
@@ -61,7 +51,7 @@
 </p>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
@@ -82,7 +72,7 @@
                     <div class="col-xs-7">@ViewDataTyped.DocumentLibrary.GetDocumentCategoryDisplayNamesAsCommaDelimitedString()</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right basicsPanelLabel">Pages</div>
+                    <div class="col-xs-5 fieldLabel text-right basicsPanelLabel">About Menu Page(s) where this Library appears</div>
                     <div class="col-xs-7">@ViewDataTyped.DocumentLibrary.GetCustomPageDisplayNamesAsCommaDelimitedString()</div>
                 </div>
             </div>
@@ -91,7 +81,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-xs-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
@@ -99,7 +89,18 @@
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.DocumentLibraryDocumentGridSpec, ViewDataTyped.DocumentLibraryDocumentsGridName, ViewDataTyped.DocumentLibraryDocumentGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                <div class="row">
+                    <div class="col-xs-12" style="margin-bottom: 10px">
+                        <div class="pull-right">
+                            @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewDocumentUrl, "Upload Document", ViewDataTyped.UserHasDocumentLibraryManagePermissions)
+                            @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditDocumentSortOrderUrl, ViewDataTyped.UserHasDocumentLibraryManagePermissions)
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        @Html.DhtmlxGrid(ViewDataTyped.DocumentLibraryDocumentGridSpec, ViewDataTyped.DocumentLibraryDocumentsGridName, ViewDataTyped.DocumentLibraryDocumentGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
