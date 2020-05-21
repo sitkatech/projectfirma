@@ -237,6 +237,10 @@ namespace LtInfo.Common.HtmlHelperExtensions
             tagBuilder.MergeAttribute("data-live-search-placeholder", "Search");
             tagBuilder.MergeAttribute("data-container", "body");
             tagBuilder.MergeAttribute("class", "selectpicker");
+            if (optionLabel != null)
+            {
+                tagBuilder.MergeAttribute("title", optionLabel);
+            }
             tagBuilder.GenerateId(fullName);
             if (allowMultiple)
             {
@@ -263,17 +267,6 @@ namespace LtInfo.Common.HtmlHelperExtensions
         private static StringBuilder BuildItems(string optionLabel, IEnumerable<SelectListItem> selectList)
         {
             StringBuilder listItemBuilder = new StringBuilder();
-
-            // Make optionLabel the first item that gets rendered.
-            if (optionLabel != null)
-            {
-                listItemBuilder.AppendLine(EmptyListItemToOption(new SelectListItem()
-                {
-                    Text = optionLabel,
-                    Value = String.Empty,
-                    Selected = false
-                }));
-            }
 
             // Group items in the SelectList if requested.
             // Treat each item with Group == null as a member of a unique group
