@@ -15,7 +15,7 @@ namespace ProjectFirma.Api.Models
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             PrimaryContact = project.PrimaryContactPerson?.GetFullNameFirstLast();
-            OwnerOrganization = project.GetPrimaryContactOrganization()?.OrganizationName;
+            OwnerOrganizationID = project.GetPrimaryContactOrganization()?.OrganizationID;
             ProjectStage = project.ProjectStage.ProjectStageDisplayName;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
@@ -76,7 +76,7 @@ namespace ProjectFirma.Api.Models
         }
 
         public int ProjectID { get; set; }
-        public string OwnerOrganization { get; set; }
+        public int? OwnerOrganizationID { get; set; }
         public string ProjectStage { get; set; }
 
         public string ProjectName { get; set; }
