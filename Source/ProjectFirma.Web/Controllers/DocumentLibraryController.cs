@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var allCustomPages = HttpRequestStorage.DatabaseEntities.CustomPages.ToList();
+            var allCustomPages = HttpRequestStorage.DatabaseEntities.CustomPages.Where(x => x.CustomPageDisplayTypeID != CustomPageDisplayType.Disabled.CustomPageDisplayTypeID).ToList();
             var viewData = new EditViewData(DocumentCategory.All, allCustomPages);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }

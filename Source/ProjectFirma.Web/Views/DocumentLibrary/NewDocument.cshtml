@@ -29,8 +29,6 @@
     @Html.ValidationSummary()
 </div>
 
-<div id="viewableRoleError" class="alert alert-danger" role="alert" hidden>At least one Viewable By role must be selected.</div>
-
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
@@ -68,47 +66,15 @@
             <div class="col-md-3"></div>
             <div class="col-md-9"><p class="systemText">Please select all applicable roles.</p></div>
             <div class="col-md-3 control-label">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.DocumentLibraryDocumentViewableBy.ToType(), "Viewable By") <sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.DocumentLibraryDocumentViewableBy.ToType(), "Viewable By")
             </div>
             <div class="col-md-9">
                 @Html.CheckBoxFor(x => x.ViewableByAnonymous) @Html.LabelFor(x => x.ViewableByAnonymous, new { style = "font-weight : normal; padding-right : 10px;" }, true)
                 @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new { style = "font-weight : normal; padding-right : 10px;" }, true)
                 @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new { style = "font-weight : normal; padding-right : 10px;" }, true)
                 @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" }, true)
-                @Html.CheckBoxFor(x => x.ViewableByAdmin) @Html.LabelFor(x => x.ViewableByAdmin, new { style = "font-weight : normal; padding-right : 10px;" }, true)
             </div>
         </div>
     </div>
     @Html.HiddenFor(m => m.DocumentLibraryID)
 }
-<script type="text/javascript">
-    var submitButton = jQuery("form")
-        .parents(".modal-dialog")
-        .find("#ltinfo-modal-dialog-save-button-id");
-    submitButton.click(function( event ) {
-        var anonymous = jQuery("#@Html.IdFor(x => x.ViewableByAnonymous)").is(':checked');
-        var unassigned = jQuery("#@Html.IdFor(x => x.ViewableByUnassigned)").is(':checked');
-        var normal = jQuery("#@Html.IdFor(x => x.ViewableByNormal)").is(':checked');
-        var projectSteward = jQuery("#@Html.IdFor(x => x.ViewableByProjectSteward)").is(':checked');
-        var admin = jQuery("#@Html.IdFor(x => x.ViewableByAdmin)").is(':checked');
-        if (!(anonymous || unassigned || normal || projectSteward || admin)) {
-            jQuery("#viewableRoleError").show();
-        } else {
-            jQuery("#viewableRoleError").hide();
-        }
-    });
-
-    jQuery("form").submit(function( event ) {
-        var anonymous = jQuery("#@Html.IdFor(x => x.ViewableByAnonymous)").is(':checked');
-        var unassigned = jQuery("#@Html.IdFor(x => x.ViewableByUnassigned)").is(':checked');
-        var normal = jQuery("#@Html.IdFor(x => x.ViewableByNormal)").is(':checked');
-        var projectSteward = jQuery("#@Html.IdFor(x => x.ViewableByProjectSteward)").is(':checked');
-        var admin = jQuery("#@Html.IdFor(x => x.ViewableByAdmin)").is(':checked');
-        if (!(anonymous || unassigned || normal || projectSteward || admin)) {
-            jQuery("#viewableRoleError").show();
-            event.preventDefault();
-        } else {
-            jQuery("#viewableRoleError").hide();
-        }
-    });
-</script>
