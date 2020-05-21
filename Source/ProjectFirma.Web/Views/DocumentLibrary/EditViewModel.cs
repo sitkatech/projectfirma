@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
         [Required]
         public List<int> DocumentCategoryIDs { get; set; }
 
-        [DisplayName("Page Names")]
+        [DisplayName("About Menu Page(s) where this Library appears")]
         public List<int> CustomPageIDs { get; set; }
 
         /// <summary>
