@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
         [DisplayName("Document Category")]
         public int DocumentCategoryID { get; set; }
 
-        [DisplayName("Public")]
+        [DisplayName("Anonymous (Public)")]
         public bool ViewableByAnonymous { get; set; }
 
         [DisplayName("Unassigned")]
@@ -59,9 +59,6 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
         public bool ViewableByProjectSteward { get; set; }
-
-        [DisplayName("Administrator")]
-        public bool ViewableByAdmin { get; set; }
 
 
         /// <summary>
@@ -82,7 +79,6 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
             ViewableByUnassigned = documentLibraryDocument.DocumentLibraryDocumentRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
             ViewableByNormal = documentLibraryDocument.DocumentLibraryDocumentRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
             ViewableByProjectSteward = documentLibraryDocument.DocumentLibraryDocumentRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
-            ViewableByAdmin = documentLibraryDocument.DocumentLibraryDocumentRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Admin.RoleID);
         }
 
         public virtual void UpdateModel(DocumentLibraryDocument documentLibraryDocument, FirmaSession currentFirmaSession, ICollection<DocumentLibraryDocumentRole> allDocumentLibraryDocumentRoles)
@@ -118,13 +114,6 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
                 newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
                 {
                     RoleID = ProjectFirmaModels.Models.Role.ProjectSteward.RoleID
-                });
-            }
-            if (ViewableByAdmin)
-            {
-                newDocumentLibraryDocumentRoles.Add(new DocumentLibraryDocumentRole(documentLibraryDocument.DocumentLibraryDocumentID)
-                {
-                    RoleID = ProjectFirmaModels.Models.Role.Admin.RoleID
                 });
             }
 
