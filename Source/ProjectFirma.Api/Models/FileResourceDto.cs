@@ -7,7 +7,7 @@ namespace ProjectFirma.Api.Models
     {
         public FileResourceDto(FileResource fileResource)
         {
-            FileResourceData = fileResource.FileResourceData;
+            FileResourceData = fileResource.FileResourceData.Data;
             FileResourceGUID = fileResource.FileResourceGUID;
             OriginalBaseFilename = fileResource.OriginalBaseFilename;
             OriginalFileExtension = fileResource.OriginalFileExtension;

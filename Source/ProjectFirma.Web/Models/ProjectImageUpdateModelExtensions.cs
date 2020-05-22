@@ -53,9 +53,9 @@ namespace ProjectFirma.Web.Models
                     currentFileResource.OriginalBaseFilename,
                     currentFileResource.OriginalFileExtension,
                     Guid.NewGuid(),
-                    currentFileResource.FileResourceData,
                     currentFileResource.CreatePerson,
                     currentFileResource.CreateDate);
+                newFileResource.FileResourceDatas.Add(new FileResourceData(newFileResource.FileResourceID, currentFileResource.FileResourceData.Data));
                 return new ProjectImageUpdate(projectUpdateBatch, pn.ProjectImageTiming, pn.Caption, pn.Credit, pn.IsKeyPhoto, pn.ExcludeFromFactSheet)
                 {
                     FileResource = newFileResource,

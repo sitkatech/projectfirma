@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
             this.CustomPageImages = new HashSet<CustomPageImage>();
             this.DocumentLibraryDocuments = new HashSet<DocumentLibraryDocument>();
             this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
+            this.FileResourceDatas = new HashSet<FileResourceData>();
             this.FirmaHomePageImages = new HashSet<FirmaHomePageImage>();
             this.FirmaPageImages = new HashSet<FirmaPageImage>();
             this.GeospatialAreaImages = new HashSet<GeospatialAreaImage>();
@@ -47,14 +48,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FileResource(int fileResourceID, int fileResourceMimeTypeID, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, byte[] fileResourceData, int createPersonID, DateTime createDate) : this()
+        public FileResource(int fileResourceID, int fileResourceMimeTypeID, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, int createPersonID, DateTime createDate) : this()
         {
             this.FileResourceID = fileResourceID;
             this.FileResourceMimeTypeID = fileResourceMimeTypeID;
             this.OriginalBaseFilename = originalBaseFilename;
             this.OriginalFileExtension = originalFileExtension;
             this.FileResourceGUID = fileResourceGUID;
-            this.FileResourceData = fileResourceData;
             this.CreatePersonID = createPersonID;
             this.CreateDate = createDate;
         }
@@ -62,7 +62,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FileResource(int fileResourceMimeTypeID, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, byte[] fileResourceData, int createPersonID, DateTime createDate) : this()
+        public FileResource(int fileResourceMimeTypeID, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, int createPersonID, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FileResourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -71,7 +71,6 @@ namespace ProjectFirmaModels.Models
             this.OriginalBaseFilename = originalBaseFilename;
             this.OriginalFileExtension = originalFileExtension;
             this.FileResourceGUID = fileResourceGUID;
-            this.FileResourceData = fileResourceData;
             this.CreatePersonID = createPersonID;
             this.CreateDate = createDate;
         }
@@ -79,7 +78,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FileResource(FileResourceMimeType fileResourceMimeType, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, byte[] fileResourceData, Person createPerson, DateTime createDate) : this()
+        public FileResource(FileResourceMimeType fileResourceMimeType, string originalBaseFilename, string originalFileExtension, Guid fileResourceGUID, Person createPerson, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FileResourceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -87,7 +86,6 @@ namespace ProjectFirmaModels.Models
             this.OriginalBaseFilename = originalBaseFilename;
             this.OriginalFileExtension = originalFileExtension;
             this.FileResourceGUID = fileResourceGUID;
-            this.FileResourceData = fileResourceData;
             this.CreatePersonID = createPerson.PersonID;
             this.CreatePerson = createPerson;
             createPerson.FileResourcesWhereYouAreTheCreatePerson.Add(this);
@@ -99,7 +97,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static FileResource CreateNewBlank(FileResourceMimeType fileResourceMimeType, Person createPerson)
         {
-            return new FileResource(fileResourceMimeType, default(string), default(string), default(Guid), default(byte[]), createPerson, default(DateTime));
+            return new FileResource(fileResourceMimeType, default(string), default(string), default(Guid), createPerson, default(DateTime));
         }
 
         /// <summary>
@@ -108,7 +106,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || CustomPageImages.Any() || DocumentLibraryDocuments.Any() || FieldDefinitionDataImages.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || GeospatialAreaImages.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || PerformanceMeasureImages.Any() || ProjectAttachmentsWhereYouAreTheAttachment.Any() || ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ReportTemplates.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any();
+            return ClassificationsWhereYouAreTheKeyImageFileResource.Any() || CustomPageImages.Any() || DocumentLibraryDocuments.Any() || FieldDefinitionDataImages.Any() || FileResourceDatas.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || GeospatialAreaImages.Any() || OrganizationsWhereYouAreTheLogoFileResource.Any() || PerformanceMeasureImages.Any() || ProjectAttachmentsWhereYouAreTheAttachment.Any() || ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ReportTemplates.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResource.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResource.Any();
         }
 
         /// <summary>
@@ -136,6 +134,11 @@ namespace ProjectFirmaModels.Models
             if(FieldDefinitionDataImages.Any())
             {
                 dependentObjects.Add(typeof(FieldDefinitionDataImage).Name);
+            }
+
+            if(FileResourceDatas.Any())
+            {
+                dependentObjects.Add(typeof(FileResourceData).Name);
             }
 
             if(FirmaHomePageImages.Any())
@@ -213,7 +216,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(DocumentLibraryDocument).Name, typeof(FieldDefinitionDataImage).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(GeospatialAreaImage).Name, typeof(Organization).Name, typeof(PerformanceMeasureImage).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ReportTemplate).Name, typeof(TenantAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResource).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(DocumentLibraryDocument).Name, typeof(FieldDefinitionDataImage).Name, typeof(FileResourceData).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(GeospatialAreaImage).Name, typeof(Organization).Name, typeof(PerformanceMeasureImage).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ReportTemplate).Name, typeof(TenantAttribute).Name};
 
 
         /// <summary>
@@ -254,6 +257,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in FieldDefinitionDataImages.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in FileResourceDatas.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -336,7 +344,6 @@ namespace ProjectFirmaModels.Models
         public string OriginalBaseFilename { get; set; }
         public string OriginalFileExtension { get; set; }
         public Guid FileResourceGUID { get; set; }
-        public byte[] FileResourceData { get; set; }
         public int CreatePersonID { get; set; }
         public DateTime CreateDate { get; set; }
         [NotMapped]
@@ -346,6 +353,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<CustomPageImage> CustomPageImages { get; set; }
         public virtual ICollection<DocumentLibraryDocument> DocumentLibraryDocuments { get; set; }
         public virtual ICollection<FieldDefinitionDataImage> FieldDefinitionDataImages { get; set; }
+        public virtual ICollection<FileResourceData> FileResourceDatas { get; set; }
         public virtual ICollection<FirmaHomePageImage> FirmaHomePageImages { get; set; }
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
         public virtual ICollection<GeospatialAreaImage> GeospatialAreaImages { get; set; }

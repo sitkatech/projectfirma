@@ -62,10 +62,10 @@ namespace ProjectFirma.Web.Common
                 tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes
                     .Include(x => x.PrimaryContactPerson)
                     .Include(x => x.PrimaryContactPerson.Organization)
-                    .Include(x => x.TenantBannerLogoFileResource)
-                    .Include(x => x.TenantFactSheetLogoFileResource)
-                    .Include(x => x.TenantSquareLogoFileResource)
-                    .Include(x => x.TenantStyleSheetFileResource)
+                    .Include(x => x.TenantBannerLogoFileResource.FileResourceDatas)
+                    .Include(x => x.TenantFactSheetLogoFileResource.FileResourceDatas)
+                    .Include(x => x.TenantSquareLogoFileResource.FileResourceDatas)
+                    .Include(x => x.TenantStyleSheetFileResource.FileResourceDatas)
                     .SingleOrDefault();
                 TenantAttributeCache.Add(tenantAttribute);
             }

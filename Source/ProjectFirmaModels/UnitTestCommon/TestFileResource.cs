@@ -34,9 +34,9 @@ namespace ProjectFirmaModels.UnitTestCommon
                     MakeTestImagefileBaseName(),
                     ".jpg",
                     Guid.NewGuid(),
-                    new byte[2000],
                     LoginConstants.PersonID,
                     DateTime.Now);
+                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, new byte[2000]));
                 return fileResource;
             }
 
@@ -46,9 +46,9 @@ namespace ProjectFirmaModels.UnitTestCommon
                     MakeTestImagefileBaseName(),
                     ".jpg",
                     Guid.NewGuid(),
-                    new byte[2000],
                     LoginConstants.PersonID,
                     DateTime.Now);
+                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, new byte[2000]));
                 dbContext.AllFileResources.Add(fileResource);
                 return fileResource;
             }

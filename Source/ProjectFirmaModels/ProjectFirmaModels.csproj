@@ -161,6 +161,10 @@
     <Compile Include="Models\Generated\FileResource.Binding.cs" />
     <Compile Include="Models\Generated\FileResource.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FileResourceConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FileResourceData.Binding.cs" />
+    <Compile Include="Models\Generated\FileResourceData.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FileResourceDataConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FileResourceDataPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FileResourceMimeType.Binding.cs" />
     <Compile Include="Models\Generated\FileResourceMimeTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FileResourcePrimaryKey.Binding.cs" />
