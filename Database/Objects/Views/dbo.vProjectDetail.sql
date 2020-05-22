@@ -12,7 +12,7 @@ p.ProjectID
 , p.ProjectName
 , po.OrganizationID as PrimaryContactOrganizationID
 , po.DisplayName as PrimaryContactOrganizationDisplayName
-, po.PersonID as PrimaryContactPersonID
+, p.PrimaryContactPersonID
 , case when person.PersonID is not null then person.FirstName + ' ' + person.LastName
     else  po.FullNameFirstLast end as PrimaryContactPersonFullNameFirstLast
 ,  coalesce(person.Email, po.Email) as PrimaryContactPersonEmail
