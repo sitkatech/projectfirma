@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             var htmlView = AlternateView.CreateAlternateViewFromString(emailContent, null, "text/html");
             htmlView.LinkedResources.Add(
-                new LinkedResource(new MemoryStream(ToolLogo.FileResourceData), "img/jpeg") {ContentId = "tool-logo"});
+                new LinkedResource(new MemoryStream(ToolLogo.FileResourceData.Data), "img/jpeg") {ContentId = "tool-logo"});
             var mailMessage = new MailMessage {Subject = ReminderEmailSubject, IsBodyHtml = true};
             mailMessage.AlternateViews.Add(htmlView);
 

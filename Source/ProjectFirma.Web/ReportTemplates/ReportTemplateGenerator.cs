@@ -152,7 +152,7 @@ namespace ProjectFirma.Web.ReportTemplates
                 return;
             }
 
-            using (var ms = new MemoryStream(projectImage.FileResource.FileResourceData))
+            using (var ms = new MemoryStream(projectImage.FileResource.FileResourceData.Data))
             {
                 var bitmap = new Bitmap(ms);
                 using (Bitmap newBitmap = new Bitmap(bitmap))
@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.ReportTemplates
         private void SaveTemplateFileToTempDirectory()
         {
             var filePath = GetTemplatePath();
-            File.WriteAllBytes(filePath, ReportTemplate.FileResource.FileResourceData);
+            File.WriteAllBytes(filePath, ReportTemplate.FileResource.FileResourceData.Data);
         }
 
         /// <summary>

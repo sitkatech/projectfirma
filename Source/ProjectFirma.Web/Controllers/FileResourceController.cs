@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.ExcelXLS:
                 case FileResourceMimeTypeEnum.ExcelXLSX:
                 case FileResourceMimeTypeEnum.xExcelXLSX:
-                    return new ExcelResult(new MemoryStream(fileResource.FileResourceData), fileResource.GetOriginalCompleteFileName());
+                    return new ExcelResult(new MemoryStream(fileResource.FileResourceData.Data), fileResource.GetOriginalCompleteFileName());
                 case FileResourceMimeTypeEnum.PDF:
                     return new PdfResult(fileResource);
                 case FileResourceMimeTypeEnum.WordDOCX:
@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.CSS:
                 case FileResourceMimeTypeEnum.KMZ:
                 case FileResourceMimeTypeEnum.KML:
-                    return new FileResourceResult(fileResource.GetOriginalCompleteFileName(), fileResource.FileResourceData, fileResource.FileResourceMimeType);
+                    return new FileResourceResult(fileResource.GetOriginalCompleteFileName(), fileResource.FileResourceData.Data, fileResource.FileResourceMimeType);
                 case FileResourceMimeTypeEnum.XPNG:
                 case FileResourceMimeTypeEnum.PNG:
                 case FileResourceMimeTypeEnum.TIFF:
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.GIF:
                 case FileResourceMimeTypeEnum.JPEG:
                 case FileResourceMimeTypeEnum.PJPEG:
-                    return File(fileResource.FileResourceData, fileResource.FileResourceMimeType.FileResourceMimeTypeName);
+                    return File(fileResource.FileResourceData.Data, fileResource.FileResourceMimeType.FileResourceMimeTypeName);
                 default:
                     // throw a more specific error that can hint to developers and assure users what needs to be done when adding a new mime type
                     throw new SitkaDisplayErrorException($"The file type \"{fileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName}\" has not been explicitly whitelisted to download. The development team has been notified, if you continue to receive errors, please contact support.");
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
                         case FileResourceMimeTypeEnum.GIF:
                         case FileResourceMimeTypeEnum.JPEG:
                         case FileResourceMimeTypeEnum.PJPEG:
-                            using (var scaledImage = ImageHelper.ScaleImage(fileResource.FileResourceData, maxWidth, maxHeight))
+                            using (var scaledImage = ImageHelper.ScaleImage(fileResource.FileResourceData.Data, maxWidth, maxHeight))
                             {
                                 using (var ms = new MemoryStream())
                                 {
