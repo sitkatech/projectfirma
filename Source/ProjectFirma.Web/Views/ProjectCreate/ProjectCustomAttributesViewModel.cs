@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project) : base(project)
+        public ProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession) : base(project, currentFirmaSession)
         {
             Project = project;
             Comments = project.CustomAttributesComment;

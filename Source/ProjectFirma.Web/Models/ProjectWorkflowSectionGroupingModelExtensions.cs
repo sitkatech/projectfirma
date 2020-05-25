@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
             return sections;
         }
 
-        public static List<ProjectSectionSimple> GetProjectCreateSections(this ProjectWorkflowSectionGrouping projectWorkflowSectionGrouping, Project project, bool ignoreStatus)
+        public static List<ProjectSectionSimple> GetProjectCreateSections(this ProjectWorkflowSectionGrouping projectWorkflowSectionGrouping, Project project, bool ignoreStatus, bool hasEditableCustomAttributes)
         {
             switch (projectWorkflowSectionGrouping.ToEnum)
             {
@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
                     // remove the custom attributes section from the overview section to begin with
                     var projectCreateSectionForOverview = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> {ProjectCreateSection.CustomAttributes}).ToList();
                     // If there are custom attribute types for this tenant, we can add the section back
-                    if (HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Any())
+                    if (hasEditableCustomAttributes)
                     {
                         projectCreateSectionForOverview.Add(ProjectCreateSection.CustomAttributes);
                     }
@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static List<ProjectSectionSimple> GetProjectUpdateSections(this ProjectWorkflowSectionGrouping projectWorkflowSectionGrouping, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, bool ignoreStatus)
+        public static List<ProjectSectionSimple> GetProjectUpdateSections(this ProjectWorkflowSectionGrouping projectWorkflowSectionGrouping, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, bool ignoreStatus, bool hasEditableCustomAttributes)
         {
             switch (projectWorkflowSectionGrouping.ToEnum)
             {
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Models
                     // remove the custom attributes section from the overview section to begin with
                     var projectUpdateSectionForCustomAttributes = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.CustomAttributes }).ToList();
                     // If there are custom attribute types for this tenant, we can add the section back
-                    if (HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Any())
+                    if (hasEditableCustomAttributes)
                     {
                         projectUpdateSectionForCustomAttributes.Add(ProjectUpdateSection.CustomAttributes);
                     }

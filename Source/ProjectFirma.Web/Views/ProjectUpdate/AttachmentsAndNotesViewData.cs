@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotesAndAttachments(projectUpdateBatch.Project));
             DiffUrl = diffUrl;
 
-            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(true);
+            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(ProjectUpdateSection.AttachmentsAndNotes.ProjectUpdateSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             NextSectionUrl = nextProjectUpdateSection?.SectionUrl;

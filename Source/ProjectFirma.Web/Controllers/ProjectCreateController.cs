@@ -145,9 +145,9 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
-        private static ProposalSectionsStatus GetProposalSectionsStatus(Project project)
+        private ProposalSectionsStatus GetProposalSectionsStatus(Project project)
         {
-            return new ProposalSectionsStatus(project, HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList());
+            return new ProposalSectionsStatus(project, HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList(), CurrentFirmaSession);
         }
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
@@ -1507,7 +1507,7 @@ namespace ProjectFirma.Web.Controllers
             Check.Assert(project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval,
                 $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
 
-            Check.Assert(ProposalSectionsStatus.AreAllSectionsValidForProject(project), "Proposal is not ready for submittal.");
+            Check.Assert(ProposalSectionsStatus.AreAllSectionsValidForProject(project, CurrentFirmaSession), "Proposal is not ready for submittal.");
             
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Approved.ProjectApprovalStatusID;
@@ -1620,7 +1620,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult GoToNextSection(FormViewModel viewModel, Project project, string currentSectionName)
         {
-            var applicableWizardSections = project.GetApplicableProposalWizardSections(true);
+            var applicableWizardSections = project.GetApplicableProposalWizardSections(true, project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;
@@ -1844,17 +1844,14 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ProjectCustomAttributesViewModel(project);
+            var viewModel = new ProjectCustomAttributesViewModel(project, CurrentFirmaSession);
             return ViewProjectCustomAttributes(project, viewModel);
         }
 
         private ViewResult ViewProjectCustomAttributes(Project project, ProjectCustomAttributesViewModel viewModel)
         {
-            var customAttributesValidationResult = project.ValidateCustomAttributes();
-
-
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
-
+            var customAttributesValidationResult = project.ValidateCustomAttributes(CurrentFirmaSession);
+            var projectCustomAttributeTypes = project.GetCustomAttributeTypes().Where(x => x.HasEditPermission(CurrentFirmaSession));
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);

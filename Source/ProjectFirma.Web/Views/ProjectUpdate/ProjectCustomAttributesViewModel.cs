@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public ProjectCustomAttributesViewModel(ProjectUpdateBatch projectUpdateBatch) : base(projectUpdateBatch)
+        public ProjectCustomAttributesViewModel(ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession) : base(projectUpdateBatch, currentFirmaSession)
         {
             Project = projectUpdateBatch.ProjectUpdate;
             Comments = projectUpdateBatch.CustomAttributesComment;
