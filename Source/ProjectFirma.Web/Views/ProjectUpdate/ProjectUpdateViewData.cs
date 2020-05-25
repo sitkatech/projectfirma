@@ -57,6 +57,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string CurrentSectionDisplayName { get; }
         public bool IsInstructionsPage { get;  }
         public string InstructionsPageUrl { get; }
+        public bool HasCustomAttributesEditableByUser { get; }
+
 
         public ProjectUpdateViewData(FirmaSession currentFirmaSession, 
                                      ProjectUpdateBatch projectUpdateBatch, 
@@ -85,6 +87,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             IsEditable = projectUpdateBatch.InEditableState() || ShowApproveAndReturnButton;
             IsReadyToApprove = projectUpdateBatch.IsReadyToApprove();
             AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid();
+            HasCustomAttributesEditableByUser = projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession);
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
             ProjectUpdateStatus = currentFirmaSession.Person.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false);

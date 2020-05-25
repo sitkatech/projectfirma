@@ -39,9 +39,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsAssessmentComplete { get; set; }
         public bool IsNotesSectionComplete { get; set; }
         public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsGeospatialAreaSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
-        public static bool AreAllSectionsValidForProject(ProjectFirmaModels.Models.Project project)
+        public static bool AreAllSectionsValidForProject(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
-            return project.GetApplicableProposalWizardSections(false).All(x => x.IsComplete);
+            return project.GetApplicableProposalWizardSections(false, project.HasEditableCustomAttributes(currentFirmaSession)).All(x => x.IsComplete);
         }
         public bool IsExpectedFundingSectionComplete { get; set; }
         public bool IsProjectOrganizationsSectionComplete { get; set; }
@@ -54,14 +54,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         /// </summary>
         /// <param name="project"></param>
         /// <param name="geospatialAreaTypes">Geospatial areas are defined per tenant, this is passed to check if the tenant has any and are complete</param>
-        public ProposalSectionsStatus(ProjectFirmaModels.Models.Project project, List<GeospatialAreaType> geospatialAreaTypes)
+        public ProposalSectionsStatus(ProjectFirmaModels.Models.Project project, List<GeospatialAreaType> geospatialAreaTypes, FirmaSession currentFirmaSession)
         {
             // Basics section
             var basicsResults = new BasicsViewModel(project).GetValidationResults();
             IsBasicsSectionComplete = !basicsResults.Any();
 
             // Custom Attributes section
-            var customAttributesValidationResults = new ProjectCustomAttributesViewModel(project).GetValidationResults();
+            var customAttributesValidationResults = project.ValidateCustomAttributes(currentFirmaSession).GetWarningMessages();
             IsProjectCustomAttributesSectionComplete = !customAttributesValidationResults.Any();
 
             // Project Location simple section

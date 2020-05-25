@@ -23,6 +23,11 @@
 @using ProjectFirmaModels.Models
 @inherits EditProjectCustomAttributes
 
+<style>
+    h4 {
+        margin-top:
+    }
+</style>
 
 <div class="row">
     <div class="col-xs-12">
@@ -38,6 +43,6 @@
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
-        @Html.EditorFor(m => m.ProjectCustomAttributes, new { ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8, ProjectCustomAttributeGroups = ViewDataTyped.ProjectCustomAttributeGroups })
+        @Html.EditorFor(m => m.ProjectCustomAttributes, new {ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8, ViewDataTyped.ProjectCustomAttributeGroups})
     </div>
 }

@@ -19,9 +19,11 @@ namespace ProjectFirmaModels.Models
         {
         }
 
-        public ProjectCustomAttributes(IProject project)
+        public ProjectCustomAttributes(IProject project, FirmaSession currentFirmaSession)
         {
-            Attributes = project.GetProjectCustomAttributes().Select(x => new ProjectCustomAttributeSimple(x)).ToList();
+            Attributes = project.GetProjectCustomAttributes()
+                .Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentFirmaSession))
+                .Select(x => new ProjectCustomAttributeSimple(x)).ToList();
         }
 
         public void UpdateModel(Project project, FirmaSession currentFirmaSession)

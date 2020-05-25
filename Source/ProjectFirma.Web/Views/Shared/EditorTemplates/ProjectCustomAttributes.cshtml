@@ -48,16 +48,16 @@
 @for (var indexOfGroup = 0; indexOfGroup < projectCustomAttributeGroups.Count; indexOfGroup++)
 {
     var attributeGroup = projectCustomAttributeGroups[indexOfGroup];
-    if (projectCustomAttributeGroups.Count > 1)
-    {
+    var projectCustomAttributeTypesForCurrentGroup = projectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroupID == attributeGroup.ProjectCustomAttributeGroupID).OrderBy(x => x.SortOrder).ToList();
+    <div style="margin-bottom: 3em">
+        @if (projectCustomAttributeGroups.Count > 1)
+        {
         <h4>@attributeGroup.ProjectCustomAttributeGroupName</h4>
         <hr />
-    }
+        }
 
-    var projectCustomAttributeTypesForCurrentGroup = projectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroupID == attributeGroup.ProjectCustomAttributeGroupID).OrderBy(x => x.SortOrder).ToList();
-
-    for (var indexOfAttribute = 0; indexOfAttribute < projectCustomAttributeTypesForCurrentGroup.Count; indexOfAttribute++)
-    {
+        @for (var indexOfAttribute = 0; indexOfAttribute < projectCustomAttributeTypesForCurrentGroup.Count; indexOfAttribute++)
+        {
         var attribute = projectCustomAttributeTypesForCurrentGroup[indexOfAttribute];
         var attributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.SingleOrDefault(m => m.ProjectCustomAttributeTypeID == attribute.ProjectCustomAttributeTypeID) : null;
         //var indexOfAttributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.IndexOf(attributeSimple) : (int?)null;
@@ -79,7 +79,7 @@
             <div class="col-sm-@colRight">
 
                 <input type="hidden" name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeTypeID).ToString().Replace("0", realIndexOfAttribute.ToString()))"
-                       value="@(attribute != null ? attribute.ProjectCustomAttributeTypeID : (int?) null)"/>
+                       value="@(attribute != null ? attribute.ProjectCustomAttributeTypeID : (int?) null)" />
                 @if (attribute != null)
                 {
                     switch (attribute.ProjectCustomAttributeDataType.ToEnum)
@@ -87,9 +87,9 @@
                         case ProjectCustomAttributeDataTypeEnum.DateTime:
                             <input type="text" class="form-control sitkaDatePicker" style="width: auto;"
                                    name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))"/>
+                                   value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
                             // 9/19/2019 SMG - these validation messages are commented out  for all attribute types because I don't believe they were ever working, I would love for them to work but I've exceeded my personal timebox on getting these to work with the custom attributes
-                            // I would love to discuss this with any developers that know more about how we could do appropriate validation messages on the custom attributes                                                                                    
+                            // I would love to discuss this with any developers that know more about how we could do appropriate validation messages on the custom attributes
                             @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                             {
                                 for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
@@ -106,7 +106,7 @@
                                 <div class="input-group">
                                     <input class="form-control" type="number" aria-describedby="attributeUnit" style="z-index: 1;"
                                            name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                           value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))"/>
+                                           value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
                                     <span class="input-group-addon" id="attributeUnit">@attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName</span>
                                 </div>
                             }
@@ -114,7 +114,7 @@
                             {
                                 <input class="form-control" type="number" aria-describedby="attributeUnit" style="width: auto;"
                                        name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                       value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))"/>
+                                       value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
                             }
                             @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                             {
@@ -156,7 +156,7 @@
                                        name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))[]"
                                        checked="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues.Any(value => value == option))">
                                 <label for="@string.Format("multiselect_{0}", option)">@option</label>
-                                <br/>
+                                <br />
                             }
                             @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                             {
@@ -170,7 +170,7 @@
                         case ProjectCustomAttributeDataTypeEnum.String:
                             <input class="form-control" type="text" style="width: auto;"
                                    name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))"/>
+                                   value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
                             @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                             {
                                 @Html.ValidationMessageFor(m => m.Attributes[realIndexOfAttribute].ProjectCustomAttributeValues)
@@ -198,6 +198,6 @@
             </div>
         </div>
         realIndexOfAttribute++;
-    }
-
+        }
+    </div>
 }

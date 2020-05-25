@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -30,11 +31,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         
         private readonly List<string> _warningMessages;
 
-        public ProjectCustomAttributesValidationResult(IProject project)
+        public ProjectCustomAttributesValidationResult(IProject project, FirmaSession currentFirmaSession)
         {
             _warningMessages = new List<string>();
             // Validate that required Custom Attributes are present
-            var requiredCustomAttributeTypeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.IsRequired && x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).Select(x => x.ProjectCustomAttributeTypeID).ToList();
+            var requiredCustomAttributeTypeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.IsRequired  && x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).ToList().Where(x => x.HasEditPermission(currentFirmaSession)).Select(x => x.ProjectCustomAttributeTypeID).ToList();
             var projectrequiredCustomAttributeTypeIDs = project.GetProjectCustomAttributes().Where(x => x.ProjectCustomAttributeType.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
             if (requiredCustomAttributeTypeIDs.Any(x => !projectrequiredCustomAttributeTypeIDs.Contains(x)))
             {

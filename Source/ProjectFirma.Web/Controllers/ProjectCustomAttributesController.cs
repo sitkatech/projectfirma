@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditProjectCustomAttributesForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditProjectCustomAttributesViewModel(project);
+            var viewModel = new EditProjectCustomAttributesViewModel(project, CurrentFirmaSession);
             return ViewEditProjectCustomAttributes(project, viewModel);
         }
 
