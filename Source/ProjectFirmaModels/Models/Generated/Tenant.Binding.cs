@@ -176,13 +176,13 @@ namespace ProjectFirmaModels.Models
     public partial class TenantClackamasPartnership : Tenant
     {
         private TenantClackamasPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced) {}
-        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"localhost.clackamaspartnership.org", @"qa.clackamaspartnership.org", @"www.clackamaspartnership.org", DateTime.Parse("01/01/1990"), false, false, false, false, false);
+        public static readonly TenantClackamasPartnership Instance = new TenantClackamasPartnership(2, @"ClackamasPartnership", @"clackamaspartnership.localhost.projectfirma.com", @"qa.clackamaspartnership.org", @"www.clackamaspartnership.org", DateTime.Parse("01/01/1990"), false, false, false, false, false);
     }
 
     public partial class TenantRCDProjectTracker : Tenant
     {
         private TenantRCDProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced) {}
-        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"localhost.rcdprojects.org", @"qa.rcdprojects.org", @"www.rcdprojects.org", DateTime.Parse("01/01/1990"), false, false, false, false, false);
+        public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"rcdprojects.localhost.projectfirma.com", @"qa.rcdprojects.org", @"www.rcdprojects.org", DateTime.Parse("01/01/1990"), false, false, false, false, false);
     }
 
     public partial class TenantInternationYearOfTheSalmon : Tenant
