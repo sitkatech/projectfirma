@@ -9,7 +9,6 @@ CREATE TABLE [dbo].[FileResource](
 	[OriginalBaseFilename] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[OriginalFileExtension] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[FileResourceGUID] [uniqueidentifier] NOT NULL,
-	[FileResourceData] [varbinary](max) NOT NULL,
 	[CreatePersonID] [int] NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
  CONSTRAINT [PK_FileResource_FileResourceID] PRIMARY KEY CLUSTERED 
@@ -25,7 +24,7 @@ CREATE TABLE [dbo].[FileResource](
 	[FileResourceID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 
 GO
 ALTER TABLE [dbo].[FileResource]  WITH CHECK ADD  CONSTRAINT [FK_FileResource_FileResourceMimeType_FileResourceMimeTypeID] FOREIGN KEY([FileResourceMimeTypeID])

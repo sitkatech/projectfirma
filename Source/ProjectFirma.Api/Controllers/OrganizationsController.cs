@@ -56,7 +56,8 @@ namespace ProjectFirma.Api.Controllers
                 var personID = peopleDictionary.ContainsKey(fileResourceDto.Email) ? peopleDictionary[fileResourceDto.Email].PersonID : 5278;
                 var fileResource = new FileResource(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
                     fileResourceDto.OriginalFileExtension, fileResourceDto.FileResourceGUID,
-                    fileResourceDto.FileResourceData, personID, fileResourceDto.CreateDate);
+                    personID, fileResourceDto.CreateDate);
+                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, fileResourceDto.FileResourceData));
 
                 organization.LogoFileResource = fileResource;
             }
@@ -105,7 +106,8 @@ namespace ProjectFirma.Api.Controllers
                 var personID = peopleDictionary.ContainsKey(fileResourceDto.Email) ? peopleDictionary[fileResourceDto.Email].PersonID : 5278;
                 var fileResource = new FileResource(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
                     fileResourceDto.OriginalFileExtension, fileResourceDto.FileResourceGUID,
-                    fileResourceDto.FileResourceData, personID, fileResourceDto.CreateDate);
+                    personID, fileResourceDto.CreateDate);
+                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, fileResourceDto.FileResourceData));
 
                 organization.LogoFileResource = fileResource;
             }

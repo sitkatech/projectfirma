@@ -21,7 +21,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.OriginalBaseFilename).HasColumnName(@"OriginalBaseFilename").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
             Property(x => x.OriginalFileExtension).HasColumnName(@"OriginalFileExtension").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
             Property(x => x.FileResourceGUID).HasColumnName(@"FileResourceGUID").HasColumnType("uniqueidentifier").IsRequired();
-            Property(x => x.FileResourceData).HasColumnName(@"FileResourceData").HasColumnType("varbinary").IsRequired();
             Property(x => x.CreatePersonID).HasColumnName(@"CreatePersonID").HasColumnType("int").IsRequired();
             Property(x => x.CreateDate).HasColumnName(@"CreateDate").HasColumnType("datetime").IsRequired();
 

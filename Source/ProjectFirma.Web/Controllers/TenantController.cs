@@ -365,7 +365,7 @@ namespace ProjectFirma.Web.Controllers
             Check.Assert(fileResource != null, "Tenant Attribute must have an associated Tenant Style Sheet File Resource.");
 
             // ReSharper disable once PossibleNullReferenceException -- Check.Assert above covers us here
-            return new FileStreamResult(new MemoryStream(fileResource.FileResourceData), fileResource.FileResourceMimeType.FileResourceMimeTypeContentTypeName);
+            return new FileStreamResult(new MemoryStream(fileResource.FileResourceData.Data), fileResource.FileResourceMimeType.FileResourceMimeTypeContentTypeName);
         }
 
         [HttpGet]

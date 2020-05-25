@@ -20,12 +20,15 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.IO;
+using System.Linq;
 using LtInfo.Common;
 
 namespace ProjectFirmaModels.Models
 {
     public partial class FileResource : IAuditableEntity
     {
+        public FileResourceData FileResourceData => FileResourceDatas.First();
+
         private Jpeg _photo;
         private bool _hasCheckedPhoto;
 
@@ -41,7 +44,7 @@ namespace ProjectFirmaModels.Models
 
         private void PopulateFileResourceDataAsImage()
         {
-            var fileResourceDataAsMemoryStream = new MemoryStream(FileResourceData);
+            var fileResourceDataAsMemoryStream = new MemoryStream(FileResourceData.Data);
             _photo = new Jpeg(new System.Drawing.Bitmap(fileResourceDataAsMemoryStream));
             _hasCheckedPhoto = true;
         }

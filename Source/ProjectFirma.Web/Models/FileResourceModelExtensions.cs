@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetFileResourceDataLengthString(this FileResource fileResource)
         {
-            return $"(~{(fileResource.FileResourceData.Length / 1000).ToGroupedNumeric()} KB)";
+            return $"(~{(fileResource.FileResourceData.Data.Length / 1000).ToGroupedNumeric()} KB)";
         }
 
         public static string MaxFileSizeHumanReadable
@@ -114,7 +114,9 @@ namespace ProjectFirma.Web.Models
             var baseFilenameWithoutExtension = originalFilenameInfo.Name.Remove(originalFilenameInfo.Name.Length - originalFilenameInfo.Extension.Length, originalFilenameInfo.Extension.Length);
             var fileResourceData = ConvertHttpPostedFileToByteArray(httpPostedFileBase);
             var fileResourceMimeTypeID = GetFileResourceMimeTypeForFile(httpPostedFileBase).FileResourceMimeTypeID;
-            var fileResource = new FileResource(fileResourceMimeTypeID, baseFilenameWithoutExtension, originalFilenameInfo.Extension, Guid.NewGuid(), fileResourceData, currentPerson.PersonID, DateTime.Now);
+            var fileResource = new FileResource(fileResourceMimeTypeID, baseFilenameWithoutExtension, originalFilenameInfo.Extension, Guid.NewGuid(), currentPerson.PersonID, DateTime.Now);
+            fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, fileResourceData));
+
             return fileResource;
         }
 

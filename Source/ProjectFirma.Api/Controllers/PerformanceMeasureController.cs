@@ -180,6 +180,7 @@ namespace ProjectFirma.Api.Controllers
             }
 
             // Remove all of these, too hard to merge nicely
+            _databaseEntities.AllFileResourceDatas.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResource.FileResourceData));
             _databaseEntities.AllFileResources.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResource));
             _databaseEntities.AllPerformanceMeasureImages.RemoveRange(performanceMeasure.PerformanceMeasureImages);
 
@@ -188,7 +189,8 @@ namespace ProjectFirma.Api.Controllers
             {
                 var fileResourceMimeTypeID = fileResourceMimeTypes.Single(y => y.Key.FileResourceGUID == x.FileResourceGUID).Value.FileResourceMimeTypeID;
                 var personID = peopleDictionary.ContainsKey(x.Email) ? peopleDictionary[x.Email].PersonID : 5278;
-                var fileResource = new FileResource(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, x.FileResourceData, personID, x.CreateDate);
+                var fileResource = new FileResource(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, personID, x.CreateDate);
+                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, x.FileResourceData));
                 var performanceMeasureImage = new PerformanceMeasureImage(performanceMeasure, fileResource);
                 return performanceMeasureImage;
             }).ToList();
