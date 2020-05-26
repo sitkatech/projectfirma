@@ -38,11 +38,12 @@ namespace ProjectFirma.Web.Views.AttachmentType
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
-            PageTitle = $"Manage {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}";
+            var fieldDefinitionForAttachmentType = FieldDefinitionEnum.AttachmentType.ToType();
+            PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {fieldDefinitionForAttachmentType.GetFieldDefinitionLabelPluralized()}";
 
             var hasManagePermissions = new AttachmentTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
-            AttachmentTypeGridSpec = new AttachmentTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            AttachmentTypeGridSpec = new AttachmentTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{fieldDefinitionForAttachmentType.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ fieldDefinitionForAttachmentType.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             AttachmentTypeGridName = "relationshipTypeGrid";
             AttachmentTypeGridDataUrl = SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(otc => otc.AttachmentTypeGridJsonData());

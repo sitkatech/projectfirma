@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
             ProjectFirmaModels.Models.FirmaPage firmaPage, ViewPageContentViewData factSheetCustomTextViewData,
             string editFactSheetCustomTextUrl, string deleteFactSheetLogoFileResourceUrl, string editFactSheetLogoUrl, string editBasicsUrl, TenantAttribute tenantAttribute) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = $"Manage {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Fact Sheets";
+            PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Fact Sheets";
             FactSheetCustomTextViewData = factSheetCustomTextViewData;
             EditFactSheetCustomTextUrl = editFactSheetCustomTextUrl;
             DeleteFactSheetLogoFileResourceUrl = deleteFactSheetLogoFileResourceUrl;
