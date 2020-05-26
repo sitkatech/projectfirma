@@ -15,9 +15,9 @@ namespace ProjectFirma.Api.Models
             OrganizationTypeName = organization.OrganizationType != null ? organization.OrganizationType.OrganizationTypeName : string.Empty; // Organization type won't be available if object is unsaved
             IsActive = organization.IsActive;
             OrganizationUrl = organization.OrganizationUrl;
-            if (organization.LogoFileResource != null)
+            if (organization.LogoFileResourceInfo != null)
             {
-                LogoFileResource = new FileResourceDto(organization.LogoFileResource);
+                LogoFileResource = new FileResourceDto(organization.LogoFileResourceInfo);
             }
         }
 

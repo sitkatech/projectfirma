@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Models
         public int PrimaryKey { get; }
         public int? EntityImageIDAsNullable { get; }
 
-        public FileResource FileResource { get; }
+        public FileResourceInfo FileResourceInfo { get; }
         public string DeleteUrl { get; }
         public bool IsKeyPhoto { get; }
         public string CaptionOnFullView { get; }
@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Models
         public FileResourcePhoto(FirmaHomePageImage firmaHomePage)
         {
             PrimaryKey = firmaHomePage.FirmaHomePageImageID;
-            FileResource = firmaHomePage.FileResource;
+            FileResourceInfo = firmaHomePage.FileResourceInfo;
             DeleteUrl = firmaHomePage.GetDeleteUrl();
             IsKeyPhoto = false;
             Caption = firmaHomePage.Caption;
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
         {
             EntityImageIDAsNullable = projectImage.ProjectImageID;
             PrimaryKey = projectImage.ProjectImageID;
-            FileResource = projectImage.FileResource;
+            FileResourceInfo = projectImage.FileResourceInfo;
             DeleteUrl = projectImage.GetDeleteUrl();
             IsKeyPhoto = projectImage.IsKeyPhoto;
             Caption = projectImage.Caption;
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Models
         {
             EntityImageIDAsNullable = projectImageUpdate.ProjectImageID;
             PrimaryKey = projectImageUpdate.ProjectImageUpdateID;
-            FileResource = projectImageUpdate.FileResource;
+            FileResourceInfo = projectImageUpdate.FileResourceInfo;
             DeleteUrl = projectImageUpdate.GetDeleteUrl();
             IsKeyPhoto = projectImageUpdate.IsKeyPhoto;
             Caption = projectImageUpdate.Caption;
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Models
         {
             EntityImageIDAsNullable = fileResourcePhoto.EntityImageIDAsNullable;
             PrimaryKey = fileResourcePhoto.PrimaryKey;
-            FileResource = fileResourcePhoto.FileResource;
+            FileResourceInfo = fileResourcePhoto.FileResourceInfo;
             DeleteUrl = fileResourcePhoto.DeleteUrl;
             IsKeyPhoto = fileResourcePhoto.IsKeyPhoto;
             Caption = fileResourcePhoto.Caption;

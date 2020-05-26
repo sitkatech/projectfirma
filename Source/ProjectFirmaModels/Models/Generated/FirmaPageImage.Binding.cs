@@ -30,46 +30,46 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FirmaPageImage(int firmaPageImageID, int firmaPageID, int fileResourceID) : this()
+        public FirmaPageImage(int firmaPageImageID, int firmaPageID, int fileResourceInfoID) : this()
         {
             this.FirmaPageImageID = firmaPageImageID;
             this.FirmaPageID = firmaPageID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FirmaPageImage(int firmaPageID, int fileResourceID) : this()
+        public FirmaPageImage(int firmaPageID, int fileResourceInfoID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.FirmaPageID = firmaPageID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FirmaPageImage(FirmaPage firmaPage, FileResource fileResource) : this()
+        public FirmaPageImage(FirmaPage firmaPage, FileResourceInfo fileResourceInfo) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.FirmaPageID = firmaPage.FirmaPageID;
             this.FirmaPage = firmaPage;
             firmaPage.FirmaPageImages.Add(this);
-            this.FileResourceID = fileResource.FileResourceID;
-            this.FileResource = fileResource;
-            fileResource.FirmaPageImages.Add(this);
+            this.FileResourceInfoID = fileResourceInfo.FileResourceInfoID;
+            this.FileResourceInfo = fileResourceInfo;
+            fileResourceInfo.FirmaPageImages.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static FirmaPageImage CreateNewBlank(FirmaPage firmaPage, FileResource fileResource)
+        public static FirmaPageImage CreateNewBlank(FirmaPage firmaPage, FileResourceInfo fileResourceInfo)
         {
-            return new FirmaPageImage(firmaPage, fileResource);
+            return new FirmaPageImage(firmaPage, fileResourceInfo);
         }
 
         /// <summary>
@@ -118,13 +118,13 @@ namespace ProjectFirmaModels.Models
         public int FirmaPageImageID { get; set; }
         public int TenantID { get; set; }
         public int FirmaPageID { get; set; }
-        public int FileResourceID { get; set; }
+        public int FileResourceInfoID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return FirmaPageImageID; } set { FirmaPageImageID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FirmaPage FirmaPage { get; set; }
-        public virtual FileResource FileResource { get; set; }
+        public virtual FileResourceInfo FileResourceInfo { get; set; }
 
         public static class FieldLengths
         {

@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[Classification](
 	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DisplayName] [varchar](75) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[GoalStatement] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[KeyImageFileResourceID] [int] NULL,
+	[KeyImageFileResourceInfoID] [int] NULL,
 	[ClassificationSystemID] [int] NOT NULL,
 	[ClassificationSortOrder] [int] NULL,
  CONSTRAINT [PK_Classification_ClassificationID] PRIMARY KEY CLUSTERED 
@@ -40,15 +40,15 @@ REFERENCES [dbo].[ClassificationSystem] ([ClassificationSystemID], [TenantID])
 GO
 ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_ClassificationSystem_ClassificationSystemID_TenantID]
 GO
-ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID] FOREIGN KEY([KeyImageFileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_FileResourceInfo_KeyImageFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([KeyImageFileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_FileResource_KeyImageFileResourceID_FileResourceID]
+ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_FileResourceInfo_KeyImageFileResourceInfoID_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_FileResource_KeyImageFileResourceID_TenantID_FileResourceID_TenantID] FOREIGN KEY([KeyImageFileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_FileResourceInfo_KeyImageFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([KeyImageFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_FileResource_KeyImageFileResourceID_TenantID_FileResourceID_TenantID]
+ALTER TABLE [dbo].[Classification] CHECK CONSTRAINT [FK_Classification_FileResourceInfo_KeyImageFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[Classification]  WITH CHECK ADD  CONSTRAINT [FK_Classification_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

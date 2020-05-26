@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person person)
         {
-            //projectLocation.FileResource = FileResource.CreateNewFromHttpPostedFile(FileResourceData, person);
+            //projectLocation.FileResourceInfo = FileResourceInfo.CreateNewFromHttpPostedFile(FileResourceData, person);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

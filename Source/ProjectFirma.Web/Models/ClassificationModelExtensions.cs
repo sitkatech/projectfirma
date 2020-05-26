@@ -73,8 +73,8 @@ namespace ProjectFirma.Web.Models
             return classification.ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
         }
 
-        public static string GetKeyImageUrlLarge(this Classification classification) => classification.KeyImageFileResource != null
-            ? classification.KeyImageFileResource.GetFileResourceUrlScaledForPrint()
+        public static string GetKeyImageUrlLarge(this Classification classification) => classification.KeyImageFileResourceInfo != null
+            ? classification.KeyImageFileResourceInfo.GetFileResourceUrlScaledForPrint()
             : "http://placehold.it/280x210";
     }
 }

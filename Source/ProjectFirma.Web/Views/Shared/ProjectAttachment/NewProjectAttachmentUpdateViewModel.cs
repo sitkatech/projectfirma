@@ -40,9 +40,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
             CheckForNotNullProjectUpdateBatchId();
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentFirmaSession.Person);
-            HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
-            var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectUpdateBatchID, fileResource.FileResourceID, AttachmentTypeID, DisplayName)
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentFirmaSession.Person);
+            HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.Add(fileResourceInfo);
+            var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectUpdateBatchID, fileResourceInfo.FileResourceInfoID, AttachmentTypeID, DisplayName)
             {
                 Description = Description
             };

@@ -20,9 +20,9 @@ namespace ProjectFirmaModels.Models
             Property(x => x.DefaultBoundingBox).HasColumnName(@"DefaultBoundingBox").HasColumnType("geometry").IsRequired();
             Property(x => x.MinimumYear).HasColumnName(@"MinimumYear").HasColumnType("int").IsRequired();
             Property(x => x.PrimaryContactPersonID).HasColumnName(@"PrimaryContactPersonID").HasColumnType("int").IsOptional();
-            Property(x => x.TenantSquareLogoFileResourceID).HasColumnName(@"TenantSquareLogoFileResourceID").HasColumnType("int").IsOptional();
-            Property(x => x.TenantBannerLogoFileResourceID).HasColumnName(@"TenantBannerLogoFileResourceID").HasColumnType("int").IsOptional();
-            Property(x => x.TenantStyleSheetFileResourceID).HasColumnName(@"TenantStyleSheetFileResourceID").HasColumnType("int").IsOptional();
+            Property(x => x.TenantSquareLogoFileResourceInfoID).HasColumnName(@"TenantSquareLogoFileResourceInfoID").HasColumnType("int").IsOptional();
+            Property(x => x.TenantBannerLogoFileResourceInfoID).HasColumnName(@"TenantBannerLogoFileResourceInfoID").HasColumnType("int").IsOptional();
+            Property(x => x.TenantStyleSheetFileResourceInfoID).HasColumnName(@"TenantStyleSheetFileResourceInfoID").HasColumnType("int").IsOptional();
             Property(x => x.TenantShortDisplayName).HasColumnName(@"TenantShortDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.ToolDisplayName).HasColumnName(@"ToolDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.ShowProposalsToThePublic).HasColumnName(@"ShowProposalsToThePublic").HasColumnType("bit").IsRequired();
@@ -50,14 +50,14 @@ namespace ProjectFirmaModels.Models
             Property(x => x.EnableEvaluations).HasColumnName(@"EnableEvaluations").HasColumnType("bit").IsRequired();
             Property(x => x.EnableProjectCategories).HasColumnName(@"EnableProjectCategories").HasColumnType("bit").IsRequired();
             Property(x => x.EnableReports).HasColumnName(@"EnableReports").HasColumnType("bit").IsRequired();
-            Property(x => x.TenantFactSheetLogoFileResourceID).HasColumnName(@"TenantFactSheetLogoFileResourceID").HasColumnType("int").IsOptional();
+            Property(x => x.TenantFactSheetLogoFileResourceInfoID).HasColumnName(@"TenantFactSheetLogoFileResourceInfoID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID
-            HasOptional(a => a.TenantSquareLogoFileResource).WithMany(b => b.TenantAttributesWhereYouAreTheTenantSquareLogoFileResource).HasForeignKey(c => c.TenantSquareLogoFileResourceID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID
-            HasOptional(a => a.TenantBannerLogoFileResource).WithMany(b => b.TenantAttributesWhereYouAreTheTenantBannerLogoFileResource).HasForeignKey(c => c.TenantBannerLogoFileResourceID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID
-            HasOptional(a => a.TenantStyleSheetFileResource).WithMany(b => b.TenantAttributesWhereYouAreTheTenantStyleSheetFileResource).HasForeignKey(c => c.TenantStyleSheetFileResourceID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID
-            HasOptional(a => a.TenantFactSheetLogoFileResource).WithMany(b => b.TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResource).HasForeignKey(c => c.TenantFactSheetLogoFileResourceID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_FileResourceID
+            HasOptional(a => a.TenantSquareLogoFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantSquareLogoFileResourceInfo).HasForeignKey(c => c.TenantSquareLogoFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantSquareLogoFileResourceInfoID_FileResourceInfoID
+            HasOptional(a => a.TenantBannerLogoFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantBannerLogoFileResourceInfo).HasForeignKey(c => c.TenantBannerLogoFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantBannerLogoFileResourceInfoID_FileResourceInfoID
+            HasOptional(a => a.TenantStyleSheetFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantStyleSheetFileResourceInfo).HasForeignKey(c => c.TenantStyleSheetFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantStyleSheetFileResourceInfoID_FileResourceInfoID
+            HasOptional(a => a.TenantFactSheetLogoFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResourceInfo).HasForeignKey(c => c.TenantFactSheetLogoFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantFactSheetLogoFileResourceInfoID_FileResourceInfoID
         }
     }
 }

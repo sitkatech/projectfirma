@@ -13,7 +13,7 @@ SELECT
     pa.[AttachmentTypeID] AS [AttachmentTypeID], 
     pa.[DisplayName] AS [ProjectAttachmentDisplayName], 
     pa.[Description] AS [ProjectAttachmentDescription], 
-    [Extent2].[FileResourceID] AS [FileResourceID], 
+    [Extent2].[FileResourceInfoID] AS [FileResourceInfoID], 
     [Extent2].[FileResourceMimeTypeID] AS [FileResourceMimeTypeID], 
     [Extent2].[OriginalBaseFilename] AS [FileResourceOriginalBaseFilename], 
     [Extent2].[OriginalFileExtension] AS [FileResourceOriginalFileExtension], 
@@ -25,6 +25,6 @@ SELECT
     att.AttachmentTypeName
 
     FROM   [dbo].[ProjectAttachment] AS pa
-    JOIN [dbo].[FileResource] AS [Extent2] ON pa.[AttachmentID] = [Extent2].[FileResourceID]
+    JOIN [dbo].[FileResourceInfo] AS [Extent2] ON pa.[AttachmentID] = [Extent2].[FileResourceInfoID]
     JOIN [dbo].[Project] AS [Extent3] ON pa.[ProjectID] = [Extent3].[ProjectID]
     join dbo.AttachmentType att on pa.AttachmentTypeID = att.AttachmentTypeID

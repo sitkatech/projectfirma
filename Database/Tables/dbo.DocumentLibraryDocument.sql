@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[DocumentLibraryDocument](
 	[DocumentCategoryID] [int] NOT NULL,
 	[DocumentTitle] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DocumentDescription] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[FileResourceID] [int] NOT NULL,
+	[FileResourceInfoID] [int] NOT NULL,
 	[SortOrder] [int] NULL,
 	[LastUpdateDate] [datetime] NOT NULL,
 	[LastUpdatePersonID] [int] NOT NULL,
@@ -40,15 +40,15 @@ REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID], [TenantID])
 GO
 ALTER TABLE [dbo].[DocumentLibraryDocument] CHECK CONSTRAINT [FK_DocumentLibraryDocument_DocumentLibrary_DocumentLibraryID_TenantID]
 GO
-ALTER TABLE [dbo].[DocumentLibraryDocument]  WITH CHECK ADD  CONSTRAINT [FK_DocumentLibraryDocument_FileResource_FileResourceID] FOREIGN KEY([FileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[DocumentLibraryDocument]  WITH CHECK ADD  CONSTRAINT [FK_DocumentLibraryDocument_FileResourceInfo_FileResourceInfoID] FOREIGN KEY([FileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[DocumentLibraryDocument] CHECK CONSTRAINT [FK_DocumentLibraryDocument_FileResource_FileResourceID]
+ALTER TABLE [dbo].[DocumentLibraryDocument] CHECK CONSTRAINT [FK_DocumentLibraryDocument_FileResourceInfo_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[DocumentLibraryDocument]  WITH CHECK ADD  CONSTRAINT [FK_DocumentLibraryDocument_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[DocumentLibraryDocument]  WITH CHECK ADD  CONSTRAINT [FK_DocumentLibraryDocument_FileResourceInfo_FileResourceInfoID_TenantID] FOREIGN KEY([FileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[DocumentLibraryDocument] CHECK CONSTRAINT [FK_DocumentLibraryDocument_FileResource_FileResourceID_TenantID]
+ALTER TABLE [dbo].[DocumentLibraryDocument] CHECK CONSTRAINT [FK_DocumentLibraryDocument_FileResourceInfo_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[DocumentLibraryDocument]  WITH CHECK ADD  CONSTRAINT [FK_DocumentLibraryDocument_Person_LastUpdatePersonID_PersonID] FOREIGN KEY([LastUpdatePersonID])
 REFERENCES [dbo].[Person] ([PersonID])

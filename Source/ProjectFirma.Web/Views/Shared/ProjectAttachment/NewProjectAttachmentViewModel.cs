@@ -48,9 +48,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             CheckForNotNullProjectId();
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentFirmaSession.Person);
-            HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
-            var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResource.FileResourceID, AttachmentTypeID, DisplayName)
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentFirmaSession.Person);
+            HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.Add(fileResourceInfo);
+            var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResourceInfo.FileResourceInfoID, AttachmentTypeID, DisplayName)
             {
                 Description = Description
             };

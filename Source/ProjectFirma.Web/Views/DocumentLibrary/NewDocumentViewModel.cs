@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
 
         public override void UpdateModel(DocumentLibraryDocument documentLibraryDocument, FirmaSession currentFirmaSession, ICollection<DocumentLibraryDocumentRole> allDocumentLibraryDocumentRoles)
         {
-            documentLibraryDocument.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
+            documentLibraryDocument.FileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
             documentLibraryDocument.DocumentLibraryID = DocumentLibraryID;
             base.UpdateModel(documentLibraryDocument, currentFirmaSession, allDocumentLibraryDocumentRoles);
         }

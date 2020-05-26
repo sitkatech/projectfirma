@@ -17,7 +17,7 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.ProjectImageUpdateID);
             Property(x => x.ProjectImageUpdateID).HasColumnName(@"ProjectImageUpdateID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
-            Property(x => x.FileResourceID).HasColumnName(@"FileResourceID").HasColumnType("int").IsOptional();
+            Property(x => x.FileResourceInfoID).HasColumnName(@"FileResourceInfoID").HasColumnType("int").IsOptional();
             Property(x => x.ProjectUpdateBatchID).HasColumnName(@"ProjectUpdateBatchID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectImageTimingID).HasColumnName(@"ProjectImageTimingID").HasColumnType("int").IsRequired();
             Property(x => x.Caption).HasColumnName(@"Caption").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
@@ -27,7 +27,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectImageID).HasColumnName(@"ProjectImageID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-            HasOptional(a => a.FileResource).WithMany(b => b.ProjectImageUpdates).HasForeignKey(c => c.FileResourceID).WillCascadeOnDelete(false); // FK_ProjectImageUpdate_FileResource_FileResourceID
+            HasOptional(a => a.FileResourceInfo).WithMany(b => b.ProjectImageUpdates).HasForeignKey(c => c.FileResourceInfoID).WillCascadeOnDelete(false); // FK_ProjectImageUpdate_FileResourceInfo_FileResourceInfoID
             HasRequired(a => a.ProjectUpdateBatch).WithMany(b => b.ProjectImageUpdates).HasForeignKey(c => c.ProjectUpdateBatchID).WillCascadeOnDelete(false); // FK_ProjectImageUpdate_ProjectUpdateBatch_ProjectUpdateBatchID
             HasOptional(a => a.ProjectImage).WithMany(b => b.ProjectImageUpdates).HasForeignKey(c => c.ProjectImageID).WillCascadeOnDelete(false); // FK_ProjectImageUpdate_ProjectImage_ProjectImageID
         }

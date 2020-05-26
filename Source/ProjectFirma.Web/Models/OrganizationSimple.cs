@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public OrganizationSimple(int organizationID, Guid? organizationGuid, string organizationName,
             string organizationShortName, int organizationTypeId, int? primaryContactPersonID, bool isActive,
-            string url, int? logoFileResourceID, string detailUrl)
+            string url, int? logoFileResourceInfoID, string detailUrl)
             : this()
         {
             OrganizationID = organizationID;
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Models
             IsActive = isActive;
             URL = url;
             DetailUrl = detailUrl;
-            LogoFileResourceID = logoFileResourceID;
+            LogoFileResourceInfoID = logoFileResourceInfoID;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Models
             IsActive = organization.IsActive;
             URL = organization.OrganizationUrl;
             DetailUrl = organization.GetDetailUrl();
-            LogoFileResourceID = organization.LogoFileResourceID;
+            LogoFileResourceInfoID = organization.LogoFileResourceInfoID;
             ValidOrganizationRelationshipTypeSimples = organization.OrganizationType?.OrganizationTypeOrganizationRelationshipTypes.Select(x => x.OrganizationRelationshipType).ToList()
                                                .Select(x => new OrganizationRelationshipTypeSimple(x))
                                                .ToList() ?? new List<OrganizationRelationshipTypeSimple>();
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Models
         public bool IsActive { get; set; }
         public string URL { get; set; }
         public string DetailUrl { get; set; }
-        public int? LogoFileResourceID { get; set; }
+        public int? LogoFileResourceInfoID { get; set; }
         public List<OrganizationRelationshipTypeSimple> ValidOrganizationRelationshipTypeSimples;
 
         public string DisplayName

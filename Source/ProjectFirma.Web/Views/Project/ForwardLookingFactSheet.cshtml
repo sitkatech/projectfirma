@@ -457,7 +457,7 @@
                     <strong>@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</strong>
                 </div>
                 <div class="col-xs-12" style="margin: 0 15px;">
-                    @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.GetOrientation()).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
+                    @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResourceInfo.GetOrientation()).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
                     {
                         <div class="row">
                             @foreach (var projectImage in projectImageBatch)

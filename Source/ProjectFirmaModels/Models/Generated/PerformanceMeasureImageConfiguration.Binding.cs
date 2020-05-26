@@ -18,11 +18,11 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PerformanceMeasureImageID).HasColumnName(@"PerformanceMeasureImageID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureID).HasColumnName(@"PerformanceMeasureID").HasColumnType("int").IsRequired();
-            Property(x => x.FileResourceID).HasColumnName(@"FileResourceID").HasColumnType("int").IsRequired();
+            Property(x => x.FileResourceInfoID).HasColumnName(@"FileResourceInfoID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.PerformanceMeasure).WithMany(b => b.PerformanceMeasureImages).HasForeignKey(c => c.PerformanceMeasureID).WillCascadeOnDelete(false); // FK_PerformanceMeasureImage_PerformanceMeasure_PerformanceMeasureID
-            HasRequired(a => a.FileResource).WithMany(b => b.PerformanceMeasureImages).HasForeignKey(c => c.FileResourceID).WillCascadeOnDelete(false); // FK_PerformanceMeasureImage_FileResource_FileResourceID
+            HasRequired(a => a.FileResourceInfo).WithMany(b => b.PerformanceMeasureImages).HasForeignKey(c => c.FileResourceInfoID).WillCascadeOnDelete(false); // FK_PerformanceMeasureImage_FileResourceInfo_FileResourceInfoID
         }
     }
 }

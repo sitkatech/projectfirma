@@ -31,14 +31,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(int classificationID, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID, int classificationSystemID, int? classificationSortOrder) : this()
+        public Classification(int classificationID, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceInfoID, int classificationSystemID, int? classificationSortOrder) : this()
         {
             this.ClassificationID = classificationID;
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
             this.GoalStatement = goalStatement;
-            this.KeyImageFileResourceID = keyImageFileResourceID;
+            this.KeyImageFileResourceInfoID = keyImageFileResourceInfoID;
             this.ClassificationSystemID = classificationSystemID;
             this.ClassificationSortOrder = classificationSortOrder;
         }
@@ -154,7 +154,7 @@ namespace ProjectFirmaModels.Models
         public string ThemeColor { get; set; }
         public string DisplayName { get; set; }
         public string GoalStatement { get; set; }
-        public int? KeyImageFileResourceID { get; set; }
+        public int? KeyImageFileResourceInfoID { get; set; }
         public int ClassificationSystemID { get; set; }
         public int? ClassificationSortOrder { get; set; }
         [NotMapped]
@@ -163,7 +163,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual FileResource KeyImageFileResource { get; set; }
+        public virtual FileResourceInfo KeyImageFileResourceInfo { get; set; }
         public virtual ClassificationSystem ClassificationSystem { get; set; }
 
         public static class FieldLengths

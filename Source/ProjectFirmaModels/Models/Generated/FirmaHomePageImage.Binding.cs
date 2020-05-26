@@ -30,10 +30,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FirmaHomePageImage(int firmaHomePageImageID, int fileResourceID, string caption, int sortOrder) : this()
+        public FirmaHomePageImage(int firmaHomePageImageID, int fileResourceInfoID, string caption, int sortOrder) : this()
         {
             this.FirmaHomePageImageID = firmaHomePageImageID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.Caption = caption;
             this.SortOrder = sortOrder;
         }
@@ -41,12 +41,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FirmaHomePageImage(int fileResourceID, string caption, int sortOrder) : this()
+        public FirmaHomePageImage(int fileResourceInfoID, string caption, int sortOrder) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaHomePageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.Caption = caption;
             this.SortOrder = sortOrder;
         }
@@ -54,13 +54,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FirmaHomePageImage(FileResource fileResource, string caption, int sortOrder) : this()
+        public FirmaHomePageImage(FileResourceInfo fileResourceInfo, string caption, int sortOrder) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaHomePageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.FileResourceID = fileResource.FileResourceID;
-            this.FileResource = fileResource;
-            fileResource.FirmaHomePageImages.Add(this);
+            this.FileResourceInfoID = fileResourceInfo.FileResourceInfoID;
+            this.FileResourceInfo = fileResourceInfo;
+            fileResourceInfo.FirmaHomePageImages.Add(this);
             this.Caption = caption;
             this.SortOrder = sortOrder;
         }
@@ -68,9 +68,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static FirmaHomePageImage CreateNewBlank(FileResource fileResource)
+        public static FirmaHomePageImage CreateNewBlank(FileResourceInfo fileResourceInfo)
         {
-            return new FirmaHomePageImage(fileResource, default(string), default(int));
+            return new FirmaHomePageImage(fileResourceInfo, default(string), default(int));
         }
 
         /// <summary>
@@ -118,14 +118,14 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int FirmaHomePageImageID { get; set; }
         public int TenantID { get; set; }
-        public int FileResourceID { get; set; }
+        public int FileResourceInfoID { get; set; }
         public string Caption { get; set; }
         public int SortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return FirmaHomePageImageID; } set { FirmaHomePageImageID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual FileResource FileResource { get; set; }
+        public virtual FileResourceInfo FileResourceInfo { get; set; }
 
         public static class FieldLengths
         {

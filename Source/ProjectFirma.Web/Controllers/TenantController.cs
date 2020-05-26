@@ -360,12 +360,12 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            var fileResource = tenantAttribute.TenantStyleSheetFileResource;
+            var fileResourceInfo = tenantAttribute.TenantStyleSheetFileResourceInfo;
 
-            Check.Assert(fileResource != null, "Tenant Attribute must have an associated Tenant Style Sheet File Resource.");
+            Check.Assert(fileResourceInfo != null, "Tenant Attribute must have an associated Tenant Style Sheet File Resource.");
 
             // ReSharper disable once PossibleNullReferenceException -- Check.Assert above covers us here
-            return new FileStreamResult(new MemoryStream(fileResource.FileResourceData.Data), fileResource.FileResourceMimeType.FileResourceMimeTypeContentTypeName);
+            return new FileStreamResult(new MemoryStream(fileResourceInfo.FileResourceData.Data), fileResourceInfo.FileResourceMimeType.FileResourceMimeTypeContentTypeName);
         }
 
         [HttpGet]
@@ -389,8 +389,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
             }
 
-            var tenantAttributeTenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResource;
-            tenantAttribute.TenantBannerLogoFileResource = null;
+            var tenantAttributeTenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResourceInfo;
+            tenantAttribute.TenantBannerLogoFileResourceInfo = null;
             tenantAttributeTenantBannerLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();
@@ -425,8 +425,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
             }
 
-            var tenantAttributeTenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResource;
-            tenantAttribute.TenantSquareLogoFileResource = null;
+            var tenantAttributeTenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResourceInfo;
+            tenantAttribute.TenantSquareLogoFileResourceInfo = null;
             tenantAttributeTenantSquareLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();
@@ -461,8 +461,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
             }
 
-            var tenantAttributeTenantStyleSheetFileResource = tenantAttribute.TenantStyleSheetFileResource;
-            tenantAttribute.TenantStyleSheetFileResource = null;
+            var tenantAttributeTenantStyleSheetFileResource = tenantAttribute.TenantStyleSheetFileResourceInfo;
+            tenantAttribute.TenantStyleSheetFileResourceInfo = null;
             tenantAttributeTenantStyleSheetFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();

@@ -269,9 +269,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static void DeleteProjectImages(this Project project)
         {
-            foreach (var fileResource in project.ProjectImages.Select(x => x.FileResource))
+            foreach (var fileResourceInfo in project.ProjectImages.Select(x => x.FileResourceInfo))
             {
-                fileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                fileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 

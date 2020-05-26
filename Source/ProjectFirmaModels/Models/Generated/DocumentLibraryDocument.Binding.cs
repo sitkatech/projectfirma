@@ -30,14 +30,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public DocumentLibraryDocument(int documentLibraryDocumentID, int documentLibraryID, int documentCategoryID, string documentTitle, string documentDescription, int fileResourceID, int? sortOrder, DateTime lastUpdateDate, int lastUpdatePersonID) : this()
+        public DocumentLibraryDocument(int documentLibraryDocumentID, int documentLibraryID, int documentCategoryID, string documentTitle, string documentDescription, int fileResourceInfoID, int? sortOrder, DateTime lastUpdateDate, int lastUpdatePersonID) : this()
         {
             this.DocumentLibraryDocumentID = documentLibraryDocumentID;
             this.DocumentLibraryID = documentLibraryID;
             this.DocumentCategoryID = documentCategoryID;
             this.DocumentTitle = documentTitle;
             this.DocumentDescription = documentDescription;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.SortOrder = sortOrder;
             this.LastUpdateDate = lastUpdateDate;
             this.LastUpdatePersonID = lastUpdatePersonID;
@@ -46,7 +46,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public DocumentLibraryDocument(int documentLibraryID, int documentCategoryID, string documentTitle, int fileResourceID, DateTime lastUpdateDate, int lastUpdatePersonID) : this()
+        public DocumentLibraryDocument(int documentLibraryID, int documentCategoryID, string documentTitle, int fileResourceInfoID, DateTime lastUpdateDate, int lastUpdatePersonID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.DocumentLibraryDocumentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -54,7 +54,7 @@ namespace ProjectFirmaModels.Models
             this.DocumentLibraryID = documentLibraryID;
             this.DocumentCategoryID = documentCategoryID;
             this.DocumentTitle = documentTitle;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.LastUpdateDate = lastUpdateDate;
             this.LastUpdatePersonID = lastUpdatePersonID;
         }
@@ -62,7 +62,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public DocumentLibraryDocument(DocumentLibrary documentLibrary, DocumentCategory documentCategory, string documentTitle, FileResource fileResource, DateTime lastUpdateDate, Person lastUpdatePerson) : this()
+        public DocumentLibraryDocument(DocumentLibrary documentLibrary, DocumentCategory documentCategory, string documentTitle, FileResourceInfo fileResourceInfo, DateTime lastUpdateDate, Person lastUpdatePerson) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.DocumentLibraryDocumentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -71,9 +71,9 @@ namespace ProjectFirmaModels.Models
             documentLibrary.DocumentLibraryDocuments.Add(this);
             this.DocumentCategoryID = documentCategory.DocumentCategoryID;
             this.DocumentTitle = documentTitle;
-            this.FileResourceID = fileResource.FileResourceID;
-            this.FileResource = fileResource;
-            fileResource.DocumentLibraryDocuments.Add(this);
+            this.FileResourceInfoID = fileResourceInfo.FileResourceInfoID;
+            this.FileResourceInfo = fileResourceInfo;
+            fileResourceInfo.DocumentLibraryDocuments.Add(this);
             this.LastUpdateDate = lastUpdateDate;
             this.LastUpdatePersonID = lastUpdatePerson.PersonID;
             this.LastUpdatePerson = lastUpdatePerson;
@@ -83,9 +83,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static DocumentLibraryDocument CreateNewBlank(DocumentLibrary documentLibrary, DocumentCategory documentCategory, FileResource fileResource, Person lastUpdatePerson)
+        public static DocumentLibraryDocument CreateNewBlank(DocumentLibrary documentLibrary, DocumentCategory documentCategory, FileResourceInfo fileResourceInfo, Person lastUpdatePerson)
         {
-            return new DocumentLibraryDocument(documentLibrary, documentCategory, default(string), fileResource, default(DateTime), lastUpdatePerson);
+            return new DocumentLibraryDocument(documentLibrary, documentCategory, default(string), fileResourceInfo, default(DateTime), lastUpdatePerson);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace ProjectFirmaModels.Models
         public int DocumentCategoryID { get; set; }
         public string DocumentTitle { get; set; }
         public string DocumentDescription { get; set; }
-        public int FileResourceID { get; set; }
+        public int FileResourceInfoID { get; set; }
         public int? SortOrder { get; set; }
         public DateTime LastUpdateDate { get; set; }
         public int LastUpdatePersonID { get; set; }
@@ -163,7 +163,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual DocumentLibrary DocumentLibrary { get; set; }
         public DocumentCategory DocumentCategory { get { return DocumentCategory.AllLookupDictionary[DocumentCategoryID]; } }
-        public virtual FileResource FileResource { get; set; }
+        public virtual FileResourceInfo FileResourceInfo { get; set; }
         public virtual Person LastUpdatePerson { get; set; }
 
         public static class FieldLengths

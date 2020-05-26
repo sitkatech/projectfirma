@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FileResource.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="FileResourceInfo.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -25,7 +25,7 @@ using LtInfo.Common;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class FileResource : IAuditableEntity
+    public partial class FileResourceInfo : IAuditableEntity
     {
         public FileResourceData FileResourceData => FileResourceDatas.First();
 
