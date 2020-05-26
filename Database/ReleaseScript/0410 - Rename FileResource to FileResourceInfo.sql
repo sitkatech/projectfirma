@@ -12,6 +12,7 @@ exec sp_rename 'dbo.AK_FileResourceData_FileResourceDataID_FileResourceID', 'AK_
 exec sp_rename 'dbo.FK_FileResourceData_FileResource_FileResourceID', 'FK_FileResourceData_FileResourceInfo_FileResourceInfoID', 'OBJECT';
 exec sp_rename 'dbo.FK_FileResourceData_FileResource_FileResourceID_TenantID', 'FK_FileResourceData_FileResourceInfo_FileResourceInfoID_TenantID', 'OBJECT';
 exec sp_rename 'dbo.PK_FileResource_FileResourceID', 'PK_FileResourceInfo_FileResourceInfoID', 'OBJECT';
+exec sp_rename 'dbo.AK_FileResource_FileResourceGUID', 'AK_FileResourceInfo_FileResourceGUID', 'OBJECT';
 exec sp_rename 'dbo.FK_PerformanceMeasureImage_FileResource_FileResourceID', 'FK_PerformanceMeasureImage_FileResourceInfo_FileResourceInfoID', 'OBJECT';
 exec sp_rename 'dbo.FK_PerformanceMeasureImage_FileResource_FileResourceID_TenantID', 'FK_PerformanceMeasureImage_FileResourceInfo_FileResourceInfoID_TenantID', 'OBJECT';
 exec sp_rename 'dbo.AK_FileResource_FileResourceID_TenantID', 'AK_FileResourceInfo_FileResourceInfoID_TenantID', 'OBJECT';
