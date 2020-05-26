@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
 
         public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = $"Manage {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}";
 
             var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 

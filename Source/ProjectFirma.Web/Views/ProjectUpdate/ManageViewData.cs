@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
-            PageTitle = $"Manage {fieldDefinitionLabelProject} Updates";
+            PageTitle = $"{fieldDefinitionLabelProject} Updates";
             ReportingYear = reportingYear;
 
             ProjectsRequiringUpdateGridDataUrl = projectsRequiringUpdateGridDataUrl;
