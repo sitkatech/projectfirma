@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[FieldDefinitionDataImage](
 	[FieldDefinitionDataImageID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[FieldDefinitionDataID] [int] NOT NULL,
-	[FileResourceID] [int] NOT NULL,
+	[FileResourceInfoID] [int] NOT NULL,
  CONSTRAINT [PK_FieldDefinitionDataImage_FieldDefinitionDataImageID] PRIMARY KEY CLUSTERED 
 (
 	[FieldDefinitionDataImageID] ASC
@@ -24,15 +24,15 @@ REFERENCES [dbo].[FieldDefinitionData] ([FieldDefinitionDataID], [TenantID])
 GO
 ALTER TABLE [dbo].[FieldDefinitionDataImage] CHECK CONSTRAINT [FK_FieldDefinitionDataImage_FieldDefinitionData_FieldDefinitionDataID_TenantID]
 GO
-ALTER TABLE [dbo].[FieldDefinitionDataImage]  WITH CHECK ADD  CONSTRAINT [FK_FieldDefinitionDataImage_FileResource_FileResourceID] FOREIGN KEY([FileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[FieldDefinitionDataImage]  WITH CHECK ADD  CONSTRAINT [FK_FieldDefinitionDataImage_FileResourceInfo_FileResourceInfoID] FOREIGN KEY([FileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[FieldDefinitionDataImage] CHECK CONSTRAINT [FK_FieldDefinitionDataImage_FileResource_FileResourceID]
+ALTER TABLE [dbo].[FieldDefinitionDataImage] CHECK CONSTRAINT [FK_FieldDefinitionDataImage_FileResourceInfo_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[FieldDefinitionDataImage]  WITH CHECK ADD  CONSTRAINT [FK_FieldDefinitionDataImage_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[FieldDefinitionDataImage]  WITH CHECK ADD  CONSTRAINT [FK_FieldDefinitionDataImage_FileResourceInfo_FileResourceInfoID_TenantID] FOREIGN KEY([FileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[FieldDefinitionDataImage] CHECK CONSTRAINT [FK_FieldDefinitionDataImage_FileResource_FileResourceID_TenantID]
+ALTER TABLE [dbo].[FieldDefinitionDataImage] CHECK CONSTRAINT [FK_FieldDefinitionDataImage_FileResourceInfo_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[FieldDefinitionDataImage]  WITH CHECK ADD  CONSTRAINT [FK_FieldDefinitionDataImage_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

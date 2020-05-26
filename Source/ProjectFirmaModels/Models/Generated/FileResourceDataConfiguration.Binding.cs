@@ -17,11 +17,11 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.FileResourceDataID);
             Property(x => x.FileResourceDataID).HasColumnName(@"FileResourceDataID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
-            Property(x => x.FileResourceID).HasColumnName(@"FileResourceID").HasColumnType("int").IsRequired();
+            Property(x => x.FileResourceInfoID).HasColumnName(@"FileResourceInfoID").HasColumnType("int").IsRequired();
             Property(x => x.Data).HasColumnName(@"Data").HasColumnType("varbinary").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.FileResource).WithMany(b => b.FileResourceDatas).HasForeignKey(c => c.FileResourceID).WillCascadeOnDelete(false); // FK_FileResourceData_FileResource_FileResourceID
+            HasRequired(a => a.FileResourceInfo).WithMany(b => b.FileResourceDatas).HasForeignKey(c => c.FileResourceInfoID).WillCascadeOnDelete(false); // FK_FileResourceData_FileResourceInfo_FileResourceInfoID
         }
     }
 }

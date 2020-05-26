@@ -70,7 +70,7 @@ else
                     }
                     @if (ViewDataTyped.ShowDownload)
                     {
-                        <a href="@projectAttachment.FileResource.GetFileResourceUrl()">
+                        <a href="@projectAttachment.FileResourceInfo.GetFileResourceUrl()">
                             @projectAttachment.DisplayName
                             @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
                         </a>
@@ -81,9 +81,9 @@ else
                     }
                     <dl class="dl-horizontal">
                         <dt>Uploaded On</dt>
-                        <dd title="@projectAttachment.FileResource.CreateDate.ToLongDateString() @projectAttachment.FileResource.CreateDate.ToLongTimeString()">@projectAttachment.FileResource.CreateDate.ToShortDateString()</dd>
+                        <dd title="@projectAttachment.FileResourceInfo.CreateDate.ToLongDateString() @projectAttachment.FileResourceInfo.CreateDate.ToLongTimeString()">@projectAttachment.FileResourceInfo.CreateDate.ToShortDateString()</dd>
                         <dt>File Type</dt>
-                        <dd>@projectAttachment.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
+                        <dd>@projectAttachment.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
                         <dt>Description</dt>
                         <dd>@projectAttachment.Description</dd>
                     </dl>

@@ -28,34 +28,34 @@ namespace ProjectFirmaModels.UnitTestCommon
     {
         public static class TestFileResource
         {
-            public static FileResource Create()
+            public static FileResourceInfo Create()
             {
-                var fileResource = new FileResource(FileResourceMimeType.JPEG.FileResourceMimeTypeID,
+                var fileResourceInfo = new FileResourceInfo(FileResourceMimeType.JPEG.FileResourceMimeTypeID,
                     MakeTestImagefileBaseName(),
                     ".jpg",
                     Guid.NewGuid(),
                     LoginConstants.PersonID,
                     DateTime.Now);
-                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, new byte[2000]));
-                return fileResource;
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, new byte[2000]));
+                return fileResourceInfo;
             }
 
-            public static FileResource Create(DatabaseEntities dbContext)
+            public static FileResourceInfo Create(DatabaseEntities dbContext)
             {
-                var fileResource = new FileResource(FileResourceMimeType.JPEG.FileResourceMimeTypeID,
+                var fileResourceInfo = new FileResourceInfo(FileResourceMimeType.JPEG.FileResourceMimeTypeID,
                     MakeTestImagefileBaseName(),
                     ".jpg",
                     Guid.NewGuid(),
                     LoginConstants.PersonID,
                     DateTime.Now);
-                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, new byte[2000]));
-                dbContext.AllFileResources.Add(fileResource);
-                return fileResource;
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, new byte[2000]));
+                dbContext.AllFileResourceInfos.Add(fileResourceInfo);
+                return fileResourceInfo;
             }
 
             private static string MakeTestImagefileBaseName()
             {
-                return MakeTestName("SomeTestImageFile", FileResource.FieldLengths.OriginalBaseFilename);
+                return MakeTestName("SomeTestImageFile", FileResourceInfo.FieldLengths.OriginalBaseFilename);
             }
         }
     }

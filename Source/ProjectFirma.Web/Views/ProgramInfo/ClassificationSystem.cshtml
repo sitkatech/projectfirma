@@ -143,9 +143,9 @@ else
     {
         <div class="col-xs-12 col-sm-6 col-md-4 classification col-centered">
             <a href="@classification.GetDetailUrl()" class="taphover">
-                @if (classification.KeyImageFileResource != null)
+                @if (classification.KeyImageFileResourceInfo != null)
                 {
-                    <img src="@classification.KeyImageFileResource.FileResourceUrlScaledThumbnail(150)" alt="Key Image" class="image">
+                    <img src="@classification.KeyImageFileResourceInfo.FileResourceUrlScaledThumbnail(150)" alt="Key Image" class="image">
                 }
                 else
                 {

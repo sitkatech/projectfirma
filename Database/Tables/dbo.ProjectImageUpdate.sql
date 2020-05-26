@@ -5,7 +5,7 @@ GO
 CREATE TABLE [dbo].[ProjectImageUpdate](
 	[ProjectImageUpdateID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[FileResourceID] [int] NULL,
+	[FileResourceInfoID] [int] NULL,
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[ProjectImageTimingID] [int] NOT NULL,
 	[Caption] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -20,15 +20,15 @@ CREATE TABLE [dbo].[ProjectImageUpdate](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_FileResource_FileResourceID] FOREIGN KEY([FileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_FileResourceInfo_FileResourceInfoID] FOREIGN KEY([FileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_FileResource_FileResourceID]
+ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_FileResourceInfo_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_FileResourceInfo_FileResourceInfoID_TenantID] FOREIGN KEY([FileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_FileResource_FileResourceID_TenantID]
+ALTER TABLE [dbo].[ProjectImageUpdate] CHECK CONSTRAINT [FK_ProjectImageUpdate_FileResourceInfo_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectImageUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImageUpdate_ProjectImage_ProjectImageID] FOREIGN KEY([ProjectImageID])
 REFERENCES [dbo].[ProjectImage] ([ProjectImageID])

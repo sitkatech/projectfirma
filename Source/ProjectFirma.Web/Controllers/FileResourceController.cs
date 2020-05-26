@@ -44,9 +44,9 @@ namespace ProjectFirma.Web.Controllers
             var isStringAGuid = Guid.TryParse(fileResourceGuidAsString, out fileResourceGuid);
             if (isStringAGuid)
             {
-                var fileResource = HttpRequestStorage.DatabaseEntities.FileResources.SingleOrDefault(x => x.FileResourceGUID == fileResourceGuid);
+                var fileResourceInfo = HttpRequestStorage.DatabaseEntities.FileResourceInfos.SingleOrDefault(x => x.FileResourceGUID == fileResourceGuid);
 
-                return DisplayResourceImpl(fileResourceGuidAsString, fileResource);
+                return DisplayResourceImpl(fileResourceGuidAsString, fileResourceInfo);
             }
             // Unhappy path - return an HTTP 404
             // ---------------------------------
@@ -54,23 +54,23 @@ namespace ProjectFirma.Web.Controllers
             throw new HttpException(404, message);
         }
 
-        private ActionResult DisplayResourceImpl(string fileResourcePrimaryKey, FileResource fileResource)
+        private ActionResult DisplayResourceImpl(string fileResourceInfoPrimaryKey, FileResourceInfo fileResourceInfo)
         {
-            if (fileResource == null)
+            if (fileResourceInfo == null)
             {
-                var message = $"File Resource {fileResourcePrimaryKey} Not Found in database. It may have been deleted.";
+                var message = $"File Resource {fileResourceInfoPrimaryKey} Not Found in database. It may have been deleted.";
                 throw new HttpException(404, message);
             }
 
             // If you're adding new mime types to the system, you need to add them below -- 08/29/2019 SMG
-            switch (fileResource.FileResourceMimeType.ToEnum)
+            switch (fileResourceInfo.FileResourceMimeType.ToEnum)
             {
                 case FileResourceMimeTypeEnum.ExcelXLS:
                 case FileResourceMimeTypeEnum.ExcelXLSX:
                 case FileResourceMimeTypeEnum.xExcelXLSX:
-                    return new ExcelResult(new MemoryStream(fileResource.FileResourceData.Data), fileResource.GetOriginalCompleteFileName());
+                    return new ExcelResult(new MemoryStream(fileResourceInfo.FileResourceData.Data), fileResourceInfo.GetOriginalCompleteFileName());
                 case FileResourceMimeTypeEnum.PDF:
-                    return new PdfResult(fileResource);
+                    return new PdfResult(fileResourceInfo);
                 case FileResourceMimeTypeEnum.WordDOCX:
                 case FileResourceMimeTypeEnum.WordDOC:
                 case FileResourceMimeTypeEnum.PowerpointPPTX:
@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.CSS:
                 case FileResourceMimeTypeEnum.KMZ:
                 case FileResourceMimeTypeEnum.KML:
-                    return new FileResourceResult(fileResource.GetOriginalCompleteFileName(), fileResource.FileResourceData.Data, fileResource.FileResourceMimeType);
+                    return new FileResourceResult(fileResourceInfo.GetOriginalCompleteFileName(), fileResourceInfo.FileResourceData.Data, fileResourceInfo.FileResourceMimeType);
                 case FileResourceMimeTypeEnum.XPNG:
                 case FileResourceMimeTypeEnum.PNG:
                 case FileResourceMimeTypeEnum.TIFF:
@@ -86,19 +86,19 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.GIF:
                 case FileResourceMimeTypeEnum.JPEG:
                 case FileResourceMimeTypeEnum.PJPEG:
-                    return File(fileResource.FileResourceData.Data, fileResource.FileResourceMimeType.FileResourceMimeTypeName);
+                    return File(fileResourceInfo.FileResourceData.Data, fileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName);
                 default:
                     // throw a more specific error that can hint to developers and assure users what needs to be done when adding a new mime type
-                    throw new SitkaDisplayErrorException($"The file type \"{fileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName}\" has not been explicitly whitelisted to download. The development team has been notified, if you continue to receive errors, please contact support.");
+                    throw new SitkaDisplayErrorException($"The file type \"{fileResourceInfo.FileResourceMimeType.FileResourceMimeTypeDisplayName}\" has not been explicitly whitelisted to download. The development team has been notified, if you continue to receive errors, please contact support.");
             }
         }
 
         [LoggedInUnclassifiedFeature]
         [CrossAreaRoute]
-        public ActionResult DisplayResourceByID(FileResourcePrimaryKey fileResourcePrimaryKey)
+        public ActionResult DisplayResourceByID(FileResourceInfoPrimaryKey fileResourceInfoPrimaryKey)
         {
-            var fileResource = fileResourcePrimaryKey.EntityObject;
-            return DisplayResourceImpl(fileResourcePrimaryKey.PrimaryKeyValue.ToString(), fileResource);
+            var fileResourceInfo = fileResourceInfoPrimaryKey.EntityObject;
+            return DisplayResourceImpl(fileResourceInfoPrimaryKey.PrimaryKeyValue.ToString(), fileResourceInfo);
         }
 
         [AnonymousUnclassifiedFeature]
@@ -109,12 +109,12 @@ namespace ProjectFirma.Web.Controllers
             var isStringAGuid = Guid.TryParse(fileResourceGuidAsString, out fileResourceGuid);
             if (isStringAGuid)
             {
-                var fileResource = HttpRequestStorage.DatabaseEntities.FileResources.SingleOrDefault(x => x.FileResourceGUID == fileResourceGuid);
-                if (fileResource != null)
+                var fileResourceInfo = HttpRequestStorage.DatabaseEntities.FileResourceInfos.SingleOrDefault(x => x.FileResourceGUID == fileResourceGuid);
+                if (fileResourceInfo != null)
                 {
                     // Happy path - return the resource
                     // ---------------------------------
-                    switch (fileResource.FileResourceMimeType.ToEnum)
+                    switch (fileResourceInfo.FileResourceMimeType.ToEnum)
                     {
                         case FileResourceMimeTypeEnum.ExcelXLS:
                         case FileResourceMimeTypeEnum.ExcelXLSX:
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
                         case FileResourceMimeTypeEnum.WordDOC:
                         case FileResourceMimeTypeEnum.PowerpointPPTX:
                         case FileResourceMimeTypeEnum.PowerpointPPT:
-                            throw new ArgumentOutOfRangeException($"Not supported mime type {fileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName}");
+                            throw new ArgumentOutOfRangeException($"Not supported mime type {fileResourceInfo.FileResourceMimeType.FileResourceMimeTypeDisplayName}");
                         case FileResourceMimeTypeEnum.XPNG:
                         case FileResourceMimeTypeEnum.PNG:
                         case FileResourceMimeTypeEnum.TIFF:
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
                         case FileResourceMimeTypeEnum.GIF:
                         case FileResourceMimeTypeEnum.JPEG:
                         case FileResourceMimeTypeEnum.PJPEG:
-                            using (var scaledImage = ImageHelper.ScaleImage(fileResource.FileResourceData.Data, maxWidth, maxHeight))
+                            using (var scaledImage = ImageHelper.ScaleImage(fileResourceInfo.FileResourceData.Data, maxWidth, maxHeight))
                             {
                                 using (var ms = new MemoryStream())
                                 {
@@ -170,11 +170,11 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageManageFeature]
         public ContentResult CkEditorUploadFileResource(FirmaPagePrimaryKey firmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var firmaPage = firmaPagePrimaryKey.EntityObject;
-            var ppImage = new FirmaPageImage(firmaPage, fileResource);
+            var ppImage = new FirmaPageImage(firmaPage, fileResourceInfo);
             HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Add(ppImage);
-            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
+            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResourceInfo));
         }
 
         /// <summary>
@@ -196,11 +196,11 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageManageFeature]
         public ContentResult CkEditorUploadFileResourceForFirmaPage(FirmaPagePrimaryKey firmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var firmaPage = firmaPagePrimaryKey.EntityObject;
-            var ppImage = new FirmaPageImage(firmaPage, fileResource);
+            var ppImage = new FirmaPageImage(firmaPage, fileResourceInfo);
             HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Add(ppImage);
-            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
+            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResourceInfo));
         }
 
         /// <summary>
@@ -221,11 +221,11 @@ namespace ProjectFirma.Web.Controllers
         [FieldDefinitionManageFeature]
         public ContentResult CkEditorUploadFileResourceForFieldDefinition(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var fieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
-            var image = new FieldDefinitionDataImage(fieldDefinition.GetFieldDefinitionData().FieldDefinitionDataID, fileResource.FileResourceID);
+            var image = new FieldDefinitionDataImage(fieldDefinition.GetFieldDefinitionData().FieldDefinitionDataID, fileResourceInfo.FileResourceInfoID);
             HttpRequestStorage.DatabaseEntities.AllFieldDefinitionDataImages.Add(image);
-            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
+            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResourceInfo));
         }
 
         public class CkEditorImageUploadViewModel
@@ -235,12 +235,12 @@ namespace ProjectFirma.Web.Controllers
             public HttpPostedFileBase upload { get; set; }
             // ReSharper restore InconsistentNaming
 
-            public string GetCkEditorJavascriptContentToReturn(FileResource fileResource)
+            public string GetCkEditorJavascriptContentToReturn(FileResourceInfo fileResourceInfo)
             {
                 var ckEditorJavascriptContentToReturn = $@"
 <script language=""javascript"" type=""text/javascript"">
     // <![CDATA[
-    window.parent.CKEDITOR.tools.callFunction({CKEditorFuncNum}, {fileResource.GetFileResourceUrl().ToJS()});
+    window.parent.CKEDITOR.tools.callFunction({CKEditorFuncNum}, {fileResourceInfo.GetFileResourceUrl().ToJS()});
     // ]]>
 </script>";
                 return ckEditorJavascriptContentToReturn;
@@ -266,11 +266,11 @@ namespace ProjectFirma.Web.Controllers
         [CustomPageManageFeature]
         public ContentResult CkEditorUploadFileResourceForCustomPage(CustomPagePrimaryKey customPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var customPage = customPagePrimaryKey.EntityObject;
-            var ppImage = new CustomPageImage(customPage, fileResource);
+            var ppImage = new CustomPageImage(customPage, fileResourceInfo);
             HttpRequestStorage.DatabaseEntities.AllCustomPageImages.Add(ppImage);
-            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
+            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResourceInfo));
         }
 
         /// <summary>
@@ -291,11 +291,11 @@ namespace ProjectFirma.Web.Controllers
         [GeospatialAreaManageFeature]
         public ContentResult CkEditorUploadFileResourceForGeospatialAreaDescription(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
-            var ppImage = new GeospatialAreaImage(geospatialArea, fileResource);
+            var ppImage = new GeospatialAreaImage(geospatialArea, fileResourceInfo);
             HttpRequestStorage.DatabaseEntities.AllGeospatialAreaImages.Add(ppImage);
-            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
+            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResourceInfo));
         }
     }
 }

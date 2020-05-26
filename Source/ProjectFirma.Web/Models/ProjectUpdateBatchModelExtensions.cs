@@ -158,10 +158,10 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectImageUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var fileResources = projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResource).ToList();
-            foreach (var fileResource in fileResources)
+            var fileResources = projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResourceInfo).ToList();
+            foreach (var fileResourceInfo in fileResources)
             {
-                fileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                fileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 

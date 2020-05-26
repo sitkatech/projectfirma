@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             var contactSupportEmail = attribute.PrimaryContactPerson.Email;
 
-            var toolLogo = attribute.TenantSquareLogoFileResource;
+            var toolLogo = attribute.TenantSquareLogoFileResourceInfo;
 
             var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail, introContent, reminderSubject, toolLogo, toolDisplayName);
 

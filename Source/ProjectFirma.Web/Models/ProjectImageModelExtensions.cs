@@ -16,12 +16,12 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.DeleteProjectImage(projectImage.ProjectImageID));
         }
 
-        public static string GetPhotoUrl(this ProjectImage projectImage) => projectImage.FileResource.GetFileResourceUrl();
+        public static string GetPhotoUrl(this ProjectImage projectImage) => projectImage.FileResourceInfo.GetFileResourceUrl();
 
-        public static string GetPhotoUrlScaledThumbnail(this ProjectImage projectImage) => projectImage.FileResource.FileResourceUrlScaledThumbnail(150);
-        public static string GetPhotoUrlLargeScaledThumbnail(this ProjectImage projectImage) => projectImage.FileResource.FileResourceUrlScaledThumbnail(200);
+        public static string GetPhotoUrlScaledThumbnail(this ProjectImage projectImage) => projectImage.FileResourceInfo.FileResourceUrlScaledThumbnail(150);
+        public static string GetPhotoUrlLargeScaledThumbnail(this ProjectImage projectImage) => projectImage.FileResourceInfo.FileResourceUrlScaledThumbnail(200);
 
-        public static string GetPhotoUrlScaledForPrint(this ProjectImage projectImage) => projectImage.FileResource.GetFileResourceUrlScaledForPrint();
+        public static string GetPhotoUrlScaledForPrint(this ProjectImage projectImage) => projectImage.FileResourceInfo.GetFileResourceUrlScaledForPrint();
 
         public static string GetCaptionOnFullView(this ProjectImage projectImage)
         {
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public static string GetCaptionOnGallery(this ProjectImage projectImage) =>
-            $"{projectImage.Caption}\r\n(Timing: {projectImage.ProjectImageTiming.ProjectImageTimingDisplayName}) {projectImage.FileResource.GetFileResourceDataLengthString()}";
+            $"{projectImage.Caption}\r\n(Timing: {projectImage.ProjectImageTiming.ProjectImageTimingDisplayName}) {projectImage.FileResourceInfo.GetFileResourceDataLengthString()}";
 
 
     }

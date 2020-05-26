@@ -119,16 +119,16 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    @if (ViewDataTyped.Organization.LogoFileResource != null)
+                                    @if (ViewDataTyped.Organization.LogoFileResourceInfo != null)
                                     {
                                         <div class="col-xs-1">
                                             <div style="text-align: center;">
-                                                <img src="@ViewDataTyped.Organization.LogoFileResource.GetFileResourceUrl()" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
+                                                <img src="@ViewDataTyped.Organization.LogoFileResourceInfo.GetFileResourceUrl()" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
                                             </div>
                                         </div>
                                     }
 
-                                    <div class="@ViewDataTyped.Organization.LogoFileResource != null ? col-xs-11 : col-xs-12">
+                                    <div class="@ViewDataTyped.Organization.LogoFileResourceInfo != null ? col-xs-11 : col-xs-12">
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.Label("Name")</div>
                                             <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationName</div>

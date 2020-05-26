@@ -67,8 +67,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataImageConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDefaultConfiguration());
-            modelBuilder.Configurations.Add(new FileResourceConfiguration());
             modelBuilder.Configurations.Add(new FileResourceDataConfiguration());
+            modelBuilder.Configurations.Add(new FileResourceInfoConfiguration());
             modelBuilder.Configurations.Add(new FirmaHomePageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
@@ -243,8 +243,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<FieldDefinition> FieldDefinitions { get; set; }
         public virtual DbSet<FileResourceData> AllFileResourceDatas { get; set; }
         public virtual IQueryable<FileResourceData> FileResourceDatas { get { return AllFileResourceDatas.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<FileResource> AllFileResources { get; set; }
-        public virtual IQueryable<FileResource> FileResources { get { return AllFileResources.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FileResourceInfo> AllFileResourceInfos { get; set; }
+        public virtual IQueryable<FileResourceInfo> FileResourceInfos { get { return AllFileResourceInfos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaHomePageImage> AllFirmaHomePageImages { get; set; }
         public virtual IQueryable<FirmaHomePageImage> FirmaHomePageImages { get { return AllFirmaHomePageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaPageImage> AllFirmaPageImages { get; set; }
@@ -597,13 +597,13 @@ namespace ProjectFirmaModels.Models
                 case "FileResourceData":
                     return FileResourceDatas.GetFileResourceData(primaryKey);
 
+                case "FileResourceInfo":
+                    return FileResourceInfos.GetFileResourceInfo(primaryKey);
+
                 case "FileResourceMimeType":
                     var fileResourceMimeType = FileResourceMimeType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(fileResourceMimeType, "FileResourceMimeType", primaryKey);
                     return fileResourceMimeType;
-
-                case "FileResource":
-                    return FileResources.GetFileResource(primaryKey);
 
                 case "FirmaHomePageImage":
                     return FirmaHomePageImages.GetFirmaHomePageImage(primaryKey);

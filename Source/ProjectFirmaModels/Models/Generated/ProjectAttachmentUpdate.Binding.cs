@@ -57,14 +57,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectAttachmentUpdate(ProjectUpdateBatch projectUpdateBatch, FileResource attachment, AttachmentType attachmentType, string displayName) : this()
+        public ProjectAttachmentUpdate(ProjectUpdateBatch projectUpdateBatch, FileResourceInfo attachment, AttachmentType attachmentType, string displayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAttachmentUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectAttachmentUpdates.Add(this);
-            this.AttachmentID = attachment.FileResourceID;
+            this.AttachmentID = attachment.FileResourceInfoID;
             this.Attachment = attachment;
             attachment.ProjectAttachmentUpdatesWhereYouAreTheAttachment.Add(this);
             this.AttachmentTypeID = attachmentType.AttachmentTypeID;
@@ -76,7 +76,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectAttachmentUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, FileResource attachment, AttachmentType attachmentType)
+        public static ProjectAttachmentUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, FileResourceInfo attachment, AttachmentType attachmentType)
         {
             return new ProjectAttachmentUpdate(projectUpdateBatch, attachment, attachmentType, default(string));
         }
@@ -136,7 +136,7 @@ namespace ProjectFirmaModels.Models
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
-        public virtual FileResource Attachment { get; set; }
+        public virtual FileResourceInfo Attachment { get; set; }
         public virtual AttachmentType AttachmentType { get; set; }
 
         public static class FieldLengths

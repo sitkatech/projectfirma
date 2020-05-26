@@ -5,7 +5,7 @@ GO
 CREATE TABLE [dbo].[ProjectImage](
 	[ProjectImageID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[FileResourceID] [int] NOT NULL,
+	[FileResourceInfoID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[ProjectImageTimingID] [int] NOT NULL,
 	[Caption] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -16,9 +16,9 @@ CREATE TABLE [dbo].[ProjectImage](
 (
 	[ProjectImageID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectImage_FileResourceID_ProjectID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectImage_FileResourceInfoID_ProjectID] UNIQUE NONCLUSTERED 
 (
-	[FileResourceID] ASC,
+	[FileResourceInfoID] ASC,
 	[ProjectID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT [AK_ProjectImage_ProjectImageID_TenantID] UNIQUE NONCLUSTERED 
@@ -29,15 +29,15 @@ CREATE TABLE [dbo].[ProjectImage](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_FileResource_FileResourceID] FOREIGN KEY([FileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_FileResourceInfo_FileResourceInfoID] FOREIGN KEY([FileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_FileResource_FileResourceID]
+ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_FileResourceInfo_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_FileResourceInfo_FileResourceInfoID_TenantID] FOREIGN KEY([FileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_FileResource_FileResourceID_TenantID]
+ALTER TABLE [dbo].[ProjectImage] CHECK CONSTRAINT [FK_ProjectImage_FileResourceInfo_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectImage]  WITH CHECK ADD  CONSTRAINT [FK_ProjectImage_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])

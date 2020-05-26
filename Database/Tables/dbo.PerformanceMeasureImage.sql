@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[PerformanceMeasureImage](
 	[PerformanceMeasureImageID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
-	[FileResourceID] [int] NOT NULL,
+	[FileResourceInfoID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureImage_PerformanceMeasureImageID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureImageID] ASC
@@ -14,15 +14,15 @@ CREATE TABLE [dbo].[PerformanceMeasureImage](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[PerformanceMeasureImage]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureImage_FileResource_FileResourceID] FOREIGN KEY([FileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[PerformanceMeasureImage]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureImage_FileResourceInfo_FileResourceInfoID] FOREIGN KEY([FileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[PerformanceMeasureImage] CHECK CONSTRAINT [FK_PerformanceMeasureImage_FileResource_FileResourceID]
+ALTER TABLE [dbo].[PerformanceMeasureImage] CHECK CONSTRAINT [FK_PerformanceMeasureImage_FileResourceInfo_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[PerformanceMeasureImage]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureImage_FileResource_FileResourceID_TenantID] FOREIGN KEY([FileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[PerformanceMeasureImage]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureImage_FileResourceInfo_FileResourceInfoID_TenantID] FOREIGN KEY([FileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[PerformanceMeasureImage] CHECK CONSTRAINT [FK_PerformanceMeasureImage_FileResource_FileResourceID_TenantID]
+ALTER TABLE [dbo].[PerformanceMeasureImage] CHECK CONSTRAINT [FK_PerformanceMeasureImage_FileResourceInfo_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[PerformanceMeasureImage]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureImage_PerformanceMeasure_PerformanceMeasureID] FOREIGN KEY([PerformanceMeasureID])
 REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID])

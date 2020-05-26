@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectImageUpdate
         public override void UpdateModel(ProjectFirmaModels.Models.ProjectImageUpdate projectImageUpdate, FirmaSession currentFirmaSession)
         {
             base.UpdateModel(projectImageUpdate, currentFirmaSession);
-            projectImageUpdate.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
+            projectImageUpdate.FileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

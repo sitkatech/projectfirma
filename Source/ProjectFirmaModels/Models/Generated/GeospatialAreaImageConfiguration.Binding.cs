@@ -18,11 +18,11 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GeospatialAreaImageID).HasColumnName(@"GeospatialAreaImageID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.GeospatialAreaID).HasColumnName(@"GeospatialAreaID").HasColumnType("int").IsRequired();
-            Property(x => x.FileResourceID).HasColumnName(@"FileResourceID").HasColumnType("int").IsRequired();
+            Property(x => x.FileResourceInfoID).HasColumnName(@"FileResourceInfoID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.GeospatialArea).WithMany(b => b.GeospatialAreaImages).HasForeignKey(c => c.GeospatialAreaID).WillCascadeOnDelete(false); // FK_GeospatialAreaImage_GeospatialArea_GeospatialAreaID
-            HasRequired(a => a.FileResource).WithMany(b => b.GeospatialAreaImages).HasForeignKey(c => c.FileResourceID).WillCascadeOnDelete(false); // FK_GeospatialAreaImage_FileResource_FileResourceID
+            HasRequired(a => a.FileResourceInfo).WithMany(b => b.GeospatialAreaImages).HasForeignKey(c => c.FileResourceInfoID).WillCascadeOnDelete(false); // FK_GeospatialAreaImage_FileResourceInfo_FileResourceInfoID
         }
     }
 }

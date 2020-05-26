@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
         public override void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, FirmaSession currentFirmaSession)
         {
             base.UpdateModel(projectImage, currentFirmaSession);
-            projectImage.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
+            projectImage.FileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
             if (projectImage.Project.ProjectImages.All(x => x.ProjectImageID == projectImage.ProjectImageID))
             {
                 projectImage.IsKeyPhoto = true;

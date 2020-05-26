@@ -54,12 +54,12 @@ namespace ProjectFirma.Api.Controllers
                 var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
                 var fileResourceMimeTypeID = fileResourceMimeType.FileResourceMimeTypeID;
                 var personID = peopleDictionary.ContainsKey(fileResourceDto.Email) ? peopleDictionary[fileResourceDto.Email].PersonID : 5278;
-                var fileResource = new FileResource(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
+                var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
                     fileResourceDto.OriginalFileExtension, fileResourceDto.FileResourceGUID,
                     personID, fileResourceDto.CreateDate);
-                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, fileResourceDto.FileResourceData));
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, fileResourceDto.FileResourceData));
 
-                organization.LogoFileResource = fileResource;
+                organization.LogoFileResourceInfo = fileResourceInfo;
             }
             _databaseEntities.AllOrganizations.Add(organization);
             _databaseEntities.SaveChangesWithNoAuditing(tenantID);
@@ -104,12 +104,12 @@ namespace ProjectFirma.Api.Controllers
                 var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
                 var fileResourceMimeTypeID = fileResourceMimeType.FileResourceMimeTypeID;
                 var personID = peopleDictionary.ContainsKey(fileResourceDto.Email) ? peopleDictionary[fileResourceDto.Email].PersonID : 5278;
-                var fileResource = new FileResource(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
+                var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
                     fileResourceDto.OriginalFileExtension, fileResourceDto.FileResourceGUID,
                     personID, fileResourceDto.CreateDate);
-                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, fileResourceDto.FileResourceData));
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, fileResourceDto.FileResourceData));
 
-                organization.LogoFileResource = fileResource;
+                organization.LogoFileResourceInfo = fileResourceInfo;
             }
 
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);

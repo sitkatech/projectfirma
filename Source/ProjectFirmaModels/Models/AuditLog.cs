@@ -45,7 +45,7 @@ namespace ProjectFirmaModels.Models
         {
             "FirmaPage",
             "FirmaPageImage",
-            "FileResource",
+            "FileResourceInfo",
             "Notification",
             "NotificationProject",
             "PerformanceMeasureActualSubcategoryOptionUpdate",

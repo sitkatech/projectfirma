@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             {
                                 <div class="col-sm-6">
                                     <a class="gallery" href="@featuredProject.GetKeyPhoto().GetPhotoUrl()" title="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()" data-caption="@Html.Raw(featuredProject.GetKeyPhoto().GetCaptionOnFullView().HtmlEncodeWithBreaks())">
-                                        <img style="width: 100%" src="@featuredProject.GetKeyPhoto().FileResource.GetFileResourceUrlScaledForPrint()" alt="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()"/>
+                                        <img style="width: 100%" src="@featuredProject.GetKeyPhoto().FileResourceInfo.GetFileResourceUrlScaledForPrint()" alt="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()"/>
                                     </a>
                                     <br/>
                                     <div>@featuredProject.GetKeyPhoto().Caption</div>
