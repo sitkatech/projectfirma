@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
-            PageTitle = "Field Definitions";
+            PageTitle = "Labels & Definitions";
 
             GridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {

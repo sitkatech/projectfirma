@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Models
         {
             var documentLibraryDocumentRoles = HttpRequestStorage.DatabaseEntities.DocumentLibraryDocumentRoles.Where(x => x.DocumentLibraryDocumentID == documentLibraryDocument.DocumentLibraryDocumentID).ToList();
             return new HtmlString(documentLibraryDocumentRoles.Any()
-                ? string.Join(", ", documentLibraryDocumentRoles.OrderBy(x => x.RoleID).Select(x => x.Role == null ? "Anonymous (Public)" : x.Role.GetRoleDisplayName()).ToList())
+                ? string.Join(", ", documentLibraryDocumentRoles.OrderBy(x => x.Role?.SortOrder).Select(x => x.Role == null ? "Anonymous (Public)" : x.Role.GetRoleDisplayName()).ToList())
                 : ViewUtilities.NoAnswerProvided);
         }
 
