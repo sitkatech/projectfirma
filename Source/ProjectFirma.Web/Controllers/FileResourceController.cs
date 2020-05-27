@@ -65,12 +65,11 @@ namespace ProjectFirma.Web.Controllers
             // If you're adding new mime types to the system, you need to add them below -- 08/29/2019 SMG
             switch (fileResourceInfo.FileResourceMimeType.ToEnum)
             {
+                case FileResourceMimeTypeEnum.PDF:
+                    return new PdfResult(fileResourceInfo);
                 case FileResourceMimeTypeEnum.ExcelXLS:
                 case FileResourceMimeTypeEnum.ExcelXLSX:
                 case FileResourceMimeTypeEnum.xExcelXLSX:
-                    return new ExcelResult(new MemoryStream(fileResourceInfo.FileResourceData.Data), fileResourceInfo.GetOriginalCompleteFileName());
-                case FileResourceMimeTypeEnum.PDF:
-                    return new PdfResult(fileResourceInfo);
                 case FileResourceMimeTypeEnum.WordDOCX:
                 case FileResourceMimeTypeEnum.WordDOC:
                 case FileResourceMimeTypeEnum.PowerpointPPTX:
