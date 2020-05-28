@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.Classification
             ThemeColor = classification.ThemeColor;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Classification classification, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.Classification classification, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
         {
             classification.DisplayName = DisplayName;
             classification.ClassificationDescription = ClassificationDescription;
@@ -86,8 +86,11 @@ namespace ProjectFirma.Web.Views.Classification
 
             if (DeleteCurrentKeyImage)
             {
+                var oldKeyImageFileResourceInfo = classification.KeyImageFileResourceInfo;
                 classification.KeyImageFileResourceInfo = null;
                 classification.KeyImageFileResourceInfoID = null;
+                oldKeyImageFileResourceInfo.FileResourceData.Delete(databaseEntities);
+                oldKeyImageFileResourceInfo.Delete(databaseEntities);
             }
 
             if (KeyImageFileResourceData != null)

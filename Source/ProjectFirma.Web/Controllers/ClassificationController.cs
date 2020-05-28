@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             }
             
             var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem.ClassificationSystemID);
-            viewModel.UpdateModel(classification, CurrentFirmaSession);
+            viewModel.UpdateModel(classification, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, classification.ClassificationSystem, classification);
             }
             
-            viewModel.UpdateModel(classification, CurrentFirmaSession);
+            viewModel.UpdateModel(classification, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
