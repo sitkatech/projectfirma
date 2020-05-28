@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
 
         public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = $"Manage {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}";
 
             var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             OrganizationTypeGridSpec = new OrganizationTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };

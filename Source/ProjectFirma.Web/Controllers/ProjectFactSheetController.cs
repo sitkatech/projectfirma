@@ -103,8 +103,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteTenantFactSheetLogoFileResource(viewModel, tenantAttribute);
             }
 
-            var tenantAttributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResource;
-            tenantAttribute.TenantFactSheetLogoFileResource = null;
+            var tenantAttributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResourceInfo;
+            tenantAttribute.TenantFactSheetLogoFileResourceInfo = null;
             tenantAttributeTenantFactSheetLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();

@@ -158,10 +158,10 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectImageUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var fileResources = projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResource).ToList();
-            foreach (var fileResource in fileResources)
+            var fileResources = projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResourceInfo).ToList();
+            foreach (var fileResourceInfo in fileResources)
             {
-                fileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                fileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 
@@ -317,15 +317,16 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateProjectBasics().IsValid;
         }
 
-        public static ProjectCustomAttributesValidationResult ValidateProjectCustomAttributes(this ProjectUpdateBatch projectUpdateBatch)
+        public static ProjectCustomAttributesValidationResult ValidateProjectCustomAttributes(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
-            return new ProjectCustomAttributesValidationResult(projectUpdateBatch.ProjectUpdate);
+            return new ProjectCustomAttributesValidationResult(projectUpdateBatch.ProjectUpdate, currentFirmaSession);
         }
 
-        public static bool AreProjectCustomAttributesValid(this ProjectUpdateBatch projectUpdateBatch)
+        public static bool AreProjectCustomAttributesValid(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
-            return projectUpdateBatch.ValidateProjectCustomAttributes().IsValid;
+            return projectUpdateBatch.ValidateProjectCustomAttributes(currentFirmaSession).IsValid;
         }
+
 
         public static List<PerformanceMeasuresValidationResult> ValidatePerformanceMeasures(this ProjectUpdateBatch projectUpdateBatch)
         {
@@ -730,7 +731,7 @@ namespace ProjectFirma.Web.Models
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
         {
             var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
-            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
+            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() && projectUpdateBatch.AreProjectCustomAttributesValid(HttpRequestStorage.FirmaSession) &&
                    areAllProjectGeospatialAreasValid;
         }
 

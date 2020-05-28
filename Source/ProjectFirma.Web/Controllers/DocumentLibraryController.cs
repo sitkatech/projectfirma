@@ -325,7 +325,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteDocument(documentLibraryDocument, viewModel);
             }
 
-            documentLibraryDocument.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            // Looks kind of weird but it will cascade delete the DocumentLibraryDocument
+            documentLibraryDocument.FileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
 
             SetMessageForDisplay($"Document '{name}' successfully deleted.");
             return new ModalDialogFormJsonResult();

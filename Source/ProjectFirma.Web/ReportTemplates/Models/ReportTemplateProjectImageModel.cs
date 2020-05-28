@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             ImageTiming = projectImage.ProjectImageTiming.ProjectImageTimingDisplayName;
             ImageCaption = projectImage.Caption;
             ImageCredit = projectImage.Credit;
-            Image = projectImage.FileResource.GetFullGuidBasedFilename();
+            Image = projectImage.FileResourceInfo.GetFullGuidBasedFilename();
             IsKeyPhoto = projectImage.IsKeyPhoto;
         }
 

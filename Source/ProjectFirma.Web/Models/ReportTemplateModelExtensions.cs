@@ -10,14 +10,14 @@ namespace ProjectFirma.Web.Models
     {
         public static HtmlString DownloadTemplateLink(this ProjectFirmaModels.Models.ReportTemplate reportTemplate)
         {
-            var linkText = reportTemplate.FileResource.OriginalBaseFilename +
-                           reportTemplate.FileResource.OriginalFileExtension;
-            return UrlTemplate.MakeHrefString(reportTemplate.FileResource.GetFileResourceUrl(), linkText);
+            var linkText = reportTemplate.FileResourceInfo.OriginalBaseFilename +
+                           reportTemplate.FileResourceInfo.OriginalFileExtension;
+            return UrlTemplate.MakeHrefString(reportTemplate.FileResourceInfo.GetFileResourceUrl(), linkText);
         }
 
         public static string FileResourceName(this ProjectFirmaModels.Models.ReportTemplate reportTemplate)
         {
-            return $"{reportTemplate.FileResource.OriginalBaseFilename}{reportTemplate.FileResource.OriginalFileExtension}";
+            return $"{reportTemplate.FileResourceInfo.OriginalBaseFilename}{reportTemplate.FileResourceInfo.OriginalFileExtension}";
         }
 
     }

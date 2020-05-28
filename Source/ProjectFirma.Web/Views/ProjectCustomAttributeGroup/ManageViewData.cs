@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
             : base(currentFirmaSession, firmaPage)
         {
             EntityName = "Attribute Group";
-            PageTitle = $"Manage {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()} Groups";
+            PageTitle = $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()} Groups";
 
             NewProjectCustomAttributeGroupUrl = SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(t => t.New());
             GridSpec = new ProjectCustomAttributeGroupGridSpec()

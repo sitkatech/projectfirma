@@ -48,22 +48,22 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <div class="row">
-                                                <a href="@document.FileResource.GetFileResourceUrl()" class="col-xs-9">
+                                                <a href="@document.FileResourceInfo.GetFileResourceUrl()" class="col-xs-9">
                                                     <strong>@document.DocumentTitle</strong>
                                                 </a>
                                                 <div class="col-xs-3 text-right">
-                                                    <strong>@document.FileResource.GetFileResourceDataLengthString()</strong>
+                                                    <strong>@document.FileResourceInfo.GetFileResourceDataLengthString()</strong>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="panel-body">
                                             <div class="media">
                                                 <div class="media-left media-middle text-center">
-                                                    <a href="@document.FileResource.GetFileResourceUrl()">
+                                                    <a href="@document.FileResourceInfo.GetFileResourceUrl()">
                                                         <p>
                                                             <strong>@document.LastUpdateDate.ToStringDate()</strong>
                                                         </p>
-                                                        <img src="@document.FileResource.FileResourceMimeType.FileResourceMimeTypeIconNormalFilename" alt="Download @document.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName"/>
+                                                        <img src="@document.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeIconNormalFilename" alt="Download @document.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeDisplayName"/>
                                                     </a>
                                                 </div>
                                                 <div class="media-body media-middle">

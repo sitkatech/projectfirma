@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
             }
 
             Add("Document Title", x => x.DocumentTitle, 150);
-            Add("File Type", x => x.FileResource.OriginalFileExtension, 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("File Type", x => x.FileResourceInfo.OriginalFileExtension, 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Description", x => x.DocumentDescription, 600);
             Add("Document Category", x => x.DocumentCategory.DocumentCategoryDisplayName, 130);
             Add(FieldDefinitionEnum.DocumentLibrary.ToType().ToGridHeaderString(), x => x.DocumentLibrary.GetDisplayNameAsUrl(), 130);

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="AuditLog.DatabaseContextExtensions.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="FileResourceData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,16 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ProjectFirmaModels.Models
 {
-    public static partial class DatabaseContextExtensions
+    public partial class FileResourceData : IAuditableEntity
     {
-        public static List<AuditLog> GetAuditLogEntriesForProject(this IQueryable<AuditLog> auditLogs, Project project)
-        {
-            return auditLogs.Where(al => al.ProjectID == project.ProjectID && al.ColumnName != "FileResourceInfoID").OrderByDescending(x => x.AuditLogDate).ToList();
-        }
+        public string GetAuditDescriptionString() => $"FileResourceInfoID: {FileResourceInfoID}, FileResourceDataID: {FileResourceDataID}";
     }
 }

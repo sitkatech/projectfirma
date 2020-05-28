@@ -269,9 +269,9 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static void DeleteProjectImages(this Project project)
         {
-            foreach (var fileResource in project.ProjectImages.Select(x => x.FileResource))
+            foreach (var fileResourceInfo in project.ProjectImages.Select(x => x.FileResourceInfo))
             {
-                fileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                fileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 
@@ -1031,6 +1031,11 @@ namespace ProjectFirma.Web.Models
         public static ProjectCustomAttributesValidationResult ValidateCustomAttributes(this Project project, FirmaSession currentFirmaSession)
         {
             return new ProjectCustomAttributesValidationResult(project, currentFirmaSession);
+        }
+
+        public static bool AreProjectCustomAttributesValid(this Project project, FirmaSession currentFirmaSession)
+        {
+            return project.ValidateCustomAttributes(currentFirmaSession).IsValid;
         }
 
         public static List<ProjectCustomAttributeType> GetCustomAttributeTypes(this Project project)

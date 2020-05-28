@@ -1,21 +1,21 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[FileResource]
+//  Source Table: [dbo].[FileResourceInfo]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace ProjectFirmaModels.Models
 {
-    public class FileResourceConfiguration : EntityTypeConfiguration<FileResource>
+    public class FileResourceInfoConfiguration : EntityTypeConfiguration<FileResourceInfo>
     {
-        public FileResourceConfiguration() : this("dbo"){}
+        public FileResourceInfoConfiguration() : this("dbo"){}
 
-        public FileResourceConfiguration(string schema)
+        public FileResourceInfoConfiguration(string schema)
         {
-            ToTable("FileResource", schema);
-            HasKey(x => x.FileResourceID);
-            Property(x => x.FileResourceID).HasColumnName(@"FileResourceID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            ToTable("FileResourceInfo", schema);
+            HasKey(x => x.FileResourceInfoID);
+            Property(x => x.FileResourceInfoID).HasColumnName(@"FileResourceInfoID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.FileResourceMimeTypeID).HasColumnName(@"FileResourceMimeTypeID").HasColumnType("int").IsRequired();
             Property(x => x.OriginalBaseFilename).HasColumnName(@"OriginalBaseFilename").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
@@ -25,7 +25,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CreateDate).HasColumnName(@"CreateDate").HasColumnType("datetime").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.CreatePerson).WithMany(b => b.FileResourcesWhereYouAreTheCreatePerson).HasForeignKey(c => c.CreatePersonID).WillCascadeOnDelete(false); // FK_FileResource_Person_CreatePersonID_PersonID
+            HasRequired(a => a.CreatePerson).WithMany(b => b.FileResourceInfosWhereYouAreTheCreatePerson).HasForeignKey(c => c.CreatePersonID).WillCascadeOnDelete(false); // FK_FileResourceInfo_Person_CreatePersonID_PersonID
         }
     }
 }

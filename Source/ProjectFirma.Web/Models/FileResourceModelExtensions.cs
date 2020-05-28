@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FileResource.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="FileResourceInfo.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -40,9 +40,9 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<string> FileResourceByGuidUrlTemplate =
             new UrlTemplate<string>(SitkaRoute<FileResourceController>.BuildUrlFromExpression(t => t.DisplayResource(UrlTemplate.Parameter1String)));
 
-        public static string GetFileResourceUrl(this FileResource fileResource)
+        public static string GetFileResourceUrl(this FileResourceInfo fileResourceInfo)
         {
-            return FileResourceByGuidUrlTemplate.ParameterReplace(fileResource.GetFileResourceGUIDAsString());
+            return FileResourceByGuidUrlTemplate.ParameterReplace(fileResourceInfo.GetFileResourceGUIDAsString());
         }
 
         public static string GetFileResourceUrl(this vProjectAttachment projectAttachment)
@@ -50,20 +50,20 @@ namespace ProjectFirma.Web.Models
             return FileResourceByGuidUrlTemplate.ParameterReplace(projectAttachment.FileResourceGUID.ToString());
         }
 
-        public static string FileResourceUrlScaledThumbnail(this FileResource fileResource, int maxHeight)
+        public static string FileResourceUrlScaledThumbnail(this FileResourceInfo fileResourceInfo, int maxHeight)
         {
-            return SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.GetFileResourceResized(fileResource.GetFileResourceGUIDAsString(), maxHeight, maxHeight));
+            return SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.GetFileResourceResized(fileResourceInfo.GetFileResourceGUIDAsString(), maxHeight, maxHeight));
         }
 
-        public static string GetFileResourceUrlScaledForPrint(this FileResource fileResource)
+        public static string GetFileResourceUrlScaledForPrint(this FileResourceInfo fileResourceInfo)
         {
             return SitkaRoute<FileResourceController>.BuildUrlFromExpression(x =>
-                x.GetFileResourceResized(fileResource.GetFileResourceGUIDAsString(), 500, 500));
+                x.GetFileResourceResized(fileResourceInfo.GetFileResourceGUIDAsString(), 500, 500));
         }
 
-        public static string GetFileResourceDataLengthString(this FileResource fileResource)
+        public static string GetFileResourceDataLengthString(this FileResourceInfo fileResourceInfo)
         {
-            return $"(~{(fileResource.FileResourceData.Data.Length / 1000).ToGroupedNumeric()} KB)";
+            return $"(~{(fileResourceInfo.FileResourceData.Data.Length / 1000).ToGroupedNumeric()} KB)";
         }
 
         public static string MaxFileSizeHumanReadable
@@ -99,25 +99,25 @@ namespace ProjectFirma.Web.Models
             return fileResourceMimeTypeForFile;
         }
 
-        public static FileResource CreateNewFromHttpPostedFileAndSave(HttpPostedFileBase httpPostedFileBase, FirmaSession currentFirmaSession)
+        public static FileResourceInfo CreateNewFromHttpPostedFileAndSave(HttpPostedFileBase httpPostedFileBase, FirmaSession currentFirmaSession)
         {
-            var fileResource = CreateNewFromHttpPostedFile(httpPostedFileBase, currentFirmaSession.Person);
-            HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
+            var fileResourceInfo = CreateNewFromHttpPostedFile(httpPostedFileBase, currentFirmaSession.Person);
+            HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.Add(fileResourceInfo);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            return fileResource;
+            return fileResourceInfo;
         }
 
         //Only public for unit testing
-        public static FileResource CreateNewFromHttpPostedFile(HttpPostedFileBase httpPostedFileBase, Person currentPerson)
+        public static FileResourceInfo CreateNewFromHttpPostedFile(HttpPostedFileBase httpPostedFileBase, Person currentPerson)
         {
             var originalFilenameInfo = new FileInfo(httpPostedFileBase.FileName);
             var baseFilenameWithoutExtension = originalFilenameInfo.Name.Remove(originalFilenameInfo.Name.Length - originalFilenameInfo.Extension.Length, originalFilenameInfo.Extension.Length);
             var fileResourceData = ConvertHttpPostedFileToByteArray(httpPostedFileBase);
             var fileResourceMimeTypeID = GetFileResourceMimeTypeForFile(httpPostedFileBase).FileResourceMimeTypeID;
-            var fileResource = new FileResource(fileResourceMimeTypeID, baseFilenameWithoutExtension, originalFilenameInfo.Extension, Guid.NewGuid(), currentPerson.PersonID, DateTime.Now);
-            fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, fileResourceData));
+            var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, baseFilenameWithoutExtension, originalFilenameInfo.Extension, Guid.NewGuid(), currentPerson.PersonID, DateTime.Now);
+            fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, fileResourceData));
 
-            return fileResource;
+            return fileResourceInfo;
         }
 
         public static void ValidateFileSize(HttpPostedFileBase httpPostedFileBase, List<ValidationResult> errors, string propertyName)
@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Models
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Based on a string that has embedded file resource URLs in it, parse out the URLs and look up the corresponding FileResource stuff
+        /// Based on a string that has embedded file resource URLs in it, parse out the URLs and look up the corresponding FileResourceInfo stuff
         /// Made public for testing purposes.
         /// </summary>
         public static List<Guid> FindAllFileResourceGuidsFromStringContainingFileResourceUrls(string textWithReferences)

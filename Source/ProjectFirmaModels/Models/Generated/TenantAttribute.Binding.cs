@@ -30,15 +30,15 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode, bool useProjectTimeline, string geoServerNamespace, bool enableEvaluations, bool enableProjectCategories, bool enableReports, int? tenantFactSheetLogoFileResourceID) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceInfoID, int? tenantBannerLogoFileResourceInfoID, int? tenantStyleSheetFileResourceInfoID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode, bool useProjectTimeline, string geoServerNamespace, bool enableEvaluations, bool enableProjectCategories, bool enableReports, int? tenantFactSheetLogoFileResourceInfoID) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
             this.MinimumYear = minimumYear;
             this.PrimaryContactPersonID = primaryContactPersonID;
-            this.TenantSquareLogoFileResourceID = tenantSquareLogoFileResourceID;
-            this.TenantBannerLogoFileResourceID = tenantBannerLogoFileResourceID;
-            this.TenantStyleSheetFileResourceID = tenantStyleSheetFileResourceID;
+            this.TenantSquareLogoFileResourceInfoID = tenantSquareLogoFileResourceInfoID;
+            this.TenantBannerLogoFileResourceInfoID = tenantBannerLogoFileResourceInfoID;
+            this.TenantStyleSheetFileResourceInfoID = tenantStyleSheetFileResourceInfoID;
             this.TenantShortDisplayName = tenantShortDisplayName;
             this.ToolDisplayName = toolDisplayName;
             this.ShowProposalsToThePublic = showProposalsToThePublic;
@@ -66,7 +66,7 @@ namespace ProjectFirmaModels.Models
             this.EnableEvaluations = enableEvaluations;
             this.EnableProjectCategories = enableProjectCategories;
             this.EnableReports = enableReports;
-            this.TenantFactSheetLogoFileResourceID = tenantFactSheetLogoFileResourceID;
+            this.TenantFactSheetLogoFileResourceInfoID = tenantFactSheetLogoFileResourceInfoID;
         }
 
         /// <summary>
@@ -190,9 +190,9 @@ namespace ProjectFirmaModels.Models
         public DbGeometry DefaultBoundingBox { get; set; }
         public int MinimumYear { get; set; }
         public int? PrimaryContactPersonID { get; set; }
-        public int? TenantSquareLogoFileResourceID { get; set; }
-        public int? TenantBannerLogoFileResourceID { get; set; }
-        public int? TenantStyleSheetFileResourceID { get; set; }
+        public int? TenantSquareLogoFileResourceInfoID { get; set; }
+        public int? TenantBannerLogoFileResourceInfoID { get; set; }
+        public int? TenantStyleSheetFileResourceInfoID { get; set; }
         public string TenantShortDisplayName { get; set; }
         public string ToolDisplayName { get; set; }
         public bool ShowProposalsToThePublic { get; set; }
@@ -238,16 +238,16 @@ namespace ProjectFirmaModels.Models
         public bool EnableEvaluations { get; set; }
         public bool EnableProjectCategories { get; set; }
         public bool EnableReports { get; set; }
-        public int? TenantFactSheetLogoFileResourceID { get; set; }
+        public int? TenantFactSheetLogoFileResourceInfoID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
-        public virtual FileResource TenantBannerLogoFileResource { get; set; }
-        public virtual FileResource TenantFactSheetLogoFileResource { get; set; }
-        public virtual FileResource TenantSquareLogoFileResource { get; set; }
-        public virtual FileResource TenantStyleSheetFileResource { get; set; }
+        public virtual FileResourceInfo TenantBannerLogoFileResourceInfo { get; set; }
+        public virtual FileResourceInfo TenantFactSheetLogoFileResourceInfo { get; set; }
+        public virtual FileResourceInfo TenantSquareLogoFileResourceInfo { get; set; }
+        public virtual FileResourceInfo TenantStyleSheetFileResourceInfo { get; set; }
         public TaxonomyLevel AssociatePerfomanceMeasureTaxonomyLevel { get { return TaxonomyLevel.AllLookupDictionary[AssociatePerfomanceMeasureTaxonomyLevelID]; } }
         public TaxonomyLevel TaxonomyLevel { get { return TaxonomyLevel.AllLookupDictionary[TaxonomyLevelID]; } }
         public AccomplishmentsDashboardFundingDisplayType AccomplishmentsDashboardFundingDisplayType { get { return AccomplishmentsDashboardFundingDisplayType.AllLookupDictionary[AccomplishmentsDashboardFundingDisplayTypeID]; } }

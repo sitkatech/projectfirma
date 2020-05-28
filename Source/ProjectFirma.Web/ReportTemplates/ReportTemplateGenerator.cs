@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.ReportTemplates
                     var projectImages = projectsList.SelectMany(x => x.ProjectImages).ToList();
                     foreach (var projectImage in projectImages)
                     {
-                        var imagePath = $"{FullTemplateTempImageDirectory}\\{projectImage.FileResource.GetFullGuidBasedFilename()}";
+                        var imagePath = $"{FullTemplateTempImageDirectory}\\{projectImage.FileResourceInfo.GetFullGuidBasedFilename()}";
                         CorrectImageProblemsAndSaveToDisk(projectImage, imagePath);
                     }
                     break;
@@ -152,7 +152,7 @@ namespace ProjectFirma.Web.ReportTemplates
                 return;
             }
 
-            using (var ms = new MemoryStream(projectImage.FileResource.FileResourceData.Data))
+            using (var ms = new MemoryStream(projectImage.FileResourceInfo.FileResourceData.Data))
             {
                 var bitmap = new Bitmap(ms);
                 using (Bitmap newBitmap = new Bitmap(bitmap))
@@ -167,7 +167,7 @@ namespace ProjectFirma.Web.ReportTemplates
             Generate();
             var fileData = File.ReadAllBytes(GetCompilePath());
             var stream = new MemoryStream(fileData);
-            return new FileResourceResult(ReportTemplate.FileResource.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
+            return new FileResourceResult(ReportTemplate.FileResourceInfo.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
         }
 
         private void CleanTempDirectoryOfOldFiles(string targetDirectory)
@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.ReportTemplates
         private void SaveTemplateFileToTempDirectory()
         {
             var filePath = GetTemplatePath();
-            File.WriteAllBytes(filePath, ReportTemplate.FileResource.FileResourceData.Data);
+            File.WriteAllBytes(filePath, ReportTemplate.FileResourceInfo.FileResourceData.Data);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <returns></returns>
         private string GetTemplatePath()
         {
-            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResourceInfo.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }
@@ -216,7 +216,7 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <returns></returns>
         private string GetCompilePath()
         {
-            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResourceInfo.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }

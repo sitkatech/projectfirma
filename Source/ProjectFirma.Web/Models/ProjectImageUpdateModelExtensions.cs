@@ -30,17 +30,17 @@ namespace ProjectFirma.Web.Models
 
         public static string GetCaptionOnGallery(this ProjectImageUpdate projectImageUpdate)
         {
-            return $"{projectImageUpdate.Caption}\r\n(Timing: {projectImageUpdate.ProjectImageTiming.ProjectImageTimingDisplayName}) {projectImageUpdate.FileResource.GetFileResourceDataLengthString()}";
+            return $"{projectImageUpdate.Caption}\r\n(Timing: {projectImageUpdate.ProjectImageTiming.ProjectImageTimingDisplayName}) {projectImageUpdate.FileResourceInfo.GetFileResourceDataLengthString()}";
         }
 
         public static string GetPhotoUrl(this ProjectImageUpdate projectImageUpdate)
         {
-            return projectImageUpdate.FileResource.GetFileResourceUrl();
+            return projectImageUpdate.FileResourceInfo.GetFileResourceUrl();
         }
 
         public static string GetPhotoUrlScaledThumbnail(this ProjectImageUpdate projectImageUpdate)
         {
-            return projectImageUpdate.FileResource.FileResourceUrlScaledThumbnail(150);
+            return projectImageUpdate.FileResourceInfo.FileResourceUrlScaledThumbnail(150);
         }
 
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
@@ -48,17 +48,17 @@ namespace ProjectFirma.Web.Models
             var project = projectUpdateBatch.Project;
             projectUpdateBatch.ProjectImageUpdates = project.ProjectImages.Select(pn =>
             {
-                var currentFileResource = pn.FileResource;
-                var newFileResource = new FileResource(currentFileResource.FileResourceMimeType,
+                var currentFileResource = pn.FileResourceInfo;
+                var newFileResource = new FileResourceInfo(currentFileResource.FileResourceMimeType,
                     currentFileResource.OriginalBaseFilename,
                     currentFileResource.OriginalFileExtension,
                     Guid.NewGuid(),
                     currentFileResource.CreatePerson,
                     currentFileResource.CreateDate);
-                newFileResource.FileResourceDatas.Add(new FileResourceData(newFileResource.FileResourceID, currentFileResource.FileResourceData.Data));
+                newFileResource.FileResourceDatas.Add(new FileResourceData(newFileResource.FileResourceInfoID, currentFileResource.FileResourceData.Data));
                 return new ProjectImageUpdate(projectUpdateBatch, pn.ProjectImageTiming, pn.Caption, pn.Credit, pn.IsKeyPhoto, pn.ExcludeFromFactSheet)
                 {
-                    FileResource = newFileResource,
+                    FileResourceInfo = newFileResource,
                     ProjectImageID = pn.ProjectImageID
                 
                 };
@@ -74,9 +74,9 @@ namespace ProjectFirma.Web.Models
             {
                 projectImageUpdatesToCommit = projectUpdateBatch.ProjectImageUpdates.Select(x =>
                 {
-                    var currentFileResource = x.FileResource;
+                    var currentFileResource = x.FileResourceInfo;
                     return new ProjectImage(x.ProjectImageID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(),
-                        currentFileResource.FileResourceID,
+                        currentFileResource.FileResourceInfoID,
                         project.ProjectID,
                         x.ProjectImageTimingID,
                         x.Caption,

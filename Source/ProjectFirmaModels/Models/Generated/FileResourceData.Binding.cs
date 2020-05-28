@@ -30,44 +30,44 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FileResourceData(int fileResourceDataID, int fileResourceID, byte[] data) : this()
+        public FileResourceData(int fileResourceDataID, int fileResourceInfoID, byte[] data) : this()
         {
             this.FileResourceDataID = fileResourceDataID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.Data = data;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FileResourceData(int fileResourceID, byte[] data) : this()
+        public FileResourceData(int fileResourceInfoID, byte[] data) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FileResourceDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.Data = data;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FileResourceData(FileResource fileResource, byte[] data) : this()
+        public FileResourceData(FileResourceInfo fileResourceInfo, byte[] data) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FileResourceDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.FileResourceID = fileResource.FileResourceID;
-            this.FileResource = fileResource;
-            fileResource.FileResourceDatas.Add(this);
+            this.FileResourceInfoID = fileResourceInfo.FileResourceInfoID;
+            this.FileResourceInfo = fileResourceInfo;
+            fileResourceInfo.FileResourceDatas.Add(this);
             this.Data = data;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static FileResourceData CreateNewBlank(FileResource fileResource)
+        public static FileResourceData CreateNewBlank(FileResourceInfo fileResourceInfo)
         {
-            return new FileResourceData(fileResource, default(byte[]));
+            return new FileResourceData(fileResourceInfo, default(byte[]));
         }
 
         /// <summary>
@@ -115,13 +115,13 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int FileResourceDataID { get; set; }
         public int TenantID { get; set; }
-        public int FileResourceID { get; set; }
+        public int FileResourceInfoID { get; set; }
         public byte[] Data { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return FileResourceDataID; } set { FileResourceDataID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual FileResource FileResource { get; set; }
+        public virtual FileResourceInfo FileResourceInfo { get; set; }
 
         public static class FieldLengths
         {

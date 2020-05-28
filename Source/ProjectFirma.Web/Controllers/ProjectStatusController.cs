@@ -106,7 +106,13 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditSortOrder(IQueryable<ProjectStatus> projectStatuses, EditSortOrderViewModel viewModel)
         {
-            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(projectStatuses), FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabelPluralized());
+            var fieldDefinitionForStatus = FieldDefinitionEnum.Status.ToType();
+            var statusLabelPluralized =
+                fieldDefinitionForStatus.GetFieldDefinitionLabel()
+                    .Equals("Status", StringComparison.InvariantCultureIgnoreCase)
+                    ? "Statuses"
+                    : fieldDefinitionForStatus.GetFieldDefinitionLabelPluralized();
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(projectStatuses), statusLabelPluralized);
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 

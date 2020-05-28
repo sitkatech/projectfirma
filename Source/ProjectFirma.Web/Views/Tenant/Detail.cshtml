@@ -271,17 +271,17 @@
             </div>
             <div class="row panel-body">
                 <div class="col-sm-4 fieldLabel text-right">
-                    @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
+                    @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantSquareLogoFileResourceInfo != null)
                     {
                         @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantSquareLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                     }
                     @Html.LabelWithSugarFor(@FieldDefinitionEnum.TenantSquareLogo.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.TenantSquareLogo.ToType().GetFieldDefinitionLabel()
                 </div>
                 <div class="col-sm-7">
-                    @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
+                    @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResourceInfo != null)
                     {
                         <div style="margin-bottom: 15px;">
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource.GetFileResourceUrl(), new { style = "max-width: 100%;" })
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResourceInfo.GetFileResourceUrl(), new { style = "max-width: 100%;" })
                         </div>
                     }
                     else
@@ -292,17 +292,17 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 fieldLabel text-right">
-                    @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
+                    @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantBannerLogoFileResourceInfo != null)
                     {
                         @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantBannerLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                     }
                     Banner Logo
                 </div>
                 <div class="col-sm-7">
-                    @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
+                    @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResourceInfo != null)
                     {
                         <div style="margin-bottom: 15px;">
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource.GetFileResourceUrl(), new { style = "max-width: 100%;" })
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResourceInfo.GetFileResourceUrl(), new { style = "max-width: 100%;" })
                         </div>
                     }
                     else
@@ -325,16 +325,16 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-2 fieldLabel text-right">
-                        @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
+                        @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantStyleSheetFileResourceInfo != null)
                         {
                             @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantStyleSheetFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                         }
                     </div>
                     <div class="col-sm-7">
-                        @if (ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
+                        @if (ViewDataTyped.TenantAttribute.TenantStyleSheetFileResourceInfo != null)
                         {
-                            <a href="@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.GetFileResourceUrl()" target="_blank">
-                                @ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.GetOriginalCompleteFileName()
+                            <a href="@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResourceInfo.GetFileResourceUrl()" target="_blank">
+                                @ViewDataTyped.TenantAttribute.TenantStyleSheetFileResourceInfo.GetOriginalCompleteFileName()
                             </a>
                         }
                         else

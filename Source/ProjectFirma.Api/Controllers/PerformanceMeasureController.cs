@@ -180,8 +180,8 @@ namespace ProjectFirma.Api.Controllers
             }
 
             // Remove all of these, too hard to merge nicely
-            _databaseEntities.AllFileResourceDatas.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResource.FileResourceData));
-            _databaseEntities.AllFileResources.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResource));
+            _databaseEntities.AllFileResourceDatas.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResourceInfo.FileResourceData));
+            _databaseEntities.AllFileResourceInfos.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResourceInfo));
             _databaseEntities.AllPerformanceMeasureImages.RemoveRange(performanceMeasure.PerformanceMeasureImages);
 
             var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
@@ -189,9 +189,9 @@ namespace ProjectFirma.Api.Controllers
             {
                 var fileResourceMimeTypeID = fileResourceMimeTypes.Single(y => y.Key.FileResourceGUID == x.FileResourceGUID).Value.FileResourceMimeTypeID;
                 var personID = peopleDictionary.ContainsKey(x.Email) ? peopleDictionary[x.Email].PersonID : 5278;
-                var fileResource = new FileResource(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, personID, x.CreateDate);
-                fileResource.FileResourceDatas.Add(new FileResourceData(fileResource.FileResourceID, x.FileResourceData));
-                var performanceMeasureImage = new PerformanceMeasureImage(performanceMeasure, fileResource);
+                var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, personID, x.CreateDate);
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, x.FileResourceData));
+                var performanceMeasureImage = new PerformanceMeasureImage(performanceMeasure, fileResourceInfo);
                 return performanceMeasureImage;
             }).ToList();
 

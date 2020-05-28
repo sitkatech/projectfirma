@@ -1765,37 +1765,37 @@ namespace ProjectFirma.Web.Controllers
         // TODO: Commented out until such time as it is appropriate to take this feature live
         //private string GeneratePartialViewForOriginalDocuments(List<IEntityDocument> entityDocumentsOriginal, List<IEntityDocument> entityDocumentsUpdated)
         //{
-        //    var fileResourceIDsInOriginal = entityDocumentsOriginal.Select(x=>x.FileResource.FileResourceID).ToList();
-        //    var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResource.FileResourceID).ToList();
+        //    var fileResourceIDsInOriginal = entityDocumentsOriginal.Select(x=>x.FileResourceInfo.FileResourceInfoID).ToList();
+        //    var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResourceInfo.FileResourceInfoID).ToList();
         //    var urlsOnlyInOriginal = fileResourceIDsInOriginal.Where(x => !fileResourceIDsInModified.Contains(x)).ToList();
 
         //    var externalLinksOriginal = EntityDocument.CreateFromEntityDocument(entityDocumentsOriginal);
         //    var externalLinksUpdated = EntityDocument.CreateFromEntityDocument(entityDocumentsUpdated);
         //    // find the ones that are only in the modified set and add them and mark them as "added"
         //    externalLinksOriginal.AddRange(
-        //        externalLinksUpdated.Where(x => !fileResourceIDsInOriginal.Contains(x.FileResource.FileResourceID))
-        //            .Select(x => new EntityDocument(x.DeleteUrl,x.EditUrl,x.FileResource,HtmlDiffContainer.DisplayCssClassAddedElement, x.DisplayName, x.Description))
+        //        externalLinksUpdated.Where(x => !fileResourceIDsInOriginal.Contains(x.FileResourceInfo.FileResourceInfoID))
+        //            .Select(x => new EntityDocument(x.DeleteUrl,x.EditUrl,x.FileResourceInfo,HtmlDiffContainer.DisplayCssClassAddedElement, x.DisplayName, x.Description))
         //            .ToList());
         //    // find the ones only in original and mark them as "deleted"
-        //    externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.FileResource.FileResourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
-        //    return GeneratePartialViewForDocuments(externalLinksOriginal.OrderBy(x => x.FileResource.FileResourceID).ToList());
+        //    externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.FileResourceInfo.FileResourceInfoID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+        //    return GeneratePartialViewForDocuments(externalLinksOriginal.OrderBy(x => x.FileResourceInfo.FileResourceInfoID).ToList());
         ////}
 
         //private string GeneratePartialViewForModifiedDocuments(List<IEntityDocument> entityDocumentsOriginal, List<IEntityDocument> entityDocumentsUpdated)
         //{
-        //     var fileResouceIDsInOriginal = entityDocumentsOriginal.Select(x => x.FileResource.FileResourceID).ToList();
-        //    var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResource.FileResourceID).ToList();
+        //     var fileResouceIDsInOriginal = entityDocumentsOriginal.Select(x => x.FileResourceInfo.FileResourceInfoID).ToList();
+        //    var fileResourceIDsInModified = entityDocumentsUpdated.Select(x => x.FileResourceInfo.FileResourceInfoID).ToList();
         //    var urlsOnlyInUpdated = fileResourceIDsInModified.Where(x => !fileResouceIDsInOriginal.Contains(x)).ToList();
 
         //    var externalLinksOriginal = EntityDocument.CreateFromEntityDocument(entityDocumentsOriginal);
         //    var externalLinksUpdated = EntityDocument.CreateFromEntityDocument(entityDocumentsUpdated);
         //    // find the ones that are only in the original set and add them and mark them as "deleted"
         //    externalLinksUpdated.AddRange(
-        //        externalLinksOriginal.Where(x => !fileResourceIDsInModified.Contains(x.FileResource.FileResourceID))
-        //            .Select(x => new EntityDocument(x.DeleteUrl, x.EditUrl, x.FileResource, HtmlDiffContainer.DisplayCssClassDeletedElement, x.DisplayName, x.Description))
+        //        externalLinksOriginal.Where(x => !fileResourceIDsInModified.Contains(x.FileResourceInfo.FileResourceInfoID))
+        //            .Select(x => new EntityDocument(x.DeleteUrl, x.EditUrl, x.FileResourceInfo, HtmlDiffContainer.DisplayCssClassDeletedElement, x.DisplayName, x.Description))
         //            .ToList());
-        //    externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.FileResource.FileResourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
-        //    return GeneratePartialViewForDocuments(externalLinksUpdated.OrderBy(x=>x.FileResource.FileResourceID).ToList());
+        //    externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.FileResourceInfo.FileResourceInfoID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+        //    return GeneratePartialViewForDocuments(externalLinksUpdated.OrderBy(x=>x.FileResourceInfo.FileResourceInfoID).ToList());
         //}
         //private string GeneratePartialViewForDocuments(List<EntityDocument> entityDocuments)
         //{
@@ -3633,7 +3633,7 @@ namespace ProjectFirma.Web.Controllers
 
             var emailContentPreview = new ProjectUpdateNotificationHelper(
                 tenantAttribute.PrimaryContactPerson.Email, introContent, "",
-                tenantAttribute.TenantSquareLogoFileResource ?? tenantAttribute.TenantBannerLogoFileResource,
+                tenantAttribute.TenantSquareLogoFileResourceInfo ?? tenantAttribute.TenantBannerLogoFileResourceInfo,
                 MultiTenantHelpers.GetToolDisplayName()).GetEmailContentPreview();
 
             return emailContentPreview;
@@ -3653,7 +3653,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewProjectCustomAttributes(Project project, ProjectUpdateBatch projectUpdateBatch, ProjectCustomAttributesViewModel viewModel)
         {
-            var customAttributesValidationResult = projectUpdateBatch.ValidateProjectCustomAttributes();
+            var customAttributesValidationResult = projectUpdateBatch.ValidateProjectCustomAttributes(CurrentFirmaSession);
             var projectCustomAttributeTypes = project.GetCustomAttributeTypes().Where(x => x.HasEditPermission(CurrentFirmaSession)).ToList();
             var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).Distinct().OrderBy(x => x.SortOrder).ToList();
             var projectUpdate = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project).ProjectUpdate;

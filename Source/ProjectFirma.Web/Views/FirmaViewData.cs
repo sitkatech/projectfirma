@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
@@ -271,7 +273,13 @@ namespace ProjectFirma.Web.Views
 
             if (MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
             {
-                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
+                var fieldDefinitionForStatus = FieldDefinitionEnum.Status.ToType();
+                var statusLabelPluralized =
+                    fieldDefinitionForStatus.GetFieldDefinitionLabel()
+                        .Equals("Status", StringComparison.InvariantCultureIgnoreCase)
+                        ? "Statuses"
+                        : fieldDefinitionForStatus.GetFieldDefinitionLabelPluralized();
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {statusLabelPluralized}", "Group1"));
             }
 
             if (MultiTenantHelpers.GetTenantAttributeFromCache().CanManageCustomAttributes)
@@ -281,7 +289,7 @@ namespace ProjectFirma.Web.Views
             }
 
             // Group 3 - Attachments
-            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized(), "Group3"));
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentTypeController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
 
             // Group 4 - External Map Layers
             configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ExternalMapLayerController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));

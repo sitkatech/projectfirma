@@ -27,7 +27,7 @@ namespace ProjectFirmaModels.Models
             this.AuditLogs = new HashSet<AuditLog>();
             this.DocumentLibraryDocumentsWhereYouAreTheLastUpdatePerson = new HashSet<DocumentLibraryDocument>();
             this.EvaluationsWhereYouAreTheCreatePerson = new HashSet<Evaluation>();
-            this.FileResourcesWhereYouAreTheCreatePerson = new HashSet<FileResource>();
+            this.FileResourceInfosWhereYouAreTheCreatePerson = new HashSet<FileResourceInfo>();
             this.FirmaSessions = new HashSet<FirmaSession>();
             this.FirmaSessionsWhereYouAreTheOriginalPerson = new HashSet<FirmaSession>();
             this.ImportExternalProjectStagingsWhereYouAreTheCreatePerson = new HashSet<ImportExternalProjectStaging>();
@@ -143,7 +143,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AuditLogs.Any() || DocumentLibraryDocumentsWhereYouAreTheLastUpdatePerson.Any() || EvaluationsWhereYouAreTheCreatePerson.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectsWhereYouAreTheSubmittedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
+            return AuditLogs.Any() || DocumentLibraryDocumentsWhereYouAreTheLastUpdatePerson.Any() || EvaluationsWhereYouAreTheCreatePerson.Any() || FileResourceInfosWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectsWhereYouAreTheSubmittedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
         }
 
         /// <summary>
@@ -168,9 +168,9 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(Evaluation).Name);
             }
 
-            if(FileResourcesWhereYouAreTheCreatePerson.Any())
+            if(FileResourceInfosWhereYouAreTheCreatePerson.Any())
             {
-                dependentObjects.Add(typeof(FileResource).Name);
+                dependentObjects.Add(typeof(FileResourceInfo).Name);
             }
 
             if(FirmaSessions.Any())
@@ -353,7 +353,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(DocumentLibraryDocument).Name, typeof(Evaluation).Name, typeof(FileResource).Name, typeof(FirmaSession).Name, typeof(ImportExternalProjectStaging).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(PersonStewardGeospatialArea).Name, typeof(PersonStewardOrganization).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(Project).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ReleaseNote).Name, typeof(SupportRequestLog).Name, typeof(TechnicalAssistanceRequest).Name, typeof(TechnicalAssistanceRequestUpdate).Name, typeof(TenantAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(DocumentLibraryDocument).Name, typeof(Evaluation).Name, typeof(FileResourceInfo).Name, typeof(FirmaSession).Name, typeof(ImportExternalProjectStaging).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(PersonStewardGeospatialArea).Name, typeof(PersonStewardOrganization).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(Project).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ReleaseNote).Name, typeof(SupportRequestLog).Name, typeof(TechnicalAssistanceRequest).Name, typeof(TechnicalAssistanceRequestUpdate).Name, typeof(TenantAttribute).Name};
 
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in FileResourcesWhereYouAreTheCreatePerson.ToList())
+            foreach(var x in FileResourceInfosWhereYouAreTheCreatePerson.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -598,7 +598,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<AuditLog> AuditLogs { get; set; }
         public virtual ICollection<DocumentLibraryDocument> DocumentLibraryDocumentsWhereYouAreTheLastUpdatePerson { get; set; }
         public virtual ICollection<Evaluation> EvaluationsWhereYouAreTheCreatePerson { get; set; }
-        public virtual ICollection<FileResource> FileResourcesWhereYouAreTheCreatePerson { get; set; }
+        public virtual ICollection<FileResourceInfo> FileResourceInfosWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<FirmaSession> FirmaSessions { get; set; }
         public virtual ICollection<FirmaSession> FirmaSessionsWhereYouAreTheOriginalPerson { get; set; }
         public virtual ICollection<ImportExternalProjectStaging> ImportExternalProjectStagingsWhereYouAreTheCreatePerson { get; set; }

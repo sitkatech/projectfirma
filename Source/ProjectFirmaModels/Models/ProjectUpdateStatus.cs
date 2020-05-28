@@ -37,7 +37,7 @@ namespace ProjectFirmaModels.Models
         public bool IsTechnicalAssistanceRequestsUpdated { get;  }
         public bool IsCustomAttributesUpdated { get; }
         public bool IsBulkSetSpatialInformationUpdated { get; }
-
+        
         public ProjectUpdateStatus(bool isBasicsUpdated,
             bool isReportedPerformanceMeasuresUpdated,
             bool isExpendituresUpdated,

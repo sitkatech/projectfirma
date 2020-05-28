@@ -31,7 +31,10 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Views.Tenant
 {
     public class EditStylesheetViewModel : FormViewModel
-    {        
+    {
+        [Required]
+        public int? TenantID { get; set; }
+
         [DisplayName("Tenant Style Sheet")]
         [SitkaFileExtensions("css")]
         [Required]
@@ -46,9 +49,17 @@ namespace ProjectFirma.Web.Views.Tenant
         {
         }
 
-        public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
+        public EditStylesheetViewModel(ProjectFirmaModels.Models.Tenant tenant)
         {
-           tenantAttribute.TenantStyleSheetFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentFirmaSession);
+            TenantID = tenant.TenantID;
+        }
+
+        public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
+        {
+            var attributeTenantStyleSheetFileResource = tenantAttribute.TenantSquareLogoFileResourceInfo;
+            tenantAttribute.TenantStyleSheetFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentFirmaSession);
+            attributeTenantStyleSheetFileResource?.FileResourceData.Delete(databaseEntities);
+            attributeTenantStyleSheetFileResource?.Delete(databaseEntities);
         }
     }
 }
