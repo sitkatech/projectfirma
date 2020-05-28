@@ -63,7 +63,14 @@
                                                         <p>
                                                             <strong>@document.LastUpdateDate.ToStringDate()</strong>
                                                         </p>
-                                                        <img src="@document.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeIconNormalFilename" alt="Download @document.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeDisplayName"/>
+                                                        @if (document.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeIconNormalFilename != null)
+                                                        {
+                                                            <img src="@document.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeIconNormalFilename" alt="Download @document.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeDisplayName" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Download @document.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeDisplayName</span>
+                                                        }
                                                     </a>
                                                 </div>
                                                 <div class="media-body media-middle">

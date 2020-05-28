@@ -55,6 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
             {
                 var attributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResourceInfo;
                 tenantAttribute.TenantFactSheetLogoFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FactSheetLogoFileResourceData, currentFirmaSession);
+                attributeTenantFactSheetLogoFileResource?.FileResourceData.Delete(databaseEntities);
                 attributeTenantFactSheetLogoFileResource?.Delete(databaseEntities);
             }
         }
