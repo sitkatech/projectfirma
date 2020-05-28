@@ -206,7 +206,7 @@ namespace ProjectFirmaModels.Models
     public partial class TenantJohnDayBasinPartnership : Tenant
     {
         private TenantJohnDayBasinPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced) {}
-        public static readonly TenantJohnDayBasinPartnership Instance = new TenantJohnDayBasinPartnership(7, @"JohnDayBasinPartnership", @"johndaybasinpartnership.localhost.projectfirma.com", @"qa.johndaybasinpartnership.org", @"johndaybasinpartnership.org", DateTime.Parse("01/01/1990"), false, false, false, false, false);
+        public static readonly TenantJohnDayBasinPartnership Instance = new TenantJohnDayBasinPartnership(7, @"JohnDayBasinPartnership", @"johndaybasinpartnership.localhost.projectfirma.com", @"qa.johndaybasinpartnership.org", @"www.johndaybasinpartnership.org", DateTime.Parse("01/01/1990"), false, false, false, false, false);
     }
 
     public partial class TenantAshlandForestAllLandsRestorationInitiative : Tenant
