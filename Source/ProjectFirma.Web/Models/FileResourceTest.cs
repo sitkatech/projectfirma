@@ -170,10 +170,10 @@ namespace ProjectFirma.Web.Models
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("ABC"), Is.False, "Simple string - can't be bad");
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl($"\"../../{ControllerPartOfUri}"), Is.True, "should be bad - not server root relative");
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl(ControllerPartOfUri), Is.True, "should be bad - not server root relative");
-            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("/FileResourceInfo/DisplayResource/9d73b8cf-1108-43c3-a7f7-e0625033adde"), Is.False, "Should be fine -- is server root relative");
+            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("/FileResource/DisplayResource/9d73b8cf-1108-43c3-a7f7-e0625033adde"), Is.False, "Should be fine -- is server root relative");
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("http://www.sitkatech.com"), Is.False, "Should be fine -- this is a site external to the ProjectFirma one being served. This kind of URL in fact *MUST* be fully qualified.");
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("http://www.sitkatech.com/products/ProjectFirma/"), Is.False, "Should be fine -- this is a site external to the ProjectFirma one being served. This kind of URL in fact *MUST* be fully qualified.");
-            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("blah blah balh file:///FileResourceInfo/DisplayResource/291562b9-d7dd-4fc5-a57a-5a3dec2fd6cd"), Is.True, "A specific example of something found at least once in real-world data that should be illegal.");
+            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("blah blah balh file:///FileResource/DisplayResource/291562b9-d7dd-4fc5-a57a-5a3dec2fd6cd"), Is.True, "A specific example of something found at least once in real-world data that should be illegal.");
         }
 
         [Test]

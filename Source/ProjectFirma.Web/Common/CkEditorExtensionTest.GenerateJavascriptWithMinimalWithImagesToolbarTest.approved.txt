@@ -10,7 +10,7 @@
             { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
             { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }
            ]
-           , filebrowserImageUploadUrl: '\/FileResourceInfo\/CkEditorUploadFileResource\/7'
+           , filebrowserImageUploadUrl: '\/FileResource\/CkEditorUploadFileResource\/7'
         });
     });
     // ]]>

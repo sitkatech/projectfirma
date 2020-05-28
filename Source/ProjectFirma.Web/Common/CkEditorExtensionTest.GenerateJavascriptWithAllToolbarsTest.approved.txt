@@ -17,7 +17,7 @@
             { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
             { name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }
            ]
-           , filebrowserImageUploadUrl: '\/FileResourceInfo\/CkEditorUploadFileResource\/7'
+           , filebrowserImageUploadUrl: '\/FileResource\/CkEditorUploadFileResource\/7'
         });
     });
     // ]]>
