@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
             : base(currentFirmaSession, neptunePage)
         {
             EntityName = "Attribute Type";
-            PageTitle = $"Manage {FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}";
 
             NewFundingSourceCustomAttributeTypeUrl = SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(t => t.New());
             GridSpec = new FundingSourceCustomAttributeTypeGridSpec()

@@ -33,6 +33,7 @@ namespace ProjectFirma.Web.Views.Home
         
         public ManageHomePageImagesViewData(FirmaSession currentFirmaSession, ImageGalleryViewData imageGalleryViewData, bool userCanAddPhotos) : base(currentFirmaSession)
         {
+            PageTitle = "Homepage Images";
             ImageGalleryViewData = imageGalleryViewData;
             UserCanAddPhotos = userCanAddPhotos;
             NewUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
