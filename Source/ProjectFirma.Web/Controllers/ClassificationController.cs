@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classification = classificationPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(classification);
-            return ViewEdit(viewModel, classification.ClassificationSystem);
+            return ViewEdit(viewModel, classification.ClassificationSystem, classification);
         }
 
         [HttpPost]
@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
             var classification = classificationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, classification.ClassificationSystem);
+                return ViewEdit(viewModel, classification.ClassificationSystem, classification);
             }
             
             viewModel.UpdateModel(classification, CurrentFirmaSession);
@@ -120,6 +120,12 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditViewModel viewModel, ClassificationSystem classificationSystem)
         {            
             var viewData = new EditViewData(classificationSystem);
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        private PartialViewResult ViewEdit(EditViewModel viewModel, ClassificationSystem classificationSystem, Classification classification)
+        {
+            var viewData = new EditViewData(classificationSystem, classification);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

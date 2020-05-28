@@ -26,10 +26,18 @@ namespace ProjectFirma.Web.Views.Classification
     public class EditViewData : FirmaUserControlViewData
     {
         public ProjectFirmaModels.Models.ClassificationSystem ClassificationSystem { get; }
+        public ProjectFirmaModels.Models.Classification Classification { get; }
 
         public EditViewData(ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
             ClassificationSystem = classificationSystem;
+        }
+
+        public EditViewData(ProjectFirmaModels.Models.ClassificationSystem classificationSystem,
+            ProjectFirmaModels.Models.Classification classification)
+        {
+            ClassificationSystem = classificationSystem;
+            Classification = classification;
         }
     }
 }
