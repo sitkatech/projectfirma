@@ -1033,6 +1033,11 @@ namespace ProjectFirma.Web.Models
             return new ProjectCustomAttributesValidationResult(project, currentFirmaSession);
         }
 
+        public static bool AreProjectCustomAttributesValid(this Project project, FirmaSession currentFirmaSession)
+        {
+            return project.ValidateCustomAttributes(currentFirmaSession).IsValid;
+        }
+
         public static List<ProjectCustomAttributeType> GetCustomAttributeTypes(this Project project)
         {
             return HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).ToList();
