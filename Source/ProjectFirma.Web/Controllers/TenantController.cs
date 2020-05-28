@@ -214,7 +214,8 @@ namespace ProjectFirma.Web.Controllers
         [SitkaAdminFeature]
         public PartialViewResult EditStylesheet()
         {
-            var viewModel = new EditStylesheetViewModel();
+            var tenant = HttpRequestStorage.Tenant;
+            var viewModel = new EditStylesheetViewModel(tenant);
             return ViewEditStylesheet(viewModel);
         }
 
@@ -228,8 +229,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditStylesheet(viewModel);
             }
 
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession);
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
+            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
@@ -383,14 +384,20 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
             }
 
             var tenantAttributeTenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResourceInfo;
+            var fileResourceDatas = tenantAttribute.TenantBannerLogoFileResourceInfo.FileResourceDatas;
+            tenantAttribute.TenantBannerLogoFileResourceInfo.FileResourceDatas = null;
             tenantAttribute.TenantBannerLogoFileResourceInfo = null;
+            foreach (var fileResourceData in fileResourceDatas)
+            {
+                fileResourceData.Delete(HttpRequestStorage.DatabaseEntities);
+            }
             tenantAttributeTenantBannerLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();
@@ -418,15 +425,20 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
-            var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
             }
 
             var tenantAttributeTenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResourceInfo;
+            var fileResourceDatas = tenantAttribute.TenantSquareLogoFileResourceInfo.FileResourceDatas;
+            tenantAttribute.TenantSquareLogoFileResourceInfo.FileResourceDatas = null;
             tenantAttribute.TenantSquareLogoFileResourceInfo = null;
+            foreach (var fileResourceData in fileResourceDatas)
+            {
+                fileResourceData.Delete(HttpRequestStorage.DatabaseEntities);
+            }
             tenantAttributeTenantSquareLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();
@@ -454,15 +466,20 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel)
         {
-            var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
             }
 
             var tenantAttributeTenantStyleSheetFileResource = tenantAttribute.TenantStyleSheetFileResourceInfo;
+            var fileResourceDatas = tenantAttribute.TenantStyleSheetFileResourceInfo.FileResourceDatas;
+            tenantAttribute.TenantStyleSheetFileResourceInfo.FileResourceDatas = null;
             tenantAttribute.TenantStyleSheetFileResourceInfo = null;
+            foreach (var fileResourceData in fileResourceDatas)
+            {
+                fileResourceData.Delete(HttpRequestStorage.DatabaseEntities);
+            }
             tenantAttributeTenantStyleSheetFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();

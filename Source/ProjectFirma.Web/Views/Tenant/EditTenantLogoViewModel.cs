@@ -64,12 +64,14 @@ namespace ProjectFirma.Web.Views.Tenant
             {
                 var attributeTenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResourceInfo;
                 tenantAttribute.TenantSquareLogoFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentFirmaSession);
+                attributeTenantSquareLogoFileResource?.FileResourceData.Delete(databaseEntities);
                 attributeTenantSquareLogoFileResource?.Delete(databaseEntities);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
                 var attributeTenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResourceInfo;
                 tenantAttribute.TenantBannerLogoFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentFirmaSession);
+                attributeTenantBannerLogoFileResource?.FileResourceData.Delete(databaseEntities);
                 attributeTenantBannerLogoFileResource?.Delete(databaseEntities);
             }
         }
