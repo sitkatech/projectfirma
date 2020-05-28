@@ -730,8 +730,13 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
-            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() && projectUpdateBatch.AreProjectCustomAttributesValid(HttpRequestStorage.FirmaSession) &&
+            bool areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
+
+            return projectUpdateBatch.AreProjectBasicsValid() && 
+                   projectUpdateBatch.AreExpendituresValid() && 
+                   projectUpdateBatch.AreReportedPerformanceMeasuresValid() &&
+                   projectUpdateBatch.IsProjectLocationSimpleValid() &&
+                   projectUpdateBatch.AreProjectCustomAttributesValid(HttpRequestStorage.FirmaSession) &&
                    areAllProjectGeospatialAreasValid;
         }
 
