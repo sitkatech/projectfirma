@@ -23,9 +23,10 @@ CREATE TABLE [dbo].[ProjectCustomAttributeType](
 	[ProjectCustomAttributeTypeID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectCustomAttributeType_ProjectCustomAttributeTypeName] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectCustomAttributeType_ProjectCustomAttributeTypeName_TenantID] UNIQUE NONCLUSTERED 
 (
-	[ProjectCustomAttributeTypeName] ASC
+	[ProjectCustomAttributeTypeName] ASC,
+	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
