@@ -1,4 +1,5 @@
-﻿using ProjectFirma.Web.Common;
+﻿using System;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -19,8 +20,14 @@ namespace ProjectFirma.Web.Views.ProjectStatus
             : base(currentFirmaSession, neptunePage)
         {
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
-            EntityName = $"{fieldDefinitionLabelProject} Status";
-            PageTitle = $"{fieldDefinitionLabelProject} Statuses";
+            var fieldDefinitionForStatus = FieldDefinitionEnum.Status.ToType();
+            var statusLabelPluralized =
+                fieldDefinitionForStatus.GetFieldDefinitionLabel()
+                    .Equals("Status", StringComparison.InvariantCultureIgnoreCase)
+                    ? "Statuses"
+                    : fieldDefinitionForStatus.GetFieldDefinitionLabelPluralized();
+            EntityName = $"{fieldDefinitionLabelProject} {fieldDefinitionForStatus.GetFieldDefinitionLabel()}";
+            PageTitle = $"{fieldDefinitionLabelProject} {statusLabelPluralized}";
 
             NewProjectStatusUrl = SitkaRoute<ProjectStatusController>.BuildUrlFromExpression(t => t.New());
             GridSpec = new ProjectStatusGridSpec()
