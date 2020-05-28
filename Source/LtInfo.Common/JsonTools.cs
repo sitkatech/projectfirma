@@ -46,7 +46,7 @@ namespace LtInfo.Common
         /// <returns></returns>
         public static string ObfuscateUrlsForMozillaPrefetching(string stringWithImgSrcUrls)
         {
-            return stringWithImgSrcUrls != null ? stringWithImgSrcUrls.Replace("img src=\"/FileResourceInfo.mvc/GetImageFile/", "fake_E2E1F9D5-57CD-4A1F-8A1B-36B1AC4EEDB9_mozilla") : null;
+            return stringWithImgSrcUrls != null ? stringWithImgSrcUrls.Replace("img src=\"/FileResource.mvc/GetImageFile/", "fake_E2E1F9D5-57CD-4A1F-8A1B-36B1AC4EEDB9_mozilla") : null;
         }
     }
 }

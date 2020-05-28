@@ -142,7 +142,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public static readonly Regex FileResourceUrlRegEx =
-            new Regex(@"FileResourceInfo\/DisplayResource\/(?<fileResourceGuidCapture>[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})",
+            new Regex(@"FileResource\/DisplayResource\/(?<fileResourceGuidCapture>[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
