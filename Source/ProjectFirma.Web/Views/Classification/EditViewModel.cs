@@ -86,8 +86,8 @@ namespace ProjectFirma.Web.Views.Classification
 
             if (DeleteCurrentKeyImage)
             {
-                classification.KeyImageFileResource = null;
-                classification.KeyImageFileResourceID = null;
+                classification.KeyImageFileResourceInfo = null;
+                classification.KeyImageFileResourceInfoID = null;
             }
 
             if (KeyImageFileResourceData != null)
