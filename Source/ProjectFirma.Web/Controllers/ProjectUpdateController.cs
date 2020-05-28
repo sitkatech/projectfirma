@@ -3653,7 +3653,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewProjectCustomAttributes(Project project, ProjectUpdateBatch projectUpdateBatch, ProjectCustomAttributesViewModel viewModel)
         {
-            var customAttributesValidationResult = projectUpdateBatch.ValidateProjectCustomAttributes();
+            var customAttributesValidationResult = projectUpdateBatch.ValidateProjectCustomAttributes(CurrentFirmaSession);
             var projectCustomAttributeTypes = project.GetCustomAttributeTypes().Where(x => x.HasEditPermission(CurrentFirmaSession)).ToList();
             var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).Distinct().OrderBy(x => x.SortOrder).ToList();
             var projectUpdate = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project).ProjectUpdate;
