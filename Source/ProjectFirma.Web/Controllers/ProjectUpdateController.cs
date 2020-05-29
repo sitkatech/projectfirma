@@ -867,7 +867,6 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-
             if (projectUpdateBatch == null)
             {
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
@@ -2382,9 +2381,9 @@ namespace ProjectFirma.Web.Controllers
         private HtmlDiffContainer DiffBasicsImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
-            var originalHtml = GeneratePartialViewForProjectBasics(project);            
+            var originalHtml = GeneratePartialViewForProjectBasics(project);
             projectUpdate.CommitChangesToProject(project);
             var updatedHtml = GeneratePartialViewForProjectBasics(project);
 
@@ -3643,10 +3642,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public ViewResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
             var viewModel = new ProjectCustomAttributesViewModel(projectUpdateBatch, CurrentFirmaSession);
             return ViewProjectCustomAttributes(project, projectUpdateBatch, viewModel);
         }
@@ -3674,7 +3677,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
             if (!ModelState.IsValid)
             {
                 return ViewProjectCustomAttributes(project, projectUpdateBatch, viewModel);
