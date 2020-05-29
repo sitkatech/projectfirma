@@ -18,16 +18,31 @@
     {
         return attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null;
     }
-
-    private string GetCheckedValueForBooleanCheckbox(ProjectCustomAttributeSimple attributeSimple)
+    
+    // This was originally a checkbox rather than a dropdown. But this caused a crash when we had an unchecked checkbox failing to POST when the Attribute was required.
+    // The crash would have been simple to fix and we could have left it as a checkbox, but in discussing that crash, and how to solve it,
+    // Mike Ferrante raised an issue. He observed that for a required field there was no way to distinguish a user that had made the deliberate CHOICE of a
+    // false unchecked checkbox from a user that simply hadn't provided any input. So, when fixing this Stewart Gordon opted to make this tri-state, with
+    // Unselected/False/True. This allows us to really know if the user made a deliberate choice for a required field.
+    //
+    // We might want to show "Yes"/"No" rather than "True"/"False" to the user, but "True"/"False" is more versatile grammatically, and it's easy to change.
+    // If users find it too geeky we'll change it.
+    // -- SLG 5/29/2020
+    private string GetCheckedValueForBooleanDropdown(ProjectCustomAttributeSimple attributeSimple, bool boolean)
     {
-        // If true, Checked
-        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true")
+        // If true option and the value is true, Selected
+        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues.Any() && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true" && boolean)
         {
-            return "checked=\"checked\"";
+            return "selected";
         }
 
-        // Otherwise, unchecked
+        // If false option and the value is false, Selected
+        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues.Any() && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "false" && !boolean)
+        {
+            return "selected";
+        }
+
+        // Otherwise, nothing
         return string.Empty;
     }
 
@@ -178,12 +193,11 @@
                             break;
 
                         case ProjectCustomAttributeDataTypeEnum.Boolean:
-                            <input type="checkbox"
-                                   id="@string.Format("checkbox_{0}", MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   @*Always true if submitted. (If unchecked, won't be submitted).*@
-                                   value="True"
-                                   name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   @GetCheckedValueForBooleanCheckbox(attributeSimple)>
+                            <select class="form-control" style="width: auto;" id="@string.Format("checkbox_{0}", MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))" name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">
+                                <option value="">Select an Option</option>
+                                <option value="True" @GetCheckedValueForBooleanDropdown(attributeSimple, true)>True</option>
+                                <option value="False" @GetCheckedValueForBooleanDropdown(attributeSimple, false)>False</option>
+                            </select>
                             break;
 
                         case ProjectCustomAttributeDataTypeEnum.LongString:
