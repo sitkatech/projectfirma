@@ -18,16 +18,22 @@
     {
         return attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null;
     }
-
-    private string GetCheckedValueForBooleanCheckbox(ProjectCustomAttributeSimple attributeSimple)
+    
+    private string GetCheckedValueForBooleanDropdown(ProjectCustomAttributeSimple attributeSimple, bool boolean)
     {
-        // If true, Checked
-        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues.Any() && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true")
+        // If true option and the value is true, Selected
+        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues.Any() && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true" && boolean)
         {
-            return "checked=\"checked\"";
+            return "selected";
         }
 
-        // Otherwise, unchecked
+        // If false option and the value is false, Selected
+        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues.Any() && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "false" && !boolean)
+        {
+            return "selected";
+        }
+
+        // Otherwise, nothing
         return string.Empty;
     }
 
@@ -178,12 +184,11 @@
                             break;
 
                         case ProjectCustomAttributeDataTypeEnum.Boolean:
-                            <input type="checkbox"
-                                   id="@string.Format("checkbox_{0}", MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   @*Always true if submitted. (If unchecked, won't be submitted).*@
-                                   value="True"
-                                   name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   @GetCheckedValueForBooleanCheckbox(attributeSimple)>
+                            <select class="form-control" style="width: auto;" id="@string.Format("checkbox_{0}", MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))" name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">
+                                <option value="">Select an Option</option>
+                                <option value="True" @GetCheckedValueForBooleanDropdown(attributeSimple, true)>True</option>
+                                <option value="False" @GetCheckedValueForBooleanDropdown(attributeSimple, false)>False</option>
+                            </select>
                             break;
 
                         case ProjectCustomAttributeDataTypeEnum.LongString:
