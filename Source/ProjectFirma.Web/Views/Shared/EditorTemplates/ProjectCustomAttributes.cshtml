@@ -22,7 +22,7 @@
     private string GetCheckedValueForBooleanCheckbox(ProjectCustomAttributeSimple attributeSimple)
     {
         // If true, Checked
-        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true")
+        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues.Any() && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true")
         {
             return "checked=\"checked\"";
         }
