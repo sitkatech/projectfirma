@@ -19,6 +19,15 @@
         return attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null;
     }
     
+    // This was originally a checkbox rather than a dropdown. But this caused a crash when we had an unchecked checkbox failing to POST when the Attribute was required.
+    // The crash would have been simple to fix and we could have left it as a checkbox, but in discussing that crash, and how to solve it,
+    // Mike Ferrante raised an issue. He observed that for a required field there was no way to distinguish a user that had made the deliberate CHOICE of a
+    // false unchecked checkbox from a user that simply hadn't provided any input. So, when fixing this Stewart Gordon opted to make this tri-state, with
+    // Unselected/False/True. This allows us to really know if the user made a deliberate choice for a required field.
+    //
+    // We might want to show "Yes"/"No" rather than "True"/"False" to the user, but "True"/"False" is more versatile grammatically, and it's easy to change.
+    // If users find it too geeky we'll change it.
+    // -- SLG 5/29/2020
     private string GetCheckedValueForBooleanDropdown(ProjectCustomAttributeSimple attributeSimple, bool boolean)
     {
         // If true option and the value is true, Selected
