@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                                                          MapInitJson mapInitJson, 
                                                          string editProjectGeospatialAreasUrl, 
                                                          string editProjectGeospatialAreasFormID, 
-                                                         List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
+                                                         List<ProjectFirmaModels.Models.fGeoServerGeospatialAreaAreasContainingProjectLocationResult> geospatialAreasContainingProjectSimpleLocation, 
                                                          bool hasProjectLocationPoint, 
                                                          bool hasProjectLocationDetail,
                                                          string editSimpleLocationUrl, bool canEdit) : base(currentFirmaSession)
@@ -57,14 +57,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 
         public BulkSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson, 
                                                                   List<GeospatialAreaType> geospatialAreaTypes, 
-                                                                  List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
+                                                                  List<ProjectFirmaModels.Models.fGeoServerGeospatialAreaAreasContainingProjectLocationResult> geospatialAreasContainingProjectSimpleLocation, 
                                                                   bool hasProjectLocationPoint,
                                                                   List<ProjectFirmaModels.Models.GeospatialArea> selectedGeospatialAreas, bool canEdit)
         {
 
-            var possibleGeospatialAreas = new List<ProjectFirmaModels.Models.GeospatialArea>();
+            var possibleGeospatialAreas = new List<ProjectFirmaModels.Models.fGeoServerGeospatialAreaAreasContainingProjectLocationResult>();
             geospatialAreasContainingProjectSimpleLocation.CopyItemsTo(possibleGeospatialAreas);
-            possibleGeospatialAreas.AddRange(selectedGeospatialAreas.Where(x => !possibleGeospatialAreas.Contains(x)));
+            possibleGeospatialAreas.AddRange(selectedGeospatialAreas.Select(x => x.MakefGeoServerGeospatialAreaAreasContainingProjectLocation()).Where(x => !possibleGeospatialAreas.Contains(x)));
             GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x =>
             {
                 var geospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList();

@@ -1042,10 +1042,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
             var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                    .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
-                    .GetGeospatialAreasContainingProjectLocation(project).ToList();
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, geospatialAreaType.GeospatialAreaTypeID).ToList();
 
 
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
@@ -1118,8 +1115,8 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
             var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(project).ToList();
+
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project,null).ToList();
 
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,

@@ -1507,10 +1507,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = GenerateEditProjectLocationFormID(project);
             var editSimpleLocationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                    .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
-                    .GetGeospatialAreasContainingProjectLocation(projectUpdate).ToList();
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, geospatialAreaType.GeospatialAreaTypeID).ToList();
 
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
@@ -1551,8 +1548,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = "BulkSetGeospatialUpdate";
             var editSimpleLocationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(projectUpdateBatch.ProjectUpdate).ToList();
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, null).ToList();
 
             var canEdit = (new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission && projectUpdateBatch.InEditableState()) || 
                           new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
