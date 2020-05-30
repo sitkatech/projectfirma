@@ -85,6 +85,13 @@ namespace ProjectFirmaModels.Models
             return GetNoFundingSourceIdentifiedAmount() ?? 0;
         }
 
+        public int ProjectOrProjectUpdateID
+        {
+            get { return ProjectID; }
+        }
+        public bool IsProject { get { return true; } }
+        public bool IsProjectUpdate { get { return false; } }
+
         public decimal? TotalExpenditures
         {
             get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount) : (decimal?)null; }

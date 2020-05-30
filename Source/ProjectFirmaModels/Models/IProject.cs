@@ -51,5 +51,10 @@ namespace ProjectFirmaModels.Models
         decimal GetTargetedFunding();
         decimal GetSecuredFunding();
         decimal GetNoFundingSourceIdentifiedAmountOrZero();
+
+        int ProjectOrProjectUpdateID { get; }
+
+        bool IsProject { get; }
+        bool IsProjectUpdate { get; }
     }
 }

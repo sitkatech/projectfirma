@@ -42,12 +42,13 @@ namespace ProjectFirma.Web.Models
             return new FeatureCollection(geospatialAreas.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
 
-        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
+        public static List<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> GetGeospatialAreasContainingProjectLocation( IProject project,int? geoSpatialAreaTypeID)
         {
             return project?.ProjectLocationPoint == null
-                ? new List<GeospatialArea>()
-                : geospatialAreas.Where(x =>
-                    x.GeospatialAreaFeature.Contains(project.ProjectLocationPoint)).ToList();
+                ? new List<fGeoServerGeospatialAreaAreasContainingProjectLocationResult>()
+                : HttpRequestStorage.DatabaseEntities.GetfGeoServerGeospatialAreaAreasContainingProjectLocation(project.ProjectOrProjectUpdateID
+                    , project.IsProject
+                    , geoSpatialAreaTypeID).ToList();
         }
 
         public static HtmlString GetDisplayNameAsUrl(this GeospatialArea geospatialArea)

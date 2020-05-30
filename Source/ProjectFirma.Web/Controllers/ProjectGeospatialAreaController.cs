@@ -94,10 +94,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormID = GetEditProjectGeospatialAreasFormID();
 
 
-            var geospatialAreasContainingProjectSimpleLocation =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                    .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
-                    .GetGeospatialAreasContainingProjectLocation(project).ToList();
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, geospatialAreaType.GeospatialAreaTypeID).ToList();
 
             var viewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormID,

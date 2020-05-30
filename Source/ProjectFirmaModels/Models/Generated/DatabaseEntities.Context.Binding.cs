@@ -11,6 +11,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -188,6 +189,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new vProjectCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new vProjectDetailConfiguration());
             modelBuilder.Configurations.Add(new vProjectFunctionallyCompleteConfiguration());
+            modelBuilder.Conventions.Add(new FunctionsConvention<DatabaseEntities>("dbo"));
         }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
@@ -473,6 +475,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<vProjectCustomAttributeValue> vProjectCustomAttributeValues { get; set; }
         public virtual DbSet<vProjectDetail> vProjectDetails { get; set; }
         public virtual DbSet<vProjectFunctionallyComplete> vProjectFunctionallyCompletes { get; set; }
+        public virtual DbSet<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> fGeoServerGeospatialAreaAreasContainingProjectLocationResults { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {
