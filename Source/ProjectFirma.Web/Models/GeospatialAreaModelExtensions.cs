@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
         {
             return project?.ProjectLocationPoint == null
                 ? new List<fGeoServerGeospatialAreaAreasContainingProjectLocationResult>()
-                : HttpRequestStorage.DatabaseEntities.GetfGeoServerGeospatialAreaAreasContainingProjectLocation(project.ProjectOrProjectUpdateID
+                : HttpRequestStorage.DatabaseEntities.GetfGeoServerGeospatialAreaAreasContainingProjectLocations(project.ProjectOrProjectUpdateID
                     , project.IsProject
                     , geoSpatialAreaTypeID).ToList();
         }
