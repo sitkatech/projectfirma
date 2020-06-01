@@ -170,30 +170,5 @@ namespace ProjectFirmaModels.Models
             return ((IObjectContextAdapter) this).ObjectContext;
         }
 
-
-        [DbFunction("DatabaseEntities", "fGeoServerGeospatialAreaAreasContainingProjectLocation")]
-        public virtual IQueryable<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> GetfGeoServerGeospatialAreaAreasContainingProjectLocation(int projectID, bool isProject, int? geospatialAreaTypeID)
-        {
-            var piProjectID = new System.Data.Entity.Core.Objects.ObjectParameter("piProjectID", typeof(int))
-            {
-                Value = projectID
-            };
-
-            var piGeospatialAreaTypeID = new System.Data.Entity.Core.Objects.ObjectParameter("piGeospatialAreaTypeID", typeof(int?))
-            {
-                Value = geospatialAreaTypeID
-            };
-
-            var pbIsProject = new System.Data.Entity.Core.Objects.ObjectParameter("pbIsProject", typeof(bool))
-            {
-                Value = isProject
-            };
-
-
-
-
-            return (this as System.Data.Entity.Infrastructure.IObjectContextAdapter).ObjectContext
-                .CreateQuery<fGeoServerGeospatialAreaAreasContainingProjectLocationResult>("DatabaseEntities.fGeoServerGeospatialAreaAreasContainingProjectLocation(@piProjectID, @pbIsProject, @piGeospatialAreaTypeID)", piProjectID, pbIsProject, piGeospatialAreaTypeID);
-        }
     }
 }

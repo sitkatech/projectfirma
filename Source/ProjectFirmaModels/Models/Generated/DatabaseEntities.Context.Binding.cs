@@ -477,6 +477,28 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<vProjectFunctionallyComplete> vProjectFunctionallyCompletes { get; set; }
         public virtual DbSet<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> fGeoServerGeospatialAreaAreasContainingProjectLocationResults { get; set; }
 
+        [DbFunction("DatabaseEntities", "fGeoServerGeospatialAreaAreasContainingProjectLocation")]
+        public virtual IQueryable<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> GetfGeoServerGeospatialAreaAreasContainingProjectLocations(int? piProjectIDParameter, bool? pbIsProjectParameter, int? piGeospatialAreaTypeIDParameter)
+        {
+            
+            var piProjectID = new System.Data.Entity.Core.Objects.ObjectParameter("piProjectID", typeof(int?))
+            {
+                Value = piProjectIDParameter
+            };
+
+            var pbIsProject = new System.Data.Entity.Core.Objects.ObjectParameter("pbIsProject", typeof(bool?))
+            {
+                Value = pbIsProjectParameter
+            };
+
+            var piGeospatialAreaTypeID = new System.Data.Entity.Core.Objects.ObjectParameter("piGeospatialAreaTypeID", typeof(int?))
+            {
+                Value = piGeospatialAreaTypeIDParameter
+            };
+            return (this as System.Data.Entity.Infrastructure.IObjectContextAdapter).ObjectContext
+                  .CreateQuery<fGeoServerGeospatialAreaAreasContainingProjectLocationResult>("DatabaseEntities.fGeoServerGeospatialAreaAreasContainingProjectLocation(@piProjectID, @pbIsProject, @piGeospatialAreaTypeID)",piProjectID, pbIsProject, piGeospatialAreaTypeID);
+        }
+
         public object LoadType(Type type, int primaryKey)
         {
             switch (type.Name)
