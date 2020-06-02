@@ -153,11 +153,26 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 if (myfield.value.trim().length >= numMinChars) {
                     var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
-                    document.location = searchUrlTemplate.ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                    document.location =
+                        searchUrlTemplate.ParameterReplace(
+                            "?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
                 }
             }
 
             jQuery(document).ready(function () {
+                //jQuery(".btn-firma").each(function () {
+                //    this.addEventListener('click', disableDoubleClick);
+                //});
+
+                //function disableDoubleClick() {
+                //    var element = jQuery(this);
+                //    element.attr('disabled', true);
+                //    setTimeout(function () { element.removeAttr('disabled') }, 300);
+                //    if (element.attr('type') == 'submit') {
+                //        jQuery("<input type='hidden' name='AutoAdvance' value=" + element.attr('value') + " />").appendTo(this.form);
+                //        this.form.submit();
+                //    }
+                //};
 
                 var pfFinder = jQuery("#@SearchResults.ProjectSearchInputTextboxID");
                 jQuery("#searchButton").click(function()
