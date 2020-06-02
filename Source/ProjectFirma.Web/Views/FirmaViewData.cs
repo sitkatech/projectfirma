@@ -64,6 +64,7 @@ namespace ProjectFirma.Web.Views
         public string TenantShortDisplayName { get; private set; }
         public string TenantToolDisplayName { get; }
         public string TenantBannerLogoUrl { get; private set; }
+        public FirmaIncludesViewData FirmaIncludesViewData { get; }
 
         /// <summary>
         /// Call for page without associated FirmaPage
@@ -107,6 +108,7 @@ namespace ProjectFirma.Web.Views
             TenantShortDisplayName = MultiTenantHelpers.GetTenantShortDisplayName();
             TenantBannerLogoUrl = MultiTenantHelpers.GetTenantBannerLogoUrl();
             TenantToolDisplayName = MultiTenantHelpers.GetToolDisplayName();
+            FirmaIncludesViewData = new FirmaIncludesViewData();
         }
 
         private void MakeFirmaMenu(FirmaSession currentFirmaSession)
