@@ -18,9 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.HtmlHelperExtensions;
 using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.Shared
 {
-    public abstract class FirmaIncludes : WebViewPage { }
+    public abstract class FirmaIncludes : LtInfo.Common.Mvc.TypedWebPartialViewPage<FirmaIncludesViewData>
+    {
+        public static void RenderPartialView(HtmlHelper html, FirmaIncludesViewData viewData)
+        {
+            html.RenderRazorSitkaPartial<FirmaIncludes, FirmaIncludesViewData>(viewData);
+        }
+
+    }
 }
