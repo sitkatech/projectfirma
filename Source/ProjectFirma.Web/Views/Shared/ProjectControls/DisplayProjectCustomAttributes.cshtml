@@ -24,6 +24,13 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes
 
+<style>
+    .projectCustomAttributes div:last-child hr {
+        display: none;
+        margin: 2em auto;
+    }
+</style>
+
 @functions
 {
     /// <summary>
@@ -37,55 +44,57 @@
     }
 }
 
-@foreach (var projectCustomAttributeGroup in ViewDataTyped.ProjectCustomAttributeGroups)
-{
-    if (ViewDataTyped.ProjectCustomAttributeGroups.Count > 1)
+<div class="projectCustomAttributes">
+    @foreach (var projectCustomAttributeGroup in ViewDataTyped.ProjectCustomAttributeGroups)
     {
-        <h4>@projectCustomAttributeGroup.ProjectCustomAttributeGroupName</h4>
-        <hr />
-    }
-    <div class="">
-        @foreach (var projectCustomAttributeType in projectCustomAttributeGroup.ProjectCustomAttributeTypes.OrderBy(x => x.SortOrder))
+        if (ViewDataTyped.ProjectCustomAttributeGroups.Count > 1)
         {
-            if (ViewDataTyped.ProjectCustomAttributeTypes.Contains(projectCustomAttributeType))
+            <h4>@projectCustomAttributeGroup.ProjectCustomAttributeGroupName</h4>
+        }
+        <div>
+            @foreach (var projectCustomAttributeType in projectCustomAttributeGroup.ProjectCustomAttributeTypes.OrderBy(x => x.SortOrder))
             {
-                var projectCustomAttribute = ViewDataTyped.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
-                <div class="row form-group-condensed">
-                    <div class="projectCustomAttributes col-xs-4 control-label">
-                        @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
-                        {
-                            @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
-                        }
-                        @projectCustomAttributeType.ProjectCustomAttributeTypeName
-                    </div>
-                    <div class="projectCustomAttributes col-xs-8">
-                        @if (projectCustomAttribute != null)
-                        {
-                            if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                if (ViewDataTyped.ProjectCustomAttributeTypes.Contains(projectCustomAttributeType))
+                {
+                    var projectCustomAttribute = ViewDataTyped.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
+                    <div class="row form-group-condensed">
+                        <div class="projectCustomAttributes col-xs-4 control-label">
+                            @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
                             {
-                                @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
                             }
-                            else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                            @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                        </div>
+                        <div class="projectCustomAttributes col-xs-8">
+                            @if (projectCustomAttribute != null)
                             {
-                                @StringFormats.ParseNullableDecimalFromCurrencyString(GetSingleProjectCustomAttributeValue(projectCustomAttribute)).ToStringCurrency()
-                            }
-                            else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
-                            {
-                                <span>@projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue</span>
-                                <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                                if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                                {
+                                    @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                                }
+                                else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                                {
+                                    @StringFormats.ParseNullableDecimalFromCurrencyString(GetSingleProjectCustomAttributeValue(projectCustomAttribute)).ToStringCurrency()
+                                }
+                                else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
+                                {
+                                    <span>@projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue</span>
+                                    <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                                }
+                                else
+                                {
+                                    @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
+                                }
                             }
                             else
                             {
-                                @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
+                                <em class="text-muted">None</em>
                             }
-                        }
-                        else
-                        {
-                            <em class="text-muted">None</em>
-                        }
+                        </div>
                     </div>
-                </div>
+                }
             }
-        }
-    </div>
-}
+            <hr/>
+        </div>
+    }
+</div>
