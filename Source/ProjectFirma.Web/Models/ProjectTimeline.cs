@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
@@ -122,6 +123,18 @@ namespace ProjectFirma.Web.Models
             }
             return editIconAsModalDialogLinkBootstrap;
         }
+        public static HtmlString MakeProjectStatusDeleteLinkButton(ProjectProjectStatus projectProjectStatus, bool canEditProjectStatus, bool canEditFinalStatusReport)
+        {
+            var deleteIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
+            if ((canEditProjectStatus && !projectProjectStatus.IsFinalStatusUpdate) || (canEditFinalStatusReport && projectProjectStatus.IsFinalStatusUpdate))
+            {
+                deleteIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.MakeDeleteLink(
+                    BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-trash",
+                        "Delete status report").ToString(),
+                    projectProjectStatus.GetDeleteProjectProjectStatusUrl(), new List<string> { }, true);
+            }
+            return deleteIconAsModalDialogLinkBootstrap;
+        }
 
         public static HtmlString MakeProjectStatusDetailsLinkButton(ProjectProjectStatus projectProjectStatus)
         {
@@ -168,6 +181,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
 
 
@@ -186,6 +200,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = project.ProposingPerson.GetPersonDisplayNameWithContactTypesListForProject(project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
 
         }
@@ -205,6 +220,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public ProjectProjectStatus ProjectProjectStatus { get; }
 
@@ -220,6 +236,7 @@ namespace ProjectFirma.Web.Models
             ProjectTimelineSide = ProjectTimelineSide.Right;
 
             EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
+            DeleteButton = ProjectTimeline.MakeProjectStatusDeleteLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
             Color = projectProjectStatus.ProjectStatus.ProjectStatusColor;
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectStatusDetailsLinkButton(projectProjectStatus);
             ProjectProjectStatus = projectProjectStatus;
@@ -239,6 +256,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
 
         public ProjectTimelineApprovalEvent(Project project)
@@ -256,6 +274,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = project.ReviewedByPerson?.GetPersonDisplayNameWithContactTypesListForProject(project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
         }
 
@@ -274,6 +293,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
 
         public ProjectTimelineUpdateEvent(ProjectUpdateBatch projectUpdateBatch)
@@ -289,6 +309,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectUpdateBatch.Project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectUpdateDetailsLinkButton(projectUpdateBatch);
         }
     }
@@ -308,6 +329,7 @@ namespace ProjectFirma.Web.Models
         ProjectTimelineSide ProjectTimelineSide { get; }
         string Color { get; }
         HtmlString EditButton { get; }
+        HtmlString DeleteButton { get; }
         HtmlString ShowDetailsLinkHtmlString { get; }
     }
 

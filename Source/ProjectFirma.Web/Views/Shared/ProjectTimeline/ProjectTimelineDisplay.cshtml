@@ -105,6 +105,10 @@
                                                             {
                                                                 <span class="timeline-event-edit-link">@projectTimelineEvent.EditButton</span>
                                                             }
+                                                            @if (!string.IsNullOrEmpty(projectTimelineEvent.DeleteButton.ToString()) && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+                                                            {
+                                                                <span class="timeline-event-edit-link">@projectTimelineEvent.DeleteButton</span>
+                                                            }
                                                             <span class="timeline-event-type">@projectTimelineEvent.TimelineEventTypeDisplayName</span>
                                                             <span class="timeline-event-date" title="@projectTimelineEvent.Date.ToString()">@projectTimelineEvent.DateDisplay</span>
                                                         </div>
