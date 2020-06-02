@@ -20,8 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.ComponentModel;
+using System.Linq;
 using System.Web;
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.CustomPage
 {
@@ -42,8 +45,17 @@ namespace ProjectFirma.Web.Views.CustomPage
             CustomPageContentHtmlString = customPage != null ? customPage.CustomPageContentHtmlString : null;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage)
+        public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage, DatabaseEntities databaseEntities)
         {
+            // delete file resources for any images that are no longer referenced in the HTML
+            var imagesToDelete = CustomPageContentHtmlString == null
+                ? customPage.CustomPageImages.ToList()
+                : customPage.CustomPageImages.Where(x => !CustomPageContentHtmlString.ToString().ContainsCaseInsensitive(x.FileResourceInfo.GetFileResourceGUIDAsString())).ToList();
+            foreach (var image in imagesToDelete)
+            {
+                // will cascade delete the CustomPageImage
+                image.FileResourceInfo.DeleteFull(databaseEntities);
+            }
             customPage.CustomPageContentHtmlString = CustomPageContentHtmlString == null || string.IsNullOrWhiteSpace(CustomPageContentHtmlString.ToString()) ? null : CustomPageContentHtmlString;
         }
     }

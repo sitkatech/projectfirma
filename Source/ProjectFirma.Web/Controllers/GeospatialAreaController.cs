@@ -192,7 +192,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditDescriptionInDialog(viewModel, geospatialArea);
             }
-            viewModel.UpdateModel(geospatialArea);
+            viewModel.UpdateModel(geospatialArea, HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 

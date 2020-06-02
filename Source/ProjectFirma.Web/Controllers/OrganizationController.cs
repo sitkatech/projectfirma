@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, true, null);
             }
             var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID);
-            viewModel.UpdateModel(organization, CurrentFirmaSession);
+            viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Organization {organization.GetDisplayNameAsUrl()} successfully created.");
@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
             }
-            viewModel.UpdateModel(organization, CurrentFirmaSession);
+            viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -349,6 +349,9 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteOrganization(organization, viewModel);
             }
             var message = $"Organization \"{organization.OrganizationName}\" successfully deleted.";
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
+            organization.LogoFileResourceInfo?.FileResourceData.Delete(databaseEntities);
+            organization.LogoFileResourceInfo?.Delete(databaseEntities);
             organization.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
 
