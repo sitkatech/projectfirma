@@ -20,8 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.ComponentModel;
+using System.Linq;
 using System.Web;
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.GeospatialArea
 {
@@ -42,8 +45,17 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             GeospatialAreaDescriptionContentHtmlString = geospatialArea?.GeospatialAreaDescriptionContentHtmlString;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea)
+        public void UpdateModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea, DatabaseEntities databaseEntities)
         {
+            // delete file resources for any images that are no longer referenced in the HTML
+            var imagesToDelete = GeospatialAreaDescriptionContentHtmlString == null
+                ? geospatialArea.GeospatialAreaImages.ToList()
+                : geospatialArea.GeospatialAreaImages.Where(x => !GeospatialAreaDescriptionContentHtmlString.ToString().ContainsCaseInsensitive(x.FileResourceInfo.GetFileResourceGUIDAsString())).ToList();
+            foreach (var image in imagesToDelete)
+            {
+                // will cascade delete the GeospatialAreaImage
+                image.FileResourceInfo.DeleteFull(databaseEntities);
+            }
             geospatialArea.GeospatialAreaDescriptionContentHtmlString = GeospatialAreaDescriptionContentHtmlString == null || string.IsNullOrWhiteSpace(GeospatialAreaDescriptionContentHtmlString.ToString()) ? null : GeospatialAreaDescriptionContentHtmlString;
         }
     }

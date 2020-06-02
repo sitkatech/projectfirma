@@ -127,7 +127,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteFirmaHomePageImage(firmaHomePageImage, viewModel);
             }
-            firmaHomePageImage.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            // will delete the File Resource and the FirmaHomePageImage row that references it
+            firmaHomePageImage.FileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
       

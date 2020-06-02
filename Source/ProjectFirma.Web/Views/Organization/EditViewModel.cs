@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Views.Organization
             OrganizationGuid = organization.OrganizationGuid;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Organization organization, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
         {
             organization.OrganizationName = OrganizationName;
             organization.OrganizationShortName = OrganizationShortName;
@@ -99,7 +99,10 @@ namespace ProjectFirma.Web.Views.Organization
             organization.OrganizationUrl = OrganizationUrl;
             if (LogoFileResourceData != null)
             {
+                var oldLogoFileResourceInfo = organization.LogoFileResourceInfo;
                 organization.LogoFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentFirmaSession);
+                oldLogoFileResourceInfo?.FileResourceData.Delete(databaseEntities);
+                oldLogoFileResourceInfo?.Delete(databaseEntities);
             }
 
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);

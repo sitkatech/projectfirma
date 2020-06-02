@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Controllers
 
             var fieldDefinitionDefault = CurrentFirmaSession.IsSitkaAdministrator() ? HttpRequestStorage.DatabaseEntities.FieldDefinitionDefaults.GetFieldDefinitionDefaultByFieldDefinition(fieldDefinitionPrimaryKey) : null;
 
-            viewModel.UpdateModel(fieldDefinitionData, fieldDefinitionDefault);
+            viewModel.UpdateModel(fieldDefinitionData, fieldDefinitionDefault, HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay("Field Definition successfully saved.");
             return RedirectToAction(new SitkaRoute<FieldDefinitionController>(x => x.Edit(fieldDefinitionData.FieldDefinition)));
         }

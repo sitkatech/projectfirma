@@ -136,7 +136,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectImage(projectImage, viewModel);
             }
             var project = projectImage.Project;
-            projectImage.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            // will delete the File Resource and the ProjectImage row that references it
+            projectImage.FileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
             // reset key photo if needed
             if (projectImage.IsKeyPhoto)
             {

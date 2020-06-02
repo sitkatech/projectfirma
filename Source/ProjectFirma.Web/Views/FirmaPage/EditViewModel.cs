@@ -19,8 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.ComponentModel;
+using System.Linq;
 using System.Web;
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.FirmaPage
 {
@@ -41,8 +44,18 @@ namespace ProjectFirma.Web.Views.FirmaPage
             FirmaPageContentHtmlString = firmaPage != null ? firmaPage.GetFirmaPageContentHtmlString() : null;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.FirmaPage firmaPage)
+        public void UpdateModel(ProjectFirmaModels.Models.FirmaPage firmaPage, DatabaseEntities databaseEntities)
         {
+            // delete file resources for any images that are no longer referenced in the HTML
+            var imagesToDelete = FirmaPageContentHtmlString == null
+                ? firmaPage.FirmaPageImages.ToList()
+                : firmaPage.FirmaPageImages.Where(x => !FirmaPageContentHtmlString.ToString().ContainsCaseInsensitive(x.FileResourceInfo.GetFileResourceGUIDAsString())).ToList();
+
+            foreach (var image in imagesToDelete)
+            {
+                // will cascade delete the FirmaPageImage
+                image.FileResourceInfo.DeleteFull(databaseEntities);
+            }
             firmaPage.FirmaPageContentHtmlString = FirmaPageContentHtmlString == null || string.IsNullOrWhiteSpace(FirmaPageContentHtmlString.ToString()) ? null : FirmaPageContentHtmlString;
         }
     }
