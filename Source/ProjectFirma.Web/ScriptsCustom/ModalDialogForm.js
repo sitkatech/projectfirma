@@ -18,33 +18,38 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+// Track the ID of open modal to prevent double-opening modals and double-submitting
+var sitkaOpenModalDialogFormID = null;
+
 function modalDialogLink(anchorTag, javascriptReadyFunction, postData) {
-    jQuery('.qtip.ui-tooltip-help').qtip('hide'); // hide any qtips
-    var element = jQuery(anchorTag);
-    var randomNumber = Math.floor(Math.random() * 10000000);
-    var dialogDivId = "SitkajQueryModalDialogUniqueID" + randomNumber;
-    var dialogContentDivId = "SitkajQueryModalDialogContentUniqueID" + randomNumber;
-    
-    var postDataAsJson;
-    if (typeof (postData) == "function") {
-        postDataAsJson = postData();
+    if (!sitkaOpenModalDialogFormID) {
+        jQuery('.qtip.ui-tooltip-help').qtip('hide'); // hide any qtips
+        var element = jQuery(anchorTag);
+        var randomNumber = Math.floor(Math.random() * 10000000);
+        var dialogDivId = "SitkajQueryModalDialogUniqueID" + randomNumber;
+        var dialogContentDivId = "SitkajQueryModalDialogContentUniqueID" + randomNumber;
+
+        var postDataAsJson;
+        if (typeof (postData) == "function") {
+            postDataAsJson = postData();
+        }
+        else {
+            postDataAsJson = postData;
+        }
+        // Load the form into the dialog div
+        var config = { type: "GET", url: anchorTag.href };
+        if (postDataAsJson != null) {
+            config = { type: "POST", url: anchorTag.href, data: JSON.stringify(postDataAsJson), contentType: "application/json" };
+        }
+        SitkaAjax.ajax(config, function (htmlContentsOfDialogBox) {
+            // defer loading of the contents so that the dialog is in place first by passing along the html string
+            createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, javascriptReadyFunction, htmlContentsOfDialogBox);
+        });
+        sitkaOpenModalDialogFormID = dialogDivId;
     }
-    else {
-        postDataAsJson = postData;
-    }
-    // Load the form into the dialog div
-    var config = { type: "GET", url: anchorTag.href };
-    if (postDataAsJson != null) {
-        config = { type: "POST", url: anchorTag.href, data: JSON.stringify(postDataAsJson), contentType: "application/json" };
-    }
-    SitkaAjax.ajax(config, function (htmlContentsOfDialogBox) {
-        // defer loading of the contents so that the dialog is in place first by passing along the html string
-        createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, javascriptReadyFunction, htmlContentsOfDialogBox);
-    });
     return false;
 }
-function findBootstrapDialogForm(optionalDialogFormId, dialogDiv)
-{
+function findBootstrapDialogForm(optionalDialogFormId, dialogDiv) {
     var form;
     if (!Sitka.Methods.isUndefinedNullOrEmpty(optionalDialogFormId)) {
         form = jQuery("#" + optionalDialogFormId, dialogDiv);
@@ -61,8 +66,7 @@ function findBootstrapDialogForm(optionalDialogFormId, dialogDiv)
     return form;
 }
 
-function createBootstrapDialogForm(element, dialogDivID, dialogContentDivId, javascriptReadyFunction, htmlContentsOfDialogBox)
-{
+function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, javascriptReadyFunction, htmlContentsOfDialogBox) {
     // Retrieve values from the HTML5 data attributes of the link        
     var dialogTitle = element.attr("data-dialog-title");
 
@@ -77,37 +81,46 @@ function createBootstrapDialogForm(element, dialogDivID, dialogContentDivId, jav
     var optionalDialogFormId = element.attr("data-optional-dialog-form-id");
     var skipAjax = (element.attr("data-skip-ajax").toLowerCase() === 'true') ? true : false;
 
-    var dialogDiv = jQuery(getModalDialogFromHtmlTemplate(dialogDivID, dialogTitle, htmlContentsOfDialogBox, width, saveButtonText, saveButtonId, cancelButtonText, cancelButtonID));
+    var dialogDiv = jQuery(getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, htmlContentsOfDialogBox, width, saveButtonText, saveButtonId, cancelButtonText, cancelButtonID));
     dialogDiv.modal({ backdrop: "static" });
     dialogDiv.draggable({ handle: ".modal-header" });
 
-    var saveButton = jQuery("#" + saveButtonId); 
+    var saveButton = jQuery("#" + saveButtonId);
     saveButton.click(function () {
-        // Manually submit the form
-        var form = findBootstrapDialogForm(optionalDialogFormId, dialogDiv);
-        // Do not submit if the form
-        // does not pass client side validation
-        if (!form.valid()) {
-            return false;
+        if (sitkaOpenModalDialogFormID == dialogDivId) {
+            // clearing sitkaOpenModalDialogFormID will block any subsequent submits
+            sitkaOpenModalDialogFormID = null;
+            // Manually submit the form
+            var form = findBootstrapDialogForm(optionalDialogFormId, dialogDiv);
+            // Do not submit if the form
+            // does not pass client side validation
+            if (!form.valid()) {
+                // reset sitkaOpenModalDialogFormID so form can be submitted again
+                sitkaOpenModalDialogFormID = dialogDivId;
+                return false;
+            }
+            form.submit();
         }
-        form.submit();
         return true;
     });
 
-    dialogDiv.on("hide.bs.modal", function()
-    {
-        // Remove all qTip tooltips
-        jQuery("*", dialogDiv).qtip("hide");
+    dialogDiv.on("hide.bs.modal", function (e) {
+        // Make sure the hide event is from the main modal, not a datepicker modal
+        if (e.target.id == dialogDivId) {
+
+            // Remove all qTip tooltips
+            jQuery("*", dialogDiv).qtip("hide");
+            sitkaOpenModalDialogFormID = null;
+        }
     });
 
-    dialogDiv.on("hidden.bs.modal", function()
-    {
+    dialogDiv.on("hidden.bs.modal", function () {
         // It turns out that closing a bootstrap UI dialog
         // does not actually remove the element from the
         // page but just hides it. For the server side 
         // validation tooltips to show up you need to
         // remove the original form the page
-        jQuery("#" + dialogDivID).remove();
+        jQuery("#" + dialogDivId).remove();
     });
 
     // Setup the ajax submit logic, has to be done after the contents are loaded
@@ -160,6 +173,7 @@ function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialo
                         // if none provided, just reload the current page
                         window.location.reload();
                     }
+                    sitkaOpenModalDialogFormID = null;
                 }
                 else {
                     // Reload the dialog to show model errors
@@ -180,35 +194,34 @@ function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialo
 
 }
 
-function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent, width, saveButtonText, saveButtonId, closeButtonText, closeButtonID)
-{
+function getModalDialogFromHtmlTemplate(dialogDivId, dialogTitle, dialogContent, width, saveButtonText, saveButtonId, closeButtonText, closeButtonID) {
     var hasRequired = dialogContent.indexOf("requiredFieldIcon") !== -1;
     var requiredLegend = hasRequired
         ? "<span><sup><span class=\"glyphicon glyphicon-flash\" style=\"color: #800020; font-size: 8px; \"></span></sup> Required Field</span>"
         : "";
 
     var modalDialogHtml =
-    "<div class='modal firma-modal' id='" + dialogDivId + "' tabindex='-1'>" +
+        "<div class='modal firma-modal' id='" + dialogDivId + "' tabindex='-1'>" +
         "<div class='modal-dialog firma-modal-dialog' style = 'width:90%; max-width: " + width + "'>" +
-            "<div class='modal-content'>" +
-                "<div class='modal-header'>" +
-                    "<button type='button' class='modal-close-button btn btn-xs btn-firma' data-dismiss='modal'><span>&times;</span></button>" +
-                    "<span class='modal-title'>" + dialogTitle + "</span>" +
-                "</div>" +
-                "<div class='modal-body'>" + dialogContent + "</div>" +
-                "<div class='modal-footer'>" +
-                    requiredLegend +
-                    "<div class='modal-footer-buttons'>" +
-                        "<button type='button' id='" + saveButtonId + "' class='btn btn-xs btn-firma'>" + saveButtonText + "</button>" +
-                        "<button type='button' id='" + closeButtonID + "' class='btn btn-xs btn-firma' data-dismiss='modal'>" + closeButtonText + "</button>" +
-                    "</div>" +
-                "</div>" +
-                "<div class='progress' style='display:none'>" +
-                    "<div class='progress-bar progress-bar-info progress-bar-striped active' role='progressbar' style='width:100%'>Saving</div>" +
-                "</div>" +
-            "</div>" +
+        "<div class='modal-content'>" +
+        "<div class='modal-header'>" +
+        "<button type='button' class='modal-close-button btn btn-xs btn-firma' data-dismiss='modal'><span>&times;</span></button>" +
+        "<span class='modal-title'>" + dialogTitle + "</span>" +
         "</div>" +
-    "</div>";
+        "<div class='modal-body'>" + dialogContent + "</div>" +
+        "<div class='modal-footer'>" +
+        requiredLegend +
+        "<div class='modal-footer-buttons'>" +
+        "<button type='button' id='" + saveButtonId + "' class='btn btn-xs btn-firma'>" + saveButtonText + "</button>" +
+        "<button type='button' id='" + closeButtonID + "' class='btn btn-xs btn-firma' data-dismiss='modal'>" + closeButtonText + "</button>" +
+        "</div>" +
+        "</div>" +
+        "<div class='progress' style='display:none'>" +
+        "<div class='progress-bar progress-bar-info progress-bar-striped active' role='progressbar' style='width:100%'>Saving</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>";
 
     return modalDialogHtml;
 }
