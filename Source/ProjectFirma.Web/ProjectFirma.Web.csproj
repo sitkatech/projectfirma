@@ -445,6 +445,7 @@
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
+    <Compile Include="Views\Shared\FirmaIncludesViewData.cs" />
     <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContacts.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewData.cs" />

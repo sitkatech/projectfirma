@@ -80,8 +80,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 SetWarningForDisplay(
                     $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} is marked as required, but is not editable " +
-                    $"by normal users. This may cause users to get blocked from completing the workflow for a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. You should consider allowing" +
-                    $" normal users to edit {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} or making it not required.");
+                    $"by normal users. You should consider allowing normal users to edit {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} or making it not required.");
             }
         }
 

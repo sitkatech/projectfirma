@@ -42,6 +42,7 @@
 
 @using (Html.BeginForm())
 {
+    // To edit the layout of this page: Views/Shared/EditorTemplates/ProjectCustomAttributes.cshtml
     <div class="form-horizontal">
         @Html.EditorFor(m => m.ProjectCustomAttributes, new {ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8, ViewDataTyped.ProjectCustomAttributeGroups})
     </div>

@@ -64,7 +64,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 
             var possibleGeospatialAreas = new List<ProjectFirmaModels.Models.fGeoServerGeospatialAreaAreasContainingProjectLocationResult>();
             geospatialAreasContainingProjectSimpleLocation.CopyItemsTo(possibleGeospatialAreas);
-            possibleGeospatialAreas.AddRange(selectedGeospatialAreas.Select(x => x.MakefGeoServerGeospatialAreaAreasContainingProjectLocation()).Where(x => !possibleGeospatialAreas.Contains(x)));
+            var possibleGeospatialAreaIDs = possibleGeospatialAreas.Select(y => y.GeospatialAreaID).ToList();
+            var selectedGeospatialAreasNotInPossibleGeospatialAreas = selectedGeospatialAreas.Select(x => x.MakefGeoServerGeospatialAreaAreasContainingProjectLocation()).Where(x => !possibleGeospatialAreaIDs.Contains(x.GeospatialAreaID));
+            possibleGeospatialAreas.AddRange(selectedGeospatialAreasNotInPossibleGeospatialAreas);
             GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x =>
             {
                 var geospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList();
