@@ -27,11 +27,13 @@ namespace ProjectFirma.Web.Views.Shared
     {
         public readonly ViewPageContentViewData ViewWholePageContentViewData;
         public readonly DisplayDocumentLibraryViewData DisplayDocumentLibraryViewData;
+        public readonly bool ShowDisplayDocumentLibrary;
 
         public DisplayPageContentViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, bool showEditButton) : base(currentFirmaSession)
         {
             PageTitle = firmaPage.GetFirmaPageDisplayName();
             ViewWholePageContentViewData = new ViewPageContentViewData(firmaPage, showEditButton);
+            ShowDisplayDocumentLibrary = false;
         }
 
         public DisplayPageContentViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.CustomPage customPage, bool showEditButton) : base(currentFirmaSession)
@@ -39,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared
             PageTitle = customPage.GetFirmaPageDisplayName();
             ViewWholePageContentViewData = new ViewPageContentViewData(customPage, showEditButton);
             DisplayDocumentLibraryViewData = new DisplayDocumentLibraryViewData(customPage, currentFirmaSession);
-
+            ShowDisplayDocumentLibrary = true;
         }
     }
 }
