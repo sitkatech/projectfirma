@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditInDialog(viewModel, firmaPage);
             }
-            viewModel.UpdateModel(firmaPage);
+            viewModel.UpdateModel(firmaPage, HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 

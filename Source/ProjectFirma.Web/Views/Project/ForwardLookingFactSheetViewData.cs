@@ -156,6 +156,12 @@ namespace ProjectFirma.Web.Views.Project
             WithCustomAttributes = withCustomAttributes;
             LastUpdated = project.LastUpdatedDate;
             FactSheetPdfEnum = factSheetPdfEnum;
+            
+            // this is used to prevent the main Sitka Google Chart scripts from being loaded onto the page and confusing WkhtmlToPDF when trying to render charts for pdf generation - 6/2/2020 SMG [#2167]
+            if (factSheetPdfEnum == ProjectController.FactSheetPdfEnum.Pdf)
+            {
+                FirmaIncludesViewData.IsIntendedForWkthmlToPDF = true;
+            }
         }
 
         public HtmlString LegendHtml

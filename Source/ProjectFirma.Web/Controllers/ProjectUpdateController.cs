@@ -2209,6 +2209,25 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update to delete for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+            // projectUpdateBatch.DeleteFull will not delete the File Resources for ProjectAttachmentUpdate or ProjectImageUpdate. Do that manually
+            if (projectUpdateBatch.ProjectAttachmentUpdates.Any())
+            {
+                foreach (var projectAttachmentUpdate in projectUpdateBatch.ProjectAttachmentUpdates.ToList())
+                {
+                    projectAttachmentUpdate.Attachment.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
+            }
+            if (projectUpdateBatch.ProjectImageUpdates.Any())
+            {
+                foreach (var projectImageUpdate in projectUpdateBatch.ProjectImageUpdates.ToList())
+                {
+                    projectImageUpdate.FileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
+            }
+            // HttpRequestStorage.DatabaseEntities.AllFileResourceDatas.RemoveRange(projectUpdateBatch.ProjectAttachmentUpdates.Select(x => x.Attachment.FileResourceData));
+            // HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.RemoveRange(projectUpdateBatch.ProjectAttachmentUpdates.Select(x => x.Attachment));
+            // HttpRequestStorage.DatabaseEntities.AllFileResourceDatas.RemoveRange(projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResourceInfo.FileResourceData));
+            // HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.RemoveRange(projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResourceInfo));
             projectUpdateBatch.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update successfully deleted.");
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));

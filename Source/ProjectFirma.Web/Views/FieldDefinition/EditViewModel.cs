@@ -24,6 +24,7 @@ using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 using System.Collections.Generic;
+using System.Linq;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
@@ -54,8 +55,18 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             FieldDefinitionDefault = fieldDefinitionDefault.DefaultDefinitionHtmlString;
         }
 
-        public void UpdateModel(FieldDefinitionData fieldDefinitionData, FieldDefinitionDefault fieldDefinitionDefault)
+        public void UpdateModel(FieldDefinitionData fieldDefinitionData, FieldDefinitionDefault fieldDefinitionDefault, DatabaseEntities databaseEntities)
         {
+            // delete file resources for any images that are no longer referenced in the HTML
+            var imagesToDelete = FieldDefinitionDataValue == null
+                ? fieldDefinitionData.FieldDefinitionDataImages.ToList()
+                : fieldDefinitionData.FieldDefinitionDataImages.Where(x => !FieldDefinitionDataValue.ToString().ContainsCaseInsensitive(x.FileResourceInfo.GetFileResourceGUIDAsString())).ToList();
+            foreach (var image in imagesToDelete)
+            {
+                // will cascade delete the FieldDefinitionDataImage
+                image.FileResourceInfo.DeleteFull(databaseEntities);
+            }
+
             fieldDefinitionData.FieldDefinitionDataValueHtmlString = FieldDefinitionDataValue;
             fieldDefinitionData.FieldDefinitionLabel = string.IsNullOrWhiteSpace(FieldDefinitionLabel) ? null : FieldDefinitionLabel;
             if (fieldDefinitionDefault != null)

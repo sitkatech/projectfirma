@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditInDialog(viewModel, customPage);
             }
-            viewModel.UpdateModel(customPage);
+            viewModel.UpdateModel(customPage, HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 

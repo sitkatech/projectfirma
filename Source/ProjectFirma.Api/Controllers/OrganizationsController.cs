@@ -109,7 +109,10 @@ namespace ProjectFirma.Api.Controllers
                     personID, fileResourceDto.CreateDate);
                 fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, fileResourceDto.FileResourceData));
 
+                var oldLogoFileResourceInfo = organization.LogoFileResourceInfo;
                 organization.LogoFileResourceInfo = fileResourceInfo;
+                oldLogoFileResourceInfo?.FileResourceData.Delete(_databaseEntities);
+                oldLogoFileResourceInfo?.Delete(_databaseEntities);
             }
 
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
@@ -128,6 +131,8 @@ namespace ProjectFirma.Api.Controllers
                 var message = $"Organization with ID = {id} not found";
                 return NotFound();
             }
+            organization.LogoFileResourceInfo?.FileResourceData.Delete(_databaseEntities);
+            organization.LogoFileResourceInfo?.Delete(_databaseEntities);
             organization.DeleteFull(_databaseEntities);
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
             return Ok();
