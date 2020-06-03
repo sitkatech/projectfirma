@@ -179,6 +179,9 @@ function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialo
                     // Reload the dialog to show model errors
                     dialogDiv.find('.modal-body').html(result);
 
+                    // Allow save after server-side validation
+                    sitkaOpenModalDialogFormID = dialogDiv.attr("id");
+
                     // Setup the ajax submit logic
                     wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId);
                 }
