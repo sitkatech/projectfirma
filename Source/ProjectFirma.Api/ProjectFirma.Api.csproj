@@ -145,6 +145,7 @@
     <Compile Include="Models\PerformanceMeasureAdditionalInformationDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureController.cs" />
     <Compile Include="Models\PerformanceMeasureCriticalDefinitionsDto.cs" />
+    <Compile Include="Models\PerformanceMeasureBasicsDto.cs" />
     <Compile Include="Models\PerformanceMeasureDto.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedValueFromProjectFirma.cs" />
     <Compile Include="Models\PerformanceMeasureImportanceDto.cs" />

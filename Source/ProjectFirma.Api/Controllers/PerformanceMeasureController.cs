@@ -39,6 +39,30 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.CriticalDefinitions = performanceMeasureDto.CriticalDefinitions;
             performanceMeasure.PerformanceMeasureDefinition = performanceMeasureDto.PerformanceMeasureDefinition;
             performanceMeasure.ProjectReporting = performanceMeasureDto.ProjectReporting;
+            performanceMeasure.Importance = performanceMeasureDto.Importance;
+            performanceMeasure.AdditionalInformation = performanceMeasureDto.AdditionalInformation;
+
+            // create file resources for images in the Importance rich text
+            var fileResourceDtos = performanceMeasureDto.FileResources;
+            var fileResourceMimeTypes = fileResourceDtos.ToDictionary(x => new { x.FileResourceGUID, x.FileResourceMimeTypeName },
+                x => MapFileResourceMimeTypeNameToFileResourceMimeType(x.FileResourceMimeTypeName));
+            if (fileResourceMimeTypes.Values.Any(x => x == null))
+            {
+                var errors =
+                    fileResourceMimeTypes.Where(x => x.Value == null).Select(x =>
+                        $"Invalid File Resource Mime Type '{x.Key.FileResourceMimeTypeName}' for '{x.Key.FileResourceGUID}'").ToList();
+                return BadRequest(string.Join("\r\n", errors));
+            }
+            var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
+            var performanceMeasureImages = fileResourceDtos.Select(x =>
+            {
+                var fileResourceMimeTypeID = fileResourceMimeTypes.Single(y => y.Key.FileResourceGUID == x.FileResourceGUID).Value.FileResourceMimeTypeID;
+                var personID = peopleDictionary.ContainsKey(x.Email) ? peopleDictionary[x.Email].PersonID : 5278;
+                var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, personID, x.CreateDate);
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, x.FileResourceData));
+                var performanceMeasureImage = new PerformanceMeasureImage(performanceMeasure, fileResourceInfo);
+                return performanceMeasureImage;
+            }).ToList();
 
             var tenantID = Tenant.ActionAgendaForPugetSound.TenantID;
             foreach (var performanceMeasureSubcategoryDto in performanceMeasureDto.PerformanceMeasureSubcategories)
@@ -93,6 +117,9 @@ namespace ProjectFirma.Api.Controllers
             return FileResourceMimeType.All.SingleOrDefault(x => x.FileResourceMimeTypeDisplayName.Equals(googleChartTypeName, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        /// <summary>
+        /// Updates everything about a Performance Measure. Currently unused.
+        /// </summary>
         [Route("api/PerformanceMeasures/UpdatePerformanceMeasure/{apiKey}")]
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasure(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
@@ -130,7 +157,74 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID;
             performanceMeasure.IsSummable = performanceMeasureDto.IsSummable;
             performanceMeasure.Importance = performanceMeasureDto.Importance;
+            var fileResourceDtos = performanceMeasureDto.FileResources;
+            var fileResourceMimeTypes = fileResourceDtos.ToDictionary(x => new { x.FileResourceGUID, x.FileResourceMimeTypeName },
+                x => MapFileResourceMimeTypeNameToFileResourceMimeType(x.FileResourceMimeTypeName));
+            if (fileResourceMimeTypes.Values.Any(x => x == null))
+            {
+                var errors =
+                fileResourceMimeTypes.Where(x => x.Value == null).Select(x =>
+                    $"Invalid File Resource Mime Type '{x.Key.FileResourceMimeTypeName}' for '{x.Key.FileResourceGUID}'").ToList();
+                return BadRequest(string.Join("\r\n", errors));
+            }
+
+            // Remove all of these, too hard to merge nicely
+            _databaseEntities.AllFileResourceDatas.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResourceInfo.FileResourceData));
+            _databaseEntities.AllFileResourceInfos.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResourceInfo));
+            _databaseEntities.AllPerformanceMeasureImages.RemoveRange(performanceMeasure.PerformanceMeasureImages);
+
+            var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
+            var performanceMeasureImagesToUpdate = fileResourceDtos.Select(x =>
+            {
+                var fileResourceMimeTypeID = fileResourceMimeTypes.Single(y => y.Key.FileResourceGUID == x.FileResourceGUID).Value.FileResourceMimeTypeID;
+                var personID = peopleDictionary.ContainsKey(x.Email) ? peopleDictionary[x.Email].PersonID : 5278;
+                var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, personID, x.CreateDate);
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, x.FileResourceData));
+                var performanceMeasureImage = new PerformanceMeasureImage(performanceMeasure, fileResourceInfo);
+                return performanceMeasureImage;
+            }).ToList();
+
             performanceMeasure.AdditionalInformation = performanceMeasureDto.AdditionalInformation;
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureBasics/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureBasics(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
+        {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            var performanceMeasureType = MapPerformanceMeasureTypeNameToPerformanceMeasureType(performanceMeasureDto.PerformanceMeasureTypeName);
+            var performanceMeasureDataSourceType = MapPerformanceMeasureDataSourceTypeNameToPerformanceMeasureDataSourceType(performanceMeasureDto.PerformanceMeasureDataSourceTypeName);
+            var measurementUnitType = MapMeasurementUnitTypeNameToMeasurementUnitType(performanceMeasureDto.MeasurementUnitTypeName);
+            if (performanceMeasureType == null)
+            {
+                return BadRequest($"Invalid Performance Measure Type: {performanceMeasureDto.PerformanceMeasureTypeName}");
+            }
+            if (performanceMeasureDataSourceType == null)
+            {
+                return BadRequest($"Invalid Performance Measure Data Source Type: {performanceMeasureDto.PerformanceMeasureDataSourceTypeName}");
+            }
+            if (measurementUnitType == null)
+            {
+                return BadRequest($"Invalid Measurement Unit: {performanceMeasureDto.MeasurementUnitTypeName}");
+            }
+
+            performanceMeasure.PerformanceMeasureDisplayName = performanceMeasureDto.PerformanceMeasureDisplayName;
+            performanceMeasure.PerformanceMeasureDefinition = performanceMeasureDto.PerformanceMeasureDefinition;
+            performanceMeasure.MeasurementUnitTypeID = measurementUnitType.MeasurementUnitTypeID;
+            performanceMeasure.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
+            performanceMeasure.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID;
+            performanceMeasure.IsSummable = performanceMeasureDto.IsSummable;
+
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
             var performanceMeasureReloaded = new PerformanceMeasureDto(performanceMeasure);
             return Ok(performanceMeasureReloaded);
