@@ -169,7 +169,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     setTimeout(function () { element.removeAttr('disabled') }, 300);
                     if (element.attr('type') == 'submit') {
                         jQuery(window).off("beforeunload");
-                        jQuery("<input type='hidden' name='AutoAdvance' value=" + element.attr('value') + " />").appendTo(this.form);
+                        var autoAdvanceValue = element.attr('value') || "true";
+                        jQuery("<input type='hidden' name='AutoAdvance' value=" + autoAdvanceValue + " />").appendTo(this.form);
                         this.form.submit();
                     }
                 };
