@@ -27,6 +27,9 @@
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewWholePageContentViewData); }
 </div>
-<div>
-    @{ DisplayDocumentLibrary.RenderPartialView(Html, ViewDataTyped.DisplayDocumentLibraryViewData); }
-</div>
+@if (ViewDataTyped.DisplayDocumentLibraryViewData != null)
+{
+    <div>
+        @{ DisplayDocumentLibrary.RenderPartialView(Html, ViewDataTyped.DisplayDocumentLibraryViewData); }
+    </div>
+}
