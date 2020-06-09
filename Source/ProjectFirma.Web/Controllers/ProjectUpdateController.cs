@@ -2220,10 +2220,6 @@ namespace ProjectFirma.Web.Controllers
                     projectImageUpdate.FileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
             }
-            // HttpRequestStorage.DatabaseEntities.AllFileResourceDatas.RemoveRange(projectUpdateBatch.ProjectAttachmentUpdates.Select(x => x.Attachment.FileResourceData));
-            // HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.RemoveRange(projectUpdateBatch.ProjectAttachmentUpdates.Select(x => x.Attachment));
-            // HttpRequestStorage.DatabaseEntities.AllFileResourceDatas.RemoveRange(projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResourceInfo.FileResourceData));
-            // HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.RemoveRange(projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResourceInfo));
             projectUpdateBatch.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update successfully deleted.");
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
