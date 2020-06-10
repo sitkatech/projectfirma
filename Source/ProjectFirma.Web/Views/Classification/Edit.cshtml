@@ -93,7 +93,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(x => x.KeyImageFileResourceData)
             </div>
             <div class="col-sm-9">
-                @if (ViewDataTyped.Classification != null && ViewDataTyped.Classification.KeyImageFileResourceInfo != null)
+                @if (ViewDataTyped.HasClassificationKeyImageFileResourceInfo)
                 {
                     <div class="classification-current-image-wrapper">
                         <div class="classification-current-image">
@@ -104,7 +104,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     </div>
                 }
-                <div class="classification-image-upload-wrapper" style="display:@( (ViewDataTyped.Classification.KeyImageFileResourceInfo != null) ? "none" : "block" );">
+                <div class="classification-image-upload-wrapper" style="display:@( (ViewDataTyped.HasClassificationKeyImageFileResourceInfo) ? "none" : "block" );">
                     @Html.EditorFor(x => x.KeyImageFileResourceData)
                     <span class="smallExplanationText">
                         Allowed Extensions: @Model.GetFileExtensions(x => x.KeyImageFileResourceData)
