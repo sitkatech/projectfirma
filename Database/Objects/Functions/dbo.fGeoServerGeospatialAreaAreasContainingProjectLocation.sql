@@ -21,12 +21,14 @@ BEGIN
     if(@pbIsProject = 1)
     begin
         set @viGeometry = (select p.ProjectLocationPoint from dbo.Project p where p.ProjectID = @piProjectID)
+        set @viTenantID = (select p.TenantID from dbo.Project p where p.ProjectID = @piProjectID)
     end
     else
      begin
         set @viGeometry = (select pu.ProjectLocationPoint from dbo.ProjectUpdate pu where pu.ProjectUpdateID = @piProjectID)
+        set @viTenantID = (select pu.TenantID from dbo.ProjectUpdate pu where pu.ProjectUpdateID = @piProjectID)
     end
-    set @viTenantID = (select p.TenantID from dbo.Project p where p.ProjectID = @piProjectID)
+    
 
 	INSERT @GeospatialAreaTable
 
@@ -41,4 +43,3 @@ BEGIN
 	RETURN
 END
 go
-
