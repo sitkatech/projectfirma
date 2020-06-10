@@ -95,6 +95,7 @@ namespace ProjectFirma.Web.Views.Reports
                 // delete the old FileResourceInfo
                 var oldFileResource =
                     HttpRequestStorage.DatabaseEntities.FileResourceInfos.First(x => x.FileResourceInfoID == FileResourceInfoID);
+                oldFileResource.FileResourceData.Delete(databaseEntities);
                 oldFileResource.Delete(databaseEntities);
             }
         }
