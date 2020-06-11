@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(projectAttachmentUpdate, viewModel);
             }
             projectAttachmentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
-            projectAttachmentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            projectAttachmentUpdate.Attachment.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

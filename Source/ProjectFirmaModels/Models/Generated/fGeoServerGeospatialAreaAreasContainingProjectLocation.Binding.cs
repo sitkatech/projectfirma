@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[fGeoServerGeospatialAreaAreasContainingProjectLocationResult]
+//  Source Table: [dbo].[fGeoServerGeospatialAreaAreasContainingProjectLocation_Result]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
@@ -14,19 +14,19 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class fGeoServerGeospatialAreaAreasContainingProjectLocationResult
+    public partial class fGeoServerGeospatialAreaAreasContainingProjectLocation_Result
     {
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public fGeoServerGeospatialAreaAreasContainingProjectLocationResult()
+        public fGeoServerGeospatialAreaAreasContainingProjectLocation_Result()
         {
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public fGeoServerGeospatialAreaAreasContainingProjectLocationResult(int geospatialAreaID, int primaryKey, string geospatialAreaName, int geospatialAreaTypeID) : this()
+        public fGeoServerGeospatialAreaAreasContainingProjectLocation_Result(int geospatialAreaID, int primaryKey, string geospatialAreaName, int geospatialAreaTypeID) : this()
         {
             this.GeospatialAreaID = geospatialAreaID;
             this.PrimaryKey = primaryKey;
@@ -37,16 +37,16 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public fGeoServerGeospatialAreaAreasContainingProjectLocationResult(fGeoServerGeospatialAreaAreasContainingProjectLocationResult fGeoServerGeospatialAreaAreasContainingProjectLocationResult) : this()
+        public fGeoServerGeospatialAreaAreasContainingProjectLocation_Result(fGeoServerGeospatialAreaAreasContainingProjectLocation_Result fGeoServerGeospatialAreaAreasContainingProjectLocation_Result) : this()
         {
-            this.GeospatialAreaID = fGeoServerGeospatialAreaAreasContainingProjectLocationResult.GeospatialAreaID;
-            this.PrimaryKey = fGeoServerGeospatialAreaAreasContainingProjectLocationResult.PrimaryKey;
-            this.GeospatialAreaName = fGeoServerGeospatialAreaAreasContainingProjectLocationResult.GeospatialAreaName;
-            this.GeospatialAreaTypeID = fGeoServerGeospatialAreaAreasContainingProjectLocationResult.GeospatialAreaTypeID;
-            CallAfterConstructor(fGeoServerGeospatialAreaAreasContainingProjectLocationResult);
+            this.GeospatialAreaID = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.GeospatialAreaID;
+            this.PrimaryKey = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.PrimaryKey;
+            this.GeospatialAreaName = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.GeospatialAreaName;
+            this.GeospatialAreaTypeID = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.GeospatialAreaTypeID;
+            CallAfterConstructor(fGeoServerGeospatialAreaAreasContainingProjectLocation_Result);
         }
 
-        partial void CallAfterConstructor(fGeoServerGeospatialAreaAreasContainingProjectLocationResult fGeoServerGeospatialAreaAreasContainingProjectLocationResult);
+        partial void CallAfterConstructor(fGeoServerGeospatialAreaAreasContainingProjectLocation_Result fGeoServerGeospatialAreaAreasContainingProjectLocation_Result);
 
         public int GeospatialAreaID { get; set; }
         [Key]

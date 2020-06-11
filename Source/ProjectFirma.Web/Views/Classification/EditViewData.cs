@@ -28,6 +28,8 @@ namespace ProjectFirma.Web.Views.Classification
         public ProjectFirmaModels.Models.ClassificationSystem ClassificationSystem { get; }
         public ProjectFirmaModels.Models.Classification Classification { get; }
 
+        public bool HasClassificationKeyImageFileResourceInfo => Classification?.KeyImageFileResourceInfo != null;
+
         public EditViewData(ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
             ClassificationSystem = classificationSystem;

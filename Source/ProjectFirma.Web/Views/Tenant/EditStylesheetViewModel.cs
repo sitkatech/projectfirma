@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.Tenant
 
         public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
         {
-            var attributeTenantStyleSheetFileResource = tenantAttribute.TenantSquareLogoFileResourceInfo;
+            var attributeTenantStyleSheetFileResource = tenantAttribute.TenantStyleSheetFileResourceInfo;
             tenantAttribute.TenantStyleSheetFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentFirmaSession);
             attributeTenantStyleSheetFileResource?.FileResourceData.Delete(databaseEntities);
             attributeTenantStyleSheetFileResource?.Delete(databaseEntities);
