@@ -18,18 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common;
+using LtInfo.Common.Models;
+using ProjectFirmaModels.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Web;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Models;
-using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common;
+using System.Web;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
-    public class EditViewModel : FormViewModel, IValidatableObject
+    public class EditViewModel : FormViewModel
     {
         [DisplayName("Custom Definition")]
         public HtmlString FieldDefinitionDataValue { get; set; }
@@ -39,6 +38,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public string FieldDefinitionLabel { get; set; }
 
         [DisplayName("Default Definition")]
+        [Required]
         public HtmlString FieldDefinitionDefault { get; set; }
 
         /// <summary>
@@ -73,16 +73,6 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             {
                 fieldDefinitionDefault.DefaultDefinitionHtmlString = FieldDefinitionDefault;
             }
-        }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var validationResults = new List<ValidationResult>();
-            if (FieldDefinitionDefault == null)
-            {
-                validationResults.Add(new SitkaValidationResult<EditViewModel, HtmlString>("Default Definition is required.", x => x.FieldDefinitionDefault));
-            }
-            return validationResults;
         }
     }
 }
