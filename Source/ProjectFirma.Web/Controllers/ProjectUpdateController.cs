@@ -2026,11 +2026,18 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.BasicsDiffLogHtmlString = new HtmlString(basicsDiffHelper.Build());
             }            
 
-            var performanceMeasureDiffContainer = DiffReportedPerformanceMeasuresImpl(projectPrimaryKey);
-            if (performanceMeasureDiffContainer.HasChanged)
+            var reportedPerformanceMeasureDiffContainer = DiffReportedPerformanceMeasuresImpl(projectPrimaryKey);
+            if (reportedPerformanceMeasureDiffContainer.HasChanged)
             {
-                var performanceMeasureDiffHelper = new HtmlDiff.HtmlDiff(performanceMeasureDiffContainer.OriginalHtml, performanceMeasureDiffContainer.UpdatedHtml);
-                projectUpdateBatch.PerformanceMeasureDiffLogHtmlString = new HtmlString(performanceMeasureDiffHelper.Build());
+                var performanceMeasureDiffHelper = new HtmlDiff.HtmlDiff(reportedPerformanceMeasureDiffContainer.OriginalHtml, reportedPerformanceMeasureDiffContainer.UpdatedHtml);
+                projectUpdateBatch.ReportedPerformanceMeasureDiffLogHtmlString = new HtmlString(performanceMeasureDiffHelper.Build());
+            }
+
+            var expectedPerformanceMeasureDiffContainer = DiffExpectedPerformanceMeasuresImpl(projectPrimaryKey);
+            if (expectedPerformanceMeasureDiffContainer.HasChanged)
+            {
+                var performanceMeasureDiffHelper = new HtmlDiff.HtmlDiff(expectedPerformanceMeasureDiffContainer.OriginalHtml, expectedPerformanceMeasureDiffContainer.UpdatedHtml);
+                projectUpdateBatch.ExpectedPerformanceMeasureDiffLogHtmlString = new HtmlString(performanceMeasureDiffHelper.Build());
             }
 
             // Call the correct diff format based on BudgetType
@@ -2087,6 +2094,10 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.CustomAttributesDiffLogHtmlString = new HtmlString(customAttributesDiffHelper.Build());
             }
 
+            // add booleans for location information that may be updated
+            projectUpdateBatch.IsSimpleLocationUpdated = IsLocationSimpleUpdated(projectPrimaryKey);
+            projectUpdateBatch.IsDetailedLocationUpdated = IsLocationDetailedUpdated(projectPrimaryKey);
+            projectUpdateBatch.IsSpatialInformationUpdated = IsSpatialInformationUpdated(projectPrimaryKey);
         }
 
 
@@ -3083,6 +3094,31 @@ namespace ProjectFirma.Web.Controllers
             var updatedLocationAsListOfStrings = updatedLocationDetailed.Select(x => x.ProjectLocationUpdateGeometry.ToString() + x.Annotation).ToList();
 
             var enumerable = originalLocationAsListOfStrings.Except(updatedLocationAsListOfStrings);
+            return enumerable.Any();
+        }
+
+        private static bool IsSpatialInformationUpdated(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var test = geospatialAreaTypes.Any(x => IsGeospatialAreaUpdated(projectUpdateBatch, x));
+            return test;
+        }
+
+        private static bool IsGeospatialAreaUpdated(ProjectUpdateBatch projectUpdateBatch, GeospatialAreaType geospatialAreaType)
+        {
+            var project = projectUpdateBatch.Project;
+            var originalGeospatialAreaIDs = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialAreaID).ToList();
+            var updatedGeospatialAreaIDs = projectUpdateBatch.ProjectGeospatialAreaUpdates.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialAreaID).ToList();
+
+            if (!originalGeospatialAreaIDs.Any() && !updatedGeospatialAreaIDs.Any())
+                return false;
+
+            if (originalGeospatialAreaIDs.Count != updatedGeospatialAreaIDs.Count)
+                return true;
+
+            var enumerable = originalGeospatialAreaIDs.Except(updatedGeospatialAreaIDs);
             return enumerable.Any();
         }
 

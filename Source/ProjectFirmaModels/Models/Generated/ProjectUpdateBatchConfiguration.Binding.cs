@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectUpdateStateID).HasColumnName(@"ProjectUpdateStateID").HasColumnType("int").IsRequired();
             Property(x => x.IsPhotosUpdated).HasColumnName(@"IsPhotosUpdated").HasColumnType("bit").IsRequired();
             Property(x => x.BasicsDiffLog).HasColumnName(@"BasicsDiffLog").HasColumnType("varchar").IsOptional();
-            Property(x => x.PerformanceMeasureDiffLog).HasColumnName(@"PerformanceMeasureDiffLog").HasColumnType("varchar").IsOptional();
+            Property(x => x.ReportedPerformanceMeasureDiffLog).HasColumnName(@"ReportedPerformanceMeasureDiffLog").HasColumnType("varchar").IsOptional();
             Property(x => x.ExpendituresDiffLog).HasColumnName(@"ExpendituresDiffLog").HasColumnType("varchar").IsOptional();
             Property(x => x.BudgetsDiffLog).HasColumnName(@"BudgetsDiffLog").HasColumnType("varchar").IsOptional();
             Property(x => x.ExternalLinksDiffLog).HasColumnName(@"ExternalLinksDiffLog").HasColumnType("varchar").IsOptional();
@@ -47,6 +47,10 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ContactsDiffLog).HasColumnName(@"ContactsDiffLog").HasColumnType("varchar").IsOptional();
             Property(x => x.CustomAttributesComment).HasColumnName(@"CustomAttributesComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.CustomAttributesDiffLog).HasColumnName(@"CustomAttributesDiffLog").HasColumnType("varchar").IsOptional();
+            Property(x => x.ExpectedPerformanceMeasureDiffLog).HasColumnName(@"ExpectedPerformanceMeasureDiffLog").HasColumnType("varchar").IsOptional();
+            Property(x => x.IsSimpleLocationUpdated).HasColumnName(@"IsSimpleLocationUpdated").HasColumnType("bit").IsOptional();
+            Property(x => x.IsDetailedLocationUpdated).HasColumnName(@"IsDetailedLocationUpdated").HasColumnType("bit").IsOptional();
+            Property(x => x.IsSpatialInformationUpdated).HasColumnName(@"IsSpatialInformationUpdated").HasColumnType("bit").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectUpdateBatches).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectUpdateBatch_Project_ProjectID

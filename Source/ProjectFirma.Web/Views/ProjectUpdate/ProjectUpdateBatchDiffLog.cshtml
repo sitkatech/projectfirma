@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p>No changes to Basics section</p>
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
@@ -59,23 +59,39 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p>No changes to @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() section</p>
+                <p class="systemText">No changes</p>
+            }
+        </div>
+    </div>
+    
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
+        </div>
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.ExpectedPerformanceMeasureDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ExpectedPerformanceMeasureDiffLogHtmlString)
+            }
+            else
+            {
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
+            <h2>Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
         </div>
         <div class="panel-body">
-            @if (ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString != null)
+            @if (ViewDataTyped.ProjectUpdateBatch.ReportedPerformanceMeasureDiffLogHtmlString != null)
             {
-                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString)
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ReportedPerformanceMeasureDiffLogHtmlString)
             }
             else
             {
-                <p>No changes to @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() section</p>
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
@@ -91,7 +107,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p>No changes to Expenditures section</p>
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
@@ -107,7 +123,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p>No changes to Budgets section</p>
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
@@ -123,7 +139,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p>No changes to @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized() section</p>
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
@@ -139,7 +155,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p>No changes to Notes section</p>
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
@@ -155,7 +171,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p>No changes to @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() section</p>
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
@@ -171,9 +187,72 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p>No changes to Contacts section</p>
+                <p class="systemText">No changes</p>
+            }
+        </div>
+    </div>
+    
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Simple Location</h2>
+        </div>
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.IsSimpleLocationUpdated == true)
+            {
+                <p>Changes were made to Simple Location, but not shown here.</p>
+            }
+            else
+            {
+                <p class="systemText">No changes</p>
+            }
+        </div>
+    </div>
+    
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Detailed Location</h2>
+        </div>
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.IsDetailedLocationUpdated == true)
+            {
+                <p>Changes were made to Detailed Location, but not shown here.</p>
+            }
+            else
+            {
+                <p class="systemText">No changes</p>
+            }
+        </div>
+    </div>
+    
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Spatial Information</h2>
+        </div>
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.IsSpatialInformationUpdated == true)
+            {
+                <p>Changes were made to Spatial Information, but not shown here.</p>
+            }
+            else
+            {
+                <p class="systemText">No changes</p>
             }
         </div>
     </div>
 
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Photos</h2>
+        </div>
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.IsPhotosUpdated == true)
+            {
+                <p>Changes were made to Photos, but not shown here.</p>
+            }
+            else
+            {
+                <p class="systemText">No changes</p>
+            }
+        </div>
+    </div>
 </div>
