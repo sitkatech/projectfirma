@@ -18,7 +18,7 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[ProjectUpdateStateID] [int] NOT NULL,
 	[IsPhotosUpdated] [bit] NOT NULL,
 	[BasicsDiffLog] [dbo].[html] NULL,
-	[PerformanceMeasureDiffLog] [dbo].[html] NULL,
+	[ReportedPerformanceMeasureDiffLog] [dbo].[html] NULL,
 	[ExpendituresDiffLog] [dbo].[html] NULL,
 	[BudgetsDiffLog] [dbo].[html] NULL,
 	[ExternalLinksDiffLog] [dbo].[html] NULL,
@@ -35,6 +35,10 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[ContactsDiffLog] [dbo].[html] NULL,
 	[CustomAttributesComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[CustomAttributesDiffLog] [dbo].[html] NULL,
+	[ExpectedPerformanceMeasureDiffLog] [dbo].[html] NULL,
+	[IsSimpleLocationUpdated] [bit] NULL,
+	[IsDetailedLocationUpdated] [bit] NULL,
+	[IsSpatialInformationUpdated] [bit] NULL,
  CONSTRAINT [PK_ProjectUpdateBatch_ProjectUpdateBatchID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC

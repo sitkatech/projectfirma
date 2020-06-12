@@ -42,10 +42,10 @@ namespace ProjectFirma.Web.Models
             return new FeatureCollection(geospatialAreas.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
 
-        public static List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GetGeospatialAreasContainingProjectLocation( IProject project,int? geoSpatialAreaTypeID)
+        public static List<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> GetGeospatialAreasContainingProjectLocation( IProject project,int? geoSpatialAreaTypeID)
         {
             return project?.ProjectLocationPoint == null
-                ? new List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result>()
+                ? new List<fGeoServerGeospatialAreaAreasContainingProjectLocationResult>()
                 : HttpRequestStorage.DatabaseEntities.GetfGeoServerGeospatialAreaAreasContainingProjectLocations(project.ProjectOrProjectUpdateID
                     , project.IsProject
                     , geoSpatialAreaTypeID).ToList();

@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
 
         public ProjectAttachmentIndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
-            PageTitle = $"Manage Project Attachments";
+            PageTitle = $"Manage {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Attachments";
 
             var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 

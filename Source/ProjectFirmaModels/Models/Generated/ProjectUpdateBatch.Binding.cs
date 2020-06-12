@@ -51,7 +51,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string expendituresNote, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string contactsComment, string expectedFundingUpdateNote, string contactsDiffLog, string customAttributesComment, string customAttributesDiffLog) : this()
+        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string reportedPerformanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string expendituresNote, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string contactsComment, string expectedFundingUpdateNote, string contactsDiffLog, string customAttributesComment, string customAttributesDiffLog, string expectedPerformanceMeasureDiffLog, bool? isSimpleLocationUpdated, bool? isDetailedLocationUpdated, bool? isSpatialInformationUpdated) : this()
         {
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
@@ -67,7 +67,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectUpdateStateID = projectUpdateStateID;
             this.IsPhotosUpdated = isPhotosUpdated;
             this.BasicsDiffLog = basicsDiffLog;
-            this.PerformanceMeasureDiffLog = performanceMeasureDiffLog;
+            this.ReportedPerformanceMeasureDiffLog = reportedPerformanceMeasureDiffLog;
             this.ExpendituresDiffLog = expendituresDiffLog;
             this.BudgetsDiffLog = budgetsDiffLog;
             this.ExternalLinksDiffLog = externalLinksDiffLog;
@@ -84,6 +84,10 @@ namespace ProjectFirmaModels.Models
             this.ContactsDiffLog = contactsDiffLog;
             this.CustomAttributesComment = customAttributesComment;
             this.CustomAttributesDiffLog = customAttributesDiffLog;
+            this.ExpectedPerformanceMeasureDiffLog = expectedPerformanceMeasureDiffLog;
+            this.IsSimpleLocationUpdated = isSimpleLocationUpdated;
+            this.IsDetailedLocationUpdated = isDetailedLocationUpdated;
+            this.IsSpatialInformationUpdated = isSpatialInformationUpdated;
         }
 
         /// <summary>
@@ -406,12 +410,12 @@ namespace ProjectFirmaModels.Models
             get { return BasicsDiffLog == null ? null : new HtmlString(BasicsDiffLog); }
             set { BasicsDiffLog = value?.ToString(); }
         }
-        public string PerformanceMeasureDiffLog { get; set; }
+        public string ReportedPerformanceMeasureDiffLog { get; set; }
         [NotMapped]
-        public HtmlString PerformanceMeasureDiffLogHtmlString
+        public HtmlString ReportedPerformanceMeasureDiffLogHtmlString
         { 
-            get { return PerformanceMeasureDiffLog == null ? null : new HtmlString(PerformanceMeasureDiffLog); }
-            set { PerformanceMeasureDiffLog = value?.ToString(); }
+            get { return ReportedPerformanceMeasureDiffLog == null ? null : new HtmlString(ReportedPerformanceMeasureDiffLog); }
+            set { ReportedPerformanceMeasureDiffLog = value?.ToString(); }
         }
         public string ExpendituresDiffLog { get; set; }
         [NotMapped]
@@ -471,6 +475,16 @@ namespace ProjectFirmaModels.Models
             get { return CustomAttributesDiffLog == null ? null : new HtmlString(CustomAttributesDiffLog); }
             set { CustomAttributesDiffLog = value?.ToString(); }
         }
+        public string ExpectedPerformanceMeasureDiffLog { get; set; }
+        [NotMapped]
+        public HtmlString ExpectedPerformanceMeasureDiffLogHtmlString
+        { 
+            get { return ExpectedPerformanceMeasureDiffLog == null ? null : new HtmlString(ExpectedPerformanceMeasureDiffLog); }
+            set { ExpectedPerformanceMeasureDiffLog = value?.ToString(); }
+        }
+        public bool? IsSimpleLocationUpdated { get; set; }
+        public bool? IsDetailedLocationUpdated { get; set; }
+        public bool? IsSpatialInformationUpdated { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 
