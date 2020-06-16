@@ -83,7 +83,13 @@ namespace ProjectFirma.Web.Models
             var startMonth = startDate.Month;
             var timelineEventsGrouped = TimelineEvents
                 .OrderByDescending(a => a.Date)
-                .GroupBy(x => new DayGroup{ Day = x.Date.Day, Month = x.Date.Month, Quarter = x.Quarter, Year = x.Date.GetFiscalYearFromStartMonth((DateUtilities.Month)startMonth) }).ToList()
+                .GroupBy(x => new DayGroup
+                {
+                    Day = x.Date.Day, 
+                    Month = x.Date.Month, 
+                    Quarter = x.Quarter, 
+                    Year = UsesFiscalYears ? x.Date.GetFiscalYearFromStartMonth((DateUtilities.Month)startMonth) : x.Date.Year
+                }).ToList()
                 .GroupBy(y => new QuarterGroup{ Quarter = y.Key.Quarter, Year = y.Key.Year }).ToList()
                 .GroupBy(z => new YearGroup {Year = z.Key.Year })
                 .ToList();
