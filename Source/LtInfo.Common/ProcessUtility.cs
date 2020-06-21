@@ -39,6 +39,47 @@ namespace LtInfo.Common
             return string.Join(" ", commandLineArguments.Select(EncodeArgumentForCommandLine).ToList());
         }
 
+        public static void RunCommandLineLaunchingFromCmdExeWithOptionalTimeout(string workingDirectory,
+                                                                                string exeFileName,
+                                                                                List<string> commandLineArguments,
+                                                                                int? maxTimeoutMs)
+        {
+            string argumentsAsString = ConjoinCommandLineArguments(commandLineArguments);
+            string fullCommandLine = $"\"{exeFileName}\" {argumentsAsString}";
+            string stdErrAndStdOut = string.Empty;
+
+            // Start a cmd.exe process
+            Process cmd = new Process();
+            cmd.StartInfo.FileName = "cmd.exe";
+            cmd.StartInfo.RedirectStandardInput = true;
+            cmd.StartInfo.RedirectStandardOutput = true;
+            cmd.StartInfo.CreateNoWindow = true;
+            cmd.StartInfo.UseShellExecute = false;
+            cmd.Start();
+
+            // Change to working directory
+            string cdToWorkingDirectoryCommand = $"cd {workingDirectory}";
+            cmd.StandardInput.WriteLine(cdToWorkingDirectoryCommand);
+
+            // Write the command out to the cmd.exe command line
+            cmd.StandardInput.WriteLine(fullCommandLine);
+            cmd.StandardInput.Flush();
+            cmd.StandardInput.Close();
+
+            // If caller specified a timeout, use it to wait before shutting down the cmd.exe process
+            if (maxTimeoutMs.HasValue)
+            {
+                Thread.Sleep(maxTimeoutMs.Value);
+            }
+            cmd.WaitForExit();
+
+            string stdOutputResult = cmd.StandardOutput.ReadToEnd();
+            //string stdErrorResult = cmd.StandardError.ReadToEnd();
+            Console.WriteLine(stdOutputResult);
+            //Console.WriteLine(stdErrorResult);
+        }
+
+
         public static ProcessUtilityResult ShellAndWaitImpl(string workingDirectory, string exeFileName, List<string> commandLineArguments, bool redirectStdErrAndStdOut, int? maxTimeoutMs)
         {
             var argumentsAsString = ConjoinCommandLineArguments(commandLineArguments);
