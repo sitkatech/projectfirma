@@ -25,7 +25,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using ApprovalUtilities.SimpleLogger;
 using log4net;
 
 namespace LtInfo.Common
@@ -40,6 +39,15 @@ namespace LtInfo.Common
             return string.Join(" ", commandLineArguments.Select(EncodeArgumentForCommandLine).ToList());
         }
 
+        /// <summary>
+        /// This does a command line from within a cmd.exe process, which we need for at least Headless Chrome. It's a bit awkward,
+        /// but hopefully all the messy details are buttoned off in this fuction.
+        /// </summary>
+        /// <param name="workingDirectory"></param>
+        /// <param name="exeFileName"></param>
+        /// <param name="commandLineArguments"></param>
+        /// <param name="optionalStandardErrorResultStringToWaitFor">If provided, will wait for this string to appear in Standard Error, aborting the timeout.</param>
+        /// <param name="maxTimeoutMs">Maximum amount of time to wait in milliseconds after running the exeFileName and its commandLineArguments before shutting down the controlling cmd.exe and returning.</param>
         public static void RunCommandLineLaunchingFromCmdExeWithOptionalTimeout(string workingDirectory,
                                                                                 string exeFileName,
                                                                                 List<string> commandLineArguments,

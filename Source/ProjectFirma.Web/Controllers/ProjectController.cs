@@ -1063,6 +1063,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         }
         */
 
+        // TODO -- FIX THIS AS WELL!
         [ProjectsViewFullListFeature]
         public FileContentResult FactSheetPdf(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -1084,30 +1085,6 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
                 return File(content, "application/pdf", fileName);
             }
         }
-        /*
-        [ProjectsViewFullListFeature]
-        public FileContentResult FactSheetWithCustomAttributesPdf(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            using (var outputFile = new DisposableTempFile())
-            {
-                var pfCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
-                var pdfConversionSettings = new WkhtmlPDFUtility.WkhtmlPdfConversionSettings(CookieHelper.GetAllAuthenticationCookies(Request.Cookies, pfCookieName)) { Zoom = 0.9 };
-                WkhtmlPDFUtility.ConvertURLToPDFWithWkhtml2pdf(
-                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributesForPdf(project)).BuildAbsoluteUrlHttpsFromExpression()),
-                    outputFile.FileInfo,
-                    pdfConversionSettings);
-
-                var fileContents = FileUtility.FileToString(outputFile.FileInfo);
-                Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
-                Check.Assert(fileContents.Contains("wkhtmltopdf") || fileContents.Contains("\0w\0k\0h\0t\0m\0l\0t\0o\0p\0d\0f"), "Should be a PDF file produced by wkhtmltopdf.");
-
-                var fileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
-                var content = System.IO.File.ReadAllBytes(outputFile.FileInfo.FullName);
-                return File(content, "application/pdf", fileName);
-            }
-        }
-        */
 
         [ProjectsViewFullListFeature]
         public FileContentResult FactSheetWithCustomAttributesPdf(ProjectPrimaryKey projectPrimaryKey)
@@ -1115,14 +1092,12 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var project = projectPrimaryKey.EntityObject;
             using (var outputFile = new DisposableTempFile())
             {
-                var pfCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
-                var pdfConversionSettings = new HeadlessChromePDFUtility.HeadlessChromePdfConversionSettings(CookieHelper.GetAllAuthenticationCookies(Request.Cookies, pfCookieName));
+                var pdfConversionSettings = new HeadlessChromePDFUtility.HeadlessChromePdfConversionSettings();
                 Uri factSheetUrl = new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributesForPdf(project)).BuildAbsoluteUrlHttpsFromExpression());
                 HeadlessChromePDFUtility.ConvertURLToPDFWithHeadlessChrome(factSheetUrl, outputFile.FileInfo, pdfConversionSettings);
 
                 var fileContents = FileUtility.FileToString(outputFile.FileInfo);
                 Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
-                //Check.Assert(fileContents.Contains("wkhtmltopdf") || fileContents.Contains("\0w\0k\0h\0t\0m\0l\0t\0o\0p\0d\0f"), "Should be a PDF file produced by wkhtmltopdf.");
 
                 var fileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
                 var content = System.IO.File.ReadAllBytes(outputFile.FileInfo.FullName);
