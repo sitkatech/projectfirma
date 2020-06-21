@@ -49,13 +49,13 @@ namespace LtInfo.Common
         /// <param name="optionalStandardErrorResultStringToWaitFor">If provided, will wait for this string to appear in Standard Error, aborting the timeout.</param>
         /// <param name="maxTimeoutMs">Maximum amount of time to wait in milliseconds after running the exeFileName and its commandLineArguments before shutting down the controlling cmd.exe and returning.</param>
         public static void RunCommandLineLaunchingFromCmdExeWithOptionalTimeout(string workingDirectory,
-                                                                                string exeFileName,
+                                                                                FileInfo exeFileName,
                                                                                 List<string> commandLineArguments,
                                                                                 string optionalStandardErrorResultStringToWaitFor,
                                                                                 int? maxTimeoutMs)
         {
             string argumentsAsString = ConjoinCommandLineArguments(commandLineArguments);
-            string fullCommandLine = $"\"{exeFileName}\" {argumentsAsString}";
+            string fullCommandLine = $"\"{exeFileName.FullName}\" {argumentsAsString}";
             string stdErrAndStdOut = string.Empty;
 
             // Start a cmd.exe process

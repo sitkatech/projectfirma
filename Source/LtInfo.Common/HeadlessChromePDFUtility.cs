@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Configuration;
+using log4net;
+using log4net.Repository.Hierarchy;
 using LtInfo.Common.DesignByContract;
 
 namespace LtInfo.Common
@@ -10,6 +12,8 @@ namespace LtInfo.Common
     // ReSharper disable once InconsistentNaming
     public class HeadlessChromePDFUtility
     {
+        private static ILog Logger = LogManager.GetLogger(typeof(ProcessUtility));
+
         public class HeadlessChromePdfConversionSettings
         {
             public TimeSpan ExecutionTimeout;
@@ -59,9 +63,11 @@ namespace LtInfo.Common
             var commandLineArguments = headlessChromePdfConversionSettings.BuildHeadlessChromeCommandLineArguments(url, outputFile);
 
             // TODO: Make configurable. NOTE **CURRENTLY EXPECTS CHROME CANARY** to use the --print-to-pdf-no-header option!!!
-            // ALSO we need to have a chrome available that web process can 
-            // The Chrome Canary EXE location can have spaces in it
-            const string chromeExeLocation = "C:\\Users\\FirmaWebLocal\\AppData\\Local\\Google\\Chrome SxS\\Application\\chrome.exe";
+            FileInfo chromeExeLocation = new FileInfo(SitkaConfiguration.GetRequiredAppSetting("HeadlessGoogleChromeExecutable"));
+            Logger.Info($"Looking for Google Headless Chrome at {chromeExeLocation}");
+            // Headless Chrome must be installed where we expect it -- namely for the proper user for the web site
+            Check.EnsureFileExists(chromeExeLocation);
+
             int maxTimeoutMs = (int)headlessChromePdfConversionSettings.ExecutionTimeout.TotalMilliseconds;
             const string outputThatIndicatesPdfHasBeenWritten = "Written to file";
 
