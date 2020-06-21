@@ -78,6 +78,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.KMZ:
                 case FileResourceMimeTypeEnum.KML:
                 case FileResourceMimeTypeEnum.XZIP:
+                case FileResourceMimeTypeEnum.ZIP:
                     return new FileResourceResult(fileResourceInfo.GetOriginalCompleteFileName(), fileResourceInfo.FileResourceData.Data, fileResourceInfo.FileResourceMimeType);
                 case FileResourceMimeTypeEnum.XPNG:
                 case FileResourceMimeTypeEnum.PNG:

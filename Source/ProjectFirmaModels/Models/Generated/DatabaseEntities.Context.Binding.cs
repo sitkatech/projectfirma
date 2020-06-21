@@ -475,10 +475,10 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<vProjectCustomAttributeValue> vProjectCustomAttributeValues { get; set; }
         public virtual DbSet<vProjectDetail> vProjectDetails { get; set; }
         public virtual DbSet<vProjectFunctionallyComplete> vProjectFunctionallyCompletes { get; set; }
-        public virtual DbSet<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> fGeoServerGeospatialAreaAreasContainingProjectLocationResults { get; set; }
+        public virtual DbSet<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> fGeoServerGeospatialAreaAreasContainingProjectLocationResults { get; set; }
 
         [DbFunction("DatabaseEntities", "fGeoServerGeospatialAreaAreasContainingProjectLocation")]
-        public virtual IQueryable<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> GetfGeoServerGeospatialAreaAreasContainingProjectLocations(int? piProjectIDParameter, bool? pbIsProjectParameter, int? piGeospatialAreaTypeIDParameter)
+        public virtual IQueryable<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GetfGeoServerGeospatialAreaAreasContainingProjectLocations(int? piProjectIDParameter, bool? pbIsProjectParameter, int? piGeospatialAreaTypeIDParameter)
         {
             
             var piProjectID = new System.Data.Entity.Core.Objects.ObjectParameter("piProjectID", typeof(int?))
@@ -496,7 +496,7 @@ namespace ProjectFirmaModels.Models
                 Value = piGeospatialAreaTypeIDParameter
             };
             return (this as System.Data.Entity.Infrastructure.IObjectContextAdapter).ObjectContext
-                  .CreateQuery<fGeoServerGeospatialAreaAreasContainingProjectLocationResult>("DatabaseEntities.fGeoServerGeospatialAreaAreasContainingProjectLocation(@piProjectID, @pbIsProject, @piGeospatialAreaTypeID)",piProjectID, pbIsProject, piGeospatialAreaTypeID);
+                  .CreateQuery<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result>("DatabaseEntities.fGeoServerGeospatialAreaAreasContainingProjectLocation(@piProjectID, @pbIsProject, @piGeospatialAreaTypeID)",piProjectID, pbIsProject, piGeospatialAreaTypeID);
         }
 
         public object LoadType(Type type, int primaryKey)
