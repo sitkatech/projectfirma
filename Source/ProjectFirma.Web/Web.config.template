@@ -40,6 +40,7 @@
     <add key="KeystoneWebServiceApplicationGuid" value="CE8E2CB7-7865-42FD-BD44-1458D825860D"/>
     <add key="DefaultModalDialogButtonCssClasses" value="btn-firma,btn-xs"/>
     <add key="WkhtmltopdfExecutable" value="${wkhtmltopdf-executable}"/>
+    <add key="HeadlessGoogleChromeExecutable" value="${headless-chrome-executable}"/>
     <add key="KeystoneUrl" value="https://${keystone-base-url}"/>
     <add key="KeystoneInviteUserUrl" value="${keystone-inviteuser-endpoint}" />
     <add key="KeystoneUserProfileUrl" value="${keystone-user-profile-endpoint}" />

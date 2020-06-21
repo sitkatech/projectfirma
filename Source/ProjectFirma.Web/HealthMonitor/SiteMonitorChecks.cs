@@ -11,7 +11,8 @@ namespace ProjectFirma.Web.HealthMonitor
         {
             var results = new HealthCheckResults();
             // Here's the list of checks to run
-            results.Add(WhtmlToPdfIsAvailableAndRunningExpectedVersion.Run());
+            //results.Add(WhtmlToPdfIsAvailableAndRunningExpectedVersion.Run());
+            results.Add(HeadlessGoogleChromeIsAvailable.Run());
             results.Add(SqlServerSpatialDllSeemsToWork.Run());
             return results;
         }
