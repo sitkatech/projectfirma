@@ -25,6 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using ApprovalUtilities.SimpleLogger;
 using log4net;
 
 namespace LtInfo.Common
@@ -42,6 +43,7 @@ namespace LtInfo.Common
         public static void RunCommandLineLaunchingFromCmdExeWithOptionalTimeout(string workingDirectory,
                                                                                 string exeFileName,
                                                                                 List<string> commandLineArguments,
+                                                                                string optionalStandardErrorResultStringToWaitFor,
                                                                                 int? maxTimeoutMs)
         {
             string argumentsAsString = ConjoinCommandLineArguments(commandLineArguments);
@@ -49,19 +51,24 @@ namespace LtInfo.Common
             string stdErrAndStdOut = string.Empty;
 
             // Start a cmd.exe process
+            Logger.Info($"Starting a cmd.exe process");
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
             cmd.StartInfo.RedirectStandardInput = true;
             cmd.StartInfo.RedirectStandardOutput = true;
+            // Will this cause problems?
+            cmd.StartInfo.RedirectStandardError = true;
             cmd.StartInfo.CreateNoWindow = true;
             cmd.StartInfo.UseShellExecute = false;
             cmd.Start();
 
             // Change to working directory
+            Logger.Info($"Changing directory in cmd.exe process to working directory {workingDirectory}");
             string cdToWorkingDirectoryCommand = $"cd {workingDirectory}";
             cmd.StandardInput.WriteLine(cdToWorkingDirectoryCommand);
 
             // Write the command out to the cmd.exe command line
+            Logger.Info($"Executing command line in cmd.exe process: {fullCommandLine}");
             cmd.StandardInput.WriteLine(fullCommandLine);
             cmd.StandardInput.Flush();
             cmd.StandardInput.Close();
@@ -69,14 +76,32 @@ namespace LtInfo.Common
             // If caller specified a timeout, use it to wait before shutting down the cmd.exe process
             if (maxTimeoutMs.HasValue)
             {
-                Thread.Sleep(maxTimeoutMs.Value);
+                // Check for output every 1/4 second (250 ms)
+                const int outputCheckInterval = 250;
+                // How many intervals are there in the user's requested delay?
+                int numberOfCheckIntervals = maxTimeoutMs.Value / outputCheckInterval;
+                // Loop, delaying for the interval, then checking for output
+                Logger.Info($"About to loop, waiting for timeout of {maxTimeoutMs.Value} milliseconds, or for optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output.");
+                for (int checkInterval = 0; checkInterval < numberOfCheckIntervals; checkInterval++)
+                {
+                    Thread.Sleep(outputCheckInterval);
+                    string stdErrorResult = cmd.StandardError.ReadToEnd();
+                    if (stdErrorResult != "")
+                    {
+                        Logger.Info($"Standard error output: {stdErrorResult}");
+                        if (optionalStandardErrorResultStringToWaitFor != null && stdErrorResult.Contains(optionalStandardErrorResultStringToWaitFor))
+                        {
+                            Logger.Info($"Found optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output: {stdErrorResult}");
+                            break;
+                        }
+                    }
+                }
             }
+            Logger.Info($"Shutting down cmd.exe process");
             cmd.WaitForExit();
 
             string stdOutputResult = cmd.StandardOutput.ReadToEnd();
-            //string stdErrorResult = cmd.StandardError.ReadToEnd();
-            Console.WriteLine(stdOutputResult);
-            //Console.WriteLine(stdErrorResult);
+            Logger.Info($"Standard output output: {stdOutputResult}");
         }
 
 

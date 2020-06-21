@@ -85,7 +85,8 @@ namespace LtInfo.Common
             */
 
             const int maxTimeoutMs = 40000;
-            ProcessUtility.RunCommandLineLaunchingFromCmdExeWithOptionalTimeout(outputFile.DirectoryName, chromeExeLocation, commandLineArguments, maxTimeoutMs);
+            const string outputThatIndicatesPdfHasBeenWritten = "Written to file";
+            ProcessUtility.RunCommandLineLaunchingFromCmdExeWithOptionalTimeout(outputFile.DirectoryName, chromeExeLocation, commandLineArguments, outputThatIndicatesPdfHasBeenWritten, maxTimeoutMs);
 
             var argumentsAsString = String.Join(" ",
                 commandLineArguments.Select(ProcessUtility.EncodeArgumentForCommandLine).ToList());
