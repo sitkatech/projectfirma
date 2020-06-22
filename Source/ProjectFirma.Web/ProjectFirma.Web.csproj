@@ -65,6 +65,7 @@
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\DocumentLibraryController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
+    <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\ExternalMapLayerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
@@ -1425,7 +1426,7 @@
     <Compile Include="Views\FirmaPage\EditViewModel.cs" />
     <Compile Include="Controllers\FirmaBaseControllerTest.cs" />
     <Compile Include="Controllers\FirmaPageController.cs" />
-    <Compile Include="Controllers\FileResourceController.cs" />
+    <Compile Include="Controllers\FakeImageController.cs" />
     <Compile Include="Controllers\PerformanceMeasureNoteController.cs" />
     <Compile Include="Controllers\FirmaBaseController.cs" />
     <Compile Include="Common\FieldDefinitionDisplayAttribute.cs" />

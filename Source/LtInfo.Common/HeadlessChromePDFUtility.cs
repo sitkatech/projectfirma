@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Web;
 using System.Web.Configuration;
 using log4net;
-using log4net.Repository.Hierarchy;
 using LtInfo.Common.DesignByContract;
 
 namespace LtInfo.Common

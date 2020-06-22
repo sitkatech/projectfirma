@@ -38,6 +38,11 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class ForwardLookingFactSheetViewData : ProjectViewData
     {
+        /// <summary>
+        /// We hope this is enough time to allow the mapping components to load. Increase if map components don't render properly in PDF.
+        /// </summary>
+        public static int FactSheetPdfEmptyImageLoadDelayInMilliseconds = 4000;
+
         public List<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureExpectedValues { get; }
         public List<GooglePieChartSlice> FundingSourceRequestAmountGooglePieChartSlices { get; }
         public ProjectFirmaModels.Models.ProjectImage KeyPhoto { get; }
@@ -73,6 +78,8 @@ namespace ProjectFirma.Web.Views.Project
         public DateTime LastUpdated { get; }
 
         public ProjectController.FactSheetPdfEnum FactSheetPdfEnum { get; }
+
+        public string FakeImageWithDelayUrl { get; }
 
         public ForwardLookingFactSheetViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
@@ -156,12 +163,21 @@ namespace ProjectFirma.Web.Views.Project
             WithCustomAttributes = withCustomAttributes;
             LastUpdated = project.LastUpdatedDate;
             FactSheetPdfEnum = factSheetPdfEnum;
-            
+
+            // No delay loading our fake image by default
+            int fakeImageDelayInMilliseconds = 0;
             // this is used to prevent the main Sitka Google Chart scripts from being loaded onto the page and confusing WkhtmlToPDF when trying to render charts for pdf generation - 6/2/2020 SMG [#2167]
             if (factSheetPdfEnum == ProjectController.FactSheetPdfEnum.Pdf)
             {
                 FirmaIncludesViewData.IsIntendedForWkthmlToPDF = true;
+                // If we are printing for PDF, we have a fake 1x1 transparent image that we deliberately take time to load. This causes Headless Chrome
+                // to delay printing the page until the map is ready to be viewed.
+                //
+                // We hope that 4 seconds is enough to allow the mapping components to load. Increase if they don't render properly.
+                fakeImageDelayInMilliseconds = FactSheetPdfEmptyImageLoadDelayInMilliseconds;
             }
+
+            FakeImageWithDelayUrl = new SitkaRoute<FakeImageController>(c => c.ReturnEmptyImageAfterDelayInMilliseconds(fakeImageDelayInMilliseconds)).BuildAbsoluteUrlHttpsFromExpression();
         }
 
         public HtmlString LegendHtml

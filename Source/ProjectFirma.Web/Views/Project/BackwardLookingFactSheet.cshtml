@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="FactSheet.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-    <author>Sitka Technology Group</author>
-    </copyright>
+   <copyright file="FactSheet.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+   Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+   <author>Sitka Technology Group</author>
+   </copyright>
 
-    <license>
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   <license>
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-    Source code is available upon request via <support@sitkatech.com>.
-    </license>
-    -----------------------------------------------------------------------*@
+   Source code is available upon request via <support@sitkatech.com>.
+   </license>
+   -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Project
 @using ProjectFirma.Web.Views.Shared
@@ -32,16 +32,20 @@
 @inherits BackwardLookingFactSheet
 
 @{
-    @SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped)
+   @SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped)
 }
+
+@*This is here to allow us slow down page loading during PDF printing. The delay is invoked only when printing to PDF. The image is always invisible.*@
+<img src="@ViewDataTyped.FakeImageWithDelayUrl">
+
 
 @section JavascriptAndStylesContent
 {
-    <link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
+   <link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" type="text/css" />
+   <script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
 
-    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
-    <style>
+   <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
+   <style>
         .projectTaxonomy {
             background-color: @ViewDataTyped.TaxonomyColor !important;
             color: white !important;
@@ -55,17 +59,17 @@
         {
             border-left: 3px solid @ViewDataTyped.TaxonomyColor;
         }
-    </style>
+   </style>
 
-    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+   @{ MapJavascriptIncludes.RenderPartialView(Html); }
 
-    @if (ViewDataTyped.FactSheetPdfEnum == ProjectController.FactSheetPdfEnum.Pdf)
-    {
-        // This if else is used to provide wkhtmlktopdf (which uses an old version of qt browser that doesn't
-        // support more modern javascript) older versions of the google charts api in order to render the
-        // charts on downloaded pdfs of the page
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <script type="text/javascript">
+   @if (ViewDataTyped.FactSheetPdfEnum == ProjectController.FactSheetPdfEnum.Pdf)
+   {
+      // This if else is used to provide wkhtmlktopdf (which uses an old version of qt browser that doesn't
+      // support more modern javascript) older versions of the google charts api in order to render the
+      // charts on downloaded pdfs of the page
+      <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+      <script type="text/javascript">
             google.load("visualization", "1", {packages:["corechart"]});
             google.setOnLoadCallback(drawChart);
 
@@ -74,17 +78,17 @@
                 var chartWrapper = new google.visualization.ChartWrapper(chartJson);
                 chartWrapper.draw();
             }
-        </script>
-    }
-    else
-    {
-        // The Sitka GoogleCharts.js that is used to render the charts when loaded in a browser
-        <script type="text/javascript">
+      </script>
+   }
+   else
+   {
+      // The Sitka GoogleCharts.js that is used to render the charts when loaded in a browser
+      <script type="text/javascript">
             var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
             GoogleCharts.drawCharts([chartJson]);
-        </script>
-    }
-    <script type="text/javascript">
+      </script>
+   }
+   <script type="text/javascript">
         /**
          * Toggle to control custom tenantAttributes visibility, I didn't think it was necessary to use angular for something so simple
          * and seeing as how we're already using jQuery on this page, I felt it was most efficient to do it like this.
@@ -107,366 +111,366 @@
                 });
             }
         });
-    </script>
+   </script>
 }
 
 <div class="container noPrint">
-    <div style="margin: 15px 0;">
-        @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
-        {
-            <div class="pull-left">
-                <label><input type="checkbox" data-toggle="toggle" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /></label> Extra Details
-            </div>
-        }
-        <div class="pull-right">
-            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
-            <a class="btn btn-firma" id="PrintFactSheetLink" href="@ViewDataTyped.FactSheetWithCustomAttributesPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
-        </div>
-    </div>
+   <div style="margin: 15px 0;">
+      @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
+      {
+         <div class="pull-left">
+            <label><input type="checkbox" data-toggle="toggle" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /></label> Extra Details
+         </div>
+      }
+      <div class="pull-right">
+         <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
+         <a class="btn btn-firma" id="PrintFactSheetLink" href="@ViewDataTyped.FactSheetWithCustomAttributesPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
+      </div>
+   </div>
 </div>
 
 <div class="container factSheet">
-    <div class="row section">
-        <div class="col-sm-2 col-md-2">
-            <img style="max-height: 200px; margin: 30px auto 10px auto" class="img-responsive factSheetPrimaryLogo" src="@MultiTenantHelpers.GetTenantFactSheetLogoUrl()" alt="@MultiTenantHelpers.GetTenantShortDisplayName()" />
-            @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
-            {
-                @*If the logo is not null then perforce the organization must not be null, so this is fine.*@
-                <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().GetFileResourceUrl()" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().GetDisplayNameWithoutAbbreviation()" />
-            }
-        </div>
-        <div class="col-sm-10 col-md-10 headerPanel">
-            <h2>@ViewDataTyped.Project.ProjectName</h2>
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>@ViewDataTyped.TaxonomyLeafDisplayName</strong>
-                </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    @ViewDataTyped.TaxonomyLeafName
-                </div>
+   <div class="row section">
+      <div class="col-sm-2 col-md-2">
+         <img style="max-height: 200px; margin: 30px auto 10px auto" class="img-responsive factSheetPrimaryLogo" src="@MultiTenantHelpers.GetTenantFactSheetLogoUrl()" alt="@MultiTenantHelpers.GetTenantShortDisplayName()" />
+         @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
+         {
+            @*If the logo is not null then perforce the organization must not be null, so this is fine.*@
+            <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().GetFileResourceUrl()" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().GetDisplayNameWithoutAbbreviation()" />
+         }
+      </div>
+      <div class="col-sm-10 col-md-10 headerPanel">
+         <h2>@ViewDataTyped.Project.ProjectName</h2>
+         <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+               <strong>@ViewDataTyped.TaxonomyLeafDisplayName</strong>
             </div>
-            @{
-                var stewardingOrganization = ViewDataTyped.Project.GetCanStewardProjectsOrganization();
-            }
-            @if (stewardingOrganization != null)
-            {
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4 col-md-3">
-                        <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong>
-                    </div>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
-                    </div>
-                </div>
-            }
-            @{
-                var primaryContactOrganization = ViewDataTyped.Project.GetPrimaryContactOrganization();
-            }
-            @if (primaryContactOrganization != null)
-            {
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4 col-md-3">
-                        @* <strong>Lead Implementer</strong> *@
-                        <strong>@FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().GetFieldDefinitionLabel()</strong>
-
-                    </div>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
-                    </div>
-                </div>
-            }
-            @{
-                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.GetFundingOrganizationNamesForFactSheet();
-            }
-            @if (projectFundingOrganizationNamesForFactSheet != string.Empty)
-            {
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4 col-md-3">
-                        <strong>Funders</strong>
-                    </div>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        @projectFundingOrganizationNamesForFactSheet
-                    </div>
-                </div>
-            }
-
-            @{
-                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.GetProjectOrganizationNamesForFactSheet();
-            }
-            @if (projectOtherOrganizationNamesForFactSheet != string.Empty)
-            {
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4 col-md-3">
-                        <strong>Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong>
-                    </div>
-                    <div class="col-xs-12 col-sm-8 col-md-9">
-                        @projectOtherOrganizationNamesForFactSheet
-                    </div>
-                </div>
-            }
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>@FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()</strong>
-                </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    @if (ViewDataTyped.Project.GetPrimaryContact() != null)
-                    {
-                        <span>
-                            @ViewDataTyped.Project.GetPrimaryContact().GetFullNameFirstLast() (@ViewDataTyped.Project.GetPrimaryContact().Email)
-                        </span>
-                    }
-                    else
-                    {
-                        <span>@ViewUtilities.NoneString</span>
-                    }
-                </div>
+            <div class="col-xs-12 col-sm-8 col-md-9">
+               @ViewDataTyped.TaxonomyLeafName
             </div>
+         </div>
+         @{
+            var stewardingOrganization = ViewDataTyped.Project.GetCanStewardProjectsOrganization();
+         }
+         @if (stewardingOrganization != null)
+         {
             <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()</strong>
-                </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
-                </div>
+               <div class="col-xs-12 col-sm-4 col-md-3">
+                  <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong>
+               </div>
+               <div class="col-xs-12 col-sm-8 col-md-9">
+                  @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
+               </div>
             </div>
+         }
+         @{
+            var primaryContactOrganization = ViewDataTyped.Project.GetPrimaryContactOrganization();
+         }
+         @if (primaryContactOrganization != null)
+         {
             <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>Duration</strong>
-                </div>
-                <div class="col-xs-12 col-sm-8 col-md-9">
-                    @ViewDataTyped.Project.GetDuration()
-                </div>
-            </div>
+               <div class="col-xs-12 col-sm-4 col-md-3">
+                  @* <strong>Lead Implementer</strong> *@
+                  <strong>@FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().GetFieldDefinitionLabel()</strong>
 
-            @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
+               </div>
+               <div class="col-xs-12 col-sm-8 col-md-9">
+                  @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
+               </div>
+            </div>
+         }
+         @{
+            var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.GetFundingOrganizationNamesForFactSheet();
+         }
+         @if (projectFundingOrganizationNamesForFactSheet != string.Empty)
+         {
+            <div class="row">
+               <div class="col-xs-12 col-sm-4 col-md-3">
+                  <strong>Funders</strong>
+               </div>
+               <div class="col-xs-12 col-sm-8 col-md-9">
+                  @projectFundingOrganizationNamesForFactSheet
+               </div>
+            </div>
+         }
+
+         @{
+            var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.GetProjectOrganizationNamesForFactSheet();
+         }
+         @if (projectOtherOrganizationNamesForFactSheet != string.Empty)
+         {
+            <div class="row">
+               <div class="col-xs-12 col-sm-4 col-md-3">
+                  <strong>Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong>
+               </div>
+               <div class="col-xs-12 col-sm-8 col-md-9">
+                  @projectOtherOrganizationNamesForFactSheet
+               </div>
+            </div>
+         }
+         <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+               <strong>@FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()</strong>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-9">
+               @if (ViewDataTyped.Project.GetPrimaryContact() != null)
+               {
+                  <span>
+                     @ViewDataTyped.Project.GetPrimaryContact().GetFullNameFirstLast() (@ViewDataTyped.Project.GetPrimaryContact().Email)
+                  </span>
+               }
+               else
+               {
+                  <span>@ViewUtilities.NoneString</span>
+               }
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+               <strong>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()</strong>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-9">
+               @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3">
+               <strong>Duration</strong>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-9">
+               @ViewDataTyped.Project.GetDuration()
+            </div>
+         </div>
+
+         @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
+         {
+            @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
+            foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
             {
-                @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
-                foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
-                {
-                    var projectCustomAttribute = ViewDataTyped.ViewableProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
-                    if (projectCustomAttribute != null)
-                    {
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-6 col-md-3">
-                                <strong>
-                                    @projectCustomAttributeType.ProjectCustomAttributeTypeName
-                                </strong>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-9">
-                                @if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
-                                {
-                                    @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
-                                }
-                                else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
-                                {
-                                    @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
-                                }
-                                else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
-                                {
-                                    <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span>
-                                    <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
-                                }
-                                else
-                                {
-                                    @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
-                                }
-                            </div>
-                        </div>
-
-                    }
-                }
-                @Html.Raw("</div>")
-            }
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="projectTaxonomy">
-                @if (MultiTenantHelpers.GetTaxonomyLevel() != TaxonomyLevel.Leaf)
-                {
-                    @ViewDataTyped.TaxonomyBranchName
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                }
-                @ViewDataTyped.TaxonomyLeafName
-            </div>
-        </div>
-    </div>
-    <div class="row section">
-        <div class="col-xs-12 col-sm-12 col-md-7">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="projectDescription">@Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())</div>
-                </div>
-                <div class="col-xs-12" style="margin-top: 10px">
-                    <h4>Key Accomplishments</h4>
-                    @if (ViewDataTyped.PerformanceMeasureReportedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
-                    {
-                        <ul>
-                            @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
-                            {
-                                if (performanceMeasureGroup.Key.IsSummable)
-                                {
-                                    <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue()))</strong></li>
-                                }
-
-                                var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
-                                if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
-                                {
-                                    foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
-                                    {
-                                        var performanceMeasureReportedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
-
-                                        if (performanceMeasureReportedValues.Any())
-                                        {
-                                            <li>
-                                                @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName):
-                                                <strong>
-                                                    @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureReportedValues.Sum(x => x.GetReportedValue()))
-                                                </strong>
-                                            </li>
-                                        }
-                                    }
-                                }
-                            }
-                            @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
-                            {
-                                <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
-                                <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
-                                <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
-                                <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <div class="systemText">Accomplishments to be provided upon completion of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</div>
-                    }
-                </div>
-                @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
-                {
-                    <div class="col-xs-12">
-                        <h4>@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h4>
-                        @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
+               var projectCustomAttribute = ViewDataTyped.ViewableProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
+               if (projectCustomAttribute != null)
+               {
+                  <div class="row">
+                     <div class="col-xs-12 col-sm-6 col-md-3">
+                        <strong>
+                           @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                        </strong>
+                     </div>
+                     <div class="col-xs-12 col-sm-6 col-md-9">
+                        @if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
                         {
-                            <ul>
-                                @foreach (var classification in ViewDataTyped.Classifications.Where(x => x.ClassificationSystem == classificationSystem))
-                                {
-
-                                    <li style="padding-right: 50px">@classification.GetDisplayName()</li>
-                                }
-                            </ul>
+                           @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                        }
+                        else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                        {
+                           @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
+                        }
+                        else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
+                        {
+                           <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span>
+                           <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
                         }
                         else
                         {
-                            <div class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) provided</div>
+                           @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
                         }
-                    </div>
-                }
-            </div>
-        </div>
+                     </div>
+                  </div>
 
-        <div class="col-md-5">
-            @if (ViewDataTyped.KeyPhoto != null)
-            {
-                <div class="keyPhoto">
-                    <img class="img-responsive" src="@ViewDataTyped.KeyPhoto.GetPhotoUrlScaledForPrint()" alt="@ViewDataTyped.KeyPhoto.GetCaptionOnFullView()" />
-                    <span class="captionText">@ViewDataTyped.KeyPhoto.Caption</span>
-                </div>
+               }
             }
-            else
+            @Html.Raw("</div>")
+         }
+
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-xs-12">
+         <div class="projectTaxonomy">
+            @if (MultiTenantHelpers.GetTaxonomyLevel() != TaxonomyLevel.Leaf)
             {
-                <div class="text-center">
-                    <p class="systemText">No Key Photo provided</p>
-                </div>
+               @ViewDataTyped.TaxonomyBranchName
+               <span class="glyphicon glyphicon-chevron-right"></span>
             }
-        </div>
-    </div>
-    <div class="row section">
-        <div class="col-sm-12 col-md-6">
-            <div style="margin-left: auto; margin-right: auto;">
-                <h4>Location</h4>
-                <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
-                <script type="text/javascript">
+            @ViewDataTyped.TaxonomyLeafName
+         </div>
+      </div>
+   </div>
+   <div class="row section">
+      <div class="col-xs-12 col-sm-12 col-md-7">
+         <div class="row">
+            <div class="col-xs-12">
+               <div class="projectDescription">@Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())</div>
+            </div>
+            <div class="col-xs-12" style="margin-top: 10px">
+               <h4>Key Accomplishments</h4>
+               @if (ViewDataTyped.PerformanceMeasureReportedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
+               {
+                  <ul>
+                     @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
+                     {
+                        if (performanceMeasureGroup.Key.IsSummable)
+                        {
+                           <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue()))</strong></li>
+                        }
+
+                        var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
+                        if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
+                        {
+                           foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
+                           {
+                              var performanceMeasureReportedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
+
+                              if (performanceMeasureReportedValues.Any())
+                              {
+                                 <li>
+                                    @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName):
+                                    <strong>
+                                       @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureReportedValues.Sum(x => x.GetReportedValue()))
+                                    </strong>
+                                 </li>
+                              }
+                           }
+                        }
+                     }
+                     @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
+                     {
+                        <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
+                        <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
+                        <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
+                        <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
+                     }
+                  </ul>
+               }
+               else
+               {
+                  <div class="systemText">Accomplishments to be provided upon completion of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</div>
+               }
+            </div>
+            @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
+            {
+               <div class="col-xs-12">
+                  <h4>@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h4>
+                  @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
+                  {
+                     <ul>
+                        @foreach (var classification in ViewDataTyped.Classifications.Where(x => x.ClassificationSystem == classificationSystem))
+                        {
+
+                           <li style="padding-right: 50px">@classification.GetDisplayName()</li>
+                        }
+                     </ul>
+                  }
+                  else
+                  {
+                     <div class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) provided</div>
+                  }
+               </div>
+            }
+         </div>
+      </div>
+
+      <div class="col-md-5">
+         @if (ViewDataTyped.KeyPhoto != null)
+         {
+            <div class="keyPhoto">
+               <img class="img-responsive" src="@ViewDataTyped.KeyPhoto.GetPhotoUrlScaledForPrint()" alt="@ViewDataTyped.KeyPhoto.GetCaptionOnFullView()" />
+               <span class="captionText">@ViewDataTyped.KeyPhoto.Caption</span>
+            </div>
+         }
+         else
+         {
+            <div class="text-center">
+               <p class="systemText">No Key Photo provided</p>
+            </div>
+         }
+      </div>
+   </div>
+   <div class="row section">
+      <div class="col-sm-12 col-md-6">
+         <div style="margin-left: auto; margin-right: auto;">
+            <h4>Location</h4>
+            <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
+            <script type="text/javascript">
                     jQuery(document).ready(function()
                     {
                         var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
                         var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
                     });
-                </script>
+            </script>
+         </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+         <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
+            <h4>Expenditures</h4>
+            <div class="chartPanel">
+               @if (ViewDataTyped.ExpenditureGooglePieChartSlices.Any())
+               {
+                  <div class="text-center">
+                     <strong>Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Date: @ViewDataTyped.Project.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</strong>
+                  </div>
+                  <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
+                  <div class="captionText">
+                     <div>
+                        @foreach (var googlePieChartSlice in ViewDataTyped.ExpenditureGooglePieChartSlices.OrderBy(x => x.SortOrder))
+                        {
+                           <div class="chartLegendColorBox" style="display:inline-block; border: solid 6px @(googlePieChartSlice.Color);"></div>
+                           <div style="display: inline-block;">
+                              @(googlePieChartSlice.Label): @googlePieChartSlice.Value.ToString("C0")
+                           </div>
+                           <br />
+                        }
+                     </div>
+                  </div>
+               }
+               else
+               {
+                  <div class="text-center">
+                     <p class="systemText">No expenditures provided</p>
+                  </div>
+               }
             </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-            <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
-                <h4>Expenditures</h4>
-                <div class="chartPanel">
-                    @if (ViewDataTyped.ExpenditureGooglePieChartSlices.Any())
-                    {
-                        <div class="text-center">
-                            <strong>Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Date: @ViewDataTyped.Project.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</strong>
-                        </div>
-                        <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
-                        <div class="captionText">
-                            <div>
-                                @foreach (var googlePieChartSlice in ViewDataTyped.ExpenditureGooglePieChartSlices.OrderBy(x => x.SortOrder))
-                                {
-                                    <div class="chartLegendColorBox" style="display:inline-block; border: solid 6px @(googlePieChartSlice.Color);"></div>
-                                    <div style="display: inline-block;">
-                                        @(googlePieChartSlice.Label): @googlePieChartSlice.Value.ToString("C0")
-                                    </div>
-                                    <br />
-                                }
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="text-center">
-                            <p class="systemText">No expenditures provided</p>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row section" style="page-break-before: always">
-        <div class="col-xs-12">
-            <h4>Photos</h4>
-        </div>
-        @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
-        {
-            foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
-            {
-                <div class="col-xs-12">
-                    <strong>@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</strong>
-                </div>
-                <div class="col-xs-12" style="margin: 0 15px;">
-                    @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResourceInfo.GetOrientation()).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
-                    {
-                        <div class="row">
-                            @foreach (var projectImage in projectImageBatch)
-                            {
-                                <div class="col-sm-12 col-md-6">
-                                    <img class="img-responsive" src="@projectImage.GetPhotoUrlScaledForPrint()" alt="@projectImage.GetCaptionOnFullView()" />
-                                    <div class="captionText">@projectImage.Caption</div>
-                                </div>
-                            }
-                        </div>
-                    }
-                </div>
-            }
-        }
-        else
-        {
+         </div>
+      </div>
+   </div>
+   <div class="row section" style="page-break-before: always">
+      <div class="col-xs-12">
+         <h4>Photos</h4>
+      </div>
+      @if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
+      {
+         foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
+         {
             <div class="col-xs-12">
-                <p class="systemText">No additional photos provided</p>
+               <strong>@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</strong>
             </div>
-        }
-    </div>
-    <div class="row section">
-        <div class="col-md-12">
-            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomFactSheetPageTextViewData); }
-        </div>
-    </div>
-    <div class="pull-right"><hr />@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() last updated @ViewDataTyped.LastUpdated.ToShortDateString()</div>
+            <div class="col-xs-12" style="margin: 0 15px;">
+               @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResourceInfo.GetOrientation()).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
+               {
+                  <div class="row">
+                     @foreach (var projectImage in projectImageBatch)
+                     {
+                        <div class="col-sm-12 col-md-6">
+                           <img class="img-responsive" src="@projectImage.GetPhotoUrlScaledForPrint()" alt="@projectImage.GetCaptionOnFullView()" />
+                           <div class="captionText">@projectImage.Caption</div>
+                        </div>
+                     }
+                  </div>
+               }
+            </div>
+         }
+      }
+      else
+      {
+         <div class="col-xs-12">
+            <p class="systemText">No additional photos provided</p>
+         </div>
+      }
+   </div>
+   <div class="row section">
+      <div class="col-md-12">
+         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomFactSheetPageTextViewData); }
+      </div>
+   </div>
+   <div class="pull-right"><hr />@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() last updated @ViewDataTyped.LastUpdated.ToShortDateString()</div>
 </div>
