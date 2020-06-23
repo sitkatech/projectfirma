@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Models
             var endCalendarYear = projectFundingSourceExpenditureList.Max(x => x.CalendarYear);
             var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
 
-            return projectFundingSourceExpenditureList.ToGoogleChart(filterFunction, filterValues, sortFunction, rangeOfYears, chartContainerID, chartTitle, GoogleChartType.AreaChart, true);
+            return projectFundingSourceExpenditureList.ToGoogleChart(filterFunction, filterValues, sortFunction, rangeOfYears, chartContainerID, chartTitle, GoogleChartType.ColumnChart, true);
         }
 
         //TODO: The GetFullCategoryYearDictionary and GetGoogleChartDataTable functions are probably fine in this Extension class, but the ToGoogleChart functions are more about display and probably could be in a better location
