@@ -576,7 +576,6 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\Training\projectfirma-administrator-quick-guide.jpg" />
     <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
-    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
     <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
     <Content Include="Content\document-templates\model-testing.docx" />
@@ -587,7 +586,8 @@
     <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.docx" />
     <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.pdf" />
     <Content Include="Content\Training\ProjectFirma-Reports-Example-Report.docx" />
-    <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide.pdf" />
+    <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide_2020.pdf" />
+    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_2020.pdf" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
