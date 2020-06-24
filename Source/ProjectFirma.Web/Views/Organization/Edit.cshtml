@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
@@ -45,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    @Html.TextBoxFor(m => m.OrganizationName, new { @class="form-control", style = "width:100%" })
+                    @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form-control", style = "width:100%" })
                     @Html.ValidationMessageFor(m => m.OrganizationName)
                 }
             </div>
@@ -55,7 +55,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.OrganizationShortName, true)
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.OrganizationShortName, new {@class = "form-control", style = "width:100%"})
+                @Html.TextBoxFor(m => m.OrganizationShortName, new { @class = "form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.OrganizationShortName)
             </div>
         </div>
@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.OrganizationUrl)
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.OrganizationUrl, new { @class="form-control", style = "width:100%" })
+                @Html.TextBoxFor(m => m.OrganizationUrl, new { @class = "form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.OrganizationUrl)
             </div>
         </div>
@@ -80,13 +80,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
         }
-        <hr/>
+        <hr />
         <div class="form-group">
             <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
             </div>
             <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.OrganizationTypes, new { @class="form-control", style = "width:100%" })
+                @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.OrganizationTypes, new { @class = "form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.OrganizationTypeID)
             </div>
         </div>
@@ -120,22 +120,30 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.IsActive)
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.ShortDescription)
+            </div>
+            <div class="col-sm-9">
+                @Html.CkEditorFor(m => m.ShortDescription, CkEditorExtension.CkEditorToolbar.Minimal, true, false, null)
+            </div>
+        </div>
         @if (ViewDataTyped.IsSitkaAdmin)
         {
-            <hr/>
+            <hr />
             <h3>Sitka Admin Only</h3>
             <div class="form-group">
                 <div class="col-sm-3 control-label">
                     @Html.LabelWithSugarFor(m => m.OrganizationGuid)
                 </div>
                 <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.OrganizationGuid, new { @class="form-control", style="width:100%"})
+                    @Html.TextBoxFor(m => m.OrganizationGuid, new { @class = "form-control", style = "width:100%" })
                     @Html.ValidationMessageFor(m => m.OrganizationGuid)
                 </div>
             </div>
 
         }
-        
+
     </div>
     @Html.HiddenFor(m => m.OrganizationID)
 }
@@ -172,5 +180,5 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
     });
-
 </script>
+<script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>

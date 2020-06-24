@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.LogoFileResourceInfoID).HasColumnName(@"LogoFileResourceInfoID").HasColumnType("int").IsOptional();
             Property(x => x.OrganizationTypeID).HasColumnName(@"OrganizationTypeID").HasColumnType("int").IsRequired();
             Property(x => x.OrganizationBoundary).HasColumnName(@"OrganizationBoundary").HasColumnType("geometry").IsOptional();
+            Property(x => x.ShortDescription).HasColumnName(@"ShortDescription").HasColumnType("varchar").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.OrganizationsWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_Organization_Person_PrimaryContactPersonID_PersonID
