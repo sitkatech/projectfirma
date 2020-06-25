@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>DatePicker - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.5.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.5.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.5.1">
+		<link rel="stylesheet" href="../common/form.css?v=6.5.1">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				width: 1000px;
+			}
+			.dhx_sample-container__widget {
+				padding: 0 25px;
+				height: 100%;
+				max-width: 450px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">DatePicker</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						DatePicker.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<form class="dhx_sample-container__widget" id="form-settings"></form>
+		</section>
+		<script>
+			var datePickerConfig = {
+				type: "datepicker",
+				placeholder: "Choose a date",
+				label: "Date",
+				labelWidth: "80px",
+				labelPosition: "left",
+				disabled: false,
+                required: false,
+                editable: false,
+				helpMessage: "",
+				preMessage: "",
+				successMessage: "",
+                errorMessage: "",
+                weekStart: "sunday",
+                dateFormat: "%d/%m/%y"
+			};
+
+			var formSettings = new dhx.Form("form-settings", {
+				css: "dhx_widget--bordered",
+				rows: [
+					{
+						type: "input",
+						label: "dateFormat",
+						name: "dateFormat",
+						value: datePickerConfig.dateFormat,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "icon",
+						name: "icon",
+						value: datePickerConfig.icon,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "placeholder",
+						name: "placeholder",
+						value: datePickerConfig.placeholder,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "label",
+						name: "label",
+						value: datePickerConfig.label,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "labelWidth",
+						name: "labelWidth",
+						value: datePickerConfig.labelWidth,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "select",
+						readonly: true,
+						name: "labelPosition",
+						label: "labelPosition",
+						labelPosition: "left",
+						labelWidth: "120px",
+						options: [
+							{content: "left", value: "left"},
+							{content: "top", value: "top"},
+						]
+					},
+					{
+						align: "start",
+						padding: "0 0 0 140px",
+						cols: [
+							{
+								type: "checkbox",
+								label: "required",
+								name: "required",
+								labelPosition: "right",
+								checked: datePickerConfig.required,
+								gravity: false,
+								width: "50%"
+							},
+							{
+								type: "checkbox",
+								label: "editable",
+								name: "editable",
+								labelPosition: "right",
+								checked: datePickerConfig.editable,
+								gravity: false,
+							}
+						]						
+					},
+					{
+						align: "start",
+						padding: "0 0 0 140px",
+						cols: [
+							{
+								type: "checkbox",
+								label: "disabled",
+								name: "disabled",
+								labelPosition: "right",
+								checked: datePickerConfig.disabled,
+								gravity: false,
+							}
+						]						
+					},
+                    {
+						type: "select",
+                        label: "weekStart",
+                        name: "weekStart",
+						labelPosition: "left",
+						labelWidth: "120px",
+                        value: datePickerConfig.weekStart,
+						options: [
+							{
+								value: "sunday",
+								content: "sunday"
+							},
+							{
+								value: "monday",
+								content: "monday"
+							}
+						]
+					},	
+					{
+						type: "input",
+						label: "helpMessage",
+						name: "helpMessage",
+						value: datePickerConfig.helpMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "preMessage",
+						name: "preMessage",
+						value: datePickerConfig.preMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "successMessage",
+						name: "successMessage",
+						value: datePickerConfig.successMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "errorMessage",
+						name: "errorMessage",
+						value: datePickerConfig.errorMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					}
+				]
+			});
+
+			formSettings.events.on("change", function(name, value) {
+				datePickerConfig[name] = value;
+                createForm();
+			});
+
+			var form;
+
+			function createForm() {
+				if (form) {
+					form.destructor();
+				}
+				form = new dhx.Form("form-sample", {
+					css: "dhx_widget--bordered",
+					rows: [
+                        datePickerConfig
+					]
+				});
+			}
+
+			createForm();
+		</script>
+	</body>
+</html>

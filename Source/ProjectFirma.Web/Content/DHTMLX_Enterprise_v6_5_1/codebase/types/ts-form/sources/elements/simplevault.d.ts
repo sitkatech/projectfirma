@@ -1,0 +1,33 @@
+import { IEventSystem } from "../../../ts-common/events";
+import { View } from "../../../ts-common/view";
+import { DataCollection, DataEvents } from "../../../ts-data";
+import { Uploader, UploaderEvents, IFileWrapper, IParams } from "../../../ts-vault";
+import { Popup } from "../../../ts-popup";
+import { ISimpleVault, IBaseSimpleVaultEventHandlersMap, BaseItemEvent, ISimpleValue } from "../types";
+export declare class SimpleVault extends View {
+    events: IEventSystem<UploaderEvents | DataEvents | BaseItemEvent | IBaseSimpleVaultEventHandlersMap | any>;
+    data: DataCollection<IFileWrapper>;
+    protected _helper: Popup;
+    private _uploader;
+    private _handlers;
+    private _dragover;
+    private _dragoverTimeout;
+    constructor(container: HTMLElement | string, config: ISimpleVault);
+    show(): void;
+    hide(init?: boolean): void;
+    isVisible(): boolean;
+    disable(): void;
+    enable(): void;
+    isDisabled(): boolean;
+    validate(): boolean;
+    clearValidate(): void;
+    clear(): void;
+    getValue(): ISimpleValue[];
+    selectFile(): void;
+    send(params?: IParams): void;
+    setValue(value: any): void;
+    setConfig(config: ISimpleVault): void;
+    getWidget(): Uploader;
+    protected _initView(config: ISimpleVault): void;
+    private _draw;
+}

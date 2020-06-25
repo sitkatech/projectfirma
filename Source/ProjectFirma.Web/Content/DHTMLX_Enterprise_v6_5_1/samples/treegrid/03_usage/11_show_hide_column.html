@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Show/Hide column - DHTMLX TreeGrid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX TreeGrid to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.5.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.5.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.5.1">
+		<link rel="stylesheet" href="../common/treegrid.css?v=6.5.1">
+		<script type="text/javascript" src="../common/dataset.js?v=6.5.1"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">TreeGrid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Show/Hide column</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						It is possible to show and hide column in the grid via the showColumn() and hideColumn() methods.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="form-select">
+				<label for="col" class="dhx_label">Select column:</label>
+				<select name="col" class="dhx_select dhx_input" id="col">
+					<option value="name" selected>Name</option>
+					<option value="native">Native name</option>
+					<option value="capital">Capital</option>
+					<option value="currency">Currency</option>
+				</select>
+			</div>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="showCol()">Show</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="hideCol()">Hide</button>
+		</section>
+		<section class="dhx_sample-container dhx_sample-container--treegrid">
+			<div class="dhx_sample-container__widget" id="treegrid"></div>
+		</section>
+		<script>
+			var col = "name";
+			var treeGrid = new dhx.TreeGrid("treegrid", {
+				columns: [
+					{ width: 260, id: "name", header: [{ text: "Name" }] },
+					{ width: 260, id: "native", type: "string", header: [{ text: "Native name" }] },
+					{ width: 200, id: "capital", type: "string", header: [{ text: "Capital" }] },
+					{ width: 200, id: "currency", type: "string", header: [{ text: "Currency" }] }
+				],
+				data: dataset
+			});
+			document.getElementById("form-select").addEventListener("change", function(e) {
+				col = e.target.value;
+			});
+			function showCol() {
+				treeGrid.showColumn(col);
+			}
+			function hideCol() {
+				treeGrid.hideColumn(col);
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>All dhxForm inputs - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.5.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.5.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.5.1">
+		<link rel="stylesheet" href="../common/form.css?v=6.5.1">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">All dhxForm inputs</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						All dhxForm inputs.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+		</section>
+		<script>
+			var form = new dhx.Form("form-sample", {
+				css: "dhx_widget--bordered",
+				padding: "30px",
+				rows: [
+					{
+						type: "input",
+						label: "Name",
+						labelPosition: "left",
+						icon: "dxi dxi-magnify",
+						labelWidth: "130px",
+						required: true,
+						placeholder: "John Doe",
+						id: "name",
+						name: "name"
+					},
+					{
+						type: "combo",
+						label: "count",
+						required: true,
+						labelPosition: "left",
+						helpMessage: "Help information",
+						labelWidth: "130px",
+						id: "combo",
+						name: "combo",
+						data: [
+							{value: "1", id: "1"},
+							{value: "2", id: "2"},
+							{value: "3", id: "3"},
+							{value: "4", id: "4"},
+							{value: "5", id: "5"},
+						]
+					},
+					{
+						type: "slider",
+						label: "slider",
+						css: "slider",
+						labelPosition: "left",
+						helpMessage: " Help information",
+						labelWidth: "130px",
+						min: 0,
+						max: 100,
+						id: "slider",
+						name: "slider",
+					},
+					{
+						type: "datepicker",
+						label: "date",
+						required: true,
+						labelPosition: "left",
+						labelWidth: "130px",
+						id: "datepicker",
+						name: "datepicker"
+					},
+					{
+						type: "timepicker",
+						controls: "true",
+						label: "time",
+						required: true,
+						labelPosition: "left",
+						labelWidth: "130px",
+						id: "timepicker",
+						name: "timepicker"
+					},
+					{
+						type: "select",
+						label: "select",
+						labelPosition: "left",
+						labelWidth: "130px",
+						value: "2",
+						validation: function(value) {
+							return value !== "";
+						},
+						id: "select",
+						name: "select",
+						options: [
+							{
+								value: "",
+								content: ""
+							},
+							{
+								value: "1",
+								content: "1"
+							},
+							{
+								value: "2",
+								content: "2"
+							},
+							{
+								value: "3",
+								content: "3"
+							},
+							{
+								value: "4",
+								content: "4"
+							}
+						]
+					},
+					{
+						type: "textarea",
+						label: "textarea",
+						helpMessage: "Help information",
+						required: true,
+						labelPosition: "left",
+						labelWidth: "130px",
+						value: "I am textarea!",
+						id: "textarea",
+						name: "textarea",
+					},
+					{
+						type: "simpleVault",
+						helpMessage: "Help information",
+						required: true,
+						label: "files",
+						labelPosition: "left",
+						labelWidth: "130px",
+						id: "simplevault",
+						name: "simplevault",
+						target: "https://docs.dhtmlx.com/suite/backend/upload",
+						value: [
+							{
+								id: "image",
+								name: "image.png",
+								link: "/backend/upload/files/image.png",
+								status: "uploaded",
+
+							}
+						]
+					},
+					{
+						type: "text",
+						label: "text input",
+						labelPosition: "left",
+						labelWidth: "130px",
+						value: "I am textinput!",
+						id: "text",
+						name: "text"
+					},
+					{	
+						type: "radioGroup",
+						required: true,
+						options: {
+							padding: "5px",
+							rows: [
+									{
+										type: "radioButton",
+										label: "Select 1",
+										helpMessage: " Help information - 1",
+										labelWidth: "130px",
+										labelPosition: "right",
+										value: "This selected button - 1",
+										checked: true
+									},
+									{
+										type: "radioButton",
+										label: "Select 2",
+										helpMessage: " Help information - 2",
+										labelWidth: "130px",
+										labelPosition: "right",
+										value: "This selected button - 2"
+								}
+							]
+						},
+						id: "radiogroup",
+						name: "radiogroup",
+					},
+					{	
+						type: "checkbox",
+						label: "I agree",
+						labelWidth: "130px",
+						helpMessage: "Help information",
+						required: true,
+						value: "checkboxvalue",
+						labelPosition: "right",
+						id: "checkbox",
+						name: "checkbox",
+					},
+					{
+						labelPosition: "left",
+						label: "Choose your color",
+						required: true,
+						labelWidth: 130,
+						type: "colorpicker",
+						id: "colorpicker",
+						name: "colorpicker"
+					},
+					{
+						align: "end",
+						cols: [
+							{
+								gravity: false,
+								type: "button",
+								submit: true,
+								value: "Send",
+								size: "medium",
+								view: "flat",
+								color: "primary",
+								id: "button",
+								name: "button",
+								url: "https://docs.dhtmlx.com/suite/backend/formData/"
+							}
+						]
+					}
+				]
+			});
+		</script>
+	</body>
+</html>

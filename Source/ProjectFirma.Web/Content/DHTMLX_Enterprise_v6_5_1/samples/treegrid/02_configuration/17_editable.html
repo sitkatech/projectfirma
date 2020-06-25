@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Editable data - DHTMLX TreeGrid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX TreeGrid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.5.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.5.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.5.1">
+		<link rel="stylesheet" href="../common/treegrid.css?v=6.5.1">
+		<script type="text/javascript" src="../common/books_dataset.js?v=6.5.1"></script>
+		<!-- custom sample head -->
+	
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">TreeGrid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Editable data</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Editable data.
+						<div class="dhx_sample-docs-links">
+							Check documentation:
+							<a href="https://docs.dhtmlx.com/suite/treegrid__usage.html#editingdata" target="_blank" class="dhx_sample-header-link">Editable data</a>
+						</div>
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" checked name="editable" id="true" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">On</span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="editable" id="false" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_label">Off</span>
+			</label>
+		</section>
+		<section class="dhx_sample-container dhx_sample-container--treegrid">
+			<div class="dhx_sample-container__widget" id="treegrid"></div>
+		</section>
+		<script>
+			var treeGrid;
+			var config = {
+				columns: [
+					{ width: 300, id: "name", header: [{ text: "Book Name" }] },
+					{ width: 300, id: "price", type: "string", header: [{ text: "Terms and conditions", colspan: 2 }, { text: "Price" }] },
+					{ width: 300, id: "cover", type: "string", header: [{}, { text: "Cover" }], editorType: "select", options: ["", "Hardcover", "Paperback"] },
+					{ width: 300, id: "ships", type: "string", header: [{ text: "Ships in" }], editorType: "combobox", options: ["", "1 hour", "12 hours", "24 hours", "1 week"]  },
+					{ width: 300, id: "inStock", type: "boolean", header: [{ text: "In stock" }] }
+				],
+				data: editing_dataset,
+				editable: true,
+				fitToContainer: true
+			};
+
+			function createGrid() {
+				if (treeGrid) {
+					treeGrid.destructor();
+				}
+				treeGrid = new dhx.TreeGrid("treegrid", JSON.parse(JSON.stringify(config)));
+			}
+			var selector = document.querySelectorAll("[name=editable]");
+			for (var index = 0; index < selector.length; index++) {
+				selector[index].addEventListener("change", function (e) {
+					config.editable = (e.target.id === "true");
+					createGrid();
+				});
+			}
+
+			createGrid();
+		</script>
+	</body>
+</html>

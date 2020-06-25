@@ -1,0 +1,8 @@
+.dhx_sample-container__widget {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+.dhx_sample-header__content {
+	max-width: 400px;
+}

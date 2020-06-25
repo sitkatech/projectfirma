@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Content align - DHTMLX TreeGrid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX TreeGrid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.5.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.5.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.5.1">
+		<link rel="stylesheet" href="../common/treegrid.css?v=6.5.1">
+		<script type="text/javascript" src="../common/books_dataset.js?v=6.5.1"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">TreeGrid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Content align</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Content align.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="column-form">
+				<label for="col" class="dhx_label">Select column:</label>
+				<select name="col" class="dhx_select dhx_input" id="col">
+					<option value="name" selected>Book Name</option>
+					<option value="price">Price</option>
+					<option value="cover">Cover</option>
+					<option value="ships">Ships in</option>
+					<option value="inStock">In stock</option>
+				</select>
+			</div>
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="form-select">
+				<label for="by" class="dhx_label">Select item:</label>
+				<select name="by" class="dhx_select dhx_input" id="by">
+					<option value="value" selected>Value</option>
+					<option value="header">Header</option>
+				</select>
+			</div>
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="align-form">
+				<label for="align" class="dhx_label">Select item:</label>
+				<select name="align" class="dhx_select dhx_input" id="align">
+					<option value="left">Left</option>
+					<option value="center">Center</option>
+					<option value="right">Right</option>
+				</select>
+			</div>
+		</section>
+		<section class="dhx_sample-container dhx_sample-container--treegrid">
+			<div class="dhx_sample-container__widget" id="treegrid"></div>
+
+		</section>
+		<script>
+			var treeGrid;
+			var col = "name";
+			var by = "value";
+			var align = "left";
+
+			var config = {
+				columns: [
+					{ width: 280, id: "name", header: [{ text: "Book Name" }] },
+					{ width: 180, id: "price", type: "string", header: [{ text: "Terms and conditions", colspan: 2 }, { text: "Price" }] },
+					{ width: 180, id: "cover", type: "string", header: [{}, { text: "Cover" }] },
+					{ width: 180, id: "ships", type: "string", header: [{ text: "Ships in" }] },
+					{ width: 180, id: "inStock", type: "string", header: [{ text: "In stock" }] }
+				]
+			};
+
+			function initTreeGrid(align) {
+				if (!align) {
+					align = "";
+				}
+				if (treeGrid) {
+					treeGrid.destructor();
+				}
+				config.columns.map(function (item) {
+					if (item.id === col) {
+						if (by === "value") {
+							item.align = align;
+						} else {
+							item.header.forEach(function(head) {
+								head.align = align;
+							});
+						}
+					}
+				});
+				treeGrid = new dhx.TreeGrid("treegrid", config);
+				treeGrid.data.parse(JSON.parse(JSON.stringify(dataset)));
+			}
+
+			function updateSelectItems() {
+				var selectedItem = config.columns.find(function(item) {
+					if (item.id === col) {
+						return true;
+					}
+				});
+				if (by === "value") {
+					align = selectedItem.align || "left";
+				} else {
+					align = selectedItem.header[0].align || "left";
+				}
+				document.querySelector('#align-form [value="' + align + '"]').selected = true;
+			}
+
+			document.getElementById("column-form").addEventListener("change", function(e) {
+				col = e.target.value;
+				updateSelectItems();
+			});
+
+			document.getElementById("form-select").addEventListener("change", function(e) {
+				by = e.target.value;
+				updateSelectItems();
+			});
+
+			document.getElementById("align-form").addEventListener("change", function(e) {
+				align = e.target.value;
+				initTreeGrid(align);
+			});
+
+			initTreeGrid();
+		</script>
+	</body>
+</html>

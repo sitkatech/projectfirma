@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Init with external data - DHTMLX Tree</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Tree to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.5.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.5.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.5.1">
+		<link rel="stylesheet" href="../common/tree.css?v=6.5.1">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				max-width: 600px;
+			}
+			.dhx_sample-container__widget  {
+				width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Tree samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Init with external data</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Init with external data.
+					</div>
+				</h1>
+			</div>
+</header>
+
+		<main class="dhx_sample-container">
+			<section class="dhx_sample-container--wrapper">
+				<h4>External Data:</h4>
+				<div class="dhx_sample-container__widget" id="ex-tree"></div>
+			</section>
+		</main>
+
+		<script>
+			var data = new dhx.TreeCollection();
+			data.load("../common/treedata.json");
+			var treeEx = new dhx.Tree("ex-tree", {
+				data: data
+			});
+		</script>
+
+	</body>
+</html>
