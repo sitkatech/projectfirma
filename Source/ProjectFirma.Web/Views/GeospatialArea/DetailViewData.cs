@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -57,7 +58,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             GeospatialArea = geospatialArea;
             MapInitJson = mapInitJson;
             ViewGoogleChartViewData = viewGoogleChartViewData;
-            PageTitle = geospatialArea.GeospatialAreaName;
+            PageTitle = geospatialArea.GeospatialAreaType.IncludeTypeInPageTitle ? geospatialArea.GeospatialAreaName + " " + geospatialArea.GeospatialAreaType.GeospatialAreaTypeName : geospatialArea.GeospatialAreaName;
             GeospatialAreaTypeName = geospatialArea.GeospatialAreaType.GeospatialAreaTypeName;
             GeospatialAreaTypeNamePluralized = geospatialArea.GeospatialAreaType.GeospatialAreaTypeNamePluralized;
             EntityName = $"{GeospatialAreaTypeName}";
