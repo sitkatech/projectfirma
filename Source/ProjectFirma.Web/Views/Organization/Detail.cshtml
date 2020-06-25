@@ -158,6 +158,15 @@
                                                 @(new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())
                                             </div>
                                         </div>
+                                        @if (ViewDataTyped.Organization.ShortDescription != null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-xs-6 fieldLabel text-right">@Html.Label("Description")</div>
+                                                <div class="col-xs-6">
+                                                    @ViewDataTyped.Organization.ShortDescriptionHtmlString
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
