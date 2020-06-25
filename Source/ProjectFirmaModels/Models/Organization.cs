@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 
@@ -85,5 +86,11 @@ namespace ProjectFirmaModels.Models
             return canStewardProjectsOrganization != null &&
                    canStewardProjectsOrganization.OrganizationID == OrganizationID;
         }
+
+        public HtmlString GetFirmaPageContentHtmlString() => DescriptionHtmlString;
+
+        public string GetFirmaPageDisplayName() => GetDisplayName();
+
+        public bool HasPageContent() => !string.IsNullOrWhiteSpace(Description);
     }
 }

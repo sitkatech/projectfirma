@@ -296,5 +296,29 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllGeospatialAreaImages.Add(ppImage);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResourceInfo));
         }
+        /// <summary>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForOrganizationDescription(OrganizationPrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// </summary>
+        /// <returns></returns>
+        [CrossAreaRoute]
+        [HttpGet]
+        [OrganizationManageFeature]
+        public ContentResult CkEditorUploadFileResourceForOrganizationDescription(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            return Content(String.Empty);
+        }
+
+        [CrossAreaRoute]
+        [HttpPost]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        [OrganizationManageFeature]
+        public ContentResult CkEditorUploadFileResourceForOrganizationDescription(OrganizationPrimaryKey organizationPrimaryKey, CkEditorImageUploadViewModel viewModel)
+        {
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
+            var organization = organizationPrimaryKey.EntityObject;
+            var ppImage = new OrganizationImage(organization, fileResourceInfo);
+            HttpRequestStorage.DatabaseEntities.AllOrganizationImages.Add(ppImage);
+            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResourceInfo));
+        }
     }
 }

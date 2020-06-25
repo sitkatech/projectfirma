@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[Organization](
 	[LogoFileResourceInfoID] [int] NULL,
 	[OrganizationTypeID] [int] NOT NULL,
 	[OrganizationBoundary] [geometry] NULL,
-	[ShortDescription] [dbo].[html] NULL,
+	[Description] [dbo].[html] NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC

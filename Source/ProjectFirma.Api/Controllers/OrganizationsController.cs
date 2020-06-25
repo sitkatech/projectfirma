@@ -40,7 +40,7 @@ namespace ProjectFirma.Api.Controllers
             organization.OrganizationGuid = organizationDto.OrganizationGuid;
             organization.OrganizationShortName = organizationDto.OrganizationShortName;
             organization.OrganizationUrl = organizationDto.OrganizationUrl;
-            organization.ShortDescription = organizationDto.ShortDescription;
+            organization.Description = organizationDto.Description;
             if (organizationDto.LogoFileResource != null)
             {
                 var fileResourceDto = organizationDto.LogoFileResource;
@@ -91,7 +91,7 @@ namespace ProjectFirma.Api.Controllers
             organization.OrganizationTypeID = organizationDto.OrganizationTypeID;
             organization.IsActive = organizationDto.IsActive;
             organization.OrganizationUrl = organizationDto.OrganizationUrl;
-            organization.ShortDescription = organizationDto.ShortDescription;
+            organization.Description = organizationDto.Description;
             if (organizationDto.LogoFileResource != null)
             {
                 var fileResourceDto = organizationDto.LogoFileResource;

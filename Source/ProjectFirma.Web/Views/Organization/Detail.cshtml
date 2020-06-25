@@ -25,7 +25,6 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
 @using Newtonsoft.Json
@@ -103,6 +102,9 @@
             <li>
                 <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
             </li>
+            <li>
+                <a href="#details" aria-controls="results" role="tab" data-toggle="tab" id="detailsTab">Details</a>
+            </li>
         </ul>
     </div>
 </div>
@@ -114,7 +116,7 @@
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Organization.GetDisplayName()), ViewDataTyped.UserHasOrganizationManagePermissions) 
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Organization.GetDisplayName()), ViewDataTyped.UserHasOrganizationManagePermissions)
                                 Basics
                             </div>
                             <div class="panel-body">
@@ -143,7 +145,7 @@
                                                 <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
                                             </div>
                                         </div>
-                                        <hr/>
+                                        <hr />
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationType.ToType())</div>
                                             <div class="col-xs-6">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
@@ -158,15 +160,6 @@
                                                 @(new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())
                                             </div>
                                         </div>
-                                        @if (ViewDataTyped.Organization.ShortDescription != null)
-                                        {
-                                            <div class="row">
-                                                <div class="col-xs-6 fieldLabel text-right">@Html.Label("Description")</div>
-                                                <div class="col-xs-6">
-                                                    @ViewDataTyped.Organization.ShortDescriptionHtmlString
-                                                </div>
-                                            </div>
-                                        }
                                     </div>
                                 </div>
                             </div>
@@ -467,6 +460,28 @@
                         </div>
                     </div>
                 }
+            </div>
+            <div role="tabpanel" class="tab-pane" id="details">
+                <div class="row">
+                    <div class="col-xs-12">
+                        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.DescriptionViewData); }
+                        @if (ViewDataTyped.Organization.Description == null)
+                        {
+                            if (ViewDataTyped.Organization.OrganizationUrl != null)
+                            {
+                                <p class="systemText">
+                                    More information can be found on this organization's home page:
+                                    <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="systemText">No additional details available.</p>
+                            }
+                        }
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
