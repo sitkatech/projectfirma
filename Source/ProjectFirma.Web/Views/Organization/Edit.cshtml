@@ -120,14 +120,6 @@
                 @Html.ValidationMessageFor(m => m.IsActive)
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.ShortDescription)
-            </div>
-            <div class="col-sm-9">
-                @Html.CkEditorFor(m => m.ShortDescription, CkEditorExtension.CkEditorToolbar.Minimal, true, false, null)
-            </div>
-        </div>
         @if (ViewDataTyped.IsSitkaAdmin)
         {
             <hr />

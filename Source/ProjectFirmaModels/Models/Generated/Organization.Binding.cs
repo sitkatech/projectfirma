@@ -27,6 +27,7 @@ namespace ProjectFirmaModels.Models
         {
             this.FundingSources = new HashSet<FundingSource>();
             this.OrganizationBoundaryStagings = new HashSet<OrganizationBoundaryStaging>();
+            this.OrganizationImages = new HashSet<OrganizationImage>();
             this.People = new HashSet<Person>();
             this.PersonStewardOrganizations = new HashSet<PersonStewardOrganization>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
@@ -36,7 +37,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string shortDescription) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
@@ -48,7 +49,7 @@ namespace ProjectFirmaModels.Models
             this.LogoFileResourceInfoID = logoFileResourceInfoID;
             this.OrganizationTypeID = organizationTypeID;
             this.OrganizationBoundary = organizationBoundary;
-            this.ShortDescription = shortDescription;
+            this.Description = description;
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || OrganizationBoundaryStagings.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
+            return FundingSources.Any() || OrganizationBoundaryStagings.Any() || OrganizationImages.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
         }
 
         /// <summary>
@@ -110,6 +111,11 @@ namespace ProjectFirmaModels.Models
             if(OrganizationBoundaryStagings.Any())
             {
                 dependentObjects.Add(typeof(OrganizationBoundaryStaging).Name);
+            }
+
+            if(OrganizationImages.Any())
+            {
+                dependentObjects.Add(typeof(OrganizationImage).Name);
             }
 
             if(People.Any())
@@ -137,7 +143,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(OrganizationBoundaryStaging).Name, typeof(OrganizationImage).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
 
 
         /// <summary>
@@ -168,6 +174,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in OrganizationBoundaryStagings.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in OrganizationImages.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -205,18 +216,19 @@ namespace ProjectFirmaModels.Models
         public int? LogoFileResourceInfoID { get; set; }
         public int OrganizationTypeID { get; set; }
         public DbGeometry OrganizationBoundary { get; set; }
-        public string ShortDescription { get; set; }
+        public string Description { get; set; }
         [NotMapped]
-        public HtmlString ShortDescriptionHtmlString
+        public HtmlString DescriptionHtmlString
         { 
-            get { return ShortDescription == null ? null : new HtmlString(ShortDescription); }
-            set { ShortDescription = value?.ToString(); }
+            get { return Description == null ? null : new HtmlString(Description); }
+            set { Description = value?.ToString(); }
         }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
         public virtual ICollection<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get; set; }
+        public virtual ICollection<OrganizationImage> OrganizationImages { get; set; }
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<PersonStewardOrganization> PersonStewardOrganizations { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }

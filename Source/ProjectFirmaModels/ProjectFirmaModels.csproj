@@ -266,6 +266,10 @@
     <Compile Include="Models\Generated\OrganizationBoundaryStagingConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationBoundaryStagingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationImage.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationImageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationRelationshipType.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationRelationshipType.DatabaseContextExtensions.cs" />

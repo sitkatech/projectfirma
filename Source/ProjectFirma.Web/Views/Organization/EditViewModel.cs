@@ -69,9 +69,6 @@ namespace ProjectFirma.Web.Views.Organization
         [DisplayName("Keystone Organization Guid")]
         public Guid? OrganizationGuid { get; set; }
 
-        [DisplayName("Description")]
-        public HtmlString ShortDescription { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -87,7 +84,6 @@ namespace ProjectFirma.Web.Views.Organization
             OrganizationTypeID = organization.OrganizationTypeID;
             PrimaryContactPersonID = organization.PrimaryContactPerson?.PersonID;
             OrganizationUrl = organization.OrganizationUrl;
-            ShortDescription = organization.ShortDescriptionHtmlString;
             IsActive = organization.IsActive;
             OrganizationGuid = organization.OrganizationGuid;
         }
@@ -97,7 +93,6 @@ namespace ProjectFirma.Web.Views.Organization
             organization.OrganizationName = OrganizationName;
             organization.OrganizationShortName = OrganizationShortName;
             organization.OrganizationTypeID = OrganizationTypeID.Value;
-            organization.ShortDescriptionHtmlString = ShortDescription;
             organization.IsActive = IsActive;
             organization.PrimaryContactPersonID = PrimaryContactPersonID;
             organization.OrganizationUrl = OrganizationUrl;

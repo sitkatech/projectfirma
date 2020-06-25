@@ -81,6 +81,7 @@ namespace ProjectFirma.Web.Views.Organization
         public int NumberOfStewardedProjects { get; }
         public int NumberOfLeadImplementedProjects { get; }
         public int NumberOfProjectsContributedTo { get; }
+        public ViewPageContentViewData DescriptionViewData { get; }
 
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
@@ -186,6 +187,7 @@ namespace ProjectFirma.Web.Views.Organization
             NumberOfStewardedProjects = allAssociatedProjects.Count(x => x.IsActiveProject() && x.GetCanStewardProjectsOrganization() == Organization);
             NumberOfLeadImplementedProjects = allAssociatedProjects.Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
             NumberOfProjectsContributedTo = allAssociatedProjects.ToList().GetActiveProjects().Count;
+            DescriptionViewData = new ViewPageContentViewData(organization, currentFirmaSession);
         }
     }
 }
