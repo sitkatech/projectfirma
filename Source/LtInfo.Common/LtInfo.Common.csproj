@@ -178,7 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertCustom.cs" />
-    <Compile Include="AthenaPDFUtility.cs" />
     <Compile Include="BootstrapWrappers\BootstrapHtmlHelpers.cs" />
     <Compile Include="CommonUtility.cs" />
     <Compile Include="CommonUtilityTest.cs" />
@@ -250,7 +249,6 @@
     <Compile Include="LtInfoVersionInfo.cs" />
     <Compile Include="Mvc\InMemorySessionStateStore.cs" />
     <Compile Include="Mvc\ISitkaDbContext.cs" />
-    <Compile Include="WkhtmlPDFUtility.cs" />
     <Compile Include="SitkaWebConfiguration.cs" />
     <Compile Include="ModalDialog\ModalDialogFormHelper.cs" />
     <Compile Include="Models\EntityFrameworkHelpers.cs" />
