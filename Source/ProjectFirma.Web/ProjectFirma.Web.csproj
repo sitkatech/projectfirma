@@ -88,7 +88,6 @@
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\HeadlessGoogleChromeIsAvailable.cs" />
-    <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
     <Compile Include="Models\AttachmentTypeFileResourceMimeTypeModelExtensions.cs" />
     <Compile Include="Models\AttachmentTypeModelExtensions.cs" />
