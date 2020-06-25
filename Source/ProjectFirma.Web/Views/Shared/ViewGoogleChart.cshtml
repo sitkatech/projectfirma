@@ -41,6 +41,12 @@
         padding-left: 20px;
         padding-bottom: 0;
     }
+
+    /* Prevents flickering of tooltip when mouse is moved in cases where the tooltop appears behind the mouse (e.g. on a chart with many legend items to display in the tooltip) */
+    svg > g > g:last-child {
+        pointer-events: none
+    }
+
 </style>
 
 <script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
@@ -137,7 +143,7 @@
                             @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.SaveConfigurationUrl))
                             {
                                 <li>
-                                    <a onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl')" style="margin-right: 10px">
+                                    <a href="#" onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl')">
                                         <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
                                     </a>
                                 </li>
