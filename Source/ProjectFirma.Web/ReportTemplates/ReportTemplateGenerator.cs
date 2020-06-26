@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace ProjectFirma.Web.ReportTemplates
 {
@@ -63,6 +64,11 @@ namespace ProjectFirma.Web.ReportTemplates
                 SaveImageFilesToTempDirectory();
             }
 
+            // Word will insert hidden bookmarks apparently. Bookmarks seem to cause a good amount of issues with the generation
+            // and the error is extremely confusing for the user. This might make it so user's cannot make templates with bookmarks
+            // but this seems very necessary - 6/26/2020 SMG
+            RemoveBookmarks(templatePath);
+
             switch (ReportTemplateModelEnum)
             {
                 case ReportTemplateModelEnum.Project:
@@ -82,6 +88,24 @@ namespace ProjectFirma.Web.ReportTemplates
             document.Generate(compilePath);
 
             CleanTempDirectoryOfOldFiles(FullTemplateTempDirectory);
+        }
+
+        private void RemoveBookmarks(string templatePath)
+        {
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(templatePath, true))
+            {
+                var bs = wordDoc.MainDocumentPart.Document
+                    .Descendants<BookmarkStart>()
+                    .ToList();
+                foreach (var s in bs)
+                    s.Remove();
+
+                var be = wordDoc.MainDocumentPart.Document
+                    .Descendants<BookmarkEnd>()
+                    .ToList();
+                foreach (var e in be)
+                    e.Remove();
+            }
         }
 
         /// <summary>
