@@ -1609,7 +1609,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectViewFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            var gridSpec = new AuditLogsGridSpec();
+            var gridSpec = new AuditLogsGridSpec(CurrentFirmaSession);
             var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;

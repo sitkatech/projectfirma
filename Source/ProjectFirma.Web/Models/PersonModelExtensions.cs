@@ -38,30 +38,27 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public static class PersonModelExtensions
     {
-        public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
+        public static HtmlString GetFullNameFirstLastAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.GetFullNameFirstLast());
+            if (new UserViewFeature().HasPermission(currentFirmaSession, person).HasPermission)
+            {
+                return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.GetFullNameFirstLast());
+            }
+            return new HtmlString(person.GetFullNameFirstLast());
         }
 
-        public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person)
+        public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            var userUrl = person.GetFullNameFirstLastAsUrl();
+            var userUrl = person.GetFullNameFirstLastAsUrl(currentFirmaSession);
             var orgUrl = person.Organization.GetDisplayNameAsUrl();
             return new HtmlString($"{userUrl} - {orgUrl}");
         }
 
-        public static HtmlString GetFullNameFirstLastAndOrgShortNameAsUrl(this Person person)
+        public static HtmlString GetFullNameFirstLastAndOrgShortNameAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            var userUrl = person.GetFullNameFirstLastAsUrl();
+            var userUrl = person.GetFullNameFirstLastAsUrl(currentFirmaSession);
             var orgUrl = person.Organization.GetShortNameAsUrl();
             return new HtmlString($"{userUrl} ({orgUrl})");
-        }
-
-        public static HtmlString GetFullNameFirstLastAsStringAndOrgAsUrl(this Person person)
-        {
-            var userString = person.GetFullNameFirstLast();
-            var orgUrl = person.Organization.GetShortNameAsUrl();
-            return new HtmlString($"{userString} - {orgUrl}");
         }
 
         public static string GetFullNameFirstLastAndOrg(this Person person) => $"{person.FirstName} {person.LastName} - {person.Organization.GetDisplayName()}";

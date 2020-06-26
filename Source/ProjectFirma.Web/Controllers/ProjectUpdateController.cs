@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public GridJsonNetJObjectResult<Project> IndexGridJsonData(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType)
         {
-            var gridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, CurrentPerson.IsApprover());
+            var gridSpec = new ProjectUpdateStatusGridSpec(CurrentFirmaSession, projectUpdateStatusFilterType, CurrentPerson.IsApprover());
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => p.IsUpdatableViaProjectUpdateProcess());
 
             switch (projectUpdateStatusFilterType)
@@ -2264,7 +2264,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Manage()
         {
             var customNotificationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CreateCustomNotification(null));
-            var projectsRequiringUpdateGridSpec = new ProjectUpdateStatusGridSpec(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover())
+            var projectsRequiringUpdateGridSpec = new ProjectUpdateStatusGridSpec(CurrentFirmaSession, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover())
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
@@ -2296,7 +2296,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectUpdateAdminFeature]
         public GridJsonNetJObjectResult<Project> ProjectsRequiringUpdateGridJsonData()
         {
-            var gridSpec = new ProjectUpdateStatusGridSpec(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover());
+            var gridSpec = new ProjectUpdateStatusGridSpec(CurrentFirmaSession, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover());
             var projects =
                 HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess() && x.IsEditableToThisFirmaSession(CurrentFirmaSession)).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);

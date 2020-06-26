@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             HasProjectUpdateAdminPermissions = new ProjectUpdateAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
-            GridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, currentPerson.IsAdministrator() || currentPerson.IsSitkaAdministrator()) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+            GridSpec = new ProjectUpdateStatusGridSpec(currentFirmaSession, projectUpdateStatusFilterType, currentPerson.IsAdministrator() || currentPerson.IsSitkaAdministrator()) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
             GridDataUrl = gridDataUrl;
             GridName = "myProjectsGrid";

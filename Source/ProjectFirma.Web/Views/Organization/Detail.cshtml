@@ -157,7 +157,7 @@
                                                 {
                                                     <span style="margin-right: 5px">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationPrimaryContactUrl, string.Format("Edit {0} for {1}", FieldDefinitionEnum.OrganizationPrimaryContact.ToType().FieldDefinitionDisplayName, ViewDataTyped.Organization.OrganizationName), 800, ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions)</span>
                                                 }
-                                                @(new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())
+                                                @ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl(ViewDataTyped.CurrentFirmaSession)
                                             </div>
                                         </div>
                                     </div>
@@ -333,18 +333,9 @@
                                     <ul>
                                         @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.GetFullNameLastFirst()))
                                         {
-                                            if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, person).HasPermission)
-                                            {
-                                                <li>
-                                                    @person.GetFullNameFirstLastAsUrl()
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li>
-                                                    @person.GetFullNameFirstLast()
-                                                </li>
-                                            }
+                                            <li>
+                                                @person.GetFullNameFirstLastAsUrl(ViewDataTyped.CurrentFirmaSession)
+                                            </li>
                                         }
                                     </ul>
                                 }
