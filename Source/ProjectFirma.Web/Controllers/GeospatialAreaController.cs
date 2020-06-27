@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !geospatialArea.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {geospatialArea.GeospatialAreaType.GeospatialAreaTypeName} '{geospatialArea.GeospatialAreaName}'?"
+                ? $"Are you sure you want to delete this {geospatialArea.GeospatialAreaType.GeospatialAreaTypeName} '{geospatialArea.GeospatialAreaShortName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{geospatialArea.GeospatialAreaType.GeospatialAreaTypeDefinition}", SitkaRoute<GeospatialAreaController>.BuildLinkFromExpression(x => x.Detail(geospatialArea), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

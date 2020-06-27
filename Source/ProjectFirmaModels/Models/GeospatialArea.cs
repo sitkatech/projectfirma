@@ -29,10 +29,10 @@ namespace ProjectFirmaModels.Models
         public fGeoServerGeospatialAreaAreasContainingProjectLocation_Result
             MakefGeoServerGeospatialAreaAreasContainingProjectLocation()
         {
-            return new fGeoServerGeospatialAreaAreasContainingProjectLocation_Result(this.GeospatialAreaID, this.GeospatialAreaID, this.GeospatialAreaName, this.GeospatialAreaTypeID);
+            return new fGeoServerGeospatialAreaAreasContainingProjectLocation_Result(this.GeospatialAreaID, this.GeospatialAreaID, this.GeospatialAreaShortName, this.GeospatialAreaTypeID);
         }
 
-        public string GetDisplayName() => GeospatialAreaName;
+        public string GetDisplayName() => GeospatialAreaShortName;
 
         public string GetAuditDescriptionString() => GeospatialAreaName;
 

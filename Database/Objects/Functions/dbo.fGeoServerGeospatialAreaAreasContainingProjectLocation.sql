@@ -11,7 +11,7 @@ RETURNS @GeospatialAreaTable TABLE
 (
     GeospatialAreaID int not null,
     PrimaryKey int not null primary key,
-    GeospatialAreaName varchar(100) not null,
+    GeospatialAreaShortName varchar(100) not null,
     GeospatialAreaTypeID int not null
 )
 AS
@@ -34,7 +34,7 @@ BEGIN
 
     select ga.GeospatialAreaID
     ,       ga.GeospatialAreaID as PrimaryKey
-    ,       ga.GeospatialAreaName
+    ,       ga.GeospatialAreaShortName
     ,       ga.GeospatialAreaTypeID
      from dbo.GeospatialArea ga
      where ga.TenantID = @viTenantID 

@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
                     return person.PersonStewardTaxonomyBranches.OrderBy(x => x.TaxonomyBranch.TaxonomyBranchSortOrder).ThenBy(x => x.TaxonomyBranch.TaxonomyBranchName).Select(x => x.TaxonomyBranch.GetDisplayNameAsUrl()).ToList();
                 case ProjectStewardshipAreaTypeEnum.GeospatialAreas:
-                    return person.PersonStewardGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).ToList().Select(x => x.GeospatialArea.GetDisplayNameAsUrl()).ToList();
+                    return person.PersonStewardGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaShortName).ToList().Select(x => x.GeospatialArea.GetDisplayNameAsUrl()).ToList();
                 default:
                     throw new ArgumentOutOfRangeException();
             }

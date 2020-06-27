@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Controllers
 
 
             var confirmMessage =
-                $"Are you sure you want to delete all targets associated with this {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} '{geospatialArea.GeospatialAreaName}'?";
+                $"Are you sure you want to delete all targets associated with this {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} '{geospatialArea.GeospatialAreaShortName}'?";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

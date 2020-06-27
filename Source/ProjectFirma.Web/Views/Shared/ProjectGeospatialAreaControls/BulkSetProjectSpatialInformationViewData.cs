@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                 var geospatialAreaIDsInitiallySelected = selectedGeospatialAreas.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList();
                 return new GeospatialAreaTypeSimple(x, geospatialAreaIDsContainingProjectSimpleLocation, geospatialAreaIDsInitiallySelected);
             }).ToList();
-            GeospatialAreaNameByID = possibleGeospatialAreas.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaName);
+            GeospatialAreaNameByID = possibleGeospatialAreas.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaShortName);
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
             CanEdit = canEdit;
             MapInitJson = mapInitJson;

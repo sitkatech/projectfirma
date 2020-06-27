@@ -108,8 +108,8 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var searchString = term.Trim();
             return Json(HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID && x.GeospatialAreaName.Contains(searchString)).OrderBy(x => x.GeospatialAreaName).Take(20).ToList()
-                .Select(x => new {x.GeospatialAreaName, x.GeospatialAreaID}).ToList(), JsonRequestBehavior.AllowGet);
+                .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID && x.GeospatialAreaShortName.Contains(searchString)).OrderBy(x => x.GeospatialAreaShortName).Take(20).ToList()
+                .Select(x => new {x.GeospatialAreaShortName, x.GeospatialAreaID}).ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public static string GetEditProjectGeospatialAreasFormID()

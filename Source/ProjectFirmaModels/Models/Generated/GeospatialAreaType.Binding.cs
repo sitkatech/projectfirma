@@ -34,7 +34,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition, string geospatialAreaLayerName, bool includeTypeInPageTitle) : this()
+        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition, string geospatialAreaLayerName) : this()
         {
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
             this.GeospatialAreaTypeName = geospatialAreaTypeName;
@@ -42,13 +42,12 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaIntroContent = geospatialAreaIntroContent;
             this.GeospatialAreaTypeDefinition = geospatialAreaTypeDefinition;
             this.GeospatialAreaLayerName = geospatialAreaLayerName;
-            this.IncludeTypeInPageTitle = includeTypeInPageTitle;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaType(string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaLayerName, bool includeTypeInPageTitle) : this()
+        public GeospatialAreaType(string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaLayerName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -56,7 +55,6 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaTypeName = geospatialAreaTypeName;
             this.GeospatialAreaTypeNamePluralized = geospatialAreaTypeNamePluralized;
             this.GeospatialAreaLayerName = geospatialAreaLayerName;
-            this.IncludeTypeInPageTitle = includeTypeInPageTitle;
         }
 
 
@@ -65,7 +63,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static GeospatialAreaType CreateNewBlank()
         {
-            return new GeospatialAreaType(default(string), default(string), default(string), default(bool));
+            return new GeospatialAreaType(default(string), default(string), default(string));
         }
 
         /// <summary>
@@ -175,7 +173,6 @@ namespace ProjectFirmaModels.Models
             set { GeospatialAreaTypeDefinition = value?.ToString(); }
         }
         public string GeospatialAreaLayerName { get; set; }
-        public bool IncludeTypeInPageTitle { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaTypeID; } set { GeospatialAreaTypeID = value; } }
 
