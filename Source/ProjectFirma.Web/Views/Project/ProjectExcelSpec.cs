@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Project
 
             foreach (var geospatialAreaType in geospatialAreaTypes)
             {
-                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => string.Join(", ", x.ProjectGeospatialAreas.Where(y => y.GeospatialArea.GeospatialAreaType == geospatialAreaType).Select(y => y.GeospatialArea.GeospatialAreaName).ToList()));
+                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => string.Join(", ", x.ProjectGeospatialAreas.Where(y => y.GeospatialArea.GeospatialAreaType == geospatialAreaType).Select(y => y.GeospatialArea.GeospatialAreaShortName).ToList()));
             }
             AddColumn(FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel(), x => x.ImplementationStartYear);
             AddColumn(FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel(), x => x.CompletionYear);
@@ -225,7 +225,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
-                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => x.GeospatialArea.GetDisplayName());
+                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => x.GeospatialArea.GeospatialAreaShortName);
             }
         }
     }

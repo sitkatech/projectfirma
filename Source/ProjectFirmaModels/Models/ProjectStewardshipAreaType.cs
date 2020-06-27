@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
             {
                 return new List<PersonStewardGeospatialArea>();
             }
-            return person.PersonStewardGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).ToList();
+            return person.PersonStewardGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaShortName).ToList();
         }
     }
 }

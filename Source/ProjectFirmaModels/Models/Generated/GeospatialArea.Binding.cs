@@ -37,31 +37,33 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialArea(int geospatialAreaID, string geospatialAreaName, DbGeometry geospatialAreaFeature, int geospatialAreaTypeID, string geospatialAreaDescriptionContent) : this()
+        public GeospatialArea(int geospatialAreaID, string geospatialAreaName, DbGeometry geospatialAreaFeature, int geospatialAreaTypeID, string geospatialAreaDescriptionContent, string geospatialAreaShortName) : this()
         {
             this.GeospatialAreaID = geospatialAreaID;
             this.GeospatialAreaName = geospatialAreaName;
             this.GeospatialAreaFeature = geospatialAreaFeature;
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
             this.GeospatialAreaDescriptionContent = geospatialAreaDescriptionContent;
+            this.GeospatialAreaShortName = geospatialAreaShortName;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialArea(string geospatialAreaName, int geospatialAreaTypeID) : this()
+        public GeospatialArea(string geospatialAreaName, int geospatialAreaTypeID, string geospatialAreaShortName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.GeospatialAreaName = geospatialAreaName;
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
+            this.GeospatialAreaShortName = geospatialAreaShortName;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public GeospatialArea(string geospatialAreaName, GeospatialAreaType geospatialAreaType) : this()
+        public GeospatialArea(string geospatialAreaName, GeospatialAreaType geospatialAreaType, string geospatialAreaShortName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -69,6 +71,7 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaTypeID = geospatialAreaType.GeospatialAreaTypeID;
             this.GeospatialAreaType = geospatialAreaType;
             geospatialAreaType.GeospatialAreas.Add(this);
+            this.GeospatialAreaShortName = geospatialAreaShortName;
         }
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static GeospatialArea CreateNewBlank(GeospatialAreaType geospatialAreaType)
         {
-            return new GeospatialArea(default(string), geospatialAreaType);
+            return new GeospatialArea(default(string), geospatialAreaType, default(string));
         }
 
         /// <summary>
@@ -209,6 +212,7 @@ namespace ProjectFirmaModels.Models
             get { return GeospatialAreaDescriptionContent == null ? null : new HtmlString(GeospatialAreaDescriptionContent); }
             set { GeospatialAreaDescriptionContent = value?.ToString(); }
         }
+        public string GeospatialAreaShortName { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaID; } set { GeospatialAreaID = value; } }
 
@@ -225,6 +229,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int GeospatialAreaName = 100;
+            public const int GeospatialAreaShortName = 200;
         }
     }
 }

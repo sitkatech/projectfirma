@@ -47,8 +47,8 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
         }
 
         var geospatialArea = _.find($scope.AngularViewData.GeospatialAreaSimples, { GeospatialAreaID: geospatialAreaIdInt });
-        var combinedName = geospatialAreaType.GeospatialAreaTypeName + " - " + geospatialArea.GeospatialAreaName;
-        var newArea = { GeospatialAreaID: geospatialAreaIdInt, GeospatialAreaName: combinedName };
+        var combinedName = geospatialAreaType.GeospatialAreaTypeName + " - " + geospatialArea.GeospatialAreaShortName;
+        var newArea = { GeospatialAreaID: geospatialAreaIdInt, GeospatialAreaShortName: combinedName };
         $scope.AngularModel.SelectedGeospatialAreas.push(newArea);
         var indexOfCurrentItem = $scope.selectableGeospatialAreas.indexOf($scope.SelectedGeospatialArea);
         if (typeof $scope.selectableGeospatialAreas[indexOfCurrentItem + 1] !== 'undefined') {
@@ -86,8 +86,8 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
                                                 });
         
         $scope.GeospatialAreaDropdownOptions = filteredGeospatialAreas.sort(function (a, b) {
-                                                                                                var nameA = a.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
-                                                                                                var nameB = b.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
+                                                                                                var nameA = a.GeospatialAreaShortName.toUpperCase(); // ignore upper and lowercase
+                                                                                                var nameB = b.GeospatialAreaShortName.toUpperCase(); // ignore upper and lowercase
                                                                                                 if (nameA < nameB) {
                                                                                                     return -1;
                                                                                                 }

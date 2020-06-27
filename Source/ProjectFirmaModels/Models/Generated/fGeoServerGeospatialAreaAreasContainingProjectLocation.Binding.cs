@@ -26,11 +26,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public fGeoServerGeospatialAreaAreasContainingProjectLocation_Result(int geospatialAreaID, int primaryKey, string geospatialAreaName, int geospatialAreaTypeID) : this()
+        public fGeoServerGeospatialAreaAreasContainingProjectLocation_Result(int geospatialAreaID, int primaryKey, string geospatialAreaShortName, int geospatialAreaTypeID) : this()
         {
             this.GeospatialAreaID = geospatialAreaID;
             this.PrimaryKey = primaryKey;
-            this.GeospatialAreaName = geospatialAreaName;
+            this.GeospatialAreaShortName = geospatialAreaShortName;
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
         }
 
@@ -41,7 +41,7 @@ namespace ProjectFirmaModels.Models
         {
             this.GeospatialAreaID = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.GeospatialAreaID;
             this.PrimaryKey = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.PrimaryKey;
-            this.GeospatialAreaName = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.GeospatialAreaName;
+            this.GeospatialAreaShortName = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.GeospatialAreaShortName;
             this.GeospatialAreaTypeID = fGeoServerGeospatialAreaAreasContainingProjectLocation_Result.GeospatialAreaTypeID;
             CallAfterConstructor(fGeoServerGeospatialAreaAreasContainingProjectLocation_Result);
         }
@@ -51,7 +51,7 @@ namespace ProjectFirmaModels.Models
         public int GeospatialAreaID { get; set; }
         [Key]
         public int PrimaryKey { get; set; }
-        public string GeospatialAreaName { get; set; }
+        public string GeospatialAreaShortName { get; set; }
         public int GeospatialAreaTypeID { get; set; }
     }
 }

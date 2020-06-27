@@ -36,7 +36,7 @@ namespace ProjectFirmaModels.Models
             : this()
         {
             GeospatialAreaID = geospatialAreaID;
-            GeospatialAreaName = geospatialAreaName;
+            GeospatialAreaShortName = geospatialAreaName;
         }
 
         /// <summary>
@@ -46,16 +46,16 @@ namespace ProjectFirmaModels.Models
             : this()
         {
             GeospatialAreaID = geospatialArea.GeospatialAreaID;
-            GeospatialAreaName = geospatialArea.GeospatialAreaName;
+            GeospatialAreaShortName = geospatialArea.GeospatialAreaShortName;
             GeospatialAreaTypeID = geospatialArea.GeospatialAreaTypeID;
         }
 
         public int GeospatialAreaID { get; set; }
-        public string GeospatialAreaName { get; set; }
+        public string GeospatialAreaShortName { get; set; }
         public int GeospatialAreaTypeID { get; set; }
         public string DisplayName
         {
-            get { return GeospatialAreaName; }
+            get { return GeospatialAreaShortName; }
         }
     }
 }

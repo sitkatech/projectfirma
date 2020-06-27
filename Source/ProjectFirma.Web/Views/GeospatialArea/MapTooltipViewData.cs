@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         {
             GeospatialArea = geospatialArea;
             GeospatialAreaDetailLink = SitkaRoute<GeospatialAreaController>
-                .BuildLinkFromExpression(c => c.Detail(GeospatialArea), GeospatialArea.GetDisplayName()).ToHTMLFormattedString();
+                .BuildLinkFromExpression(c => c.Detail(GeospatialArea), GeospatialArea.GeospatialAreaShortName).ToHTMLFormattedString();
         }
     }
 }

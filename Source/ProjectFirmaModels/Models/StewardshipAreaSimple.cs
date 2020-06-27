@@ -40,7 +40,7 @@ namespace ProjectFirmaModels.Models
         public StewardshipAreaSimple(Models.GeospatialArea geospatialArea)
         {
             StewardshipAreaID = geospatialArea.GeospatialAreaID;
-            StewardshipAreaName = geospatialArea.GetDisplayName();
+            StewardshipAreaName = geospatialArea.GeospatialAreaShortName;
         }
     }
 }

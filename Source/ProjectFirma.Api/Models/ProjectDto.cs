@@ -39,7 +39,7 @@ namespace ProjectFirma.Api.Models
             TaxonomyLeafsShortened = taxonomyLeafsShortened.OrderBy(x => x).ToList();
             Classifications = project.ProjectClassifications.Any() ? project.ProjectClassifications.Select(x => x.Classification.DisplayName).OrderBy(x => x).ToList() : new List<string>();
             var leadEntities = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaType.GeospatialAreaTypeName == "Lead Entity").ToList();
-            LeadEntities = project.ProjectGeospatialAreas.Any() ? leadEntities.Select(x => x.GeospatialArea.GeospatialAreaName).OrderBy(x => x).ToList() : new List<string>();
+            LeadEntities = project.ProjectGeospatialAreas.Any() ? leadEntities.Select(x => x.GeospatialArea.GeospatialAreaShortName).OrderBy(x => x).ToList() : new List<string>();
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
             EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType();
             SecuredFunding = project.GetSecuredFunding();

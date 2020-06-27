@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             GeospatialArea = geospatialArea;
             MapInitJson = mapInitJson;
             ViewGoogleChartViewData = viewGoogleChartViewData;
-            PageTitle = geospatialArea.GeospatialAreaType.IncludeTypeInPageTitle ? geospatialArea.GeospatialAreaName + " " + geospatialArea.GeospatialAreaType.GeospatialAreaTypeName : geospatialArea.GeospatialAreaName;
+            PageTitle = geospatialArea.GeospatialAreaName;
             GeospatialAreaTypeName = geospatialArea.GeospatialAreaType.GeospatialAreaTypeName;
             GeospatialAreaTypeNamePluralized = geospatialArea.GeospatialAreaType.GeospatialAreaTypeNamePluralized;
             EntityName = $"{GeospatialAreaTypeName}";

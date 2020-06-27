@@ -66,7 +66,7 @@
                             ng-bind="geospatialAreaType.GeospatialAreaTypeName"
                             ng-value="geospatialAreaType.GeospatialAreaTypeID"></option>
                 </select>
-                <select class="selectpicker" ng-model="SelectedGeospatialArea" ng-options="geospatialArea.GeospatialAreaName for geospatialArea in selectableGeospatialAreas track by geospatialArea.GeospatialAreaID" data-container="body"></select>
+                <select class="selectpicker" ng-model="SelectedGeospatialArea" ng-options="geospatialArea.GeospatialAreaShortName for geospatialArea in selectableGeospatialAreas track by geospatialArea.GeospatialAreaID" data-container="body"></select>
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-firma" ng-disabled="isAddButtonDisabled()" ng-click="addGeospatialArea(SelectedGeospatialArea, SelectedGeospatialAreaTypeID)"><span class="glyphicon glyphicon-plus"></span>Add</button>
                 </div>
@@ -83,7 +83,7 @@
                     </a>
                 </span>
 
-                <span ng-bind="selectedGeospatialArea.GeospatialAreaName"></span>
+                <span ng-bind="selectedGeospatialArea.GeospatialAreaShortName"></span>
             </div>
         </div>
     </div>

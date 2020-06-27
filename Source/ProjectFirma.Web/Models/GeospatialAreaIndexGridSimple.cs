@@ -3,16 +3,16 @@
     public class GeospatialAreaIndexGridSimple
     {
         public int GeospatialAreaID { get; set; }
-        public string GeospatialAreaName { get; set; }
+        public string GeospatialAreaShortName { get; set; }
         public int ProjectViewableByUserCount { get; set; }
         public GeospatialAreaIndexGridSimple()
         {
         }
 
-        public GeospatialAreaIndexGridSimple(int geospatialAreaId, string geospatialAreaName, int projectViewableByUserCount)
+        public GeospatialAreaIndexGridSimple(int geospatialAreaId, string geospatialAreaShortName, int projectViewableByUserCount)
         {
             GeospatialAreaID = geospatialAreaId;
-            GeospatialAreaName = geospatialAreaName;
+            GeospatialAreaShortName = geospatialAreaShortName;
             ProjectViewableByUserCount = projectViewableByUserCount;
         }
     }

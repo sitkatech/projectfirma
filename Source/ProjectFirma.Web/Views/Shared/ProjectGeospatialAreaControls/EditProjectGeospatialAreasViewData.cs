@@ -90,13 +90,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
 
             GeospatialAreaNameByID =
-                geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
+                geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaShortName);
 
             GeospatialAreaNameByID.AddAll(
                 geospatialAreasContainingProjectSimpleLocation
                     .Where(x => !GeospatialAreaNameByID.ContainsKey(x.GeospatialAreaID)).ToDictionary(
                         x => x.GeospatialAreaID,
-                        x => x.GeospatialAreaName));
+                        x => x.GeospatialAreaShortName));
 
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation
                 .Select(x => x.GeospatialAreaID).ToList();

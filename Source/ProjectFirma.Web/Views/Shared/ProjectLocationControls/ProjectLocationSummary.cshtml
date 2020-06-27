@@ -88,7 +88,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         @foreach (var geospatialArea in geospatialAreas)
                         {
                             <li>
-                                <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.GetDisplayName()</a>
+                                <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.GeospatialAreaShortName</a>
                             </li>
                         }
                     </ul>
@@ -100,7 +100,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @foreach (var geospatialArea in geospatialAreas)
                     {
                         <li>
-                            <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.GetDisplayName()</a>
+                            <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.GeospatialAreaShortName</a>
                         </li>
                     }
                 </ul>
