@@ -119,7 +119,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int VideoName = 100;
-            public const int VideoDescription = 500;
+            public const int VideoDescription = 1000;
             public const int VideoURL = 100;
         }
     }
