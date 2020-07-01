@@ -24,7 +24,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.ProjectUpdate.History
 
 The following is the high-level summary of the history for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() update.
-<div style="margin: 10px 0 10px 0">Last Updated: @ViewDataTyped.ProjectUpdateBatch.LastUpdateDate.ToStringDateTime() - @Html.Raw(ViewDataTyped.ProjectUpdateBatch.LastUpdatePerson.GetFullNameFirstLastAndOrgAsUrl())</div>
+<div style="margin: 10px 0 10px 0">Last Updated: @ViewDataTyped.ProjectUpdateBatch.LastUpdateDate.ToStringDateTime() - @Html.Raw(ViewDataTyped.ProjectUpdateBatch.LastUpdatePerson.GetFullNameFirstLastAndOrgAsUrl(ViewDataTyped.CurrentFirmaSession))</div>
 <hr/>
 <table class="summaryLayout" style="margin-top: 10px">
     <tr>
@@ -37,7 +37,7 @@ The following is the high-level summary of the history for this @FieldDefinition
         <tr>
             <td>@projectUpdateHistory.TransitionDate.ToStringDateTime()</td>
             <td>@projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName</td>
-            <td>@Html.Raw(projectUpdateHistory.UpdatePerson.GetFullNameFirstLastAndOrgAsUrl())</td>
+            <td>@Html.Raw(projectUpdateHistory.UpdatePerson.GetFullNameFirstLastAndOrgAsUrl(ViewDataTyped.CurrentFirmaSession))</td>
         </tr>
     }
 </table>

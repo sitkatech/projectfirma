@@ -25,11 +25,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class HistoryViewData : FirmaUserControlViewData
     {
-        public HistoryViewData(ProjectUpdateBatch projectUpdateBatch)
+        public HistoryViewData(ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
             ProjectUpdateBatch = projectUpdateBatch;
+            CurrentFirmaSession = currentFirmaSession;
         }
 
         public ProjectUpdateBatch ProjectUpdateBatch { get; }
+        public FirmaSession CurrentFirmaSession { get; }
     }
 }

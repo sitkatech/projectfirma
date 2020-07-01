@@ -212,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
-            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson);
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession);
             var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
