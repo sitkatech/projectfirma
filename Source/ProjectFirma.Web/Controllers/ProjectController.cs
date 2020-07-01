@@ -202,10 +202,10 @@ namespace ProjectFirma.Web.Controllers
                 userHasEditProjectPermissions);
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
-            var auditLogsGridSpec = new AuditLogsGridSpec {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
+            var auditLogsGridSpec = new AuditLogsGridSpec(CurrentFirmaSession) {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
             var auditLogsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(project));
 
-            var projectNotificationGridSpec = new ProjectNotificationGridSpec();
+            var projectNotificationGridSpec = new ProjectNotificationGridSpec(CurrentFirmaSession);
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
@@ -757,7 +757,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            var gridSpec = new AuditLogsGridSpec();
+            var gridSpec = new AuditLogsGridSpec(CurrentFirmaSession);
             var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject).OrderByDescending(x => x.AuditLogDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
@@ -913,7 +913,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         public GridJsonNetJObjectResult<Notification> ProjectNotificationsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new ProjectNotificationGridSpec();
+            var gridSpec = new ProjectNotificationGridSpec(CurrentFirmaSession);
             var notifications = project.NotificationProjects.Select(x => x.Notification).OrderByDescending(x => x.NotificationDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Notification>(notifications, gridSpec);
             return gridJsonNetJObjectResult;

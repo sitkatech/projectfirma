@@ -453,7 +453,7 @@ namespace ProjectFirma.Web.Controllers
             var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
             if (existingUser != null)
             {
-                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl()} already has an account.</a>.");
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.</a>.");
                 return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
             }
 
@@ -471,7 +471,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             SetMessageForDisplay(
-                $"{newUser.GetFullNameFirstLastAndOrgAsUrl()} successfully added. You may want to assign them a role</a>.");
+                $"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role</a>.");
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 
