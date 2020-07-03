@@ -1,1 +1,0 @@
-alter table dbo.Role add SortOrder int null
