@@ -148,11 +148,14 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDelete(Person personToDelete, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !personToDelete.HasDependentObjects() && personToDelete != CurrentPerson;
+            // This CanDeletePerson extension method is important when deleting users. We want to prevent accidental data loss
+            // due to unforeseen cascade deletion.
+            var canDelete = personToDelete.CanDeletePerson(CurrentPerson);
+
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete {personToDelete.GetFullNameFirstLastAndOrg()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person",
-                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(personToDelete), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeletePersonMessage("Person",
+                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(personToDelete), "User profile page"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
@@ -400,6 +403,14 @@ namespace ProjectFirma.Web.Controllers
             var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
             var homeUrl = SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var supportUrl = SitkaRoute<HelpController>.BuildAbsoluteUrlHttpsFromExpression(x => x.RequestSupport());
+
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var primaryContactFullName = tenantAttribute.PrimaryContactPerson
+                .GetFullNameFirstLast();
+            var primaryContactOrganizationName = tenantAttribute.PrimaryContactPerson
+                .Organization.OrganizationName;
+            var primaryContactEmail = tenantAttribute.PrimaryContactPerson.Email;
+
             var inviteModel = new KeystoneService.KeystoneInviteModel
             {
                 FirstName = viewModel.FirstName,
@@ -410,7 +421,7 @@ namespace ProjectFirma.Web.Controllers
                 WelcomeText =
                     $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
                 RedirectURL = homeUrl,
-                SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {MultiTenantHelpers.GetTenantAttributeFromCache().PrimaryContactPerson.GetFullNameFirstLast()} at {MultiTenantHelpers.GetTenantAttributeFromCache().PrimaryContactPerson.Organization.OrganizationName} ({MultiTenantHelpers.GetTenantAttributeFromCache().PrimaryContactPerson.Email})",
+                SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {primaryContactFullName} at {primaryContactOrganizationName} ({primaryContactEmail})",
                 OrganizationGuid = viewModel.OrganizationGuid,
                 SignatureBlock = $"The {toolDisplayName} team"
             };
@@ -442,7 +453,7 @@ namespace ProjectFirma.Web.Controllers
             var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
             if (existingUser != null)
             {
-                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl()} already has an account.</a>.");
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.</a>.");
                 return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
             }
 
@@ -460,7 +471,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             SetMessageForDisplay(
-                $"{newUser.GetFullNameFirstLastAndOrgAsUrl()} successfully added. You may want to assign them a role</a>.");
+                $"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role</a>.");
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 

@@ -44,5 +44,6 @@ namespace LtInfo.Common.GeoJson
             }
             return properties;
         }
+
     }
 }

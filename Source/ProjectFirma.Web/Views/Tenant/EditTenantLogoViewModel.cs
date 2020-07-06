@@ -62,14 +62,16 @@ namespace ProjectFirma.Web.Views.Tenant
         {
             if (TenantSquareLogoFileResourceData != null)
             {
-                var attributeTenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResource;
-                tenantAttribute.TenantSquareLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentFirmaSession);
+                var attributeTenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResourceInfo;
+                tenantAttribute.TenantSquareLogoFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentFirmaSession);
+                attributeTenantSquareLogoFileResource?.FileResourceData.Delete(databaseEntities);
                 attributeTenantSquareLogoFileResource?.Delete(databaseEntities);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
-                var attributeTenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResource;
-                tenantAttribute.TenantBannerLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentFirmaSession);
+                var attributeTenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResourceInfo;
+                tenantAttribute.TenantBannerLogoFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentFirmaSession);
+                attributeTenantBannerLogoFileResource?.FileResourceData.Delete(databaseEntities);
                 attributeTenantBannerLogoFileResource?.Delete(databaseEntities);
             }
         }

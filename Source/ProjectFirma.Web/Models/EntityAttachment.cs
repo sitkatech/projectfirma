@@ -32,15 +32,15 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayName { get; set; }
         public string Description { get; set; }
-        public FileResource FileResource { get; set; }
+        public FileResourceInfo FileResourceInfo { get; set; }
         public AttachmentType AttachmentType { get; set; }
 
-        public EntityAttachment(string deleteUrl, string editUrl, FileResource fileResource, AttachmentType attachmentType, string displayCssClass,
+        public EntityAttachment(string deleteUrl, string editUrl, FileResourceInfo fileResourceInfo, AttachmentType attachmentType, string displayCssClass,
             string displayName, string description)
         {
             _deleteUrl = deleteUrl;
             _editUrl = editUrl;
-            FileResource = fileResource;
+            FileResourceInfo = fileResourceInfo;
             SetDisplayCssClass(displayCssClass);
             DisplayName = displayName;
             Description = description;

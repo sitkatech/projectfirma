@@ -89,6 +89,17 @@ namespace LtInfo.Common.GdalOgr
             return processUtilityResult.StdOut;
         }
 
+        public string ImportFileKmzToGeoJson(FileInfo inputKmzFile, bool explodeCollections)
+        {
+            Check.Require(inputKmzFile.FullName.ToLower().EndsWith(".kmz"),
+                $"Input filename for KMZ input must end with .kmz. Filename passed is {inputKmzFile.FullName}");
+            Check.RequireFileExists(inputKmzFile, "Can't find input File KMZ for import with ogr2ogr");
+
+            var commandLineArguments = BuildCommandLineArgumentsForFileKmzToGeoJson(inputKmzFile, _gdalDataPath, _coordinateSystemId, explodeCollections);
+            var processUtilityResult = ExecuteOgr2OgrCommand(commandLineArguments);
+            return processUtilityResult.StdOut;
+        }
+
         private ProcessUtilityResult ExecuteOgr2OgrCommand(List<string> commandLineArguments)
         {
             var processUtilityResult = ProcessUtility.ShellAndWaitImpl(_ogr2OgrExecutable.DirectoryName, _ogr2OgrExecutable.FullName, commandLineArguments, true, Convert.ToInt32(_totalMilliseconds));
@@ -171,7 +182,7 @@ namespace LtInfo.Common.GdalOgr
         /// Produces the command line arguments for ogr2ogr.exe to run the KML File import.
         /// <example>"C:\Program Files\GDAL\ogr2ogr.exe" -preserve_fid --config GDAL_DATA "C:\\Program Files\\GDAL\\gdal-data" -t_srs EPSG:4326 -f GeoJSON /dev/stdout "C:\\svn\\sitkatech\\trunk\\Corral\\Source\\ProjectFirma.Web\\Models\\GdalOgr\\SampleFileKml.kml"</example>
         /// </summary>
-        internal static List<string> BuildCommandLineArgumentsForFileKmlToGeoJson(FileInfo inputKmlFile, DirectoryInfo gdalDataDirectoryInfo, int coordinateSystemId, bool explodeCollections)
+        internal static List<string> BuildCommandLineArgumentsForFileKmlToGeoJson(FileInfo inputKmzFile, DirectoryInfo gdalDataDirectoryInfo, int coordinateSystemId, bool explodeCollections)
         {
             var commandLineArguments = new List<string>
             {
@@ -184,7 +195,32 @@ namespace LtInfo.Common.GdalOgr
                 "-f",
                 "GeoJSON",
                 "/dev/stdout",
-                inputKmlFile.FullName,
+                inputKmzFile.FullName,
+                "-dim",
+                "2"
+            };
+
+            return commandLineArguments.Where(x => x != null).ToList();
+        }
+
+        /// <summary>
+        /// Produces the command line arguments for ogr2ogr.exe to run the KML File import.
+        /// <example>"C:\Program Files\GDAL\ogr2ogr.exe" -preserve_fid --config GDAL_DATA "C:\\Program Files\\GDAL\\gdal-data" -t_srs EPSG:4326 -f GeoJSON /dev/stdout "C:\\svn\\sitkatech\\trunk\\Corral\\Source\\ProjectFirma.Web\\Models\\GdalOgr\\SampleFileKml.kml"</example>
+        /// </summary>
+        internal static List<string> BuildCommandLineArgumentsForFileKmzToGeoJson(FileInfo inputKmzFile, DirectoryInfo gdalDataDirectoryInfo, int coordinateSystemId, bool explodeCollections)
+        {
+            var commandLineArguments = new List<string>
+            {
+                "--config",
+                "GDAL_DATA",
+                gdalDataDirectoryInfo.FullName,
+                "-t_srs",
+                GetMapProjection(coordinateSystemId),
+                explodeCollections ? "-explodecollections" : null,
+                "-f",
+                "GeoJSON",
+                "/dev/stdout",
+                inputKmzFile.FullName,
                 "-dim",
                 "2"
             };

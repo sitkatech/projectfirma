@@ -1,0 +1,14 @@
+import { DataProxy } from "./dataproxy";
+import { IFilterCallback, IFilterMode, IDataCollection, ITreeCollection, DataDriver, IDataDriver } from "./types";
+import { IAnyObj } from "../../ts-common/types";
+export declare function isEqualObj(a: any, b: any): boolean;
+export declare function naturalCompare(a: any, b: any): any;
+export declare function findByConf(item: any, conf: IFilterMode | IFilterCallback): any;
+export declare function isDebug(): boolean;
+export declare function dhxWarning(msg: string): void;
+export declare function dhxError(msg: string): void;
+export declare function toProxy(proxy: any): DataProxy;
+export declare function toDataDriver(driver: DataDriver | IDataDriver): any;
+export declare function copyWithoutInner(obj: IAnyObj, forbidden?: IAnyObj): IAnyObj;
+export declare function isTreeCollection(obj: IDataCollection<any> | ITreeCollection<any>): obj is ITreeCollection<any>;
+export declare function hasJsonOrArrayStructure(str: any): boolean;

@@ -60,6 +60,8 @@ namespace ProjectFirma.Web.Views.Classification
         [Required]
         public string ThemeColor { get; set; }
 
+        public bool DeleteCurrentKeyImage { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -76,18 +78,27 @@ namespace ProjectFirma.Web.Views.Classification
             ThemeColor = classification.ThemeColor;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Classification classification, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.Classification classification, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
         {
             classification.DisplayName = DisplayName;
             classification.ClassificationDescription = ClassificationDescription;
             classification.GoalStatement = GoalStatement;
 
+            if (DeleteCurrentKeyImage)
+            {
+                var oldKeyImageFileResourceInfo = classification.KeyImageFileResourceInfo;
+                classification.KeyImageFileResourceInfo = null;
+                classification.KeyImageFileResourceInfoID = null;
+                oldKeyImageFileResourceInfo.FileResourceData.Delete(databaseEntities);
+                oldKeyImageFileResourceInfo.Delete(databaseEntities);
+            }
+
             if (KeyImageFileResourceData != null)
             {
-                classification.KeyImageFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(KeyImageFileResourceData, currentFirmaSession);
+                classification.KeyImageFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(KeyImageFileResourceData, currentFirmaSession);
             }
-            classification.ThemeColor = ThemeColor;
 
+            classification.ThemeColor = ThemeColor;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

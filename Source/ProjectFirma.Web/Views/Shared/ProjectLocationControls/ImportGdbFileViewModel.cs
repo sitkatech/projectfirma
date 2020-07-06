@@ -34,12 +34,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         [Required]
         [DisplayName("GIS File to Upload")]
-        [SitkaFileExtensions("zip|kml")]
+        [SitkaFileExtensions("zip|kml|kmz")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person person)
         {
-            //projectLocation.FileResource = FileResource.CreateNewFromHttpPostedFile(FileResourceData, person);
+            //projectLocation.FileResourceInfo = FileResourceInfo.CreateNewFromHttpPostedFile(FileResourceData, person);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

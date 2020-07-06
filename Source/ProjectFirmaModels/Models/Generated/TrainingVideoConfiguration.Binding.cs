@@ -18,7 +18,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TrainingVideoID).HasColumnName(@"TrainingVideoID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.VideoName).HasColumnName(@"VideoName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
-            Property(x => x.VideoDescription).HasColumnName(@"VideoDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.VideoDescription).HasColumnName(@"VideoDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.VideoUploadDate).HasColumnName(@"VideoUploadDate").HasColumnType("datetime").IsRequired();
             Property(x => x.VideoURL).HasColumnName(@"VideoURL").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
 

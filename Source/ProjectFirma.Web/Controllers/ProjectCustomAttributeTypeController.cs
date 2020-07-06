@@ -66,8 +66,22 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeTypes.Add(projectCustomAttributeType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} successfully created.");
+            SetWarningAboutHiddenRequiredAttributesIfNeeded(projectCustomAttributeType);
+            
 
             return new ModalDialogFormJsonResult();
+        }
+
+        private void SetWarningAboutHiddenRequiredAttributesIfNeeded(ProjectCustomAttributeType projectCustomAttributeType)
+        {
+            var normalRoleDoesntExistOnAttribute = !projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.Role == Role.Normal && x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit);
+            if (projectCustomAttributeType.IsRequired &&
+                normalRoleDoesntExistOnAttribute)
+            {
+                SetWarningForDisplay(
+                    $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} is marked as required, but is not editable " +
+                    $"by normal users. You should consider allowing normal users to edit {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} or making it not required.");
+            }
         }
 
         [HttpGet]
@@ -90,7 +104,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, projectCustomAttributeType);
             }
             viewModel.UpdateModel(projectCustomAttributeType, CurrentFirmaSession);
-
+            SetWarningAboutHiddenRequiredAttributesIfNeeded(projectCustomAttributeType);
             return new ModalDialogFormJsonResult();
         }
 

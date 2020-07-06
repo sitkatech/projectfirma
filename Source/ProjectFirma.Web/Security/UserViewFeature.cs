@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -60,6 +61,37 @@ namespace ProjectFirma.Web.Security
 
             //Only SitkaAdmin users should be able to see other SitkaAdmin users
             if (firmaSession.Role != Role.SitkaAdmin && contextModelObject.Role == Role.SitkaAdmin)
+            {
+                return new PermissionCheckResult("You don't have permission to view this user.");
+            }
+
+            if (userViewingOwnPage || userHasEditPermission)
+            {
+                return new PermissionCheckResult();
+            }
+
+            return new PermissionCheckResult("You don't have permission to view this user.");
+        }
+
+        /// <summary>
+        /// This copies the logic from <see cref="HasPermission" /> , but with a PersonID parameter instead of a Person model.
+        /// Used for checking permission on the ProjectCustomGridSpec because that uses the view vProject and only has the IDs for the primary contact person, not the model itself.
+        /// </summary>
+        public PermissionCheckResult HasPermissionForPersonID(FirmaSession firmaSession, int personIDToView, List<int> sitkaAdminPersonIDs)
+        {
+            var userHasEditPermission = new UserEditFeature().HasPermissionByFirmaSession(firmaSession);
+            var userViewingOwnPage = !firmaSession.IsAnonymousUser() && firmaSession.PersonID == personIDToView;
+
+            #pragma warning disable 612
+            var userHasAppropriateRole = HasPermissionByFirmaSession(firmaSession);
+            #pragma warning restore 612
+            if (!userHasAppropriateRole)
+            {
+                return new PermissionCheckResult("You don't have permissions to view user details. If you aren't logged in, do that and try again.");
+            }
+
+            //Only SitkaAdmin users should be able to see other SitkaAdmin users
+            if (firmaSession.Role != Role.SitkaAdmin && sitkaAdminPersonIDs.Contains(personIDToView))
             {
                 return new PermissionCheckResult("You don't have permission to view this user.");
             }

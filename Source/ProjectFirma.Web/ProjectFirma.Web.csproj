@@ -63,7 +63,9 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AttachmentTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\DocumentLibraryController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
+    <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\ExternalMapLayerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
@@ -85,7 +87,7 @@
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
-    <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
+    <Compile Include="HealthMonitor\HeadlessGoogleChromeIsAvailable.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
     <Compile Include="Models\AttachmentTypeFileResourceMimeTypeModelExtensions.cs" />
     <Compile Include="Models\AttachmentTypeModelExtensions.cs" />
@@ -95,6 +97,9 @@
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
+    <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
+    <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplatePersonModel.cs" />
@@ -230,6 +235,7 @@
     <Compile Include="Security\EvaluationViewFeature.cs" />
     <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
     <Compile Include="Security\EvaluationManageFeature.cs" />
+    <Compile Include="Security\DocumentLibraryManageFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
@@ -257,6 +263,21 @@
     <Compile Include="Views\AttachmentType\EditAttachmentTypeViewModel.cs" />
     <Compile Include="Views\AttachmentType\Index.cs" />
     <Compile Include="Views\AttachmentType\IndexViewData.cs" />
+    <Compile Include="Views\DocumentLibrary\Detail.cs" />
+    <Compile Include="Views\DocumentLibrary\DetailViewData.cs" />
+    <Compile Include="Views\DocumentLibrary\Edit.cs" />
+    <Compile Include="Views\DocumentLibrary\EditDocument.cs" />
+    <Compile Include="Views\DocumentLibrary\EditViewData.cs" />
+    <Compile Include="Views\DocumentLibrary\EditDocumentViewData.cs" />
+    <Compile Include="Views\DocumentLibrary\EditViewModel.cs" />
+    <Compile Include="Views\DocumentLibrary\EditDocumentViewModel.cs" />
+    <Compile Include="Views\DocumentLibrary\Index.cs" />
+    <Compile Include="Views\DocumentLibrary\DocumentLibraryDocumentGridSpec.cs" />
+    <Compile Include="Views\DocumentLibrary\IndexGridSpec.cs" />
+    <Compile Include="Views\DocumentLibrary\IndexViewData.cs" />
+    <Compile Include="Views\DocumentLibrary\NewDocument.cs" />
+    <Compile Include="Views\DocumentLibrary\NewDocumentViewData.cs" />
+    <Compile Include="Views\DocumentLibrary\NewDocumentViewModel.cs" />
     <Compile Include="Views\Evaluation\EditProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\AddProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\EditProjectEvaluationViewData.cs" />
@@ -425,6 +446,7 @@
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
+    <Compile Include="Views\Shared\FirmaIncludesViewData.cs" />
     <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContacts.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewData.cs" />
@@ -466,6 +488,8 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroup.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewData.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
+    <Compile Include="Views\Shared\DisplayDocumentLibrary.cs" />
+    <Compile Include="Views\Shared\DisplayDocumentLibraryViewData.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
@@ -551,7 +575,6 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\Training\projectfirma-administrator-quick-guide.jpg" />
     <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
-    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
     <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
     <Content Include="Content\document-templates\model-testing.docx" />
@@ -562,7 +585,8 @@
     <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.docx" />
     <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.pdf" />
     <Content Include="Content\Training\ProjectFirma-Reports-Example-Report.docx" />
-    <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide.pdf" />
+    <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide_2020.pdf" />
+    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_2020.pdf" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -587,6 +611,7 @@
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
     <Content Include="Views\AttachmentType\AttachmentTypeController.js" />
+    <Content Include="Views\DocumentLibrary\DocumentLibraryController.js" />
     <Content Include="Views\Evaluation\AddProjectEvaluationController.js" />
     <Content Include="Views\Evaluation\EditEvaluationCriteriaController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
@@ -635,6 +660,11 @@
     <Content Include="Views\Organization\EditPrimaryContact.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
+    <Content Include="Views\DocumentLibrary\Index.cshtml" />
+    <Content Include="Views\DocumentLibrary\Edit.cshtml" />
+    <Content Include="Views\DocumentLibrary\Detail.cshtml" />
+    <Content Include="Views\DocumentLibrary\NewDocument.cshtml" />
+    <Content Include="Views\DocumentLibrary\EditDocument.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1395,7 +1425,7 @@
     <Compile Include="Views\FirmaPage\EditViewModel.cs" />
     <Compile Include="Controllers\FirmaBaseControllerTest.cs" />
     <Compile Include="Controllers\FirmaPageController.cs" />
-    <Compile Include="Controllers\FileResourceController.cs" />
+    <Compile Include="Controllers\FakeImageController.cs" />
     <Compile Include="Controllers\PerformanceMeasureNoteController.cs" />
     <Compile Include="Controllers\FirmaBaseController.cs" />
     <Compile Include="Common\FieldDefinitionDisplayAttribute.cs" />
@@ -1742,6 +1772,7 @@
     <Content Include="Views\Reports\Edit.cshtml" />
     <Content Include="Views\Reports\GenerateReports.cshtml" />
     <Content Include="Views\Reports\Projects.cshtml" />
+    <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

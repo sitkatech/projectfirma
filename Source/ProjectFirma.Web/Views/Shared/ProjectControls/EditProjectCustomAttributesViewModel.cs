@@ -19,13 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using LtInfo.Common.Models;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.ProjectCreate;
-using ProjectFirmaModels.Models;
 using ProjectCustomAttributes = ProjectFirmaModels.Models.ProjectCustomAttributes;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
@@ -43,39 +42,21 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
         }
 
-        public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project)
+        public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
-            ProjectCustomAttributes = new ProjectCustomAttributes(project);
+            ProjectCustomAttributes = new ProjectCustomAttributes(project, currentFirmaSession);
             Project = project;
         }
 
-        public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch)
+        public EditProjectCustomAttributesViewModel(ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
-            ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdateBatch.ProjectUpdate);
+            ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdateBatch.ProjectUpdate, currentFirmaSession);
             Project = projectUpdateBatch.ProjectUpdate;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             ProjectCustomAttributes?.UpdateModel(project, currentFirmaSession);
-        }
-        
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            return GetValidationResults();
-        }
-
-        public IEnumerable<ValidationResult> GetValidationResults()
-        {
-            var errors = new List<ValidationResult>();
-            errors.AddRange(ValidateAllCustomAttributes().GetWarningMessages().Select(m => new ValidationResult(m)));
-            return errors;
-        }
-
-        public ProjectCustomAttributesValidationResult ValidateAllCustomAttributes()
-        {
-            var customAttributesValidationResult = new ProjectCustomAttributesValidationResult(Project);
-            return customAttributesValidationResult;
         }
     }
 }

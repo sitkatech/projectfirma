@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -71,6 +72,16 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TrainingVideo).Name};
@@ -108,7 +119,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int VideoName = 100;
-            public const int VideoDescription = 500;
+            public const int VideoDescription = 1000;
             public const int VideoURL = 100;
         }
     }

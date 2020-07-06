@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -57,7 +58,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment) : this()
+        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment, int? submittedByPersonID) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyLeafID = taxonomyLeafID;
@@ -101,6 +102,7 @@ namespace ProjectFirmaModels.Models
             this.ProposalClassificationsComment = proposalClassificationsComment;
             this.AttachmentsNotesComment = attachmentsNotesComment;
             this.PhotosComment = photosComment;
+            this.SubmittedByPersonID = submittedByPersonID;
         }
 
         /// <summary>
@@ -157,6 +159,155 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectAttachments.Any() || ProjectClassifications.Any() || ProjectContacts.Any() || ProjectCustomAttributes.Any() || ProjectEvaluations.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceExpenditures.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectImages.Any() || ProjectInternalNotes.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNoFundingSourceIdentifieds.Any() || ProjectNotes.Any() || ProjectOrganizations.Any() || ProjectProjectStatuses.Any() || ProjectRelevantCostTypes.Any() || ProjectTags.Any() || ProjectUpdateBatches.Any() || SecondaryProjectTaxonomyLeafs.Any() || TechnicalAssistanceRequests.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(NotificationProjects.Any())
+            {
+                dependentObjects.Add(typeof(NotificationProject).Name);
+            }
+
+            if(PerformanceMeasureActuals.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActual).Name);
+            }
+
+            if(PerformanceMeasureExpecteds.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpected).Name);
+            }
+
+            if(ProjectAssessmentQuestions.Any())
+            {
+                dependentObjects.Add(typeof(ProjectAssessmentQuestion).Name);
+            }
+
+            if(ProjectAttachments.Any())
+            {
+                dependentObjects.Add(typeof(ProjectAttachment).Name);
+            }
+
+            if(ProjectClassifications.Any())
+            {
+                dependentObjects.Add(typeof(ProjectClassification).Name);
+            }
+
+            if(ProjectContacts.Any())
+            {
+                dependentObjects.Add(typeof(ProjectContact).Name);
+            }
+
+            if(ProjectCustomAttributes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomAttribute).Name);
+            }
+
+            if(ProjectEvaluations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectEvaluation).Name);
+            }
+
+            if(ProjectExemptReportingYears.Any())
+            {
+                dependentObjects.Add(typeof(ProjectExemptReportingYear).Name);
+            }
+
+            if(ProjectExternalLinks.Any())
+            {
+                dependentObjects.Add(typeof(ProjectExternalLink).Name);
+            }
+
+            if(ProjectFundingSourceBudgets.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudget).Name);
+            }
+
+            if(ProjectFundingSourceExpenditures.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditure).Name);
+            }
+
+            if(ProjectGeospatialAreas.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialArea).Name);
+            }
+
+            if(ProjectGeospatialAreaTypeNotes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaTypeNote).Name);
+            }
+
+            if(ProjectImages.Any())
+            {
+                dependentObjects.Add(typeof(ProjectImage).Name);
+            }
+
+            if(ProjectInternalNotes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectInternalNote).Name);
+            }
+
+            if(ProjectLocations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectLocation).Name);
+            }
+
+            if(ProjectLocationStagings.Any())
+            {
+                dependentObjects.Add(typeof(ProjectLocationStaging).Name);
+            }
+
+            if(ProjectNoFundingSourceIdentifieds.Any())
+            {
+                dependentObjects.Add(typeof(ProjectNoFundingSourceIdentified).Name);
+            }
+
+            if(ProjectNotes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectNote).Name);
+            }
+
+            if(ProjectOrganizations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectOrganization).Name);
+            }
+
+            if(ProjectProjectStatuses.Any())
+            {
+                dependentObjects.Add(typeof(ProjectProjectStatus).Name);
+            }
+
+            if(ProjectRelevantCostTypes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectRelevantCostType).Name);
+            }
+
+            if(ProjectTags.Any())
+            {
+                dependentObjects.Add(typeof(ProjectTag).Name);
+            }
+
+            if(ProjectUpdateBatches.Any())
+            {
+                dependentObjects.Add(typeof(ProjectUpdateBatch).Name);
+            }
+
+            if(SecondaryProjectTaxonomyLeafs.Any())
+            {
+                dependentObjects.Add(typeof(SecondaryProjectTaxonomyLeaf).Name);
+            }
+
+            if(TechnicalAssistanceRequests.Any())
+            {
+                dependentObjects.Add(typeof(TechnicalAssistanceRequest).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
@@ -372,6 +523,7 @@ namespace ProjectFirmaModels.Models
         public string ProposalClassificationsComment { get; set; }
         public string AttachmentsNotesComment { get; set; }
         public string PhotosComment { get; set; }
+        public int? SubmittedByPersonID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
@@ -411,6 +563,7 @@ namespace ProjectFirmaModels.Models
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual Person ProposingPerson { get; set; }
         public virtual Person ReviewedByPerson { get; set; }
+        public virtual Person SubmittedByPerson { get; set; }
         public ProjectApprovalStatus ProjectApprovalStatus { get { return ProjectApprovalStatus.AllLookupDictionary[ProjectApprovalStatusID]; } }
         public ProjectCategory ProjectCategory { get { return ProjectCategory.AllLookupDictionary[ProjectCategoryID]; } }
 

@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
 using System.Linq;
@@ -58,25 +59,18 @@ namespace ProjectFirma.Web.Common
             var tenantAttribute = TenantAttributeCache.SingleOrDefault(ta => ta.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             if (tenantAttribute == null)
             {
-                tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault();
-                if (tenantAttribute != null)
-                {
-                    ForceLoadVirtualMembers(tenantAttribute);
-                }
-                
+                tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes
+                    .Include(x => x.PrimaryContactPerson)
+                    .Include(x => x.PrimaryContactPerson.Organization)
+                    .Include(x => x.TenantBannerLogoFileResourceInfo.FileResourceDatas)
+                    .Include(x => x.TenantFactSheetLogoFileResourceInfo.FileResourceDatas)
+                    .Include(x => x.TenantSquareLogoFileResourceInfo.FileResourceDatas)
+                    .Include(x => x.TenantStyleSheetFileResourceInfo.FileResourceDatas)
+                    .SingleOrDefault();
                 TenantAttributeCache.Add(tenantAttribute);
             }
             Check.EnsureNotNull(tenantAttribute, $"You need to add a Tenant Attribute table entry for TenantID {HttpRequestStorage.DatabaseEntities.TenantID}");
             return tenantAttribute;
-        }
-
-        private static void ForceLoadVirtualMembers(TenantAttribute tenantAttribute)
-        {
-            var person = tenantAttribute.PrimaryContactPerson;
-            var tenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResource;
-            var tenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResource;
-            var tenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResource;
-            var tenantStyleSheetFileResource = tenantAttribute.TenantStyleSheetFileResource;
         }
 
         public static string GetTaxonomySystemName()
@@ -116,22 +110,22 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTenantSquareLogoUrl()
         {
-            return GetTenantAttributeFromCache().TenantSquareLogoFileResource != null
-                ? GetTenantAttributeFromCache().TenantSquareLogoFileResource.GetFileResourceUrl()
+            return GetTenantAttributeFromCache().TenantSquareLogoFileResourceInfo != null
+                ? GetTenantAttributeFromCache().TenantSquareLogoFileResourceInfo.GetFileResourceUrl()
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
         public static string GetTenantSquareLogScaledAsIconoUrl()
         {
-            return GetTenantAttributeFromCache().TenantSquareLogoFileResource != null
-                ? GetTenantAttributeFromCache().TenantSquareLogoFileResource
+            return GetTenantAttributeFromCache().TenantSquareLogoFileResourceInfo != null
+                ? GetTenantAttributeFromCache().TenantSquareLogoFileResourceInfo
                     .FileResourceUrlScaledThumbnail(100)
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
         public static string GetTenantBannerLogoUrl()
         {
-            var tenantBannerLogoFileResource = GetTenantAttributeFromCache().TenantBannerLogoFileResource;
+            var tenantBannerLogoFileResource = GetTenantAttributeFromCache().TenantBannerLogoFileResourceInfo;
             return tenantBannerLogoFileResource != null
                 ? tenantBannerLogoFileResource.GetFileResourceUrl()
                 : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
@@ -139,22 +133,22 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTenantBannerLogoScaledAsIconUrl()
         {
-            return GetTenantAttributeFromCache().TenantBannerLogoFileResource != null
-                ? GetTenantAttributeFromCache().TenantBannerLogoFileResource
+            return GetTenantAttributeFromCache().TenantBannerLogoFileResourceInfo != null
+                ? GetTenantAttributeFromCache().TenantBannerLogoFileResourceInfo
                     .FileResourceUrlScaledThumbnail(32)
                 : "/Content/img/ProjectFirma_Logo_2016_FNL.width-600.png";
         }
 
         public static string GetTenantFactSheetLogoUrl()
         {
-            return GetTenantAttributeFromCache().TenantFactSheetLogoFileResource != null
-                ? GetTenantAttributeFromCache().TenantFactSheetLogoFileResource.GetFileResourceUrl()
+            return GetTenantAttributeFromCache().TenantFactSheetLogoFileResourceInfo != null
+                ? GetTenantAttributeFromCache().TenantFactSheetLogoFileResourceInfo.GetFileResourceUrl()
                 : "/Content/img/ProjectFirma_Logo_Square.png";
         }
 
         public static string GetTenantStyleSheetUrl()
         {
-            return GetTenantAttributeFromCache().TenantStyleSheetFileResource != null
+            return GetTenantAttributeFromCache().TenantStyleSheetFileResourceInfo != null
                 ? new SitkaRoute<TenantController>(c => c.Style(HttpRequestStorage.Tenant.TenantName))
                     .BuildUrlFromExpression()
                 : "~/Content/Bootstrap/firma/base.theme.css";

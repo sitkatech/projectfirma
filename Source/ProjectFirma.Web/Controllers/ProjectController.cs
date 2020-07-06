@@ -202,17 +202,17 @@ namespace ProjectFirma.Web.Controllers
                 userHasEditProjectPermissions);
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
-            var auditLogsGridSpec = new AuditLogsGridSpec {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
+            var auditLogsGridSpec = new AuditLogsGridSpec(CurrentFirmaSession) {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
             var auditLogsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(project));
 
-            var projectNotificationGridSpec = new ProjectNotificationGridSpec();
+            var projectNotificationGridSpec = new ProjectNotificationGridSpec(CurrentFirmaSession);
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
-            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson);
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession);
             var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
@@ -757,7 +757,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            var gridSpec = new AuditLogsGridSpec();
+            var gridSpec = new AuditLogsGridSpec(CurrentFirmaSession);
             var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject).OrderByDescending(x => x.AuditLogDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
@@ -913,7 +913,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         public GridJsonNetJObjectResult<Notification> ProjectNotificationsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new ProjectNotificationGridSpec();
+            var gridSpec = new ProjectNotificationGridSpec(CurrentFirmaSession);
             var notifications = project.NotificationProjects.Select(x => x.Notification).OrderByDescending(x => x.NotificationDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Notification>(notifications, gridSpec);
             return gridJsonNetJObjectResult;
@@ -1040,46 +1040,37 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         public FileContentResult FactSheetPdf(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            using (var outputFile = new DisposableTempFile())
-            {
-                var pfCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
-                var pdfConversionSettings = new PDFUtility.PdfConversionSettings(CookieHelper.GetAllAuthenticationCookies(Request.Cookies, pfCookieName)) { Zoom = 0.9 };
-                PDFUtility.ConvertURLToPDF(
-                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetForPdf(project)).BuildAbsoluteUrlHttpsFromExpression()),
-                    outputFile.FileInfo,
-                    pdfConversionSettings);
+            Uri factSheetUrl = new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetForPdf(project)).BuildAbsoluteUrlHttpsFromExpression());
+            var pdfFileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
 
-                var fileContents = FileUtility.FileToString(outputFile.FileInfo);
-                Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
-                Check.Assert(fileContents.Contains("wkhtmltopdf") || fileContents.Contains("\0w\0k\0h\0t\0m\0l\0t\0o\0p\0d\0f"), "Should be a PDF file produced by wkhtmltopdf.");
-
-                var fileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
-                var content = System.IO.File.ReadAllBytes(outputFile.FileInfo.FullName);
-                return File(content, "application/pdf", fileName);
-            }
+            return MakeFactSheetPdfFileFromUrl(factSheetUrl, pdfFileName);
         }
 
         [ProjectsViewFullListFeature]
         public FileContentResult FactSheetWithCustomAttributesPdf(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            using (var outputFile = new DisposableTempFile())
+            Uri factSheetUrl = new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributesForPdf(project)).BuildAbsoluteUrlHttpsFromExpression());
+            var pdfFileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
+
+            return MakeFactSheetPdfFileFromUrl(factSheetUrl, pdfFileName);
+        }
+
+        private FileContentResult MakeFactSheetPdfFileFromUrl(Uri factSheetUrl, string fileName)
+        {
+            using (var outputPdfFile = new DisposableTempFile())
             {
-                var pfCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
-                var pdfConversionSettings = new PDFUtility.PdfConversionSettings(CookieHelper.GetAllAuthenticationCookies(Request.Cookies, pfCookieName)) { Zoom = 0.9 };
-                PDFUtility.ConvertURLToPDF(
-                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributesForPdf(project)).BuildAbsoluteUrlHttpsFromExpression()),
-                    outputFile.FileInfo,
-                    pdfConversionSettings);
+                var pdfConversionSettings = new HeadlessChromePDFUtility.HeadlessChromePdfConversionSettings();
+                HeadlessChromePDFUtility.ConvertURLToPDFWithHeadlessChrome(factSheetUrl, outputPdfFile.FileInfo, pdfConversionSettings);
 
-                var fileContents = FileUtility.FileToString(outputFile.FileInfo);
+                var fileContents = FileUtility.FileToString(outputPdfFile.FileInfo);
                 Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
-                Check.Assert(fileContents.Contains("wkhtmltopdf") || fileContents.Contains("\0w\0k\0h\0t\0m\0l\0t\0o\0p\0d\0f"), "Should be a PDF file produced by wkhtmltopdf.");
 
-                var fileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
-                var content = System.IO.File.ReadAllBytes(outputFile.FileInfo.FullName);
+                var content = System.IO.File.ReadAllBytes(outputPdfFile.FileInfo.FullName);
                 return File(content, "application/pdf", fileName);
             }
         }
+
+
     }
 }

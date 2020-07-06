@@ -17,7 +17,7 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.ProjectImageID);
             Property(x => x.ProjectImageID).HasColumnName(@"ProjectImageID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
-            Property(x => x.FileResourceID).HasColumnName(@"FileResourceID").HasColumnType("int").IsRequired();
+            Property(x => x.FileResourceInfoID).HasColumnName(@"FileResourceInfoID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectImageTimingID).HasColumnName(@"ProjectImageTimingID").HasColumnType("int").IsRequired();
             Property(x => x.Caption).HasColumnName(@"Caption").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
@@ -26,7 +26,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ExcludeFromFactSheet).HasColumnName(@"ExcludeFromFactSheet").HasColumnType("bit").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.FileResource).WithMany(b => b.ProjectImages).HasForeignKey(c => c.FileResourceID).WillCascadeOnDelete(false); // FK_ProjectImage_FileResource_FileResourceID
+            HasRequired(a => a.FileResourceInfo).WithMany(b => b.ProjectImages).HasForeignKey(c => c.FileResourceInfoID).WillCascadeOnDelete(false); // FK_ProjectImage_FileResourceInfo_FileResourceInfoID
             HasRequired(a => a.Project).WithMany(b => b.ProjectImages).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectImage_Project_ProjectID
         }
     }

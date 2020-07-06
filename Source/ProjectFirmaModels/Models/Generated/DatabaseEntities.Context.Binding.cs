@@ -11,6 +11,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -55,6 +56,10 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
+            modelBuilder.Configurations.Add(new DocumentLibraryConfiguration());
+            modelBuilder.Configurations.Add(new DocumentLibraryDocumentConfiguration());
+            modelBuilder.Configurations.Add(new DocumentLibraryDocumentCategoryConfiguration());
+            modelBuilder.Configurations.Add(new DocumentLibraryDocumentRoleConfiguration());
             modelBuilder.Configurations.Add(new EvaluationConfiguration());
             modelBuilder.Configurations.Add(new EvaluationCriteriaConfiguration());
             modelBuilder.Configurations.Add(new EvaluationCriteriaValueConfiguration());
@@ -63,7 +68,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataImageConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDefaultConfiguration());
-            modelBuilder.Configurations.Add(new FileResourceConfiguration());
+            modelBuilder.Configurations.Add(new FileResourceDataConfiguration());
+            modelBuilder.Configurations.Add(new FileResourceInfoConfiguration());
             modelBuilder.Configurations.Add(new FirmaHomePageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
@@ -85,6 +91,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new OrganizationBoundaryStagingConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationImageConfiguration());
             modelBuilder.Configurations.Add(new OrganizationRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeOrganizationRelationshipTypeConfiguration());
@@ -183,6 +190,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new vProjectCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new vProjectDetailConfiguration());
             modelBuilder.Configurations.Add(new vProjectFunctionallyCompleteConfiguration());
+            modelBuilder.Conventions.Add(new FunctionsConvention<DatabaseEntities>("dbo"));
         }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
@@ -214,6 +222,14 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<DocumentLibrary> AllDocumentLibraries { get; set; }
+        public virtual IQueryable<DocumentLibrary> DocumentLibraries { get { return AllDocumentLibraries.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<DocumentLibraryDocumentCategory> AllDocumentLibraryDocumentCategories { get; set; }
+        public virtual IQueryable<DocumentLibraryDocumentCategory> DocumentLibraryDocumentCategories { get { return AllDocumentLibraryDocumentCategories.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<DocumentLibraryDocumentRole> AllDocumentLibraryDocumentRoles { get; set; }
+        public virtual IQueryable<DocumentLibraryDocumentRole> DocumentLibraryDocumentRoles { get { return AllDocumentLibraryDocumentRoles.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<DocumentLibraryDocument> AllDocumentLibraryDocuments { get; set; }
+        public virtual IQueryable<DocumentLibraryDocument> DocumentLibraryDocuments { get { return AllDocumentLibraryDocuments.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<EvaluationCriteria> AllEvaluationCriterias { get; set; }
         public virtual IQueryable<EvaluationCriteria> EvaluationCriterias { get { return AllEvaluationCriterias.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<EvaluationCriteriaValue> AllEvaluationCriteriaValues { get; set; }
@@ -228,8 +244,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionDefault> FieldDefinitionDefaults { get; set; }
         public virtual DbSet<FieldDefinition> FieldDefinitions { get; set; }
-        public virtual DbSet<FileResource> AllFileResources { get; set; }
-        public virtual IQueryable<FileResource> FileResources { get { return AllFileResources.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FileResourceData> AllFileResourceDatas { get; set; }
+        public virtual IQueryable<FileResourceData> FileResourceDatas { get { return AllFileResourceDatas.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FileResourceInfo> AllFileResourceInfos { get; set; }
+        public virtual IQueryable<FileResourceInfo> FileResourceInfos { get { return AllFileResourceInfos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaHomePageImage> AllFirmaHomePageImages { get; set; }
         public virtual IQueryable<FirmaHomePageImage> FirmaHomePageImages { get { return AllFirmaHomePageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaPageImage> AllFirmaPageImages { get; set; }
@@ -269,6 +287,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
         public virtual IQueryable<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get { return AllOrganizationBoundaryStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<OrganizationImage> AllOrganizationImages { get; set; }
+        public virtual IQueryable<OrganizationImage> OrganizationImages { get { return AllOrganizationImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationRelationshipType> AllOrganizationRelationshipTypes { get; set; }
         public virtual IQueryable<OrganizationRelationshipType> OrganizationRelationshipTypes { get { return AllOrganizationRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
@@ -458,6 +478,29 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<vProjectCustomAttributeValue> vProjectCustomAttributeValues { get; set; }
         public virtual DbSet<vProjectDetail> vProjectDetails { get; set; }
         public virtual DbSet<vProjectFunctionallyComplete> vProjectFunctionallyCompletes { get; set; }
+        public virtual DbSet<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> fGeoServerGeospatialAreaAreasContainingProjectLocationResults { get; set; }
+
+        [DbFunction("DatabaseEntities", "fGeoServerGeospatialAreaAreasContainingProjectLocation")]
+        public virtual IQueryable<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GetfGeoServerGeospatialAreaAreasContainingProjectLocations(int? piProjectIDParameter, bool? pbIsProjectParameter, int? piGeospatialAreaTypeIDParameter)
+        {
+            
+            var piProjectID = new System.Data.Entity.Core.Objects.ObjectParameter("piProjectID", typeof(int?))
+            {
+                Value = piProjectIDParameter
+            };
+
+            var pbIsProject = new System.Data.Entity.Core.Objects.ObjectParameter("pbIsProject", typeof(bool?))
+            {
+                Value = pbIsProjectParameter
+            };
+
+            var piGeospatialAreaTypeID = new System.Data.Entity.Core.Objects.ObjectParameter("piGeospatialAreaTypeID", typeof(int?))
+            {
+                Value = piGeospatialAreaTypeIDParameter
+            };
+            return (this as System.Data.Entity.Infrastructure.IObjectContextAdapter).ObjectContext
+                  .CreateQuery<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result>("DatabaseEntities.fGeoServerGeospatialAreaAreasContainingProjectLocation(@piProjectID, @pbIsProject, @piGeospatialAreaTypeID)",piProjectID, pbIsProject, piGeospatialAreaTypeID);
+        }
 
         public object LoadType(Type type, int primaryKey)
         {
@@ -528,6 +571,23 @@ namespace ProjectFirmaModels.Models
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);
 
+                case "DocumentCategory":
+                    var documentCategory = DocumentCategory.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(documentCategory, "DocumentCategory", primaryKey);
+                    return documentCategory;
+
+                case "DocumentLibrary":
+                    return DocumentLibraries.GetDocumentLibrary(primaryKey);
+
+                case "DocumentLibraryDocumentCategory":
+                    return DocumentLibraryDocumentCategories.GetDocumentLibraryDocumentCategory(primaryKey);
+
+                case "DocumentLibraryDocumentRole":
+                    return DocumentLibraryDocumentRoles.GetDocumentLibraryDocumentRole(primaryKey);
+
+                case "DocumentLibraryDocument":
+                    return DocumentLibraryDocuments.GetDocumentLibraryDocument(primaryKey);
+
                 case "EvaluationCriteria":
                     return EvaluationCriterias.GetEvaluationCriteria(primaryKey);
 
@@ -562,13 +622,16 @@ namespace ProjectFirmaModels.Models
                 case "FieldDefinition":
                     return FieldDefinitions.GetFieldDefinition(primaryKey);
 
+                case "FileResourceData":
+                    return FileResourceDatas.GetFileResourceData(primaryKey);
+
+                case "FileResourceInfo":
+                    return FileResourceInfos.GetFileResourceInfo(primaryKey);
+
                 case "FileResourceMimeType":
                     var fileResourceMimeType = FileResourceMimeType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(fileResourceMimeType, "FileResourceMimeType", primaryKey);
                     return fileResourceMimeType;
-
-                case "FileResource":
-                    return FileResources.GetFileResource(primaryKey);
 
                 case "FirmaHomePageImage":
                     return FirmaHomePageImages.GetFirmaHomePageImage(primaryKey);
@@ -664,6 +727,9 @@ namespace ProjectFirmaModels.Models
 
                 case "OrganizationBoundaryStaging":
                     return OrganizationBoundaryStagings.GetOrganizationBoundaryStaging(primaryKey);
+
+                case "OrganizationImage":
+                    return OrganizationImages.GetOrganizationImage(primaryKey);
 
                 case "OrganizationRelationshipType":
                     return OrganizationRelationshipTypes.GetOrganizationRelationshipType(primaryKey);

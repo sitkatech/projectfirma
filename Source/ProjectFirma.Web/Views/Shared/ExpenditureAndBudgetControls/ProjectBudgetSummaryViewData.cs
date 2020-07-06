@@ -27,9 +27,10 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 {
     public class ProjectBudgetSummaryViewData : FirmaViewData
     {
-        public ProjectFirmaModels.Models.Project Project { get; }
+        public ProjectFirmaModels.Models.IProject Project { get; }
         public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
         public bool HasFundingSources { get; }
+        public ProjectFirmaModels.Models.Project BaseProject { get; }
 
         public ProjectBudgetSummaryViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project) : base(currentFirmaSession)
         {
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 
         public ProjectBudgetSummaryViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch) : base(currentFirmaSession)
         {
-            Project = projectUpdateBatch.Project;
+            Project = projectUpdateBatch.ProjectUpdate;
             ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(projectUpdateBatch);
             HasFundingSources = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.Any();
         }

@@ -38,6 +38,7 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.Shared.TextControls;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
@@ -109,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, true, null);
             }
             var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID);
-            viewModel.UpdateModel(organization, CurrentFirmaSession);
+            viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Organization {organization.GetDisplayNameAsUrl()} successfully created.");
@@ -136,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
             }
-            viewModel.UpdateModel(organization, CurrentFirmaSession);
+            viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -155,8 +156,20 @@ namespace ProjectFirma.Web.Controllers
                 x => x.GetFullNameFirstLastAndOrg());
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin, userHasAdminPermissions);
+            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin, userHasAdminPermissions, viewModel.OrganizationGuid);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [OrganizationManageFeature]
+        public JsonResult SyncWithKeystone(string organizationGuidAsString)
+        {
+            var keystoneClient = new KeystoneDataClient();
+            var organizationGuid = Guid.Parse(organizationGuidAsString);
+            var keystoneOrganization = keystoneClient.GetOrganization(organizationGuid);
+            // create an OrganizationSimple with fields to be synced from Keystone set (ShortName and URL)
+            var result = new OrganizationSimple(default(int), keystoneOrganization.OrganizationGuid, keystoneOrganization.FullName, keystoneOrganization.ShortName, default(int), null, true, keystoneOrganization.URL, null, string.Empty);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -200,8 +213,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(organization);
-            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentFirmaSession);
+            var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(organization);
+            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(organization, CurrentFirmaSession);
 
             var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
 
@@ -265,7 +278,7 @@ namespace ProjectFirma.Web.Controllers
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }
 
-        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(Organization organization)
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(Organization organization)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var projectFundingSourceExpenditures =
@@ -280,13 +293,13 @@ namespace ProjectFirma.Web.Controllers
                 yearRange,
                 chartContainerID,
                 chartTitle,
-                GoogleChartType.AreaChart,
+                GoogleChartType.ColumnChart,
                 true);
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
 
-        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(Organization organization, FirmaSession currentFirmaSession)
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(Organization organization, FirmaSession currentFirmaSession)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
@@ -303,7 +316,7 @@ namespace ProjectFirma.Web.Controllers
                 yearRange,
                 chartContainerID,
                 chartTitle,
-                GoogleChartType.AreaChart,
+                GoogleChartType.ColumnChart,
                 true);
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
@@ -337,6 +350,9 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteOrganization(organization, viewModel);
             }
             var message = $"Organization \"{organization.OrganizationName}\" successfully deleted.";
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
+            organization.LogoFileResourceInfo?.FileResourceData.Delete(databaseEntities);
+            organization.LogoFileResourceInfo?.Delete(databaseEntities);
             organization.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
 
@@ -548,6 +564,37 @@ namespace ProjectFirma.Web.Controllers
                 $"Are you sure you want to delete the boundary for this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} '{organization.OrganizationName}'?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
                 viewModel);
+        }
+
+        [HttpGet]
+        [OrganizationManageFeature]
+        public PartialViewResult EditDescriptionInDialog(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new EditRtfContentViewModel(organization.DescriptionHtmlString);
+            return ViewEditDescriptionInDialog(viewModel, organization);
+        }
+
+        [HttpPost]
+        [OrganizationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditDescriptionInDialog(OrganizationPrimaryKey organizationPrimaryKey, EditRtfContentViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditDescriptionInDialog(viewModel, organization);
+            }
+            viewModel.UpdateModel(organization);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditDescriptionInDialog(EditRtfContentViewModel viewModel, Organization organization)
+        {
+            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.All;
+            var viewData = new EditRtfContentViewData(ckEditorToolbar,
+                SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForOrganizationDescription(organization)));
+            return RazorPartialView<EditRtfContent, EditRtfContentViewData, EditRtfContentViewModel>(viewData, viewModel);
         }
     }
 }

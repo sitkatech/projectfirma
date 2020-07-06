@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -87,6 +88,40 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionUpdates.Any() || PerformanceMeasureSubcategoryOptions.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(PerformanceMeasureActualSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOption).Name);
+            }
+
+            if(PerformanceMeasureActualSubcategoryOptionUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name);
+            }
+
+            if(PerformanceMeasureExpectedSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOption).Name);
+            }
+
+            if(PerformanceMeasureExpectedSubcategoryOptionUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name);
+            }
+
+            if(PerformanceMeasureSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureSubcategoryOption).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

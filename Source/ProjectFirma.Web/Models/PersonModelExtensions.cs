@@ -38,30 +38,27 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public static class PersonModelExtensions
     {
-        public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
+        public static HtmlString GetFullNameFirstLastAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.GetFullNameFirstLast());
+            if (new UserViewFeature().HasPermission(currentFirmaSession, person).HasPermission)
+            {
+                return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.GetFullNameFirstLast());
+            }
+            return new HtmlString(person.GetFullNameFirstLast());
         }
 
-        public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person)
+        public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            var userUrl = person.GetFullNameFirstLastAsUrl();
+            var userUrl = person.GetFullNameFirstLastAsUrl(currentFirmaSession);
             var orgUrl = person.Organization.GetDisplayNameAsUrl();
             return new HtmlString($"{userUrl} - {orgUrl}");
         }
 
-        public static HtmlString GetFullNameFirstLastAndOrgShortNameAsUrl(this Person person)
+        public static HtmlString GetFullNameFirstLastAndOrgShortNameAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            var userUrl = person.GetFullNameFirstLastAsUrl();
+            var userUrl = person.GetFullNameFirstLastAsUrl(currentFirmaSession);
             var orgUrl = person.Organization.GetShortNameAsUrl();
             return new HtmlString($"{userUrl} ({orgUrl})");
-        }
-
-        public static HtmlString GetFullNameFirstLastAsStringAndOrgAsUrl(this Person person)
-        {
-            var userString = person.GetFullNameFirstLast();
-            var orgUrl = person.Organization.GetShortNameAsUrl();
-            return new HtmlString($"{userString} - {orgUrl}");
         }
 
         public static string GetFullNameFirstLastAndOrg(this Person person) => $"{person.FirstName} {person.LastName} - {person.Organization.GetDisplayName()}";
@@ -286,6 +283,60 @@ namespace ProjectFirma.Web.Models
             }
 
             return personContactTypesList;
+        }
+
+        public static bool CanDeletePerson(this Person personToDelete, Person currentPerson)
+        {
+            var personsDependentObjectNames = personToDelete.DependentObjectNames();
+
+            // We are going to allow full cascade deletion of a Person from the system only if their only dependent objects are in the list below.
+            // It is worth being careful when adding any further objects to the list because cascade deletion might delete objects that you weren't aware of. 5/15/2020 SMG [#2148]
+            var dependentObjectsThatAreSafeToDelete = new List<string>()
+            {
+                typeof(AuditLog).Name
+            };
+
+            var dependentObjectsThatAreNotSafeToDelete = personsDependentObjectNames.Where(x => dependentObjectsThatAreSafeToDelete.Any(y => y != x)).ToList();
+
+            bool auditLogsAreSafeToDelete = !personToDelete.AuditLogs.Any();
+            if (personsDependentObjectNames.Any(x => x == typeof(AuditLog).Name))
+            {
+                auditLogsAreSafeToDelete = personToDelete.PersonsAuditLogsAreSafeToDelete();
+            }
+
+            return !dependentObjectsThatAreNotSafeToDelete.Any() && auditLogsAreSafeToDelete &&
+                   personToDelete != currentPerson;
+        }
+
+        public static bool PersonsAuditLogsAreSafeToDelete(this Person personToDelete)
+        {
+            var auditLogTablesThatAreSafeToDelete = new List<string>()
+            {
+                typeof(Person).Name,
+                typeof(FirmaSession).Name
+            };
+
+            var auditLogs = personToDelete.AuditLogs.ToList();
+
+            foreach (var auditLog in auditLogs)
+            {
+                // We have tried to limit this just to clearly deletable records. If you find yourself adding a great deal here,
+                // or bending over backwards, we should stop and move to a user-marked-as-deleted model as was done in Gemini.
+                // This is worth some pain, but not much more than this.
+
+                // if the audit logs contains anything outside of the approved to delete audit log tables it is not safe to delete
+                if (!auditLogTablesThatAreSafeToDelete.Contains(auditLog.TableName))
+                {
+                    return false;
+                }
+                // if an audit log entry on the Person table is related to a record other than the personToDelete, it is not safe to delete
+                if (auditLog.TableName == "Person" && auditLog.RecordID != personToDelete.PersonID)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
     }

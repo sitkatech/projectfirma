@@ -64,13 +64,13 @@ namespace ProjectFirma.Web.Models
             var person = TestFramework.TestPerson.Create();
 
             // Act
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(testImageFile, person);
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFile(testImageFile, person);
 
             // Assert
-            //Assert.That(fileResource.FileResourceData, Is.EqualTo(testImageFile.InputStream));
-            Assert.That(fileResource.FileResourceMimeType, Is.EqualTo(testImageFile.FileResourceMimeType));
-            Assert.That(fileResource.GetOriginalCompleteFileName(), Is.EqualTo(testImageFile.FileName));
-            Assert.That(fileResource.CreatePersonID, Is.EqualTo(person.PersonID));
+            //Assert.That(fileResourceInfo.FileResourceData, Is.EqualTo(testImageFile.InputStream));
+            Assert.That(fileResourceInfo.FileResourceMimeType, Is.EqualTo(testImageFile.FileResourceMimeType));
+            Assert.That(fileResourceInfo.GetOriginalCompleteFileName(), Is.EqualTo(testImageFile.FileName));
+            Assert.That(fileResourceInfo.CreatePersonID, Is.EqualTo(person.PersonID));
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Models
             NonServerRootRelativeUrlRegex = new Regex($"(?<!((\"/)|(^/))){Regex.Escape(ControllerPartOfUri)}", RegexOptions.IgnoreCase | RegexOptions.Multiline);
         }
 
-        private readonly Lazy<List<FileResource>> _allFileResources = new Lazy<List<FileResource>>(HttpRequestStorage.DatabaseEntities.AllFileResources.ToList);
+        private readonly Lazy<List<FileResourceInfo>> _allFileResources = new Lazy<List<FileResourceInfo>>(HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.ToList);
         private static readonly Regex NonServerRootRelativeUrlRegex;
         public static readonly string ControllerPartOfUri;
 
@@ -148,11 +148,11 @@ namespace ProjectFirma.Web.Models
             }
             var fileResourceGuidsInDb = _allFileResources.Value.Select(x => x.FileResourceGUID);
             var missing = fileResourceGuidsInUrls.Except(fileResourceGuidsInDb);
-            Assert.That(missing, Is.Empty, "Found at least one URL in text columns in the database referring to a FileResourceGuid that is not in the FileResource table.");
+            Assert.That(missing, Is.Empty, "Found at least one URL in text columns in the database referring to a FileResourceGuid that is not in the FileResourceInfo table.");
         }
 
         /// <summary>
-        /// Based on a string that has embedded file resource URLs in it, parse out the URLs and look up the corresponding FileResource stuff
+        /// Based on a string that has embedded file resource URLs in it, parse out the URLs and look up the corresponding FileResourceInfo stuff
         /// Made public for testing purposes.
         /// </summary>
         public static List<Guid> FindAllFileResourceGuidsFromStringContainingFileResourceUrls(string textWithReferences)

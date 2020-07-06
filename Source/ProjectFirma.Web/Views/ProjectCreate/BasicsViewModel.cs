@@ -133,6 +133,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 HttpRequestStorage.DatabaseEntities.AllSecondaryProjectTaxonomyLeafs.Local,
                 (a, b) => a.TaxonomyLeafID == b.TaxonomyLeafID && a.ProjectID == b.ProjectID,
                 HttpRequestStorage.DatabaseEntities);
+
+            // If this is the first time saving the project, and if the current person belongs to a primary contact organization, prepopulate.
+            if (project.ProjectID == ModelObjectHelpers.NotYetAssignedID && !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.Person.Organization.CanBeAPrimaryContactOrganization())
+            {
+                var primaryContactRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes
+                    .Where(x => x.IsPrimaryContact).ToList();
+                var primaryContactOrganizationRelationshipTypeIDs = primaryContactRelationshipTypes.Select(x => x.OrganizationRelationshipTypeID).ToList();
+
+                project.PrimaryContactPersonID = currentFirmaSession.Person.Organization.PrimaryContactPersonID;
+                project.ProjectOrganizations = primaryContactOrganizationRelationshipTypeIDs.Select(x =>
+                    new ProjectOrganization(project.ProjectID, currentFirmaSession.Person.OrganizationID, x)).ToList();
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -60,17 +60,17 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="row panel-body">
                 <div class="col-sm-4 fieldLabel text-right">
-                    @if (ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResource != null)
+                    @if (ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResourceInfo != null)
                     {
                         @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteFactSheetLogoFileResourceUrl, null, true)
                     }
                     @Html.LabelWithSugarFor(@FieldDefinitionEnum.FactSheetLogo.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.FactSheetLogo.ToType().GetFieldDefinitionLabel()
                 </div>
                 <div class="col-sm-7">
-                    @if (ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResource != null)
+                    @if (ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResourceInfo != null)
                     {
                         <div style="margin-bottom: 15px;">
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResource.GetFileResourceUrl(), new {style = "max-width: 100%;"})
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantFactSheetLogoFileResourceInfo.GetFileResourceUrl(), new {style = "max-width: 100%;"})
                         </div>
                     }
                     else

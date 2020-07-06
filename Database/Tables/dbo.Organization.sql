@@ -11,9 +11,10 @@ CREATE TABLE [dbo].[Organization](
 	[PrimaryContactPersonID] [int] NULL,
 	[IsActive] [bit] NOT NULL,
 	[OrganizationUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[LogoFileResourceID] [int] NULL,
+	[LogoFileResourceInfoID] [int] NULL,
 	[OrganizationTypeID] [int] NOT NULL,
 	[OrganizationBoundary] [geometry] NULL,
+	[Description] [dbo].[html] NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
@@ -39,15 +40,15 @@ CREATE UNIQUE NONCLUSTERED INDEX [AK_Organization_OrganizationGuid_TenantID] ON 
 WHERE ([OrganizationGuid] IS NOT NULL)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_FileResourceID] FOREIGN KEY([LogoFileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_FileResourceInfo_LogoFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([LogoFileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_FileResourceID]
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_FileResourceInfo_LogoFileResourceInfoID_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID] FOREIGN KEY([LogoFileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_FileResourceInfo_LogoFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([LogoFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_FileResource_LogoFileResourceID_TenantID_FileResourceID_TenantID]
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_FileResourceInfo_LogoFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_OrganizationType_OrganizationTypeID] FOREIGN KEY([OrganizationTypeID])
 REFERENCES [dbo].[OrganizationType] ([OrganizationTypeID])

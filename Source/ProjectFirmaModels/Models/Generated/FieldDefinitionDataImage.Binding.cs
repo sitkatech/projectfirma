@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -30,46 +31,46 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FieldDefinitionDataImage(int fieldDefinitionDataImageID, int fieldDefinitionDataID, int fileResourceID) : this()
+        public FieldDefinitionDataImage(int fieldDefinitionDataImageID, int fieldDefinitionDataID, int fileResourceInfoID) : this()
         {
             this.FieldDefinitionDataImageID = fieldDefinitionDataImageID;
             this.FieldDefinitionDataID = fieldDefinitionDataID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FieldDefinitionDataImage(int fieldDefinitionDataID, int fileResourceID) : this()
+        public FieldDefinitionDataImage(int fieldDefinitionDataID, int fileResourceInfoID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionDataImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.FieldDefinitionDataID = fieldDefinitionDataID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FieldDefinitionDataImage(FieldDefinitionData fieldDefinitionData, FileResource fileResource) : this()
+        public FieldDefinitionDataImage(FieldDefinitionData fieldDefinitionData, FileResourceInfo fileResourceInfo) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionDataImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.FieldDefinitionDataID = fieldDefinitionData.FieldDefinitionDataID;
             this.FieldDefinitionData = fieldDefinitionData;
             fieldDefinitionData.FieldDefinitionDataImages.Add(this);
-            this.FileResourceID = fileResource.FileResourceID;
-            this.FileResource = fileResource;
-            fileResource.FieldDefinitionDataImages.Add(this);
+            this.FileResourceInfoID = fileResourceInfo.FileResourceInfoID;
+            this.FileResourceInfo = fileResourceInfo;
+            fileResourceInfo.FieldDefinitionDataImages.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static FieldDefinitionDataImage CreateNewBlank(FieldDefinitionData fieldDefinitionData, FileResource fileResource)
+        public static FieldDefinitionDataImage CreateNewBlank(FieldDefinitionData fieldDefinitionData, FileResourceInfo fileResourceInfo)
         {
-            return new FieldDefinitionDataImage(fieldDefinitionData, fileResource);
+            return new FieldDefinitionDataImage(fieldDefinitionData, fileResourceInfo);
         }
 
         /// <summary>
@@ -79,6 +80,16 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return false;
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
@@ -108,13 +119,13 @@ namespace ProjectFirmaModels.Models
         public int FieldDefinitionDataImageID { get; set; }
         public int TenantID { get; set; }
         public int FieldDefinitionDataID { get; set; }
-        public int FileResourceID { get; set; }
+        public int FileResourceInfoID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return FieldDefinitionDataImageID; } set { FieldDefinitionDataImageID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FieldDefinitionData FieldDefinitionData { get; set; }
-        public virtual FileResource FileResource { get; set; }
+        public virtual FileResourceInfo FileResourceInfo { get; set; }
 
         public static class FieldLengths
         {

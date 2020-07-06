@@ -154,11 +154,12 @@ namespace ProjectFirma.Web.Controllers
 
             var httpPostedFileBase = viewModel.FileResourceData;
             var isKml = httpPostedFileBase.FileName.EndsWith(".kml");
-            var fileEnding = isKml ? ".kml" : ".gdb.zip";
+            var isKmz = httpPostedFileBase.FileName.EndsWith(".kmz");
+            var fileEnding = isKml ? ".kml" : isKmz ? ".kmz" : ".gdb.zip";
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(fileEnding))
             {
-                var gdbOrKmlFile = disposableTempFile.FileInfo;
-                httpPostedFileBase.SaveAs(gdbOrKmlFile.FullName);
+                var disposableTempFileFileInfo = disposableTempFile.FileInfo;
+                httpPostedFileBase.SaveAs(disposableTempFileFileInfo.FullName);
                 foreach (var projectLocationStaging in project.ProjectLocationStagings.ToList())
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
@@ -166,11 +167,15 @@ namespace ProjectFirma.Web.Controllers
 
                 if (isKml)
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(gdbOrKmlFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                }
+                else if (isKmz)
+                {
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
                 }
                 else
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbOrKmlFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
                 }
             }
             return ApproveGisUpload(project);
@@ -196,6 +201,13 @@ namespace ProjectFirma.Web.Controllers
                             FirmaHelpers.DefaultColorRange[i],
                             1,
                             LayerInitialVisibility.Show)).ToList();
+
+            layerGeoJsons = ProjectUpdateController.MakeValidLayerGeoJsons(layerGeoJsons, out var invalidWarningMessage);
+
+            if (!string.IsNullOrEmpty(invalidWarningMessage))
+            {
+                SetWarningForDisplay(invalidWarningMessage);
+            }
             var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);

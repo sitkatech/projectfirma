@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -299,6 +300,10 @@ namespace ProjectFirmaModels.Models
         FactSheetLogo = 349,
         IsContactRelationshipTypeRequired = 350,
         IsOrganizationRelationshipTypeRequired = 351,
-        SyncWithKeystoneOnSave = 352
+        SyncWithKeystoneOnSave = 352,
+        DocumentLibraryName = 353,
+        KMZFile = 354,
+        DocumentLibrary = 355,
+        DocumentLibraryDocumentViewableBy = 356
     }
 }

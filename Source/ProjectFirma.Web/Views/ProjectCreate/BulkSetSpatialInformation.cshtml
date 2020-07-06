@@ -33,6 +33,7 @@
         if (!form.valid()) {
             return false;
         }
+        console.log('test');
 
         jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);
         form.submit();

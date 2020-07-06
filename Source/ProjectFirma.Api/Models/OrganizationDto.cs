@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Api.Models
@@ -15,9 +16,10 @@ namespace ProjectFirma.Api.Models
             OrganizationTypeName = organization.OrganizationType != null ? organization.OrganizationType.OrganizationTypeName : string.Empty; // Organization type won't be available if object is unsaved
             IsActive = organization.IsActive;
             OrganizationUrl = organization.OrganizationUrl;
-            if (organization.LogoFileResource != null)
+            Description = organization.Description;
+            if (organization.LogoFileResourceInfo != null)
             {
-                LogoFileResource = new FileResourceDto(organization.LogoFileResource);
+                LogoFileResource = new FileResourceDto(organization.LogoFileResourceInfo);
             }
         }
 
@@ -34,5 +36,6 @@ namespace ProjectFirma.Api.Models
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
         public FileResourceDto LogoFileResource { get; set; }
+        public string Description { get; set; }
     }
 }

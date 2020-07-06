@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[Role](
 	[RoleName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RoleDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RoleDescription] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SortOrder] [int] NULL,
  CONSTRAINT [PK_Role_RoleID] PRIMARY KEY CLUSTERED 
 (
 	[RoleID] ASC

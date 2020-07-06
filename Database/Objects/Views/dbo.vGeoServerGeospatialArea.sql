@@ -7,7 +7,7 @@ as
 select
 	ga.GeospatialAreaID,
 	ga.GeospatialAreaID as PrimaryKey,
-	ga.GeospatialAreaName,
+	ga.GeospatialAreaShortName,
 	ga.GeospatialAreaFeature,
 	t.TenantID,
 	t.TenantName,

@@ -145,9 +145,9 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
-        private static ProposalSectionsStatus GetProposalSectionsStatus(Project project)
+        private ProposalSectionsStatus GetProposalSectionsStatus(Project project)
         {
-            return new ProposalSectionsStatus(project, HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList());
+            return new ProposalSectionsStatus(project, HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList(), CurrentFirmaSession);
         }
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
@@ -906,11 +906,13 @@ namespace ProjectFirma.Web.Controllers
 
             var httpPostedFileBase = viewModel.FileResourceData;
             var isKml = httpPostedFileBase.FileName.EndsWith(".kml");
-            var fileEnding = isKml ? ".kml" : ".gdb.zip";
+            var isKmz = httpPostedFileBase.FileName.EndsWith(".kmz");
+            var fileEnding = isKml ? ".kml" : isKmz ? ".kmz" : ".gdb.zip";
+
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(fileEnding))
             {
-                var gdbOrKmlFile = disposableTempFile.FileInfo;
-                httpPostedFileBase.SaveAs(gdbOrKmlFile.FullName);
+                var disposableTempFileFileInfo = disposableTempFile.FileInfo;
+                httpPostedFileBase.SaveAs(disposableTempFileFileInfo.FullName);
                 foreach (var projectLocationStaging in project.ProjectLocationStagings.ToList())
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
@@ -918,11 +920,15 @@ namespace ProjectFirma.Web.Controllers
 
                 if (isKml)
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(gdbOrKmlFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                }
+                else if (isKmz)
+                {
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
                 }
                 else
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbOrKmlFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
                 }
                 
             }
@@ -949,6 +955,12 @@ namespace ProjectFirma.Web.Controllers
                             FirmaHelpers.DefaultColorRange[i],
                             1,
                             LayerInitialVisibility.Show)).ToList();
+            layerGeoJsons = ProjectUpdateController.MakeValidLayerGeoJsons(layerGeoJsons, out var invalidWarningMessage);
+
+            if (!string.IsNullOrEmpty(invalidWarningMessage))
+            {
+                SetWarningForDisplay(invalidWarningMessage);
+            }
             var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
@@ -1030,10 +1042,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
             var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                    .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
-                    .GetGeospatialAreasContainingProjectLocation(project).ToList();
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, geospatialAreaType.GeospatialAreaTypeID).ToList();
 
 
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
@@ -1106,14 +1115,13 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
             var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(project).ToList();
 
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project,null).ToList();
 
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
                 geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint,
-                project.HasProjectLocationDetail, editSimpleLocationUrl);
+                project.HasProjectLocationDetail, editSimpleLocationUrl, true);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
@@ -1467,6 +1475,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             project.ProjectApprovalStatusID = ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID;
             project.SubmissionDate = DateTime.Now;
+            project.SubmittedByPerson = CurrentPerson;
             NotificationProjectModelExtensions.SendSubmittedMessage(project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} successfully submitted for review.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
@@ -1495,7 +1504,7 @@ namespace ProjectFirma.Web.Controllers
             Check.Assert(project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval,
                 $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is not in Submitted state. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
 
-            Check.Assert(ProposalSectionsStatus.AreAllSectionsValidForProject(project), "Proposal is not ready for submittal.");
+            Check.Assert(ProposalSectionsStatus.AreAllSectionsValidForProject(project, CurrentFirmaSession), "Proposal is not ready for submittal.");
             
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Approved.ProjectApprovalStatusID;
@@ -1600,7 +1609,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectViewFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            var gridSpec = new AuditLogsGridSpec();
+            var gridSpec = new AuditLogsGridSpec(CurrentFirmaSession);
             var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
@@ -1608,7 +1617,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult GoToNextSection(FormViewModel viewModel, Project project, string currentSectionName)
         {
-            var applicableWizardSections = project.GetApplicableProposalWizardSections(true);
+            var applicableWizardSections = project.GetApplicableProposalWizardSections(true, project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;
@@ -1832,17 +1841,14 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ProjectCustomAttributesViewModel(project);
+            var viewModel = new ProjectCustomAttributesViewModel(project, CurrentFirmaSession);
             return ViewProjectCustomAttributes(project, viewModel);
         }
 
         private ViewResult ViewProjectCustomAttributes(Project project, ProjectCustomAttributesViewModel viewModel)
         {
-            var customAttributesValidationResult = project.ValidateCustomAttributes();
-
-
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
-
+            var customAttributesValidationResult = project.ValidateCustomAttributes(CurrentFirmaSession);
+            var projectCustomAttributeTypes = project.GetCustomAttributeTypes().Where(x => x.HasEditPermission(CurrentFirmaSession));
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);

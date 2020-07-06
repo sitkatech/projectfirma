@@ -80,16 +80,16 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
 
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession);
+            var fileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession);
             var reportTemplateModelType = ReportTemplateModelType.All.FirstOrDefault(x => x.ReportTemplateModelTypeID == viewModel.ReportTemplateModelTypeID);
             var reportTemplateModel = ReportTemplateModel.All.FirstOrDefault(x => x.ReportTemplateModelID == viewModel.ReportTemplateModelID);
-            var reportTemplate = ReportTemplate.CreateNewBlank(fileResource, reportTemplateModelType, reportTemplateModel);
+            var reportTemplate = ReportTemplate.CreateNewBlank(fileResourceInfo, reportTemplateModelType, reportTemplateModel);
 
             ReportTemplateGenerator.ValidateReportTemplate(reportTemplate, out var reportIsValid, out var errorMessage, out var sourceCode);
 
             if (reportIsValid)
             {
-                viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
+                viewModel.UpdateModel(reportTemplate, fileResourceInfo, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
                 SitkaDbContext.SaveChanges();
                 SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully created.");
             }
@@ -123,15 +123,15 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
 
-            var fileResource = (viewModel.FileResourceData != null) ? FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession) : HttpRequestStorage.DatabaseEntities.FileResources.First(x => x.FileResourceID == viewModel.FileResourceID);
+            var fileResourceInfo = (viewModel.FileResourceData != null) ? FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession) : HttpRequestStorage.DatabaseEntities.FileResourceInfos.First(x => x.FileResourceInfoID == viewModel.FileResourceInfoID);
             var reportTemplate = reportTemplatePrimaryKey.EntityObject;
-            reportTemplate.FileResource = fileResource;
+            reportTemplate.FileResourceInfo = fileResourceInfo;
 
             ReportTemplateGenerator.ValidateReportTemplate(reportTemplate, out var reportIsValid, out var errorMessage, out var sourceCode);
 
             if (reportIsValid)
             {
-                viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
+                viewModel.UpdateModel(reportTemplate, fileResourceInfo, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
                 SitkaDbContext.SaveChanges();
                 SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully created.");
             }

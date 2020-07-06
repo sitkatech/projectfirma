@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             }
             
             var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem.ClassificationSystemID);
-            viewModel.UpdateModel(classification, CurrentFirmaSession);
+            viewModel.UpdateModel(classification, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classification = classificationPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(classification);
-            return ViewEdit(viewModel, classification.ClassificationSystem);
+            return ViewEdit(viewModel, classification.ClassificationSystem, classification);
         }
 
         [HttpPost]
@@ -110,16 +110,22 @@ namespace ProjectFirma.Web.Controllers
             var classification = classificationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, classification.ClassificationSystem);
+                return ViewEdit(viewModel, classification.ClassificationSystem, classification);
             }
             
-            viewModel.UpdateModel(classification, CurrentFirmaSession);
+            viewModel.UpdateModel(classification, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, ClassificationSystem classificationSystem)
         {            
             var viewData = new EditViewData(classificationSystem);
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        private PartialViewResult ViewEdit(EditViewModel viewModel, ClassificationSystem classificationSystem, Classification classification)
+        {
+            var viewData = new EditViewData(classificationSystem, classification);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

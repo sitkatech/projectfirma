@@ -42,22 +42,23 @@ namespace ProjectFirma.Web.Models
             return new FeatureCollection(geospatialAreas.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
 
-        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
+        public static List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GetGeospatialAreasContainingProjectLocation( IProject project,int? geoSpatialAreaTypeID)
         {
             return project?.ProjectLocationPoint == null
-                ? new List<GeospatialArea>()
-                : geospatialAreas.Where(x =>
-                    x.GeospatialAreaFeature.Contains(project.ProjectLocationPoint)).ToList();
+                ? new List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result>()
+                : HttpRequestStorage.DatabaseEntities.GetfGeoServerGeospatialAreaAreasContainingProjectLocations(project.ProjectOrProjectUpdateID
+                    , project.IsProject
+                    , geoSpatialAreaTypeID).ToList();
         }
 
         public static HtmlString GetDisplayNameAsUrl(this GeospatialArea geospatialArea)
         {
-            return UrlTemplate.MakeHrefString(geospatialArea.GetDetailUrl(), geospatialArea.GetDisplayName());
+            return UrlTemplate.MakeHrefString(geospatialArea.GetDetailUrl(), geospatialArea.GeospatialAreaShortName);
         }
 
         public static HtmlString GetDisplayNameAsUrl(this vGeospatialArea geospatialArea)
         {
-            return UrlTemplate.MakeHrefString(geospatialArea.GetDetailUrl(), geospatialArea.GeospatialAreaName);
+            return UrlTemplate.MakeHrefString(geospatialArea.GetDetailUrl(), geospatialArea.GeospatialAreaShortName);
         }
 
         public static string GetDetailUrl(this vGeospatialArea geospatialArea)
@@ -101,7 +102,7 @@ namespace ProjectFirma.Web.Models
                 $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple",
                 projects.MappedPointsToGeoJsonFeatureCollection(true, false),
                 "#ffff00", 1, LayerInitialVisibility.Show);
-            var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.GetDisplayName(),
+            var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.GeospatialAreaShortName,
                 new List<GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
                 LayerInitialVisibility.Show);
 
@@ -147,11 +148,11 @@ namespace ProjectFirma.Web.Models
                     into x
                 where geospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID
                 from x2 in x.DefaultIfEmpty()
-                group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaName } into grouped
+                group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaShortName } into grouped
                 select new GeospatialAreaIndexGridSimple()
                 {
                     GeospatialAreaID = grouped.Key.GeospatialAreaID,
-                    GeospatialAreaName = grouped.Key.GeospatialAreaName,
+                    GeospatialAreaShortName = grouped.Key.GeospatialAreaShortName,
                     ProjectViewableByUserCount = grouped.Count(t => t.ProjectGeospatialAreaID > 0)
                 };
 

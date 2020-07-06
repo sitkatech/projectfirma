@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Base initialization - DHTMLX Helpers</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Helpers to explore its resizer and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.5.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.5.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.5.1">
+		<link rel="stylesheet" href="../common/helpers.css?v=6.5.1">
+		<script type="text/javascript" src="../common/dataset.js?v=6.5.1"></script>
+		<!-- custom sample head -->
+		<style>
+			html, body {
+				height: 100%;
+			}
+
+			.dhx_sample-container__widget {
+				width: 100%;
+				height: calc(100% - 121px);
+			}
+
+			.left {
+				background: #0080004d;
+			}
+			.center {
+				background: #ff000033;
+			}
+			.right {
+				background: #87ceeb4d;
+			}
+			.toolbar {
+				background: #ffff004d;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Helpers samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Resizer</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Base initialization</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Base initialization.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<h4>Make window width less then 800px and height less then 400px</h4>
+		</section>
+		<div class="dhx_sample-container__widget" id="layout"></div>
+
+		<script>
+			var layout;
+			dhx.resizeHandler(document.body, function (wight, height) {
+				if (wight > 800) {
+					if (layout) {
+						if (height > 400) {
+							initLayout(biggestConf, "biggest");
+						} else {
+							initLayout(bigConf, "big")
+						}
+					} else {
+						if (height > 400) {
+							initLayout(biggestConf);
+						} else {
+							initLayout(bigConf);
+						}
+					}
+				} else {
+					if (layout) {
+						if (height > 400) {
+							initLayout(smallConf, "small");
+						} else {
+							initLayout(smallestConf, "smallest")
+						}
+					} else {
+						if (height > 400) {
+							initLayout(smallConf);
+						} else {
+							initLayout(smallestConf);
+						}
+					}
+				}
+			})
+			function initLayout(config, type) {
+				if (type) {
+					if (layout.config.customType !== type) {
+						layout.destructor();
+						initLayout(config);
+					}
+				} else {
+					layout = new dhx.Layout("layout", config);
+				}
+			}
+		</script>
+	</body>
+</html>

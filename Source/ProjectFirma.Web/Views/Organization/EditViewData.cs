@@ -18,8 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -31,8 +36,10 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string RequestOrganizationChangeUrl;
         public readonly bool IsSitkaAdmin;
         public readonly bool UserHasAdminPermissions;
+        public readonly Guid? OrganizationGuid;
+        public readonly string SyncWithKeystoneUrl;
 
-        public EditViewData(IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin, bool userHasAdminPermissions)
+        public EditViewData(IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin, bool userHasAdminPermissions, Guid? organizationGuid)
         {
             OrganizationTypes = organizationTypes;
             People = people;
@@ -40,6 +47,8 @@ namespace ProjectFirma.Web.Views.Organization
             RequestOrganizationChangeUrl = requestOrganizationChangeUrl;
             IsSitkaAdmin = isSitkaAdmin;
             UserHasAdminPermissions = userHasAdminPermissions;
+            OrganizationGuid = organizationGuid;
+            SyncWithKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.SyncWithKeystone(UrlTemplate.Parameter1String));
         }
     }
 }

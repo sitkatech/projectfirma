@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -30,10 +31,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectImageUpdate(int projectImageUpdateID, int? fileResourceID, int projectUpdateBatchID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet, int? projectImageID) : this()
+        public ProjectImageUpdate(int projectImageUpdateID, int? fileResourceInfoID, int projectUpdateBatchID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet, int? projectImageID) : this()
         {
             this.ProjectImageUpdateID = projectImageUpdateID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectImageTimingID = projectImageTimingID;
             this.Caption = caption;
@@ -94,6 +95,16 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectImageUpdate).Name};
@@ -119,7 +130,7 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int ProjectImageUpdateID { get; set; }
         public int TenantID { get; set; }
-        public int? FileResourceID { get; set; }
+        public int? FileResourceInfoID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int ProjectImageTimingID { get; set; }
         public string Caption { get; set; }
@@ -131,7 +142,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ProjectImageUpdateID; } set { ProjectImageUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual FileResource FileResource { get; set; }
+        public virtual FileResourceInfo FileResourceInfo { get; set; }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public ProjectImageTiming ProjectImageTiming { get { return ProjectImageTiming.AllLookupDictionary[ProjectImageTimingID]; } }
         public virtual ProjectImage ProjectImage { get; set; }

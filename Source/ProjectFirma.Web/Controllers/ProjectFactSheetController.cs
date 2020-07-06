@@ -96,15 +96,20 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteTenantFactSheetLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
-            var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantFactSheetLogoFileResource(viewModel, tenantAttribute);
             }
 
-            var tenantAttributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResource;
-            tenantAttribute.TenantFactSheetLogoFileResource = null;
+            var tenantAttributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResourceInfo;
+            var fileResourceDatas = tenantAttribute.TenantFactSheetLogoFileResourceInfo.FileResourceDatas;
+            tenantAttribute.TenantFactSheetLogoFileResourceInfo.FileResourceDatas = null;
+            tenantAttribute.TenantFactSheetLogoFileResourceInfo = null;
+            foreach (var fileResourceData in fileResourceDatas)
+            {
+                fileResourceData.Delete(HttpRequestStorage.DatabaseEntities);
+            }
             tenantAttributeTenantFactSheetLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             MultiTenantHelpers.ClearTenantAttributeCacheForAllTenants();
             return new ModalDialogFormJsonResult();

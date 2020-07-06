@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         private readonly bool _canStewardProjects;
 
-        public ProjectUpdateStatusGridSpec(ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterTypeEnum,
+        public ProjectUpdateStatusGridSpec(FirmaSession currentFirmaSession, ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterTypeEnum,
             bool canStewardProjects)
         {
             _canStewardProjects = canStewardProjects;
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 180, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(),
-                x => x.GetPrimaryContact() == null ? ViewUtilities.NoneString.ToHTMLFormattedString() : x.GetPrimaryContact().GetFullNameFirstLastAndOrgShortNameAsUrl(),
+                x => x.GetPrimaryContact() == null ? ViewUtilities.NoneString.ToHTMLFormattedString() : x.GetPrimaryContact().GetFullNameFirstLastAndOrgShortNameAsUrl(currentFirmaSession),
                 95);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);

@@ -37,14 +37,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public string EditProjectGeospatialAreasUrl { get; }
         public bool HasProjectLocationPoint { get; }
         public bool HasProjectLocationDetail { get; }
-        public List<ProjectFirmaModels.Models.GeospatialArea> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
+        public List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
         public string SimplePointMarkerImg { get; }
         public string EditSimpleLocationUrl { get; }
 
         public EditProjectGeospatialAreasViewData(FirmaSession currentFirmaSession, MapInitJson mapInitJson,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, string editProjectGeospatialAreasUrl,
             string editProjectGeospatialAreasFormID, bool hasProjectLocationPoint, bool hasProjectLocationDetail,
-            GeospatialAreaType geospatialAreaType, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, string editSimpleLocationUrl) : base(currentFirmaSession)
+            GeospatialAreaType geospatialAreaType, List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> geospatialAreasContainingProjectSimpleLocation, string editSimpleLocationUrl) : base(currentFirmaSession)
         {
             GeospatialAreaType = geospatialAreaType;
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation;
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 
         public EditProjectGeospatialAreasViewDataForAngular(MapInitJson mapInitJson,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, GeospatialAreaType geospatialAreaType,
-            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, bool hasProjectLocationPoint)
+            List<ProjectFirmaModels.Models.fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> geospatialAreasContainingProjectSimpleLocation, bool hasProjectLocationPoint)
         {
             MapInitJson = mapInitJson;
             FindGeospatialAreaByNameUrl =
@@ -90,13 +90,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
 
             GeospatialAreaNameByID =
-                geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaName);
+                geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaShortName);
 
             GeospatialAreaNameByID.AddAll(
                 geospatialAreasContainingProjectSimpleLocation
                     .Where(x => !GeospatialAreaNameByID.ContainsKey(x.GeospatialAreaID)).ToDictionary(
                         x => x.GeospatialAreaID,
-                        x => x.GeospatialAreaName));
+                        x => x.GeospatialAreaShortName));
 
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation
                 .Select(x => x.GeospatialAreaID).ToList();

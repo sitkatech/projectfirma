@@ -17,12 +17,12 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.FirmaHomePageImageID);
             Property(x => x.FirmaHomePageImageID).HasColumnName(@"FirmaHomePageImageID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
-            Property(x => x.FileResourceID).HasColumnName(@"FileResourceID").HasColumnType("int").IsRequired();
+            Property(x => x.FileResourceInfoID).HasColumnName(@"FileResourceInfoID").HasColumnType("int").IsRequired();
             Property(x => x.Caption).HasColumnName(@"Caption").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(300);
             Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.FileResource).WithMany(b => b.FirmaHomePageImages).HasForeignKey(c => c.FileResourceID).WillCascadeOnDelete(false); // FK_FirmaHomePageImage_FileResource_FileResourceID
+            HasRequired(a => a.FileResourceInfo).WithMany(b => b.FirmaHomePageImages).HasForeignKey(c => c.FileResourceInfoID).WillCascadeOnDelete(false); // FK_FirmaHomePageImage_FileResourceInfo_FileResourceInfoID
         }
     }
 }

@@ -40,6 +40,7 @@ namespace ProjectFirma.Api.Controllers
             organization.OrganizationGuid = organizationDto.OrganizationGuid;
             organization.OrganizationShortName = organizationDto.OrganizationShortName;
             organization.OrganizationUrl = organizationDto.OrganizationUrl;
+            organization.Description = organizationDto.Description;
             if (organizationDto.LogoFileResource != null)
             {
                 var fileResourceDto = organizationDto.LogoFileResource;
@@ -54,11 +55,12 @@ namespace ProjectFirma.Api.Controllers
                 var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
                 var fileResourceMimeTypeID = fileResourceMimeType.FileResourceMimeTypeID;
                 var personID = peopleDictionary.ContainsKey(fileResourceDto.Email) ? peopleDictionary[fileResourceDto.Email].PersonID : 5278;
-                var fileResource = new FileResource(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
+                var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
                     fileResourceDto.OriginalFileExtension, fileResourceDto.FileResourceGUID,
-                    fileResourceDto.FileResourceData, personID, fileResourceDto.CreateDate);
+                    personID, fileResourceDto.CreateDate);
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, fileResourceDto.FileResourceData));
 
-                organization.LogoFileResource = fileResource;
+                organization.LogoFileResourceInfo = fileResourceInfo;
             }
             _databaseEntities.AllOrganizations.Add(organization);
             _databaseEntities.SaveChangesWithNoAuditing(tenantID);
@@ -89,6 +91,7 @@ namespace ProjectFirma.Api.Controllers
             organization.OrganizationTypeID = organizationDto.OrganizationTypeID;
             organization.IsActive = organizationDto.IsActive;
             organization.OrganizationUrl = organizationDto.OrganizationUrl;
+            organization.Description = organizationDto.Description;
             if (organizationDto.LogoFileResource != null)
             {
                 var fileResourceDto = organizationDto.LogoFileResource;
@@ -103,11 +106,15 @@ namespace ProjectFirma.Api.Controllers
                 var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
                 var fileResourceMimeTypeID = fileResourceMimeType.FileResourceMimeTypeID;
                 var personID = peopleDictionary.ContainsKey(fileResourceDto.Email) ? peopleDictionary[fileResourceDto.Email].PersonID : 5278;
-                var fileResource = new FileResource(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
+                var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, fileResourceDto.OriginalBaseFilename,
                     fileResourceDto.OriginalFileExtension, fileResourceDto.FileResourceGUID,
-                    fileResourceDto.FileResourceData, personID, fileResourceDto.CreateDate);
+                    personID, fileResourceDto.CreateDate);
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, fileResourceDto.FileResourceData));
 
-                organization.LogoFileResource = fileResource;
+                var oldLogoFileResourceInfo = organization.LogoFileResourceInfo;
+                organization.LogoFileResourceInfo = fileResourceInfo;
+                oldLogoFileResourceInfo?.FileResourceData.Delete(_databaseEntities);
+                oldLogoFileResourceInfo?.Delete(_databaseEntities);
             }
 
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
@@ -126,9 +133,57 @@ namespace ProjectFirma.Api.Controllers
                 var message = $"Organization with ID = {id} not found";
                 return NotFound();
             }
+            organization.LogoFileResourceInfo?.FileResourceData.Delete(_databaseEntities);
+            organization.LogoFileResourceInfo?.Delete(_databaseEntities);
             organization.DeleteFull(_databaseEntities);
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
             return Ok();
+        }
+
+        [Route("api/Organizations/UpdateOrganizationDescription/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdateOrganizationDescription(string apiKey, [FromBody] OrganizationDescriptionDto organizationDto)
+        {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
+            var organization = _databaseEntities.Organizations.SingleOrDefault(x => x.OrganizationID == organizationDto.OrganizationID);
+            if (organization == null)
+            {
+                var message = $"Performance Measure with ID = {organizationDto.OrganizationID} not found";
+                return NotFound();
+            }
+
+            organization.Description = organizationDto.Description;
+
+            var fileResourceDtos = organizationDto.FileResources;
+            var fileResourceMimeTypes = fileResourceDtos.ToDictionary(x => new { x.FileResourceGUID, x.FileResourceMimeTypeName },
+                x => MapFileResourceMimeTypeNameToFileResourceMimeType(x.FileResourceMimeTypeName));
+            if (fileResourceMimeTypes.Values.Any(x => x == null))
+            {
+                var errors =
+                fileResourceMimeTypes.Where(x => x.Value == null).Select(x =>
+                    $"Invalid File Resource Mime Type '{x.Key.FileResourceMimeTypeName}' for '{x.Key.FileResourceGUID}'").ToList();
+                return BadRequest(string.Join("\r\n", errors));
+            }
+
+            // Remove all of these, too hard to merge nicely
+            _databaseEntities.AllFileResourceDatas.RemoveRange(organization.OrganizationImages.Select(x => x.FileResourceInfo.FileResourceData));
+            _databaseEntities.AllFileResourceInfos.RemoveRange(organization.OrganizationImages.Select(x => x.FileResourceInfo));
+            _databaseEntities.AllOrganizationImages.RemoveRange(organization.OrganizationImages);
+
+            var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
+            var organizationImagesToUpdate = fileResourceDtos.Select(x =>
+            {
+                var fileResourceMimeTypeID = fileResourceMimeTypes.Single(y => y.Key.FileResourceGUID == x.FileResourceGUID).Value.FileResourceMimeTypeID;
+                var personID = peopleDictionary.ContainsKey(x.Email) ? peopleDictionary[x.Email].PersonID : 5278;
+                var fileResourceInfo = new FileResourceInfo(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, personID, x.CreateDate);
+                fileResourceInfo.FileResourceDatas.Add(new FileResourceData(fileResourceInfo.FileResourceInfoID, x.FileResourceData));
+                var organizationImage = new OrganizationImage(organization, fileResourceInfo);
+                return organizationImage;
+            }).ToList();
+
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var organizationReloaded = new OrganizationDto(organization);
+            return Ok(organizationReloaded);
         }
     }
 }

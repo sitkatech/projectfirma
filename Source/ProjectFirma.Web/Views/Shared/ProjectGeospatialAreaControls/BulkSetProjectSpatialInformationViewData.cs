@@ -26,10 +26,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                                                          MapInitJson mapInitJson, 
                                                          string editProjectGeospatialAreasUrl, 
                                                          string editProjectGeospatialAreasFormID, 
-                                                         List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
+                                                         List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> geospatialAreasContainingProjectSimpleLocation, 
                                                          bool hasProjectLocationPoint, 
                                                          bool hasProjectLocationDetail,
-                                                         string editSimpleLocationUrl) : base(currentFirmaSession)
+                                                         string editSimpleLocationUrl, bool canEdit) : base(currentFirmaSession)
         {
             ProjectSimpleLocation = project.ProjectLocationPoint;
             GeospatialAreaTypes = geospatialAreaTypes;
@@ -38,8 +38,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             HasProjectLocationPoint = hasProjectLocationPoint;
             HasProjectLocationDetail = hasProjectLocationDetail;
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
-
-            ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint, geospatialAreasOnProject);
+            ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint, geospatialAreasOnProject, canEdit);
 
             EditSimpleLocationUrl = editSimpleLocationUrl;
         }
@@ -54,26 +53,29 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public List<int> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
         public bool HasProjectLocationPoint { get; }
         public Dictionary<int, string> GeospatialAreaNameByID { get; }
+        public bool CanEdit { get; }
 
         public BulkSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson, 
                                                                   List<GeospatialAreaType> geospatialAreaTypes, 
-                                                                  List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
+                                                                  List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> geospatialAreasContainingProjectSimpleLocation, 
                                                                   bool hasProjectLocationPoint,
-                                                                  List<ProjectFirmaModels.Models.GeospatialArea> selectedGeospatialAreas)
+                                                                  List<ProjectFirmaModels.Models.GeospatialArea> selectedGeospatialAreas, bool canEdit)
         {
 
-            var possibleGeospatialAreas = new List<ProjectFirmaModels.Models.GeospatialArea>();
+            var possibleGeospatialAreas = new List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result>();
             geospatialAreasContainingProjectSimpleLocation.CopyItemsTo(possibleGeospatialAreas);
-            possibleGeospatialAreas.AddRange(selectedGeospatialAreas.Where(x => !possibleGeospatialAreas.Contains(x)));
+            var possibleGeospatialAreaIDs = possibleGeospatialAreas.Select(y => y.GeospatialAreaID).ToList();
+            var selectedGeospatialAreasNotInPossibleGeospatialAreas = selectedGeospatialAreas.Select(x => x.MakefGeoServerGeospatialAreaAreasContainingProjectLocation()).Where(x => !possibleGeospatialAreaIDs.Contains(x.GeospatialAreaID));
+            possibleGeospatialAreas.AddRange(selectedGeospatialAreasNotInPossibleGeospatialAreas);
             GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x =>
             {
                 var geospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList();
                 var geospatialAreaIDsInitiallySelected = selectedGeospatialAreas.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList();
                 return new GeospatialAreaTypeSimple(x, geospatialAreaIDsContainingProjectSimpleLocation, geospatialAreaIDsInitiallySelected);
             }).ToList();
-            GeospatialAreaNameByID = possibleGeospatialAreas.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaName);
+            GeospatialAreaNameByID = possibleGeospatialAreas.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaShortName);
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
-
+            CanEdit = canEdit;
             MapInitJson = mapInitJson;
             MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl();
             HasProjectLocationPoint = hasProjectLocationPoint;

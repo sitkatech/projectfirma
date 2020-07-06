@@ -70,12 +70,11 @@
             };
 
             $scope.changedLatLngInput = function () {
-                if (isNaN($scope.AngularModel.ProjectLocationPointY) || isNaN($scope.AngularModel.ProjectLocationPointX)) {
+                if (isNaN($scope.AngularModel.ProjectLocationPointY) || isNaN($scope.AngularModel.ProjectLocationPointX) || $scope.AngularModel.ProjectLocationPointY.toString().slice(-1) === "." || $scope.AngularModel.ProjectLocationPointX.toString().slice(-1) === ".") {
                     return;
                 }
-
                 // if either the lat or lng are falsy we should remove the selected point from the map
-                if (!$scope.AngularModel.ProjectLocationPointY || !$scope.AngularModel.ProjectLocationPointX) {
+                if ((!$scope.AngularModel.ProjectLocationPointY || !$scope.AngularModel.ProjectLocationPointX) && $scope.projectLocationMap.currentSelectedPoint) {
                     $scope.projectLocationMap.map.removeLayer($scope.projectLocationMap.currentSelectedPoint);
                     return;
                 }
@@ -84,6 +83,36 @@
 
                 // if we haven't returned (the lat lng numbers look good enough for the setPointOnMap function) we can set the point on the map
                 setPointOnMap(latlng);
+            }
+
+            $scope.checkInputsForDegreeMinutes = function() {
+                var regex = /(-*)*(\d*)[° ] *(\d*)[' ] *(\d*\.?\d*)["]? *([NnSsEeWw])?/; // https://regex101.com/r/rH0JLy/3
+
+                if ($scope.AngularModel.ProjectLocationPointY) {
+                    var latMatch = $scope.AngularModel.ProjectLocationPointY.toString().match(regex);
+                    if (latMatch) {
+                        var latDegrees = parseFloat(latMatch[2]);
+                        var latMinutes = parseFloat(latMatch[3]);
+                        var latSeconds = parseFloat(latMatch[4]);
+                        var latIsNegative = (latMatch[5] && latMatch[5].toLowerCase() === "s" ) || latMatch[1] === "-";
+                        var latDecimalValue = latDegrees + (latMinutes / 60) + (latSeconds / 3600);
+                        $scope.AngularModel.ProjectLocationPointY = latIsNegative ? -latDecimalValue : latDecimalValue;
+                        $scope.changedLatLngInput();
+                    }
+                }
+
+                if ($scope.AngularModel.ProjectLocationPointX) {
+                    var lonMatch = $scope.AngularModel.ProjectLocationPointX.toString().match(regex);
+                    if (lonMatch) {
+                        var lonDegrees = parseFloat(lonMatch[2]);
+                        var lonMinutes = parseFloat(lonMatch[3]);
+                        var lonSeconds = parseFloat(lonMatch[4]);
+                        var lonIsNegative = (lonMatch[5] && lonMatch[5].toLowerCase() === "w") || lonMatch[1] === "-";
+                        var lonDecimalValue = lonDegrees + (lonMinutes / 60) + (lonSeconds / 3600);
+                        $scope.AngularModel.ProjectLocationPointX = lonIsNegative ? -lonDecimalValue : lonDecimalValue;
+                        $scope.changedLatLngInput();
+                    }
+                }
             }
 
             function onMapClick(event) {

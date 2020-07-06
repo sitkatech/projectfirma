@@ -14,12 +14,15 @@ namespace ProjectFirma.Web.Models
             {
                 return false;
             }
+
+            var currentFirmaSession = HttpRequestStorage.FirmaSession;
+
             switch (projectUpdateSection.ToEnum)
             {
                 case ProjectUpdateSectionEnum.Basics:
                     return projectUpdateBatch.AreProjectBasicsValid();
                 case ProjectUpdateSectionEnum.CustomAttributes:
-                    return projectUpdateBatch.AreProjectCustomAttributesValid();
+                    return projectUpdateBatch.AreProjectCustomAttributesValid(currentFirmaSession);
                 case ProjectUpdateSectionEnum.LocationSimple:
                     return projectUpdateBatch.IsProjectLocationSimpleValid();
                 case ProjectUpdateSectionEnum.Organizations:

@@ -97,7 +97,7 @@ namespace LtInfo.Common
         /// </summary>
         public void LogDetailedInfoMessage(string infoMessage, SitkaDebugInfo debugInfo)
         {
-            var s = string.Format("{0}\r\n{1}", infoMessage, debugInfo);
+            var s = $"{infoMessage}\r\n{debugInfo}";
             Logger.Info(s);
         }
 

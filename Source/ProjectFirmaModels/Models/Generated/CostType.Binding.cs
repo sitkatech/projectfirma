@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -68,6 +69,45 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ProjectFundingSourceBudgets.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudget).Name);
+            }
+
+            if(ProjectFundingSourceBudgetUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudgetUpdate).Name);
+            }
+
+            if(ProjectFundingSourceExpenditures.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditure).Name);
+            }
+
+            if(ProjectFundingSourceExpenditureUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditureUpdate).Name);
+            }
+
+            if(ProjectRelevantCostTypes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectRelevantCostType).Name);
+            }
+
+            if(ProjectRelevantCostTypeUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectRelevantCostTypeUpdate).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

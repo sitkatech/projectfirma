@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -30,10 +31,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReportTemplate(int reportTemplateID, int fileResourceID, string displayName, string description, int reportTemplateModelTypeID, int reportTemplateModelID) : this()
+        public ReportTemplate(int reportTemplateID, int fileResourceInfoID, string displayName, string description, int reportTemplateModelTypeID, int reportTemplateModelID) : this()
         {
             this.ReportTemplateID = reportTemplateID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.DisplayName = displayName;
             this.Description = description;
             this.ReportTemplateModelTypeID = reportTemplateModelTypeID;
@@ -43,12 +44,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReportTemplate(int fileResourceID, string displayName, int reportTemplateModelTypeID, int reportTemplateModelID) : this()
+        public ReportTemplate(int fileResourceInfoID, string displayName, int reportTemplateModelTypeID, int reportTemplateModelID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReportTemplateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.DisplayName = displayName;
             this.ReportTemplateModelTypeID = reportTemplateModelTypeID;
             this.ReportTemplateModelID = reportTemplateModelID;
@@ -57,13 +58,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ReportTemplate(FileResource fileResource, string displayName, ReportTemplateModelType reportTemplateModelType, ReportTemplateModel reportTemplateModel) : this()
+        public ReportTemplate(FileResourceInfo fileResourceInfo, string displayName, ReportTemplateModelType reportTemplateModelType, ReportTemplateModel reportTemplateModel) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReportTemplateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.FileResourceID = fileResource.FileResourceID;
-            this.FileResource = fileResource;
-            fileResource.ReportTemplates.Add(this);
+            this.FileResourceInfoID = fileResourceInfo.FileResourceInfoID;
+            this.FileResourceInfo = fileResourceInfo;
+            fileResourceInfo.ReportTemplates.Add(this);
             this.DisplayName = displayName;
             this.ReportTemplateModelTypeID = reportTemplateModelType.ReportTemplateModelTypeID;
             this.ReportTemplateModelID = reportTemplateModel.ReportTemplateModelID;
@@ -72,9 +73,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ReportTemplate CreateNewBlank(FileResource fileResource, ReportTemplateModelType reportTemplateModelType, ReportTemplateModel reportTemplateModel)
+        public static ReportTemplate CreateNewBlank(FileResourceInfo fileResourceInfo, ReportTemplateModelType reportTemplateModelType, ReportTemplateModel reportTemplateModel)
         {
-            return new ReportTemplate(fileResource, default(string), reportTemplateModelType, reportTemplateModel);
+            return new ReportTemplate(fileResourceInfo, default(string), reportTemplateModelType, reportTemplateModel);
         }
 
         /// <summary>
@@ -84,6 +85,16 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return false;
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
@@ -112,7 +123,7 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int ReportTemplateID { get; set; }
         public int TenantID { get; set; }
-        public int FileResourceID { get; set; }
+        public int FileResourceInfoID { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public int ReportTemplateModelTypeID { get; set; }
@@ -121,7 +132,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReportTemplateID; } set { ReportTemplateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual FileResource FileResource { get; set; }
+        public virtual FileResourceInfo FileResourceInfo { get; set; }
         public ReportTemplateModelType ReportTemplateModelType { get { return ReportTemplateModelType.AllLookupDictionary[ReportTemplateModelTypeID]; } }
         public ReportTemplateModel ReportTemplateModel { get { return ReportTemplateModel.AllLookupDictionary[ReportTemplateModelID]; } }
 

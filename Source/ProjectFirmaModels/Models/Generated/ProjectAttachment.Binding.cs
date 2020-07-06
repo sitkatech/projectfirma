@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -57,14 +58,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectAttachment(Project project, FileResource attachment, AttachmentType attachmentType, string displayName) : this()
+        public ProjectAttachment(Project project, FileResourceInfo attachment, AttachmentType attachmentType, string displayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAttachmentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectAttachments.Add(this);
-            this.AttachmentID = attachment.FileResourceID;
+            this.AttachmentID = attachment.FileResourceInfoID;
             this.Attachment = attachment;
             attachment.ProjectAttachmentsWhereYouAreTheAttachment.Add(this);
             this.AttachmentTypeID = attachmentType.AttachmentTypeID;
@@ -76,7 +77,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectAttachment CreateNewBlank(Project project, FileResource attachment, AttachmentType attachmentType)
+        public static ProjectAttachment CreateNewBlank(Project project, FileResourceInfo attachment, AttachmentType attachmentType)
         {
             return new ProjectAttachment(project, attachment, attachmentType, default(string));
         }
@@ -88,6 +89,16 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return false;
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
@@ -126,7 +137,7 @@ namespace ProjectFirmaModels.Models
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
-        public virtual FileResource Attachment { get; set; }
+        public virtual FileResourceInfo Attachment { get; set; }
         public virtual AttachmentType AttachmentType { get; set; }
 
         public static class FieldLengths

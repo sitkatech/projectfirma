@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -25,11 +26,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vGeoServerGeospatialArea(int geospatialAreaID, int primaryKey, string geospatialAreaName, int tenantID, string tenantName, string geospatialAreaTypeName) : this()
+        public vGeoServerGeospatialArea(int geospatialAreaID, int primaryKey, string geospatialAreaShortName, int tenantID, string tenantName, string geospatialAreaTypeName) : this()
         {
             this.GeospatialAreaID = geospatialAreaID;
             this.PrimaryKey = primaryKey;
-            this.GeospatialAreaName = geospatialAreaName;
+            this.GeospatialAreaShortName = geospatialAreaShortName;
             this.TenantID = tenantID;
             this.TenantName = tenantName;
             this.GeospatialAreaTypeName = geospatialAreaTypeName;
@@ -42,7 +43,7 @@ namespace ProjectFirmaModels.Models
         {
             this.GeospatialAreaID = vGeoServerGeospatialArea.GeospatialAreaID;
             this.PrimaryKey = vGeoServerGeospatialArea.PrimaryKey;
-            this.GeospatialAreaName = vGeoServerGeospatialArea.GeospatialAreaName;
+            this.GeospatialAreaShortName = vGeoServerGeospatialArea.GeospatialAreaShortName;
             this.TenantID = vGeoServerGeospatialArea.TenantID;
             this.TenantName = vGeoServerGeospatialArea.TenantName;
             this.GeospatialAreaTypeName = vGeoServerGeospatialArea.GeospatialAreaTypeName;
@@ -53,7 +54,7 @@ namespace ProjectFirmaModels.Models
 
         public int GeospatialAreaID { get; set; }
         public int PrimaryKey { get; set; }
-        public string GeospatialAreaName { get; set; }
+        public string GeospatialAreaShortName { get; set; }
         public int TenantID { get; set; }
         public string TenantName { get; set; }
         public string GeospatialAreaTypeName { get; set; }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -72,6 +73,35 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return GeospatialAreas.Any() || ProjectCustomGridConfigurations.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(GeospatialAreas.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialArea).Name);
+            }
+
+            if(ProjectCustomGridConfigurations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomGridConfiguration).Name);
+            }
+
+            if(ProjectGeospatialAreaTypeNotes.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaTypeNote).Name);
+            }
+
+            if(ProjectGeospatialAreaTypeNoteUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaTypeNoteUpdate).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -31,14 +32,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(int classificationID, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceID, int classificationSystemID, int? classificationSortOrder) : this()
+        public Classification(int classificationID, string classificationDescription, string themeColor, string displayName, string goalStatement, int? keyImageFileResourceInfoID, int classificationSystemID, int? classificationSortOrder) : this()
         {
             this.ClassificationID = classificationID;
             this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
             this.GoalStatement = goalStatement;
-            this.KeyImageFileResourceID = keyImageFileResourceID;
+            this.KeyImageFileResourceInfoID = keyImageFileResourceInfoID;
             this.ClassificationSystemID = classificationSystemID;
             this.ClassificationSortOrder = classificationSortOrder;
         }
@@ -90,6 +91,25 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ClassificationPerformanceMeasures.Any())
+            {
+                dependentObjects.Add(typeof(ClassificationPerformanceMeasure).Name);
+            }
+
+            if(ProjectClassifications.Any())
+            {
+                dependentObjects.Add(typeof(ProjectClassification).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(ProjectClassification).Name};
@@ -135,7 +155,7 @@ namespace ProjectFirmaModels.Models
         public string ThemeColor { get; set; }
         public string DisplayName { get; set; }
         public string GoalStatement { get; set; }
-        public int? KeyImageFileResourceID { get; set; }
+        public int? KeyImageFileResourceInfoID { get; set; }
         public int ClassificationSystemID { get; set; }
         public int? ClassificationSortOrder { get; set; }
         [NotMapped]
@@ -144,7 +164,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual FileResource KeyImageFileResource { get; set; }
+        public virtual FileResourceInfo KeyImageFileResourceInfo { get; set; }
         public virtual ClassificationSystem ClassificationSystem { get; set; }
 
         public static class FieldLengths

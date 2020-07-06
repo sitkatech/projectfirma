@@ -104,6 +104,8 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectUpdateButtonText { get; }
         public bool CanLaunchProjectOrProposalWizard { get; }
         public bool ShowFactSheetButton { get; }
+        public bool ShowWithdrawProjectButton { get; }
+        public string WithdrawUrl { get; }
         public string ProjectWizardUrl { get; }
         public string ProjectListUrl { get; }
         public string BackToProjectsText { get; }
@@ -163,6 +165,7 @@ namespace ProjectFirma.Web.Views.Project
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
             UserHasProjectTimelinePermissions = userHasProjectTimelinePermissions;
             CanLaunchProjectOrProposalWizard = userHasStartUpdateWorkflowPermission;
+            WithdrawUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.Withdraw(project));
 
             var projectAlerts = new List<string>();
             var proposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
@@ -209,10 +212,23 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectWizardUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 ProjectListUrl = proposedProjectListUrl;
                 BackToProjectsText = backToAllProposalsText;
-                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
+                if ((projectApprovalStatus == ProjectApprovalStatus.Draft || projectApprovalStatus == ProjectApprovalStatus.Returned) && (userHasProjectAdminPermissions || userHasStartUpdateWorkflowPermission))
                 {
                     projectAlerts.Add(
                         $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made using the Add New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} workflow.");
+                } 
+                else if (projectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+                {
+                    if (userHasProjectAdminPermissions || currentPerson.IsPersonAProjectOwnerWhoCanStewardProjects() && currentPerson.CanStewardProject(project))
+                    {
+                        projectAlerts.Add($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has been submitted and is awaiting review.");
+                    }
+                    else if (userHasStartUpdateWorkflowPermission)
+                    {
+                        projectAlerts.Add($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has been submitted, no change can be made.");
+                        CanLaunchProjectOrProposalWizard = false;
+                        ShowWithdrawProjectButton = true;
+                    }
                 }
             }
             else if (project.IsPendingProject())
@@ -226,10 +242,24 @@ namespace ProjectFirma.Web.Views.Project
                 ProjectWizardUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 ProjectListUrl = pendingProjectsListUrl;
                 BackToProjectsText = backToAllPendingProjectsText;
-                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
+                if ((projectApprovalStatus == ProjectApprovalStatus.Draft || projectApprovalStatus == ProjectApprovalStatus.Returned) && (userHasProjectAdminPermissions || userHasStartUpdateWorkflowPermission))
                 {
                     projectAlerts.Add(
                         $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is pending. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made using the Add New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} workflow.");
+                }
+                else if (projectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+                {
+                    if (userHasProjectAdminPermissions || currentPerson.IsPersonAProjectOwnerWhoCanStewardProjects() && currentPerson.CanStewardProject(project))
+                    {
+                        projectAlerts.Add($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has been submitted and is awaiting review.");
+
+                    }
+                    else if (userHasStartUpdateWorkflowPermission)
+                    {
+                        projectAlerts.Add($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is pending, no change can be made.");
+                        CanLaunchProjectOrProposalWizard = false;
+                        ShowWithdrawProjectButton = true;
+                    }
                 }
             }
             else
@@ -263,7 +293,7 @@ namespace ProjectFirma.Web.Views.Project
             
             if (ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null)
             {
-                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
+                if (userHasEditProjectPermissions)
                 {
                     projectAlerts.Add($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
                 }

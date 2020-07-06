@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[TrainingVideo](
 	[TrainingVideoID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[VideoName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[VideoDescription] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[VideoDescription] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[VideoUploadDate] [datetime] NOT NULL,
 	[VideoURL] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_TrainingVideo_TrainingVideoID] PRIMARY KEY CLUSTERED 

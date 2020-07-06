@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using LtInfo.Common;
 using NUnit.Framework;
+using ProjectFirmaModels.UnitTestCommon;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Organization
@@ -53,7 +54,7 @@ namespace ProjectFirma.Web.Views.Organization
             viewModel.OrganizationShortName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.OrganizationShortName), ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationShortName);
 
             // Act
-            viewModel.UpdateModel(organization, TestFramework.TestFirmaSession.Create());
+            viewModel.UpdateModel(organization, TestFramework.TestFirmaSession.Create(), HttpRequestStorageForTest.DatabaseEntities);
 
             // Assert
             Assert.That(organization.OrganizationName, Is.EqualTo(viewModel.OrganizationName));

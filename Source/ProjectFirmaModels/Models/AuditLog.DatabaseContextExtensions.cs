@@ -27,7 +27,7 @@ namespace ProjectFirmaModels.Models
     {
         public static List<AuditLog> GetAuditLogEntriesForProject(this IQueryable<AuditLog> auditLogs, Project project)
         {
-            return auditLogs.Where(al => al.ProjectID == project.ProjectID && al.ColumnName != "FileResourceID").OrderByDescending(x => x.AuditLogDate).ToList();
+            return auditLogs.Where(al => al.ProjectID == project.ProjectID && al.ColumnName != "FileResourceInfoID").OrderByDescending(x => x.AuditLogDate).ToList();
         }
     }
 }

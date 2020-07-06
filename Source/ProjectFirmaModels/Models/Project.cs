@@ -38,17 +38,17 @@ namespace ProjectFirmaModels.Models
             return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
         }
 
-        public FileResource GetPrimaryContactOrganizationLogo()
+        public FileResourceInfo GetPrimaryContactOrganizationLogo()
         {
-            return GetPrimaryContactOrganization()?.LogoFileResource;
+            return GetPrimaryContactOrganization()?.LogoFileResourceInfo;
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public decimal? GetSecuredFunding()
+        public decimal GetSecuredFunding()
         {
-            return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
+            return ProjectFundingSourceBudgets.Any() ? ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
 
@@ -57,9 +57,9 @@ namespace ProjectFirmaModels.Models
             return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
-        public decimal? GetTargetedFunding()
+        public decimal GetTargetedFunding()
         {
-            return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
+            return ProjectFundingSourceBudgets.Any() ? ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
         }
 
         public decimal? GetTargetedFundingForFundingSources(List<int> fundingSourceIDs)
@@ -77,17 +77,20 @@ namespace ProjectFirmaModels.Models
             var securedFunding = GetSecuredFunding();
             var targetedFunding = GetTargetedFunding();
             var noFundingSourceIdentified = GetNoFundingSourceIdentifiedAmount();
-            if (securedFunding == null && targetedFunding == null && noFundingSourceIdentified == null)
-            {
-                return null;
-            }
-            return (noFundingSourceIdentified ?? 0) + (securedFunding ?? 0) + (targetedFunding ?? 0);
+            return (noFundingSourceIdentified ?? 0) + (securedFunding) + (targetedFunding);
         }
 
         public decimal GetNoFundingSourceIdentifiedAmountOrZero()
         {
             return GetNoFundingSourceIdentifiedAmount() ?? 0;
         }
+
+        public int ProjectOrProjectUpdateID
+        {
+            get { return ProjectID; }
+        }
+        public bool IsProject { get { return true; } }
+        public bool IsProjectUpdate { get { return false; } }
 
         public decimal? TotalExpenditures
         {

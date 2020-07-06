@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             var updatedSelectedProjectEvaluationValues = new List<ProjectEvaluationSelectedValue>();
             foreach (var selectedEvaluationCriteriaValue in selectedEvaluationCriteriaValues)
             {
-                var projectEvaluationSelectedValue = HttpRequestStorage.DatabaseEntities.ProjectEvaluationSelectedValues.SingleOrDefault(x => x.EvaluationCriteriaValueID == selectedEvaluationCriteriaValue.EvaluationCriteriaID && x.ProjectEvaluationID == ProjectEvaluationID);
+                var projectEvaluationSelectedValue = HttpRequestStorage.DatabaseEntities.ProjectEvaluationSelectedValues.SingleOrDefault(x => x.EvaluationCriteriaValueID == selectedEvaluationCriteriaValue.EvaluationCriteriaValueID && x.ProjectEvaluationID == ProjectEvaluationID);
                 if (projectEvaluationSelectedValue == null)
                 {
                     projectEvaluationSelectedValue = new ProjectEvaluationSelectedValue(ProjectEvaluationID, selectedEvaluationCriteriaValue.EvaluationCriteriaValueID);

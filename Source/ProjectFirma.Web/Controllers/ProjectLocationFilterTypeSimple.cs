@@ -51,5 +51,16 @@ namespace ProjectFirma.Web.Controllers
             DisplayGroup = projectLocationFilterType.DisplayGroup;
             SortOrder = projectLocationFilterType.SortOrder;
         }
+
+        public ProjectLocationFilterTypeSimple(ProjectLocationFilterType projectLocationFilterType, int sortOrder)
+        {
+
+            DisplayName = projectLocationFilterType.GetDisplayName();
+            ProjectLocationFilterTypeName = projectLocationFilterType.ProjectLocationFilterTypeName;
+            ProjectLocationFilterTypeNameWithIdentifier =
+                projectLocationFilterType.ProjectLocationFilterTypeNameWithIdentifier;
+            DisplayGroup = projectLocationFilterType.DisplayGroup;
+            SortOrder = sortOrder;
+        }
     }
 }

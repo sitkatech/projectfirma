@@ -60,6 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string InstructionsPageUrl { get;  }
         public List<ProjectWorkflowSectionGrouping> ProjectWorkflowSectionGroupings { get; }
         public ProjectStage ProjectStage { get; set; }
+        public bool HasCustomAttributesEditableByUser { get; }
 
         protected ProjectCreateViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
@@ -75,7 +76,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             Project = project;
             ProposalSectionsStatus = proposalSectionsStatus;
-            CanAdvanceStage = ProposalSectionsStatus.AreAllSectionsValidForProject(project);
+            CanAdvanceStage = ProposalSectionsStatus.AreAllSectionsValidForProject(project, CurrentFirmaSession);
             // ReSharper disable PossibleNullReferenceException
             ProjectStateIsValidInWizard = project.ProjectApprovalStatus == ProjectApprovalStatus.Draft || project.ProjectApprovalStatus == ProjectApprovalStatus.Returned || project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
             // ReSharper restore PossibleNullReferenceException
@@ -105,6 +106,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
 
             ProjectStage = project.ProjectStage;
+            HasCustomAttributesEditableByUser = project.HasEditableCustomAttributes(currentFirmaSession);
         }
 
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.

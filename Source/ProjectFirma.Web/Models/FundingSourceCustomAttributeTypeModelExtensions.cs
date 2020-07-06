@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
         {
             var customAttributeTypeEditableRoles = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypeRoles.Where(x => x.FundingSourceCustomAttributeTypeID == fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeID).ToList();
             return new HtmlString(customAttributeTypeEditableRoles.Any()
-                ? String.Join(", ", customAttributeTypeEditableRoles.OrderBy(x => x.RoleID).Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType == FundingSourceCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role.GetRoleDisplayName()).ToList())
+                ? String.Join(", ", customAttributeTypeEditableRoles.OrderBy(x => x.Role?.SortOrder).Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType == FundingSourceCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role.GetRoleDisplayName()).ToList())
                 : ViewUtilities.NoAnswerProvided);
         }
 
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
         {
             var customAttributeTypViewableRoles = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypeRoles.Where(x => x.FundingSourceCustomAttributeTypeID == fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeID).ToList();
             return new HtmlString(customAttributeTypViewableRoles.Any()
-                ? String.Join(", ", customAttributeTypViewableRoles.OrderBy(x => x.RoleID).Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType == FundingSourceCustomAttributeTypeRolePermissionType.View).Select(x => x.Role.GetRoleDisplayName()).ToList())
+                ? String.Join(", ", customAttributeTypViewableRoles.OrderBy(x => x.Role?.SortOrder).Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType == FundingSourceCustomAttributeTypeRolePermissionType.View).Select(x => x.Role.GetRoleDisplayName()).ToList())
                 : ViewUtilities.NoAnswerProvided);
         }
 

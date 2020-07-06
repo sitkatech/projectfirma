@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Reports
 
         public int ReportTemplateID { get; set; }
 
-        public int? FileResourceID { get; set; }
+        public int? FileResourceInfoID { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -74,27 +74,28 @@ namespace ProjectFirma.Web.Views.Reports
             ReportTemplateID = reportTemplate.ReportTemplateID;
             DisplayName = reportTemplate.DisplayName;
             Description = reportTemplate.Description;
-            FileResourceID = reportTemplate.FileResourceID;
+            FileResourceInfoID = reportTemplate.FileResourceInfoID;
             ReportTemplateModelTypeID = reportTemplate.ReportTemplateModelTypeID;
             ReportTemplateModelID = reportTemplate.ReportTemplateModelID;
         }
 
-        public void UpdateModel(ReportTemplate reportTemplate, FileResource fileResource,
+        public void UpdateModel(ReportTemplate reportTemplate, FileResourceInfo fileResourceInfo,
             FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
         {
             // updating parameters
             reportTemplate.DisplayName = DisplayName;
             reportTemplate.Description = Description;
-            reportTemplate.FileResource = fileResource;
+            reportTemplate.FileResourceInfo = fileResourceInfo;
             reportTemplate.ReportTemplateModelTypeID = ReportTemplateModelTypeID;
             reportTemplate.ReportTemplateModelID = ReportTemplateModelID;
             
-            var updateIsReplacingFileResourceData = FileResourceData != null && FileResourceID != null;
+            var updateIsReplacingFileResourceData = FileResourceData != null && FileResourceInfoID != null;
             if (updateIsReplacingFileResourceData)
             {
-                // delete the old FileResource
+                // delete the old FileResourceInfo
                 var oldFileResource =
-                    HttpRequestStorage.DatabaseEntities.FileResources.First(x => x.FileResourceID == FileResourceID);
+                    HttpRequestStorage.DatabaseEntities.FileResourceInfos.First(x => x.FileResourceInfoID == FileResourceInfoID);
+                oldFileResource.FileResourceData.Delete(databaseEntities);
                 oldFileResource.Delete(databaseEntities);
             }
         }
@@ -110,7 +111,7 @@ namespace ProjectFirma.Web.Views.Reports
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("This Display Name is already being used by another Report Template", x => x.DisplayName));
             }
 
-            if (FileResourceData == null && FileResourceID == null)
+            if (FileResourceData == null && FileResourceInfoID == null)
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, HttpPostedFileBase>("You cannot have a report template without a template file.", x => x.FileResourceData));
             }

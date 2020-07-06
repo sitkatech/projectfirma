@@ -35,6 +35,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         
         public readonly ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForArcGISFileGeodatabase;
         public readonly ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForKMLFile;
+        public readonly ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForKMZFile;
 
         public ImportGdbFileViewData(string mapFormID, string newGisUploadUrl, string approveGisUploadUrl)
         {
@@ -46,6 +47,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));
             FieldDefinitionForArcGISFileGeodatabase = FieldDefinitionEnum.ArcGISFileGeodatabase.ToType();
             FieldDefinitionForKMLFile = FieldDefinitionEnum.KMLFile.ToType();
+            FieldDefinitionForKMZFile = FieldDefinitionEnum.KMZFile.ToType();
         }
     }
 }

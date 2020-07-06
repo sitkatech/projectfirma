@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -75,6 +76,20 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return FirmaPageImages.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(FirmaPageImages.Any())
+            {
+                dependentObjects.Add(typeof(FirmaPageImage).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

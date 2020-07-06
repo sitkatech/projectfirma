@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Events - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=6.5.1"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=6.5.1">
+		<link rel="stylesheet" href="../../common/index.css?v=6.5.1">
+		<link rel="stylesheet" href="../common/form.css?v=6.5.1">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				width: 1000px;
+			}
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+			.dhx_sample-container__sidebar {
+				height: 450px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Events</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Events.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<div class="dhx_sample-container__sidebar" id="events"> </div>
+		</section>
+
+		<script>
+			var form = new dhx.Form("form-sample", {
+				css: "dhx_layout-cell--bordered",
+				rows: [
+					{
+						type: "input",
+						label: "Name",
+						required: true,
+						placeholder: "John Doe"
+					},
+					{
+						type: "input",
+						label: "Email",
+						validation: "email",
+						required: true,
+						placeholder: "jd@mail.name"
+					},
+					{	
+						type: "checkbox",
+						label: "I agree",
+						name: "agree",
+						labelPosition: "right",
+						id: "agree",
+						required: true,
+						value: "checkboxvalue",
+					},
+					{
+						type: "button",
+						value: "Send",
+						size: "medium",
+						view: "flat",
+						color: "primary",
+						submit: true
+					},
+				]
+			});
+			var events = [
+				 "change",
+				 "buttonclick",
+				 "validationfail"
+			];
+			var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
+			var counter = 1;
+			events.forEach(function (event) {
+				form.events.on(event, function () {
+					eventsContainer.insertAdjacentHTML('afterbegin', getEvent(event, arguments));
+				});
+			});
+			function getEvent(event, args) {
+				var argsList = "<div class='arguments'>Arguments:</div>";
+				for (var i = 0; i < args.length; i++) {
+					
+					argsList += "<div>" + args[i] + "</div>";
+				}
+				return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
+			};
+		</script>
+	</body>
+</html>

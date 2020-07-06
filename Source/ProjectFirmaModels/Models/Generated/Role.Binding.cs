@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -39,12 +40,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected Role(int roleID, string roleName, string roleDisplayName, string roleDescription)
+        protected Role(int roleID, string roleName, string roleDisplayName, string roleDescription, int? sortOrder)
         {
             RoleID = roleID;
             RoleName = roleName;
             RoleDisplayName = roleDisplayName;
             RoleDescription = roleDescription;
+            SortOrder = sortOrder;
         }
 
         [Key]
@@ -52,6 +54,7 @@ namespace ProjectFirmaModels.Models
         public string RoleName { get; private set; }
         public string RoleDisplayName { get; private set; }
         public string RoleDescription { get; private set; }
+        public int? SortOrder { get; private set; }
         [NotMapped]
         public int PrimaryKey { get { return RoleID; } }
 
@@ -131,31 +134,31 @@ namespace ProjectFirmaModels.Models
 
     public partial class RoleAdmin : Role
     {
-        private RoleAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleAdmin Instance = new RoleAdmin(1, @"Admin", @"Administrator", @"");
+        private RoleAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription, int? sortOrder) : base(roleID, roleName, roleDisplayName, roleDescription, sortOrder) {}
+        public static readonly RoleAdmin Instance = new RoleAdmin(1, @"Admin", @"Administrator", @"", 40);
     }
 
     public partial class RoleNormal : Role
     {
-        private RoleNormal(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleNormal Instance = new RoleNormal(2, @"Normal", @"Normal User", @"Users with this role can propose new EIP projects, update existing EIP projects where their organization is the Lead Implementer, and view almost every page within the EIP Tracker.");
+        private RoleNormal(int roleID, string roleName, string roleDisplayName, string roleDescription, int? sortOrder) : base(roleID, roleName, roleDisplayName, roleDescription, sortOrder) {}
+        public static readonly RoleNormal Instance = new RoleNormal(2, @"Normal", @"Normal User", @"Users with this role can propose new EIP projects, update existing EIP projects where their organization is the Lead Implementer, and view almost every page within the EIP Tracker.", 20);
     }
 
     public partial class RoleUnassigned : Role
     {
-        private RoleUnassigned(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleUnassigned Instance = new RoleUnassigned(7, @"Unassigned", @"Unassigned", @"");
+        private RoleUnassigned(int roleID, string roleName, string roleDisplayName, string roleDescription, int? sortOrder) : base(roleID, roleName, roleDisplayName, roleDescription, sortOrder) {}
+        public static readonly RoleUnassigned Instance = new RoleUnassigned(7, @"Unassigned", @"Unassigned", @"", 10);
     }
 
     public partial class RoleSitkaAdmin : Role
     {
-        private RoleSitkaAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleSitkaAdmin Instance = new RoleSitkaAdmin(8, @"SitkaAdmin", @"Sitka Administrator", @"");
+        private RoleSitkaAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription, int? sortOrder) : base(roleID, roleName, roleDisplayName, roleDescription, sortOrder) {}
+        public static readonly RoleSitkaAdmin Instance = new RoleSitkaAdmin(8, @"SitkaAdmin", @"Sitka Administrator", @"", 50);
     }
 
     public partial class RoleProjectSteward : Role
     {
-        private RoleProjectSteward(int roleID, string roleName, string roleDisplayName, string roleDescription) : base(roleID, roleName, roleDisplayName, roleDescription) {}
-        public static readonly RoleProjectSteward Instance = new RoleProjectSteward(9, @"ProjectSteward", @"Project Steward", @"Users with this role can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.");
+        private RoleProjectSteward(int roleID, string roleName, string roleDisplayName, string roleDescription, int? sortOrder) : base(roleID, roleName, roleDisplayName, roleDescription, sortOrder) {}
+        public static readonly RoleProjectSteward Instance = new RoleProjectSteward(9, @"ProjectSteward", @"Project Steward", @"Users with this role can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.", 30);
     }
 }

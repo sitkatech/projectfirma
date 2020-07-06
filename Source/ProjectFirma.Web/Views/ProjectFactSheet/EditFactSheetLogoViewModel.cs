@@ -53,8 +53,9 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
         {
             if (FactSheetLogoFileResourceData != null)
             {
-                var attributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResource;
-                tenantAttribute.TenantFactSheetLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FactSheetLogoFileResourceData, currentFirmaSession);
+                var attributeTenantFactSheetLogoFileResource = tenantAttribute.TenantFactSheetLogoFileResourceInfo;
+                tenantAttribute.TenantFactSheetLogoFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FactSheetLogoFileResourceData, currentFirmaSession);
+                attributeTenantFactSheetLogoFileResource?.FileResourceData.Delete(databaseEntities);
                 attributeTenantFactSheetLogoFileResource?.Delete(databaseEntities);
             }
         }

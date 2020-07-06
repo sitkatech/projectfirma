@@ -25,13 +25,13 @@ angular.module("ProjectFirmaApp")
                                 wildcard: "%QUERY"
                             }
                         }),
-                        display: "GeospatialAreaName",
+                        display: "GeospatialAreaShortName",
                         limit: Number.MAX_VALUE
                     });
 
                 finder.bind("typeahead:select",
                     function (event, suggestion) {
-                        $scope.toggleGeospatialArea(suggestion.GeospatialAreaID, suggestion.GeospatialAreaName, function() {
+                        $scope.toggleGeospatialArea(suggestion.GeospatialAreaID, suggestion.GeospatialAreaShortName, function() {
                             $scope.$apply();
                         });
                     });
@@ -79,7 +79,7 @@ angular.module("ProjectFirmaApp")
 
                         var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
 
-                        $scope.toggleGeospatialArea(mergedProperties.GeospatialAreaID, mergedProperties.GeospatialAreaName, function() {
+                        $scope.toggleGeospatialArea(mergedProperties.GeospatialAreaID, mergedProperties.GeospatialAreaShortName, function() {
                             $scope.$apply();
                         });
 
@@ -89,9 +89,9 @@ angular.module("ProjectFirmaApp")
                     });
             }
 
-            $scope.toggleGeospatialArea = function(geospatialAreaId, geospatialAreaName, callback) {
-                if (geospatialAreaName && typeof $scope.AngularViewData.GeospatialAreaNameByID[geospatialAreaId] === "undefined") {
-                    $scope.AngularViewData.GeospatialAreaNameByID[geospatialAreaId] = geospatialAreaName;
+            $scope.toggleGeospatialArea = function(geospatialAreaId, geospatialAreaShortName, callback) {
+                if (geospatialAreaShortName && typeof $scope.AngularViewData.GeospatialAreaNameByID[geospatialAreaId] === "undefined") {
+                    $scope.AngularViewData.GeospatialAreaNameByID[geospatialAreaId] = geospatialAreaShortName;
                 }
 
                 if (_.includes($scope.AngularModel.GeospatialAreaIDs, geospatialAreaId)) {

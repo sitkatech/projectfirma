@@ -174,4 +174,8 @@ VALUES
 (349, N'FactSheetLogo', N'Fact Sheet Logo'),
 (350, N'IsContactRelationshipTypeRequired', N'Is Contact Relationship Type Required?'),
 (351, N'IsOrganizationRelationshipTypeRequired', N'Is Organization Relationship Type Required?'),
-(352, N'SyncWithKeystoneOnSave', N'Sync with Keystone on Save')
+(352, N'SyncWithKeystoneOnSave', N'Sync with Keystone on Save'),
+(353, N'DocumentLibraryName', N'Document Library Name'),
+(354, N'KMZFile', N'KMZ File'),
+(355, N'DocumentLibrary', N'Document Library'),
+(356, N'DocumentLibraryDocumentViewableBy', N'Document Viewable By')

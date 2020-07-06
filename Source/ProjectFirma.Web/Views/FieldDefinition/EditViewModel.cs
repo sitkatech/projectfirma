@@ -18,11 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common;
+using LtInfo.Common.Models;
+using ProjectFirmaModels.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
@@ -36,6 +38,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public string FieldDefinitionLabel { get; set; }
 
         [DisplayName("Default Definition")]
+        [Required]
         public HtmlString FieldDefinitionDefault { get; set; }
 
         /// <summary>
@@ -52,8 +55,18 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             FieldDefinitionDefault = fieldDefinitionDefault.DefaultDefinitionHtmlString;
         }
 
-        public void UpdateModel(FieldDefinitionData fieldDefinitionData, FieldDefinitionDefault fieldDefinitionDefault)
+        public void UpdateModel(FieldDefinitionData fieldDefinitionData, FieldDefinitionDefault fieldDefinitionDefault, DatabaseEntities databaseEntities)
         {
+            // delete file resources for any images that are no longer referenced in the HTML
+            var imagesToDelete = FieldDefinitionDataValue == null
+                ? fieldDefinitionData.FieldDefinitionDataImages.ToList()
+                : fieldDefinitionData.FieldDefinitionDataImages.Where(x => !FieldDefinitionDataValue.ToString().ContainsCaseInsensitive(x.FileResourceInfo.GetFileResourceGUIDAsString())).ToList();
+            foreach (var image in imagesToDelete)
+            {
+                // will cascade delete the FieldDefinitionDataImage
+                image.FileResourceInfo.DeleteFull(databaseEntities);
+            }
+
             fieldDefinitionData.FieldDefinitionDataValueHtmlString = FieldDefinitionDataValue;
             fieldDefinitionData.FieldDefinitionLabel = string.IsNullOrWhiteSpace(FieldDefinitionLabel) ? null : FieldDefinitionLabel;
             if (fieldDefinitionDefault != null)

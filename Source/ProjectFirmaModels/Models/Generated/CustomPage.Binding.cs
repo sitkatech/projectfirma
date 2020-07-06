@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -30,13 +31,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CustomPage(int customPageID, string customPageDisplayName, string customPageVanityUrl, int customPageDisplayTypeID, string customPageContent) : this()
+        public CustomPage(int customPageID, string customPageDisplayName, string customPageVanityUrl, int customPageDisplayTypeID, string customPageContent, int? documentLibraryID) : this()
         {
             this.CustomPageID = customPageID;
             this.CustomPageDisplayName = customPageDisplayName;
             this.CustomPageVanityUrl = customPageVanityUrl;
             this.CustomPageDisplayTypeID = customPageDisplayTypeID;
             this.CustomPageContent = customPageContent;
+            this.DocumentLibraryID = documentLibraryID;
         }
 
         /// <summary>
@@ -79,6 +81,20 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return CustomPageImages.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(CustomPageImages.Any())
+            {
+                dependentObjects.Add(typeof(CustomPageImage).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
@@ -128,12 +144,14 @@ namespace ProjectFirmaModels.Models
             get { return CustomPageContent == null ? null : new HtmlString(CustomPageContent); }
             set { CustomPageContent = value?.ToString(); }
         }
+        public int? DocumentLibraryID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CustomPageID; } set { CustomPageID = value; } }
 
         public virtual ICollection<CustomPageImage> CustomPageImages { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public CustomPageDisplayType CustomPageDisplayType { get { return CustomPageDisplayType.AllLookupDictionary[CustomPageDisplayTypeID]; } }
+        public virtual DocumentLibrary DocumentLibrary { get; set; }
 
         public static class FieldLengths
         {

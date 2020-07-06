@@ -46,6 +46,7 @@ namespace ProjectFirma.Api.Models
 
         public List<PerformanceMeasureSubcategoryDto> PerformanceMeasureSubcategories { get; set; }
         public string Importance { get; set; }
+        public List<FileResourceDto> FileResources { get; set; }
         public string AdditionalInformation { get; set; }
     }
 }

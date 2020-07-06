@@ -15,7 +15,7 @@ namespace ProjectFirma.Api.Models
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             PrimaryContact = project.PrimaryContactPerson?.GetFullNameFirstLast();
-            OwnerOrganization = project.GetPrimaryContactOrganization()?.OrganizationName;
+            OwnerOrganizationID = project.GetPrimaryContactOrganization()?.OrganizationID;
             ProjectStage = project.ProjectStage.ProjectStageDisplayName;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
@@ -39,7 +39,7 @@ namespace ProjectFirma.Api.Models
             TaxonomyLeafsShortened = taxonomyLeafsShortened.OrderBy(x => x).ToList();
             Classifications = project.ProjectClassifications.Any() ? project.ProjectClassifications.Select(x => x.Classification.DisplayName).OrderBy(x => x).ToList() : new List<string>();
             var leadEntities = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaType.GeospatialAreaTypeName == "Lead Entity").ToList();
-            LeadEntities = project.ProjectGeospatialAreas.Any() ? leadEntities.Select(x => x.GeospatialArea.GeospatialAreaName).OrderBy(x => x).ToList() : new List<string>();
+            LeadEntities = project.ProjectGeospatialAreas.Any() ? leadEntities.Select(x => x.GeospatialArea.GeospatialAreaShortName).OrderBy(x => x).ToList() : new List<string>();
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
             EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType();
             SecuredFunding = project.GetSecuredFunding();
@@ -76,7 +76,7 @@ namespace ProjectFirma.Api.Models
         }
 
         public int ProjectID { get; set; }
-        public string OwnerOrganization { get; set; }
+        public int? OwnerOrganizationID { get; set; }
         public string ProjectStage { get; set; }
 
         public string ProjectName { get; set; }

@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.ScheduledJobs
     {
         public string ToolName { get; set; }
         public string IntroContent { get; set; }
-        public FileResource ToolLogo { get; set; }
+        public FileResourceInfo ToolLogo { get; set; }
         public string ReminderEmailSubject { get; set; }
         public string ContactSupportEmail { get; set; }
 
@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
 
         public ProjectUpdateNotificationHelper(string contactSupportEmail, string introContent, string reminderSubject,
-            FileResource toolLogo, string toolDisplayName)
+            FileResourceInfo toolLogo, string toolDisplayName)
         {
             ContactSupportEmail = contactSupportEmail;
             IntroContent = introContent;
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             var htmlView = AlternateView.CreateAlternateViewFromString(emailContent, null, "text/html");
             htmlView.LinkedResources.Add(
-                new LinkedResource(new MemoryStream(ToolLogo.FileResourceData), "img/jpeg") {ContentId = "tool-logo"});
+                new LinkedResource(new MemoryStream(ToolLogo.FileResourceData.Data), "img/jpeg") {ContentId = "tool-logo"});
             var mailMessage = new MailMessage {Subject = ReminderEmailSubject, IsBodyHtml = true};
             mailMessage.AlternateViews.Add(htmlView);
 

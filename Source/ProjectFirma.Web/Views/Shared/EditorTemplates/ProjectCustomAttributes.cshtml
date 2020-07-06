@@ -7,6 +7,13 @@
 
 @model ProjectCustomAttributes
 
+<style>
+    .projectCustomAttributes div:last-child hr {
+        display: none;
+        margin: 2em auto;
+    }
+</style>
+
 @functions
 {
     private string MakeAttributeNameForProjectCustomAttributeValues(int indexOfAttribute)
@@ -19,15 +26,30 @@
         return attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null;
     }
 
-    private string GetCheckedValueForBooleanCheckbox(ProjectCustomAttributeSimple attributeSimple)
+    // This was originally a checkbox rather than a dropdown. But this caused a crash when we had an unchecked checkbox failing to POST when the Attribute was required.
+    // The crash would have been simple to fix and we could have left it as a checkbox, but in discussing that crash, and how to solve it,
+    // Mike Ferrante raised an issue. He observed that for a required field there was no way to distinguish a user that had made the deliberate CHOICE of a
+    // false unchecked checkbox from a user that simply hadn't provided any input. So, when fixing this Stewart Gordon opted to make this tri-state, with
+    // Unselected/False/True. This allows us to really know if the user made a deliberate choice for a required field.
+    //
+    // We might want to show "Yes"/"No" rather than "True"/"False" to the user, but "True"/"False" is more versatile grammatically, and it's easy to change.
+    // If users find it too geeky we'll change it.
+    // -- SLG 5/29/2020
+    private string GetCheckedValueForBooleanDropdown(ProjectCustomAttributeSimple attributeSimple, bool boolean)
     {
-        // If true, Checked
-        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true")
+        // If true option and the value is true, Selected
+        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues.Any() && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true" && boolean)
         {
-            return "checked=\"checked\"";
+            return "selected";
         }
 
-        // Otherwise, unchecked
+        // If false option and the value is false, Selected
+        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues.Any() && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "false" && !boolean)
+        {
+            return "selected";
+        }
+
+        // Otherwise, nothing
         return string.Empty;
     }
 
@@ -45,159 +67,160 @@
     var realIndexOfAttribute = 0;
 }
 
-@for (var indexOfGroup = 0; indexOfGroup < projectCustomAttributeGroups.Count; indexOfGroup++)
-{
-    var attributeGroup = projectCustomAttributeGroups[indexOfGroup];
-    if (projectCustomAttributeGroups.Count > 1)
+<div class="projectCustomAttributes">
+    @for (var indexOfGroup = 0; indexOfGroup < projectCustomAttributeGroups.Count; indexOfGroup++)
     {
-        <h4>@attributeGroup.ProjectCustomAttributeGroupName</h4>
-        <hr />
-    }
+        var attributeGroup = projectCustomAttributeGroups[indexOfGroup];
+        var projectCustomAttributeTypesForCurrentGroup = projectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroupID == attributeGroup.ProjectCustomAttributeGroupID).OrderBy(x => x.SortOrder).ToList();
+        <div>
+            @if (projectCustomAttributeGroups.Count > 1)
+            {
+                <h4>@attributeGroup.ProjectCustomAttributeGroupName</h4>
+            }
 
-    var projectCustomAttributeTypesForCurrentGroup = projectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroupID == attributeGroup.ProjectCustomAttributeGroupID).OrderBy(x => x.SortOrder).ToList();
+            @for (var indexOfAttribute = 0; indexOfAttribute < projectCustomAttributeTypesForCurrentGroup.Count; indexOfAttribute++)
+            {
+                var attribute = projectCustomAttributeTypesForCurrentGroup[indexOfAttribute];
+                var attributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.SingleOrDefault(m => m.ProjectCustomAttributeTypeID == attribute.ProjectCustomAttributeTypeID) : null;
+                //var indexOfAttributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.IndexOf(attributeSimple) : (int?)null;
+                <div class="form-group">
 
-    for (var indexOfAttribute = 0; indexOfAttribute < projectCustomAttributeTypesForCurrentGroup.Count; indexOfAttribute++)
-    {
-        var attribute = projectCustomAttributeTypesForCurrentGroup[indexOfAttribute];
-        var attributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.SingleOrDefault(m => m.ProjectCustomAttributeTypeID == attribute.ProjectCustomAttributeTypeID) : null;
-        //var indexOfAttributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.IndexOf(attributeSimple) : (int?)null;
-        <div class="form-group">
+                    <label class="col-sm-@colLeft control-label">
+                        @if (!string.IsNullOrWhiteSpace(attribute.ProjectCustomAttributeTypeDescription))
+                        {
+                            @LabelWithSugarForExtensions.GenerateHelpIconImgTag(attribute.ProjectCustomAttributeTypeName, attribute.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), attribute.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+                        }
+                        @(attribute != null ? attribute.ProjectCustomAttributeTypeName : null)
+                        @if (attribute != null && attribute.IsRequired)
+                        {
+                            <span>
+                                <sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>
+                            </span>
+                        }
+                    </label>
+                    <div class="col-sm-@colRight">
 
-            <label class="col-sm-@colLeft control-label">
-                @if (!string.IsNullOrWhiteSpace(attribute.ProjectCustomAttributeTypeDescription))
-                {
-                    @LabelWithSugarForExtensions.GenerateHelpIconImgTag(attribute.ProjectCustomAttributeTypeName, attribute.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), attribute.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
-                }
-                @(attribute != null ? attribute.ProjectCustomAttributeTypeName : null)
-                @if (attribute != null && attribute.IsRequired)
-                {
-                    <span>
-                        <sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>
-                    </span>
-                }
-            </label>
-            <div class="col-sm-@colRight">
-
-                <input type="hidden" name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeTypeID).ToString().Replace("0", realIndexOfAttribute.ToString()))"
-                       value="@(attribute != null ? attribute.ProjectCustomAttributeTypeID : (int?) null)"/>
-                @if (attribute != null)
-                {
-                    switch (attribute.ProjectCustomAttributeDataType.ToEnum)
-                    {
-                        case ProjectCustomAttributeDataTypeEnum.DateTime:
-                            <input type="text" class="form-control sitkaDatePicker" style="width: auto;"
-                                   name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))"/>
-                            // 9/19/2019 SMG - these validation messages are commented out  for all attribute types because I don't believe they were ever working, I would love for them to work but I've exceeded my personal timebox on getting these to work with the custom attributes
-                            // I would love to discuss this with any developers that know more about how we could do appropriate validation messages on the custom attributes                                                                                    
-                            @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
+                        <input type="hidden" name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeTypeID).ToString().Replace("0", realIndexOfAttribute.ToString()))"
+                               value="@(attribute != null ? attribute.ProjectCustomAttributeTypeID : (int?) null)" />
+                        @if (attribute != null)
+                        {
+                            switch (attribute.ProjectCustomAttributeDataType.ToEnum)
                             {
-                                for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
-                                {
-                                    @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues[valueIndex])
-                                }
-                            }*@
-                            break;
-
-                        case ProjectCustomAttributeDataTypeEnum.Integer:
-                        case ProjectCustomAttributeDataTypeEnum.Decimal:
-                            if (attribute.MeasurementUnitType != null && !string.IsNullOrWhiteSpace(attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName))
-                            {
-                                <div class="input-group">
-                                    <input class="form-control" type="number" aria-describedby="attributeUnit" style="z-index: 1;"
+                                case ProjectCustomAttributeDataTypeEnum.DateTime:
+                                    <input type="text" class="form-control sitkaDatePicker" style="width: auto;"
                                            name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                           value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))"/>
-                                    <span class="input-group-addon" id="attributeUnit">@attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName</span>
-                                </div>
+                                           value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
+                                    // 9/19/2019 SMG - these validation messages are commented out  for all attribute types because I don't believe they were ever working, I would love for them to work but I've exceeded my personal timebox on getting these to work with the custom attributes
+                                    // I would love to discuss this with any developers that know more about how we could do appropriate validation messages on the custom attributes
+                                    @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
+                                        {
+                                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
+                                            {
+                                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues[valueIndex])
+                                            }
+                                        }*@
+                                    break;
+
+                                case ProjectCustomAttributeDataTypeEnum.Integer:
+                                case ProjectCustomAttributeDataTypeEnum.Decimal:
+                                    if (attribute.MeasurementUnitType != null && !string.IsNullOrWhiteSpace(attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName))
+                                    {
+                                        <div class="input-group">
+                                            <input class="form-control" type="number" aria-describedby="attributeUnit" style="z-index: 1;"
+                                                   name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
+                                                   value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
+                                            <span class="input-group-addon" id="attributeUnit">@attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-control" type="number" aria-describedby="attributeUnit" style="width: auto;"
+                                               name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
+                                               value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
+                                    }
+                                    @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
+                                        {
+                                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
+                                            {
+                                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues[valueIndex])
+                                            }
+                                        }*@
+                                    break;
+
+                                case ProjectCustomAttributeDataTypeEnum.PickFromList:
+                                    <select class="form-control" style="width: auto;"
+                                            name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">
+                                        <option value=""></option>
+                                        @foreach (var option in attribute.GetOptionsSchemaAsListOfString())
+                                        {
+                                            <option value="@option"
+                                                    selected="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues[0] == option)">
+                                                @option
+                                            </option>
+                                        }
+                                    </select>
+                                    @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
+                                        {
+                                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
+                                            {
+                                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues[valueIndex])
+                                            }
+                                        }*@
+                                    break;
+
+                                case ProjectCustomAttributeDataTypeEnum.MultiSelect:
+                                    for (var j = 0; j < attribute.GetOptionsSchemaAsListOfString().Count; j++)
+                                    {
+                                        var option = attribute.GetOptionsSchemaAsListOfString()[j];
+                                        <input type="checkbox"
+                                               id="@string.Format("multiselect_{0}_{1}", attribute.ProjectCustomAttributeTypeName, option)"
+                                               value="@option"
+                                               name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))[]"
+                                               checked="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues.Any(value => value == option))">
+                                        <label for="@string.Format("multiselect_{0}_{1}", attribute.ProjectCustomAttributeTypeName, option)">@option</label>
+                                        <br />
+                                    }
+                                    @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
+                                        {
+                                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
+                                            {
+                                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues[valueIndex])
+                                            }
+                                        }*@
+                                    break;
+
+                                case ProjectCustomAttributeDataTypeEnum.String:
+                                    <input class="form-control" type="text" style="width: auto;"
+                                           name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
+                                           value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
+                                    @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
+                                        {
+                                            @Html.ValidationMessageFor(m => m.Attributes[realIndexOfAttribute].ProjectCustomAttributeValues)
+                                        }*@
+                                    break;
+
+                                case ProjectCustomAttributeDataTypeEnum.Boolean:
+                                    <select class="form-control" style="width: auto;" id="@string.Format("checkbox_{0}", MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))" name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">
+                                        <option value="">Select an Option</option>
+                                        <option value="True" @GetCheckedValueForBooleanDropdown(attributeSimple, true)>True</option>
+                                        <option value="False" @GetCheckedValueForBooleanDropdown(attributeSimple, false)>False</option>
+                                    </select>
+                                    break;
+
+                                case ProjectCustomAttributeDataTypeEnum.LongString:
+                                    <textarea class="form-control" rows="4"
+                                              name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))</textarea>
+                                    break;
+
+                                default:
+                                    throw new InvalidEnumArgumentException(string.Format("Enum value {0} is not supported by this view.", attribute.ProjectCustomAttributeDataType.ToEnum.ToString()));
                             }
-                            else
-                            {
-                                <input class="form-control" type="number" aria-describedby="attributeUnit" style="width: auto;"
-                                       name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                       value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))"/>
-                            }
-                            @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
-                            {
-                                for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
-                                {
-                                    @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues[valueIndex])
-                                }
-                            }*@
-                            break;
-
-                        case ProjectCustomAttributeDataTypeEnum.PickFromList:
-                            <select class="form-control" style="width: auto;"
-                                    name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">
-                                <option value=""></option>
-                                @foreach (var option in attribute.GetOptionsSchemaAsListOfString())
-                                {
-                                    <option value="@option"
-                                            selected="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues[0] == option)">
-                                        @option
-                                    </option>
-                                }
-                            </select>
-                            @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
-                            {
-                                for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
-                                {
-                                    @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues[valueIndex])
-                                }
-                            }*@
-                            break;
-
-                        case ProjectCustomAttributeDataTypeEnum.MultiSelect:
-                            for (var j = 0; j < attribute.GetOptionsSchemaAsListOfString().Count; j++)
-                            {
-                                var option = attribute.GetOptionsSchemaAsListOfString()[j];
-                                <input type="checkbox"
-                                       id="@string.Format("multiselect_{0}", option)"
-                                       value="@option"
-                                       name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))[]"
-                                       checked="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues.Any(value => value == option))">
-                                <label for="@string.Format("multiselect_{0}", option)">@option</label>
-                                <br/>
-                            }
-                            @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
-                            {
-                                for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
-                                {
-                                    @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues[valueIndex])
-                                }
-                            }*@
-                            break;
-
-                        case ProjectCustomAttributeDataTypeEnum.String:
-                            <input class="form-control" type="text" style="width: auto;"
-                                   name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))"/>
-                            @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
-                            {
-                                @Html.ValidationMessageFor(m => m.Attributes[realIndexOfAttribute].ProjectCustomAttributeValues)
-                            }*@
-                            break;
-
-                        case ProjectCustomAttributeDataTypeEnum.Boolean:
-                            <input type="checkbox"
-                                   id="@string.Format("checkbox_{0}", MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   @*Always true if submitted. (If unchecked, won't be submitted).*@
-                                   value="True"
-                                   name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
-                                   @GetCheckedValueForBooleanCheckbox(attributeSimple)>
-                            break;
-
-                        case ProjectCustomAttributeDataTypeEnum.LongString:
-                            <textarea class="form-control" rows="4"
-                                      name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))</textarea>
-                            break;
-
-                        default:
-                            throw new InvalidEnumArgumentException(string.Format("Enum value {0} is not supported by this view.", attribute.ProjectCustomAttributeDataType.ToEnum.ToString()));
-                    }
-                }
-            </div>
+                        }
+                    </div>
+                </div>
+                <hr />
+                realIndexOfAttribute++;
+            }
         </div>
-        realIndexOfAttribute++;
     }
-
-}
+</div>

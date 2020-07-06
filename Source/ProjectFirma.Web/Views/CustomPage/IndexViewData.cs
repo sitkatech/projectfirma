@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.CustomPage
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession, null)
         {
-            PageTitle = "Manage Custom About Pages";
+            PageTitle = "About Pages";
 
             GridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {

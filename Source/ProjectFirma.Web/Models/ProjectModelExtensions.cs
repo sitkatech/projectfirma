@@ -19,17 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
@@ -37,10 +28,16 @@ using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Spatial;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Web;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
 namespace ProjectFirma.Web.Models
@@ -272,15 +269,15 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static void DeleteProjectImages(this Project project)
         {
-            foreach (var fileResource in project.ProjectImages.Select(x => x.FileResource))
+            foreach (var fileResourceInfo in project.ProjectImages.Select(x => x.FileResourceInfo))
             {
-                fileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                fileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 
-        public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(this Project project, bool ignoreStatus)
+        public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(this Project project, bool ignoreStatus, bool hasEditableCustomAttributes)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project, ignoreStatus)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public static IEnumerable<Organization> GetOrganizationsToReportInAccomplishments(this Project project)
@@ -478,7 +475,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession, vProjectDetail projectDetail, string projectLabel, bool hasPermissionBySession)
         {
-            
+
             return projectDetail.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project, projectLabel, hasPermissionBySession).HasPermission;
         }
 
@@ -612,18 +609,18 @@ namespace ProjectFirma.Web.Models
         public static string GetProjectCustomAttributesValue(this Project project, ProjectCustomAttributeType projectCustomAttributeType)
         {
             var projectCustomAttribute = project.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
-            if(projectCustomAttribute != null)
+            if (projectCustomAttribute != null)
             {
                 if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
                 {
-                   return DateTime.TryParse(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue, out var date) ? date.ToShortDateString() : null;
+                    return DateTime.TryParse(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue, out var date) ? date.ToShortDateString() : null;
                 }
                 else
                 {
                     return string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
                 }
             }
-            else if(projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.All(x => x.ProjectCategoryID != project.ProjectCategoryID))
+            else if (projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.All(x => x.ProjectCategoryID != project.ProjectCategoryID))
             {
                 //This ProjectCustomAttributeType is not applicable to this Project Type, therefore it is Not Applicable(N/A)
                 return "N/A";
@@ -639,7 +636,7 @@ namespace ProjectFirma.Web.Models
         {
             var listExists = projectCustomAttributeDictionary.ContainsKey(project.ProjectID);
             var projectCustomAttribute = listExists ? projectCustomAttributeDictionary[project.ProjectID].SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID) : null;
-           
+
             if (projectCustomAttribute != null)
             {
                 if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
@@ -670,16 +667,16 @@ namespace ProjectFirma.Web.Models
         {
             var projectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
             return new HtmlString(projectGeospatialAreas.Any()
-                ? String.Join(", ", projectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()))
+                ? String.Join(", ", projectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaShortName).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
         }
 
-        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int,vGeospatialArea> geospatialDictionary, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
+        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int, vGeospatialArea> geospatialDictionary, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
         {
             var areThereAny = projectGeospatialAreaDictionary.ContainsKey(project.ProjectID);
             var projectGeospatialAreas = areThereAny ? projectGeospatialAreaDictionary[project.ProjectID].Where(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList() : new List<ProjectGeospatialArea>();
             return new HtmlString(projectGeospatialAreas.Any()
-                ? String.Join(", ", projectGeospatialAreas.OrderBy(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaName).Select(x => geospatialDictionary[x.GeospatialAreaID].GetDisplayNameAsUrl()))
+                ? String.Join(", ", projectGeospatialAreas.OrderBy(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaShortName).Select(x => geospatialDictionary[x.GeospatialAreaID].GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
         }
 
@@ -714,7 +711,7 @@ namespace ProjectFirma.Web.Models
                 {
                     feature.Properties.Add("PopupUrl", project.GetProjectSimpleMapPopupUrl());
                 }
-                
+
             }
             return feature;
         }
@@ -911,13 +908,13 @@ namespace ProjectFirma.Web.Models
                 int projectCount = 0;
                 typeToProjectOrg.ForEach(x =>
                 {
-                    securedAmount += x.Project.GetSecuredFunding() ?? 0;
-                    targetedAmount += x.Project.GetTargetedFunding() ?? 0;
+                    securedAmount += x.Project.GetSecuredFunding();
+                    targetedAmount += x.Project.GetTargetedFunding();
                     noFundingSourceAmount += x.Project.GetNoFundingSourceIdentifiedAmountOrZero();
                     projectCount++;
                 });
 
-                var amounts = new List<decimal> {securedAmount, targetedAmount, noFundingSourceAmount, projectCount};
+                var amounts = new List<decimal> { securedAmount, targetedAmount, noFundingSourceAmount, projectCount };
                 if ("Other".Equals(typeToProjectOrg.Key.OrganizationTypeName))
                 {
                     // save to add to the end of the dictionary because Other should be displayed last
@@ -994,7 +991,7 @@ namespace ProjectFirma.Web.Models
                 new GoogleChartColumn($"Amount", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
 
             };
-            
+
             var chartRowCs = fundingStatusTotals.Select(x =>
             {
                 var fundingTypeRowV = new GoogleChartRowV(x.Label);
@@ -1031,9 +1028,24 @@ namespace ProjectFirma.Web.Models
             return html;
         }
 
-        public static ProjectCustomAttributesValidationResult ValidateCustomAttributes(this Project project)
+        public static ProjectCustomAttributesValidationResult ValidateCustomAttributes(this Project project, FirmaSession currentFirmaSession)
         {
-            return new ProjectCustomAttributesValidationResult(project);
+            return new ProjectCustomAttributesValidationResult(project, currentFirmaSession);
+        }
+
+        public static bool AreProjectCustomAttributesValid(this Project project, FirmaSession currentFirmaSession)
+        {
+            return project.ValidateCustomAttributes(currentFirmaSession).IsValid;
+        }
+
+        public static List<ProjectCustomAttributeType> GetCustomAttributeTypes(this Project project)
+        {
+            return HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).ToList();
+        }
+
+        public static bool HasEditableCustomAttributes(this Project project, FirmaSession currentFirmaSession)
+        {
+            return project.GetCustomAttributeTypes().Any(x => x.HasEditPermission(currentFirmaSession));
         }
     }
 }

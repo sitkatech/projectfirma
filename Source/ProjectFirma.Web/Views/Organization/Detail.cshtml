@@ -25,7 +25,6 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
 @using Newtonsoft.Json
@@ -103,6 +102,9 @@
             <li>
                 <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
             </li>
+            <li>
+                <a href="#details" aria-controls="results" role="tab" data-toggle="tab" id="detailsTab">Details</a>
+            </li>
         </ul>
     </div>
 </div>
@@ -114,21 +116,21 @@
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Organization.GetDisplayName()), ViewDataTyped.UserHasOrganizationManagePermissions) 
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Organization.GetDisplayName()), ViewDataTyped.UserHasOrganizationManagePermissions)
                                 Basics
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    @if (ViewDataTyped.Organization.LogoFileResource != null)
+                                    @if (ViewDataTyped.Organization.LogoFileResourceInfo != null)
                                     {
                                         <div class="col-xs-1">
                                             <div style="text-align: center;">
-                                                <img src="@ViewDataTyped.Organization.LogoFileResource.GetFileResourceUrl()" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
+                                                <img src="@ViewDataTyped.Organization.LogoFileResourceInfo.GetFileResourceUrl()" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
                                             </div>
                                         </div>
                                     }
 
-                                    <div class="@ViewDataTyped.Organization.LogoFileResource != null ? col-xs-11 : col-xs-12">
+                                    <div class="@ViewDataTyped.Organization.LogoFileResourceInfo != null ? col-xs-11 : col-xs-12">
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.Label("Name")</div>
                                             <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationName</div>
@@ -143,7 +145,7 @@
                                                 <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
                                             </div>
                                         </div>
-                                        <hr/>
+                                        <hr />
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationType.ToType())</div>
                                             <div class="col-xs-6">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
@@ -155,7 +157,7 @@
                                                 {
                                                     <span style="margin-right: 5px">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationPrimaryContactUrl, string.Format("Edit {0} for {1}", FieldDefinitionEnum.OrganizationPrimaryContact.ToType().FieldDefinitionDisplayName, ViewDataTyped.Organization.OrganizationName), 800, ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions)</span>
                                                 }
-                                                @(new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())
+                                                @ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl(ViewDataTyped.CurrentFirmaSession)
                                             </div>
                                         </div>
                                     </div>
@@ -331,18 +333,9 @@
                                     <ul>
                                         @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.GetFullNameLastFirst()))
                                         {
-                                            if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, person).HasPermission)
-                                            {
-                                                <li>
-                                                    @person.GetFullNameFirstLastAsUrl()
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li>
-                                                    @person.GetFullNameFirstLast()
-                                                </li>
-                                            }
+                                            <li>
+                                                @person.GetFullNameFirstLastAsUrl(ViewDataTyped.CurrentFirmaSession)
+                                            </li>
                                         }
                                     </ul>
                                 }
@@ -458,6 +451,28 @@
                         </div>
                     </div>
                 }
+            </div>
+            <div role="tabpanel" class="tab-pane" id="details">
+                <div class="row">
+                    <div class="col-xs-12">
+                        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.DescriptionViewData); }
+                        @if (ViewDataTyped.Organization.Description == null)
+                        {
+                            if (ViewDataTyped.Organization.OrganizationUrl != null)
+                            {
+                                <p class="systemText">
+                                    More information can be found on this organization's home page:
+                                    <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="systemText">No additional details available.</p>
+                            }
+                        }
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

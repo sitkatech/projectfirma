@@ -30,13 +30,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class BasicsValidationResult
     {
-        public static readonly string PlanningDesignStartYearIsRequired = $"{FieldDefinitionEnum.PlanningDesignStartYear.ToType().GetFieldDefinitionLabel()} is a required field.";
-        public static readonly string ImplementationStartYearIsRequired = $"{FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel()} is a required field.";
-        public static readonly string CompletionYearIsRequired = $"For projects in the Completed or Post-Implementation stage, {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} is a required field.";
-        public static readonly string ProjectDescriptionIsRequired = $"{FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel()} is required.";
-        public static readonly string CompletionYearShouldBeLessThanCurrentYear = $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in Completed or Post-Implementation stage, the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} needs to be less than or equal to this year";
-        public static readonly string PlanningDesignStartYearShouldBeLessThanCurrentYear = $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Planning / Design stage, the {FieldDefinitionEnum.PlanningDesignStartYear.ToType().GetFieldDefinitionLabel()} needs to be less than or equal to this year";
-        public static readonly string ImplementationStartYearShouldBeLessThanCurrentYear = $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in Implementation stage, the {FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel()} needs to be less than or equal to this year";
+        public static string PlanningDesignStartYearIsRequired => $"{FieldDefinitionEnum.PlanningDesignStartYear.ToType().GetFieldDefinitionLabel()} is a required field.";
+        public static string ImplementationStartYearIsRequired => $"{FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel()} is a required field.";
+        public static string CompletionYearIsRequired => $"For projects in the Completed or Post-Implementation stage, {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} is a required field.";
+        public static string ProjectDescriptionIsRequired => $"{FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel()} is required.";
+        public static string CompletionYearShouldBeLessThanCurrentYear => $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in Completed or Post-Implementation stage, the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} needs to be less than or equal to this year";
+        public static string PlanningDesignStartYearShouldBeLessThanCurrentYear => $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Planning / Design stage, the {FieldDefinitionEnum.PlanningDesignStartYear.ToType().GetFieldDefinitionLabel()} needs to be less than or equal to this year";
+        public static string ImplementationStartYearShouldBeLessThanCurrentYear => $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in Implementation stage, the {FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel()} needs to be less than or equal to this year";
 
         private readonly List<string> _warningMessages;
 

@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace ProjectFirma.Web.ReportTemplates
 {
@@ -63,6 +64,11 @@ namespace ProjectFirma.Web.ReportTemplates
                 SaveImageFilesToTempDirectory();
             }
 
+            // Word will insert hidden bookmarks apparently. Bookmarks seem to cause a good amount of issues with the generation
+            // and the error is extremely confusing for the user. This might make it so user's cannot make templates with bookmarks
+            // but this seems very necessary - 6/26/2020 SMG
+            RemoveBookmarks(templatePath);
+
             switch (ReportTemplateModelEnum)
             {
                 case ReportTemplateModelEnum.Project:
@@ -82,6 +88,24 @@ namespace ProjectFirma.Web.ReportTemplates
             document.Generate(compilePath);
 
             CleanTempDirectoryOfOldFiles(FullTemplateTempDirectory);
+        }
+
+        private void RemoveBookmarks(string templatePath)
+        {
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(templatePath, true))
+            {
+                var bs = wordDoc.MainDocumentPart.Document
+                    .Descendants<BookmarkStart>()
+                    .ToList();
+                foreach (var s in bs)
+                    s.Remove();
+
+                var be = wordDoc.MainDocumentPart.Document
+                    .Descendants<BookmarkEnd>()
+                    .ToList();
+                foreach (var e in be)
+                    e.Remove();
+            }
         }
 
         /// <summary>
@@ -117,7 +141,7 @@ namespace ProjectFirma.Web.ReportTemplates
                     var projectImages = projectsList.SelectMany(x => x.ProjectImages).ToList();
                     foreach (var projectImage in projectImages)
                     {
-                        var imagePath = $"{FullTemplateTempImageDirectory}\\{projectImage.FileResource.GetFullGuidBasedFilename()}";
+                        var imagePath = $"{FullTemplateTempImageDirectory}\\{projectImage.FileResourceInfo.GetFullGuidBasedFilename()}";
                         CorrectImageProblemsAndSaveToDisk(projectImage, imagePath);
                     }
                     break;
@@ -152,7 +176,7 @@ namespace ProjectFirma.Web.ReportTemplates
                 return;
             }
 
-            using (var ms = new MemoryStream(projectImage.FileResource.FileResourceData))
+            using (var ms = new MemoryStream(projectImage.FileResourceInfo.FileResourceData.Data))
             {
                 var bitmap = new Bitmap(ms);
                 using (Bitmap newBitmap = new Bitmap(bitmap))
@@ -167,7 +191,7 @@ namespace ProjectFirma.Web.ReportTemplates
             Generate();
             var fileData = File.ReadAllBytes(GetCompilePath());
             var stream = new MemoryStream(fileData);
-            return new FileResourceResult(ReportTemplate.FileResource.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
+            return new FileResourceResult(ReportTemplate.FileResourceInfo.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
         }
 
         private void CleanTempDirectoryOfOldFiles(string targetDirectory)
@@ -196,7 +220,7 @@ namespace ProjectFirma.Web.ReportTemplates
         private void SaveTemplateFileToTempDirectory()
         {
             var filePath = GetTemplatePath();
-            File.WriteAllBytes(filePath, ReportTemplate.FileResource.FileResourceData);
+            File.WriteAllBytes(filePath, ReportTemplate.FileResourceInfo.FileResourceData.Data);
         }
 
         /// <summary>
@@ -205,7 +229,7 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <returns></returns>
         private string GetTemplatePath()
         {
-            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResourceInfo.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }
@@ -216,7 +240,7 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <returns></returns>
         private string GetCompilePath()
         {
-            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResourceInfo.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }

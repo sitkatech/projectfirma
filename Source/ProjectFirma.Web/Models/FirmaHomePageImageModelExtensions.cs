@@ -14,13 +14,13 @@ namespace ProjectFirma.Web.Models
 
         public static string GetCaptionOnFullView(this FirmaHomePageImage firmaHomePageImage) => $"{firmaHomePageImage.GetCaptionOnGallery()}";
 
-        public static string GetCaptionOnGallery(this FirmaHomePageImage firmaHomePageImage) => $"{firmaHomePageImage.Caption}\r\n{firmaHomePageImage.FileResource.GetFileResourceDataLengthString()}";
+        public static string GetCaptionOnGallery(this FirmaHomePageImage firmaHomePageImage) => $"{firmaHomePageImage.Caption}\r\n{firmaHomePageImage.FileResourceInfo.GetFileResourceDataLengthString()}";
 
-        public static string GetPhotoUrl(this FirmaHomePageImage firmaHomePageImage) => firmaHomePageImage.FileResource.GetFileResourceUrl();
+        public static string GetPhotoUrl(this FirmaHomePageImage firmaHomePageImage) => firmaHomePageImage.FileResourceInfo.GetFileResourceUrl();
 
-        public static string GetPhotoUrlScaledThumbnail(this FirmaHomePageImage firmaHomePageImage) => firmaHomePageImage.FileResource.FileResourceUrlScaledThumbnail(150);
+        public static string GetPhotoUrlScaledThumbnail(this FirmaHomePageImage firmaHomePageImage) => firmaHomePageImage.FileResourceInfo.FileResourceUrlScaledThumbnail(150);
 
-        public static string GetPhotoUrlScaledForPrint(this FirmaHomePageImage firmaHomePageImage) => firmaHomePageImage.FileResource.GetFileResourceUrlScaledForPrint();
+        public static string GetPhotoUrlScaledForPrint(this FirmaHomePageImage firmaHomePageImage) => firmaHomePageImage.FileResourceInfo.GetFileResourceUrlScaledForPrint();
 
         public static string GetEditUrl(this FirmaHomePageImage firmaHomePageImage)
         {

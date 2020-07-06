@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -50,7 +51,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string geospatialAreaComment, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string expendituresNote, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string contactsComment, string expectedFundingUpdateNote, string contactsDiffLog, string customAttributesComment, string customAttributesDiffLog) : this()
+        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string reportedPerformanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string expendituresNote, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string contactsComment, string expectedFundingUpdateNote, string contactsDiffLog, string customAttributesComment, string customAttributesDiffLog, string expectedPerformanceMeasureDiffLog, bool? isSimpleLocationUpdated, bool? isDetailedLocationUpdated, bool? isSpatialInformationUpdated) : this()
         {
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
@@ -66,12 +67,11 @@ namespace ProjectFirmaModels.Models
             this.ProjectUpdateStateID = projectUpdateStateID;
             this.IsPhotosUpdated = isPhotosUpdated;
             this.BasicsDiffLog = basicsDiffLog;
-            this.PerformanceMeasureDiffLog = performanceMeasureDiffLog;
+            this.ReportedPerformanceMeasureDiffLog = reportedPerformanceMeasureDiffLog;
             this.ExpendituresDiffLog = expendituresDiffLog;
             this.BudgetsDiffLog = budgetsDiffLog;
             this.ExternalLinksDiffLog = externalLinksDiffLog;
             this.NotesDiffLog = notesDiffLog;
-            this.GeospatialAreaComment = geospatialAreaComment;
             this.ExpectedFundingComment = expectedFundingComment;
             this.ExpectedFundingDiffLog = expectedFundingDiffLog;
             this.OrganizationsComment = organizationsComment;
@@ -84,6 +84,10 @@ namespace ProjectFirmaModels.Models
             this.ContactsDiffLog = contactsDiffLog;
             this.CustomAttributesComment = customAttributesComment;
             this.CustomAttributesDiffLog = customAttributesDiffLog;
+            this.ExpectedPerformanceMeasureDiffLog = expectedPerformanceMeasureDiffLog;
+            this.IsSimpleLocationUpdated = isSimpleLocationUpdated;
+            this.IsDetailedLocationUpdated = isDetailedLocationUpdated;
+            this.IsSpatialInformationUpdated = isSpatialInformationUpdated;
         }
 
         /// <summary>
@@ -134,6 +138,120 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || ProjectAttachmentUpdates.Any() || ProjectContactUpdates.Any() || ProjectCustomAttributeUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any() || ProjectGeospatialAreaUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoFundingSourceIdentifiedUpdates.Any() || ProjectNoteUpdates.Any() || ProjectOrganizationUpdates.Any() || ProjectRelevantCostTypeUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateHistories.Any() || TechnicalAssistanceRequestUpdates.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(PerformanceMeasureActualUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualUpdate).Name);
+            }
+
+            if(PerformanceMeasureExpectedUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedUpdate).Name);
+            }
+
+            if(ProjectAttachmentUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectAttachmentUpdate).Name);
+            }
+
+            if(ProjectContactUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectContactUpdate).Name);
+            }
+
+            if(ProjectCustomAttributeUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomAttributeUpdate).Name);
+            }
+
+            if(ProjectExemptReportingYearUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectExemptReportingYearUpdate).Name);
+            }
+
+            if(ProjectExternalLinkUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectExternalLinkUpdate).Name);
+            }
+
+            if(ProjectFundingSourceBudgetUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudgetUpdate).Name);
+            }
+
+            if(ProjectFundingSourceExpenditureUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditureUpdate).Name);
+            }
+
+            if(ProjectGeospatialAreaTypeNoteUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaTypeNoteUpdate).Name);
+            }
+
+            if(ProjectGeospatialAreaUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectGeospatialAreaUpdate).Name);
+            }
+
+            if(ProjectImageUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectImageUpdate).Name);
+            }
+
+            if(ProjectLocationStagingUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectLocationStagingUpdate).Name);
+            }
+
+            if(ProjectLocationUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectLocationUpdate).Name);
+            }
+
+            if(ProjectNoFundingSourceIdentifiedUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectNoFundingSourceIdentifiedUpdate).Name);
+            }
+
+            if(ProjectNoteUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectNoteUpdate).Name);
+            }
+
+            if(ProjectOrganizationUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectOrganizationUpdate).Name);
+            }
+
+            if(ProjectRelevantCostTypeUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectRelevantCostTypeUpdate).Name);
+            }
+
+            if((ProjectUpdate != null))
+            {
+                dependentObjects.Add(typeof(ProjectUpdate).Name);
+            }
+
+            if(ProjectUpdateHistories.Any())
+            {
+                dependentObjects.Add(typeof(ProjectUpdateHistory).Name);
+            }
+
+            if(TechnicalAssistanceRequestUpdates.Any())
+            {
+                dependentObjects.Add(typeof(TechnicalAssistanceRequestUpdate).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
@@ -292,12 +410,12 @@ namespace ProjectFirmaModels.Models
             get { return BasicsDiffLog == null ? null : new HtmlString(BasicsDiffLog); }
             set { BasicsDiffLog = value?.ToString(); }
         }
-        public string PerformanceMeasureDiffLog { get; set; }
+        public string ReportedPerformanceMeasureDiffLog { get; set; }
         [NotMapped]
-        public HtmlString PerformanceMeasureDiffLogHtmlString
+        public HtmlString ReportedPerformanceMeasureDiffLogHtmlString
         { 
-            get { return PerformanceMeasureDiffLog == null ? null : new HtmlString(PerformanceMeasureDiffLog); }
-            set { PerformanceMeasureDiffLog = value?.ToString(); }
+            get { return ReportedPerformanceMeasureDiffLog == null ? null : new HtmlString(ReportedPerformanceMeasureDiffLog); }
+            set { ReportedPerformanceMeasureDiffLog = value?.ToString(); }
         }
         public string ExpendituresDiffLog { get; set; }
         [NotMapped]
@@ -327,7 +445,6 @@ namespace ProjectFirmaModels.Models
             get { return NotesDiffLog == null ? null : new HtmlString(NotesDiffLog); }
             set { NotesDiffLog = value?.ToString(); }
         }
-        public string GeospatialAreaComment { get; set; }
         public string ExpectedFundingComment { get; set; }
         public string ExpectedFundingDiffLog { get; set; }
         public string OrganizationsComment { get; set; }
@@ -358,6 +475,16 @@ namespace ProjectFirmaModels.Models
             get { return CustomAttributesDiffLog == null ? null : new HtmlString(CustomAttributesDiffLog); }
             set { CustomAttributesDiffLog = value?.ToString(); }
         }
+        public string ExpectedPerformanceMeasureDiffLog { get; set; }
+        [NotMapped]
+        public HtmlString ExpectedPerformanceMeasureDiffLogHtmlString
+        { 
+            get { return ExpectedPerformanceMeasureDiffLog == null ? null : new HtmlString(ExpectedPerformanceMeasureDiffLog); }
+            set { ExpectedPerformanceMeasureDiffLog = value?.ToString(); }
+        }
+        public bool? IsSimpleLocationUpdated { get; set; }
+        public bool? IsDetailedLocationUpdated { get; set; }
+        public bool? IsSpatialInformationUpdated { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 
@@ -398,7 +525,6 @@ namespace ProjectFirmaModels.Models
             public const int LocationSimpleComment = 1000;
             public const int LocationDetailedComment = 1000;
             public const int BudgetsComment = 1000;
-            public const int GeospatialAreaComment = 1000;
             public const int ExpectedFundingComment = 1000;
             public const int OrganizationsComment = 1000;
             public const int ExpectedPerformanceMeasuresComment = 1000;

@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
             }
             public EditViewDataForAngular(List<ProjectFirmaModels.Models.GeospatialArea> allGeospatialAreas)
             {
-                AllStewardshipAreas = allGeospatialAreas.OrderBy(x => x.GetDisplayName()).Select(x => new StewardshipAreaSimple(x)).ToList();
+                AllStewardshipAreas = allGeospatialAreas.OrderBy(x => x.GeospatialAreaShortName).Select(x => new StewardshipAreaSimple(x)).ToList();
             }
         }
     }

@@ -160,7 +160,7 @@
                 </li>
                 @foreach (var projectWorkflowSectionGrouping in ViewDataTyped.ProjectWorkflowSectionGroupings.OrderBy(x => x.SortOrder))
                 {
-                    var projectUpdateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectUpdateSections(ViewDataTyped.ProjectUpdateBatch, ViewDataTyped.ProjectUpdateStatus, false);
+                    var projectUpdateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectUpdateSections(ViewDataTyped.ProjectUpdateBatch, ViewDataTyped.ProjectUpdateStatus, false, ViewDataTyped.HasCustomAttributesEditableByUser);
                     if (projectUpdateSectionsForGroup.Any())
                     {
                         var isGroupingActive = projectUpdateSectionsForGroup.Any(x => x.SectionDisplayName.Equals(ViewDataTyped.CurrentSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));

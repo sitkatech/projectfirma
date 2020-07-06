@@ -25,7 +25,14 @@ namespace ProjectFirmaModels.Models
 {
     public partial class GeospatialArea : IFirmaPage, IAuditableEntity
     {
-        public string GetDisplayName() => GeospatialAreaName;
+
+        public fGeoServerGeospatialAreaAreasContainingProjectLocation_Result
+            MakefGeoServerGeospatialAreaAreasContainingProjectLocation()
+        {
+            return new fGeoServerGeospatialAreaAreasContainingProjectLocation_Result(this.GeospatialAreaID, this.GeospatialAreaID, this.GeospatialAreaShortName, this.GeospatialAreaTypeID);
+        }
+
+        public string GetDisplayName() => GeospatialAreaShortName;
 
         public string GetAuditDescriptionString() => GeospatialAreaName;
 

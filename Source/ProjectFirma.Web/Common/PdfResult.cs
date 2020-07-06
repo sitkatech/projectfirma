@@ -29,10 +29,10 @@ namespace ProjectFirma.Web.Common
 {
     public class PdfResult : FileResourceResult
     {
-        public PdfResult(FileResource fileResource) : base(fileResource.GetOriginalCompleteFileName(), fileResource.FileResourceData, FileResourceMimeType.PDF)
+        public PdfResult(FileResourceInfo fileResourceInfo) : base(fileResourceInfo.GetOriginalCompleteFileName(), fileResourceInfo.FileResourceData.Data, FileResourceMimeType.PDF)
         {
-            Check.Require(fileResource.FileResourceMimeType == FileResourceMimeType.PDF, "Only a real PDF file can be saved off as PDF");
-            ConstructorImpl(fileResource.GetOriginalCompleteFileName());
+            Check.Require(fileResourceInfo.FileResourceMimeType == FileResourceMimeType.PDF, "Only a real PDF file can be saved off as PDF");
+            ConstructorImpl(fileResourceInfo.GetOriginalCompleteFileName());
         }
 
         private void ConstructorImpl(string fileName)

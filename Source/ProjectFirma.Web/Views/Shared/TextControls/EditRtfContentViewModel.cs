@@ -63,5 +63,10 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
                     throw new ArgumentOutOfRangeException(string.Format("Invalid GuidanceType {0}", performanceMeasureRichTextType));
             }
         }
+
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization)
+        {
+            organization.DescriptionHtmlString = RtfContent;
+        }
     }
 }

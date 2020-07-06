@@ -44,6 +44,14 @@ namespace LtInfo.Common
             Fourth = 4
         }
 
+        public enum Quarter
+        {
+            First = 1,
+            Second = 2,
+            Third = 3,
+            Fourth = 4
+        }
+
         public enum Month
         {
             January = 1,
@@ -59,6 +67,7 @@ namespace LtInfo.Common
             November = 11,
             December = 12
         }
+
 
         public static string ShortMonthName(Month month)
         {
@@ -147,6 +156,44 @@ namespace LtInfo.Common
             }
             //else if (month >= Month.July && month <= Month.September)
             return FiscalQuarter.Fourth; // 4th Fiscal FiscalQuarter = July 1 to September 30
+        }
+
+        public static FiscalQuarter GetFiscalQuarterFromStartMonth(this Month month, Month fiscalYearStartMonth)
+        {
+            var fiscalYearStartMonthInt = (int) fiscalYearStartMonth;
+            var actualMonth = (int)month;
+            var difference = actualMonth - fiscalYearStartMonthInt;
+            if (difference < 0)
+            {
+                difference += 12;
+            }
+            var quarter = difference / 3 + 1;
+
+            switch (quarter)
+            {
+                case 1:
+                    return FiscalQuarter.First;
+                case 2:
+                    return FiscalQuarter.Second;
+                case 3:
+                    return FiscalQuarter.Third;
+                case 4:
+                    return FiscalQuarter.Fourth;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static int GetFiscalYearFromStartMonth(this DateTime date, Month fiscalYearStartMonth)
+        {
+            var fiscalYearStartMonthInt = (int)fiscalYearStartMonth;
+            var actualMonth = date.Month;
+            if (actualMonth >= fiscalYearStartMonthInt)
+            {
+                return date.Year + 1;
+            }
+
+            return date.Year;
         }
 
         /// <summary>

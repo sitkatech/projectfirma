@@ -73,7 +73,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             , Dictionary<int,ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafDictionary
             , string projectLabel
             , bool hasProjectApprovalPermissionBySession
-            , string statusUpdateLabel)
+            , string statusUpdateLabel
+            , List<int> sitkaAdminPersonIDs)
         {
 
             switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
@@ -102,7 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContact:
                     Add(FieldDefinitionEnum.ProjectPrimaryContact.ToType().ToGridHeaderString(),
                         x => projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.HasValue ?
-                            UrlTemplate.MakeHrefString(PersonModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value), projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast) : new HtmlString(""),
+                            new UserViewFeature().HasPermissionForPersonID(currentFirmaSession, projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value, sitkaAdminPersonIDs).HasPermission ? UrlTemplate.MakeHrefString(PersonModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value), projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast) : new HtmlString(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast) : new HtmlString(""),
                         150, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContactEmail:
@@ -261,6 +262,9 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var hasProjectApprovalPermissionBySession =
                 new ProjectApproveFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var statusUpdateLabel = FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel();
+            var sitkaAdminPersonIDs =
+                HttpRequestStorage.DatabaseEntities.AllPeople.Where(x =>
+                    x.RoleID == ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID).Select(x => x.PersonID).ToList();
 
             // Mandatory fields before
             AddMandatoryFieldsBefore(userHasTagManagePermissions, userHasReportDownloadPermissions, userHasDeletePermissions, projectCustomGridTypeEnum);
@@ -276,7 +280,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 , projectCustomAttributes
                 , projectLabel
                 , hasProjectApprovalPermissionBySession
-                , statusUpdateLabel);
+                , statusUpdateLabel
+                , sitkaAdminPersonIDs);
 
             // Mandatory fields appearing AFTER configurable fields
             AddMandatoryFieldsAfter(userHasTagManagePermissions);
@@ -293,7 +298,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             , Dictionary<int, List<ProjectFirmaModels.Models.vProjectCustomAttributeValue>> projectCustomAttributeDictionary
             , string projectLabel
             , bool hasProjectApprovalPermissionBySession
-            , string statusUpdateLabel)
+            , string statusUpdateLabel
+            , List<int> sitkaAdminPersonIDs)
         {
             
             foreach (var projectCustomGridConfiguration in projectCustomGridConfigurations.OrderBy(x => x.SortOrder))
@@ -317,7 +323,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         , taxonomyLeafDictionary
                         , projectLabel
                         , hasProjectApprovalPermissionBySession
-                        , statusUpdateLabel);
+                        , statusUpdateLabel
+                        , sitkaAdminPersonIDs);
                 }
             }
         }

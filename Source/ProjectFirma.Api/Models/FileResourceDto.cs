@@ -5,15 +5,15 @@ namespace ProjectFirma.Api.Models
 {
     public class FileResourceDto
     {
-        public FileResourceDto(FileResource fileResource)
+        public FileResourceDto(FileResourceInfo fileResourceInfo)
         {
-            FileResourceData = fileResource.FileResourceData;
-            FileResourceGUID = fileResource.FileResourceGUID;
-            OriginalBaseFilename = fileResource.OriginalBaseFilename;
-            OriginalFileExtension = fileResource.OriginalFileExtension;
-            Email = fileResource.CreatePerson.Email;
-            CreateDate = fileResource.CreateDate;
-            FileResourceMimeTypeName = fileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName;
+            FileResourceData = fileResourceInfo.FileResourceData.Data;
+            FileResourceGUID = fileResourceInfo.FileResourceGUID;
+            OriginalBaseFilename = fileResourceInfo.OriginalBaseFilename;
+            OriginalFileExtension = fileResourceInfo.OriginalFileExtension;
+            Email = fileResourceInfo.CreatePerson.Email;
+            CreateDate = fileResourceInfo.CreateDate;
+            FileResourceMimeTypeName = fileResourceInfo.FileResourceMimeType.FileResourceMimeTypeDisplayName;
         }
 
         public FileResourceDto()

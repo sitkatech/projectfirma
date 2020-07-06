@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -25,7 +26,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vProjectAttachment(int projectAttachmentID, int primaryKey, int tenantID, int projectID, int attachmentID, int attachmentTypeID, string projectAttachmentDisplayName, string projectAttachmentDescription, int fileResourceID, int fileResourceMimeTypeID, string fileResourceOriginalBaseFilename, string fileResourceOriginalFileExtension, Guid fileResourceGUID, int fileResourceCreatePersonID, DateTime fileResourceCreateDate, string projectName, string attachmentTypeDescription, string attachmentTypeName) : this()
+        public vProjectAttachment(int projectAttachmentID, int primaryKey, int tenantID, int projectID, int attachmentID, int attachmentTypeID, string projectAttachmentDisplayName, string projectAttachmentDescription, int fileResourceInfoID, int fileResourceMimeTypeID, string fileResourceOriginalBaseFilename, string fileResourceOriginalFileExtension, Guid fileResourceGUID, int fileResourceCreatePersonID, DateTime fileResourceCreateDate, string projectName, string attachmentTypeDescription, string attachmentTypeName) : this()
         {
             this.ProjectAttachmentID = projectAttachmentID;
             this.PrimaryKey = primaryKey;
@@ -35,7 +36,7 @@ namespace ProjectFirmaModels.Models
             this.AttachmentTypeID = attachmentTypeID;
             this.ProjectAttachmentDisplayName = projectAttachmentDisplayName;
             this.ProjectAttachmentDescription = projectAttachmentDescription;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
             this.FileResourceMimeTypeID = fileResourceMimeTypeID;
             this.FileResourceOriginalBaseFilename = fileResourceOriginalBaseFilename;
             this.FileResourceOriginalFileExtension = fileResourceOriginalFileExtension;
@@ -60,7 +61,7 @@ namespace ProjectFirmaModels.Models
             this.AttachmentTypeID = vProjectAttachment.AttachmentTypeID;
             this.ProjectAttachmentDisplayName = vProjectAttachment.ProjectAttachmentDisplayName;
             this.ProjectAttachmentDescription = vProjectAttachment.ProjectAttachmentDescription;
-            this.FileResourceID = vProjectAttachment.FileResourceID;
+            this.FileResourceInfoID = vProjectAttachment.FileResourceInfoID;
             this.FileResourceMimeTypeID = vProjectAttachment.FileResourceMimeTypeID;
             this.FileResourceOriginalBaseFilename = vProjectAttachment.FileResourceOriginalBaseFilename;
             this.FileResourceOriginalFileExtension = vProjectAttachment.FileResourceOriginalFileExtension;
@@ -83,7 +84,7 @@ namespace ProjectFirmaModels.Models
         public int AttachmentTypeID { get; set; }
         public string ProjectAttachmentDisplayName { get; set; }
         public string ProjectAttachmentDescription { get; set; }
-        public int FileResourceID { get; set; }
+        public int FileResourceInfoID { get; set; }
         public int FileResourceMimeTypeID { get; set; }
         public string FileResourceOriginalBaseFilename { get; set; }
         public string FileResourceOriginalFileExtension { get; set; }

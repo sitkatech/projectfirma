@@ -140,6 +140,8 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
             .reduce(function (m, x) { return Number(m) + Number(x.MonetaryAmount); }, 0);
     };
 
+    $scope.formatCalendarYear = function (calendarYear) { return $scope.AngularViewData.UseFiscalYears ? "FY" + calendarYear : calendarYear; };
+
     $scope.addCalendarYear = function (calendarYear) {
         if (Sitka.Methods.isUndefinedNullOrEmpty(calendarYear)) {
             return;

@@ -8,9 +8,9 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[DefaultBoundingBox] [geometry] NOT NULL,
 	[MinimumYear] [int] NOT NULL,
 	[PrimaryContactPersonID] [int] NULL,
-	[TenantSquareLogoFileResourceID] [int] NULL,
-	[TenantBannerLogoFileResourceID] [int] NULL,
-	[TenantStyleSheetFileResourceID] [int] NULL,
+	[TenantSquareLogoFileResourceInfoID] [int] NULL,
+	[TenantBannerLogoFileResourceInfoID] [int] NULL,
+	[TenantStyleSheetFileResourceInfoID] [int] NULL,
 	[TenantShortDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ToolDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ShowProposalsToThePublic] [bit] NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[EnableEvaluations] [bit] NOT NULL,
 	[EnableProjectCategories] [bit] NOT NULL,
 	[EnableReports] [bit] NOT NULL,
-	[TenantFactSheetLogoFileResourceID] [int] NULL,
+	[TenantFactSheetLogoFileResourceInfoID] [int] NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -66,45 +66,45 @@ REFERENCES [dbo].[BudgetType] ([BudgetTypeID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_BudgetType_BudgetTypeID]
 GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID] FOREIGN KEY([TenantBannerLogoFileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantBannerLogoFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([TenantBannerLogoFileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID]
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantBannerLogoFileResourceInfoID_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_TenantID_FileResourceID_TenantID] FOREIGN KEY([TenantBannerLogoFileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantBannerLogoFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([TenantBannerLogoFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_TenantID_FileResourceID_TenantID]
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantBannerLogoFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
 GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_FileResourceID] FOREIGN KEY([TenantFactSheetLogoFileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantFactSheetLogoFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([TenantFactSheetLogoFileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_FileResourceID]
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantFactSheetLogoFileResourceInfoID_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_TenantID_FileResourceID_TenantID] FOREIGN KEY([TenantFactSheetLogoFileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantFactSheetLogoFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([TenantFactSheetLogoFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantFactSheetLogoFileResourceID_TenantID_FileResourceID_TenantID]
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantFactSheetLogoFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
 GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID] FOREIGN KEY([TenantSquareLogoFileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantSquareLogoFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([TenantSquareLogoFileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_FileResourceID]
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantSquareLogoFileResourceInfoID_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_TenantID_FileResourceID_TenantID] FOREIGN KEY([TenantSquareLogoFileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantSquareLogoFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([TenantSquareLogoFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantSquareLogoFileResourceID_TenantID_FileResourceID_TenantID]
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantSquareLogoFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
 GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID] FOREIGN KEY([TenantStyleSheetFileResourceID])
-REFERENCES [dbo].[FileResource] ([FileResourceID])
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantStyleSheetFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([TenantStyleSheetFileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_FileResourceID]
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantStyleSheetFileResourceInfoID_FileResourceInfoID]
 GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_TenantID_FileResourceID_TenantID] FOREIGN KEY([TenantStyleSheetFileResourceID], [TenantID])
-REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantStyleSheetFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([TenantStyleSheetFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResource_TenantStyleSheetFileResourceID_TenantID_FileResourceID_TenantID]
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantStyleSheetFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID] FOREIGN KEY([PrimaryContactPersonID])
 REFERENCES [dbo].[Person] ([PersonID])

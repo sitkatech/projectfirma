@@ -10,7 +10,7 @@
         public void DeleteFullWithFileResource(DatabaseEntities dbContext)
         {
             // Looks kind of weird but it will cascade delete the ReportTemplate
-            FileResource.DeleteFull(dbContext);
+            FileResourceInfo.DeleteFull(dbContext);
         }
     }
 }

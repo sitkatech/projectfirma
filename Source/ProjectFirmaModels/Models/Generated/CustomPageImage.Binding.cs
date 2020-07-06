@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -30,46 +31,46 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CustomPageImage(int customPageImageID, int customPageID, int fileResourceID) : this()
+        public CustomPageImage(int customPageImageID, int customPageID, int fileResourceInfoID) : this()
         {
             this.CustomPageImageID = customPageImageID;
             this.CustomPageID = customPageID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CustomPageImage(int customPageID, int fileResourceID) : this()
+        public CustomPageImage(int customPageID, int fileResourceInfoID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.CustomPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.CustomPageID = customPageID;
-            this.FileResourceID = fileResourceID;
+            this.FileResourceInfoID = fileResourceInfoID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public CustomPageImage(CustomPage customPage, FileResource fileResource) : this()
+        public CustomPageImage(CustomPage customPage, FileResourceInfo fileResourceInfo) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.CustomPageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.CustomPageID = customPage.CustomPageID;
             this.CustomPage = customPage;
             customPage.CustomPageImages.Add(this);
-            this.FileResourceID = fileResource.FileResourceID;
-            this.FileResource = fileResource;
-            fileResource.CustomPageImages.Add(this);
+            this.FileResourceInfoID = fileResourceInfo.FileResourceInfoID;
+            this.FileResourceInfo = fileResourceInfo;
+            fileResourceInfo.CustomPageImages.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static CustomPageImage CreateNewBlank(CustomPage customPage, FileResource fileResource)
+        public static CustomPageImage CreateNewBlank(CustomPage customPage, FileResourceInfo fileResourceInfo)
         {
-            return new CustomPageImage(customPage, fileResource);
+            return new CustomPageImage(customPage, fileResourceInfo);
         }
 
         /// <summary>
@@ -79,6 +80,16 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return false;
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
@@ -108,13 +119,13 @@ namespace ProjectFirmaModels.Models
         public int CustomPageImageID { get; set; }
         public int TenantID { get; set; }
         public int CustomPageID { get; set; }
-        public int FileResourceID { get; set; }
+        public int FileResourceInfoID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CustomPageImageID; } set { CustomPageImageID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual CustomPage CustomPage { get; set; }
-        public virtual FileResource FileResource { get; set; }
+        public virtual FileResourceInfo FileResourceInfo { get; set; }
 
         public static class FieldLengths
         {

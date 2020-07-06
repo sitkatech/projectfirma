@@ -27,7 +27,7 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Common
 {
     /// <summary>
-    /// A generic FileResource result.
+    /// A generic FileResourceInfo result.
     /// Can be used bare, but designed to be used inherited (WordResult, ExcelResult, PdfResult, etc.)
     /// </summary>
     public class FileResourceResult : ActionResult

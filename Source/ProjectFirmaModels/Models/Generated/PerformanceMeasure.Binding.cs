@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web;
+using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -113,6 +114,105 @@ namespace ProjectFirmaModels.Models
         public bool HasDependentObjects()
         {
             return ClassificationPerformanceMeasures.Any() || GeospatialAreaPerformanceMeasureFixedTargets.Any() || GeospatialAreaPerformanceMeasureNoTargets.Any() || GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || PerformanceMeasureFixedTargets.Any() || PerformanceMeasureImages.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureSubcategories.Any() || TaxonomyLeafPerformanceMeasures.Any();
+        }
+
+        /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ClassificationPerformanceMeasures.Any())
+            {
+                dependentObjects.Add(typeof(ClassificationPerformanceMeasure).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureFixedTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureNoTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureNoTarget).Name);
+            }
+
+            if(GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name);
+            }
+
+            if(PerformanceMeasureActuals.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActual).Name);
+            }
+
+            if(PerformanceMeasureActualSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOption).Name);
+            }
+
+            if(PerformanceMeasureActualSubcategoryOptionUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name);
+            }
+
+            if(PerformanceMeasureActualUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureActualUpdate).Name);
+            }
+
+            if(PerformanceMeasureExpecteds.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpected).Name);
+            }
+
+            if(PerformanceMeasureExpectedSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOption).Name);
+            }
+
+            if(PerformanceMeasureExpectedSubcategoryOptionUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name);
+            }
+
+            if(PerformanceMeasureExpectedUpdates.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureExpectedUpdate).Name);
+            }
+
+            if(PerformanceMeasureFixedTargets.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureFixedTarget).Name);
+            }
+
+            if(PerformanceMeasureImages.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureImage).Name);
+            }
+
+            if(PerformanceMeasureNotes.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureNote).Name);
+            }
+
+            if(PerformanceMeasureReportingPeriodTargets.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureReportingPeriodTarget).Name);
+            }
+
+            if(PerformanceMeasureSubcategories.Any())
+            {
+                dependentObjects.Add(typeof(PerformanceMeasureSubcategory).Name);
+            }
+
+            if(TaxonomyLeafPerformanceMeasures.Any())
+            {
+                dependentObjects.Add(typeof(TaxonomyLeafPerformanceMeasure).Name);
+            }
+            return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>

@@ -70,8 +70,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             // Actually a ProjectID
             public int ProjectID { get; }
             public int MaxYear { get; }
-
             public IEnumerable<SelectListItem> FundingTypes { get; }
+            public bool UseFiscalYears { get; }
+
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
@@ -85,6 +86,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 ProjectID = project.ProjectID;
                 FundingTypes = fundingTypes;
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
+                UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
             }
         }
     }

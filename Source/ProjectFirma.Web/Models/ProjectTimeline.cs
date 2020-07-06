@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
@@ -18,6 +19,7 @@ namespace ProjectFirma.Web.Models
 
         private List<IProjectTimelineEvent> TimelineEvents { get; }
         public const string DisplayClass = "open";
+        public bool UsesFiscalYears { get; }
 
         public ProjectTimeline(Project project, bool canEditProjectProjectStatus, bool canEditFinalStatusReport)
         {
@@ -27,6 +29,7 @@ namespace ProjectFirma.Web.Models
             AddProjectApprovalEventToTimelineIfExists();
             TimelineEvents.AddRange(GetTimelineUpdateEvents(Project));
             TimelineEvents.AddRange(GetTimelineProjectStatusChangeEvents(Project, canEditProjectProjectStatus, canEditFinalStatusReport));
+            UsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
 
         private void AddProjectApprovalEventToTimelineIfExists()
@@ -76,9 +79,17 @@ namespace ProjectFirma.Web.Models
         // this hopefully return some sort of grouped list for display
         public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
         {
+            var startDate = MultiTenantHelpers.GetStartDayOfReportingYear();
+            var startMonth = startDate.Month;
             var timelineEventsGrouped = TimelineEvents
                 .OrderByDescending(a => a.Date)
-                .GroupBy(x => new DayGroup{ Day = x.Date.Day, Month = x.Date.Month, Quarter = x.Quarter, Year = x.Date.Year }).ToList()
+                .GroupBy(x => new DayGroup
+                {
+                    Day = x.Date.Day, 
+                    Month = x.Date.Month, 
+                    Quarter = x.Quarter, 
+                    Year = UsesFiscalYears ? x.Date.GetFiscalYearFromStartMonth((DateUtilities.Month)startMonth) : x.Date.Year
+                }).ToList()
                 .GroupBy(y => new QuarterGroup{ Quarter = y.Key.Quarter, Year = y.Key.Year }).ToList()
                 .GroupBy(z => new YearGroup {Year = z.Key.Year })
                 .ToList();
@@ -89,14 +100,14 @@ namespace ProjectFirma.Web.Models
         public struct DayGroup
         {
             public int Day;
-            public CalendarQuarter Quarter;
+            public Quarter Quarter;
             public int Month;
             public int Year;
         }
 
         public struct QuarterGroup
         {
-            public CalendarQuarter Quarter;
+            public Quarter Quarter;
             public int Year;
         }
 
@@ -117,6 +128,18 @@ namespace ProjectFirma.Web.Models
                     , $"Add {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} Details:");
             }
             return editIconAsModalDialogLinkBootstrap;
+        }
+        public static HtmlString MakeProjectStatusDeleteLinkButton(ProjectProjectStatus projectProjectStatus, bool canEditProjectStatus, bool canEditFinalStatusReport)
+        {
+            var deleteIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
+            if ((canEditProjectStatus && !projectProjectStatus.IsFinalStatusUpdate) || (canEditFinalStatusReport && projectProjectStatus.IsFinalStatusUpdate))
+            {
+                deleteIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.MakeDeleteLink(
+                    BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-trash",
+                        "Delete status report").ToString(),
+                    projectProjectStatus.GetDeleteProjectProjectStatusUrl(), new List<string> { }, true);
+            }
+            return deleteIconAsModalDialogLinkBootstrap;
         }
 
         public static HtmlString MakeProjectStatusDetailsLinkButton(ProjectProjectStatus projectProjectStatus)
@@ -154,7 +177,8 @@ namespace ProjectFirma.Web.Models
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
-        public CalendarQuarter Quarter { get; }
+        public int? FiscalYear { get; }
+        public Quarter Quarter { get; }
      
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
@@ -163,6 +187,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
 
 
@@ -174,12 +199,14 @@ namespace ProjectFirma.Web.Models
             }
             Date = (DateTime)project.SubmissionDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
-            Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
+            FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
+            Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Create;
             TimelineEventTypeDisplayName = "Created";
             TimelineEventPersonDisplayName = project.ProposingPerson.GetPersonDisplayNameWithContactTypesListForProject(project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
 
         }
@@ -190,7 +217,8 @@ namespace ProjectFirma.Web.Models
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
-        public CalendarQuarter Quarter { get; }
+        public int? FiscalYear { get; }
+        public Quarter Quarter { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
@@ -198,6 +226,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public ProjectProjectStatus ProjectProjectStatus { get; }
 
@@ -205,13 +234,15 @@ namespace ProjectFirma.Web.Models
         {
             Date = projectProjectStatus.ProjectProjectStatusUpdateDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
-            Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
+            FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
+            Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.ProjectStatusChange;
             TimelineEventTypeDisplayName = projectProjectStatus.IsFinalStatusUpdate ? "Final Status Update" : "Status Updated";
             TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectProjectStatus.Project);
             ProjectTimelineSide = ProjectTimelineSide.Right;
 
             EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
+            DeleteButton = ProjectTimeline.MakeProjectStatusDeleteLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
             Color = projectProjectStatus.ProjectStatus.ProjectStatusColor;
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectStatusDetailsLinkButton(projectProjectStatus);
             ProjectProjectStatus = projectProjectStatus;
@@ -222,8 +253,8 @@ namespace ProjectFirma.Web.Models
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
-        public CalendarQuarter Quarter { get; }
-        public int Year { get; }
+        public Quarter Quarter { get; }
+        public int? FiscalYear { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
@@ -231,6 +262,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
 
         public ProjectTimelineApprovalEvent(Project project)
@@ -241,12 +273,14 @@ namespace ProjectFirma.Web.Models
             }
             Date = (DateTime)project.ApprovalDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
-            Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
+            FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
+            Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Approve;
             TimelineEventTypeDisplayName = "Approved";
             TimelineEventPersonDisplayName = project.ReviewedByPerson?.GetPersonDisplayNameWithContactTypesListForProject(project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
         }
 
@@ -256,7 +290,8 @@ namespace ProjectFirma.Web.Models
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
-        public CalendarQuarter Quarter { get; }
+        public int? FiscalYear { get; }
+        public Quarter Quarter { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
@@ -264,6 +299,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
 
         public ProjectTimelineUpdateEvent(ProjectUpdateBatch projectUpdateBatch)
@@ -272,12 +308,14 @@ namespace ProjectFirma.Web.Models
 
             Date = approvedProjectUpdateHistory.TransitionDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
-            Quarter = FirmaDateUtilities.CalculateCalendarQuarter(Date);
+            FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
+            Quarter = (Quarter) FirmaDateUtilities.CalculateQuarterForTenant(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Update;
             TimelineEventTypeDisplayName = "Update";
             TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectUpdateBatch.Project);
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectUpdateDetailsLinkButton(projectUpdateBatch);
         }
     }
@@ -288,7 +326,8 @@ namespace ProjectFirma.Web.Models
     {
         DateTime Date { get; }
         string DateDisplay { get; }
-        CalendarQuarter Quarter { get; }
+        int? FiscalYear { get; }
+        Quarter Quarter { get; }
         ProjectTimelineEventType ProjectTimelineEventType { get; }
         string TimelineEventTypeDisplayName { get; }
         HtmlString TimelineEventPersonDisplayName { get; }
@@ -296,6 +335,7 @@ namespace ProjectFirma.Web.Models
         ProjectTimelineSide ProjectTimelineSide { get; }
         string Color { get; }
         HtmlString EditButton { get; }
+        HtmlString DeleteButton { get; }
         HtmlString ShowDetailsLinkHtmlString { get; }
     }
 

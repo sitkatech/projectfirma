@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             : base(currentFirmaSession, neptunePage)
         {
             EntityName = "Attribute Type";
-            PageTitle = $"Manage {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}";
 
             NewProjectCustomAttributeTypeUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(t => t.New());
             GridSpec = new ProjectCustomAttributeTypeGridSpec()
