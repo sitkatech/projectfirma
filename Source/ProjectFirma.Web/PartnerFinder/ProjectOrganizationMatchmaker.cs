@@ -7,6 +7,10 @@ namespace ProjectFirma.Web.PartnerFinder
     {
         public double Score(Project project, Organization organization)
         {
+            // Preconditions
+            Check.EnsureNotNull(project);
+            Check.EnsureNotNull(organization);
+
             // Significant assumptions, all of which are up for re-evaluation -- this is just where
             // we are starting.
             //
