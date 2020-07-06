@@ -173,11 +173,11 @@
                                     {
                                         var option = attribute.GetOptionsSchemaAsListOfString()[j];
                                         <input type="checkbox"
-                                               id="@string.Format("multiselect_{0}", option)"
+                                               id="@string.Format("multiselect_{0}_{1}", attribute.ProjectCustomAttributeTypeName, option)"
                                                value="@option"
                                                name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))[]"
                                                checked="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues.Any(value => value == option))">
-                                        <label for="@string.Format("multiselect_{0}", option)">@option</label>
+                                        <label for="@string.Format("multiselect_{0}_{1}", attribute.ProjectCustomAttributeTypeName, option)">@option</label>
                                         <br />
                                     }
                                     @*if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
