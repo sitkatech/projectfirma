@@ -74,8 +74,6 @@ namespace ProjectFirma.Web.Common
         // Feature Flag Settings
         public static readonly bool FeaturePartnerFinderEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeaturePartnerFinderEnabled"));
 
-
-
         public static string GetCanonicalHost(string hostName, bool useApproximateMatch)
         {
             //First search for perfect match
