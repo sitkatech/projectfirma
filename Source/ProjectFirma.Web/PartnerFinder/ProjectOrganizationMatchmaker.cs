@@ -5,7 +5,7 @@ namespace ProjectFirma.Web.PartnerFinder
 {
     public class ProjectOrganizationMatchmaker
     {
-        public double Score(Project project, Organization organization)
+        public double GetPartnerFitnessScore(Project project, Organization organization)
         {
             // Preconditions
             Check.EnsureNotNull(project);
@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.PartnerFinder
             double scoreToReturn = 1.0;
 
             // We want to be very sure score values fall between 0.0 and 1.0 inclusive.
-            Check.Ensure(scoreToReturn >= 0.0 && scoreToReturn <= 1.0, $"Got Score of {scoreToReturn}. Expected Score between 0.0 and 1.0.");
+            Check.Ensure(scoreToReturn >= 0.0 && scoreToReturn <= 1.0, $"Got Score of {scoreToReturn}. Expected Partner Fitness Score between 0.0 and 1.0.");
 
             return scoreToReturn;
         }
