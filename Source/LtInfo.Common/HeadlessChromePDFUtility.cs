@@ -63,9 +63,12 @@ namespace LtInfo.Common
             // TODO: Make configurable. NOTE **CURRENTLY EXPECTS CHROME CANARY** to use the --print-to-pdf-no-header option!!!
             FileInfo chromeExeLocation = new FileInfo(SitkaConfiguration.GetRequiredAppSetting("HeadlessGoogleChromeExecutable"));
             Logger.Info($"Looking for Google Headless Chrome at {chromeExeLocation}");
+
             // Headless Chrome must be installed where we expect it -- namely for the proper user for the web site
             Check.EnsureFileExists(chromeExeLocation);
 
+            // You really do need to use a meaningful, multi-second timeout with Headless Chrome, otherwise you 
+            // won't get any PDF file written to disk.
             int maxTimeoutMs = (int)headlessChromePdfConversionSettings.ExecutionTimeout.TotalMilliseconds;
             const string outputThatIndicatesPdfHasBeenWritten = "Written to file";
 
