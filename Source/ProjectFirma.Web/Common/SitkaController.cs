@@ -336,12 +336,15 @@ namespace ProjectFirma.Web.Common
 
         protected FileResult ExportGridToExcelImpl(string gridName)
         {
+            Check.EnsureNotNull(gridName);
+
             // In DHTMLX Grid 4.2 Formulas don't work so PrintFooter true is not very useful, leaving off for now
             var generator = new ExcelWriter { PrintFooter = false };
             var xml = Request.Form["grid_xml"];
             xml = Server.UrlDecode(xml);
             xml = xml.Replace("<![CDATA[$", "<![CDATA["); // RL 7/11/2015 Poor man's hack to remove currency and allow for total rows
             xml = BlankRowFixup(xml);
+            Check.EnsureNotNull(xml);
             var stream = generator.Generate(xml);
             var fileDownloadName = $"{gridName}.xlsx";
             return File(stream.ToArray(), generator.ContentType, fileDownloadName);
