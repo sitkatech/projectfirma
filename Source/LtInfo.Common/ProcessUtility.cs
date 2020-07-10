@@ -81,6 +81,9 @@ namespace LtInfo.Common
             cmd.StandardInput.Flush();
             cmd.StandardInput.Close();
 
+            // Was there any standard error output?
+            bool gotErrorOutput = false;
+
             // If caller specified a timeout, use it to wait before shutting down the cmd.exe process
             if (maxTimeoutMs.HasValue)
             {
@@ -96,6 +99,7 @@ namespace LtInfo.Common
                     string stdErrorResult = cmd.StandardError.ReadToEnd();
                     if (stdErrorResult != "")
                     {
+                        gotErrorOutput = true;
                         Logger.Info($"Standard error output: {stdErrorResult}");
                         if (optionalStandardErrorResultStringToWaitFor != null && stdErrorResult.Contains(optionalStandardErrorResultStringToWaitFor))
                         {
@@ -107,6 +111,11 @@ namespace LtInfo.Common
             }
             Logger.Info($"Shutting down cmd.exe process");
             cmd.WaitForExit();
+
+            if (!gotErrorOutput)
+            {
+                Logger.Info($"Standard error output: [None]");
+            }
 
             string stdOutputResult = cmd.StandardOutput.ReadToEnd();
             Logger.Info($"Standard output output: {stdOutputResult}");
