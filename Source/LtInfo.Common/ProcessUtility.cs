@@ -58,7 +58,7 @@ namespace LtInfo.Common
             string fullCommandLine = $"\"{exeFileName.FullName}\" {argumentsAsString}";
             string stdErrAndStdOut = string.Empty;
 
-            ProcessStreamReader standardErrorStreamReader = new ProcessStreamReader();
+            ProcessStreamReader standardOutputAndErrorStreamReader = new ProcessStreamReader();
 
             // Start a cmd.exe process
             Logger.Info($"Starting a cmd.exe process");
@@ -70,8 +70,8 @@ namespace LtInfo.Common
             cmd.StartInfo.RedirectStandardError = true;
             cmd.StartInfo.CreateNoWindow = true;
             cmd.StartInfo.UseShellExecute = false;
-            cmd.OutputDataReceived += standardErrorStreamReader.ReceiveStdOut;
-            cmd.ErrorDataReceived += standardErrorStreamReader.ReceiveStdErr;
+            cmd.OutputDataReceived += standardOutputAndErrorStreamReader.ReceiveStdOut;
+            cmd.ErrorDataReceived += standardOutputAndErrorStreamReader.ReceiveStdErr;
             cmd.Start();
 
             // Start output streams
@@ -90,6 +90,8 @@ namespace LtInfo.Common
             cmd.StandardInput.WriteLine(fullCommandLine);
             cmd.StandardInput.Flush();
 
+            DateTime timeStarted = DateTime.Now;
+            bool messageWasFound = false;
             // If caller specified a timeout, use it to wait before shutting down the cmd.exe process
             if (maxTimeoutMs.HasValue)
             {
@@ -101,31 +103,33 @@ namespace LtInfo.Common
                 Logger.Info($"About to loop, waiting for timeout of {maxTimeoutMs.Value} milliseconds, or for optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output.");
                 for (int checkInterval = 0; checkInterval < numberOfCheckIntervals; checkInterval++)
                 {
-                    Logger.Info($"Looping, checkInterval {checkInterval} - time elapsed: {checkInterval * outputCheckInterval} ms.");
-                    string stdError = standardErrorStreamReader.StdErr;
+                    //Logger.Info($"Looping, checkInterval {checkInterval} - time elapsed: {checkInterval * outputCheckInterval} ms.");
+                    string stdError = standardOutputAndErrorStreamReader.StdErr;
                     if (stdError != "")
                     {
                         Logger.Info($"Standard error output: {stdError}");
                         if (optionalStandardErrorResultStringToWaitFor != null && stdError.Contains(optionalStandardErrorResultStringToWaitFor))
                         {
                             Logger.Info($"Found optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output: {stdError}");
+                            messageWasFound = true;
                             break;
                         }
                     }
                     Thread.Sleep(outputCheckInterval);
                 }
             }
+            Logger.Info($"Done with any looping, elapsed time: {(DateTime.Now - timeStarted).TotalSeconds} seconds.");
+            Logger.Info($"Message was found: {messageWasFound}");
+
             Logger.Info($"Shutting down cmd.exe process");
             // In the case of this cmd.exe, it's like hitting ^c on the parent process, which would then kill any child processes. However,
             // we have good reason to hope that Chrome is well done by now, and has already exited.
             cmd.StandardInput.Close();
             cmd.WaitForExit();
 
-            //string stdOutputResult = cmd.StandardOutput.ReadToEnd();
-            //Logger.Info($"Standard output output: {stdOutputResult}");
-
-            //string stdErrorResult = cmd.StandardError.ReadToEnd();
-            //Logger.Info($"Standard error output: {stdErrorResult}");
+            // This gives a mingled view with prefixes
+            string mingledStandardOutputAndError = standardOutputAndErrorStreamReader.StdOutAndStdErr;
+            Logger.Info($"Standard output & error: {mingledStandardOutputAndError}");
         }
 
 
