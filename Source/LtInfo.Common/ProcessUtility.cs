@@ -58,6 +58,8 @@ namespace LtInfo.Common
             string fullCommandLine = $"\"{exeFileName.FullName}\" {argumentsAsString}";
             string stdErrAndStdOut = string.Empty;
 
+            ProcessStreamReader standardErrorStreamReader = new ProcessStreamReader();
+
             // Start a cmd.exe process
             Logger.Info($"Starting a cmd.exe process");
             Process cmd = new Process();
@@ -68,7 +70,11 @@ namespace LtInfo.Common
             cmd.StartInfo.RedirectStandardError = true;
             cmd.StartInfo.CreateNoWindow = true;
             cmd.StartInfo.UseShellExecute = false;
+            cmd.OutputDataReceived += standardErrorStreamReader.ReceiveStdOut;
+            cmd.ErrorDataReceived += standardErrorStreamReader.ReceiveStdErr;
             cmd.Start();
+
+            //Thread.Sleep(50000);
 
             // Change to working directory
             Logger.Info($"Changing directory in cmd.exe process to working directory {workingDirectory}");
@@ -79,7 +85,6 @@ namespace LtInfo.Common
             Logger.Info($"Executing command line in cmd.exe process: {fullCommandLine}");
             cmd.StandardInput.WriteLine(fullCommandLine);
             cmd.StandardInput.Flush();
-            cmd.StandardInput.Close();
 
             // If caller specified a timeout, use it to wait before shutting down the cmd.exe process
             if (maxTimeoutMs.HasValue)
@@ -92,20 +97,23 @@ namespace LtInfo.Common
                 Logger.Info($"About to loop, waiting for timeout of {maxTimeoutMs.Value} milliseconds, or for optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output.");
                 for (int checkInterval = 0; checkInterval < numberOfCheckIntervals; checkInterval++)
                 {
-                    Thread.Sleep(outputCheckInterval);
-                    string stdErrorResult = cmd.StandardError.ReadToEnd();
-                    if (stdErrorResult != "")
+                    Logger.Info($"Looping, checkInterval {checkInterval} - time elapsed: {checkInterval * outputCheckInterval} ms.");
+                    //string stdErrorResult = cmd.StandardError.ReadToEnd();
+                    string stdOutAndError = standardErrorStreamReader.StdOutAndStdErr;
+                    if (stdOutAndError != "")
                     {
-                        Logger.Info($"Standard error output: {stdErrorResult}");
-                        if (optionalStandardErrorResultStringToWaitFor != null && stdErrorResult.Contains(optionalStandardErrorResultStringToWaitFor))
+                        Logger.Info($"Standard out and error output: {stdOutAndError}");
+                        if (optionalStandardErrorResultStringToWaitFor != null && stdOutAndError.Contains(optionalStandardErrorResultStringToWaitFor))
                         {
-                            Logger.Info($"Found optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output: {stdErrorResult}");
+                            Logger.Info($"Found optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output: {stdOutAndError}");
                             break;
                         }
                     }
+                    Thread.Sleep(outputCheckInterval);
                 }
             }
             Logger.Info($"Shutting down cmd.exe process");
+            cmd.StandardInput.Close();
             cmd.WaitForExit();
 
             string stdOutputResult = cmd.StandardOutput.ReadToEnd();
