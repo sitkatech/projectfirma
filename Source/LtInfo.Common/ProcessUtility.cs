@@ -74,6 +74,10 @@ namespace LtInfo.Common
             cmd.ErrorDataReceived += standardErrorStreamReader.ReceiveStdErr;
             cmd.Start();
 
+            // Start output streams
+            cmd.BeginOutputReadLine();
+            cmd.BeginErrorReadLine();
+
             //Thread.Sleep(50000);
 
             // Change to working directory
@@ -98,14 +102,13 @@ namespace LtInfo.Common
                 for (int checkInterval = 0; checkInterval < numberOfCheckIntervals; checkInterval++)
                 {
                     Logger.Info($"Looping, checkInterval {checkInterval} - time elapsed: {checkInterval * outputCheckInterval} ms.");
-                    //string stdErrorResult = cmd.StandardError.ReadToEnd();
-                    string stdOutAndError = standardErrorStreamReader.StdOutAndStdErr;
-                    if (stdOutAndError != "")
+                    string stdError = standardErrorStreamReader.StdErr;
+                    if (stdError != "")
                     {
-                        Logger.Info($"Standard out and error output: {stdOutAndError}");
-                        if (optionalStandardErrorResultStringToWaitFor != null && stdOutAndError.Contains(optionalStandardErrorResultStringToWaitFor))
+                        Logger.Info($"Standard error output: {stdError}");
+                        if (optionalStandardErrorResultStringToWaitFor != null && stdError.Contains(optionalStandardErrorResultStringToWaitFor))
                         {
-                            Logger.Info($"Found optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output: {stdOutAndError}");
+                            Logger.Info($"Found optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output: {stdError}");
                             break;
                         }
                     }
@@ -113,11 +116,16 @@ namespace LtInfo.Common
                 }
             }
             Logger.Info($"Shutting down cmd.exe process");
+            // In the case of this cmd.exe, it's like hitting ^c on the parent process, which would then kill any child processes. However,
+            // we have good reason to hope that Chrome is well done by now, and has already exited.
             cmd.StandardInput.Close();
             cmd.WaitForExit();
 
-            string stdOutputResult = cmd.StandardOutput.ReadToEnd();
-            Logger.Info($"Standard output output: {stdOutputResult}");
+            //string stdOutputResult = cmd.StandardOutput.ReadToEnd();
+            //Logger.Info($"Standard output output: {stdOutputResult}");
+
+            //string stdErrorResult = cmd.StandardError.ReadToEnd();
+            //Logger.Info($"Standard error output: {stdErrorResult}");
         }
 
 
@@ -193,38 +201,30 @@ namespace LtInfo.Common
         private class ProcessStreamReader
         {
             private readonly object _outputLock = new object();
-            private string _diagnosticOutput = string.Empty;
+            private string _combinedStandardOutAndStandardOut = string.Empty;
             private string _standardOut = string.Empty;
+            private string _standardError = string.Empty;
 
             public void ReceiveStdOut(object sender, DataReceivedEventArgs e)
             {
                 lock (_outputLock)
                 {
-                    _diagnosticOutput += string.Format("{0}\r\n", string.Format("[stdout] {0}", e.Data));
+                    _combinedStandardOutAndStandardOut += $"[stdout] {e.Data}\r\n";
                     if (!string.IsNullOrWhiteSpace(e.Data))
                     {
-                        _standardOut += string.Format("{0}\r\n", e.Data);
+                        _standardOut += $"{e.Data}\r\n";
                     }
                 }
             }
 
             public void ReceiveStdErr(object sender, DataReceivedEventArgs e)
             {
-                var message = string.Format("[stderr] {0}", e.Data);
                 lock (_outputLock)
                 {
-                    _diagnosticOutput += string.Format("{0}\r\n", message);
-                }
-            }
-
-
-            public string StdOutAndStdErr
-            {
-                get
-                {
-                    lock (_outputLock)
+                    _combinedStandardOutAndStandardOut += $"[stderr] {e.Data}\r\n";
+                    if (!string.IsNullOrWhiteSpace(e.Data))
                     {
-                        return _diagnosticOutput;
+                        _standardError += $"{e.Data}\r\n";
                     }
                 }
             }
@@ -239,6 +239,30 @@ namespace LtInfo.Common
                     }
                 }
             }
+
+            public string StdErr
+            {
+                get
+                {
+                    lock (_outputLock)
+                    {
+                        return _standardError;
+                    }
+                }
+            }
+
+            public string StdOutAndStdErr
+            {
+                get
+                {
+                    lock (_outputLock)
+                    {
+                        return _combinedStandardOutAndStandardOut;
+                    }
+                }
+            }
+
+
         }
 
         /// <summary>
