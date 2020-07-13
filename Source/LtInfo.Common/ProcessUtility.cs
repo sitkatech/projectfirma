@@ -58,6 +58,8 @@ namespace LtInfo.Common
             string fullCommandLine = $"\"{exeFileName.FullName}\" {argumentsAsString}";
             string stdErrAndStdOut = string.Empty;
 
+            ProcessStreamReader standardOutputAndErrorStreamReader = new ProcessStreamReader();
+
             // Start a cmd.exe process
             Logger.Info($"Starting a cmd.exe process");
             Process cmd = new Process();
@@ -68,7 +70,15 @@ namespace LtInfo.Common
             cmd.StartInfo.RedirectStandardError = true;
             cmd.StartInfo.CreateNoWindow = true;
             cmd.StartInfo.UseShellExecute = false;
+            cmd.OutputDataReceived += standardOutputAndErrorStreamReader.ReceiveStdOut;
+            cmd.ErrorDataReceived += standardOutputAndErrorStreamReader.ReceiveStdErr;
             cmd.Start();
+
+            // Start output streams
+            cmd.BeginOutputReadLine();
+            cmd.BeginErrorReadLine();
+
+            //Thread.Sleep(50000);
 
             // Change to working directory
             Logger.Info($"Changing directory in cmd.exe process to working directory {workingDirectory}");
@@ -79,11 +89,9 @@ namespace LtInfo.Common
             Logger.Info($"Executing command line in cmd.exe process: {fullCommandLine}");
             cmd.StandardInput.WriteLine(fullCommandLine);
             cmd.StandardInput.Flush();
-            cmd.StandardInput.Close();
 
-            // Was there any standard error output?
-            bool gotErrorOutput = false;
-
+            DateTime timeStarted = DateTime.Now;
+            bool messageWasFound = false;
             // If caller specified a timeout, use it to wait before shutting down the cmd.exe process
             if (maxTimeoutMs.HasValue)
             {
@@ -95,30 +103,33 @@ namespace LtInfo.Common
                 Logger.Info($"About to loop, waiting for timeout of {maxTimeoutMs.Value} milliseconds, or for optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output.");
                 for (int checkInterval = 0; checkInterval < numberOfCheckIntervals; checkInterval++)
                 {
-                    Thread.Sleep(outputCheckInterval);
-                    string stdErrorResult = cmd.StandardError.ReadToEnd();
-                    if (stdErrorResult != "")
+                    //Logger.Info($"Looping, checkInterval {checkInterval} - time elapsed: {checkInterval * outputCheckInterval} ms.");
+                    string stdError = standardOutputAndErrorStreamReader.StdErr;
+                    if (stdError != "")
                     {
-                        gotErrorOutput = true;
-                        Logger.Info($"Standard error output: {stdErrorResult}");
-                        if (optionalStandardErrorResultStringToWaitFor != null && stdErrorResult.Contains(optionalStandardErrorResultStringToWaitFor))
+                        Logger.Info($"Standard error output: {stdError}");
+                        if (optionalStandardErrorResultStringToWaitFor != null && stdError.Contains(optionalStandardErrorResultStringToWaitFor))
                         {
-                            Logger.Info($"Found optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output: {stdErrorResult}");
+                            Logger.Info($"Found optional string (\"{optionalStandardErrorResultStringToWaitFor}\") in standard error output: {stdError}");
+                            messageWasFound = true;
                             break;
                         }
                     }
+                    Thread.Sleep(outputCheckInterval);
                 }
             }
+            Logger.Info($"Done with any looping, elapsed time: {(DateTime.Now - timeStarted).TotalSeconds} seconds.");
+            Logger.Info($"Message was found: {messageWasFound}");
+
             Logger.Info($"Shutting down cmd.exe process");
+            // In the case of this cmd.exe, it's like hitting ^c on the parent process, which would then kill any child processes. However,
+            // we have good reason to hope that Chrome is well done by now, and has already exited.
+            cmd.StandardInput.Close();
             cmd.WaitForExit();
 
-            if (!gotErrorOutput)
-            {
-                Logger.Info($"Standard error output: [None]");
-            }
-
-            string stdOutputResult = cmd.StandardOutput.ReadToEnd();
-            Logger.Info($"Standard output output: {stdOutputResult}");
+            // This gives a mingled view with prefixes
+            string mingledStandardOutputAndError = standardOutputAndErrorStreamReader.StdOutAndStdErr;
+            Logger.Info($"Standard output & error: {mingledStandardOutputAndError}");
         }
 
 
@@ -194,38 +205,30 @@ namespace LtInfo.Common
         private class ProcessStreamReader
         {
             private readonly object _outputLock = new object();
-            private string _diagnosticOutput = string.Empty;
+            private string _combinedStandardOutAndStandardOut = string.Empty;
             private string _standardOut = string.Empty;
+            private string _standardError = string.Empty;
 
             public void ReceiveStdOut(object sender, DataReceivedEventArgs e)
             {
                 lock (_outputLock)
                 {
-                    _diagnosticOutput += string.Format("{0}\r\n", string.Format("[stdout] {0}", e.Data));
+                    _combinedStandardOutAndStandardOut += $"[stdout] {e.Data}\r\n";
                     if (!string.IsNullOrWhiteSpace(e.Data))
                     {
-                        _standardOut += string.Format("{0}\r\n", e.Data);
+                        _standardOut += $"{e.Data}\r\n";
                     }
                 }
             }
 
             public void ReceiveStdErr(object sender, DataReceivedEventArgs e)
             {
-                var message = string.Format("[stderr] {0}", e.Data);
                 lock (_outputLock)
                 {
-                    _diagnosticOutput += string.Format("{0}\r\n", message);
-                }
-            }
-
-
-            public string StdOutAndStdErr
-            {
-                get
-                {
-                    lock (_outputLock)
+                    _combinedStandardOutAndStandardOut += $"[stderr] {e.Data}\r\n";
+                    if (!string.IsNullOrWhiteSpace(e.Data))
                     {
-                        return _diagnosticOutput;
+                        _standardError += $"{e.Data}\r\n";
                     }
                 }
             }
@@ -240,6 +243,30 @@ namespace LtInfo.Common
                     }
                 }
             }
+
+            public string StdErr
+            {
+                get
+                {
+                    lock (_outputLock)
+                    {
+                        return _standardError;
+                    }
+                }
+            }
+
+            public string StdOutAndStdErr
+            {
+                get
+                {
+                    lock (_outputLock)
+                    {
+                        return _combinedStandardOutAndStandardOut;
+                    }
+                }
+            }
+
+
         }
 
         /// <summary>
