@@ -359,7 +359,7 @@ namespace ProjectFirma.Web.Common
             if (!xml.Contains("<row>"))
             {
                 const string blankCellXml = "<cell><![CDATA[ ]]></cell>";
-                int rowInsertPosition = xml.IndexOf("</rows>") - 1;
+                int rowInsertPosition = xml.IndexOf("</rows>");
                 // We seem to be able to get away with only having ONE cell be inserted. It's gross, but it does work, so we 
                 // thought it good enough. -- SLG & TK 3/6/2020
                 string rowXml = $"<row>{blankCellXml}</row>";
