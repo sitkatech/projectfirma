@@ -53,6 +53,9 @@ namespace ProjectFirma.Api.Models
             LastUpdatedDate = project.LastUpdatedDate;
 
             ProjectCustomAttributes = project.ProjectCustomAttributes.OrderBy(x => x.ProjectCustomAttributeType.ProjectCustomAttributeTypeName).Select(x => new ProjectCustomAttributeDto(x)).ToList();
+
+            // same logic as ProjectFirma.Web.Models.ProjectModelExtensions.IsActiveProject()
+            IsActive = project.ProjectStage != ProjectFirmaModels.Models.ProjectStage.Proposal && project.ProjectApprovalStatus == ProjectApprovalStatus.Approved;
         }
 
         public ProjectDto(Project project, List<int> fundingSourceIDs) : this(project)
@@ -108,5 +111,7 @@ namespace ProjectFirma.Api.Models
         public DateTime LastUpdatedDate { get; set; }
 
         public List<ProjectCustomAttributeDto> ProjectCustomAttributes { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
