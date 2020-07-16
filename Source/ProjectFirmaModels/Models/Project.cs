@@ -220,7 +220,35 @@ namespace ProjectFirmaModels.Models
             }
         }
 
+        public bool IsActiveProject()
+        {
+            return !IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.Approved;
+        }
 
+        public bool IsProposal()
+        {
+            return ProjectStage == ProjectStage.Proposal;
+        }
+
+        public bool IsActiveProposal()
+        {
+            return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
+        }
+
+        public bool IsPendingProject()
+        {
+            return !IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+        }
+
+        public bool IsPendingApproval()
+        {
+            return ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
+        }
+
+        public bool IsRejected()
+        {
+            return ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
+        }
 
     }
 }
