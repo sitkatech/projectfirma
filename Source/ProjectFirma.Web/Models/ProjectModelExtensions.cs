@@ -503,7 +503,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetActiveProjects(this IList<Project> projects)
         {
-            return projects.Where(x => IsActiveProject(x)).OrderBy(x => x.GetDisplayName()).ToList();
+            return projects.Where(x => x.IsActiveProject()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
         public static List<Project> GetActiveProposals(this IList<Project> projects, bool showProposals)
@@ -536,36 +536,6 @@ namespace ProjectFirma.Web.Models
         public static List<Project> GetUpdatableProjects(this IQueryable<Project> projects)
         {
             return projects.Where(x => x.IsUpdateMandatory()).ToList();
-        }
-
-        public static bool IsActiveProject(this Project project)
-        {
-            return !project.IsProposal() && project.ProjectApprovalStatus == ProjectApprovalStatus.Approved;
-        }
-
-        public static bool IsProposal(this Project project)
-        {
-            return project.ProjectStage == ProjectStage.Proposal;
-        }
-
-        public static bool IsActiveProposal(this Project project)
-        {
-            return project.IsProposal() && project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
-        }
-
-        public static bool IsPendingProject(this Project project)
-        {
-            return !project.IsProposal() && project.ProjectApprovalStatus != ProjectApprovalStatus.Approved;
-        }
-
-        public static bool IsPendingApproval(this Project project)
-        {
-            return project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
-        }
-
-        public static bool IsRejected(this Project project)
-        {
-            return project.ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
         }
 
         public static bool IsForwardLookingFactSheetRelevant(this Project project)

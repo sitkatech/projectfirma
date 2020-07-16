@@ -54,8 +54,7 @@ namespace ProjectFirma.Api.Models
 
             ProjectCustomAttributes = project.ProjectCustomAttributes.OrderBy(x => x.ProjectCustomAttributeType.ProjectCustomAttributeTypeName).Select(x => new ProjectCustomAttributeDto(x)).ToList();
 
-            // same logic as ProjectFirma.Web.Models.ProjectModelExtensions.IsActiveProject()
-            IsActive = project.ProjectStage != ProjectFirmaModels.Models.ProjectStage.Proposal && project.ProjectApprovalStatus == ProjectApprovalStatus.Approved;
+            IsActive = project.IsActiveProject();
         }
 
         public ProjectDto(Project project, List<int> fundingSourceIDs) : this(project)
