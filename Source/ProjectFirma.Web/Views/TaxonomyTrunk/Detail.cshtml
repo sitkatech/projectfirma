@@ -139,13 +139,16 @@ Source code is available upon request via <support@sitkatech.com>.
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)</th>
                         </tr>
-                        @foreach (var taxonomyLeaf in ViewDataTyped.TaxonomyTrunk.GetTaxonomyLeafs().SortByOrderThenName())
+                        @foreach (var taxonomyBranch in ViewDataTyped.TaxonomyTrunk.TaxonomyBranches.SortByOrderThenName())
                         {
-                            <tr>
-                                <td>
-                                    @taxonomyLeaf.GetDisplayNameAsUrl()
-                                </td>
-                            </tr>
+                            foreach (var taxonomyLeaf in taxonomyBranch.TaxonomyLeafs.SortByOrderThenName())
+                            {
+                                <tr>
+                                    <td>
+                                        @taxonomyLeaf.GetDisplayNameAsUrl()
+                                    </td>
+                                </tr>
+                            }
                         }
                     </table>
                 }
