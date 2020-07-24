@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected TaxonomyLeaf()
         {
+            this.MatchmakerOrganizationTaxonomyLeafs = new HashSet<MatchmakerOrganizationTaxonomyLeaf>();
             this.Projects = new HashSet<Project>();
             this.SecondaryProjectTaxonomyLeafs = new HashSet<SecondaryProjectTaxonomyLeaf>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
@@ -83,7 +84,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Projects.Any() || SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any();
+            return MatchmakerOrganizationTaxonomyLeafs.Any() || Projects.Any() || SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any();
         }
 
         /// <summary>
@@ -93,6 +94,11 @@ namespace ProjectFirmaModels.Models
         {
             var dependentObjects = new List<string>();
             
+            if(MatchmakerOrganizationTaxonomyLeafs.Any())
+            {
+                dependentObjects.Add(typeof(MatchmakerOrganizationTaxonomyLeaf).Name);
+            }
+
             if(Projects.Any())
             {
                 dependentObjects.Add(typeof(Project).Name);
@@ -113,7 +119,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(Project).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(MatchmakerOrganizationTaxonomyLeaf).Name, typeof(Project).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
 
 
         /// <summary>
@@ -137,6 +143,11 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteChildren(DatabaseEntities dbContext)
         {
+
+            foreach(var x in MatchmakerOrganizationTaxonomyLeafs.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
 
             foreach(var x in Projects.ToList())
             {
@@ -172,6 +183,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyLeafID; } set { TaxonomyLeafID = value; } }
 
+        public virtual ICollection<MatchmakerOrganizationTaxonomyLeaf> MatchmakerOrganizationTaxonomyLeafs { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get; set; }
         public virtual ICollection<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get; set; }

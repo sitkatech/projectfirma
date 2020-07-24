@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected TaxonomyBranch()
         {
+            this.MatchmakerOrganizationTaxonomyBranches = new HashSet<MatchmakerOrganizationTaxonomyBranch>();
             this.PersonStewardTaxonomyBranches = new HashSet<PersonStewardTaxonomyBranch>();
             this.TaxonomyLeafs = new HashSet<TaxonomyLeaf>();
         }
@@ -82,7 +83,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PersonStewardTaxonomyBranches.Any() || TaxonomyLeafs.Any();
+            return MatchmakerOrganizationTaxonomyBranches.Any() || PersonStewardTaxonomyBranches.Any() || TaxonomyLeafs.Any();
         }
 
         /// <summary>
@@ -92,6 +93,11 @@ namespace ProjectFirmaModels.Models
         {
             var dependentObjects = new List<string>();
             
+            if(MatchmakerOrganizationTaxonomyBranches.Any())
+            {
+                dependentObjects.Add(typeof(MatchmakerOrganizationTaxonomyBranch).Name);
+            }
+
             if(PersonStewardTaxonomyBranches.Any())
             {
                 dependentObjects.Add(typeof(PersonStewardTaxonomyBranch).Name);
@@ -107,7 +113,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyBranch).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(TaxonomyLeaf).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyBranch).Name, typeof(MatchmakerOrganizationTaxonomyBranch).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(TaxonomyLeaf).Name};
 
 
         /// <summary>
@@ -131,6 +137,11 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteChildren(DatabaseEntities dbContext)
         {
+
+            foreach(var x in MatchmakerOrganizationTaxonomyBranches.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
 
             foreach(var x in PersonStewardTaxonomyBranches.ToList())
             {
@@ -161,6 +172,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyBranchID; } set { TaxonomyBranchID = value; } }
 
+        public virtual ICollection<MatchmakerOrganizationTaxonomyBranch> MatchmakerOrganizationTaxonomyBranches { get; set; }
         public virtual ICollection<PersonStewardTaxonomyBranch> PersonStewardTaxonomyBranches { get; set; }
         public virtual ICollection<TaxonomyLeaf> TaxonomyLeafs { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
