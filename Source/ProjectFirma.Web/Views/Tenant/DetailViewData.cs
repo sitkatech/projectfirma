@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Tenant
         public string GridDataUrl { get; }
         public bool UsesCostTypes { get; }
         public string CostTypes { get; }
-        public bool UsesMatchmaker { get; }
+        public bool MatchmakerEnabled { get; }
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute,
             string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl,
@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.Tenant
             GridName = gridName;
             GridDataUrl = gridDataUrl;
             UsesCostTypes = tenantAttribute.BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID;
-            UsesMatchmaker = tenantAttribute.EnableMatchmaker;
+            MatchmakerEnabled = FirmaWebConfiguration.FeatureMatchMakerEnabled;
             CostTypes = costTypes;
         }
     }
