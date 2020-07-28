@@ -55,6 +55,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.Raw(JObject.FromObject(ViewDataTyped.PrimaryProjectLocationsMapInitJson).ToString(Formatting.None));
             window.map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             window.map.initializeProjectLocations(projectLocationsMapInitJson);
+            window.map.areLocationsClustered = false;
+            window.map.changeClustering(window.map.areLocationsClustered);
         });
         // ]]>
     </script>
@@ -73,6 +75,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.Raw(JObject.FromObject(ViewDataTyped.SecondaryProjectLocationsMapInitJson).ToString(Formatting.None));
                 window.secondaryMap = new ProjectFirmaMaps.Map(secondaryProjectLocationsMapInitJson);
                 window.secondaryMap.initializeProjectLocations(secondaryProjectLocationsMapInitJson);
+                window.secondaryMap.areLocationsClustered = false;
+                window.secondaryMap.changeClustering(window.secondaryMap.areLocationsClustered);
                 setTimeout(function() {
                     leafDataToggle("primary");
                 }, 500);

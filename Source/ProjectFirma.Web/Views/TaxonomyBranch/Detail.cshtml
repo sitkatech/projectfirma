@@ -174,5 +174,7 @@
         var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
         var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
         map.initializeProjectLocations(projectLocationsMapInitJson);
+        map.areLocationsClustered = false;
+        map.changeClustering(map.areLocationsClustered);
     });
 </script>

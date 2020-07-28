@@ -46,17 +46,19 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         public string ProjectCustomDefaultGridDataUrl { get; }
 
         public MapInitJson MapInitJson { get; }
+        public LayerGeoJson ProjectLocationsLayerGeoJson { get; }
         public ViewGoogleChartViewData ViewGoogleChartViewData { get; }
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
         public ViewPageContentViewData GeospatialAreaDescriptionViewPageContentViewData { get; }
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.GeospatialArea geospatialArea, 
-                            MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData, 
+                            MapInitJson mapInitJson, LayerGeoJson projectLocationsLayerGeoJson, ViewGoogleChartViewData viewGoogleChartViewData, 
                             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
                             List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentFirmaSession)
         {
             GeospatialArea = geospatialArea;
             MapInitJson = mapInitJson;
+            ProjectLocationsLayerGeoJson = projectLocationsLayerGeoJson;
             ViewGoogleChartViewData = viewGoogleChartViewData;
             PageTitle = geospatialArea.GeospatialAreaName;
             GeospatialAreaTypeName = geospatialArea.GeospatialAreaType.GeospatialAreaTypeName;

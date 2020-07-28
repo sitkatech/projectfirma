@@ -284,7 +284,7 @@ namespace ProjectFirma.Web.Controllers
 
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals, true);
 
             
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(currentPersonCanViewProposals);
@@ -297,7 +297,6 @@ namespace ProjectFirma.Web.Controllers
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
                 projectColorByTypes.Add(ProjectColorByType.TaxonomyTrunk);
-                projectColorByTypes.Add(ProjectColorByType.TaxonomyBranch);
             }
             else if (MultiTenantHelpers.IsTaxonomyLevelBranch())
             {
