@@ -217,6 +217,8 @@ namespace ProjectFirma.Web.Controllers
             var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(organization, CurrentFirmaSession);
 
             var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
+            var projectLocationsLayerGeoJson = GetProjectLocationsLayerGeoJson(organization, CurrentPerson);
+            hasSpatialData = hasSpatialData || projectLocationsLayerGeoJson != null;
 
             var performanceMeasures = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList()
                 .SelectMany(x => x.PerformanceMeasureActuals)
@@ -224,8 +226,29 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
-            var viewData = new DetailViewData(CurrentFirmaSession, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
+            var viewData = new DetailViewData(CurrentFirmaSession, organization, mapInitJson, projectLocationsLayerGeoJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, Person person)
+        {
+            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(person).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+
+            var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
+            var projectSimpleLocationsFeatureCollection = new FeatureCollection();
+            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Select(x =>
+            {
+                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true, true);
+                feature.Properties["FeatureColor"] = "#99b3ff";
+                return feature;
+            }).ToList());
+
+            if (projectSimpleLocationsFeatureCollection.Features.Any())
+            {
+                return new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show);
+            }
+
+            return null;
         }
 
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, Person person)
@@ -244,24 +267,14 @@ namespace ProjectFirma.Web.Controllers
                 dbGeometries.Add(organization.OrganizationBoundary);
             }
 
+            layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show));
+
             var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(person).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
             var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
-            var projectSimpleLocationsFeatureCollection = new FeatureCollection();
-            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Select(x =>
-            {
-                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true, true);
-                feature.Properties["FeatureColor"] = "#99b3ff";
-                return feature;
-            }).ToList());
 
             dbGeometries.AddRange(projectsAsSimpleLocations.Select(p => p.ProjectLocationPoint));
 
-            if (projectSimpleLocationsFeatureCollection.Features.Any())
-            {
-                hasSpatialData = true;
-                layers.Add(new LayerGeoJson("Projects", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
-            }
 
             var projectDetailLocationsFeatureCollection = allActiveProjectsAndProposals.SelectMany(x => x.ProjectLocations).ToGeoJsonFeatureCollection();
             if (projectDetailLocationsFeatureCollection.Features.Any())
@@ -273,7 +286,6 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = new BoundingBox(dbGeometries);
             //var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
-            layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show));
 
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }

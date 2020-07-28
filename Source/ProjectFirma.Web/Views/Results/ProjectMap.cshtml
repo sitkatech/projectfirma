@@ -43,49 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
             overflow-y: auto;
         }
 
-        /* customizing the look of the clusters*/
 
-        .marker-cluster-small
-        {
-            background-color: #9e9e9e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-small div
-        {
-            background-color: #9e9e9e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-medium
-        {
-            background-color: #6e6e6e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-medium div
-        {
-            background-color: #6e6e6e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-large
-        {
-            background-color: #3e3e3e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-large div
-        {
-            background-color: #3e3e3e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster div
-        {
-            color: #e0ffff;
-            font-weight: 900;
-        }
 
         #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
         {
@@ -197,9 +155,6 @@ Source code is available upon request via <support@sitkatech.com>.
         </a>
     </div>
 
-    <div style="font-weight: bold;">
-        <label><span class="glyphicon glyphicon-map-marker"></span> Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized():</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" />
-    </div>
 
     <div id="showBasinwideProjectsToast">
         <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())">
@@ -211,8 +166,9 @@ Source code is available upon request via <support@sitkatech.com>.
             Hide @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location<span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
-
-    <div style="margin-top: 10px">To zoom, hold down Shift and drag a rectangle.</div>
+    <div style="font-weight: bold; margin-top: 10px">
+        <label><span class="glyphicon glyphicon-map-marker"></span> Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized():</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" checked="checked" />
+    </div>
     <div >
         <div class="row" style="vertical-align: top;">
             <div class="col-md-12" id="mapPanel">
@@ -240,6 +196,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
+    <div style="margin-top: 10px">To zoom, hold down Shift and drag a rectangle.</div>
 
     <script type="text/javascript">
         function displayProjectsWithLocationArea(projectMapCustomization)
