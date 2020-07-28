@@ -36,6 +36,52 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
+    
+    <style>
+        /* customizing the look of the clusters*/
+
+        .marker-cluster-small
+        {
+            background-color: #9e9e9e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-small div
+        {
+            background-color: #9e9e9e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-medium
+        {
+            background-color: #6e6e6e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-medium div
+        {
+            background-color: #6e6e6e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-large
+        {
+            background-color: #3e3e3e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster-large div
+        {
+            background-color: #3e3e3e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster div
+        {
+            color: #e0ffff;
+            font-weight: 900;
+        }
+    </style>
 }
 
 <script type="text/javascript">
@@ -99,6 +145,9 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <p>
                                     This map displays the location of any @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.GeospatialAreaTypeName
                                 </p>
+                                <div style="font-weight: bold;">
+                                    <label><span class="glyphicon glyphicon-map-marker"></span> Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized():</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" checked="checked" />
+                                </div>
                                 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
                                 </div>
                                 <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
@@ -183,10 +232,80 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <script type="text/javascript">
+    // we are extending ProjectFirma Maps here with functionality specific to this view. Similar to ProjectLocationMap.cshtml script.
+    ProjectFirmaMaps.Map.prototype.initializeProjectLocations = function(mapInitJson)
+    {
+        // default to clustering
+        this.areLocationsClustered = true;
+        // set the project locations
+        this.projectLocations = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsLayerGeoJson).ToString(Formatting.None));
+
+        // draw the project locations
+        this.addLocationLayers();
+
+        // prevent standard popup for lat/long when clicking on general map area (not features)
+        this.removeClickEventHandler();
+    };
+
+
+    ProjectFirmaMaps.Map.prototype.changeClustering = function(areLocationsClustered)
+    {
+        this.areLocationsClustered = areLocationsClustered;
+        this.addLocationLayers();
+    };
+
+    ProjectFirmaMaps.Map.prototype.addLocationLayers = function()
+    {
+        this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations, this.projectLocationsLayer, this.projectLocations.LayerName, true);
+    }
+
+    ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault)
+    {
+        var self = this;
+        if (layer != null)
+        {
+            this.map.removeLayer(layer);
+            this.layerControl.removeLayer(layer);
+        }
+
+        var markerClusterGroup = L.markerClusterGroup({ maxClusterRadius: 40 });
+        var newLayer = L.geoJson(points.GeoJsonFeatureCollection, {
+            pointToLayer: function(feature, latlng)
+            {
+                var featureColor = feature.properties.FeatureColor == null ? points.LayerColor : feature.properties.FeatureColor;
+                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s" }) });
+                self.bindPopupToFeature(marker, feature);
+                return marker;
+            }
+        });
+        if (this.areLocationsClustered)
+        {
+            newLayer.addTo(markerClusterGroup);
+            layer = markerClusterGroup;
+        }
+        else
+        {
+            layer = newLayer;
+        }
+
+        if (showByDefault)
+        {
+            layer.addTo(this.map);
+        }
+
+        this.layerControl.addOverlay(layer, layerName);
+
+        return layer;
+    };
+
     jQuery(document).ready(function()
     {
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
         var map = new ProjectFirmaMaps.Map(mapInitJson);
+        map.initializeProjectLocations(mapInitJson);
+
+        var clusterLocationsCheckbox = jQuery("#ClusterLocations");
+        clusterLocationsCheckbox.change(function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
         jQuery("#overviewTab").on("shown.bs.tab", function() {
             map.map.invalidateSize();

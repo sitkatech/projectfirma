@@ -74,7 +74,8 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"geospatialArea_{geospatialArea.GeospatialAreaID}_Map";
 
             var associatedProjects = geospatialArea.GetAssociatedProjects(CurrentFirmaSession);
-            var layers = geospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(associatedProjects);
+            LayerGeoJson projectLayerGeoJson;
+            var layers = geospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(associatedProjects, out projectLayerGeoJson);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), new BoundingBox(geospatialArea.GeospatialAreaFeature));
 
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
@@ -98,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-            var viewData = new DetailViewData(CurrentFirmaSession, geospatialArea, mapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
+            var viewData = new DetailViewData(CurrentFirmaSession, geospatialArea, mapInitJson, projectLayerGeoJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
