@@ -57,7 +57,7 @@
     <add key="RecaptchaValidatorUrl" value="https://www.google.com/recaptcha/api/siteverify"/>
 
     <!-- Feature Flag Settings -->
-    <add key="FeaturePartnerFinderEnabled" value="${feature-partner-finder-enabled}" />	
+    <add key="FeatureMatchMakerEnabled" value="${feature-match-maker-enabled}" />	
 
   </appSettings>
   <system.net>
