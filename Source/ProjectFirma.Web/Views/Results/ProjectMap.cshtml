@@ -361,8 +361,17 @@ Source code is available upon request via <support@sitkatech.com>.
             var clusterLocationsCheckbox = jQuery("#ClusterLocations");
             clusterLocationsCheckbox.change(function() { projectFirmaMap.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
-            jQuery('#customUrlPopover').popover({ container: "body" });
-            jQuery('#customUrlPopover').on('shown.bs.popover', function() { jQuery("#filterHtmlInput").select(); });
+            jQuery('#customUrlPopover').popover({
+                container: "body",
+                title: "URL of this filtered map<button id='btnClosePopover' class='btn btn-xs btn-primary pull-right' style='padding: 0 5px'>&times;</button>"
+            });
+            jQuery('#customUrlPopover').on('shown.bs.popover', function() {
+                jQuery("#filterHtmlInput").select();
+                var closePopoverButton = jQuery(".popover-title button#btnClosePopover");
+                closePopoverButton.click(function (e) {
+                    $('#customUrlPopover').popover('hide');
+                });
+            });
 
             updateCustomUrlPopover();
 
