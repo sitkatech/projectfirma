@@ -284,7 +284,7 @@ namespace ProjectFirma.Web.Controllers
 
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals, true);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, null, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals, true);
 
             
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(currentPersonCanViewProposals);
@@ -307,7 +307,7 @@ namespace ProjectFirma.Web.Controllers
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
-                projectLocationsUrl, filteredProjectsWithLocationAreasUrl, projectColorByTypes);
+                projectLocationsUrl, filteredProjectsWithLocationAreasUrl, projectColorByTypes, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition());
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
