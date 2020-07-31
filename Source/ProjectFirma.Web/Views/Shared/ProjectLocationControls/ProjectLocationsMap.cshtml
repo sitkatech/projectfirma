@@ -104,17 +104,30 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="projectLocationsMapContainer_@ViewDataTyped.MapDivID">
     @if (ViewDataTyped.LegendAboveMap)
     {
-        <div class="mapLegendContainer">
-            <span class="mapLegendTitle">@Html.LabelWithSugarFor(ViewDataTyped.LegendTitleFieldDefinition)</span>
+        <div class="mapLegendContainer" style="padding-bottom: 15px; padding-top: 0">
+            <span class="mapLegendTitle">
+                @if (ViewDataTyped.LegendTitleFieldDefinition != null)
+                {
+                    @Html.LabelWithSugarFor(ViewDataTyped.LegendTitleFieldDefinition)
+                }
+            </span>
             <div class="mapLegend">
             </div>
         </div>
     }
+    <div style="font-weight: bold; margin-top: 10px" id="ClusterLocationsContainer">
+        <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
+    </div>
     <div id="@ViewDataTyped.MapDivID"></div>
     @if (!ViewDataTyped.LegendAboveMap)
     {
         <div class="mapLegendContainer">
-            <span class="mapLegendTitle">@Html.LabelWithSugarFor(ViewDataTyped.LegendTitleFieldDefinition)</span>
+            <span class="mapLegendTitle">
+                @if (ViewDataTyped.LegendTitleFieldDefinition != null)
+                {
+                    @Html.LabelWithSugarFor(ViewDataTyped.LegendTitleFieldDefinition)
+                }
+            </span>
             <div class="mapLegend">
             </div>
         </div>

@@ -158,9 +158,6 @@
                 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageMapTextViewData); }
             </div>
             <div>
-                <div style="font-weight: bold;">
-                    <label><span class="glyphicon glyphicon-map-marker"></span> Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized():</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" checked="checked" />
-                </div>
                 <a href="@ViewDataTyped.FullMapUrl">
                     @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
                 </a>
