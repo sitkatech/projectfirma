@@ -37,6 +37,7 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
+using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -111,6 +112,7 @@ namespace ProjectFirma.Web.Views.Project
         public string BackToProjectsText { get; }
         public List<string> ProjectAlerts { get; }
         public ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData { get; }
+        public ProjectPotentialPartnerDetailViewData ProjectPotentialPartnerDetailViewData { get; }
         public ProjectContactsDetailViewData ProjectContactsDetailViewData { get; }
         public string EditProjectContactsUrl { get; }
         public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
@@ -146,6 +148,7 @@ namespace ProjectFirma.Web.Views.Project
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData,
+            ProjectPotentialPartnerDetailViewData projectPotentialPartnerDetailViewData,
             List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
             string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes,
             DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
@@ -367,6 +370,9 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
             ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
+
+            // Potential Partner panel
+            ProjectPotentialPartnerDetailViewData = projectPotentialPartnerDetailViewData;
 
             ProjectContactsDetailViewData = projectContactsDetailViewData;
             EditProjectContactsUrl = editProjectContactsUrl;

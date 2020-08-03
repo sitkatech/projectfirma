@@ -36,6 +36,7 @@
 @using ProjectFirma.Web.Views.Shared.ProjectAttachment
 @using ProjectFirma.Web.Views.Shared.ProjectContact
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
+@using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
 @using ProjectFirma.Web.Views.TechnicalAssistanceRequest
 @using ProjectCustomAttributes = ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes
 @using ProjectTimeline = ProjectFirma.Web.Views.Shared.ProjectTimeline.ProjectTimelineDisplay
@@ -230,7 +231,9 @@
                         }
                     </div>
                 </div>
-                <div class="panel panelFirma">
+
+               @*Organizations Panel*@
+               <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
                         <h3 class="project-detail-heading">
@@ -243,7 +246,22 @@
                     </div>
                 </div>
 
-                <div class="panel panelFirma">
+               @*Potential Partners Panel*@
+               <div class="panel panelFirma">
+                  <div class="panel-heading panelTitle">
+                     @*Could take us to a view/details/finder? Unsure.*@
+                     @*@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)*@
+                     <h3 class="project-detail-heading">
+                        Potential Partners
+                     </h3>
+                  </div>
+                  <div class="panel-body">
+                     @{ ProjectPotentialPartnerDetail.RenderPartialView(Html, ViewDataTyped.ProjectPotentialPartnerDetailViewData); }
+                  </div>
+               </div>
+
+                @*Contacts Panel*@
+               <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
                         <h3 class="project-detail-heading">
