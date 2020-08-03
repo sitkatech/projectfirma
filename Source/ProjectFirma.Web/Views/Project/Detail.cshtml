@@ -389,6 +389,24 @@
 
                 }
 
+                @if (ViewDataTyped.ShowMatchmakerResults)
+                {
+                    <h2 class="sectionHeader">Potential Partners</h2>
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3 data-toc-skip>Potential Partners</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                @foreach (var org in ViewDataTyped.MatchedOrganizations)
+                                {
+                                    <div>@org.GetDisplayNameWithoutAbbreviationAsUrl()</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
                 <h2 class="sectionHeader">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</h2>
 
                 <div class="panel panelFirma">
@@ -479,17 +497,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
-                                    {
-                                        <tr>
-                                            <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
-                                            <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
-                                            <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
-                                            <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
-                                            <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
-                                            <td>@projectEvaluation.Comments</td>
-                                        </tr>
-                                    }
+                                        @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
+                                        {
+                                            <tr>
+                                                <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
+                                                <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
+                                                <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
+                                                <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
+                                                <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
+                                                <td>@projectEvaluation.Comments</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
 

@@ -321,5 +321,19 @@ namespace ProjectFirma.Web.Models
             ? organization.PrimaryContactPerson.GetFullNameFirstLast()
             : ViewUtilities.NoneString;
 
+        public static List<TaxonomyTier> GetMatchmakerTaxonomyTiers(this Organization organization, TaxonomyLevel taxonomyLevel)
+        {
+            switch (taxonomyLevel.ToEnum)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    return organization.MatchmakerOrganizationTaxonomyLeafs.ToList().Select(x => new TaxonomyTier(x.TaxonomyLeaf)).ToList();
+                case TaxonomyLevelEnum.Branch:
+                    return organization.MatchmakerOrganizationTaxonomyBranches.ToList().Select(x => new TaxonomyTier(x.TaxonomyBranch)).ToList();
+                case TaxonomyLevelEnum.Trunk:
+                    return organization.MatchmakerOrganizationTaxonomyTrunks.ToList().Select(x => new TaxonomyTier(x.TaxonomyTrunk)).ToList();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

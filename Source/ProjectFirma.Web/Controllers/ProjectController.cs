@@ -47,6 +47,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.PartnerFinder;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
@@ -248,6 +249,20 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
+            var showMatchmakerResults = FirmaWebConfiguration.FeatureMatchMakerEnabled &&
+                                        MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
+
+            var matchedOrganizations = new List<Organization>();
+            if (showMatchmakerResults)
+            {
+                var matchmaker = new ProjectOrganizationMatchmaker();
+                // show organizations with score >= 0.5, ordered by descending score (best match on the top)
+                matchedOrganizations =
+                    HttpRequestStorage.DatabaseEntities.Organizations.ToList()
+                        .Select(x => new { organization = x, score = matchmaker.GetPartnerFitnessScore(project, x) })
+                        .Where(x => x.score >= 0.5).OrderByDescending(x => x.score).Select(x => x.organization).ToList();
+            }
+            
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
@@ -298,7 +313,9 @@ namespace ProjectFirma.Web.Controllers
                 projectTimelineViewData,
                 userHasProjectTimelinePermissions,
                 projectEvaluationsUserHasAccessTo,
-                userHasStartUpdateWorkflowPermission);
+                userHasStartUpdateWorkflowPermission,
+                showMatchmakerResults,
+                matchedOrganizations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
