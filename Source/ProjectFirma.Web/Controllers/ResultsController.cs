@@ -255,7 +255,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                filterValues = ProjectMapCustomization.GetDefaultLocationFilterValues(currentPersonCanViewProposals);
+                filterValues = GetDefaultFilterValuesForFilterType(projectLocationFilterType.ToEnum, currentPersonCanViewProposals);
             }
 
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.ColorByQueryStringParameter]))
@@ -348,6 +348,25 @@ namespace ProjectFirma.Web.Controllers
             projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.ProjectStage), projectStagesAsSelectListItems);
 
             return projectLocationFilterTypesAndValues;
+        }
+
+        private static List<int> GetDefaultFilterValuesForFilterType(ProjectLocationFilterTypeEnum projectLocationFilterType, bool currentPersonCanViewProposals)
+        {
+            switch (projectLocationFilterType)
+            {
+                case ProjectLocationFilterTypeEnum.TaxonomyTrunk:
+                    return HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Select(x => x.TaxonomyTrunkID).ToList();
+                case ProjectLocationFilterTypeEnum.TaxonomyBranch:
+                    return HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Select(x => x.TaxonomyBranchID).ToList();
+                case ProjectLocationFilterTypeEnum.TaxonomyLeaf:
+                    return HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Select(x => x.TaxonomyLeafID).ToList();
+                case ProjectLocationFilterTypeEnum.Classification:
+                    return MultiTenantHelpers.GetClassificationSystems().SelectMany(x => x.Classifications)
+                        .Select(x => x.ClassificationID).ToList();
+                default:
+                    // project stage
+                    return ProjectMapCustomization.GetDefaultLocationFilterValues(currentPersonCanViewProposals);
+            }
         }
 
         [ProjectLocationsViewFeature]
