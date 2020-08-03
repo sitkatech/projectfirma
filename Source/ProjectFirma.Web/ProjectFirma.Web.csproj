@@ -244,6 +244,7 @@
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
     <Compile Include="Security\OrganizationPrimaryContactManageFeature.cs" />
     <Compile Include="Security\OfferProjectFactSheetLinkFeature.cs" />
+    <Compile Include="Security\MatchMakerViewPotentialPartnersFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
@@ -476,6 +477,8 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewModel.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
+    <Compile Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetail.cs" />
+    <Compile Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
@@ -1774,6 +1777,7 @@
     <Content Include="Views\Reports\GenerateReports.cshtml" />
     <Content Include="Views\Reports\Projects.cshtml" />
     <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
+    <Content Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetail.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

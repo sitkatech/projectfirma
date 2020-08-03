@@ -1,0 +1,31 @@
+﻿{
+  "ProjectOrganizations": [
+    {
+      "OrganizationID": 77777,
+      "RelationshipTypes": [
+        {
+          "RelationshipTypeID": -1520,
+          "RelationshipTypeName": null
+        }
+      ]
+    },
+    {
+      "OrganizationID": 88888,
+      "RelationshipTypes": [
+        {
+          "RelationshipTypeID": -1522,
+          "RelationshipTypeName": null
+        }
+      ]
+    },
+    {
+      "OrganizationID": 99999,
+      "RelationshipTypes": [
+        {
+          "RelationshipTypeID": -1524,
+          "RelationshipTypeName": null
+        }
+      ]
+    }
+  ]
+}
