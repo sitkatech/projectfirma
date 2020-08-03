@@ -20,22 +20,29 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.PartnerFinder;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
 {
     public class ProjectPotentialPartnerDetailViewData : FirmaUserControlViewData
     {
-        //public List<ProjectOrganizationRelationship> AllProjectOrganizations { get; }
-        //public List<string> SetRelationshipTypes { get; }
-        //public Person PrimaryContactPerson { get; }
+        public bool ShouldShowPotentialPartnerPanel { get; }
+        public List<PartnerOrganizationMatchMakerScore> RelevantPartnerOrganizationMatchMakerScores { get; }
 
-        public ProjectPotentialPartnerDetailViewData()
+        public ProjectPotentialPartnerDetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project)
         {
-            //AllProjectOrganizations = allProjectOrganizations;
-            //SetRelationshipTypes = AllProjectOrganizations.Select(x => x.OrganizationRelationshipTypeName).Distinct().ToList();
-            //PrimaryContactPerson = primaryContactPerson;
+            ShouldShowPotentialPartnerPanel = FirmaWebConfiguration.FeatureMatchMakerEnabled &&
+                                              new MatchMakerViewPotentialPartnersFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
+            // Don't bother doing this work if we aren't going to show it
+            if (ShouldShowPotentialPartnerPanel)
+            {
+                ProjectOrganizationMatchmaker matchMaker = new ProjectOrganizationMatchmaker();
+                RelevantPartnerOrganizationMatchMakerScores = matchMaker.GetPartnerOrganizationMatchMakerScoresForParticularProject(currentFirmaSession, project);
+            }
         }
     }
 }

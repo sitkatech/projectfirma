@@ -24,36 +24,24 @@
 @inherits ProjectFirma.Web.Views.Shared.ProjectPotentialPartner.ProjectPotentialPartnerDetail
 
 
-@*@if (ViewDataTyped.AllProjectOrganizations.Any())
+@if (ViewDataTyped.ShouldShowPotentialPartnerPanel)
 {
+
     <table class="summaryLayout table table-condensed table-striped">
         <tr>
-            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>
-            <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>
+            @*<th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>*@
+            <th class="col-sm-3">Partner</th>
+            <th class="col-sm-9">Match Details</th>
         </tr>
-        @foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
+        @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores)
         {
-            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.OrganizationRelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
-            <tr>
-                @if (projectOrganizations.Count > 1)
-                {
-                    <td>@(relationshipTypeName + "s")</td>
-                }
-                else
-                {
-                    <td>@relationshipTypeName</td>
-                }
-                <td>
-                    <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                        @foreach (var x in projectOrganizations)
-                        {
-                            <li>
-                                <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>
-                            </li>
-                        }
-                    </ul>
-                </td>
-
+           <tr>
+              <td>
+                 @matchMakerScore.Organization.OrganizationName
+              </td>
+              <td>
+                 @matchMakerScore.GetProjectOrganizationMatchString()
+              </td>
             </tr>
         }
 
@@ -61,8 +49,8 @@
 }
 else
 {
-    <p class="systemText">No organizations set for this project.</p>
-}*@
+    <p class="systemText">No potential partners for this Project.</p>
+}
 
-Potential Partners go here
+
 
