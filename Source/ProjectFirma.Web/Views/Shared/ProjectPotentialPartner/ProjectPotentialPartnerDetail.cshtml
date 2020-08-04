@@ -18,11 +18,8 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirmaModels.Models
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectPotentialPartner.ProjectPotentialPartnerDetail
-
 
 @if (ViewDataTyped.ShouldShowPotentialPartnerPanel)
 {
@@ -33,7 +30,7 @@
          <th class="col-sm-3">Partner</th>
          <th class="col-sm-9">Match Details</th>
       </tr>
-      @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores.Take(ViewDataTyped.NumberOfMatchesToShow))
+      @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores)
       {
          <tr>
             <td>
@@ -47,10 +44,10 @@
    </table>
 
    // Should we offer a "Show more" link?
-   if (ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores.Count > ViewDataTyped.NumberOfMatchesToShow)
+   if (ViewDataTyped.ShouldShowMorePartnersLink)
    {
       <div>
-         [more link here]
+         @ViewDataTyped.MorePartnersLinkHtml
       </div>
    }
 }
