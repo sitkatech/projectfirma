@@ -68,6 +68,7 @@
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\ExternalMapLayerController.cs" />
+    <Compile Include="Controllers\MatchMakerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
@@ -309,6 +310,8 @@
     <Compile Include="Views\ExternalMapLayer\Index.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
+    <Compile Include="Views\MatchMaker\ProjectPotentialPartners.cs" />
+    <Compile Include="Views\MatchMaker\ProjectPotentialPartnersViewData.cs" />
     <Compile Include="Views\Organization\EditPrimaryContact.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewData.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
@@ -669,6 +672,7 @@
     <Content Include="Views\DocumentLibrary\Detail.cshtml" />
     <Content Include="Views\DocumentLibrary\NewDocument.cshtml" />
     <Content Include="Views\DocumentLibrary\EditDocument.cshtml" />
+    <Content Include="Views\MatchMaker\ProjectPotentialPartners.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
