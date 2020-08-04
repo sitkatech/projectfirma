@@ -34,8 +34,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public IEnumerable<SelectListItem> TaxonomyLeafs { get; private set; }
         public IEnumerable<SelectListItem> FundingTypes { get; private set; }
-        public IEnumerable<SelectListItem> StartYearRange { get; private set; }
-        public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
+        public IEnumerable<SelectListItem> ValidYearRange { get; private set; }
+        public int MaxValidYear { get; private set; }
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
         public bool ShowProjectStageDropDown { get; }
@@ -82,10 +82,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             TaxonomyLeafs = taxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList().ToGroupedSelectList();
             
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
-            StartYearRange =
+            ValidYearRange =
                 FirmaDateUtilities.YearsForUserInput()
                     .ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
-            CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
+            MaxValidYear = FirmaDateUtilities.YearsForUserInput().Select(x => x.CalendarYear).Max();
             HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
