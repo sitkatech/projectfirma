@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
@@ -29,6 +30,11 @@ namespace ProjectFirma.Web.PartnerFinder
         public string GetProjectOrganizationMatchString()
         {
             return $"Project:{this.Project.ProjectName}-Organization:{this.Organization.OrganizationName}-Score:{PartnerOrganizationFitnessScoreNumber}";
+        }
+
+        public string GetProjectOrganizationFitnessScoreNumberDisplayString()
+        {
+            return $"{this.PartnerOrganizationFitnessScoreNumber:0.00}";
         }
     }
 

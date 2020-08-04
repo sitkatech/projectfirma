@@ -27,25 +27,32 @@
 @if (ViewDataTyped.ShouldShowPotentialPartnerPanel)
 {
 
-    <table class="summaryLayout table table-condensed table-striped">
-        <tr>
-            @*<th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>*@
-            <th class="col-sm-3">Partner</th>
-            <th class="col-sm-9">Match Details</th>
-        </tr>
-        @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores)
-        {
-           <tr>
-              <td>
-                 @matchMakerScore.Organization.OrganizationName
-              </td>
-              <td>
-                 @matchMakerScore.GetProjectOrganizationMatchString()
-              </td>
-            </tr>
-        }
+   <table class="summaryLayout table table-condensed table-striped">
+      <tr>
+         @*<th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>*@
+         <th class="col-sm-3">Partner</th>
+         <th class="col-sm-9">Match Details</th>
+      </tr>
+      @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores.Take(ViewDataTyped.NumberOfMatchesToShow))
+      {
+         <tr>
+            <td>
+               @matchMakerScore.Organization.OrganizationName
+            </td>
+            <td>
+               Match Score: @matchMakerScore.GetProjectOrganizationFitnessScoreNumberDisplayString()
+            </td>
+         </tr>
+      }
+   </table>
 
-    </table>
+   // Should we offer a "Show more" link?
+   if (ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores.Count > ViewDataTyped.NumberOfMatchesToShow)
+   {
+      <div>
+         [more link here]
+      </div>
+   }
 }
 else
 {

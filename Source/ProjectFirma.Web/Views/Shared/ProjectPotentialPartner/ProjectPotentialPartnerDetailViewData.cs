@@ -29,6 +29,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
 {
     public class ProjectPotentialPartnerDetailViewData : FirmaUserControlViewData
     {
+        // Number of matches to show before we offer a "show more" link.
+        public int NumberOfMatchesToShow = 5;
+
         public bool ShouldShowPotentialPartnerPanel { get; }
         public List<PartnerOrganizationMatchMakerScore> RelevantPartnerOrganizationMatchMakerScores { get; }
 
