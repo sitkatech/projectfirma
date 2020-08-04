@@ -271,9 +271,9 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
             var calendarYearBudgets = _.filter(pfsb.CalendarYearBudgets, function (cye) { return cye.CalendarYear == calendarYear });
             _.each(calendarYearBudgets, function (cye) { cye.IsRelevant = false; });
         });
-        var calendarYearNoFundingSourceAmount = _.filter($scope.AngularModel.NoFundingSourceAmounts,
-            function (nfsa) { return nfsa.CalendarYear == calendarYear });
-        Sitka.Methods.removeFromJsonArray($scope.AngularModel.NoFundingSourceAmounts, calendarYearNoFundingSourceAmount);
+        _.remove($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) {
+            return nfsa.CalendarYear === calendarYear;
+        });
         _.pull($scope.calendarYearRange, calendarYear);
     };
 
