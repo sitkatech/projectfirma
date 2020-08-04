@@ -47,6 +47,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.PartnerFinder;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
@@ -135,7 +136,6 @@ namespace ProjectFirma.Web.Controllers
         [ProjectViewFeature]
         public ViewResult Detail(ProjectPrimaryKey projectPrimaryKey)
         {
-            
             var project = projectPrimaryKey.EntityObject;
             var activeProjectStages = GetActiveProjectStages(project);
 
@@ -249,8 +249,16 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
+            // Potential Match Maker Project Partners
+            ProjectPotentialPartnerDetailViewData projectPotentialPartnerDetailViewData = 
+                new ProjectPotentialPartnerDetailViewData(CurrentFirmaSession,
+                                                          project,
+                                                          ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList);
+
+            // TODO Merge These two approaches
+
             var showMatchmakerResults = FirmaWebConfiguration.FeatureMatchMakerEnabled &&
-                                        MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
+                                            MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
 
             var matchedOrganizations = new List<Organization>();
             if (showMatchmakerResults)
@@ -259,7 +267,7 @@ namespace ProjectFirma.Web.Controllers
                 // show organizations with score >= 0.5, ordered by descending score (best match on the top)
                 matchedOrganizations =
                     HttpRequestStorage.DatabaseEntities.Organizations.ToList()
-                        .Select(x => new { organization = x, score = matchmaker.GetPartnerFitnessScore(project, x) })
+                        .Select(x => new { organization = x, score = matchmaker.GetPartnerOrganizationFitnessScoreNumber(project, x) })
                         .Where(x => x.score >= 0.5).OrderByDescending(x => x.score).Select(x => x.organization).ToList();
             }
             
@@ -303,6 +311,7 @@ namespace ProjectFirma.Web.Controllers
                 projectNotificationGridDataUrl,
                 userCanEditProposal,
                 projectOrganizationsDetailViewData,
+                projectPotentialPartnerDetailViewData,
                 classificationSystems,
                 ProjectLocationController.EditProjectBoundingBoxFormID, 
                 geospatialAreaTypes, 

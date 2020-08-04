@@ -43,49 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
             overflow-y: auto;
         }
 
-        /* customizing the look of the clusters*/
 
-        .marker-cluster-small
-        {
-            background-color: #9e9e9e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-small div
-        {
-            background-color: #9e9e9e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-medium
-        {
-            background-color: #6e6e6e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-medium div
-        {
-            background-color: #6e6e6e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-large
-        {
-            background-color: #3e3e3e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster-large div
-        {
-            background-color: #3e3e3e;
-            opacity: 0.7;
-        }
-
-        .marker-cluster div
-        {
-            color: #e0ffff;
-            font-weight: 900;
-        }
 
         #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
         {
@@ -152,22 +110,28 @@ Source code is available upon request via <support@sitkatech.com>.
             text-overflow: ellipsis;
         }
 
+        .dropdown-menu .text
+         {
+             max-width: 500px; 
+             overflow: hidden;
+             text-overflow: ellipsis;
+        }
+
     </style>
-    }
+}
+@section RightOfPageTitle
+{
+    
+    <a id="customUrlPopover" data-container="body" data-toggle="popover" data-trigger="click" data-placement="top" data-html="true" href="javascript:void(0)">
+        <span class="glyphicon glyphicon-share"></span> Link to this filtered map
+    </a>
+}
 
     <div>
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
     </div>
 
     <div class="mapCustomizations" style="display: inline-block; vertical-align: middle; margin-top: 10px">
-        <span style="font-weight: bold">Color @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by:</span>
-        <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
-            @foreach (var colorByType in ViewDataTyped.ProjectColorByTypes)
-            {
-                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@Html.LabelWithSugarFor(colorByType.GetDisplayNameFieldDefinition()).ToString()">@colorByType.GetDisplayName()</option>
-            }
-        </select>
-
         <span style="font-weight: bold">Filter @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by:</span>
         <select id="FilterPropertyName" name="FilterPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @{
@@ -192,33 +156,22 @@ Source code is available upon request via <support@sitkatech.com>.
             new { multiple = "", style = "display:none", @class = "btn-sm" })
         }
 
-        <a id="customUrlPopover" data-container="body" data-toggle="popover" data-trigger="click" data-placement="top" data-html="true" href="javascript:void(0)">
-            Link to this map
-        </a>
+        <span style="font-weight: bold; margin-left: 10px;">Color @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by:</span>
+        <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
+            @foreach (var colorByType in ViewDataTyped.ProjectColorByTypes)
+            {
+                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@Html.LabelWithSugarFor(colorByType.GetDisplayNameFieldDefinition(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToString()">@colorByType.GetDisplayName()</option>
+            }
+        </select>
+        <span id="ColorByHelpIcon">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForInitialColorByType, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)</span>
     </div>
 
-    <div style="font-weight: bold;">
-        <label><span class="glyphicon glyphicon-map-marker"></span> Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized():</label><input style="margin-left: 5px" type="checkbox" id="ClusterLocations" />
-    </div>
-
-    <div id="showBasinwideProjectsToast">
-        <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())">
-            <span class="glyphicon glyphicon-chevron-left"></span>Show @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location
-        </a>
-    </div>
-    <div id="hideBasinwideProjectsToast" style="display: none">
-        <a class="btn pull-right">
-            Hide @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location<span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-    </div>
-
-    <div style="margin-top: 10px">To zoom, hold down Shift and drag a rectangle.</div>
     <div >
         <div class="row" style="vertical-align: top;">
             <div class="col-md-12" id="mapPanel">
                 @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
             </div>
-            <div id="projectsWithLocationAreaToast" style="display: none; padding: 0 8px 8px 8px">
+            <div id="projectsWithLocationAreaToast" style="display: none; padding: 8px 8px 8px 8px">
                 <p>
                     Some @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() do not have a simple location and are not represented by a point on the map, but are listed here.
                 </p>
@@ -240,6 +193,18 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
+
+    <div id="showBasinwideProjectsToast">
+        <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())">
+            <span class="glyphicon glyphicon-chevron-left"></span>Show @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location
+        </a>
+    </div>
+    <div id="hideBasinwideProjectsToast" style="display: none">
+        <a class="btn pull-right">
+            Hide @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location<span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+    <div style="margin-top: 10px">To zoom, hold down Shift and drag a rectangle.</div>
 
     <script type="text/javascript">
         function displayProjectsWithLocationArea(projectMapCustomization)
@@ -326,7 +291,7 @@ Source code is available upon request via <support@sitkatech.com>.
             colorPropertyNameDropdown.change(function()
             {
                 map.changePropertyToColorProjectLocationsBy(this.value);
-                jQuery(".mapLegendTitle").html(colorPropertyNameDropdown.find("option:selected").data("displayname") + ":");
+                jQuery("#ColorByHelpIcon").html(colorPropertyNameDropdown.find("option:selected").data("displayname"));
                 updateCustomUrlPopover();
             });
 
@@ -399,6 +364,14 @@ Source code is available upon request via <support@sitkatech.com>.
             jQuery('#customUrlPopover').popover({
                 container: "body",
                 title: "URL of this filtered map<button id='btnClosePopover' class='btn btn-xs btn-primary pull-right' style='padding: 0 5px'>&times;</button>"
+            });
+            jQuery('#customUrlPopover').on('shown.bs.popover', function() {
+                jQuery("#filterHtmlInput").select();
+                var closePopoverButton = jQuery(".popover-title button#btnClosePopover");
+                closePopoverButton.click(function (e) {
+                    $('#customUrlPopover').popover('hide');
+                });
+            });
 
             });
             jQuery('#customUrlPopover').on('shown.bs.popover', function() {
@@ -416,7 +389,12 @@ Source code is available upon request via <support@sitkatech.com>.
                 jQuery("#mapPanel").removeClass("col-md-12");
                 jQuery("#mapPanel").addClass("col-md-8");
 
+                // add top margin to align with top of map
+                var topMargin = jQuery(".mapLegendContainer").outerHeight() +
+                    jQuery("#ClusterLocationsContainer").outerHeight();
+
                 jQuery("#projectsWithLocationAreaToast").addClass("col-md-4");
+                jQuery("#projectsWithLocationAreaToast").css("margin-top", topMargin);
                 jQuery("#projectsWithLocationAreaToast").show();
                 jQuery("#showBasinwideProjectsToast").hide();
                 jQuery("#hideBasinwideProjectsToast").show();

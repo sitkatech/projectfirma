@@ -45,48 +45,87 @@
 
     <script type="text/javascript">
 
-    jQuery(function () {
-        jQuery("#overviewTab").on("shown.bs.tab", function () {
-            var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-            Sitka[gridName1].resizeGridWidths();
-            var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-            Sitka[gridName2].resizeGridWidths();
-            _.forOwn(window.GoogleCharts.chartWrappers,
-                function (chartWrapper) {
-                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
-                        chartWrapper.getChart().clearChart();
-                        chartWrapper.draw();
-                    }
-                });
+        jQuery(function () {
+            jQuery("#overviewTab").on("shown.bs.tab", function () {
+                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName1].resizeGridWidths();
+                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName2].resizeGridWidths();
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+            jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
+                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName1].resizeGridWidths();
+                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName2].resizeGridWidths();
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+            jQuery("#expendituresTab").on("shown.bs.tab", function() {
+                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName1].resizeGridWidths();
+                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName2].resizeGridWidths();
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
         });
-        jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
-            var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-            Sitka[gridName1].resizeGridWidths();
-            var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-            Sitka[gridName2].resizeGridWidths();
-            _.forOwn(window.GoogleCharts.chartWrappers,
-                function (chartWrapper) {
-                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
-                        chartWrapper.getChart().clearChart();
-                        chartWrapper.draw();
-                    }
-                });
-        });
-        jQuery("#expendituresTab").on("shown.bs.tab", function() {
-            var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-            Sitka[gridName1].resizeGridWidths();
-            var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-            Sitka[gridName2].resizeGridWidths();
-            _.forOwn(window.GoogleCharts.chartWrappers,
-                function (chartWrapper) {
-                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
-                        chartWrapper.getChart().clearChart();
-                        chartWrapper.draw();
-                    }
-                });
-        });
-    });
     </script>
+    
+    <style>
+        /* customizing the look of the clusters*/
+
+        .marker-cluster-small {
+            background-color: #9e9e9e;
+            opacity: 0.7;
+        }
+
+            .marker-cluster-small div {
+                background-color: #9e9e9e;
+                opacity: 0.7;
+            }
+
+        .marker-cluster-medium {
+            background-color: #6e6e6e;
+            opacity: 0.7;
+        }
+
+            .marker-cluster-medium div {
+                background-color: #6e6e6e;
+                opacity: 0.7;
+            }
+
+        .marker-cluster-large {
+            background-color: #3e3e3e;
+            opacity: 0.7;
+        }
+
+            .marker-cluster-large div {
+                background-color: #3e3e3e;
+                opacity: 0.7;
+            }
+
+        .marker-cluster div {
+            color: #e0ffff;
+            font-weight: 900;
+        }
+    </style>
 
     <style>
         .table > tbody > tr.noBorderRow  > td {
@@ -250,14 +289,89 @@
                                     <div class="col-xs-12">
                                         @if (ViewDataTyped.HasSpatialData)
                                         {
+                                            <div style="font-weight: bold; margin-top: 10px">
+                                                <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
+                                            </div>
                                             <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
                                             </div>
                                             <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
                                             <script type="text/javascript">
-                                                jQuery(document).ready(function() {
+                                                // we are extending ProjectFirma Maps here with functionality specific to this view.  Similar to ProjectLocationMap.cshtml script.
+                                                ProjectFirmaMaps.Map.prototype.initializeProjectLocations = function(mapInitJson)
+                                                {
+                                                    // default to clustering
+                                                    this.areLocationsClustered = true;
+                                                    // set the project locations
+                                                    this.projectLocations = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsLayerGeoJson).ToString(Formatting.None));
+
+                                                    // draw the project locations
+                                                    this.addLocationLayers();
+
+                                                    // prevent standard popup for lat/long when clicking on general map area (not features)
+                                                    this.removeClickEventHandler();
+                                                };
+
+
+                                                ProjectFirmaMaps.Map.prototype.changeClustering = function(areLocationsClustered)
+                                                {
+                                                    this.areLocationsClustered = areLocationsClustered;
+                                                    this.addLocationLayers();
+                                                };
+
+                                                ProjectFirmaMaps.Map.prototype.addLocationLayers = function()
+                                                {
+//                                                    this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations, this.projectLocationsLayer, "@(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())", true);
+                                                    this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations, this.projectLocationsLayer, this.projectLocations.LayerName, true);
+                                                }
+
+                                                ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault)
+                                                {
+                                                    var self = this;
+                                                    if (layer != null)
+                                                    {
+                                                        this.map.removeLayer(layer);
+                                                        this.layerControl.removeLayer(layer);
+                                                    }
+
+                                                    var markerClusterGroup = L.markerClusterGroup({ maxClusterRadius: 40 });
+                                                    var newLayer = L.geoJson(points.GeoJsonFeatureCollection, {
+                                                        pointToLayer: function(feature, latlng)
+                                                        {
+                                                            var featureColor = feature.properties.FeatureColor == null ? points.LayerColor : feature.properties.FeatureColor;
+                                                            var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s" }) });
+                                                            self.bindPopupToFeature(marker, feature);
+                                                            return marker;
+                                                        }
+                                                    });
+                                                    if (this.areLocationsClustered)
+                                                    {
+                                                        newLayer.addTo(markerClusterGroup);
+                                                        layer = markerClusterGroup;
+                                                    }
+                                                    else
+                                                    {
+                                                        layer = newLayer;
+                                                    }
+
+                                                    if (showByDefault)
+                                                    {
+                                                        layer.addTo(this.map);
+                                                    }
+
+                                                    this.layerControl.addOverlay(layer, layerName);
+
+                                                    return layer;
+                                                };
+
+
+                                                jQuery(document).ready(function () {
                                                     var mapInitJson =
                                                         @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
                                                     var map = new ProjectFirmaMaps.Map(mapInitJson);
+                                                    map.initializeProjectLocations(mapInitJson);
+
+                                                    var clusterLocationsCheckbox = jQuery("#ClusterLocations");
+                                                    clusterLocationsCheckbox.change(function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
                                                     jQuery("#overviewTab").on("shown.bs.tab", function() {
                                                         map.map.invalidateSize();
@@ -493,118 +607,6 @@
 
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="profile">
-                <div class="row" style="margin-bottom: 20px">
-                    <div class="col-xs-12">
-                        <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
-                        <p>This organization is interested in supporting @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below.</p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit Matchmaker {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
-                                @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()
-                            </div>
-                            <div class="panel-body">
-                                <div>
-                                    <table class="table table-hover table-condensed">
-                                        <thead>
-                                        <tr>
-                                            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
-                                            {
-                                                <th>@ViewDataTyped.TaxonomyTrunkDisplayName</th>
-                                                <th>@ViewDataTyped.TaxonomyBranchDisplayName</th>
-                                            }
-                                            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
-                                            {
-                                                <th>@ViewDataTyped.TaxonomyBranchDisplayName</th>
-                                            }
-                                            <th>@ViewDataTyped.TaxonomyLeafDisplayName</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
-                                        {
-                                            foreach (var trunk in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
-                                            {
-                                                if (trunk.Children == null)
-                                                {
-                                                    <tr>
-                                                        <td>@trunk.DisplayNameAsHtmlString</td>
-                                                        <td>@trunk.ChildrenAltText</td>
-                                                        <td></td>
-                                                    </tr>
-                                                }
-                                                else
-                                                {
-                                                    for (int i = 0; i < trunk.Children.Count; i++)
-                                                    {
-                                                        var branch = trunk.Children[i];
-                                                        if (branch.Children == null)
-                                                        {
-                                                            <tr class="@(i != 0 ? "noBorderRow" : "")">
-                                                                <td>@(i == 0 ? trunk.DisplayNameAsHtmlString : new HtmlString(""))</td>
-                                                                <td>@branch.DisplayNameAsHtmlString</td>
-                                                                <td>@branch.ChildrenAltText</td>
-                                                            </tr>
-                                                        }
-                                                        else
-                                                        {
-                                                            for (int j = 0; j < branch.Children.Count; j++)
-                                                            {
-                                                                <tr class="@(j != 0 ? "noBorderRow" : "")">
-                                                                    <td style="@(i != 0 ? "border-top:none" : "")">@(i == 0 && j == 0 ? trunk.DisplayNameAsHtmlString : new HtmlString(""))</td>
-                                                                    <td>@(j == 0 ? branch.DisplayNameAsHtmlString : new HtmlString(""))</td>
-                                                                    <td>@branch.Children[j].DisplayNameAsHtmlString</td>
-                                                                </tr>
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
-                                        {
-                                            foreach (var branch in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
-                                            {
-                                                if (branch.Children == null)
-                                                {
-                                                    <tr>
-                                                        <td>@branch.DisplayNameAsHtmlString</td>
-                                                        <td>@branch.ChildrenAltText</td>
-                                                    </tr>
-                                                }
-                                                else
-                                                {
-                                                    for (int j = 0; j < branch.Children.Count; j++)
-                                                    {
-                                                        <tr class="@(j != 0 ? "noBorderRow" : "")">
-                                                            <td>@(j == 0 ? branch.DisplayNameAsHtmlString : new HtmlString(""))</td>
-                                                            <td>@branch.Children[j].DisplayNameAsHtmlString</td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Leaf)
-                                        {
-                                            foreach (var leaf in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
-                                            {
-                                                <tr>
-                                                    <td>@leaf.DisplayNameAsHtmlString</td>
-                                                </tr>
-                                            }
-                                        }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

@@ -1,0 +1,60 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectOrganizationsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Shared.ProjectPotentialPartner.ProjectPotentialPartnerDetail
+
+@if (ViewDataTyped.ShouldShowPotentialPartnerPanel)
+{
+
+   <table class="summaryLayout table table-condensed table-striped">
+      <tr>
+         @*<th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>*@
+         <th class="col-sm-3">Partner</th>
+         <th class="col-sm-9">Match Details</th>
+      </tr>
+      @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores)
+      {
+         <tr>
+            <td>
+               @matchMakerScore.Organization.GetDisplayNameAsUrl()
+            </td>
+            <td>
+               Match Score: @matchMakerScore.GetProjectOrganizationFitnessScoreNumberDisplayString()
+            </td>
+         </tr>
+      }
+   </table>
+
+   // Should we offer a "Show more" link?
+   if (ViewDataTyped.ShouldShowMorePartnersLink)
+   {
+      <div>
+         @ViewDataTyped.MorePartnersLinkHtml
+      </div>
+   }
+}
+else
+{
+    <p class="systemText">No potential partners for this Project.</p>
+}
+
+
+

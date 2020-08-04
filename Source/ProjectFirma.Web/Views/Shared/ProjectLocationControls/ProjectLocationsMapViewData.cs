@@ -29,12 +29,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string MapDivID { get; }
         public ProjectFirmaModels.Models.FieldDefinition LegendTitleFieldDefinition { get; }
         public Dictionary<string, List<ProjectMapLegendElement>> LegendFormats { get; }
+        public bool LegendAboveMap { get; }
 
-        public ProjectLocationsMapViewData(string mapDivID, ProjectFirmaModels.Models.FieldDefinition legendTitleFieldDefinition, List<TaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
+        public ProjectLocationsMapViewData(string mapDivID, ProjectFirmaModels.Models.FieldDefinition legendTitleFieldDefinition, List<TaxonomyTier> topLevelTaxonomyTiers, bool showProposals, bool legendAboveMap = false)
         {
             MapDivID = mapDivID;
             LegendTitleFieldDefinition = legendTitleFieldDefinition;
             LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(topLevelTaxonomyTiers, showProposals);
+            LegendAboveMap = legendAboveMap;
         }
 
     }

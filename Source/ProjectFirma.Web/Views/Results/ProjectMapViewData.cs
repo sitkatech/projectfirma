@@ -38,7 +38,13 @@ namespace ProjectFirma.Web.Views.Results
         public string ProjectLocationsUrl { get; }
         public string FilteredProjectsWithLocationAreasUrl { get; }
 
-        public ProjectMapViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl, List<ProjectColorByType> projectColorByTypes) : base(currentFirmaSession, firmaPage)
+        public ProjectMapViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
+            ProjectLocationsMapInitJson projectLocationsMapInitJson,
+            ProjectLocationsMapViewData projectLocationsMapViewData,
+            Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>>
+                projectLocationFilterTypesAndValues, string projectLocationsUrl,
+            string filteredProjectsWithLocationAreasUrl, List<ProjectColorByType> projectColorByTypes,
+            ProjectFirmaModels.Models.FieldDefinition fieldDefinitionForInitialColorByType) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
@@ -47,8 +53,10 @@ namespace ProjectFirma.Web.Views.Results
             ProjectLocationsUrl = projectLocationsUrl;
             FilteredProjectsWithLocationAreasUrl = filteredProjectsWithLocationAreasUrl;
             ProjectColorByTypes = projectColorByTypes;
+            FieldDefinitionForInitialColorByType = fieldDefinitionForInitialColorByType;
         }
 
         public List<ProjectColorByType> ProjectColorByTypes { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForInitialColorByType { get; }
     }
 }
