@@ -249,7 +249,10 @@ namespace ProjectFirma.Web.Controllers
             }
 
             // Potential Match Maker Project Partners
-            ProjectPotentialPartnerDetailViewData projectPotentialPartnerDetailViewData = new ProjectPotentialPartnerDetailViewData(CurrentFirmaSession, project);
+            ProjectPotentialPartnerDetailViewData projectPotentialPartnerDetailViewData = 
+                new ProjectPotentialPartnerDetailViewData(CurrentFirmaSession,
+                                                          project,
+                                                          ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,

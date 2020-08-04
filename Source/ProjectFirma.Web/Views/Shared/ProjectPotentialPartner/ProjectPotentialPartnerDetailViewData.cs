@@ -20,31 +20,65 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.PartnerFinder;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
 {
+    public enum ProjectPotentialPartnerListDisplayMode
+    {
+        StandAloneFullList,
+        ProjectDetailViewPartialList
+    }
+
     public class ProjectPotentialPartnerDetailViewData : FirmaUserControlViewData
     {
         // Number of matches to show before we offer a "show more" link.
-        public int NumberOfMatchesToShow = 5;
+        public int NumberOfMatchesToShowForPartialList = 5;
 
         public bool ShouldShowPotentialPartnerPanel { get; }
         public List<PartnerOrganizationMatchMakerScore> RelevantPartnerOrganizationMatchMakerScores { get; }
+        public bool ShouldShowMorePartnersLink { get; }
+        public HtmlString MorePartnersLinkHtml { get; }
+        public ProjectPotentialPartnerListDisplayMode DisplayMode;
 
-        public ProjectPotentialPartnerDetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project)
+        public ProjectPotentialPartnerDetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ProjectPotentialPartnerListDisplayMode displayMode)
         {
             ShouldShowPotentialPartnerPanel = FirmaWebConfiguration.FeatureMatchMakerEnabled &&
                                               new MatchMakerViewPotentialPartnersFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
+            DisplayMode = displayMode;
+
+            ShouldShowMorePartnersLink = false;
             // Don't bother doing this work if we aren't going to show it
             if (ShouldShowPotentialPartnerPanel)
             {
                 ProjectOrganizationMatchmaker matchMaker = new ProjectOrganizationMatchmaker();
-                RelevantPartnerOrganizationMatchMakerScores = matchMaker.GetPartnerOrganizationMatchMakerScoresForParticularProject(currentFirmaSession, project);
+                var allPossibleRelevantPartnerOrganizationMatchMakerScores = matchMaker.GetPartnerOrganizationMatchMakerScoresForParticularProject(currentFirmaSession, project);
+
+                bool hasExcessMatches = allPossibleRelevantPartnerOrganizationMatchMakerScores.Count > NumberOfMatchesToShowForPartialList;
+                bool inPartialViewMode = DisplayMode == ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList;
+                ShouldShowMorePartnersLink = hasExcessMatches && inPartialViewMode;
+
+                // Show an abbreviated set if we are in partial view mode
+                if (inPartialViewMode)
+                {
+                    RelevantPartnerOrganizationMatchMakerScores = allPossibleRelevantPartnerOrganizationMatchMakerScores.Take(NumberOfMatchesToShowForPartialList).ToList();
+                }
+                else
+                {
+                    RelevantPartnerOrganizationMatchMakerScores = allPossibleRelevantPartnerOrganizationMatchMakerScores;
+                }
+
+                if (ShouldShowMorePartnersLink)
+                {
+                    MorePartnersLinkHtml = new HtmlString(SitkaRoute<MatchMakerController>.BuildLinkFromExpression(x => x.ProjectPotentialPartners(project), "More Potential Partners..."));
+                }
             }
         }
     }
