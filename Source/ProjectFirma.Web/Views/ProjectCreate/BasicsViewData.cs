@@ -35,6 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<SelectListItem> TaxonomyLeafs { get; private set; }
         public IEnumerable<SelectListItem> FundingTypes { get; private set; }
         public IEnumerable<SelectListItem> ValidYearRange { get; private set; }
+        public int MinValidYear { get; private set; }
         public int MaxValidYear { get; private set; }
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
@@ -85,6 +86,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ValidYearRange =
                 FirmaDateUtilities.YearsForUserInput()
                     .ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
+            MinValidYear = FirmaDateUtilities.YearsForUserInput().Select(x => x.CalendarYear).Min();
             MaxValidYear = FirmaDateUtilities.YearsForUserInput().Select(x => x.CalendarYear).Max();
             HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 

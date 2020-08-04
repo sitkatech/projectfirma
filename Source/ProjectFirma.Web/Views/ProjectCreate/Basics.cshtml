@@ -104,7 +104,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </script>
     }
 
-    <script type="text/javascript">
+<script type="text/javascript">
         // <![CDATA[
         function filterYearOptions(min, max, yearSelect) {
             var selectedYear = yearSelect.val();
@@ -120,27 +120,27 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         }
 
-        function constrainYearOptions(maxValidYear) {
+        function constrainYearOptions(minValidYear, maxValidYear) {
             var designStartSelect = jQuery('#PlanningDesignStartYear');
             var implementationStartSelect = jQuery('#ImplementationStartYear');
             var completedSelect = jQuery('#CompletionYear');
 
-            var minYear = designStartSelect.val();
-            filterYearOptions(minYear, maxValidYear, implementationStartSelect);
+            var minImplementationYear = Math.max(minValidYear, designStartSelect.val());
+            filterYearOptions(minImplementationYear, maxValidYear, implementationStartSelect);
 
-            minYear = Math.max(minYear, implementationStartSelect.val());
-            filterYearOptions(minYear, maxValidYear, completedSelect);
+            var minCompletionYear = Math.max(minImplementationYear, implementationStartSelect.val());
+            filterYearOptions(minCompletionYear, maxValidYear, completedSelect);
         }
 
         jQuery(document).ready(function() {
-            constrainYearOptions(@ViewDataTyped.MaxValidYear, status);
+            constrainYearOptions(@ViewDataTyped.MinValidYear, @ViewDataTyped.MaxValidYear, status);
 
-            jQuery('#PlanningDesignStartYear').on('input', () => constrainYearOptions(@ViewDataTyped.MaxValidYear));
-            jQuery('#ImplementationStartYear').on('input', () => constrainYearOptions(@ViewDataTyped.MaxValidYear));
-            jQuery('#CompletionYear').on('input', () => constrainYearOptions(@ViewDataTyped.MaxValidYear));
+            jQuery('#PlanningDesignStartYear').on('input', () => constrainYearOptions(@ViewDataTyped.MinValidYear, @ViewDataTyped.MaxValidYear));
+            jQuery('#ImplementationStartYear').on('input', () => constrainYearOptions(@ViewDataTyped.MinValidYear, @ViewDataTyped.MaxValidYear));
+            jQuery('#CompletionYear').on('input', () => constrainYearOptions(@ViewDataTyped.MinValidYear, @ViewDataTyped.MaxValidYear));
         });
         // ]]>
-    </script>
+</script>
 }
 
 <p>Add your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s basic information here.</p>
