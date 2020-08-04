@@ -125,9 +125,6 @@ namespace ProjectFirma.Web.Views.Project
 
         public string UpdateStatusUrl { get; set; }
 
-        public bool ShowMatchmakerResults { get; }
-        public List<ProjectFirmaModels.Models.Organization> MatchedOrganizations { get; }
-
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
@@ -160,9 +157,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl,
             string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData,
             bool userHasProjectTimelinePermissions, List<ProjectEvaluation> projectEvaluationsUserHasAccessTo,
-            bool userHasStartUpdateWorkflowPermission,
-            bool showMatchmakerResults,
-            List<ProjectFirmaModels.Models.Organization> matchedOrganizations)
+            bool userHasStartUpdateWorkflowPermission)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -406,11 +401,6 @@ namespace ProjectFirma.Web.Views.Project
             ProjectEvaluationsUserHasAccessTo = projectEvaluationsUserHasAccessTo;
 
             ShowFactSheetButton = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
-
-            //ShowMatchmakerResults = showMatchmakerResults;
-            ShowMatchmakerResults = true;
-            //MatchedOrganizations = matchedOrganizations;
-            MatchedOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
         }
     }
 }

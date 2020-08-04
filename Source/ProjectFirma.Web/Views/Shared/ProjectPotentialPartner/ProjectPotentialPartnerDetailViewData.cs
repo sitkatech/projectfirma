@@ -41,25 +41,29 @@ namespace ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
         // Number of matches to show before we offer a "show more" link.
         public int NumberOfMatchesToShowForPartialList = 5;
 
-        public bool ShouldShowPotentialPartnerPanel { get; }
+        public bool ShouldShowMatchMakerPotentialPartnerPanel { get; }
         public List<PartnerOrganizationMatchMakerScore> RelevantPartnerOrganizationMatchMakerScores { get; }
         public bool ShouldShowMorePartnersLink { get; }
         public HtmlString MorePartnersLinkHtml { get; }
         public ProjectPotentialPartnerListDisplayMode DisplayMode;
 
-        public ProjectPotentialPartnerDetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ProjectPotentialPartnerListDisplayMode displayMode)
+        public ProjectPotentialPartnerDetailViewData(FirmaSession currentFirmaSession,
+                                                     ProjectFirmaModels.Models.Project project,
+                                                     ProjectPotentialPartnerListDisplayMode displayMode)
         {
-            ShouldShowPotentialPartnerPanel = FirmaWebConfiguration.FeatureMatchMakerEnabled &&
+            ShouldShowMatchMakerPotentialPartnerPanel = FirmaWebConfiguration.FeatureMatchMakerEnabled &&
+                                              MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker &&
                                               new MatchMakerViewPotentialPartnersFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             DisplayMode = displayMode;
 
             ShouldShowMorePartnersLink = false;
             // Don't bother doing this work if we aren't going to show it
-            if (ShouldShowPotentialPartnerPanel)
+            if (ShouldShowMatchMakerPotentialPartnerPanel)
             {
                 ProjectOrganizationMatchmaker matchMaker = new ProjectOrganizationMatchmaker();
-                var allPossibleRelevantPartnerOrganizationMatchMakerScores = matchMaker.GetPartnerOrganizationMatchMakerScoresForParticularProject(currentFirmaSession, project);
+                var allPossibleRelevantPartnerOrganizationMatchMakerScores = 
+                    matchMaker.GetPartnerOrganizationMatchMakerScoresForParticularProject(currentFirmaSession, project);
 
                 bool hasExcessMatches = allPossibleRelevantPartnerOrganizationMatchMakerScores.Count > NumberOfMatchesToShowForPartialList;
                 bool inPartialViewMode = DisplayMode == ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList;
