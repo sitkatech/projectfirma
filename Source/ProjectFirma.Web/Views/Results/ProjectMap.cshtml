@@ -373,6 +373,15 @@ Source code is available upon request via <support@sitkatech.com>.
                 });
             });
 
+            });
+            jQuery('#customUrlPopover').on('shown.bs.popover', function() {
+                jQuery("#filterHtmlInput").select();
+                var closePopoverButton = jQuery(".popover-title button#btnClosePopover");
+                closePopoverButton.click(function (e) {
+                    $('#customUrlPopover').popover('hide');
+                });
+            });
+
             updateCustomUrlPopover();
 
             jQuery('#showBasinwideProjectsToast').click(function()
@@ -404,5 +413,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 projectFirmaMap.map.invalidateSize();
             });
 
+            
         });
     </script>

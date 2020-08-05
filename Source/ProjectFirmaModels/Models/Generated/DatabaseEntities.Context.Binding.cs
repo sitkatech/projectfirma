@@ -87,6 +87,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyBranchConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyLeafConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyTrunkConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
@@ -281,6 +284,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerOrganizationTaxonomyBranch> AllMatchmakerOrganizationTaxonomyBranches { get; set; }
+        public virtual IQueryable<MatchmakerOrganizationTaxonomyBranch> MatchmakerOrganizationTaxonomyBranches { get { return AllMatchmakerOrganizationTaxonomyBranches.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerOrganizationTaxonomyLeaf> AllMatchmakerOrganizationTaxonomyLeafs { get; set; }
+        public virtual IQueryable<MatchmakerOrganizationTaxonomyLeaf> MatchmakerOrganizationTaxonomyLeafs { get { return AllMatchmakerOrganizationTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerOrganizationTaxonomyTrunk> AllMatchmakerOrganizationTaxonomyTrunks { get; set; }
+        public virtual IQueryable<MatchmakerOrganizationTaxonomyTrunk> MatchmakerOrganizationTaxonomyTrunks { get { return AllMatchmakerOrganizationTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
@@ -708,6 +717,15 @@ namespace ProjectFirmaModels.Models
 
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
+
+                case "MatchmakerOrganizationTaxonomyBranch":
+                    return MatchmakerOrganizationTaxonomyBranches.GetMatchmakerOrganizationTaxonomyBranch(primaryKey);
+
+                case "MatchmakerOrganizationTaxonomyLeaf":
+                    return MatchmakerOrganizationTaxonomyLeafs.GetMatchmakerOrganizationTaxonomyLeaf(primaryKey);
+
+                case "MatchmakerOrganizationTaxonomyTrunk":
+                    return MatchmakerOrganizationTaxonomyTrunks.GetMatchmakerOrganizationTaxonomyTrunk(primaryKey);
 
                 case "MeasurementUnitType":
                     var measurementUnitType = MeasurementUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

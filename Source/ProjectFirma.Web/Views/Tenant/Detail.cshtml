@@ -241,6 +241,19 @@
                         @ViewDataTyped.TenantAttribute.GeoServerNamespace
                     </div>
                 </div>
+                
+                @if (ViewDataTyped.MatchmakerEnabled)
+                {
+                    <div class="row">
+                        <div class="col-sm-5 fieldLabel text-right">
+                            Enable Matchmaker?
+                        </div>
+                        <div class="col-sm-7">
+                            @ViewDataTyped.TenantAttribute.EnableMatchmaker
+                        </div>
+                    </div>
+                }
+
 
             </div>
         </div>

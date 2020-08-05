@@ -51,6 +51,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.EnableProjectCategories).HasColumnName(@"EnableProjectCategories").HasColumnType("bit").IsRequired();
             Property(x => x.EnableReports).HasColumnName(@"EnableReports").HasColumnType("bit").IsRequired();
             Property(x => x.TenantFactSheetLogoFileResourceInfoID).HasColumnName(@"TenantFactSheetLogoFileResourceInfoID").HasColumnType("int").IsOptional();
+            Property(x => x.EnableMatchmaker).HasColumnName(@"EnableMatchmaker").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID

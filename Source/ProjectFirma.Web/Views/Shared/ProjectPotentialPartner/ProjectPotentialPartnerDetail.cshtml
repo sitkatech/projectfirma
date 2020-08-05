@@ -21,7 +21,7 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectPotentialPartner.ProjectPotentialPartnerDetail
 
-@if (ViewDataTyped.ShouldShowPotentialPartnerPanel)
+@if (ViewDataTyped.ShouldShowMatchMakerPotentialPartnerPanel)
 {
 
    <table class="summaryLayout table table-condensed table-striped">
@@ -34,7 +34,7 @@
       {
          <tr>
             <td>
-               @matchMakerScore.Organization.GetDisplayNameAsUrl()
+               @matchMakerScore.Organization.GetDisplayNameWithoutAbbreviationAsUrl()
             </td>
             <td>
                Match Score: @matchMakerScore.GetProjectOrganizationFitnessScoreNumberDisplayString()

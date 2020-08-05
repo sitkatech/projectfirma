@@ -41,6 +41,21 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public ComboTreeNode ToComboTreeNode()
+        {
+            switch (TaxonomyLevel)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    return TaxonomyLeaf.ToComboTreeNode();
+                case TaxonomyLevelEnum.Branch:
+                    return TaxonomyBranch.ToComboTreeNode();
+                case TaxonomyLevelEnum.Trunk:
+                    return TaxonomyTrunk.ToComboTreeNode();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         public TaxonomyTier(TaxonomyLeaf taxonomyLeaf)
         {
             TaxonomyTierID = taxonomyLeaf.TaxonomyLeafID;

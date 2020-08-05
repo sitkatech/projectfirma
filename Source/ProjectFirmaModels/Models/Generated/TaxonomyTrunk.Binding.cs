@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected TaxonomyTrunk()
         {
             this.AttachmentTypeTaxonomyTrunks = new HashSet<AttachmentTypeTaxonomyTrunk>();
+            this.MatchmakerOrganizationTaxonomyTrunks = new HashSet<MatchmakerOrganizationTaxonomyTrunk>();
             this.TaxonomyBranches = new HashSet<TaxonomyBranch>();
         }
 
@@ -68,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AttachmentTypeTaxonomyTrunks.Any() || TaxonomyBranches.Any();
+            return AttachmentTypeTaxonomyTrunks.Any() || MatchmakerOrganizationTaxonomyTrunks.Any() || TaxonomyBranches.Any();
         }
 
         /// <summary>
@@ -83,6 +84,11 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(AttachmentTypeTaxonomyTrunk).Name);
             }
 
+            if(MatchmakerOrganizationTaxonomyTrunks.Any())
+            {
+                dependentObjects.Add(typeof(MatchmakerOrganizationTaxonomyTrunk).Name);
+            }
+
             if(TaxonomyBranches.Any())
             {
                 dependentObjects.Add(typeof(TaxonomyBranch).Name);
@@ -93,7 +99,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTrunk).Name, typeof(AttachmentTypeTaxonomyTrunk).Name, typeof(TaxonomyBranch).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTrunk).Name, typeof(AttachmentTypeTaxonomyTrunk).Name, typeof(MatchmakerOrganizationTaxonomyTrunk).Name, typeof(TaxonomyBranch).Name};
 
 
         /// <summary>
@@ -123,6 +129,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in MatchmakerOrganizationTaxonomyTrunks.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in TaxonomyBranches.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -147,6 +158,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return TaxonomyTrunkID; } set { TaxonomyTrunkID = value; } }
 
         public virtual ICollection<AttachmentTypeTaxonomyTrunk> AttachmentTypeTaxonomyTrunks { get; set; }
+        public virtual ICollection<MatchmakerOrganizationTaxonomyTrunk> MatchmakerOrganizationTaxonomyTrunks { get; set; }
         public virtual ICollection<TaxonomyBranch> TaxonomyBranches { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
