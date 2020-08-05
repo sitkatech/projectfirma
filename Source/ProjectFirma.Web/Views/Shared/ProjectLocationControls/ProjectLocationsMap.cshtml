@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationsMap
 
 <style>
@@ -52,16 +54,84 @@ Source code is available upon request via <support@sitkatech.com>.
     .mapLegendTitle {
         font-weight: bold;
     }
+
+    /* customizing the look of the clusters*/
+
+    .marker-cluster-small
+    {
+        background-color: #9e9e9e;
+        opacity: 0.7;
+    }
+
+    .marker-cluster-small div
+    {
+        background-color: #9e9e9e;
+        opacity: 0.7;
+    }
+
+    .marker-cluster-medium
+    {
+        background-color: #6e6e6e;
+        opacity: 0.7;
+    }
+
+    .marker-cluster-medium div
+    {
+        background-color: #6e6e6e;
+        opacity: 0.7;
+    }
+
+    .marker-cluster-large
+    {
+        background-color: #3e3e3e;
+        opacity: 0.7;
+    }
+
+    .marker-cluster-large div
+    {
+        background-color: #3e3e3e;
+        opacity: 0.7;
+    }
+
+    .marker-cluster div
+    {
+        color: #e0ffff;
+        font-weight: 900;
+    }
 </style>
 
 
 <div id="projectLocationsMapContainer_@ViewDataTyped.MapDivID">
-    <div id="@ViewDataTyped.MapDivID"></div>
-    <div class="mapLegendContainer">
-        <span class="mapLegendTitle">@Html.LabelWithSugarFor(ViewDataTyped.LegendTitleFieldDefinition)</span>
-        <div class="mapLegend">
+    @if (ViewDataTyped.LegendAboveMap)
+    {
+        <div class="mapLegendContainer" style="padding-bottom: 15px; padding-top: 0">
+            <span class="mapLegendTitle">
+                @if (ViewDataTyped.LegendTitleFieldDefinition != null)
+                {
+                    @Html.LabelWithSugarFor(ViewDataTyped.LegendTitleFieldDefinition)
+                }
+            </span>
+            <div class="mapLegend">
+            </div>
         </div>
+    }
+    <div style="font-weight: bold; margin-top: 10px" id="ClusterLocationsContainer">
+        <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
     </div>
+    <div id="@ViewDataTyped.MapDivID"></div>
+    @if (!ViewDataTyped.LegendAboveMap)
+    {
+        <div class="mapLegendContainer">
+            <span class="mapLegendTitle">
+                @if (ViewDataTyped.LegendTitleFieldDefinition != null)
+                {
+                    @Html.LabelWithSugarFor(ViewDataTyped.LegendTitleFieldDefinition)
+                }
+            </span>
+            <div class="mapLegend">
+            </div>
+        </div>
+    }
 </div>
 
 <script type="text/javascript">
@@ -74,8 +144,8 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         this.legendColorsToUse = @Html.Raw(JObject.FromObject(ViewDataTyped.LegendFormats).ToString(Formatting.None));
 
-        // default to no clustering
-        this.areLocationsClustered = false;
+        // default to clustering
+        this.areLocationsClustered = true;
         // set the project locations
         this.projectLocations = projectLocationsMapInitJson.ProjectLocationsLayerGeoJson;
 
@@ -109,7 +179,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     ProjectFirmaMaps.Map.prototype.addLocationLayers = function()
     {
-        this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations, this.projectLocationsLayer, "Mapped Projects", true);
+        this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations, this.projectLocationsLayer, "Mapped @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())", true);
     }
 
     ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault)

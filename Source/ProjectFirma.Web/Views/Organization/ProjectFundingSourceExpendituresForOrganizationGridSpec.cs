@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add($"Provided by {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => (x.FundingSource.Organization == organization).ToYesOrEmpty(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add($"Received from other {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => (x.FundingSource.Organization != organization).ToYesOrEmpty(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.ReportingYear.ToType().ToGridHeaderString(), x => x.CalendarYear, 80, DhtmlxGridColumnFormatType.Date, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Amount", x => x.ExpenditureAmount, 80, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);            
+            Add("Amount", x => x.ExpenditureAmount, 80, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
         }
     }
 }

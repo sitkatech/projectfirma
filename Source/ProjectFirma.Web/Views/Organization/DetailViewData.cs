@@ -64,6 +64,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string IndexUrl;
 
         public readonly MapInitJson MapInitJson;
+        public readonly LayerGeoJson ProjectLocationsLayerGeoJson;
         public readonly bool HasSpatialData;
 
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
@@ -86,6 +87,7 @@ namespace ProjectFirma.Web.Views.Organization
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
+            LayerGeoJson projectLocationsLayerGeoJson,
             bool hasSpatialData,
             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
             ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
@@ -139,6 +141,7 @@ namespace ProjectFirma.Web.Views.Organization
             IndexUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Index());
 
             MapInitJson = mapInitJson;
+            ProjectLocationsLayerGeoJson = projectLocationsLayerGeoJson;
             HasSpatialData = hasSpatialData;
             ExpendituresDirectlyFromOrganizationViewGoogleChartViewData = expendituresDirectlyFromOrganizationViewGoogleChartViewData;
             ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData;

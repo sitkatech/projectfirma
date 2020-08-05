@@ -190,6 +190,10 @@
             var map = window.Sitka.map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
 
             map.initializeProjectLocations(projectLocationsMapInitJson);
+
+            var clusterLocationsCheckbox = jQuery("#ClusterLocations");
+            clusterLocationsCheckbox.change(function () { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+
             map.disableUserInteraction();
 
             jQuery('.leaflet-container').css('cursor', 'pointer');

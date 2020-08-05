@@ -259,6 +259,9 @@ Source code is available upon request via <support@sitkatech.com>.
         var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
         map.initializeProjectLocations(projectLocationsMapInitJson);
 
+        var clusterLocationsCheckbox = jQuery("#ClusterLocations");
+        clusterLocationsCheckbox.change(function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+
         map.map.fitBounds(map.map.getBounds().pad(.25));
         jQuery("#overviewTab").on("shown.bs.tab", function() {
             map.map.invalidateSize();

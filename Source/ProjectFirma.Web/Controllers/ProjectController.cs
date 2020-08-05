@@ -47,6 +47,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
@@ -134,7 +135,6 @@ namespace ProjectFirma.Web.Controllers
         [ProjectViewFeature]
         public ViewResult Detail(ProjectPrimaryKey projectPrimaryKey)
         {
-            
             var project = projectPrimaryKey.EntityObject;
             var activeProjectStages = GetActiveProjectStages(project);
 
@@ -248,6 +248,11 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
+            // Potential Match Maker Project Partners
+            ProjectPotentialPartnerDetailViewData projectPotentialPartnerDetailViewData = 
+                new ProjectPotentialPartnerDetailViewData(CurrentFirmaSession,
+                                                          project,
+                                                          ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
@@ -288,6 +293,7 @@ namespace ProjectFirma.Web.Controllers
                 projectNotificationGridDataUrl,
                 userCanEditProposal,
                 projectOrganizationsDetailViewData,
+                projectPotentialPartnerDetailViewData,
                 classificationSystems,
                 ProjectLocationController.EditProjectBoundingBoxFormID, 
                 geospatialAreaTypes, 

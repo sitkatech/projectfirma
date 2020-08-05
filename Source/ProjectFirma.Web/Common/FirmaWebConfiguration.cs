@@ -72,8 +72,7 @@ namespace ProjectFirma.Web.Common
         public static string GeoServerUrl = SitkaConfiguration.GetRequiredAppSetting("GeoServerUrl");
 
         // Feature Flag Settings
-
-
+        public static readonly bool FeatureMatchMakerEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureMatchMakerEnabled"));
 
         public static string GetCanonicalHost(string hostName, bool useApproximateMatch)
         {
