@@ -80,6 +80,13 @@ namespace ProjectFirma.Web.Common
             return LabelWithSugarFor(fieldDefinition, displayStyle, fieldDefinition.GetFieldDefinitionLabel());
         }
 
+        /// <summary>
+        /// Does what LabelWithHelpFor does and adds a help icon
+        /// </summary>
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, DisplayStyle displayStyle, int popupWidth)
+        {
+            return LabelWithSugarFor(fieldDefinition, displayStyle, fieldDefinition.GetFieldDefinitionLabel(), popupWidth);
+        }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
@@ -128,6 +135,13 @@ namespace ProjectFirma.Web.Common
             var fullHtmlFieldID = labelText.Replace(" ", "");
             // in this case, we are not trying to tie it to an actual viewmodel; we only want it to be safe as an id to find by jquery
             return LabelWithSugarFor(fieldDefinition.GetFieldDefinitionData(), fullHtmlFieldID, DefaultPopupWidth, displayStyle, false, labelText, fieldDefinition.GetContentUrl());
+        }
+
+        public static MvcHtmlString LabelWithSugarFor(FieldDefinition fieldDefinition, DisplayStyle displayStyle, string labelText, int popupWidth)
+        {
+            var fullHtmlFieldID = labelText.Replace(" ", "");
+            // in this case, we are not trying to tie it to an actual viewmodel; we only want it to be safe as an id to find by jquery
+            return LabelWithSugarFor(fieldDefinition.GetFieldDefinitionData(), fullHtmlFieldID, popupWidth, displayStyle, false, labelText, fieldDefinition.GetContentUrl());
         }
 
         public static MvcHtmlString LabelWithSugarFor(IFieldDefinitionData fieldDefinitionData, string fullHtmlFieldID, int popupWidth, DisplayStyle displayStyle, bool hasRequiredAttribute, string labelText, string urlToContent)
