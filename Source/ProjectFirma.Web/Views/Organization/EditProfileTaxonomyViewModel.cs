@@ -50,8 +50,7 @@ namespace ProjectFirma.Web.Views.Organization
             TaxonomyCompoundKeys = taxonomyCompoundKeys;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Organization organization, FirmaSession currentFirmaSession,
-            DatabaseEntities databaseEntities,
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization,
             ICollection<MatchmakerOrganizationTaxonomyTrunk> allMatchMakerOrganizationTaxonomyTrunks,
             ICollection<MatchmakerOrganizationTaxonomyBranch> allMatchMakerOrganizationTaxonomyBranches,
             ICollection<MatchmakerOrganizationTaxonomyLeaf> allMatchMakerOrganizationTaxonomyLeafs
@@ -61,6 +60,10 @@ namespace ProjectFirma.Web.Views.Organization
             var updatedTaxonomyTrunkIDs = new List<int>();
             var updatedTaxonomyBranchIDs = new List<int>();
             var updatedTaxonomyLeafIDs = new List<int>();
+            if (TaxonomyCompoundKeys == null)
+            {
+                TaxonomyCompoundKeys = new List<string>();
+            }
             foreach (var compoundKey in TaxonomyCompoundKeys)
             {
                 var levelAndID = TaxonomyTierHelpers.GetTaxonomyLevelAndIDFromComboTreeNodeKey(compoundKey);

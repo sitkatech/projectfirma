@@ -535,7 +535,7 @@
     else if (!this.options.isMultiple && this._selectedItem.hasOwnProperty('id')){
       return [this._selectedItem.id];
     }
-    return null;
+    return [];
   };
 
   // Retuns Array (multiple), Integer (single), or False (No choice)
@@ -550,7 +550,7 @@
     else if (!this.options.isMultiple && this._selectedItem.hasOwnProperty('id')){
       return this._selectedItem.title;
     }
-    return null;
+    return false;
   };
 
   ComboTree.prototype.setSource = function(source) {

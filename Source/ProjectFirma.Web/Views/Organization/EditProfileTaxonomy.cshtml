@@ -59,8 +59,9 @@
     });
 
     comboTreeInstance.onChange(function(event) {
-        var numberSelected = comboTreeInstance.getSelectedIds().length;
-        $('#taxonomySelector').val("" + numberSelected + " selected");
+        if (comboTreeInstance.getSelectedIds() != null && comboTreeInstance.getSelectedIds().length > 0) {
+            $('#taxonomySelector').val("" + comboTreeInstance.getSelectedIds().length + " selected");
+        }
     });
 
     var form = jQuery("form");
@@ -73,7 +74,9 @@
     jQuery(document).ready(function ()
     {
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
-        var numberSelected = comboTreeInstance.getSelectedIds().length;
-        $('#taxonomySelector').val("" + numberSelected + " selected");
+        if (selectedNodes.length > 0) {
+            $('#taxonomySelector').val("" + selectedNodes.length + " selected");
+        }
+        
     });
 </script>

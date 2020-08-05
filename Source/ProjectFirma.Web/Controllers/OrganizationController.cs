@@ -195,7 +195,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.MatchmakerOrganizationTaxonomyLeafs.Load();
             var matchmakerOrganizationTaxonomyLeafs = HttpRequestStorage.DatabaseEntities.AllMatchmakerOrganizationTaxonomyLeafs.Local;
         
-            viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities, matchmakerOrganizationTaxonomyTrunks, matchmakerOrganizationTaxonomyBranches, matchmakerOrganizationTaxonomyLeafs);
+            viewModel.UpdateModel(organization, matchmakerOrganizationTaxonomyTrunks, matchmakerOrganizationTaxonomyBranches, matchmakerOrganizationTaxonomyLeafs);
             return new ModalDialogFormJsonResult();
         }
         
