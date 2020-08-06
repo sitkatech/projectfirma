@@ -42,6 +42,10 @@ namespace ProjectFirma.Web.Views.CustomPage
         public int CustomPageID { get; set; }
 
         [Required]
+        [DisplayName("Menu")]
+        public int FirmaMenuItemID { get; set; }
+
+        [Required]
         [StringLength(ProjectFirmaModels.Models.CustomPage.FieldLengths.CustomPageDisplayName)]
         [DisplayName("Page Name")]
         public string CustomPageDisplayName { get; set; }
@@ -65,6 +69,7 @@ namespace ProjectFirma.Web.Views.CustomPage
         public EditViewModel(ProjectFirmaModels.Models.CustomPage customPage)
         {
             CustomPageID = customPage.CustomPageID;
+            FirmaMenuItemID = customPage.FirmaMenuItemID;
             CustomPageDisplayName = customPage.CustomPageDisplayName;
             CustomPageVanityUrl = customPage.CustomPageVanityUrl;
             CustomPageDisplayTypeID = customPage.CustomPageDisplayTypeID;
@@ -72,6 +77,7 @@ namespace ProjectFirma.Web.Views.CustomPage
 
         public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage, FirmaSession currentFirmaSession)
         {
+            customPage.FirmaMenuItemID = FirmaMenuItemID;
             customPage.CustomPageDisplayName = CustomPageDisplayName;
             customPage.CustomPageVanityUrl = CustomPageVanityUrl;
             customPage.CustomPageDisplayTypeID = CustomPageDisplayTypeID.Value;
@@ -84,7 +90,7 @@ namespace ProjectFirma.Web.Views.CustomPage
             var existingCustomPages = MultiTenantHelpers.GetCustomPages();
             if (!CustomPageModelExtensions.IsDisplayNameUnique(existingCustomPages, CustomPageDisplayName, CustomPageID))
             {
-                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("About Page with the provided Display Name already exists.", x => x.CustomPageDisplayName));
+                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("Custom Page with the provided Display Name already exists.", x => x.CustomPageDisplayName));
             }
            
             if (!string.IsNullOrWhiteSpace(CustomPageVanityUrl))
@@ -95,7 +101,7 @@ namespace ProjectFirma.Web.Views.CustomPage
                 }
                 else if (!CustomPageModelExtensions.IsVanityUrlUnique(existingCustomPages, CustomPageVanityUrl, CustomPageID))
                 {
-                    validationResults.Add(new SitkaValidationResult<EditViewModel, string>("An About Page with the provided Vanity Url already exists.", x => x.CustomPageVanityUrl));
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, string>("An Custom Page with the provided Vanity Url already exists.", x => x.CustomPageVanityUrl));
                 }
             }
 

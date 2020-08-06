@@ -645,6 +645,11 @@ namespace ProjectFirmaModels.Models
                 case "FirmaHomePageImage":
                     return FirmaHomePageImages.GetFirmaHomePageImage(primaryKey);
 
+                case "FirmaMenuItem":
+                    var firmaMenuItem = FirmaMenuItem.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(firmaMenuItem, "FirmaMenuItem", primaryKey);
+                    return firmaMenuItem;
+
                 case "FirmaPageImage":
                     return FirmaPageImages.GetFirmaPageImage(primaryKey);
 

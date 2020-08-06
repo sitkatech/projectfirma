@@ -55,6 +55,7 @@ namespace ProjectFirma.Web.Views.CustomPage
                     null,
                     null), 80, DhtmlxGridColumnFilterType.None);
             }
+            Add("Menu", a => a.FirmaMenuItem.GetFirmaMenuItemDisplayName(), 110, DhtmlxGridColumnFilterType.Text);
             Add("Page Name", a => a.CustomPageDisplayType != CustomPageDisplayType.Disabled ? UrlTemplate.MakeHrefString(a.GetAboutPageUrl(), a.CustomPageDisplayName) : new HtmlString($"{a.CustomPageDisplayName}"), 180, DhtmlxGridColumnFilterType.Text);
             Add("Has Content", a => a.HasPageContent().ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.CustomPageDisplayType.ToType().ToGridHeaderString(), a => a.CustomPageDisplayType.CustomPageDisplayTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);

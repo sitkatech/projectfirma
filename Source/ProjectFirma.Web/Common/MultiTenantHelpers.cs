@@ -261,6 +261,12 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.DatabaseEntities.CustomPages.ToList();
         }
 
+        public static List<CustomPage> GetCustomPages(FirmaMenuItem firmaMenuItem)
+        {
+            return HttpRequestStorage.DatabaseEntities.CustomPages
+                .Where(x => x.FirmaMenuItemID == firmaMenuItem.FirmaMenuItemID).OrderBy(x => x.CustomPageDisplayName).ToList();
+        }
+
         public static AccomplishmentsDashboardFundingDisplayType GetAccomplishmentsDashboardFundingDisplayType()
         {
             return GetTenantAttributeFromCache().AccomplishmentsDashboardFundingDisplayType;
