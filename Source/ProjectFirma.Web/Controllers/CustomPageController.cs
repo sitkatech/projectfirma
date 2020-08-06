@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewCustomPage("Configure", vanityUrl);
         }
 
-        [CustomPageViewFeature]
+        [AnonymousUnclassifiedFeature]
         public ViewResult ViewCustomPage(string route, string vanityUrl)
         {
             var customPage = MultiTenantHelpers.GetCustomPages()
