@@ -50,42 +50,42 @@ namespace ProjectFirma.Web.Controllers
         [Route("ProjectCustomPage/{vanityUrl}")]
         public ActionResult Project(string vanityUrl)
         {
-            return ViewCustomPage("Project", vanityUrl);
+            return ViewCustomPage("ProjectCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
         [Route("ProgramInfoCustomPage/{vanityUrl}")]
         public ActionResult ProgramInfo(string vanityUrl)
         {
-            return ViewCustomPage("ProgramInfo", vanityUrl);
+            return ViewCustomPage("ProgramInfoCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
         [Route("ResultsCustomPage/{vanityUrl}")]
         public ActionResult Results(string vanityUrl)
         {
-            return ViewCustomPage("Results", vanityUrl);
+            return ViewCustomPage("ResultsCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
         [Route("ReportsCustomPage/{vanityUrl}")]
         public ActionResult Reports(string vanityUrl)
         {
-            return ViewCustomPage("Reports", vanityUrl);
+            return ViewCustomPage("ReportsCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
         [Route("ManageCustomPage/{vanityUrl}")]
         public ActionResult Manage(string vanityUrl)
         {
-            return ViewCustomPage("Manage", vanityUrl);
+            return ViewCustomPage("ManageCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
         [Route("ConfigureCustomPage/{vanityUrl}")]
         public ActionResult Configure(string vanityUrl)
         {
-            return ViewCustomPage("Configure", vanityUrl);
+            return ViewCustomPage("ConfigureCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
