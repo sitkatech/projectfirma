@@ -343,7 +343,7 @@ namespace ProjectFirma.Web.Models
             var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
             var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
 
-            // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
+            // validation 1: ensure that at least one PM has values for each year that isn't marked as 'No accomplishments to report' from ProjectUpdate Project Implementation start year to min(endyear, currentyear)
             // if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
             var missingYears = new HashSet<int>();
             if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
