@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[CustomPage](
 	[CustomPageDisplayTypeID] [int] NOT NULL,
 	[CustomPageContent] [dbo].[html] NULL,
 	[DocumentLibraryID] [int] NULL,
+	[FirmaMenuItemID] [int] NOT NULL,
  CONSTRAINT [PK_CustomPage_CustomPageID] PRIMARY KEY CLUSTERED 
 (
 	[CustomPageID] ASC
@@ -46,6 +47,11 @@ ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_Docume
 REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID], [TenantID])
 GO
 ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_DocumentLibrary_DocumentLibraryID_TenantID]
+GO
+ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_FirmaMenuItem_FirmaMenuItemID] FOREIGN KEY([FirmaMenuItemID])
+REFERENCES [dbo].[FirmaMenuItem] ([FirmaMenuItemID])
+GO
+ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_FirmaMenuItem_FirmaMenuItemID]
 GO
 ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

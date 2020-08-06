@@ -100,6 +100,7 @@
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
+    <Compile Include="Models\FirmaMenuItemModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />

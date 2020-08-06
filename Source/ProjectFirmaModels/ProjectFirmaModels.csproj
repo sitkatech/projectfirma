@@ -173,6 +173,8 @@
     <Compile Include="Models\Generated\FirmaHomePageImage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FirmaHomePageImageConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\FirmaHomePageImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaMenuItem.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaMenuItemPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPage.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FirmaPageConfiguration.Binding.cs" />
