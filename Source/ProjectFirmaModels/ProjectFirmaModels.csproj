@@ -173,6 +173,8 @@
     <Compile Include="Models\Generated\FirmaHomePageImage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FirmaHomePageImageConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\FirmaHomePageImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaMenuItem.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaMenuItemPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPage.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FirmaPageConfiguration.Binding.cs" />
@@ -247,6 +249,18 @@
     <Compile Include="Models\Generated\ImportExternalProjectStaging.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStagingConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStagingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyBranch.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyBranch.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyBranchConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyBranchPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyLeaf.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyLeaf.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyLeafConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyLeafPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunk.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunk.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunkConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunkPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\MeasurementUnitType.Binding.cs" />
     <Compile Include="Models\Generated\MeasurementUnitTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Notification.Binding.cs" />
@@ -703,6 +717,7 @@
     <Compile Include="Models\Generated\vProjectDetailConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyComplete.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyCompleteConfiguration.Binding.cs" />
+    <Compile Include="Models\ComboTreeNode.cs" />
     <Compile Include="Models\FieldDefinitionDataImage.cs" />
     <Compile Include="Models\DocumentLibraryDocumentRole.cs" />
     <Compile Include="Models\DocumentLibraryDocument.cs" />
@@ -771,6 +786,9 @@
     <Compile Include="Models\IProjectContact.cs" />
     <Compile Include="Models\ISortingGroup.cs" />
     <Compile Include="Models\ExternalMapLayer.cs" />
+    <Compile Include="Models\MatchmakerOrganizationTaxonomyTrunk.cs" />
+    <Compile Include="Models\MatchmakerOrganizationTaxonomyBranch.cs" />
+    <Compile Include="Models\MatchmakerOrganizationTaxonomyLeaf.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />

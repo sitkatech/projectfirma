@@ -39,6 +39,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[EnableProjectCategories] [bit] NOT NULL,
 	[EnableReports] [bit] NOT NULL,
 	[TenantFactSheetLogoFileResourceInfoID] [int] NULL,
+	[EnableMatchmaker] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

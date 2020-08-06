@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
@@ -10,6 +9,10 @@ namespace ProjectFirma.Web.PartnerFinder
 {
     public class PartnerOrganizationMatchMakerScore
     {
+        // Anything below this score is deemed not good enough to show to a user as
+        // a potential match. We'll see if this is useful idea.
+        public const double MatchScoreDisplayCutoff = 0.5;
+
         public Project Project { get; }
         public Organization Organization { get; }
         public double PartnerOrganizationFitnessScoreNumber { get; }
@@ -52,15 +55,43 @@ namespace ProjectFirma.Web.PartnerFinder
             // * Fitness is bidirectional. In other words, if a Project's suitability for an Organization is 0.75,
             //   that Organization's suitability for that Project is also 0.75.
             // * Scores are restricted to 0.0 - 1.0 where 0.0 is unsuitable, and 1.0 is perfect match.
+            // * SubScores are also restricted to 0.0. - 1.0.
 
-            // To start off with, we assume that every Project matches every Organization perfectly.
-            // This will change.
-            double scoreToReturn = 1.0;
+            // Taxonomy SubScore
+            double taxonomySubScore = GetTaxonomySubScore(project, organization);
+            CheckEnsureScoreInValidRange(taxonomySubScore);
 
-            // We want to be very sure score values fall between 0.0 and 1.0 inclusive.
+            // Use FAKE SubScore component.
+            // Artificially gooses scores in the short term, but eventually should be removed as the matching algorithm develops
+            double fakeTermSubScore = 1.0;
+
+            // Hardwired for just two components for the moment, but this will definitely change.
+            double scoreToReturn = taxonomySubScore * 0.5 +
+                                   fakeTermSubScore * 0.5;
+
+            // Again, we want to be very sure score values fall between 0.0 and 1.0 inclusive.
             CheckEnsureScoreInValidRange(scoreToReturn);
 
             return scoreToReturn;
+        }
+
+        private static double GetTaxonomySubScore(Project project, Organization organization)
+        {
+            var taxonomyWeight = 1.0;
+            // Project matches a selected Taxonomy Leaf => "perfect match" for taxonomy
+            var matchesLeaf = organization.MatchmakerOrganizationTaxonomyLeafs.Any(x =>
+                x.TaxonomyLeafID == project.TaxonomyLeafID);
+            // If matches Branch but not a leaf, that's an pretty good score
+            var matchesBranch =
+                organization.MatchmakerOrganizationTaxonomyBranches.Any(x =>
+                    x.TaxonomyBranchID == project.TaxonomyLeaf.TaxonomyBranchID);
+            // If matches only Trunk, that's a passing score but not great
+            var matchesTrunk = organization.MatchmakerOrganizationTaxonomyTrunks.Any(x =>
+                x.TaxonomyTrunkID == project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID);
+            double taxonomyScore = matchesLeaf ? 1.0 : matchesBranch ? .75 : matchesTrunk ? .5 : 0.0;
+
+            double taxonomySubScore = taxonomyWeight * taxonomyScore;
+            return taxonomySubScore;
         }
 
         public static void CheckEnsureScoreInValidRange(double scoreToCheck)
@@ -68,7 +99,16 @@ namespace ProjectFirma.Web.PartnerFinder
             Check.Ensure(scoreToCheck >= 0.0 && scoreToCheck <= 1.0, $"Got Score of {scoreToCheck}. Expected Partner Fitness Score between 0.0 and 1.0.");
         }
 
-        private List<PartnerOrganizationMatchMakerScore> GetPartnerOrganizationMatchMakerScores(List<Organization> organizations, List<Project> projects)
+        /// <summary>
+        /// Get Partner - Organization match scores
+        /// </summary>
+        /// <param name="organizations"></param>
+        /// <param name="projects"></param>
+        /// <param name="matchScoreCutoff">The value 0.0-1.0 value below which matches will not be returned. Set to 0 to return all possible matches, no matter how poor.</param>
+        /// <returns></returns>
+        private List<PartnerOrganizationMatchMakerScore> GetPartnerOrganizationMatchMakerScores(List<Organization> organizations,
+                                                                                                List<Project> projects,
+                                                                                                double matchScoreCutoff = PartnerOrganizationMatchMakerScore.MatchScoreDisplayCutoff)
         {
             List<PartnerOrganizationMatchMakerScore> scoresToReturn = new List<PartnerOrganizationMatchMakerScore>();
             foreach (var currentOrganization in organizations)
@@ -76,8 +116,11 @@ namespace ProjectFirma.Web.PartnerFinder
                 foreach (var currentProject in projects)
                 {
                     var currentScore = GetPartnerOrganizationFitnessScoreNumber(currentProject, currentOrganization);
-                    PartnerOrganizationMatchMakerScore currentMatchMakerScore = new PartnerOrganizationMatchMakerScore(currentProject, currentOrganization, currentScore);
-                    scoresToReturn.Add(currentMatchMakerScore);
+                    if (currentScore >= matchScoreCutoff)
+                    {
+                        PartnerOrganizationMatchMakerScore currentMatchMakerScore = new PartnerOrganizationMatchMakerScore(currentProject, currentOrganization, currentScore);
+                        scoresToReturn.Add(currentMatchMakerScore);
+                    }
                 }
             }
 

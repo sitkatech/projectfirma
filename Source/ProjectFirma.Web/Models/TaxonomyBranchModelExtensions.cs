@@ -53,6 +53,16 @@ namespace ProjectFirma.Web.Models
             return fancyTreeNode;
         }
 
+        public static ComboTreeNode ToComboTreeNode(this TaxonomyBranch taxonomyBranch)
+        {
+            var key = $"{TaxonomyLevel.Branch.TaxonomyLevelID}-{taxonomyBranch.TaxonomyBranchID}";
+            var comboTreeNode = new ComboTreeNode(taxonomyBranch.GetDisplayName(), key)
+            {
+                SubNodes = taxonomyBranch.TaxonomyLeafs.SortByOrderThenName().Select(x => x.ToComboTreeNode()).ToList()
+            };
+            return comboTreeNode;
+        }
+
         public static HtmlString GetDisplayNameAsUrl(this TaxonomyBranch taxonomyBranch)
         {
             return UrlTemplate.MakeHrefString(taxonomyBranch.GetDetailUrl(), taxonomyBranch.GetDisplayName());

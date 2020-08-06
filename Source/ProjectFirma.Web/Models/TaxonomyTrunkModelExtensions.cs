@@ -58,5 +58,15 @@ namespace ProjectFirma.Web.Models
             };
             return fancyTreeNode;
         }
+
+        public static ComboTreeNode ToComboTreeNode(this TaxonomyTrunk taxonomyTrunk)
+        {
+            var key = $"{TaxonomyLevel.Trunk.TaxonomyLevelID}-{taxonomyTrunk.TaxonomyTrunkID}";
+            var comboTreeNode = new ComboTreeNode(taxonomyTrunk.GetDisplayName(), key)
+            {
+                SubNodes = taxonomyTrunk.TaxonomyBranches.SortByOrderThenName().Select(x => x.ToComboTreeNode()).ToList()
+            };
+            return comboTreeNode;
+        }
     }
 }

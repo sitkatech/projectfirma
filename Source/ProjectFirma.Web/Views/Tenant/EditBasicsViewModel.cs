@@ -126,6 +126,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableReports)]
         public bool EnableReports { get; set; }
 
+        [DisplayName("Enable Matchmaker?")]
+        public bool EnableMatchmaker { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -155,6 +158,7 @@ namespace ProjectFirma.Web.Views.Tenant
             GeoServerNamespace = tenantAttribute.GeoServerNamespace;
             EnableProjectCategories = tenantAttribute.EnableProjectCategories;
             EnableReports = tenantAttribute.EnableReports;
+            EnableMatchmaker = tenantAttribute.EnableMatchmaker;
         }
 
         public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
@@ -185,6 +189,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
             tenantAttribute.EnableEvaluations = EnableProjectEvaluations;
             tenantAttribute.EnableReports = EnableReports;
+            tenantAttribute.EnableMatchmaker = EnableMatchmaker;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)

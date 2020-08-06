@@ -6,7 +6,7 @@
         {
             var customPage = CustomPage;
             var customPageDisplayName = customPage?.CustomPageDisplayName ?? "Unknown";
-            return $"Custom About Page Image: {customPageDisplayName}";
+            return $"Custom Page Image: {customPageDisplayName}";
         }
     }
 }
