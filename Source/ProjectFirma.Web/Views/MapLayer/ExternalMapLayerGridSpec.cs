@@ -25,11 +25,11 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ExternalMapLayer
+namespace ProjectFirma.Web.Views.MapLayer
 {
-    public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.ExternalMapLayer>
+    public class ExternalMapLayerGridSpec : GridSpec<ProjectFirmaModels.Models.ExternalMapLayer>
     {
-        public IndexGridSpec(bool userCanManage)
+        public ExternalMapLayerGridSpec(bool userCanManage)
         {
             if (userCanManage)
             {
@@ -41,8 +41,8 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
             Add(FieldDefinitionEnum.ExternalMapLayerDescription.ToType().ToGridHeaderString(), x => x.LayerDescription, 300);
             Add(FieldDefinitionEnum.ExternalMapLayerFeatureNameField.ToType().ToGridHeaderString(), x => x.FeatureNameField, 150);
 //            Add("Display on all " + FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName + " maps?", x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
-            Add(FieldDefinitionEnum.ExternalMapLayerDisplayOnAllMaps.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
-            Add(FieldDefinitionEnum.ExternalMapLayerLayerIsOnByDefault.ToType().ToGridHeaderString(), x => x.LayerIsOnByDefault ? "Yes" : "No", 75);
+            Add(FieldDefinitionEnum.MapLayerDisplayOnAllMaps.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
+            Add(FieldDefinitionEnum.MapLayerLayerIsOnByDefault.ToType().ToGridHeaderString(), x => x.LayerIsOnByDefault ? "Yes" : "No", 75);
             Add(FieldDefinitionEnum.ExternalMapLayerIsActive.ToType().ToGridHeaderString(), x => x.IsActive ? "Yes" : "No", 75);
             Add(FieldDefinitionEnum.ExternalMapLayerIsATiledMapService.ToType().ToGridHeaderString(), x => x.IsTiledMapService ? "Yes" : "No", 75);
         }
