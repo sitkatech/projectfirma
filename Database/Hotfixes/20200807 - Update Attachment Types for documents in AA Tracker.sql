@@ -1,4 +1,4 @@
-﻿
+
 Update dbo.ProjectAttachment set AttachmentTypeID = 24 where TenantID = 11 and DisplayName = 'Blackjack_Neighborhoods_1.pdf'
 Update dbo.ProjectAttachment set AttachmentTypeID = 1 where TenantID = 11 and DisplayName = 'HCRPIC Phase II Report_Appendix G_PGST PIC Report_20170331.pdf'
 Update dbo.ProjectAttachment set AttachmentTypeID = 1 where TenantID = 11 and DisplayName = '__1 T.A.C.T. Final Report (Reduced Size).pdf'
