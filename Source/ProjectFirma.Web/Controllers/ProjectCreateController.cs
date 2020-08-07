@@ -51,16 +51,28 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.ProjectUpdate;
+using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotes;
+using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectCreate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectCreate.BasicsViewModel;
+using BulkSetSpatialInformation = ProjectFirma.Web.Views.ProjectCreate.BulkSetSpatialInformation;
+using BulkSetSpatialInformationViewData = ProjectFirma.Web.Views.ProjectCreate.BulkSetSpatialInformationViewData;
+using BulkSetSpatialInformationViewModel = ProjectFirma.Web.Views.ProjectCreate.BulkSetSpatialInformationViewModel;
 using Contacts = ProjectFirma.Web.Views.ProjectCreate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectCreate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectCreate.ContactsViewModel;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding;
+using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostType;
+using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostTypeViewData;
+using ExpectedFundingByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostTypeViewModel;
 using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingViewData;
 using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingViewModel;
 using Expenditures = ProjectFirma.Web.Views.ProjectCreate.Expenditures;
+using ExpendituresByCostType = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostType;
+using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewData;
+using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
@@ -79,6 +91,8 @@ using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectCreate.Perform
 using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasuresViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectCreate.Photos;
 using ProjectCustomAttributes = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributes;
+using ProjectCustomAttributesViewData = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesViewData;
+using ProjectCustomAttributesViewModel = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesViewModel;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -1044,7 +1058,6 @@ namespace ProjectFirma.Web.Controllers
 
             var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, geospatialAreaType.GeospatialAreaTypeID).ToList();
 
-
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
                 project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
@@ -1103,7 +1116,7 @@ namespace ProjectFirma.Web.Controllers
             var viewModel = new BulkSetSpatialInformationViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList());
             return ViewBulkSetSpatialInformation(project, viewModel);
         }
-        
+
         private ViewResult ViewBulkSetSpatialInformation(Project project, BulkSetSpatialInformationViewModel viewModel)
         {
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
@@ -1114,7 +1127,6 @@ namespace ProjectFirma.Web.Controllers
             var bulkSetSpatialAreaUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.BulkSetSpatialInformation(project, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
             var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
-
 
             var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project,null).ToList();
 
@@ -1151,6 +1163,26 @@ namespace ProjectFirma.Web.Controllers
 
 
         #endregion "GeospatialAreas"
+
+        #region Partner Finder
+
+        // Partner Finder section of Project Update
+        [HttpGet]
+        [MatchMakerViewPotentialPartnersFeature]
+        public ActionResult PartnerFinder(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+
+            var proposalSectionsStatus = GetProposalSectionsStatus(project);
+            // Is something like this needed? I don't think so but am not entirely sure.. -- SLG 8/7/2020
+            // proposalSectionsStatus.IsProjectLocationSimpleSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectLocationSimpleSectionComplete;
+            var viewData = new PartnerFinderProjectCreateViewData(CurrentFirmaSession, project, proposalSectionsStatus);
+            var viewModel = new PartnerFinderProjectCreateViewModel();
+            return RazorView<PartnerFinderProjectCreate, PartnerFinderProjectCreateViewData, PartnerFinderProjectCreateViewModel>(viewData, viewModel);
+        }
+
+        #endregion Partner Finder
+
 
         #region "Attachments and Notes"
         [HttpGet]

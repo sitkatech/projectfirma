@@ -1533,6 +1533,23 @@ namespace ProjectFirma.Web.Controllers
             return ViewBulkSetSpatialInformation(project, projectUpdateBatch, viewModel);
         }
 
+        // Partner Finder section of Project Update
+        [HttpGet]
+        [MatchMakerViewPotentialPartnersFeature]
+        public ActionResult PartnerFinder(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            var viewData = new PartnerFinderProjectUpdateViewData(CurrentFirmaSession, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch));
+            var viewModel = new PartnerFinderProjectUpdateViewModel();
+            return RazorView<PartnerFinderProjectUpdate, PartnerFinderProjectUpdateViewData, PartnerFinderProjectUpdateViewModel>(viewData, viewModel);
+        }
+
         private ViewResult ViewBulkSetSpatialInformation(Project project, ProjectUpdateBatch projectUpdateBatch, BulkSetSpatialInformationViewModel viewModel)
         {
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
@@ -3339,7 +3356,7 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, string currentSectionName)
         {
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
-            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
+            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(CurrentFirmaSession, true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;

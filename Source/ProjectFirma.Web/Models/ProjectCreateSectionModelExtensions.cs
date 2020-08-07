@@ -85,8 +85,10 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project);
                 case ProjectCreateSectionEnum.BulkSetSpatialInformation:
                     return ProjectCreateSection.Basics.IsComplete(project);
+                case ProjectCreateSectionEnum.PartnerFinder:
+                    return true;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled ProjectCreateSection Enum: {projectCreateSection.ToEnum}");
             }
         }
         public static string GetSectionUrl(this ProjectCreateSection projectCreateSection, Project project)
@@ -136,8 +138,11 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.AttachmentsAndNotes(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.BulkSetSpatialInformation:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.BulkSetSpatialInformation(project.ProjectID)) : null;
+                case ProjectCreateSectionEnum.PartnerFinder:
+                    return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PartnerFinder(project));
+
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled ProjectCreateSection Enum: {projectCreateSection.ToEnum}");
             }
         }
     }

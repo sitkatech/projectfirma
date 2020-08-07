@@ -49,8 +49,10 @@ namespace ProjectFirma.Web.Models
                     return true;
                 case ProjectUpdateSectionEnum.BulkSetSpatialInformation:
                     return true;
+                case ProjectUpdateSectionEnum.PartnerFinder:
+                    return true;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled Project Update Section Enum: {projectUpdateSection.ToEnum}");
             }
         }
         public static string GetSectionUrl(this ProjectUpdateSection projectUpdateSection, Project project)
@@ -97,8 +99,11 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.TechnicalAssistanceRequests(project));
                 case ProjectUpdateSectionEnum.BulkSetSpatialInformation:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.BulkSetSpatialInformation(project));
+                case ProjectUpdateSectionEnum.PartnerFinder:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PartnerFinder(project));
+
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException($"Unhandled Project Update Section Enum: {projectUpdateSection.ToEnum}");
             }
         }
     }

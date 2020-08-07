@@ -13,12 +13,16 @@ namespace ProjectFirma.Web.Security
 
         public override bool HasPermissionByPerson(Person person)
         {
-            return MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker && base.HasPermissionByPerson(person);
+            return FirmaWebConfiguration.FeatureMatchMakerEnabled && 
+                   MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker && 
+                   base.HasPermissionByPerson(person);
         }
 
         public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
-            return MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker && base.HasPermissionByFirmaSession(firmaSession);
+            return FirmaWebConfiguration.FeatureMatchMakerEnabled &&
+                   MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker &&
+                   base.HasPermissionByFirmaSession(firmaSession);
         }
     }
 }
