@@ -22,6 +22,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CustomPageDisplayTypeID).HasColumnName(@"CustomPageDisplayTypeID").HasColumnType("int").IsRequired();
             Property(x => x.CustomPageContent).HasColumnName(@"CustomPageContent").HasColumnType("varchar").IsOptional();
             Property(x => x.DocumentLibraryID).HasColumnName(@"DocumentLibraryID").HasColumnType("int").IsOptional();
+            Property(x => x.FirmaMenuItemID).HasColumnName(@"FirmaMenuItemID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.DocumentLibrary).WithMany(b => b.CustomPages).HasForeignKey(c => c.DocumentLibraryID).WillCascadeOnDelete(false); // FK_CustomPage_DocumentLibrary_DocumentLibraryID

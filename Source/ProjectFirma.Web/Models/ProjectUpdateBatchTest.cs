@@ -712,6 +712,9 @@ namespace ProjectFirma.Web.Models
             var totalResults = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(PerformanceMeasuresValidationResult.AreAllValid(totalResults), Is.EqualTo(isValid), $"Should be {(isValid ? " valid" : "not valid")}");
 
+            var currentYearsEntered = performanceMeasureActualUpdatesToCheck.Select(y => y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().ToList();
+
+
             // What distinct PerformanceMeasures are being worked with? 
             var pmausGrouped = performanceMeasureActualUpdatesToCheck.GroupBy(pmas => pmas.PerformanceMeasureID);
 
@@ -723,7 +726,6 @@ namespace ProjectFirma.Web.Models
                 var currentLocalResults = totalResults.Where(r => r.GetPerformanceMeasureID() == currentPerformanceMeasureID).ToList();
                 List<PerformanceMeasureActualUpdate> currentPerformanceMeasureActualUpdates = performanceMeasureActualUpdateGroup.ToList();
 
-                var currentYearsEntered = currentPerformanceMeasureActualUpdates.Select(y => y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().ToList();
                 var missingReportedValues = currentPerformanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
                 var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
                 var missingYearsMessage = $"for {string.Join(", ", expectedMissingYears)}";
@@ -744,7 +746,7 @@ namespace ProjectFirma.Web.Models
                 }
                 else if (missingReportedValues.Any())
                 {
-                    Assert.That(currentWarningMessages, Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }), assertionMessage);
+                    Assert.That(currentWarningMessages[0], Is.StringEnding(PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage));
                 }
                 else
                 {

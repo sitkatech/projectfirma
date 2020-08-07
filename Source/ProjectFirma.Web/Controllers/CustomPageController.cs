@@ -33,6 +33,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -42,11 +43,59 @@ namespace ProjectFirma.Web.Controllers
         [Route("About/{vanityUrl}")]
         public ActionResult About(string vanityUrl)
         {
+            return ViewCustomPage("About", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ProjectCustomPage/{vanityUrl}")]
+        public ActionResult Project(string vanityUrl)
+        {
+            return ViewCustomPage("ProjectCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ProgramInfoCustomPage/{vanityUrl}")]
+        public ActionResult ProgramInfo(string vanityUrl)
+        {
+            return ViewCustomPage("ProgramInfoCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ResultsCustomPage/{vanityUrl}")]
+        public ActionResult Results(string vanityUrl)
+        {
+            return ViewCustomPage("ResultsCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ReportsCustomPage/{vanityUrl}")]
+        public ActionResult Reports(string vanityUrl)
+        {
+            return ViewCustomPage("ReportsCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ManageCustomPage/{vanityUrl}")]
+        public ActionResult Manage(string vanityUrl)
+        {
+            return ViewCustomPage("ManageCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ConfigureCustomPage/{vanityUrl}")]
+        public ActionResult Configure(string vanityUrl)
+        {
+            return ViewCustomPage("ConfigureCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public ViewResult ViewCustomPage(string route, string vanityUrl)
+        {
             var customPage = MultiTenantHelpers.GetCustomPages()
                 .SingleOrDefault(x => string.Equals(x.CustomPageVanityUrl, vanityUrl, StringComparison.OrdinalIgnoreCase));
             if (vanityUrl.IsEmpty() || customPage == null)
             {
-                throw new ArgumentException($"Bad vanity url for /About: \"{vanityUrl}\"");
+                throw new ArgumentException($"Bad vanity url for /{route}: \"{vanityUrl}\"");
             }
             new CustomPageViewFeature().DemandPermission(CurrentFirmaSession, customPage);
             var hasPermission = new CustomPageManageFeature().HasPermission(CurrentFirmaSession, customPage).HasPermission;
@@ -136,11 +185,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var customPage = new CustomPage(string.Empty, string.Empty, CustomPageDisplayType.Disabled);
+            var customPage = new CustomPage(string.Empty, string.Empty, CustomPageDisplayType.Disabled, FirmaMenuItem.About);
             viewModel.UpdateModel(customPage, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully created.");
+            SetMessageForDisplay($"Custom Page '{customPage.CustomPageDisplayName}' successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -170,11 +219,14 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
+            var menusAsSelectListItems = FirmaMenuItem.All.ToSelectListWithEmptyFirstRow(
+                x => x.FirmaMenuItemID.ToString(CultureInfo.InvariantCulture),
+                x => x.GetFirmaMenuItemDisplayName());
             var customPageTypesAsSelectListItems = CustomPageDisplayType.All.OrderBy(x => x.CustomPageDisplayTypeDisplayName)
                 .ToSelectListWithEmptyFirstRow(x => x.CustomPageDisplayTypeID.ToString(CultureInfo.InvariantCulture),
                     x => x.CustomPageDisplayTypeDisplayName);
-                      
-            var viewData = new EditViewData(customPageTypesAsSelectListItems);
+
+            var viewData = new EditViewData(menusAsSelectListItems, customPageTypesAsSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -191,8 +243,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = true;
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete the Custom About Page '{customPage.CustomPageDisplayName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("About Page", SitkaRoute<CustomPageController>.BuildLinkFromExpression(x => x.About(customPage.CustomPageVanityUrl), "here"));
+                ? $"Are you sure you want to delete the Custom Page '{customPage.CustomPageDisplayName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Custom Page", SitkaRoute<CustomPageController>.BuildLinkFromExpression(x => x.About(customPage.CustomPageVanityUrl), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -208,7 +260,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteCustomPage(customPage, viewModel);
             }
-            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully removed.");
+            SetMessageForDisplay($"Custom Page '{customPage.CustomPageDisplayName}' successfully removed.");
 
             customPage.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
