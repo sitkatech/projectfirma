@@ -124,4 +124,13 @@
             return projectUpdateStatus.IsBulkSetSpatialInformationUpdated;
         }
     }
+
+    public partial class ProjectUpdateSectionPartnerFinder
+    {
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
+        {
+            // Has no saved values, so never updated.
+            return false;
+        }
+    }
 }

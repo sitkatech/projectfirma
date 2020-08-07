@@ -34,6 +34,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectCreateSectionAttachmentsAndNotes.Instance;
         public static readonly ProjectCreateSectionCustomAttributes CustomAttributes = ProjectCreateSectionCustomAttributes.Instance;
         public static readonly ProjectCreateSectionBulkSetSpatialInformation BulkSetSpatialInformation = ProjectCreateSectionBulkSetSpatialInformation.Instance;
+        public static readonly ProjectCreateSectionPartnerFinder PartnerFinder = ProjectCreateSectionPartnerFinder.Instance;
 
         public static readonly List<ProjectCreateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectCreateSection> AllLookupDictionary;
@@ -43,7 +44,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation, PartnerFinder };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -143,6 +144,8 @@ namespace ProjectFirmaModels.Models
                     return LocationSimple;
                 case ProjectCreateSectionEnum.Organizations:
                     return Organizations;
+                case ProjectCreateSectionEnum.PartnerFinder:
+                    return PartnerFinder;
                 case ProjectCreateSectionEnum.Photos:
                     return Photos;
                 case ProjectCreateSectionEnum.ReportedAccomplishments:
@@ -171,7 +174,8 @@ namespace ProjectFirmaModels.Models
         Contacts = 15,
         AttachmentsAndNotes = 16,
         CustomAttributes = 17,
-        BulkSetSpatialInformation = 18
+        BulkSetSpatialInformation = 18,
+        PartnerFinder = 19
     }
 
     public partial class ProjectCreateSectionBasics : ProjectCreateSection
@@ -262,5 +266,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCreateSectionBulkSetSpatialInformation(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectCreateSectionBulkSetSpatialInformation Instance = new ProjectCreateSectionBulkSetSpatialInformation(18, @"BulkSetSpatialInformation", @"Bulk Set Spatial Information", 50, false, 2);
+    }
+
+    public partial class ProjectCreateSectionPartnerFinder : ProjectCreateSection
+    {
+        private ProjectCreateSectionPartnerFinder(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionPartnerFinder Instance = new ProjectCreateSectionPartnerFinder(19, @"PartnerFinder", @"Partner Finder", 140, false, 6);
     }
 }

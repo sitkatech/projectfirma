@@ -722,9 +722,9 @@ namespace ProjectFirma.Web.Models
             return projectStage != ProjectStage.PlanningDesign;
         }
 
-        public static List<ProjectSectionSimple> GetApplicableWizardSections(this ProjectUpdateBatch projectUpdateBatch, bool ignoreStatus, bool hasEditableCustomAttributes)
+        public static List<ProjectSectionSimple> GetApplicableWizardSections(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, bool ignoreStatus, bool hasEditableCustomAttributes)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(currentFirmaSession, projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
