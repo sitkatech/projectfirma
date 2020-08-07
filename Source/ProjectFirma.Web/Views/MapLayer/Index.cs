@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="Index.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,15 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-namespace ProjectFirma.Web.Views.ExternalMapLayer
+namespace ProjectFirma.Web.Views.MapLayer
 {
-    public class EditViewData : FirmaUserControlViewData
+    public abstract class Index : LtInfo.Common.Mvc.TypedWebViewPage<IndexViewData>
     {
-
-        public EditViewData()
-        {
-
-        }
     }
 }

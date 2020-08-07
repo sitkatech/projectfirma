@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ExternalMapLayerController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="MapLayerController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -23,7 +23,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ExternalMapLayer;
+using ProjectFirma.Web.Views.MapLayer;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System.Linq;
@@ -33,28 +33,40 @@ using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ExternalMapLayerController : FirmaBaseController
+    public class MapLayerController : FirmaBaseController
     {
 
         [FirmaAdminFeature]
         public ViewResult Index()
         {
             var firmaPage = FirmaPageTypeEnum.ExternalMapLayers.GetFirmaPage();
-            var gridDataUrl = SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(x => x.IndexGridJsonData());
+            var externalMapLayerGridDataUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.ExternalMapLayerGridJsonData());
+            var geospatialAreaMapLayerGridDataUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.GeospatialAreaMapLayerGridJsonData());
             var userCanManage = new FirmaAdminFeature().HasPermission(CurrentFirmaSession).HasPermission;
 
-            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, userCanManage);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, externalMapLayerGridDataUrl, geospatialAreaMapLayerGridDataUrl, userCanManage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [FirmaAdminFeature]
-        public GridJsonNetJObjectResult<ExternalMapLayer> IndexGridJsonData()
+        public GridJsonNetJObjectResult<ExternalMapLayer> ExternalMapLayerGridJsonData()
         {
             var userCanManage = new FirmaAdminFeature().HasPermission(CurrentFirmaSession).HasPermission;
-            var gridSpec = new IndexGridSpec(userCanManage);
+            var gridSpec = new ExternalMapLayerGridSpec(userCanManage);
             var externalMapLayers = HttpRequestStorage.DatabaseEntities.ExternalMapLayers.OrderBy(x => x.DisplayName).ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ExternalMapLayer>(externalMapLayers, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [FirmaAdminFeature]
+        public GridJsonNetJObjectResult<GeospatialAreaType> GeospatialAreaMapLayerGridJsonData()
+        {
+            var userCanManage = new FirmaAdminFeature().HasPermission(CurrentFirmaSession).HasPermission;
+            var gridSpec = new GeospatialAreaMapLayerGridSpec(userCanManage);
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeNamePluralized).ToList();
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialAreaType>(geospatialAreaTypes, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -63,18 +75,18 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New()
         {
             var externalMapLayer = new ExternalMapLayer(string.Empty, string.Empty, true, true, true, false);
-            var viewModel = new EditViewModel(externalMapLayer);
-            return ViewEdit(viewModel);
+            var viewModel = new EditExternalMapLayerViewModel(externalMapLayer);
+            return ViewEditExternalMapLayer(viewModel);
         }
 
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(EditViewModel viewModel)
+        public ActionResult New(EditExternalMapLayerViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEditExternalMapLayer(viewModel);
             }
             var externalMapLayer = ExternalMapLayer.CreateNewBlank();
             viewModel.UpdateModel(externalMapLayer);
@@ -85,33 +97,61 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public PartialViewResult Edit(ExternalMapLayerPrimaryKey externalMapLayerPrimaryKey)
+        public PartialViewResult EditExternalMapLayer(ExternalMapLayerPrimaryKey externalMapLayerPrimaryKey)
         {
             var externalMapLayer = externalMapLayerPrimaryKey.EntityObject;
-            var viewModel = new EditViewModel(externalMapLayer);
-            return ViewEdit(viewModel);
+            var viewModel = new EditExternalMapLayerViewModel(externalMapLayer);
+            return ViewEditExternalMapLayer(viewModel);
         }
         
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ExternalMapLayerPrimaryKey externalMapLayerPrimaryKey, EditViewModel viewModel)
+        public ActionResult EditExternalMapLayer(ExternalMapLayerPrimaryKey externalMapLayerPrimaryKey, EditExternalMapLayerViewModel viewModel)
         {
             var externalMapLayer = externalMapLayerPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEditExternalMapLayer(viewModel);
             }
             viewModel.UpdateModel(externalMapLayer);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel)
+        private PartialViewResult ViewEditExternalMapLayer(EditExternalMapLayerViewModel viewModel)
         {
-            var viewData = new EditViewData();
-            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+            var viewData = new EditExternalMapLayerViewData();
+            return RazorPartialView<EditExternalMapLayer, EditExternalMapLayerViewData, EditExternalMapLayerViewModel>(viewData, viewModel);
         }
 
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult EditGeospatialAreaMapLayer(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
+        {
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            var viewModel = new EditGeospatialAreaMapLayerViewModel(geospatialAreaType);
+            return ViewEditGeospatialAreaMapLayer(geospatialAreaType, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditGeospatialAreaMapLayer(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, EditGeospatialAreaMapLayerViewModel viewModel)
+        {
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditGeospatialAreaMapLayer(geospatialAreaType, viewModel);
+            }
+            viewModel.UpdateModel(geospatialAreaType);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditGeospatialAreaMapLayer(GeospatialAreaType geospatialAreaType, EditGeospatialAreaMapLayerViewModel viewModel)
+        {
+            var viewData = new EditGeospatialAreaMapLayerViewData(geospatialAreaType);
+            return RazorPartialView<EditGeospatialAreaMapLayer, EditGeospatialAreaMapLayerViewData, EditGeospatialAreaMapLayerViewModel>(viewData, viewModel);
+        }
 
         [HttpGet]
         [FirmaAdminFeature]

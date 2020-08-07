@@ -38,8 +38,8 @@ namespace ProjectFirma.Web.Views.Map
         public bool HasGeospatialAreas { get; }
         /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers) 
-            : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), callGetExternalMapLayers ? MapInitJson.GetExternalMapLayers() : new List<ProjectFirmaModels.Models.ExternalMapLayer>(), GetProjectBoundingBox(project))
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool alwaysHideGeospatialAreaLayers = false) 
+            : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), callGetExternalMapLayers ? MapInitJson.GetExternalMapLayers() : new List<ProjectFirmaModels.Models.ExternalMapLayer>(), GetProjectBoundingBox(project))
         {
             HasSimpleLocation = simpleLocationToGeoJsonFeatureCollection.Features.Any();
             if (HasSimpleLocation)
@@ -68,8 +68,8 @@ namespace ProjectFirma.Web.Views.Map
         public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas,
             FeatureCollection detailedLocationAsGeoJsonFeatureCollection,
-            FeatureCollection simpleLocationToGeoJsonFeatureCollection) : this(project, mapDivID, addProjectProperties,
-            geospatialAreas, detailedLocationAsGeoJsonFeatureCollection, simpleLocationToGeoJsonFeatureCollection, true)
+            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool alwaysHideGeospatialAreaLayers) : this(project, mapDivID, addProjectProperties,
+            geospatialAreas, detailedLocationAsGeoJsonFeatureCollection, simpleLocationToGeoJsonFeatureCollection, true, alwaysHideGeospatialAreaLayers)
         {
         }
 

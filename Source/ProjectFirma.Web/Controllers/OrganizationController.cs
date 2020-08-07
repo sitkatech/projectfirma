@@ -327,7 +327,7 @@ namespace ProjectFirma.Web.Controllers
                 dbGeometries.Add(organization.OrganizationBoundary);
             }
 
-            layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show));
+            layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers());
 
             var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(person).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 

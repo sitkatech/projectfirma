@@ -71,7 +71,21 @@ namespace ProjectFirma.Web.Models
             return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive).ToList();
         }
 
-        public static List<LayerGeoJson> GetAllGeospatialAreaMapLayers(LayerInitialVisibility layerInitialVisibility)
+        public static List<LayerGeoJson> GetAllGeospatialAreaMapLayers(bool alwaysHideLayers = false)
+        {
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => x.DisplayOnAllProjectMaps).OrderBy(x => x.GeospatialAreaTypeName)
+                .ToList();
+            var layerGeoJsons = new List<LayerGeoJson>();
+            foreach (var geospatialAreaType in geospatialAreaTypes)
+            {
+                layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
+                    alwaysHideLayers || !geospatialAreaType.LayerIsOnByDefault ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+            }
+
+            return layerGeoJsons;
+        }
+
+        public static List<LayerGeoJson> GetAllGeospatialAreaMapLayersForFullProjectMap()
         {
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
                 .ToList();
@@ -79,7 +93,7 @@ namespace ProjectFirma.Web.Models
             foreach (var geospatialAreaType in geospatialAreaTypes)
             {
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
-                    layerInitialVisibility));
+                    LayerInitialVisibility.Hide));
             }
 
             return layerGeoJsons;

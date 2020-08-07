@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditExternalMapLayerViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -29,9 +29,9 @@ using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
-namespace ProjectFirma.Web.Views.ExternalMapLayer
+namespace ProjectFirma.Web.Views.MapLayer
 {
-    public class EditViewModel : FormViewModel, IValidatableObject
+    public class EditExternalMapLayerViewModel : FormViewModel, IValidatableObject
     {
         public int ExternalMapLayerID { get; set; }
 
@@ -73,11 +73,11 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditViewModel()
+        public EditExternalMapLayerViewModel()
         {
         }
 
-        public EditViewModel(ProjectFirmaModels.Models.ExternalMapLayer externalMapLayer)
+        public EditExternalMapLayerViewModel(ProjectFirmaModels.Models.ExternalMapLayer externalMapLayer)
         {
             ExternalMapLayerID = externalMapLayer.ExternalMapLayerID;
             DisplayName = externalMapLayer.DisplayName;
@@ -107,15 +107,15 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
             var validationResults = new List<ValidationResult>();
             if (HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Any(x => x.DisplayName == DisplayName && x.ExternalMapLayerID != ExternalMapLayerID))
             {
-                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("This Display Name is already associated with an External Map Layer", x => x.DisplayName));
+                validationResults.Add(new SitkaValidationResult<EditExternalMapLayerViewModel, string>("This Display Name is already associated with an External Map Layer", x => x.DisplayName));
             }
             if (HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Any(x => x.LayerUrl == LayerUrl && x.ExternalMapLayerID != ExternalMapLayerID))
             {
-                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("This Url is already associated with an External Map Layer", x => x.LayerUrl));
+                validationResults.Add(new SitkaValidationResult<EditExternalMapLayerViewModel, string>("This Url is already associated with an External Map Layer", x => x.LayerUrl));
             }
             if (IsTiledMapService && !string.IsNullOrWhiteSpace(FeatureNameField))
             {
-                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("Feature popups are not supported for tiled map services, please do not provide a feature name field.", x => x.FeatureNameField));
+                validationResults.Add(new SitkaValidationResult<EditExternalMapLayerViewModel, string>("Feature popups are not supported for tiled map services, please do not provide a feature name field.", x => x.FeatureNameField));
             }
             return validationResults;
         }
