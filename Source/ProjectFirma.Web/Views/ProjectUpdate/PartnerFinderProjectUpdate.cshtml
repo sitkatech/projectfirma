@@ -1,0 +1,25 @@
+﻿
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
+@inherits ProjectFirma.Web.Views.ProjectUpdate.PartnerFinderProjectUpdate
+
+@section JavascriptAndStylesContent
+{
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+}
+
+<div style="min-height: 300px">
+    <div>
+       @{ ProjectPotentialPartnerDetail.RenderPartialView(Html, ViewDataTyped.ProjectPotentialPartnerDetailViewData); }
+    </div>
+</div>
+
+@*@if (ViewDataTyped.IsEditable)
+{
+    <hr />
+    <div class="pull-right">
+        <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
+        <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+    </div>
+}*@
+

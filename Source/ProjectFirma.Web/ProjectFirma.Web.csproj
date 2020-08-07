@@ -321,6 +321,9 @@
     <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
     <Compile Include="Views\Organization\EditProfileTaxonomyViewData.cs" />
     <Compile Include="Views\Organization\EditProfileTaxonomyViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
+    <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewData.cs" />
+    <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewModel.cs" />
     <Compile Include="Views\ProjectFactSheet\EditBasics.cs" />
     <Compile Include="Views\ProjectFactSheet\EditBasicsViewData.cs" />
     <Compile Include="Views\ProjectFactSheet\EditBasicsViewModel.cs" />
@@ -331,6 +334,9 @@
     <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
+    <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
     <Compile Include="Views\Project\UserProjectGridSpec.cs" />
     <Compile Include="Views\Reports\GenerateReports.cs" />
     <Compile Include="Views\Reports\GenerateReportsViewModel.cs" />
@@ -817,6 +823,8 @@
     <Content Include="Views\ProjectFactSheet\Manage.cshtml" />
     <Content Include="Views\ProjectFactSheet\EditFactSheetLogo.cshtml" />
     <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
+    <Content Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cshtml" />
+    <Content Include="Views\ProjectCreate\PartnerFinderProjectCreate.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

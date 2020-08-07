@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectWorkflowSectionGroupingAccomplishments Accomplishments = ProjectWorkflowSectionGroupingAccomplishments.Instance;
         public static readonly ProjectWorkflowSectionGroupingFinancials Financials = ProjectWorkflowSectionGroupingFinancials.Instance;
         public static readonly ProjectWorkflowSectionGroupingAdditionalData AdditionalData = ProjectWorkflowSectionGroupingAdditionalData.Instance;
+        public static readonly ProjectWorkflowSectionGroupingPartners Partners = ProjectWorkflowSectionGroupingPartners.Instance;
 
         public static readonly List<ProjectWorkflowSectionGrouping> All;
         public static readonly ReadOnlyDictionary<int, ProjectWorkflowSectionGrouping> AllLookupDictionary;
@@ -33,7 +34,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectWorkflowSectionGrouping()
         {
-            All = new List<ProjectWorkflowSectionGrouping> { Overview, SpatialInformation, Accomplishments, Financials, AdditionalData };
+            All = new List<ProjectWorkflowSectionGrouping> { Overview, SpatialInformation, Accomplishments, Financials, AdditionalData, Partners };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectWorkflowSectionGrouping>(All.ToDictionary(x => x.ProjectWorkflowSectionGroupingID));
         }
 
@@ -114,6 +115,8 @@ namespace ProjectFirmaModels.Models
                     return Financials;
                 case ProjectWorkflowSectionGroupingEnum.Overview:
                     return Overview;
+                case ProjectWorkflowSectionGroupingEnum.Partners:
+                    return Partners;
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
                     return SpatialInformation;
                 default:
@@ -128,7 +131,8 @@ namespace ProjectFirmaModels.Models
         SpatialInformation = 2,
         Accomplishments = 3,
         Financials = 4,
-        AdditionalData = 5
+        AdditionalData = 5,
+        Partners = 6
     }
 
     public partial class ProjectWorkflowSectionGroupingOverview : ProjectWorkflowSectionGrouping
@@ -159,5 +163,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectWorkflowSectionGroupingAdditionalData(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
         public static readonly ProjectWorkflowSectionGroupingAdditionalData Instance = new ProjectWorkflowSectionGroupingAdditionalData(5, @"AdditionalData", @"Additional Data", 50);
+    }
+
+    public partial class ProjectWorkflowSectionGroupingPartners : ProjectWorkflowSectionGrouping
+    {
+        private ProjectWorkflowSectionGroupingPartners(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
+        public static readonly ProjectWorkflowSectionGroupingPartners Instance = new ProjectWorkflowSectionGroupingPartners(6, @"Partners", @"Partners", 60);
     }
 }

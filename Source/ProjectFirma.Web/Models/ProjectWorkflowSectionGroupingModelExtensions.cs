@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -14,7 +15,9 @@ namespace ProjectFirma.Web.Models
             return projectCreateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(project), !ignoreStatus && x.IsComplete(project), false, project != null && x.HasCompletionStatus)).OrderBy(x => x.SortOrder).ToList();
         }
 
-        private static List<ProjectSectionSimple> GetProjectUpdateSectionsImpl(ProjectUpdateBatch projectUpdateBatch, List<ProjectUpdateSection> projectUpdateSections, ProjectUpdateStatus projectUpdateStatus, bool ignoreStatus)
+        private static List<ProjectSectionSimple> GetProjectUpdateSectionsImpl(ProjectUpdateBatch projectUpdateBatch, 
+                                                                               List<ProjectUpdateSection> projectUpdateSections, 
+                                                                               ProjectUpdateStatus projectUpdateStatus, bool ignoreStatus)
         {
             var sections = projectUpdateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(projectUpdateBatch.Project), !ignoreStatus && x.IsComplete(projectUpdateBatch), projectUpdateStatus != null && x.SectionIsUpdated(projectUpdateStatus))).OrderBy(x => x.SortOrder).ToList();
             return sections;
@@ -33,6 +36,7 @@ namespace ProjectFirma.Web.Models
                         projectCreateSectionForOverview.Add(ProjectCreateSection.CustomAttributes);
                     }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionForOverview, ignoreStatus);
+
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     var projectCreateSectionsForAdditionalData = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Assessment }).ToList();
 
@@ -41,6 +45,7 @@ namespace ProjectFirma.Web.Models
                         projectCreateSectionsForAdditionalData.Add(ProjectCreateSection.Assessment);
                     }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForAdditionalData, ignoreStatus);
+
                 case ProjectWorkflowSectionGroupingEnum.Financials:
                     var projectCreateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Budget, ProjectCreateSection.ReportedExpenditures }).ToList();
                     if (project != null && project.IsExpectedFundingRelevant())
@@ -66,6 +71,7 @@ namespace ProjectFirma.Web.Models
                     }
 
                     return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedAccomplishments }, ignoreStatus);
+
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
                     var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
                     var createSections = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.BulkSetSpatialInformation }).ToList();
@@ -102,12 +108,22 @@ namespace ProjectFirma.Web.Models
 
                     projectCreateSections.AddRange(projectSectionSimples);
                     return projectCreateSections;
+
+                // Partner Finder
+                case ProjectWorkflowSectionGroupingEnum.Partners:
+                    var projectCreateSectionsForPartnerFinder = projectWorkflowSectionGrouping.ProjectCreateSections.ToList();
+                    return GetProjectCreateSectionsImpl(project, projectCreateSectionsForPartnerFinder, ignoreStatus);
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException($"Unhandled Workflow Section Grouping: {projectWorkflowSectionGrouping.ToEnum}");
             }
         }
 
-        public static List<ProjectSectionSimple> GetProjectUpdateSections(this ProjectWorkflowSectionGrouping projectWorkflowSectionGrouping, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, bool ignoreStatus, bool hasEditableCustomAttributes)
+        public static List<ProjectSectionSimple> GetProjectUpdateSections(this ProjectWorkflowSectionGrouping projectWorkflowSectionGrouping, 
+                                                                          FirmaSession currentFirmaSession,
+                                                                          ProjectUpdateBatch projectUpdateBatch,
+                                                                          ProjectUpdateStatus projectUpdateStatus,
+                                                                          bool ignoreStatus,
+                                                                          bool hasEditableCustomAttributes)
         {
             switch (projectWorkflowSectionGrouping.ToEnum)
             {
@@ -165,8 +181,22 @@ namespace ProjectFirma.Web.Models
                         sections = sections.Where(x => x.SectionDisplayName != ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName).ToList();
                     }
                     return sections;
+
+                // Partner Finder
+                // Whole section is conditional
+                case ProjectWorkflowSectionGroupingEnum.Partners:
+                    bool shouldShowPartnerFinder = new MatchMakerViewPotentialPartnersFeature().HasPermissionByFirmaSession(currentFirmaSession);
+                    if (!shouldShowPartnerFinder)
+                    {
+                        // An empty group won't be shown.
+                        return new List<ProjectSectionSimple>();
+                    }
+
+                    var projectUpdateSectionsForPartners = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.Budget }).ToList();
+                    return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForPartners, projectUpdateStatus, ignoreStatus);
+
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException($"Unhandled Workflow Section Grouping: {projectWorkflowSectionGrouping.ToEnum}");
             }
 
         }

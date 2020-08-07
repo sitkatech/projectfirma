@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="BulkSetSpatialInformationViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="PartnerFinderProjectUpdateViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,29 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+using LtInfo.Common.Models;
 
-namespace ProjectFirma.Web.Views.ProjectCreate
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {    
-    public class BulkSetSpatialInformationViewModel : BulkSetProjectSpatialInformationViewModel
+    public class PartnerFinderProjectUpdateViewModel : FormViewModel
     {
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public BulkSetSpatialInformationViewModel()
+        public PartnerFinderProjectUpdateViewModel()
         {
         }
 
-        public BulkSetSpatialInformationViewModel(List<int> geospatialAreaIDs) : base(geospatialAreaIDs)
-        {
-        }
-        
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, ObservableCollection<ProjectGeospatialArea> allProjectGeospatialAreas)
-        {
-            base.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
-        }
-    }    
+        //public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, List<ProjectGeospatialAreaUpdate> currentProjectGeospatialAreaUpdates, ObservableCollection<ProjectGeospatialAreaUpdate> allProjectGeospatialAreaUpdates)
+        //{
+        //    base.UpdateModel(projectUpdateBatch, currentProjectGeospatialAreaUpdates, allProjectGeospatialAreaUpdates);
+        //}
+    }
 }
