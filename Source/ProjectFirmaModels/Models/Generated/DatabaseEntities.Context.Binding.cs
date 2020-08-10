@@ -56,6 +56,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
+            modelBuilder.Configurations.Add(new CustomPageRoleConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryDocumentConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryDocumentCategoryConfiguration());
@@ -223,6 +224,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<County> Counties { get { return AllCounties.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPageImage> AllCustomPageImages { get; set; }
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<CustomPageRole> AllCustomPageRoles { get; set; }
+        public virtual IQueryable<CustomPageRole> CustomPageRoles { get { return AllCustomPageRoles.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<DocumentLibrary> AllDocumentLibraries { get; set; }
@@ -569,13 +572,11 @@ namespace ProjectFirmaModels.Models
                 case "County":
                     return Counties.GetCounty(primaryKey);
 
-                case "CustomPageDisplayType":
-                    var customPageDisplayType = CustomPageDisplayType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(customPageDisplayType, "CustomPageDisplayType", primaryKey);
-                    return customPageDisplayType;
-
                 case "CustomPageImage":
                     return CustomPageImages.GetCustomPageImage(primaryKey);
+
+                case "CustomPageRole":
+                    return CustomPageRoles.GetCustomPageRole(primaryKey);
 
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);

@@ -201,7 +201,6 @@ namespace ProjectFirmaModels.Models
         ClassificationSystem = 250,
         ClassificationSystemName = 251,
         ProjectPrimaryContact = 252,
-        CustomPageDisplayType = 253,
         TaxonomyTrunkDescription = 254,
         TaxonomyBranchDescription = 255,
         TaxonomyLeafDescription = 256,
@@ -304,6 +303,7 @@ namespace ProjectFirmaModels.Models
         DocumentLibraryName = 353,
         KMZFile = 354,
         DocumentLibrary = 355,
-        DocumentLibraryDocumentViewableBy = 356
+        DocumentLibraryDocumentViewableBy = 356,
+        CustomPageViewableBy = 357
     }
 }

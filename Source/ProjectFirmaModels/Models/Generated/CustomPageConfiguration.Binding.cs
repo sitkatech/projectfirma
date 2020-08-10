@@ -19,7 +19,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.CustomPageDisplayName).HasColumnName(@"CustomPageDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.CustomPageVanityUrl).HasColumnName(@"CustomPageVanityUrl").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
-            Property(x => x.CustomPageDisplayTypeID).HasColumnName(@"CustomPageDisplayTypeID").HasColumnType("int").IsRequired();
             Property(x => x.CustomPageContent).HasColumnName(@"CustomPageContent").HasColumnType("varchar").IsOptional();
             Property(x => x.DocumentLibraryID).HasColumnName(@"DocumentLibraryID").HasColumnType("int").IsOptional();
             Property(x => x.FirmaMenuItemID).HasColumnName(@"FirmaMenuItemID").HasColumnType("int").IsRequired();
