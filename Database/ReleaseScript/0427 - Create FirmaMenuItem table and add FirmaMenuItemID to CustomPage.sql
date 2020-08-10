@@ -22,10 +22,7 @@ values
 (1, 'About', 'About'),
 (2, 'Projects', 'Projects'),
 (3, 'ProgramInfo', 'Program Info'),
-(4, 'Results', 'Results'),
-(5, 'Reports', 'Reports'),
-(6, 'Manage', 'Manage'),
-(7, 'Configure', 'Configure')
+(4, 'Results', 'Results')
 
 alter table dbo.CustomPage add  FirmaMenuItemID int null
 alter table dbo.CustomPage add constraint FK_CustomPage_FirmaMenuItem_FirmaMenuItemID foreign key(FirmaMenuItemID) references dbo.FirmaMenuItem(FirmaMenuItemID)

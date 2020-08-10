@@ -23,9 +23,6 @@ namespace ProjectFirmaModels.Models
         public static readonly FirmaMenuItemProjects Projects = FirmaMenuItemProjects.Instance;
         public static readonly FirmaMenuItemProgramInfo ProgramInfo = FirmaMenuItemProgramInfo.Instance;
         public static readonly FirmaMenuItemResults Results = FirmaMenuItemResults.Instance;
-        public static readonly FirmaMenuItemReports Reports = FirmaMenuItemReports.Instance;
-        public static readonly FirmaMenuItemManage Manage = FirmaMenuItemManage.Instance;
-        public static readonly FirmaMenuItemConfigure Configure = FirmaMenuItemConfigure.Instance;
 
         public static readonly List<FirmaMenuItem> All;
         public static readonly ReadOnlyDictionary<int, FirmaMenuItem> AllLookupDictionary;
@@ -35,7 +32,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static FirmaMenuItem()
         {
-            All = new List<FirmaMenuItem> { About, Projects, ProgramInfo, Results, Reports, Manage, Configure };
+            All = new List<FirmaMenuItem> { About, Projects, ProgramInfo, Results };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaMenuItem>(All.ToDictionary(x => x.FirmaMenuItemID));
         }
 
@@ -107,16 +104,10 @@ namespace ProjectFirmaModels.Models
             {
                 case FirmaMenuItemEnum.About:
                     return About;
-                case FirmaMenuItemEnum.Configure:
-                    return Configure;
-                case FirmaMenuItemEnum.Manage:
-                    return Manage;
                 case FirmaMenuItemEnum.ProgramInfo:
                     return ProgramInfo;
                 case FirmaMenuItemEnum.Projects:
                     return Projects;
-                case FirmaMenuItemEnum.Reports:
-                    return Reports;
                 case FirmaMenuItemEnum.Results:
                     return Results;
                 default:
@@ -130,10 +121,7 @@ namespace ProjectFirmaModels.Models
         About = 1,
         Projects = 2,
         ProgramInfo = 3,
-        Results = 4,
-        Reports = 5,
-        Manage = 6,
-        Configure = 7
+        Results = 4
     }
 
     public partial class FirmaMenuItemAbout : FirmaMenuItem
@@ -158,23 +146,5 @@ namespace ProjectFirmaModels.Models
     {
         private FirmaMenuItemResults(int firmaMenuItemID, string firmaMenuItemName, string firmaMenuItemDisplayName) : base(firmaMenuItemID, firmaMenuItemName, firmaMenuItemDisplayName) {}
         public static readonly FirmaMenuItemResults Instance = new FirmaMenuItemResults(4, @"Results", @"Results");
-    }
-
-    public partial class FirmaMenuItemReports : FirmaMenuItem
-    {
-        private FirmaMenuItemReports(int firmaMenuItemID, string firmaMenuItemName, string firmaMenuItemDisplayName) : base(firmaMenuItemID, firmaMenuItemName, firmaMenuItemDisplayName) {}
-        public static readonly FirmaMenuItemReports Instance = new FirmaMenuItemReports(5, @"Reports", @"Reports");
-    }
-
-    public partial class FirmaMenuItemManage : FirmaMenuItem
-    {
-        private FirmaMenuItemManage(int firmaMenuItemID, string firmaMenuItemName, string firmaMenuItemDisplayName) : base(firmaMenuItemID, firmaMenuItemName, firmaMenuItemDisplayName) {}
-        public static readonly FirmaMenuItemManage Instance = new FirmaMenuItemManage(6, @"Manage", @"Manage");
-    }
-
-    public partial class FirmaMenuItemConfigure : FirmaMenuItem
-    {
-        private FirmaMenuItemConfigure(int firmaMenuItemID, string firmaMenuItemName, string firmaMenuItemDisplayName) : base(firmaMenuItemID, firmaMenuItemName, firmaMenuItemDisplayName) {}
-        public static readonly FirmaMenuItemConfigure Instance = new FirmaMenuItemConfigure(7, @"Configure", @"Configure");
     }
 }

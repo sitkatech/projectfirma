@@ -96,13 +96,15 @@
     <Compile Include="Models\Generated\CustomPage.Binding.cs" />
     <Compile Include="Models\Generated\CustomPage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CustomPageConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\CustomPageDisplayType.Binding.cs" />
-    <Compile Include="Models\Generated\CustomPageDisplayTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CustomPageImage.Binding.cs" />
     <Compile Include="Models\Generated\CustomPageImage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CustomPageImageConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\CustomPageImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CustomPagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageRole.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageRole.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CustomPageRoleConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageRolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DatabaseEntities.Context.Binding.cs" />
     <Compile Include="Models\Generated\DocumentCategory.Binding.cs" />
     <Compile Include="Models\Generated\DocumentCategoryPrimaryKey.Binding.cs" />
@@ -717,6 +719,7 @@
     <Compile Include="Models\Generated\vProjectDetailConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyComplete.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyCompleteConfiguration.Binding.cs" />
+    <Compile Include="Models\CustomPageRole.cs" />
     <Compile Include="Models\ComboTreeNode.cs" />
     <Compile Include="Models\FieldDefinitionDataImage.cs" />
     <Compile Include="Models\DocumentLibraryDocumentRole.cs" />
