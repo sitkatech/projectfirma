@@ -2,13 +2,13 @@
   font-family: 'PT Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('PT Sans'), local('PTSans-Regular'), url(https://fonts.gstatic.com/s/ptsans/v10/jizaRExUiTo99u79D0KEwA.ttf) format('truetype');
+  src: local('PT Sans'), local('PTSans-Regular'), url(https://fonts.gstatic.com/s/ptsans/v11/jizaRExUiTo99u79D0KEwA.ttf) format('truetype');
 }
 @font-face {
   font-family: 'PT Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('PT Sans Bold'), local('PTSans-Bold'), url(https://fonts.gstatic.com/s/ptsans/v10/jizfRExUiTo99u79B_mh0O6tKA.ttf) format('truetype');
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(https://fonts.gstatic.com/s/ptsans/v11/jizfRExUiTo99u79B_mh0O6tKA.ttf) format('truetype');
 }
 html,
 body {
@@ -281,7 +281,7 @@ table.summaryLayout th,
 .breadcrumbTitle a:hover {
   text-decoration: none;
 }
-.arrow {
+.breadcrumbArrow {
   display: inline-block;
   position: relative;
   padding: 10px 15px;

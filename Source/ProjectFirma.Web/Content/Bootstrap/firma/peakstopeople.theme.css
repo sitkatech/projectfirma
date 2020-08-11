@@ -2,7 +2,7 @@
   font-family: 'Archivo';
   font-style: normal;
   font-weight: 400;
-  src: local('Archivo Regular'), local('Archivo-Regular'), url(https://fonts.gstatic.com/s/archivo/v4/k3kQo8UDI-1M0wlSfdnoKw.ttf) format('truetype');
+  src: local('Archivo Regular'), local('Archivo-Regular'), url(https://fonts.gstatic.com/s/archivo/v6/k3kQo8UDI-1M0wlSfdnoKw.ttf) format('truetype');
 }
 html,
 body {
@@ -234,7 +234,7 @@ table.summaryLayout th,
 .breadcrumbTitle a:hover {
   text-decoration: none;
 }
-.arrow {
+.breadcrumbArrow {
   display: inline-block;
   position: relative;
   padding: 10px 15px;
