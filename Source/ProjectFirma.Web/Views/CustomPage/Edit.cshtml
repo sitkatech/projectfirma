@@ -53,12 +53,12 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-3"></div>
-            <div class="col-md-9"><p class="systemText">Please select all applicable roles.</p></div>
-            <div class="col-md-3 control-label">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9"><p class="systemText">Please select all applicable roles.</p></div>
+            <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(FieldDefinitionEnum.CustomPageViewableBy.ToType(), "Viewable By")
             </div>
-            <div class="col-md-9">
+            <div class="col-sm-9">
                 @Html.CheckBoxFor(x => x.ViewableByAnonymous) @Html.LabelFor(x => x.ViewableByAnonymous, new {style = "font-weight : normal; padding-right : 10px;"}, true)
                 @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new {style = "font-weight : normal; padding-right : 10px;"}, true)
                 @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new {style = "font-weight : normal; padding-right : 10px;"}, true)
