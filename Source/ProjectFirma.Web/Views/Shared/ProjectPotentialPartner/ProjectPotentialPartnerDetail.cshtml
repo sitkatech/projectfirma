@@ -23,7 +23,10 @@
 
 @if (ViewDataTyped.ShouldShowMatchMakerPotentialPartnerPanel)
 {
-
+   <div>
+      The Matchmaker service identified @ViewDataTyped.TotalRelevantMatchMakerScores organizations as potential partners for this project. These are listed below with the highest scoring matches first.
+   </div>
+   <br/>
    <table class="summaryLayout table table-condensed table-striped">
       <tr>
          @*<th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>*@

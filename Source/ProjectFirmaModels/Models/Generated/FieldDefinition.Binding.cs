@@ -304,6 +304,7 @@ namespace ProjectFirmaModels.Models
         KMZFile = 354,
         DocumentLibrary = 355,
         DocumentLibraryDocumentViewableBy = 356,
-        CustomPageViewableBy = 357
+        CustomPageViewableBy = 357,
+        EnableMatchmaker = 358
     }
 }
