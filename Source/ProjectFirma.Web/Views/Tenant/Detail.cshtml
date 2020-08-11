@@ -209,14 +209,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableReports.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        @FieldDefinitionEnum.EnableReports.ToType().GetFieldDefinitionLabel()?
-                    </div>
-                    <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.EnableReports.ToYesNo()
-                    </div>
+                   <div class="col-sm-5 fieldLabel text-right">
+                      @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableReports.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                      @FieldDefinitionEnum.EnableReports.ToType().GetFieldDefinitionLabel()?
+                   </div>
+                   <div class="col-sm-7">
+                      @ViewDataTyped.TenantAttribute.EnableReports.ToYesNo()
+                   </div>
                 </div>
+                
+                @if (ViewDataTyped.MatchmakerEnabled)
+                {
+                   <div class="row">
+                      <div class="col-sm-5 fieldLabel text-right">
+                         @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableMatchmaker.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                         @FieldDefinitionEnum.EnableMatchmaker.ToType().GetFieldDefinitionLabel()?
+                      </div>
+                      <div class="col-sm-7">
+                         @ViewDataTyped.TenantAttribute.EnableMatchmaker
+                      </div>
+                   </div>
+                }
+
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
                         Google Analytics Tracking Code
@@ -242,19 +256,6 @@
                     </div>
                 </div>
                 
-                @if (ViewDataTyped.MatchmakerEnabled)
-                {
-                   <div class="row">
-                        <div class="col-sm-5 fieldLabel text-right">
-                           @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableMatchmaker.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                           @FieldDefinitionEnum.EnableMatchmaker.ToType().GetFieldDefinitionLabel()?
-                        </div>
-                        <div class="col-sm-7">
-                            @ViewDataTyped.TenantAttribute.EnableMatchmaker
-                        </div>
-                    </div>
-                }
-
 
             </div>
         </div>
