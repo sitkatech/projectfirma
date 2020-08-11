@@ -44,7 +44,10 @@ namespace ProjectFirma.Web.Security
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, CustomPage contextModelObject)
         {
             var viewTypeRoles = contextModelObject.CustomPageRoles;
-            var isVisible = firmaSession.IsAnonymousUser() && viewTypeRoles.Any(x => x.Role == null) || !firmaSession.IsAnonymousUser() && viewTypeRoles.Select(x => x.Role).Contains(firmaSession.Role) || new SitkaAdminFeature().HasPermissionByFirmaSession(firmaSession);
+            var isVisible = firmaSession.IsAnonymousUser() && viewTypeRoles.Any(x => x.Role == null) ||
+                            !firmaSession.IsAnonymousUser() && viewTypeRoles.Select(x => x.Role).Contains(firmaSession.Role) ||
+                            viewTypeRoles.Any() && new FirmaAdminFeature().HasPermissionByFirmaSession(firmaSession) ||
+                            new SitkaAdminFeature().HasPermissionByFirmaSession(firmaSession);
             if (isVisible)
             {
                 return new PermissionCheckResult();
