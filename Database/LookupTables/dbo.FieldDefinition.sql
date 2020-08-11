@@ -178,4 +178,5 @@ VALUES
 (354, N'KMZFile', N'KMZ File'),
 (355, N'DocumentLibrary', N'Document Library'),
 (356, N'DocumentLibraryDocumentViewableBy', N'Document Viewable By'),
-(357, N'CustomPageViewableBy', N'Custom Page Viewable By')
+(357, N'CustomPageViewableBy', N'Custom Page Viewable By'),
+(358, N'EnableMatchmaker', N'Enable Matchmaker')

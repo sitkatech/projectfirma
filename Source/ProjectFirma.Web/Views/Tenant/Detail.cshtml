@@ -244,9 +244,10 @@
                 
                 @if (ViewDataTyped.MatchmakerEnabled)
                 {
-                    <div class="row">
+                   <div class="row">
                         <div class="col-sm-5 fieldLabel text-right">
-                            Enable Matchmaker?
+                           @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableMatchmaker.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                           @FieldDefinitionEnum.EnableMatchmaker.ToType().GetFieldDefinitionLabel()?
                         </div>
                         <div class="col-sm-7">
                             @ViewDataTyped.TenantAttribute.EnableMatchmaker
