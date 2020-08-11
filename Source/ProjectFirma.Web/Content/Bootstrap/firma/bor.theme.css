@@ -278,18 +278,18 @@ table.summaryLayout th,
 .breadcrumbTitle a:hover {
   text-decoration: none;
 }
-.arrow {
+.breadcrumbArrow {
   display: inline-block;
   position: relative;
   padding: 10px 15px;
   text-align: center;
 }
-.arrow.current {
+.breadcrumbArrow.current {
   background-color: #964A00;
   border-left-color: #964A00;
   color: #fff;
 }
-.arrow.default {
+.breadcrumbArrow.default {
   background-color: #bbb;
   border-left-color: #bbb;
   color: #444;

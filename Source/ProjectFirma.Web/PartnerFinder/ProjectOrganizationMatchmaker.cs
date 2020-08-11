@@ -78,18 +78,28 @@ namespace ProjectFirma.Web.PartnerFinder
         private static double GetTaxonomySubScore(Project project, Organization organization)
         {
             var taxonomyWeight = 1.0;
-            // Project matches a selected Taxonomy Leaf => "perfect match" for taxonomy
-            var matchesLeaf = organization.MatchmakerOrganizationTaxonomyLeafs.Any(x =>
-                x.TaxonomyLeafID == project.TaxonomyLeafID);
-            // If matches Branch but not a leaf, that's an pretty good score
-            var matchesBranch =
-                organization.MatchmakerOrganizationTaxonomyBranches.Any(x =>
-                    x.TaxonomyBranchID == project.TaxonomyLeaf.TaxonomyBranchID);
-            // If matches only Trunk, that's a passing score but not great
-            var matchesTrunk = organization.MatchmakerOrganizationTaxonomyTrunks.Any(x =>
-                x.TaxonomyTrunkID == project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID);
-            double taxonomyScore = matchesLeaf ? 1.0 : matchesBranch ? .75 : matchesTrunk ? .5 : 0.0;
+            
+            var matchmakerLeaves = organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => x.TaxonomyLeaf).ToList();
+            
+            var branchIDsIncluded = matchmakerLeaves.Select(x => x.TaxonomyBranchID).ToList();
+            // if any Branch is selected, but no Leaves are selected for that branch, treat as if all leaves are selected
+            var matchmakerLeavesFromSelectedBranches = organization.MatchmakerOrganizationTaxonomyBranches
+                .Where(x => !branchIDsIncluded.Contains(x.TaxonomyBranchID))
+                .SelectMany(x => x.TaxonomyBranch.TaxonomyLeafs).ToList();
+            branchIDsIncluded.AddRange(matchmakerLeavesFromSelectedBranches.Select(x => x.TaxonomyBranchID));
+            
+            var trunkIDsIncluded = matchmakerLeaves.Select(x => x.TaxonomyBranch.TaxonomyTrunkID).ToList();
+            trunkIDsIncluded.AddRange(matchmakerLeavesFromSelectedBranches.Select(x => x.TaxonomyBranch.TaxonomyTrunkID));
+            // if any Trunk is selected, but no Branches or Leaves are selected for that trunk, treat as if all leaves are selected
+            var matchmakerLeavesFromSelectedTrunks = organization.MatchmakerOrganizationTaxonomyTrunks
+                .Where(x => !trunkIDsIncluded.Contains(x.TaxonomyTrunkID))
+                .SelectMany(x => x.TaxonomyTrunk.GetTaxonomyLeafs()).ToList();
 
+            var matchesLeaf = matchmakerLeaves.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
+            var matchesLeafForBranch = matchmakerLeavesFromSelectedBranches.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
+            var matchesLeafForTrunk = matchmakerLeavesFromSelectedTrunks.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
+            
+            double taxonomyScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
             double taxonomySubScore = taxonomyWeight * taxonomyScore;
             return taxonomySubScore;
         }

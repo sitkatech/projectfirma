@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Views.Organization
         public string TaxonomyBranchDisplayName { get; }
         public string TaxonomyLeafDisplayName { get; }
         public TaxonomyLevel TaxonomyLevel { get; }
+        public int MaximumTaxonomyLeaves { get; }
 
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
@@ -102,7 +103,8 @@ namespace ProjectFirma.Web.Views.Organization
             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
             ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
-            List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier) : base(currentFirmaSession)
+            List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier,
+            int maximumTaxonomyLeaves) : base(currentFirmaSession)
         {
             Organization = organization;
             PageTitle = organization.GetDisplayName();
@@ -213,7 +215,7 @@ namespace ProjectFirma.Web.Views.Organization
             TaxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
-
+            MaximumTaxonomyLeaves = maximumTaxonomyLeaves;
         }
     }
 }

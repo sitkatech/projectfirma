@@ -38,6 +38,7 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using MoreLinq;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
@@ -278,6 +279,7 @@ namespace ProjectFirma.Web.Controllers
                 .ToList();
 
             var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
+            var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
             var viewData = new DetailViewData(CurrentFirmaSession,
                                               organization,
                                               mapInitJson,
@@ -286,7 +288,8 @@ namespace ProjectFirma.Web.Controllers
                                               performanceMeasures,
                                               expendituresDirectlyFromOrganizationViewGoogleChartViewData,
                                               expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
-                                              topLevelMatchmakerTaxonomyTier);
+                                              topLevelMatchmakerTaxonomyTier,
+                                              maximumTaxonomyLeaves);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -401,7 +404,7 @@ namespace ProjectFirma.Web.Controllers
                 return new List<MatchmakerTaxonomyTier>();
             }
 
-            var matchmakerTierLeaves = organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => new MatchmakerTaxonomyTier(x.TaxonomyLeaf, true)).ToList();
+            var matchmakerTierLeaves = organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => new MatchmakerTaxonomyTier(x.TaxonomyLeaf)).ToList();
             var matchmakerTierBranches = new List<MatchmakerTaxonomyTier>();
             if (!MultiTenantHelpers.IsTaxonomyLevelLeaf())
             {
@@ -411,17 +414,18 @@ namespace ProjectFirma.Web.Controllers
                 foreach (var grouping in leafsGrouped)
                 {
                     var branch = grouping.First().TaxonomyLeaf.TaxonomyBranch;
-                    var branchSelected =
-                        organization.MatchmakerOrganizationTaxonomyBranches.Any(x =>
-                            x.TaxonomyBranchID == branch.TaxonomyBranchID);
-                    var matchmakerBranch = new MatchmakerTaxonomyTier(branch, branchSelected, grouping.SortByOrderThenName().ToList());
+                    var matchmakerBranch = new MatchmakerTaxonomyTier(branch, grouping.SortByOrderThenName().ToList());
                     matchmakerTierBranches.Add(matchmakerBranch);
                     branchIDs.Add(branch.TaxonomyBranchID);
                 }
                 // also need to add the selected taxonomy branches (with all leafs), if not already added
                 var mmBranches =
                     organization.MatchmakerOrganizationTaxonomyBranches.Where(x =>
-                        !branchIDs.Contains(x.TaxonomyBranchID)).Select(x => new MatchmakerTaxonomyTier(x.TaxonomyBranch, true, null)).ToList();
+                            !branchIDs.Contains(x.TaxonomyBranchID)).Select(x =>
+                            new MatchmakerTaxonomyTier(x.TaxonomyBranch,
+                                x.TaxonomyBranch.TaxonomyLeafs.Select(y => new MatchmakerTaxonomyTier(y)).SortByOrderThenName()
+                                    .ToList()))
+                        .ToList();
                 matchmakerTierBranches.AddRange(mmBranches);
             }
 
@@ -434,17 +438,34 @@ namespace ProjectFirma.Web.Controllers
                 foreach (var grouping in branchesGrouped)
                 {
                     var trunk = grouping.First().TaxonomyBranch.TaxonomyTrunk;
-                    var trunkSelected =
-                        organization.MatchmakerOrganizationTaxonomyTrunks.Any(x =>
-                            x.TaxonomyTrunkID == trunk.TaxonomyTrunkID);
-                    var matchmakerTrunk = new MatchmakerTaxonomyTier(trunk, trunkSelected, grouping.SortByOrderThenName().ToList());
-                    matchmakerTierTrunks.Add(matchmakerTrunk);
+                    var branches = grouping.ToList();
+                    if (branches.Count == trunk.TaxonomyBranches.Count && branches.Sum(x => x.Children.Count) == trunk.TaxonomyBranches.Sum(x => x.TaxonomyLeafs.Count))
+                    {
+                        // need to display as one row with all branches and all leaves
+                        var leaves = branches.SelectMany(x => x.Children).ToList();
+                        var matchmakerTrunkTest = new MatchmakerTaxonomyTier(trunk, branches.SortByOrderThenName().ToList(), leaves);
+                        matchmakerTierTrunks.Add(matchmakerTrunkTest);
+                    }
+                    else
+                    {
+                        var matchmakerTrunk = new MatchmakerTaxonomyTier(trunk, branches.SortByOrderThenName().ToList());
+                        matchmakerTierTrunks.Add(matchmakerTrunk);
+                    }
+                    
                     trunkIDs.Add(trunk.TaxonomyTrunkID);
                 }
                 // also need to add the selected taxonomy trunks (with all branches and leaves), if not already added
-                var mmTrunks =
-                    organization.MatchmakerOrganizationTaxonomyTrunks.Where(x =>
-                        !trunkIDs.Contains(x.TaxonomyTrunkID)).Select(x => new MatchmakerTaxonomyTier(x.TaxonomyTrunk, true, null)).ToList();
+                var mmTrunks = new List<MatchmakerTaxonomyTier>();
+                organization.MatchmakerOrganizationTaxonomyTrunks.Where(x =>
+                            !trunkIDs.Contains(x.TaxonomyTrunkID)).ForEach(x =>
+                {
+                    var branches = x.TaxonomyTrunk.TaxonomyBranches
+                        .Select(y => new MatchmakerTaxonomyTier(y, new List<MatchmakerTaxonomyTier>())).SortByOrderThenName().ToList();
+                    var leaves = x.TaxonomyTrunk.TaxonomyBranches.SelectMany(y =>
+                        y.TaxonomyLeafs.Select(z => new MatchmakerTaxonomyTier(z)).SortByOrderThenName()
+                            .ToList()).ToList();
+                    mmTrunks.Add(new MatchmakerTaxonomyTier(x.TaxonomyTrunk, branches, leaves));
+                });
                 matchmakerTierTrunks.AddRange(mmTrunks);
             }
 
