@@ -265,7 +265,7 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayerUrl = 315,
         ExternalMapLayerDescription = 316,
         ExternalMapLayerFeatureNameField = 317,
-        MapLayerDisplayOnAllMaps = 318,
+        ExternalMapLayerDisplayOnAllMaps = 318,
         MapLayerLayerIsOnByDefault = 319,
         ExternalMapLayerIsActive = 320,
         ExternalMapLayerIsATiledMapService = 321,
@@ -305,6 +305,7 @@ namespace ProjectFirmaModels.Models
         DocumentLibrary = 355,
         DocumentLibraryDocumentViewableBy = 356,
         CustomPageViewableBy = 357,
-        EnableMatchmaker = 358
+        EnableMatchmaker = 358,
+        GeospatialAreaMapLayerDisplayAsReferenceLayer = 359
     }
 }

@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.MapLayer
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditMapLayerUrl(), "Edit Geospatial Area Map Layer"), 30, DhtmlxGridColumnFilterType.None);
             }
             Add("Display Name", x => x.GeospatialAreaTypeNamePluralized, 250);
-            Add(FieldDefinitionEnum.MapLayerDisplayOnAllMaps.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 175);
+            Add(FieldDefinitionEnum.GeospatialAreaMapLayerDisplayAsReferenceLayer.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 175);
             Add(FieldDefinitionEnum.MapLayerLayerIsOnByDefault.ToType().ToGridHeaderString(), x => x.LayerIsOnByDefault ? "Yes" : "No", 175);
         }
     }

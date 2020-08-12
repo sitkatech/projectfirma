@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.MapLayer
             Add(FieldDefinitionEnum.ExternalMapLayerDescription.ToType().ToGridHeaderString(), x => x.LayerDescription, 300);
             Add(FieldDefinitionEnum.ExternalMapLayerFeatureNameField.ToType().ToGridHeaderString(), x => x.FeatureNameField, 150);
 //            Add("Display on all " + FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName + " maps?", x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
-            Add(FieldDefinitionEnum.MapLayerDisplayOnAllMaps.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
+            Add(FieldDefinitionEnum.ExternalMapLayerDisplayOnAllMaps.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
             Add(FieldDefinitionEnum.MapLayerLayerIsOnByDefault.ToType().ToGridHeaderString(), x => x.LayerIsOnByDefault ? "Yes" : "No", 75);
             Add(FieldDefinitionEnum.ExternalMapLayerIsActive.ToType().ToGridHeaderString(), x => x.IsActive ? "Yes" : "No", 75);
             Add(FieldDefinitionEnum.ExternalMapLayerIsATiledMapService.ToType().ToGridHeaderString(), x => x.IsTiledMapService ? "Yes" : "No", 75);

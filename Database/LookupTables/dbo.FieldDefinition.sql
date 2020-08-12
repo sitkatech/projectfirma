@@ -139,7 +139,7 @@ VALUES
 (315, N'ExternalMapLayerUrl', 'Url'),
 (316, N'ExternalMapLayerDescription', 'Internal Layer Description'),
 (317, N'ExternalMapLayerFeatureNameField', 'Field to use as source for feature names'),
-(318, N'MapLayerDisplayOnAllMaps', 'Display on all maps?'),
+(318, N'ExternalMapLayerDisplayOnAllMaps', 'Display on all maps?'),
 (319, N'MapLayerLayerIsOnByDefault', 'Layer is on by default?'),
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
@@ -179,4 +179,5 @@ VALUES
 (355, N'DocumentLibrary', N'Document Library'),
 (356, N'DocumentLibraryDocumentViewableBy', N'Document Viewable By'),
 (357, N'CustomPageViewableBy', N'Custom Page Viewable By'),
-(358, N'EnableMatchmaker', N'Enable Matchmaker')
+(358, N'EnableMatchmaker', N'Enable Matchmaker'),
+(359, N'GeospatialAreaMapLayerDisplayAsReferenceLayer', 'Display as Reference Layer?')
