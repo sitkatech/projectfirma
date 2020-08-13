@@ -51,6 +51,10 @@
                 Sitka[gridName1].resizeGridWidths();
                 var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
                 Sitka[gridName2].resizeGridWidths();
+                var gridName3 = @(ViewDataTyped.ProposalsGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName3].resizeGridWidths();
+                var gridName4 = @(ViewDataTyped.PendingProjectsGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName4].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -177,12 +181,12 @@
                 <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
             </li>
             <li>
-                <a href="#details" aria-controls="results" role="tab" data-toggle="tab" id="detailsTab">Details</a>
+                <a href="#details" aria-controls="details" role="tab" data-toggle="tab" id="detailsTab">Details</a>
             </li>
             @if (ViewDataTyped.ShowMatchmakerProfile && ViewDataTyped.UserHasViewEditProfilePermission)
             {
                 <li>
-                    <a href="#profile" aria-controls="results" role="tab" data-toggle="tab" id="profileTab">Profile</a>
+                    <a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="profileTab">Profile</a>
                 </li>
             }
         </ul>
@@ -641,7 +645,7 @@
 
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="profile">
+            <div role="tabpanel" class="tab-pane" id="Profile">
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-xs-12">
                         <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
@@ -663,7 +667,7 @@
                                     }
                                     else
                                     {
-                                        <table class="table table-hover table-condensed">
+                                        <table class="table table-condensed">
                                             <thead>
                                             <tr>
                                                 @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
@@ -686,17 +690,17 @@
                                                         if (trunk.GrandChildren != null)
                                                         {
                                                             <tr>
-                                                                <td>@trunk.GetDisplayName()</td>
+                                                                <td>@Html.Raw(trunk.GetDisplayNameAsDetailUrl())</td>
                                                                 <td>
                                                                     <div class="taxonomyCount">
-                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@trunk.Children.Select(x => x.GetDisplayName()).ToDelimitedString("<br/>")">
+                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@trunk.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
                                                                             @trunk.GetTaxonomyTierCountText()
                                                                         </a>
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="taxonomyCount">
-                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@trunk.GrandChildren.Select(x => x.GetDisplayName()).ToDelimitedString("<br/>")">
+                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@trunk.GrandChildren.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
                                                                             @MatchmakerTaxonomyTier.GetTaxonomyTierCountText(trunk.GrandChildren.Count, trunk.MaximumGrandChildrenCount, TaxonomyLevelEnum.Leaf)
                                                                         </a>
                                                                     </div>
@@ -708,31 +712,27 @@
                                                             for (int i = 0; i < trunk.Children.Count; i++)
                                                             {
                                                                 var branch = trunk.Children[i];
-                                                                if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
-                                                                {
-                                                                    <tr>
-                                                                        <td style="@(i != 0 ? "border-top:none" : "")">@(i == 0 ? trunk.GetDisplayName() : "")</td>
-                                                                        <td>@(branch.GetDisplayName())</td>
-                                                                        <td>
+                                                                <tr>
+                                                                    <td style="@(i != 0 ? "border-top:none" : "")">@(i == 0 ? Html.Raw(trunk.GetDisplayNameAsDetailUrl()) : new HtmlString(""))</td>
+                                                                    <td>@Html.Raw(branch.GetDisplayNameAsDetailUrl())</td>
+                                                                    <td>
+                                                                        @if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
+                                                                        {
                                                                             <div class="taxonomyCount">
-                                                                                <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => x.GetDisplayName()).ToDelimitedString("<br/>")">
+                                                                                <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
                                                                                     @branch.GetTaxonomyTierCountText()
                                                                                 </a>
                                                                             </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                }
-                                                                else
-                                                                {
-                                                                    for (int j = 0; j < branch.Children.Count; j++)
-                                                                    {
-                                                                        <tr class="@(j != 0 ? "noBorderRow" : "")">
-                                                                            <td style="@(i != 0 ? "border-top:none" : "")">@(i == 0 && j == 0 ? trunk.GetDisplayName() : "")</td>
-                                                                            <td>@(j == 0 ? branch.GetDisplayName() : "")</td>
-                                                                            <td>@branch.Children[j].GetDisplayName()</td>
-                                                                        </tr>
-                                                                    }
-                                                                }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            foreach (var leaf in branch.Children)
+                                                                            {
+                                                                                @Html.Raw(leaf.GetDisplayNameAsDetailUrl())<br />
+                                                                            }
+                                                                        }
+                                                                    </td>
+                                                                </tr>
                                                             }
                                                         }
                                                     }
@@ -741,29 +741,26 @@
                                                 {
                                                     foreach (var branch in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
                                                     {
-                                                        if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
-                                                        {
-                                                            <tr>
-                                                                <td>@(branch.GetDisplayName())</td>
-                                                                <td>
+                                                        <tr>
+                                                            <td>@Html.Raw(branch.GetDisplayNameAsDetailUrl())</td>
+                                                            <td>
+                                                                @if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
+                                                                {
                                                                     <div class="taxonomyCount">
-                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => x.GetDisplayName()).ToDelimitedString("<br/>")">
+                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
                                                                             @branch.GetTaxonomyTierCountText()
                                                                         </a>
                                                                     </div>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                        else
-                                                        {
-                                                            for (int j = 0; j < branch.Children.Count; j++)
-                                                            {
-                                                                <tr class="@(j != 0 ? "noBorderRow" : "")">
-                                                                    <td>@(j == 0 ? branch.GetDisplayName() : "")</td>
-                                                                    <td>@branch.Children[j].GetDisplayName()</td>
-                                                                </tr>
-                                                            }
-                                                        }
+                                                                }
+                                                                else
+                                                                {
+                                                                    foreach (var leaf in branch.Children)
+                                                                    {
+                                                                        @Html.Raw(leaf.GetDisplayNameAsDetailUrl())<br />
+                                                                    }
+                                                                }
+                                                            </td>
+                                                        </tr>
                                                     }
                                                 }
                                                 @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Leaf)
@@ -773,7 +770,7 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="taxonomyCount">
-                                                                    <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Select(x => x.GetDisplayName()).ToDelimitedString("<br/>")">
+                                                                    <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
                                                                         @MatchmakerTaxonomyTier.GetTaxonomyTierCountText(ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count, ViewDataTyped.MaximumTaxonomyLeaves, TaxonomyLevelEnum.Leaf)
                                                                     </a>
                                                                 </div>
@@ -785,11 +782,10 @@
                                                         foreach (var leaf in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
                                                         {
                                                             <tr>
-                                                                <td>@leaf.GetDisplayName()</td>
+                                                                <td>@Html.Raw(leaf.GetDisplayNameAsDetailUrl())</td>
                                                             </tr>
                                                         }
                                                     }
-                                                    
                                                 }
                                             </tbody>
                                         </table>
@@ -803,3 +799,8 @@
         </div>
     </div>
 </div>
+<script>
+    jQuery(document).ready(function() {
+        $('#organizationDetailsTabs a[href="#@ViewDataTyped.ActiveTab.ToString()"]').tab('show');
+    });
+</script>
