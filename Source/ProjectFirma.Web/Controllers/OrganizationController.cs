@@ -197,7 +197,7 @@ namespace ProjectFirma.Web.Controllers
             var matchmakerOrganizationTaxonomyLeafs = HttpRequestStorage.DatabaseEntities.AllMatchmakerOrganizationTaxonomyLeafs.Local;
         
             viewModel.UpdateModel(organization, matchmakerOrganizationTaxonomyTrunks, matchmakerOrganizationTaxonomyBranches, matchmakerOrganizationTaxonomyLeafs);
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
         }
         
         private PartialViewResult ViewEditProfileTaxonomy(EditProfileTaxonomyViewModel viewModel)
@@ -262,9 +262,10 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationViewFeature]
-        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
+        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey, DetailViewData.OrganizationDetailTab? organizationDetailTab)
         {
             var organization = organizationPrimaryKey.EntityObject;
+            var activeTab = organizationDetailTab ?? DetailViewData.OrganizationDetailTab.Overview;
             var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(organization);
             var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(organization, CurrentFirmaSession);
 
@@ -289,7 +290,8 @@ namespace ProjectFirma.Web.Controllers
                                               expendituresDirectlyFromOrganizationViewGoogleChartViewData,
                                               expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
                                               topLevelMatchmakerTaxonomyTier,
-                                              maximumTaxonomyLeaves);
+                                              maximumTaxonomyLeaves,
+                                              activeTab);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

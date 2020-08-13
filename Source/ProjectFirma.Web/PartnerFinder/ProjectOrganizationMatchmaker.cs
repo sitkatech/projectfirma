@@ -61,13 +61,10 @@ namespace ProjectFirma.Web.PartnerFinder
             double taxonomySubScore = GetTaxonomySubScore(project, organization);
             CheckEnsureScoreInValidRange(taxonomySubScore);
 
-            // Use FAKE SubScore component.
-            // Artificially gooses scores in the short term, but eventually should be removed as the matching algorithm develops
-            double fakeTermSubScore = 1.0;
-
-            // Hardwired for just two components for the moment, but this will definitely change.
-            double scoreToReturn = taxonomySubScore * 0.5 +
-                                   fakeTermSubScore * 0.5;
+            // Hardwired for just one component for the moment, but this will definitely change.
+            var numberOfComponents = 1;
+            var weightPerSubScore = 1.0 / numberOfComponents; 
+            double scoreToReturn = taxonomySubScore * weightPerSubScore;
 
             // Again, we want to be very sure score values fall between 0.0 and 1.0 inclusive.
             CheckEnsureScoreInValidRange(scoreToReturn);
@@ -77,8 +74,6 @@ namespace ProjectFirma.Web.PartnerFinder
 
         private static double GetTaxonomySubScore(Project project, Organization organization)
         {
-            var taxonomyWeight = 1.0;
-            
             var matchmakerLeaves = organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => x.TaxonomyLeaf).ToList();
             
             var branchIDsIncluded = matchmakerLeaves.Select(x => x.TaxonomyBranchID).ToList();
@@ -99,8 +94,7 @@ namespace ProjectFirma.Web.PartnerFinder
             var matchesLeafForBranch = matchmakerLeavesFromSelectedBranches.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
             var matchesLeafForTrunk = matchmakerLeavesFromSelectedTrunks.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
             
-            double taxonomyScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
-            double taxonomySubScore = taxonomyWeight * taxonomyScore;
+            double taxonomySubScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
             return taxonomySubScore;
         }
 
