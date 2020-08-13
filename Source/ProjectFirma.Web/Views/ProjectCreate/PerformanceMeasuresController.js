@@ -35,11 +35,11 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     };
 
     $scope.groupedPerformanceMeasures = function () {
-        return _.uniq($scope.AngularModel.PerformanceMeasureActuals, "PerformanceMeasureID");
+        return _.uniq($scope.AngularModel.PerformanceMeasureActualSimples, "PerformanceMeasureID");
     }
 
     $scope.getGroupPerformanceMeasureActuals = function (performanceMeasureGroup) {
-        return _($scope.AngularModel.PerformanceMeasureActuals).filter(function (pm) { return pm.PerformanceMeasureID == performanceMeasureGroup.PerformanceMeasureID; }).value();
+        return _($scope.AngularModel.PerformanceMeasureActualSimples).filter(function (pm) { return pm.PerformanceMeasureID == performanceMeasureGroup.PerformanceMeasureID; }).value();
     }
 
     $scope.addPerformanceMeasureToGroup = function (performanceMeasureGroup) {
@@ -48,15 +48,15 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
             "PerformanceMeasureID",
             performanceMeasureGroup.PerformanceMeasureID);
         var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
-        $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
+        $scope.AngularModel.PerformanceMeasureActualSimples.push(newPerformanceMeasureActual);
     }
 
     $scope.numberOfSubcategoryOptions = function (performanceMeasureActual) {
-        if (Sitka.Methods.isUndefinedNullOrEmpty($scope.AngularModel.PerformanceMeasureActuals)) {
+        if (Sitka.Methods.isUndefinedNullOrEmpty($scope.AngularModel.PerformanceMeasureActualSimples)) {
             return 0;
         }
 
-        return Sitka.Methods.findElementInJsonArray($scope.AngularModel.PerformanceMeasureActuals,
+        return Sitka.Methods.findElementInJsonArray($scope.AngularModel.PerformanceMeasureActualSimples,
             "PerformanceMeasureID",
             performanceMeasureActual.PerformanceMeasureID).PerformanceMeasureActualSubcategoryOptions.length;
     }
@@ -114,7 +114,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
 
     $scope.hasAnySubcategories = function()
     {
-        var performanceMeasureIDsInModel = _.map($scope.AngularModel.PerformanceMeasureActuals, function(pmav) { return pmav.PerformanceMeasureID; });
+        var performanceMeasureIDsInModel = _.map($scope.AngularModel.PerformanceMeasureActualSimples, function(pmav) { return pmav.PerformanceMeasureID; });
         var anySubcategories = _.any($scope.AngularViewData.AllPerformanceMeasureSubcategories, function (sc) { return _.contains(performanceMeasureIDsInModel, sc.PerformanceMeasureID); });
         return anySubcategories;
     };
@@ -126,7 +126,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
                 "PerformanceMeasureID",
                 $scope.PerformanceMeasureToAdd);
             var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
-            $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
+            $scope.AngularModel.PerformanceMeasureActualSimples.push(newPerformanceMeasureActual);
             $scope.repositionQtipPopups();
         }
     };
@@ -171,7 +171,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     $scope.deleteRow = function(rowToDelete)
     {
         jQuery("#qtip-RequiredPopup" + rowToDelete.PerformanceMeasureActualID).remove();
-        Sitka.Methods.removeFromJsonArray($scope.AngularModel.PerformanceMeasureActuals, rowToDelete);
+        Sitka.Methods.removeFromJsonArray($scope.AngularModel.PerformanceMeasureActualSimples, rowToDelete);
         $scope.repositionQtipPopups();
     };
 
@@ -210,8 +210,8 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.resetProjectToAdd();
 
-    if ($scope.AngularModel.PerformanceMeasureActuals == null) {
-        $scope.AngularModel.PerformanceMeasureActuals = [];
+    if ($scope.AngularModel.PerformanceMeasureActualSimples == null) {
+        $scope.AngularModel.PerformanceMeasureActualSimples = [];
     }
 
     var repositionQtipPopupsTimeout = null;
