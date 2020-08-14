@@ -60,15 +60,17 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <returns></returns>
         public static HtmlString DhtmlxGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return new HtmlString(DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, DhtmlxGridResizeType.None));
+            return new HtmlString(DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, DhtmlxGridResizeType.None, ""));
         }
 
         public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn)
         {
-            return DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, DhtmlxGridResizeType.None);
+            return DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, DhtmlxGridResizeType.None,"");
         }
 
-        public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn, string metaDivHtml, DhtmlxGridResizeType dhtmlxGridResizeType)
+        public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl,
+            string styleString, int? splitAtColumn, string metaDivHtml, DhtmlxGridResizeType dhtmlxGridResizeType,
+            string saveGridSettingsUrl)
         {
             const string template =
                 @"
@@ -83,7 +85,7 @@ namespace LtInfo.Common.DhtmlWrappers
     </script>
 </div>";
             var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
-                splitAtColumn, dhtmlxGridResizeType);
+                splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
 
             return String.Format(template, gridName, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
@@ -95,7 +97,7 @@ namespace LtInfo.Common.DhtmlWrappers
     jQuery(document).ready(function ()
     {{
         // Initialize Grid
-        Sitka.{0} = new Sitka.Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2});
+        Sitka.{0} = new Sitka.Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2}, ""{14}"");
         // Initialize Grid Columns
         Sitka.{0}.setGridColumns(
         [
@@ -116,6 +118,7 @@ namespace LtInfo.Common.DhtmlWrappers
             if(showFilterBar)
             {{
                 Sitka.{0}.setupCookieFiltering(""{0}FilteredButton"");
+                Sitka.{0}.setupServerFilterSaving();
                 Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
                 Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
             }}
@@ -157,8 +160,11 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <param name="optionalGridDataUrl"></param>
         /// <param name="splitAtColumn"></param>
         /// <param name="dhtmlxGridResizeType"></param>
+        /// <param name="saveGridSettingsUrl"></param>
         /// <returns></returns>
-        private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, int? splitAtColumn, DhtmlxGridResizeType dhtmlxGridResizeType)
+        private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName,
+            string optionalGridDataUrl, int? splitAtColumn, DhtmlxGridResizeType dhtmlxGridResizeType,
+            string saveGridSettingsUrl)
         {
             const string indent = "            ";
             var gridColumnsJavascriptFunctions = BuildGridColumns(gridSpec, indent);
@@ -188,7 +194,8 @@ namespace LtInfo.Common.DhtmlWrappers
                 gridSpec.ShowFilterBar.ToString().ToLower(),
                 gridSpec.GridInstructionsWhenEmpty,
                 verticalResizeFunction,
-                resizeGridFunction);
+                resizeGridFunction, 
+                saveGridSettingsUrl);
 
             return result;
         }

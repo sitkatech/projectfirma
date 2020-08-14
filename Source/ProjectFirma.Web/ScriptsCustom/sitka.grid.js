@@ -293,9 +293,9 @@ Sitka.Grid.Class = {
         this.filtertype = filtertype;
         this.formatType = formatType;
     },
-    Grid: function (gridName, gridElement, dataElement, scrollPosition, skin, skinRowHeight) {
-        if (arguments.length != 6) {
-            throw new Error("Expects exactly 6 arguments Sitka.Grid.Grid constructor but got " + arguments.length);
+    Grid: function (gridName, gridElement, dataElement, scrollPosition, skin, skinRowHeight, saveGridSettingsUrl) {
+        if (arguments.length != 7) {
+            throw new Error("Expects exactly 7 arguments Sitka.Grid.Grid constructor but got " + arguments.length);
         }
         if (Sitka.Methods.isUndefinedNullOrEmpty(gridName)) {
             throw new Error("Required parameter gridName invalid. Must be unique to a particular grid on particular page.");
@@ -323,6 +323,7 @@ Sitka.Grid.Class = {
         this.dataElement = null;
         this.filterCountElement = null;
         this.filterDownloadElement = null;
+        this.saveGridSettingsUrl = saveGridSettingsUrl;
 
         if (dataElement) {
             this.dataElement = jQuery(dataElement);
@@ -993,3 +994,74 @@ Sitka.Grid.Class.Grid.prototype.resizeGridWidths = function ()
     jQuery("#" + this.gridName + "MetaDivID").width(gridDiv.width());
 };
 
+Sitka.Grid.Class.Grid.prototype.setupServerFilterSaving = function () {
+    var self = this;
+    this.grid.attachEvent("onFilterStart", function () {
+        self.saveFiltersToServer();
+        return true;
+    });
+
+};
+
+
+Sitka.Grid.Class.Grid.prototype.getColumnSortTypeByIndex = function (columnIndex) {
+    return this._columns.pluck("sorting").value()[columnIndex];
+};
+
+
+Sitka.Grid.Class.Grid.prototype.asGridTableForSettings = function () {
+    var sortInfo = this.SortInfo;
+    var tableToPost = new GridTable.GridTable(this.uniqueGridName);
+    // the meaning of "this" changes in the anonymous function in the loop
+    var sitkaGrid = this;
+
+    // Add all columns
+    sitkaGrid._columns.forEach(function (col) {
+        var colName = col.columnName;
+        var idx = sitkaGrid.getColumnIndexByName(colName);
+        var width = sitkaGrid.grid.getColWidth(idx);
+        var filterTextArray = [];
+        var filterElem = sitkaGrid.grid.getFilterElement(idx);
+        if (filterElem !== null && typeof (filterElem) !== "undefined") {
+            var filterMaybeArr = jQuery(filterElem).val();
+            if (filterMaybeArr instanceof Array) {
+                filterTextArray = filterMaybeArr;
+            }
+            else {
+                filterTextArray = [filterMaybeArr];
+            }
+        }
+
+        var isSorted = null;
+        var sortDirection = null;
+        var sortType = null;
+
+        if (sortInfo != null && sortInfo !== undefined) {
+            if (idx === sortInfo.Index) {
+                isSorted = true;
+                sortDirection = sortInfo.Direction;
+                sortType = sortInfo.Type;
+            }
+        }
+        tableToPost.addColumn(colName, filterTextArray, width, idx, isSorted, sortDirection, sortType);
+    }).value();
+
+    return tableToPost;
+}
+
+Sitka.Grid.Class.Grid.prototype.saveFiltersToServer = function () {
+  
+    // Retrieve the values from the grid in our own format
+    var filterValues = this.asGridTableForSettings();
+    // url, postData, callback, errorHandler
+    SitkaAjax.post(this.saveGridSettingsUrl,
+        filterValues,
+        function() {
+            alert('test');
+        },
+        function() {
+
+        });
+    
+    
+};
