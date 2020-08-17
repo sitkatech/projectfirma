@@ -149,7 +149,6 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpPost]
         [AnonymousUnclassifiedFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public JsonResult SaveGridSettings()
         {
             var gridTable = JsonTools.DeserializeObject<GridTable>(Request.Form["Data"]);
