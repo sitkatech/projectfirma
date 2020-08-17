@@ -10,6 +10,11 @@ CREATE TABLE [dbo].[PersonSettingGridColumnSettingFilter](
  CONSTRAINT [PK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSettingFilterID] PRIMARY KEY CLUSTERED 
 (
 	[PersonSettingGridColumnSettingFilterID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSettingFilterID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[PersonSettingGridColumnSettingFilterID] ASC,
+	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -18,6 +23,11 @@ ALTER TABLE [dbo].[PersonSettingGridColumnSettingFilter]  WITH CHECK ADD  CONSTR
 REFERENCES [dbo].[PersonSettingGridColumnSetting] ([PersonSettingGridColumnSettingID])
 GO
 ALTER TABLE [dbo].[PersonSettingGridColumnSettingFilter] CHECK CONSTRAINT [FK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSetting_PersonSettingGridColumnSettingID]
+GO
+ALTER TABLE [dbo].[PersonSettingGridColumnSettingFilter]  WITH CHECK ADD  CONSTRAINT [FK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSetting_PersonSettingGridColumnSettingID_TenantID] FOREIGN KEY([PersonSettingGridColumnSettingID], [TenantID])
+REFERENCES [dbo].[PersonSettingGridColumnSetting] ([PersonSettingGridColumnSettingID], [TenantID])
+GO
+ALTER TABLE [dbo].[PersonSettingGridColumnSettingFilter] CHECK CONSTRAINT [FK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSetting_PersonSettingGridColumnSettingID_TenantID]
 GO
 ALTER TABLE [dbo].[PersonSettingGridColumnSettingFilter]  WITH CHECK ADD  CONSTRAINT [FK_PersonSettingGridColumnSettingFilter_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

@@ -21,6 +21,14 @@ ALTER TABLE [dbo].[PersonSettingGridTable] CHECK CONSTRAINT [FK_PersonSettingGri
 GO
 
 
+ALTER TABLE [dbo].[PersonSettingGridTable] ADD  CONSTRAINT [AK_PersonSettingGridTable_PersonSettingGridTableID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[PersonSettingGridTableID] ASC,
+	[TenantID] ASC
+)
+GO
+
+
 
 
 CREATE TABLE [dbo].[PersonSettingGridColumn](
@@ -52,6 +60,16 @@ GO
 
 ALTER TABLE [dbo].[PersonSettingGridColumn] CHECK CONSTRAINT [FK_PersonSettingGridColumn_PersonSettingGridTable_PersonSettingGridTableID]
 GO
+
+
+
+ALTER TABLE [dbo].[PersonSettingGridColumn] ADD  CONSTRAINT [AK_PersonSettingGridColumn_PersonSettingGridColumnID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[PersonSettingGridColumnID] ASC,
+	[TenantID] ASC
+)
+GO
+
 
 -- GRID COLUMN SETTING 
 
@@ -90,6 +108,13 @@ ALTER TABLE [dbo].[PersonSettingGridColumnSetting] CHECK CONSTRAINT [FK_PersonSe
 GO
 
 
+ALTER TABLE [dbo].[PersonSettingGridColumnSetting] ADD  CONSTRAINT [AK_PersonSettingGridColumnSetting_PersonSettingGridColumnSettingID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[PersonSettingGridColumnSettingID] ASC,
+	[TenantID] ASC
+)
+GO
+
 
 CREATE TABLE [dbo].[PersonSettingGridColumnSettingFilter](
 	[PersonSettingGridColumnSettingFilterID] [int] IDENTITY(1,1) NOT NULL,
@@ -120,3 +145,20 @@ ALTER TABLE [dbo].[PersonSettingGridColumnSettingFilter] CHECK CONSTRAINT [FK_Pe
 GO
 
 
+ALTER TABLE [dbo].PersonSettingGridColumnSettingFilter ADD  CONSTRAINT [AK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSettingFilterID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[PersonSettingGridColumnSettingFilterID] ASC,
+	[TenantID] ASC
+)
+GO
+
+
+
+alter table dbo.PersonSettingGridColumn add constraint FK_PersonSettingGridColumn_PersonSettingGridTable_PersonSettingGridTableID_TenantID foreign key (PersonSettingGridTableID, TenantID) references dbo.PersonSettingGridTable(PersonSettingGridTableID, TenantID)
+go
+alter table dbo.PersonSettingGridColumnSetting add constraint FK_PersonSettingGridColumnSetting_Person_PersonID_TenantID foreign key (PersonID, TenantID) references dbo.Person(PersonID, TenantID)
+go
+alter table dbo.PersonSettingGridColumnSetting add constraint FK_PersonSettingGridColumnSetting_PersonSettingGridColumn_PersonSettingGridColumnID_TenantID foreign key (PersonSettingGridColumnID, TenantID) references dbo.PersonSettingGridColumn(PersonSettingGridColumnID, TenantID)
+go
+alter table dbo.PersonSettingGridColumnSettingFilter add constraint FK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSetting_PersonSettingGridColumnSettingID_TenantID foreign key (PersonSettingGridColumnSettingID, TenantID) references dbo.PersonSettingGridColumnSetting(PersonSettingGridColumnSettingID, TenantID)
+go
