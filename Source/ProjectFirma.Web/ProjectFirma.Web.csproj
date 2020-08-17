@@ -67,6 +67,7 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\GridSettingsController.cs" />
     <Compile Include="Controllers\MapLayerController.cs" />
     <Compile Include="Controllers\MatchMakerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
@@ -564,6 +565,7 @@
     <Content Include="Content\jquery.fancybox-buttons.css" />
     <Content Include="Content\jquery.fancybox-thumbs.css" />
     <Content Include="Content\jquery.fancybox.css" />
+    <Content Include="Content\js\GridTable.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
