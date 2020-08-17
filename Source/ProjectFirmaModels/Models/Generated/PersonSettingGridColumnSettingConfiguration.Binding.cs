@@ -16,9 +16,9 @@ namespace ProjectFirmaModels.Models
             ToTable("PersonSettingGridColumnSetting", schema);
             HasKey(x => x.PersonSettingGridColumnSettingID);
             Property(x => x.PersonSettingGridColumnSettingID).HasColumnName(@"PersonSettingGridColumnSettingID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsRequired();
             Property(x => x.PersonSettingGridColumnID).HasColumnName(@"PersonSettingGridColumnID").HasColumnType("int").IsRequired();
-            Property(x => x.FilterText).HasColumnName(@"FilterText").HasColumnType("nvarchar").IsRequired().HasMaxLength(256);
 
             // Foreign keys
             HasRequired(a => a.Person).WithMany(b => b.PersonSettingGridColumnSettings).HasForeignKey(c => c.PersonID).WillCascadeOnDelete(false); // FK_PersonSettingGridColumnSetting_Person_PersonID

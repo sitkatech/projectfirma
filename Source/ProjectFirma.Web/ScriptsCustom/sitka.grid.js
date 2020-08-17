@@ -1048,17 +1048,21 @@ Sitka.Grid.Class.Grid.prototype.asGridTableForSettings = function () {
 
     return tableToPost;
 }
+Sitka.Grid.Class.Grid.prototype.sitkaGridToExcel = function (url) {
+    var self = this;
+    
+    
+    this.saveFiltersToServer(this.grid.toExcel(url));
 
-Sitka.Grid.Class.Grid.prototype.saveFiltersToServer = function () {
-  
+};
+Sitka.Grid.Class.Grid.prototype.saveFiltersToServer = function (callbackFunction) {
+    
     // Retrieve the values from the grid in our own format
     var filterValues = this.asGridTableForSettings();
     // url, postData, callback, errorHandler
     SitkaAjax.post(this.saveGridSettingsUrl,
-        filterValues,
-        function() {
-            alert('test');
-        },
+        { Data: JSON.stringify(filterValues) },
+        callbackFunction,
         function() {
 
         });

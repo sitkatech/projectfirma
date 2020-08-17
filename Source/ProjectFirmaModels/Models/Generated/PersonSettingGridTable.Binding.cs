@@ -16,9 +16,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PersonSettingGridTable] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[PersonSettingGridTable] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PersonSettingGridTable]")]
-    public partial class PersonSettingGridTable : IHavePrimaryKey, ICanDeleteFull
+    public partial class PersonSettingGridTable : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -91,7 +91,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.PersonSettingGridTables.Remove(this);
+            dbContext.AllPersonSettingGridTables.Remove(this);
         }
         
         /// <summary>
@@ -116,11 +116,13 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int PersonSettingGridTableID { get; set; }
+        public int TenantID { get; set; }
         public string GridName { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PersonSettingGridTableID; } set { PersonSettingGridTableID = value; } }
 
         public virtual ICollection<PersonSettingGridColumn> PersonSettingGridColumns { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

@@ -118,6 +118,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PersonConfiguration());
             modelBuilder.Configurations.Add(new PersonSettingGridColumnConfiguration());
             modelBuilder.Configurations.Add(new PersonSettingGridColumnSettingConfiguration());
+            modelBuilder.Configurations.Add(new PersonSettingGridColumnSettingFilterConfiguration());
             modelBuilder.Configurations.Add(new PersonSettingGridTableConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardOrganizationConfiguration());
@@ -346,9 +347,14 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<PersonSettingGridColumn> PersonSettingGridColumns { get; set; }
-        public virtual DbSet<PersonSettingGridColumnSetting> PersonSettingGridColumnSettings { get; set; }
-        public virtual DbSet<PersonSettingGridTable> PersonSettingGridTables { get; set; }
+        public virtual DbSet<PersonSettingGridColumn> AllPersonSettingGridColumns { get; set; }
+        public virtual IQueryable<PersonSettingGridColumn> PersonSettingGridColumns { get { return AllPersonSettingGridColumns.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PersonSettingGridColumnSettingFilter> AllPersonSettingGridColumnSettingFilters { get; set; }
+        public virtual IQueryable<PersonSettingGridColumnSettingFilter> PersonSettingGridColumnSettingFilters { get { return AllPersonSettingGridColumnSettingFilters.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PersonSettingGridColumnSetting> AllPersonSettingGridColumnSettings { get; set; }
+        public virtual IQueryable<PersonSettingGridColumnSetting> PersonSettingGridColumnSettings { get { return AllPersonSettingGridColumnSettings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PersonSettingGridTable> AllPersonSettingGridTables { get; set; }
+        public virtual IQueryable<PersonSettingGridTable> PersonSettingGridTables { get { return AllPersonSettingGridTables.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonStewardGeospatialArea> AllPersonStewardGeospatialAreas { get; set; }
         public virtual IQueryable<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get { return AllPersonStewardGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonStewardOrganization> AllPersonStewardOrganizations { get; set; }
@@ -841,6 +847,9 @@ namespace ProjectFirmaModels.Models
 
                 case "PersonSettingGridColumn":
                     return PersonSettingGridColumns.GetPersonSettingGridColumn(primaryKey);
+
+                case "PersonSettingGridColumnSettingFilter":
+                    return PersonSettingGridColumnSettingFilters.GetPersonSettingGridColumnSettingFilter(primaryKey);
 
                 case "PersonSettingGridColumnSetting":
                     return PersonSettingGridColumnSettings.GetPersonSettingGridColumnSetting(primaryKey);

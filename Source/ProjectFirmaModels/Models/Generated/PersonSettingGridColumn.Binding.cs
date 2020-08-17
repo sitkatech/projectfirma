@@ -16,9 +16,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PersonSettingGridColumn] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[PersonSettingGridColumn] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PersonSettingGridColumn]")]
-    public partial class PersonSettingGridColumn : IHavePrimaryKey, ICanDeleteFull
+    public partial class PersonSettingGridColumn : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,29 +31,31 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonSettingGridColumn(int personSettingGridColumnID, int personSettingGridTableID, string columnName) : this()
+        public PersonSettingGridColumn(int personSettingGridColumnID, int personSettingGridTableID, string columnName, int sortOrder) : this()
         {
             this.PersonSettingGridColumnID = personSettingGridColumnID;
             this.PersonSettingGridTableID = personSettingGridTableID;
             this.ColumnName = columnName;
+            this.SortOrder = sortOrder;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonSettingGridColumn(int personSettingGridTableID, string columnName) : this()
+        public PersonSettingGridColumn(int personSettingGridTableID, string columnName, int sortOrder) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonSettingGridColumnID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.PersonSettingGridTableID = personSettingGridTableID;
             this.ColumnName = columnName;
+            this.SortOrder = sortOrder;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PersonSettingGridColumn(PersonSettingGridTable personSettingGridTable, string columnName) : this()
+        public PersonSettingGridColumn(PersonSettingGridTable personSettingGridTable, string columnName, int sortOrder) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonSettingGridColumnID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -61,6 +63,7 @@ namespace ProjectFirmaModels.Models
             this.PersonSettingGridTable = personSettingGridTable;
             personSettingGridTable.PersonSettingGridColumns.Add(this);
             this.ColumnName = columnName;
+            this.SortOrder = sortOrder;
         }
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static PersonSettingGridColumn CreateNewBlank(PersonSettingGridTable personSettingGridTable)
         {
-            return new PersonSettingGridColumn(personSettingGridTable, default(string));
+            return new PersonSettingGridColumn(personSettingGridTable, default(string), default(int));
         }
 
         /// <summary>
@@ -105,7 +108,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.PersonSettingGridColumns.Remove(this);
+            dbContext.AllPersonSettingGridColumns.Remove(this);
         }
         
         /// <summary>
@@ -130,12 +133,15 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int PersonSettingGridColumnID { get; set; }
+        public int TenantID { get; set; }
         public int PersonSettingGridTableID { get; set; }
         public string ColumnName { get; set; }
+        public int SortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PersonSettingGridColumnID; } set { PersonSettingGridColumnID = value; } }
 
         public virtual ICollection<PersonSettingGridColumnSetting> PersonSettingGridColumnSettings { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PersonSettingGridTable PersonSettingGridTable { get; set; }
 
         public static class FieldLengths

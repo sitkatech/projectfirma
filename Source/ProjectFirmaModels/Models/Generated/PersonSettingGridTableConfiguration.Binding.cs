@@ -16,6 +16,7 @@ namespace ProjectFirmaModels.Models
             ToTable("PersonSettingGridTable", schema);
             HasKey(x => x.PersonSettingGridTableID);
             Property(x => x.PersonSettingGridTableID).HasColumnName(@"PersonSettingGridTableID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.GridName).HasColumnName(@"GridName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(256);
 
             // Foreign keys

@@ -444,7 +444,7 @@ namespace LtInfo.Common.DhtmlWrappers
 
             return
                 String.Format(
-                    @"<a class=""excelbutton"" id=""{0}DownloadLink"" href=""javascript:void(0)"" onclick=""Sitka.{0}.grid.toExcel({1})"" title=""Download this table as an Excel file"">Download Table</a>",
+                    @"<a class=""excelbutton"" id=""{0}DownloadLink"" href=""javascript:void(0)"" onclick=""Sitka.{0}.sitkaGridToExcel({1})"" title=""Download this table as an Excel file"">Download Table</a>",
                     gridName,
                     excelDownloadUrl.ParameterReplace(gridName).ToJS());
         }

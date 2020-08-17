@@ -4,8 +4,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[PersonSettingGridColumn](
 	[PersonSettingGridColumnID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[PersonSettingGridTableID] [int] NOT NULL,
 	[ColumnName] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[SortOrder] [int] NOT NULL,
  CONSTRAINT [PK_PersonSettingGridColumn_PersonSettingGridColumnID] PRIMARY KEY CLUSTERED 
 (
 	[PersonSettingGridColumnID] ASC
@@ -17,3 +19,8 @@ ALTER TABLE [dbo].[PersonSettingGridColumn]  WITH CHECK ADD  CONSTRAINT [FK_Pers
 REFERENCES [dbo].[PersonSettingGridTable] ([PersonSettingGridTableID])
 GO
 ALTER TABLE [dbo].[PersonSettingGridColumn] CHECK CONSTRAINT [FK_PersonSettingGridColumn_PersonSettingGridTable_PersonSettingGridTableID]
+GO
+ALTER TABLE [dbo].[PersonSettingGridColumn]  WITH CHECK ADD  CONSTRAINT [FK_PersonSettingGridColumn_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[PersonSettingGridColumn] CHECK CONSTRAINT [FK_PersonSettingGridColumn_Tenant_TenantID]

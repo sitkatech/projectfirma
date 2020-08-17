@@ -380,6 +380,10 @@
     <Compile Include="Models\Generated\PersonSettingGridColumnSetting.Binding.cs" />
     <Compile Include="Models\Generated\PersonSettingGridColumnSetting.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PersonSettingGridColumnSettingConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonSettingGridColumnSettingFilter.Binding.cs" />
+    <Compile Include="Models\Generated\PersonSettingGridColumnSettingFilter.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonSettingGridColumnSettingFilterConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonSettingGridColumnSettingFilterPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PersonSettingGridColumnSettingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PersonSettingGridTable.Binding.cs" />
     <Compile Include="Models\Generated\PersonSettingGridTable.DatabaseContextExtensions.cs" />
