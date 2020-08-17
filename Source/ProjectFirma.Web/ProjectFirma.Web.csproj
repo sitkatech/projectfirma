@@ -67,6 +67,9 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Models\GridSettingsViewModel.cs" />
+    <Compile Include="Models\GridTable.cs" />
+    <Compile Include="Models\GridColumn.cs" />
     <Compile Include="Controllers\GridSettingsController.cs" />
     <Compile Include="Controllers\MapLayerController.cs" />
     <Compile Include="Controllers\MatchMakerController.cs" />
