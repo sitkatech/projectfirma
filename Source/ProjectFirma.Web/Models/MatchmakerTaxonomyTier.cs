@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -40,6 +41,21 @@ namespace ProjectFirma.Web.Models
         public string GetDisplayName()
         {
             return DisplayName.ToEllipsifiedString(50);
+        }
+
+        public string GetDisplayNameAsDetailUrl()
+        {
+            switch (TaxonomyLevel)
+            {
+                case TaxonomyLevelEnum.Trunk:
+                    return $"{UrlTemplate.MakeHrefString(TaxonomyTrunk.GetDetailUrl(), GetDisplayName())}";
+                case TaxonomyLevelEnum.Branch:
+                    return $"{UrlTemplate.MakeHrefString(TaxonomyBranch.GetDetailUrl(), GetDisplayName())}";
+                case TaxonomyLevelEnum.Leaf:
+                    return $"{UrlTemplate.MakeHrefString(TaxonomyLeaf.GetDetailUrl(), GetDisplayName())}";
+                default:
+                    return string.Empty;
+            }
         }
 
         public void SetSortOrder(int? value)

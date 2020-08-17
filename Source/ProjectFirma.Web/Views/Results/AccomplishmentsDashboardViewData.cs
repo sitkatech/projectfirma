@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.Results
             ParticipatingOrganizationsUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ParticipatingOrganizations(UrlTemplate.Parameter1Int));
             OrganizationDashboardSummaryUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.OrganizationDashboardSummary(UrlTemplate.Parameter1Int));
             OrganizationAccomplishmentsUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.OrganizationAccomplishments(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int));
-            OrganizationDetailUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(UrlTemplate.Parameter1Int));
+            OrganizationDetailUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(UrlTemplate.Parameter1Int, null));
             SpendingByOrganizationTypeAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int, UrlTemplate.Parameter3Int));
             AccomplishmentsDashboardOrganizationTypeName = accomplishmentsDashboardOrganizationTypeName;
             TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
