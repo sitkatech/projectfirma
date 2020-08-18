@@ -111,17 +111,15 @@ namespace LtInfo.Common.DhtmlWrappers
 
         // Show loading bar
         jQuery(""#{0}LoadingBar"").show();
-
+        var showFilterBar = {10};
+        if(showFilterBar)
+        {{
+            Sitka.{0}.setupServerFilterSaving();
+            Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
+            Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
+        }}
         Sitka.{0}.grid.attachEvent(""onXLE"", function (gridObj, count){{
-            var showFilterBar = {10};
             Sitka.{0}.unfilteredRowCount = Sitka.{0}.grid.getRowsNum();
-            if(showFilterBar)
-            {{
-                Sitka.{0}.setupCookieFiltering(""{0}FilteredButton"");
-                Sitka.{0}.setupServerFilterSaving();
-                Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
-                Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
-            }}
             jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
             jQuery(""#{0}UnfilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
             jQuery(""#{0}LoadingBar"").hide();
