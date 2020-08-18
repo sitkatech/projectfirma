@@ -1011,7 +1011,7 @@ Sitka.Grid.Class.Grid.prototype.getColumnSortTypeByIndex = function (columnIndex
 
 Sitka.Grid.Class.Grid.prototype.asGridTableForSettings = function () {
     var sortInfo = this.SortInfo;
-    var tableToPost = new GridTable.GridTable(this.uniqueGridName);
+    var tableToPost = new GridTable.GridTable(this.gridName);
     // the meaning of "this" changes in the anonymous function in the loop
     var sitkaGrid = this;
 
