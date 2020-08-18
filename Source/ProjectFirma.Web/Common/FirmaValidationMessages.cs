@@ -41,6 +41,7 @@ namespace ProjectFirma.Web.Common
         public static string ClassificationNameUnique => $"{FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} name already exists.";
         public static string PerformanceMeasureNameUnique => $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} name already exists.";
         public static string ExplanationNecessaryForProjectExemptYears => $"Please provide an explanation of why the {FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabelPluralized()} are exempt.";
+        public static string ExplanationForProjectExemptYearsExceedsMax(int maxCharacters) => $"Explanation of why the {FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabelPluralized()} are exempt cannot exceed {maxCharacters} characters.";
         public static string ExplanationNotNecessaryForProjectExemptYears => $"Explanation is not necessary since no {FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabelPluralized()} are exempt.";
         public static string TagNameUnique => $"{FieldDefinitionEnum.TagName.ToType().GetFieldDefinitionLabel()} already exists.";
         public static string CompletionYearMustBePastOrPresentForCompletedProjects => $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} in the Completed and Post-Implementation stages cannot have a {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} in the future.";

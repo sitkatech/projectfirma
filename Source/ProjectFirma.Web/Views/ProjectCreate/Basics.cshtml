@@ -242,7 +242,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.ValidYearRange, new {@class = "form-control", style = "width: auto;"})
+                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new {@class = "form-control", style = "width: auto;"})
                 @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
             </div>
         </div>
@@ -251,7 +251,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ValidYearRange, new {@class = "form-control", style = "width: auto;"})
+                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new {@class = "form-control", style = "width: auto;"})
                 @Html.ValidationMessageFor(m => m.ImplementationStartYear)
             </div>
         </div>
@@ -260,7 +260,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.CompletionYear)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.ValidYearRange, new {@class = "form-control", style = "width: auto;"})
+                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new {@class = "form-control", style = "width: auto;"})
                 @Html.ValidationMessageFor(m => m.CompletionYear)
             </div>
         </div>
