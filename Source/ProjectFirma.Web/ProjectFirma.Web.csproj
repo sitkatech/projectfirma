@@ -3349,7 +3349,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.BuildDhtmlxGridHeaderTest.approved.txt" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateArbitraryHtmlTest.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateClearAllCookiesIconHtmlTest.approved.txt" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateCreateUrlHtmlTestWithCreatePopupForm.approved.txt" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateCreateUrlHtmlTestWithCreateUrl.approved.txt" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateFilteredExcelDownloadIconHtmlTest.approved.txt" />
