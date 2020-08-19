@@ -19,6 +19,11 @@ REFERENCES [dbo].[CustomPage] ([CustomPageID])
 GO
 ALTER TABLE [dbo].[CustomPageRole] CHECK CONSTRAINT [FK_CustomPageRole_CustomPage_CustomPageID]
 GO
+ALTER TABLE [dbo].[CustomPageRole]  WITH CHECK ADD  CONSTRAINT [FK_CustomPageRole_CustomPage_CustomPageID_TenantID] FOREIGN KEY([CustomPageID], [TenantID])
+REFERENCES [dbo].[CustomPage] ([CustomPageID], [TenantID])
+GO
+ALTER TABLE [dbo].[CustomPageRole] CHECK CONSTRAINT [FK_CustomPageRole_CustomPage_CustomPageID_TenantID]
+GO
 ALTER TABLE [dbo].[CustomPageRole]  WITH CHECK ADD  CONSTRAINT [FK_CustomPageRole_Role_RoleID] FOREIGN KEY([RoleID])
 REFERENCES [dbo].[Role] ([RoleID])
 GO
