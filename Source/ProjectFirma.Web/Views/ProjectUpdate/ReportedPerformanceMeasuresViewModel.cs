@@ -146,10 +146,18 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (ProjectExemptReportingYearUpdates != null && ProjectExemptReportingYearUpdates.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
+            if (ProjectExemptReportingYearUpdates != null && ProjectExemptReportingYearUpdates.Any(x => x.IsExempt))
             {
-                yield return new SitkaValidationResult<ReportedPerformanceMeasuresViewModel, string>(
-                    FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation);
+                if (string.IsNullOrWhiteSpace(Explanation))
+                {
+                    yield return new SitkaValidationResult<ReportedPerformanceMeasuresViewModel, string>(
+                        FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation);
+                }
+                else if (Explanation.Length > ProjectUpdateBatch.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation)
+                {
+                    yield return new SitkaValidationResult<ReportedPerformanceMeasuresViewModel, string>(
+                        FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectUpdateBatch.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation), x => x.Explanation);
+                }
             }
         }
     }

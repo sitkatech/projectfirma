@@ -11,7 +11,7 @@ RETURNS @GeospatialAreaTable TABLE
 (
     GeospatialAreaID int not null,
     PrimaryKey int not null primary key,
-    GeospatialAreaShortName varchar(100) not null,
+    GeospatialAreaShortName varchar(200) not null,
     GeospatialAreaTypeID int not null
 )
 AS
