@@ -111,17 +111,15 @@ namespace LtInfo.Common.DhtmlWrappers
 
         // Show loading bar
         jQuery(""#{0}LoadingBar"").show();
-
+        var showFilterBar = {10};
+        if(showFilterBar)
+        {{
+            Sitka.{0}.setupServerFilterSaving();
+            Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
+            Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
+        }}
         Sitka.{0}.grid.attachEvent(""onXLE"", function (gridObj, count){{
-            var showFilterBar = {10};
             Sitka.{0}.unfilteredRowCount = Sitka.{0}.grid.getRowsNum();
-            if(showFilterBar)
-            {{
-                Sitka.{0}.setupCookieFiltering(""{0}FilteredButton"");
-                Sitka.{0}.setupServerFilterSaving();
-                Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
-                Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
-            }}
             jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
             jQuery(""#{0}UnfilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
             jQuery(""#{0}LoadingBar"").hide();
@@ -254,7 +252,6 @@ namespace LtInfo.Common.DhtmlWrappers
 
         private static string CreateGridHeaderIconsHtml<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
         {
-            var clearCookiesIconHtml = CreateClearAllCookiesIconHtml(gridName);
             var filteredExcelDownloadIconHtml = CreateFilteredExcelDownloadIconHtml(gridName, excelDownloadUrl);
             var customExcelDownloadIconHtml = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
             var createIconHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
@@ -274,11 +271,6 @@ namespace LtInfo.Common.DhtmlWrappers
                 }
             {(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}
             {(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}
-            {
-                    (!string.IsNullOrWhiteSpace(clearCookiesIconHtml)
-                        ? $"<span>{clearCookiesIconHtml}</span>"
-                        : string.Empty)
-                }
             {
                     (!string.IsNullOrWhiteSpace(filteredExcelDownloadIconHtml)
                         ? $"<span>{filteredExcelDownloadIconHtml}</span>"
@@ -398,22 +390,7 @@ namespace LtInfo.Common.DhtmlWrappers
             }
             return createUrlHtml;
         }
-
-        /// <summary>
-        /// Creates the clear all cookies icon
-        /// </summary>
-        /// <param name="gridName"></param>
-        /// <returns></returns>
-        public static string CreateClearAllCookiesIconHtml(string gridName)
-        {
-            return
-                $@"<a href=""javascript:void(0);"" onclick=""Sitka.{
-                        gridName
-                    }.clearAllCookies()"" title=""Reset this grid to default column widths and filters"">{
-                        UndoIconBootstrap
-                    } Reset</a>&nbsp;";
-        }
-
+        
         /// <summary>
         /// Creates the filter icon
         /// If ShowFilterBar is false, it will return empty string

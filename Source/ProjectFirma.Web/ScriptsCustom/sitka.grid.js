@@ -517,7 +517,7 @@ Sitka.Grid.Class.Grid.prototype.showHideFilterRow = function (setToState) {
             filterRow.style.display = "none";
             xhdr.height(xhdr.height() - this.awaitedRowHeight);
             objbox.height(objbox.height() + this.awaitedRowHeight);
-            Sitka.Methods.createCookie(this.getGridCookieName() + "filterVisible", "0", null);
+            //Sitka.Methods.createCookie(this.getGridCookieName() + "filterVisible", "0", null);
         }
         else {
             if (navigator.userAgent.indexOf("MSIE 7.0") >= 0) {
@@ -528,7 +528,7 @@ Sitka.Grid.Class.Grid.prototype.showHideFilterRow = function (setToState) {
             }
             xhdr.height(xhdr.height() + this.awaitedRowHeight);
             objbox.height(objbox.height() - this.awaitedRowHeight);
-            Sitka.Methods.createCookie(this.getGridCookieName() + "filterVisible", "1", null);
+            //Sitka.Methods.createCookie(this.getGridCookieName() + "filterVisible", "1", null);
         }
     }
 };
@@ -539,19 +539,22 @@ Sitka.Grid.Class.Grid.prototype.showHideFilterInstructions = function () {
     (filterInstructions.is(":visible")) ? filterInstructions.hide() : filterInstructions.show();
 };
 
-Sitka.Grid.Class.Grid.prototype.loadFilterRowState = function () {
-    var filterCookieString = Sitka.Methods.readCookie(this.getGridCookieName() + "filterVisible");
-    if ((filterCookieString) && (filterCookieString != "")) {
-        // Only try to restore grid values if there's a cookie saved
-        try {
-            this.showHideFilterRow(filterCookieString);
-        }
-        catch (ex) {
-            // erase cookie since something must be borked out with it...
-            Sitka.Methods.eraseCookie(this.getGridCookieName() + "filterVisible");
-        }
-    }
-};
+// This is commented out because it is not currently being used. Leaving it here as a reminder when we might
+// implement a separate feature to load saved values from the database.
+
+//Sitka.Grid.Class.Grid.prototype.loadFilterRowState = function () {
+//    var filterCookieString = Sitka.Methods.readCookie(this.getGridCookieName() + "filterVisible");
+//    if ((filterCookieString) && (filterCookieString != "")) {
+//        // Only try to restore grid values if there's a cookie saved
+//        try {
+//            this.showHideFilterRow(filterCookieString);
+//        }
+//        catch (ex) {
+//            // erase cookie since something must be borked out with it...
+//            Sitka.Methods.eraseCookie(this.getGridCookieName() + "filterVisible");
+//        }
+//    }
+//};
 
 Sitka.Grid.Class.Grid.prototype.setColumnNumberFormats = function (columnFormatTypes, formatTypeToMatch, numberFormat) {
     var match, fromIndex = 0;
@@ -614,45 +617,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         jQuery(selector).each(function (i, item) { jQuery(item).removeAttr("disabled"); });
         return true;
     };
-    // Here we compare the number of columns in the cookie to the number in the grid. If they don't match equally,
-    // the grid cookie is not valid. We only look at the first of several sets of comma-delimited lists, and the
-    // column sizes come first. Arguably we could look harder into this, but so far we have not. MF & SLG
-    var isGridCookieStateValid = function (sitkaGrid) {
-        var currentGridCookieStateValue = Sitka.Methods.readCookie(calculateGridSettingsCookieName(sitkaGrid));
-        var cookieSectionDivider = "|";
-        if (currentGridCookieStateValue == null || currentGridCookieStateValue.indexOf(cookieSectionDivider) == -1) {
-            return false;
-        }
-        var firstSection = currentGridCookieStateValue.split(cookieSectionDivider, 1)[0];
-        var countOfColumnnsInCookie = firstSection.split(",").length;
-        return countOfColumnnsInCookie == sitkaGrid._columns.length;
-    };
-    // This computation for the name of the grid cookie for column widths, etc.
-    // has to be kept in sync with the code in DHTMLXGrid. No, they do not have a library
-    // call for this, even internal to themselves, so we have to hard-code it as well, copying their
-    // code here. MF & SLG.
-    var calculateGridSettingsCookieName = function (sitkaGrid) {
-        var gridSettingsCookieName = "gridSettings" + sitkaGrid.grid.entBox.id;
-        return gridSettingsCookieName;
-    };
-    // Load the grid Cookie state, first checking to see if the cookie is valid to use.
-    // (If we don't check, calling the various grid.loadXxxx functions will wedge the browser in a bad state there
-    //  is no way back from).
-    // If the cookie is no longer valid, we erase it. This dumps our widths and filters, but at least the user can keep
-    // going. 
-    var loadGridCookieState = function (sitkaGrid) {
-        return function () {
-            if (isGridCookieStateValid(sitkaGrid)) {
-                sitkaGrid.grid.loadSortingFromCookie();
-                sitkaGrid.grid.loadSizeFromCookie();
-                sitkaGrid.grid.loadOrderFromCookie();
-            }
-            else {
-                Sitka.Methods.eraseCookie(calculateGridSettingsCookieName(sitkaGrid));
-            }
-        };
-    };
-
+    
     this.grid.entBox.onselectstart = function () { return true; }; // allows selection in IE & copying/pasting
     this.grid.attachEvent("onBeforeSorting", setHourGlassCursor);
     this.grid.attachEvent("onAfterSorting", setDefaultCursor);
@@ -669,10 +634,8 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         else {
             this.grid.parse(this.dataElement.replace(/&nbsp;/g, " ")); // some browser's (Mozilla) innterHTML adds &nbsp; to some elements for some reason (they possibly detect other html in the element and replace spaces w/ &nbsp;                
         }
-        loadGridCookieState(this)();
     }
     else if (dataUrl) {
-        this.grid.attachEvent("onXLE", loadGridCookieState(this));
 
         if (true) {
             this.grid.enableSmartRendering(true);
@@ -749,24 +712,6 @@ Sitka.Grid.Class.Grid.prototype.build = function (hideHeader, groupingHeader, fi
 
 Sitka.Grid.Class.Grid.prototype.formatEdit = function (rowId, columnIndex) { this.grid.rowsAr[rowId].cells[columnIndex].className += " sitkaGridEditable"; };
 
-Sitka.Grid.Class.Grid.prototype.getGridCookieName = function () { return ("grid_ck_" + this.uniqueGridName); };
-
-Sitka.Grid.Class.Grid.prototype.clearAllCookies = function () {
-    this.grid.clearConfigCookie();
-    this.clearSavedFilterValues();
-    Sitka.Methods.eraseCookie(this.getGridCookieName() + "filterVisible");
-    location.reload(true);
-};
-
-Sitka.Grid.Class.Grid.prototype.saveFilters = function () {
-    // Retrieve the values from the grid in our own format
-    var filterValues = this.getFilterValuesFromGrid();
-
-    // And push to cookie
-    var filterStringForCookie = filterValues.join('|');
-    Sitka.Methods.createCookie(this.getGridCookieName(), filterStringForCookie, null);
-};
-
 Sitka.Grid.Class.Grid.prototype.getFilterValuesFromGrid = function () {
     var filterValues = [];
     for (var colIndex = 0; colIndex < this.grid.getColumnsNum() ; colIndex++) {
@@ -780,29 +725,18 @@ Sitka.Grid.Class.Grid.prototype.getFilterValuesFromGrid = function () {
     return filterValues;
 };
 
-Sitka.Grid.Class.Grid.prototype.reloadFiltersFromCookie = function () {
-    var gridCookieName = this.getGridCookieName();
-    var filterCookieString = Sitka.Methods.readCookie(gridCookieName);
-    if ((filterCookieString) && (filterCookieString != "")) {
-        // Only try to restore grid values if there's a cookie saved
-        var filterValues = filterCookieString.split('|');
-        this.setGridFromSavedValues(filterValues);
-    }
-};
+
 
 Sitka.Grid.Class.Grid.prototype.hasSavedFilters = function () {
     // Do we have any filters with any length at all?
     // Here we just staple them all together and see if they add up to anything. If they are non-zero length,
     // one of the filters is set to something.
     var filterValues = this.getFilterValuesFromGrid();
-    var filterStringForCookie = filterValues.join('');
-    var filterTrimmed = jQuery.trim(filterStringForCookie);
+    var filterString = filterValues.join('');
+    var filterTrimmed = jQuery.trim(filterString);
 
     return filterTrimmed.length > 0;
 };
-
-// Clear cookie
-Sitka.Grid.Class.Grid.prototype.clearSavedFilterValues = function () { Sitka.Methods.eraseCookie(this.getGridCookieName()); };
 
 Sitka.Grid.Class.Grid.prototype.setFilteringButtonTagName = function (filterTagName) { this.filterTagName = "#" + filterTagName; };
 
@@ -843,7 +777,7 @@ Sitka.Grid.Class.Grid.prototype.clearGridFilters = function () {
         this.grid.filterBy(0, "");
 
 
-        this.clearSavedFilterValues();
+        this.saveFiltersToServer();
         this.showOrHideFilteringButton();
         this.updateFilterCountElement();
         this.updateFilterDownloadElement();
@@ -856,7 +790,7 @@ Sitka.Grid.Class.Grid.prototype.setGridFromSavedValues = function (filterValuesA
     this.grid.refreshFilters();
     for (var colIndex = 0; colIndex < filterValuesArray.length; colIndex++) {
         // Sanity check to make sure we don't walk off the end, 
-        // if the cookie didn't correspond to the real-world columns.
+        // if the saved values didn't correspond to the real-world columns.
         if (colIndex > this.grid.getColumnsNum()) {
             break;
         }
@@ -867,22 +801,6 @@ Sitka.Grid.Class.Grid.prototype.setGridFromSavedValues = function (filterValuesA
     }
     this.grid.filterByAll();
     this.showOrHideFilteringButton();
-};
-
-Sitka.Grid.Class.Grid.prototype.setupCookieFiltering = function (filterElementId) {
-    var self = this;
-    this.grid.attachEvent("onFilterStart", function () {
-        self.saveFilters();
-        self.showOrHideFilteringButton();
-        return true;
-    });
-
-    this.grid.attachEvent("onXLE", function () { self.reloadFiltersFromCookie(); });
-
-    // If there's a button to clear the filtering, give its tag name here.
-    // (If you fail to provide one, but still set up the calls to saveFilters and reloadFiltersFromCookie, you'll
-    //  get the expected save behavior, but without the button to clear things.)
-    this.setFilteringButtonTagName(filterElementId);
 };
 
 Sitka.Grid.Class.Grid.prototype.setupFilterCountElement = function (filterCountElementId) {
@@ -994,13 +912,13 @@ Sitka.Grid.Class.Grid.prototype.resizeGridWidths = function ()
     jQuery("#" + this.gridName + "MetaDivID").width(gridDiv.width());
 };
 
-Sitka.Grid.Class.Grid.prototype.setupServerFilterSaving = function () {
+Sitka.Grid.Class.Grid.prototype.setupServerFilterSaving = function (filterElementId) {
     var self = this;
     this.grid.attachEvent("onFilterStart", function () {
         self.saveFiltersToServer();
+        self.showOrHideFilteringButton();
         return true;
     });
-
 };
 
 
@@ -1011,7 +929,7 @@ Sitka.Grid.Class.Grid.prototype.getColumnSortTypeByIndex = function (columnIndex
 
 Sitka.Grid.Class.Grid.prototype.asGridTableForSettings = function () {
     var sortInfo = this.SortInfo;
-    var tableToPost = new GridTable.GridTable(this.uniqueGridName);
+    var tableToPost = new GridTable.GridTable(this.gridName);
     // the meaning of "this" changes in the anonymous function in the loop
     var sitkaGrid = this;
 
@@ -1066,6 +984,5 @@ Sitka.Grid.Class.Grid.prototype.saveFiltersToServer = function (callbackFunction
         function() {
 
         });
-    
-    
+
 };
