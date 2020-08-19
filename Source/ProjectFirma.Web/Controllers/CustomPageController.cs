@@ -28,6 +28,7 @@ using ProjectFirma.Web.Views.CustomPage;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -47,47 +48,27 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        [Route("Project/{vanityUrl}")]
+        [Route("ProjectCustomPage/{vanityUrl}")]
         public ActionResult Project(string vanityUrl)
         {
-            return ViewCustomPage("Project", vanityUrl);
+            return ViewCustomPage("ProjectCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
-        [Route("ProgramInfo/{vanityUrl}")]
+        [Route("ProgramInfoCustomPage/{vanityUrl}")]
         public ActionResult ProgramInfo(string vanityUrl)
         {
-            return ViewCustomPage("ProgramInfo", vanityUrl);
+            return ViewCustomPage("ProgramInfoCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
-        [Route("Results/{vanityUrl}")]
+        [Route("ResultsCustomPage/{vanityUrl}")]
         public ActionResult Results(string vanityUrl)
         {
-            return ViewCustomPage("Results", vanityUrl);
+            return ViewCustomPage("ResultsCustomPage", vanityUrl);
         }
 
         [AnonymousUnclassifiedFeature]
-        [Route("Reports/{vanityUrl}")]
-        public ActionResult Reports(string vanityUrl)
-        {
-            return ViewCustomPage("Reports", vanityUrl);
-        }
-
-        [AnonymousUnclassifiedFeature]
-        [Route("Manage/{vanityUrl}")]
-        public ActionResult Manage(string vanityUrl)
-        {
-            return ViewCustomPage("Manage", vanityUrl);
-        }
-
-        [AnonymousUnclassifiedFeature]
-        [Route("Configure/{vanityUrl}")]
-        public ActionResult Configure(string vanityUrl)
-        {
-            return ViewCustomPage("Configure", vanityUrl);
-        }
-
         public ViewResult ViewCustomPage(string route, string vanityUrl)
         {
             var customPage = MultiTenantHelpers.GetCustomPages()
@@ -184,8 +165,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var customPage = new CustomPage(string.Empty, string.Empty, CustomPageDisplayType.Disabled, FirmaMenuItem.About);
-            viewModel.UpdateModel(customPage, CurrentFirmaSession);
+            var customPage = new CustomPage(string.Empty, string.Empty, FirmaMenuItem.About);
+
+            HttpRequestStorage.DatabaseEntities.CustomPageRoles.Load();
+            var customPageRoles = HttpRequestStorage.DatabaseEntities.AllCustomPageRoles.Local;
+            viewModel.UpdateModel(customPage, CurrentFirmaSession, customPageRoles);
             HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Custom Page '{customPage.CustomPageDisplayName}' successfully created.");
@@ -212,7 +196,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            viewModel.UpdateModel(customPage, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.CustomPageRoles.Load();
+            var customPageRoles = HttpRequestStorage.DatabaseEntities.AllCustomPageRoles.Local;
+            viewModel.UpdateModel(customPage, CurrentFirmaSession, customPageRoles);
             return new ModalDialogFormJsonResult();
         }
 
@@ -221,11 +207,8 @@ namespace ProjectFirma.Web.Controllers
             var menusAsSelectListItems = FirmaMenuItem.All.ToSelectListWithEmptyFirstRow(
                 x => x.FirmaMenuItemID.ToString(CultureInfo.InvariantCulture),
                 x => x.GetFirmaMenuItemDisplayName());
-            var customPageTypesAsSelectListItems = CustomPageDisplayType.All.OrderBy(x => x.CustomPageDisplayTypeDisplayName)
-                .ToSelectListWithEmptyFirstRow(x => x.CustomPageDisplayTypeID.ToString(CultureInfo.InvariantCulture),
-                    x => x.CustomPageDisplayTypeDisplayName);
 
-            var viewData = new EditViewData(menusAsSelectListItems, customPageTypesAsSelectListItems);
+            var viewData = new EditViewData(menusAsSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

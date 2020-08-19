@@ -24,30 +24,43 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ExternalMapLayer
+namespace ProjectFirma.Web.Views.MapLayer
 {
     public class IndexViewData : FirmaViewData
     {
-        public IndexGridSpec GridSpec { get; }
-        public string GridName { get; }
-        public string GridDataUrl { get; }
+        public ExternalMapLayerGridSpec ExternalMapLayerGridSpec { get; }
+        public string ExternalMapLayerGridName { get; }
+        public string ExternalMapLayerGridDataUrl { get; }
         public string NewUrl { get; }
+        public GeospatialAreaMapLayerGridSpec GeospatialAreaMapLayerGridSpec { get; }
+        public string GeospatialAreaMapLayerGridName { get; }
+        public string GeospatialAreaMapLayerGridDataUrl { get; }
         public bool UserCanManage { get; }
 
 
-        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, bool userCanManage)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string externalMapLayerGridDataUrl, string geospatialAreaMapLayerGridDataUrl, bool userCanManage)
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}";
-            GridSpec = new IndexGridSpec(userCanManage)
+            ExternalMapLayerGridSpec = new ExternalMapLayerGridSpec(userCanManage)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
-            GridName = "externalMapLayersGrid";
-            GridDataUrl = gridDataUrl;
-            NewUrl = SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(x => x.New());
+            ExternalMapLayerGridName = "externalMapLayersGrid";
+            ExternalMapLayerGridDataUrl = externalMapLayerGridDataUrl;
+            NewUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.New());
+
+            GeospatialAreaMapLayerGridSpec = new GeospatialAreaMapLayerGridSpec(userCanManage)
+            {
+                ObjectNameSingular = $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized()}",
+                SaveFiltersInCookie = true
+            };
+            GeospatialAreaMapLayerGridName = "geospatialAreaMapLayersGrid";
+            GeospatialAreaMapLayerGridDataUrl = geospatialAreaMapLayerGridDataUrl;
+
             UserCanManage = userCanManage;
 
         }

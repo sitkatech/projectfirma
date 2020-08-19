@@ -43,6 +43,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
 
         public bool ShouldShowMatchMakerPotentialPartnerPanel { get; }
         public List<PartnerOrganizationMatchMakerScore> RelevantPartnerOrganizationMatchMakerScores { get; }
+        /// <summary>
+        /// This is the total number of scores, which may be less than the number actually being shown.
+        /// </summary>
+        public int TotalRelevantMatchMakerScores;
         public bool ShouldShowMorePartnersLink { get; }
         public HtmlString MorePartnersLinkHtml { get; }
         public ProjectPotentialPartnerListDisplayMode DisplayMode;
@@ -64,8 +68,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
                 ProjectOrganizationMatchmaker matchMaker = new ProjectOrganizationMatchmaker();
                 var allPossibleRelevantPartnerOrganizationMatchMakerScores = 
                     matchMaker.GetPartnerOrganizationMatchMakerScoresForParticularProject(currentFirmaSession, project);
+                TotalRelevantMatchMakerScores = allPossibleRelevantPartnerOrganizationMatchMakerScores.Count;
 
-                bool hasExcessMatches = allPossibleRelevantPartnerOrganizationMatchMakerScores.Count > NumberOfMatchesToShowForPartialList;
+                bool hasExcessMatches = TotalRelevantMatchMakerScores > NumberOfMatchesToShowForPartialList;
                 bool inPartialViewMode = DisplayMode == ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList;
                 ShouldShowMorePartnersLink = hasExcessMatches && inPartialViewMode;
 

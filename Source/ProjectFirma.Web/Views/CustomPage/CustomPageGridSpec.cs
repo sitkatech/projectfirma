@@ -23,9 +23,7 @@ using System.Collections.Generic;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -42,7 +40,7 @@ namespace ProjectFirma.Web.Views.CustomPage
             {               
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.Edit(a)),
-                        "Edit")),
+                        850, "Edit")),
                     30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeModalDialogLink("<span>Edit Content</span>",
                     SitkaRoute<CustomPageController>.BuildUrlFromExpression(y => y.EditInDialog(a)),
@@ -56,9 +54,9 @@ namespace ProjectFirma.Web.Views.CustomPage
                     null), 80, DhtmlxGridColumnFilterType.None);
             }
             Add("Menu", a => a.FirmaMenuItem.GetFirmaMenuItemDisplayName(), 110, DhtmlxGridColumnFilterType.Text);
-            Add("Page Name", a => a.CustomPageDisplayType != CustomPageDisplayType.Disabled ? UrlTemplate.MakeHrefString(a.GetAboutPageUrl(), a.CustomPageDisplayName) : new HtmlString($"{a.CustomPageDisplayName}"), 180, DhtmlxGridColumnFilterType.Text);
+            Add("Page Name", a => !a.IsDisabled() ? UrlTemplate.MakeHrefString(a.GetAboutPageUrl(), a.CustomPageDisplayName) : new HtmlString($"{a.CustomPageDisplayName}"), 180, DhtmlxGridColumnFilterType.Text);
             Add("Has Content", a => a.HasPageContent().ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.CustomPageDisplayType.ToType().ToGridHeaderString(), a => a.CustomPageDisplayType.CustomPageDisplayTypeDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.CustomPageViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRolesAsListOfStrings(), 400, DhtmlxGridColumnFilterType.Text);
             Add("CustomPageID", a => a.CustomPageID, 0);
         }
     }

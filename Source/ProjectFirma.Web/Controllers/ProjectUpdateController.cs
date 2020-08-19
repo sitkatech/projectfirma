@@ -1074,7 +1074,7 @@ namespace ProjectFirma.Web.Controllers
 
             var mapInitJsonForEdit = new MapInitJson($"project_{project.ProjectID}_EditMap",
                 10,
-                MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide),
+                MapInitJson.GetAllGeospatialAreaMapLayers(),
                 MapInitJson.GetExternalMapLayers(),
                 BoundingBox.MakeNewDefaultBoundingBox(),
                 false) {DisablePopups = true};
@@ -1082,7 +1082,7 @@ namespace ProjectFirma.Web.Controllers
 
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", true, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true));
+                $"project_{project.ProjectID}_EditMap", true, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true), false);
 
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
@@ -1179,7 +1179,7 @@ namespace ProjectFirma.Web.Controllers
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(projectUpdate));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox) {AllowFullScreen = false, DisablePopups = true};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
@@ -1496,7 +1496,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType);
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", false, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false));
+                $"project_{project.ProjectID}_EditMap", false, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false), false);
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
@@ -1531,6 +1531,23 @@ namespace ProjectFirma.Web.Controllers
             }
             var viewModel = new BulkSetSpatialInformationViewModel(projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialAreaID).ToList());
             return ViewBulkSetSpatialInformation(project, projectUpdateBatch, viewModel);
+        }
+
+        // Partner Finder section of Project Update
+        [HttpGet]
+        [MatchMakerViewPotentialPartnersFeature]
+        public ActionResult PartnerFinder(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            var viewData = new PartnerFinderProjectUpdateViewData(CurrentFirmaSession, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch));
+            var viewModel = new PartnerFinderProjectUpdateViewModel();
+            return RazorView<PartnerFinderProjectUpdate, PartnerFinderProjectUpdateViewData, PartnerFinderProjectUpdateViewModel>(viewData, viewModel);
         }
 
         private ViewResult ViewBulkSetSpatialInformation(Project project, ProjectUpdateBatch projectUpdateBatch, BulkSetSpatialInformationViewModel viewModel)
@@ -3339,7 +3356,7 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, string currentSectionName)
         {
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
-            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
+            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(CurrentFirmaSession, true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;

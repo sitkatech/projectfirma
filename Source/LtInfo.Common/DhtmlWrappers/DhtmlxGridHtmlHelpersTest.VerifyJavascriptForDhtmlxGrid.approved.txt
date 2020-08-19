@@ -9,7 +9,7 @@
     jQuery(document).ready(function ()
     {
         // Initialize Grid
-        Sitka.testGridName = new Sitka.Grid.Class.Grid("testGridName", "testGridNameDivID", null, "scrollToFirst", "mm", 30);
+        Sitka.testGridName = new Sitka.Grid.Class.Grid("testGridName", "testGridNameDivID", null, "scrollToFirst", "mm", 30, "");
         // Initialize Grid Columns
         Sitka.testGridName.setGridColumns(
         [
@@ -34,6 +34,7 @@
             if(showFilterBar)
             {
                 Sitka.testGridName.setupCookieFiltering("testGridNameFilteredButton");
+                Sitka.testGridName.setupServerFilterSaving();
                 Sitka.testGridName.setupFilterCountElement("testGridNameFilteredRowCount");
                 Sitka.testGridName.setFilteringButtonTagName("testGridNameFilteredButton");
             }

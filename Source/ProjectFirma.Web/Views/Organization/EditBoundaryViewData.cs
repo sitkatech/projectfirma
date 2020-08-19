@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Views.Organization
             ApproveGisUploadUrl =
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.ApproveUploadGis(organization));
             OrganizationDetailUrl =
-                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Detail(organization));
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Detail(organization, null));
         }
     }
 }

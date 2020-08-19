@@ -26,17 +26,17 @@ namespace ProjectFirmaModels.Models
         protected CustomPage()
         {
             this.CustomPageImages = new HashSet<CustomPageImage>();
+            this.CustomPageRoles = new HashSet<CustomPageRole>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CustomPage(int customPageID, string customPageDisplayName, string customPageVanityUrl, int customPageDisplayTypeID, string customPageContent, int? documentLibraryID, int firmaMenuItemID) : this()
+        public CustomPage(int customPageID, string customPageDisplayName, string customPageVanityUrl, string customPageContent, int? documentLibraryID, int firmaMenuItemID) : this()
         {
             this.CustomPageID = customPageID;
             this.CustomPageDisplayName = customPageDisplayName;
             this.CustomPageVanityUrl = customPageVanityUrl;
-            this.CustomPageDisplayTypeID = customPageDisplayTypeID;
             this.CustomPageContent = customPageContent;
             this.DocumentLibraryID = documentLibraryID;
             this.FirmaMenuItemID = firmaMenuItemID;
@@ -45,36 +45,34 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CustomPage(string customPageDisplayName, string customPageVanityUrl, int customPageDisplayTypeID, int firmaMenuItemID) : this()
+        public CustomPage(string customPageDisplayName, string customPageVanityUrl, int firmaMenuItemID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.CustomPageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.CustomPageDisplayName = customPageDisplayName;
             this.CustomPageVanityUrl = customPageVanityUrl;
-            this.CustomPageDisplayTypeID = customPageDisplayTypeID;
             this.FirmaMenuItemID = firmaMenuItemID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public CustomPage(string customPageDisplayName, string customPageVanityUrl, CustomPageDisplayType customPageDisplayType, FirmaMenuItem firmaMenuItem) : this()
+        public CustomPage(string customPageDisplayName, string customPageVanityUrl, FirmaMenuItem firmaMenuItem) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.CustomPageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.CustomPageDisplayName = customPageDisplayName;
             this.CustomPageVanityUrl = customPageVanityUrl;
-            this.CustomPageDisplayTypeID = customPageDisplayType.CustomPageDisplayTypeID;
             this.FirmaMenuItemID = firmaMenuItem.FirmaMenuItemID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static CustomPage CreateNewBlank(CustomPageDisplayType customPageDisplayType, FirmaMenuItem firmaMenuItem)
+        public static CustomPage CreateNewBlank(FirmaMenuItem firmaMenuItem)
         {
-            return new CustomPage(default(string), default(string), customPageDisplayType, firmaMenuItem);
+            return new CustomPage(default(string), default(string), firmaMenuItem);
         }
 
         /// <summary>
@@ -83,7 +81,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return CustomPageImages.Any();
+            return CustomPageImages.Any() || CustomPageRoles.Any();
         }
 
         /// <summary>
@@ -97,13 +95,18 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(CustomPageImage).Name);
             }
+
+            if(CustomPageRoles.Any())
+            {
+                dependentObjects.Add(typeof(CustomPageRole).Name);
+            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CustomPage).Name, typeof(CustomPageImage).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CustomPage).Name, typeof(CustomPageImage).Name, typeof(CustomPageRole).Name};
 
 
         /// <summary>
@@ -132,6 +135,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in CustomPageRoles.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -139,7 +147,6 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public string CustomPageDisplayName { get; set; }
         public string CustomPageVanityUrl { get; set; }
-        public int CustomPageDisplayTypeID { get; set; }
         public string CustomPageContent { get; set; }
         [NotMapped]
         public HtmlString CustomPageContentHtmlString
@@ -153,8 +160,8 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return CustomPageID; } set { CustomPageID = value; } }
 
         public virtual ICollection<CustomPageImage> CustomPageImages { get; set; }
+        public virtual ICollection<CustomPageRole> CustomPageRoles { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public CustomPageDisplayType CustomPageDisplayType { get { return CustomPageDisplayType.AllLookupDictionary[CustomPageDisplayTypeID]; } }
         public virtual DocumentLibrary DocumentLibrary { get; set; }
         public FirmaMenuItem FirmaMenuItem { get { return FirmaMenuItem.AllLookupDictionary[FirmaMenuItemID]; } }
 

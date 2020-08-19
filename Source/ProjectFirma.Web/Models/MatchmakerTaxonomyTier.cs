@@ -2,31 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
     public class MatchmakerTaxonomyTier :  IHaveASortOrder
     {
-
         public int TaxonomyTierID { get; }
         public string DisplayName { get; }
-        public HtmlString DisplayNameAsHtmlString { get; }
         public int? SortOrder { get; set; }
-        public bool IsSelected { get; set; }
-        
         public List<MatchmakerTaxonomyTier> Children { get; }
-        public string ChildrenAltText { get; }
-        public bool IncludeAllChildrenByDefault { get; }
-
+        public List<MatchmakerTaxonomyTier> GrandChildren { get; }
+        public int MaximumChildrenCount { get; }
+        public int MaximumGrandChildrenCount { get; }
         private TaxonomyLevelEnum TaxonomyLevel { get; }
-
         public TaxonomyLeaf TaxonomyLeaf { get; }
         public TaxonomyBranch TaxonomyBranch { get; }
         public TaxonomyTrunk TaxonomyTrunk { get; }
-
-
 
         public ComboTreeNode ToComboTreeNode()
         {
@@ -45,7 +40,22 @@ namespace ProjectFirma.Web.Models
 
         public string GetDisplayName()
         {
-            return DisplayName;
+            return DisplayName.ToEllipsifiedString(50);
+        }
+
+        public string GetDisplayNameAsDetailUrl()
+        {
+            switch (TaxonomyLevel)
+            {
+                case TaxonomyLevelEnum.Trunk:
+                    return $"{UrlTemplate.MakeHrefString(TaxonomyTrunk.GetDetailUrl(), GetDisplayName())}";
+                case TaxonomyLevelEnum.Branch:
+                    return $"{UrlTemplate.MakeHrefString(TaxonomyBranch.GetDetailUrl(), GetDisplayName())}";
+                case TaxonomyLevelEnum.Leaf:
+                    return $"{UrlTemplate.MakeHrefString(TaxonomyLeaf.GetDetailUrl(), GetDisplayName())}";
+                default:
+                    return string.Empty;
+            }
         }
 
         public void SetSortOrder(int? value)
@@ -63,57 +73,108 @@ namespace ProjectFirma.Web.Models
             return TaxonomyTierID;
         }
 
-        public MatchmakerTaxonomyTier(TaxonomyLeaf taxonomyLeaf, bool isSelected)
+        public MatchmakerTaxonomyTier(TaxonomyLeaf taxonomyLeaf)
         {
             TaxonomyTierID = taxonomyLeaf.TaxonomyLeafID;
             DisplayName = taxonomyLeaf.GetDisplayName();
-            DisplayNameAsHtmlString = new HtmlString($"{(isSelected ? "<span class='glyphicon glyphicon-check'></span>" : "")} {DisplayName}");
             SortOrder = taxonomyLeaf.TaxonomyLeafSortOrder;
-            IsSelected = isSelected;
             Children = null;
             TaxonomyLevel = TaxonomyLevelEnum.Leaf;
             TaxonomyLeaf = taxonomyLeaf;
             TaxonomyBranch = null;
             TaxonomyTrunk = null;
+            MaximumChildrenCount = 0;
         }
 
-        public MatchmakerTaxonomyTier(TaxonomyBranch taxonomyBranch, bool isSelected, List<MatchmakerTaxonomyTier> leaves)
+        public MatchmakerTaxonomyTier(TaxonomyBranch taxonomyBranch, List<MatchmakerTaxonomyTier> leaves)
         {
             TaxonomyTierID = taxonomyBranch.TaxonomyBranchID;
             DisplayName = taxonomyBranch.GetDisplayName();
-            DisplayNameAsHtmlString = new HtmlString($"{(isSelected ? "<span class='glyphicon glyphicon-check'></span>" : "")} {DisplayName}");
             SortOrder = taxonomyBranch.TaxonomyBranchSortOrder;
-            IsSelected = isSelected;
-            if (leaves == null)
-            {
-                IncludeAllChildrenByDefault = true;
-                ChildrenAltText = $"All {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()}";
-            }
             Children = leaves;
             TaxonomyLevel = TaxonomyLevelEnum.Branch;
             TaxonomyLeaf = null;
             TaxonomyBranch = taxonomyBranch;
             TaxonomyTrunk = null;
+            MaximumChildrenCount = taxonomyBranch.TaxonomyLeafs.Count;
         }
 
-        public MatchmakerTaxonomyTier(TaxonomyTrunk taxonomyTrunk, bool isSelected, List<MatchmakerTaxonomyTier> branches)
+        public MatchmakerTaxonomyTier(TaxonomyTrunk taxonomyTrunk, List<MatchmakerTaxonomyTier> branches)
         {
             TaxonomyTierID = taxonomyTrunk.TaxonomyTrunkID;
             DisplayName = taxonomyTrunk.GetDisplayName();
-            DisplayNameAsHtmlString = new HtmlString($"{(isSelected ? "<span class='glyphicon glyphicon-check'></span>" : "")} {DisplayName}");
             SortOrder = taxonomyTrunk.TaxonomyTrunkSortOrder;
-            IsSelected = isSelected;
-            if (branches == null)
-            {
-                IncludeAllChildrenByDefault = true;
-                ChildrenAltText = $"All {FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized()}";
-            }
             Children = branches;
             TaxonomyLevel = TaxonomyLevelEnum.Trunk;
             TaxonomyLeaf = null;
             TaxonomyBranch = null;
             TaxonomyTrunk = taxonomyTrunk;
+            MaximumChildrenCount = taxonomyTrunk.TaxonomyBranches.Count;
         }
 
+        public MatchmakerTaxonomyTier(TaxonomyTrunk taxonomyTrunk, List<MatchmakerTaxonomyTier> branches, List<MatchmakerTaxonomyTier> leaves)
+        {
+            TaxonomyTierID = taxonomyTrunk.TaxonomyTrunkID;
+            DisplayName = taxonomyTrunk.GetDisplayName();
+            SortOrder = taxonomyTrunk.TaxonomyTrunkSortOrder;
+            Children = branches;
+            GrandChildren = leaves;
+            TaxonomyLevel = TaxonomyLevelEnum.Trunk;
+            TaxonomyLeaf = null;
+            TaxonomyBranch = null;
+            TaxonomyTrunk = taxonomyTrunk;
+            MaximumChildrenCount = taxonomyTrunk.TaxonomyBranches.Count;
+            MaximumGrandChildrenCount = taxonomyTrunk.TaxonomyBranches.Sum(x => x.TaxonomyLeafs.Count);
+        }
+
+        public string GetTaxonomyTierCountText()
+        {
+            var countSelected = Children.Count;
+            var message = $"{countSelected} selected";
+
+            if (countSelected == MaximumChildrenCount)
+            {
+                switch (TaxonomyLevel)
+                {
+                    case TaxonomyLevelEnum.Trunk:
+                        // children are branches
+                        message = $"All {FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized()}";
+                        break;
+                    case TaxonomyLevelEnum.Branch:
+                        // children are leaves
+                        message = $"All {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()}";
+                        break;
+                    case TaxonomyLevelEnum.Leaf:
+                        // shouldn't be called
+                        message = $"All {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()}";
+                        break;
+                }
+            }
+
+            return message;
+        }
+
+        public static string GetTaxonomyTierCountText(int countSelected, int maximumChildrenCount, TaxonomyLevelEnum taxonomyLevel)
+        {
+            var message = $"{countSelected} selected";
+
+            if (countSelected == maximumChildrenCount)
+            {
+                switch (taxonomyLevel)
+                {
+                    case TaxonomyLevelEnum.Trunk:
+                        message = $"All {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized()}";
+                        break;
+                    case TaxonomyLevelEnum.Branch:
+                        message = $"All {FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized()}";
+                        break;
+                    case TaxonomyLevelEnum.Leaf:
+                        message = $"All {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()}";
+                        break;
+                }
+            }
+
+            return message;
+        }
     }
 }

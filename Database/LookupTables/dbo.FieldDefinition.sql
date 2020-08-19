@@ -75,7 +75,6 @@ VALUES
 (250, N'ClassificationSystem', N'Classification System'),
 (251, N'ClassificationSystemName', N'Classification System Name'),
 (252, N'ProjectPrimaryContact', N'Project Primary Contact'),
-(253, N'CustomPageDisplayType', N'Custom Page Display Type'),
 (254, N'TaxonomyTrunkDescription', N'Taxonomy Trunk Description'),
 (255, N'TaxonomyBranchDescription', N'Taxonomy Branch Description'),
 (256, N'TaxonomyLeafDescription', N'Taxonomy Leaf Description'),
@@ -141,7 +140,7 @@ VALUES
 (316, N'ExternalMapLayerDescription', 'Internal Layer Description'),
 (317, N'ExternalMapLayerFeatureNameField', 'Field to use as source for feature names'),
 (318, N'ExternalMapLayerDisplayOnAllMaps', 'Display on all maps?'),
-(319, N'ExternalMapLayerLayerIsOnByDefault', 'Layer is on by default?'),
+(319, N'MapLayerLayerIsOnByDefault', 'Layer is on by default?'),
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
 (322, N'FinalStatusUpdateStatus', N'Final Status Update'),
@@ -178,4 +177,7 @@ VALUES
 (353, N'DocumentLibraryName', N'Document Library Name'),
 (354, N'KMZFile', N'KMZ File'),
 (355, N'DocumentLibrary', N'Document Library'),
-(356, N'DocumentLibraryDocumentViewableBy', N'Document Viewable By')
+(356, N'DocumentLibraryDocumentViewableBy', N'Document Viewable By'),
+(357, N'CustomPageViewableBy', N'Custom Page Viewable By'),
+(358, N'EnableMatchmaker', N'Enable Matchmaker'),
+(359, N'GeospatialAreaMapLayerDisplayAsReferenceLayer', 'Display as Reference Layer?')

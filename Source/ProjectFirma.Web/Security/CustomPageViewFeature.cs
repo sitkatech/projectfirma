@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -42,9 +43,11 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, CustomPage contextModelObject)
         {
-            var isVisible = contextModelObject.CustomPageDisplayType == CustomPageDisplayType.Public ||
-                            (!firmaSession.IsAnonymousUser() &&
-                             contextModelObject.CustomPageDisplayType == CustomPageDisplayType.Protected);
+            var viewTypeRoles = contextModelObject.CustomPageRoles;
+            var isVisible = firmaSession.IsAnonymousUser() && viewTypeRoles.Any(x => x.Role == null) ||
+                            !firmaSession.IsAnonymousUser() && viewTypeRoles.Select(x => x.Role).Contains(firmaSession.Role) ||
+                            viewTypeRoles.Any() && new FirmaAdminFeature().HasPermissionByFirmaSession(firmaSession) ||
+                            new SitkaAdminFeature().HasPermissionByFirmaSession(firmaSession);
             if (isVisible)
             {
                 return new PermissionCheckResult();

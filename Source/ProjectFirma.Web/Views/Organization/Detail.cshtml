@@ -51,6 +51,10 @@
                 Sitka[gridName1].resizeGridWidths();
                 var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
                 Sitka[gridName2].resizeGridWidths();
+                var gridName3 = @(ViewDataTyped.ProposalsGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName3].resizeGridWidths();
+                var gridName4 = @(ViewDataTyped.PendingProjectsGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName4].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -86,6 +90,11 @@
                     });
             });
         });
+    </script>
+    <script>
+        jQuery(function () {
+            jQuery('[data-toggle="popover"]').popover({  });
+        })
     </script>
 
     <style>
@@ -132,6 +141,26 @@
         .noBorderRow > td {
             border-top: none;
         }
+
+        .taxonomyCount {
+            margin-bottom: 1rem;
+
+        }
+        .taxonomyCount > a {
+            border-bottom: 1px dotted #6c757d;
+            text-decoration: none;
+            color: #333;
+        }
+        .taxonomyCount > a:hover {
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+        .popover
+        {
+            font-size: 12px;
+        }
     </style>
 }
 
@@ -152,12 +181,12 @@
                 <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
             </li>
             <li>
-                <a href="#details" aria-controls="results" role="tab" data-toggle="tab" id="detailsTab">Details</a>
+                <a href="#details" aria-controls="details" role="tab" data-toggle="tab" id="detailsTab">Details</a>
             </li>
             @if (ViewDataTyped.ShowMatchmakerProfile && ViewDataTyped.UserHasViewEditProfilePermission)
             {
                 <li>
-                    <a href="#profile" aria-controls="results" role="tab" data-toggle="tab" id="profileTab">Profile</a>
+                    <a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="profileTab">Profile</a>
                 </li>
             }
         </ul>
@@ -616,7 +645,7 @@
 
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="profile">
+            <div role="tabpanel" class="tab-pane" id="Profile">
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-xs-12">
                         <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
@@ -638,7 +667,7 @@
                                     }
                                     else
                                     {
-                                        <table class="table table-hover table-condensed">
+                                        <table class="table table-condensed">
                                             <thead>
                                             <tr>
                                                 @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
@@ -654,78 +683,110 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
-                                            {
-                                                foreach (var trunk in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
+                                                @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
                                                 {
-                                                    if (trunk.Children == null)
+                                                    foreach (var trunk in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
                                                     {
-                                                        <tr>
-                                                            <td>@trunk.DisplayNameAsHtmlString</td>
-                                                            <td>@trunk.ChildrenAltText</td>
-                                                            <td></td>
-                                                        </tr>
-                                                    }
-                                                    else
-                                                    {
-                                                        for (int i = 0; i < trunk.Children.Count; i++)
+                                                        if (trunk.GrandChildren != null)
                                                         {
-                                                            var branch = trunk.Children[i];
-                                                            if (branch.Children == null)
+                                                            <tr>
+                                                                <td>@Html.Raw(trunk.GetDisplayNameAsDetailUrl())</td>
+                                                                <td>
+                                                                    <div class="taxonomyCount">
+                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@trunk.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                            @trunk.GetTaxonomyTierCountText()
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="taxonomyCount">
+                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@trunk.GrandChildren.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                            @MatchmakerTaxonomyTier.GetTaxonomyTierCountText(trunk.GrandChildren.Count, trunk.MaximumGrandChildrenCount, TaxonomyLevelEnum.Leaf)
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            for (int i = 0; i < trunk.Children.Count; i++)
                                                             {
-                                                                <tr class="@(i != 0 ? "noBorderRow" : "")">
-                                                                    <td>@(i == 0 ? trunk.DisplayNameAsHtmlString : new HtmlString(""))</td>
-                                                                    <td>@branch.DisplayNameAsHtmlString</td>
-                                                                    <td>@branch.ChildrenAltText</td>
+                                                                var branch = trunk.Children[i];
+                                                                <tr>
+                                                                    <td style="@(i != 0 ? "border-top:none" : "")">@(i == 0 ? Html.Raw(trunk.GetDisplayNameAsDetailUrl()) : new HtmlString(""))</td>
+                                                                    <td>@Html.Raw(branch.GetDisplayNameAsDetailUrl())</td>
+                                                                    <td>
+                                                                        @if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
+                                                                        {
+                                                                            <div class="taxonomyCount">
+                                                                                <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                                    @branch.GetTaxonomyTierCountText()
+                                                                                </a>
+                                                                            </div>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            foreach (var leaf in branch.Children)
+                                                                            {
+                                                                                @Html.Raw(leaf.GetDisplayNameAsDetailUrl())<br />
+                                                                            }
+                                                                        }
+                                                                    </td>
                                                                 </tr>
-                                                            }
-                                                            else
-                                                            {
-                                                                for (int j = 0; j < branch.Children.Count; j++)
-                                                                {
-                                                                    <tr class="@(j != 0 ? "noBorderRow" : "")">
-                                                                        <td style="@(i != 0 ? "border-top:none" : "")">@(i == 0 && j == 0 ? trunk.DisplayNameAsHtmlString : new HtmlString(""))</td>
-                                                                        <td>@(j == 0 ? branch.DisplayNameAsHtmlString : new HtmlString(""))</td>
-                                                                        <td>@branch.Children[j].DisplayNameAsHtmlString</td>
-                                                                    </tr>
-                                                                }
                                                             }
                                                         }
                                                     }
                                                 }
-                                            }
-                                            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
-                                            {
-                                                foreach (var branch in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
+                                                @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
                                                 {
-                                                    if (branch.Children == null)
+                                                    foreach (var branch in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
                                                     {
                                                         <tr>
-                                                            <td>@branch.DisplayNameAsHtmlString</td>
-                                                            <td>@branch.ChildrenAltText</td>
+                                                            <td>@Html.Raw(branch.GetDisplayNameAsDetailUrl())</td>
+                                                            <td>
+                                                                @if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
+                                                                {
+                                                                    <div class="taxonomyCount">
+                                                                        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                            @branch.GetTaxonomyTierCountText()
+                                                                        </a>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    foreach (var leaf in branch.Children)
+                                                                    {
+                                                                        @Html.Raw(leaf.GetDisplayNameAsDetailUrl())<br />
+                                                                    }
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Leaf)
+                                                {
+                                                    if (ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count > 5 || ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count == ViewDataTyped.MaximumTaxonomyLeaves)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="taxonomyCount">
+                                                                    <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                        @MatchmakerTaxonomyTier.GetTaxonomyTierCountText(ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count, ViewDataTyped.MaximumTaxonomyLeaves, TaxonomyLevelEnum.Leaf)
+                                                                    </a>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                     }
                                                     else
                                                     {
-                                                        for (int j = 0; j < branch.Children.Count; j++)
+                                                        foreach (var leaf in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
                                                         {
-                                                            <tr class="@(j != 0 ? "noBorderRow" : "")">
-                                                                <td>@(j == 0 ? branch.DisplayNameAsHtmlString : new HtmlString(""))</td>
-                                                                <td>@branch.Children[j].DisplayNameAsHtmlString</td>
+                                                            <tr>
+                                                                <td>@Html.Raw(leaf.GetDisplayNameAsDetailUrl())</td>
                                                             </tr>
                                                         }
                                                     }
                                                 }
-                                            }
-                                            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Leaf)
-                                            {
-                                                foreach (var leaf in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
-                                                {
-                                                    <tr>
-                                                        <td>@leaf.DisplayNameAsHtmlString</td>
-                                                    </tr>
-                                                }
-                                            }
                                             </tbody>
                                         </table>
                                     }
@@ -738,3 +799,8 @@
         </div>
     </div>
 </div>
+<script>
+    jQuery(document).ready(function() {
+        $('#organizationDetailsTabs a[href="#@ViewDataTyped.ActiveTab.ToString()"]').tab('show');
+    });
+</script>

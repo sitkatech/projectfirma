@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="GridSettingsController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,14 +19,25 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Views.ExternalMapLayer
+using System.Net.Http.Formatting;
+using System.Web.Helpers;
+using System.Web.Mvc;
+using LtInfo.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security.Shared;
+
+namespace ProjectFirma.Web.Controllers
 {
-    public class EditViewData : FirmaUserControlViewData
+    public class GridSettingsController : FirmaBaseController
     {
-
-        public EditViewData()
+        [HttpPost]
+        [AnonymousUnclassifiedFeature]
+        public JsonResult SaveGridSettings()
         {
-
+            var gridTable = JsonTools.DeserializeObject<GridTable>(Request.Form["Data"]);
+            var gridSettingsViewModel = new GridSettingsViewModel(gridTable);
+            gridSettingsViewModel.Save(CurrentFirmaSession);
+            return new JsonResult();
         }
     }
 }

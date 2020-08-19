@@ -55,7 +55,8 @@
     var comboTreeInstance = $('#taxonomySelector').comboTree({
         source: treeSources,
         isMultiple: true,
-        selected: selectedNodes
+        selected: selectedNodes,
+        cascadeSelect: true
     });
 
     comboTreeInstance.onChange(function(event) {

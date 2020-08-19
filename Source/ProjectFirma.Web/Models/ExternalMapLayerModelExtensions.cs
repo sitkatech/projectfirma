@@ -28,13 +28,13 @@ namespace ProjectFirma.Web.Models
 {
     public static class ExternalMapLayerModelExtensions
     {
-        public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(SitkaRoute<MapLayerController>.BuildUrlFromExpression(t => t.EditExternalMapLayer(UrlTemplate.Parameter1Int)));
         public static string GetEditUrl(this ExternalMapLayer externalMapLayer)
         {
             return EditUrlTemplate.ParameterReplace(externalMapLayer.ExternalMapLayerID);
         }
 
-        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(t => t.Delete(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<MapLayerController>.BuildUrlFromExpression(t => t.Delete(UrlTemplate.Parameter1Int)));
         public static string GetDeleteUrl(this ExternalMapLayer externalMapLayer)
         {
             return DeleteUrlTemplate.ParameterReplace(externalMapLayer.ExternalMapLayerID);

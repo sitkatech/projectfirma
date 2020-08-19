@@ -61,13 +61,10 @@ namespace ProjectFirma.Web.PartnerFinder
             double taxonomySubScore = GetTaxonomySubScore(project, organization);
             CheckEnsureScoreInValidRange(taxonomySubScore);
 
-            // Use FAKE SubScore component.
-            // Artificially gooses scores in the short term, but eventually should be removed as the matching algorithm develops
-            double fakeTermSubScore = 1.0;
-
-            // Hardwired for just two components for the moment, but this will definitely change.
-            double scoreToReturn = taxonomySubScore * 0.5 +
-                                   fakeTermSubScore * 0.5;
+            // Hardwired for just one component for the moment, but this will definitely change.
+            var numberOfComponents = 1;
+            var weightPerSubScore = 1.0 / numberOfComponents; 
+            double scoreToReturn = taxonomySubScore * weightPerSubScore;
 
             // Again, we want to be very sure score values fall between 0.0 and 1.0 inclusive.
             CheckEnsureScoreInValidRange(scoreToReturn);
@@ -77,20 +74,27 @@ namespace ProjectFirma.Web.PartnerFinder
 
         private static double GetTaxonomySubScore(Project project, Organization organization)
         {
-            var taxonomyWeight = 1.0;
-            // Project matches a selected Taxonomy Leaf => "perfect match" for taxonomy
-            var matchesLeaf = organization.MatchmakerOrganizationTaxonomyLeafs.Any(x =>
-                x.TaxonomyLeafID == project.TaxonomyLeafID);
-            // If matches Branch but not a leaf, that's an pretty good score
-            var matchesBranch =
-                organization.MatchmakerOrganizationTaxonomyBranches.Any(x =>
-                    x.TaxonomyBranchID == project.TaxonomyLeaf.TaxonomyBranchID);
-            // If matches only Trunk, that's a passing score but not great
-            var matchesTrunk = organization.MatchmakerOrganizationTaxonomyTrunks.Any(x =>
-                x.TaxonomyTrunkID == project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID);
-            double taxonomyScore = matchesLeaf ? 1.0 : matchesBranch ? .75 : matchesTrunk ? .5 : 0.0;
+            var matchmakerLeaves = organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => x.TaxonomyLeaf).ToList();
+            
+            var branchIDsIncluded = matchmakerLeaves.Select(x => x.TaxonomyBranchID).ToList();
+            // if any Branch is selected, but no Leaves are selected for that branch, treat as if all leaves are selected
+            var matchmakerLeavesFromSelectedBranches = organization.MatchmakerOrganizationTaxonomyBranches
+                .Where(x => !branchIDsIncluded.Contains(x.TaxonomyBranchID))
+                .SelectMany(x => x.TaxonomyBranch.TaxonomyLeafs).ToList();
+            branchIDsIncluded.AddRange(matchmakerLeavesFromSelectedBranches.Select(x => x.TaxonomyBranchID));
+            
+            var trunkIDsIncluded = matchmakerLeaves.Select(x => x.TaxonomyBranch.TaxonomyTrunkID).ToList();
+            trunkIDsIncluded.AddRange(matchmakerLeavesFromSelectedBranches.Select(x => x.TaxonomyBranch.TaxonomyTrunkID));
+            // if any Trunk is selected, but no Branches or Leaves are selected for that trunk, treat as if all leaves are selected
+            var matchmakerLeavesFromSelectedTrunks = organization.MatchmakerOrganizationTaxonomyTrunks
+                .Where(x => !trunkIDsIncluded.Contains(x.TaxonomyTrunkID))
+                .SelectMany(x => x.TaxonomyTrunk.GetTaxonomyLeafs()).ToList();
 
-            double taxonomySubScore = taxonomyWeight * taxonomyScore;
+            var matchesLeaf = matchmakerLeaves.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
+            var matchesLeafForBranch = matchmakerLeavesFromSelectedBranches.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
+            var matchesLeafForTrunk = matchmakerLeavesFromSelectedTrunks.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
+            
+            double taxonomySubScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
             return taxonomySubScore;
         }
 
