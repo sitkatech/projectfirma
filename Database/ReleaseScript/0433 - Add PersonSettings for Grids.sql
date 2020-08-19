@@ -145,9 +145,10 @@ ALTER TABLE [dbo].[PersonSettingGridColumnSettingFilter] CHECK CONSTRAINT [FK_Pe
 GO
 
 
-ALTER TABLE [dbo].PersonSettingGridColumnSettingFilter ADD  CONSTRAINT [AK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSettingFilterID_TenantID] UNIQUE NONCLUSTERED 
+ALTER TABLE [dbo].PersonSettingGridColumnSettingFilter ADD  CONSTRAINT [AK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSettingFilterID_PersonSettingGridColumnSettingID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[PersonSettingGridColumnSettingFilterID] ASC,
+    [PersonSettingGridColumnSettingID] ASC,
 	[TenantID] ASC
 )
 GO

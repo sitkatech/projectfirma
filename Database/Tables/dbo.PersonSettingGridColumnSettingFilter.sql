@@ -11,9 +11,10 @@ CREATE TABLE [dbo].[PersonSettingGridColumnSettingFilter](
 (
 	[PersonSettingGridColumnSettingFilterID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSettingFilterID_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_PersonSettingGridColumnSettingFilter_PersonSettingGridColumnSettingFilterID_PersonSettingGridColumnSettingID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[PersonSettingGridColumnSettingFilterID] ASC,
+	[PersonSettingGridColumnSettingID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
