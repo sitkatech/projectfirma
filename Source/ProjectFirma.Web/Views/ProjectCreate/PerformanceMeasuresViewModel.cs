@@ -182,18 +182,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             var errors = new List<ValidationResult>();
 
-            if (ProjectExemptReportingYearSimples != null && ProjectExemptReportingYearSimples.Any(x => x.IsExempt))
+            if (ProjectExemptReportingYearSimples != null && ProjectExemptReportingYearSimples.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
             {
-                if (string.IsNullOrWhiteSpace(Explanation))
-                {
-                    errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
-                }
-                else if (Explanation.Length > ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation)
-                {
-                    errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(
-                        FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation),
-                        x => x.Explanation));
-                }
+                errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
+            }
+            if (!string.IsNullOrWhiteSpace(Explanation) && Explanation.Length > ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation)
+            {
+                errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(
+                    FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation),
+                    x => x.Explanation));
             }
 
             var pmValidationResults = ValidatePerformanceMeasures();
