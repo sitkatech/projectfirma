@@ -477,7 +477,8 @@ namespace ProjectFirma.Web.Controllers
                                       .Any(
                                           x =>
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
-                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears ||
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation));
 
             var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
             var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).ToList();
