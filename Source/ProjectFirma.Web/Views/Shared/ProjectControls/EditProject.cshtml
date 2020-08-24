@@ -134,7 +134,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
             </div>
             <div class="col-xs-8">
-                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.StartYearRange, new {style = "width: auto;", @class = "form-control"})
+                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new {style = "width: auto;", @class = "form-control"})
                 @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
             </div>
         </div>
@@ -144,7 +144,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
             </div>
             <div class="col-xs-8">
-                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.StartYearRange, new {style = "width: auto;", @class = "form-control"})
+                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new {style = "width: auto;", @class = "form-control"})
                 @Html.ValidationMessageFor(m => m.ImplementationStartYear)
             </div>
         </div>
@@ -158,6 +158,18 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.CompletionYear)
             </div>
         </div>
+        
+        <script type="text/javascript" src="/Views/Shared/ConstrainProjectYears.js"></script>
+        <script>
+            @{
+                var implementationYears = ViewDataTyped.ImplementationStartYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
+                var completionYears = ViewDataTyped.CompletionYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
+            }
+
+            initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
+                "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
+                "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max())
+        </script>
     </div>
     @Html.HiddenFor(m => m.ProjectID)
     @Html.HiddenFor(m => m.HasExistingProjectUpdate)
