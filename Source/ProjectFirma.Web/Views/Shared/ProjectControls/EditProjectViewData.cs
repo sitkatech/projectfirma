@@ -32,7 +32,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     public class EditProjectViewData : FirmaUserControlViewData
     {
         public IEnumerable<SelectListItem> TaxonomyLeafs { get; }
-        public IEnumerable<SelectListItem> StartYearRange { get; }
+        public IEnumerable<SelectListItem> PlanningDesignStartYearRange { get; }
+        public IEnumerable<SelectListItem> ImplementationStartYearRange { get; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; }
         public IEnumerable<SelectListItem> ProjectStages { get; }
         public IEnumerable<SelectListItem> Organizations { get; }
@@ -67,8 +68,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                     $"<Set Based on {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}'s Associated {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}>");
             DefaultPrimaryContactPerson = defaultPrimaryContactPerson;
             TaxonomyLeafs = taxonomyLeafs.ToGroupedSelectList();
-            StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
-            CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
+            PlanningDesignStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
+            ImplementationStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
+            CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
             DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson != null ? DefaultPrimaryContactPerson.GetFullNameFirstLastAndOrgShortName() : "nobody";
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;

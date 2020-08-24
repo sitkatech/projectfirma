@@ -103,44 +103,6 @@ Source code is available upon request via <support@sitkatech.com>.
             // ]]>
         </script>
     }
-
-<script type="text/javascript">
-        // <![CDATA[
-        function filterYearOptions(min, max, yearSelect) {
-            var selectedYear = yearSelect.val();
-
-            yearSelect.children('option:not(:first)').remove();
-
-            for (var year = min; year <= max; year++) {
-                yearSelect.append(new Option(year, year));
-            }
-
-            if (min <= selectedYear && selectedYear <= max) {
-                yearSelect.val(selectedYear);
-            }
-        }
-
-        function constrainYearOptions(minValidYear, maxValidYear) {
-            var designStartSelect = jQuery('#PlanningDesignStartYear');
-            var implementationStartSelect = jQuery('#ImplementationStartYear');
-            var completedSelect = jQuery('#CompletionYear');
-
-            var minImplementationYear = Math.max(minValidYear, designStartSelect.val());
-            filterYearOptions(minImplementationYear, maxValidYear, implementationStartSelect);
-
-            var minCompletionYear = Math.max(minImplementationYear, implementationStartSelect.val());
-            filterYearOptions(minCompletionYear, maxValidYear, completedSelect);
-        }
-
-        jQuery(document).ready(function() {
-            constrainYearOptions(@ViewDataTyped.MinValidYear, @ViewDataTyped.MaxValidYear, status);
-
-            jQuery('#PlanningDesignStartYear').on('input', () => constrainYearOptions(@ViewDataTyped.MinValidYear, @ViewDataTyped.MaxValidYear));
-            jQuery('#ImplementationStartYear').on('input', () => constrainYearOptions(@ViewDataTyped.MinValidYear, @ViewDataTyped.MaxValidYear));
-            jQuery('#CompletionYear').on('input', () => constrainYearOptions(@ViewDataTyped.MinValidYear, @ViewDataTyped.MaxValidYear));
-        });
-        // ]]>
-</script>
 }
 
 <p>Add your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s basic information here.</p>
@@ -313,4 +275,16 @@ Source code is available upon request via <support@sitkatech.com>.
         <button type="submit" class="btn btn-xs btn-firma" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
         <button type="submit" class="btn btn-xs btn-firma" value="true" name="@Html.NameFor(x => x.AutoAdvance)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
     </div>
+
+    <script type="text/javascript" src="/Views/Shared/ConstrainProjectYears.js"></script>
+    <script>
+        @{
+            var implementationYears = ViewDataTyped.ImplementationStartYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
+            var completionYears = ViewDataTyped.CompletionYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
+        }
+
+        initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
+            "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
+            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max())
+    </script>
 }
