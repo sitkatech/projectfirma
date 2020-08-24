@@ -27,13 +27,20 @@
         background-color: #E0E0E0;
     }
 
-    #sortables-list:hover {
+    .sortables-list:hover {
         cursor: move;
         cursor: grab;
     }
 
-    #sortables-list div:hover {
-        background-color: #E0E0E0;
+    .panel-heading a.collapsePanel:after {
+        font-family:'Glyphicons Halflings';
+        content: "\e114";
+        float: left;
+        margin-right: 5px;
+
+    }
+    .panel-heading a.collapsePanel.collapsed:after {
+        content: "\e080";
     }
 </style>
 <span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span>
@@ -42,23 +49,36 @@
 @{
     int itemCount = 0;
 }
-@foreach (var sortingGroup in ViewDataTyped.SortingGroups)
-{
-    <button type="button" class="pull-right btn btn-sm btn-firma" onclick="alphabetize(@itemCount)">Reset @sortingGroup.GetDisplayName() To Alphabetical</button>
-    <h2>@sortingGroup.GetDisplayName()</h2>
-    <div id="sortables-list-@itemCount">
-        @foreach (var sortable in sortingGroup.GetSortableList().SortByOrderThenName().ToArray())
-        {
-            <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px;">
-                <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
-                @sortable.GetDisplayName()
+
+<div class="panel-group" id="accordion">
+    @foreach (var sortingGroup in ViewDataTyped.SortingGroups)
+    {
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <a data-toggle="collapse" data-target="#panel-@itemCount" href="#panel-@itemCount" class="collapsed collapsePanel">
+                    <span>
+                        @sortingGroup.GetDisplayName()
+                    </span>
+                </a>
             </div>
-        }
+            <div id="panel-@itemCount" class="panel-collapse collapse">
+                <div style="display: inline-block; margin: 4px 15px; float: right">
+                    <button type="button" class=" btn btn-xs btn-firma" onclick="alphabetize(@itemCount)">Reset To Alphabetical</button>
+                </div>
+                <div id="sortables-list-@itemCount" class="sortables-list">
+                    @foreach (var sortable in sortingGroup.GetSortableList().SortByOrderThenName().ToArray())
+                    {
+                        <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px; margin-left: 15px;">
+                            <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
+                            @sortable.GetDisplayName()
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        itemCount++;
+    }
     </div>
-
-    itemCount++;
-}
-
 @using (Html.BeginForm())
 {
 
@@ -99,5 +119,5 @@
             });
 
         });
-    })
+    });
 </script>

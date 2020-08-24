@@ -32,6 +32,9 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public string GridName { get; }
         public string GridDataUrl { get; }
         public string EditSortOrderUrl { get; }
+        public string EditSortOrderInGroupUrl { get; }
+        public bool OfferEditSortOrder { get; }
+        public bool OfferEditSortOrderInGroup { get; }
         public bool HasTaxonomyLeafManagePermissions { get; }
         public string NewUrl { get; }
         public string TaxonomyLeafDisplayName { get; }
@@ -40,6 +43,11 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         {
             var taxonomyLeafDisplayNamePluralized = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyLeafDisplayNamePluralized;
+
+            // if leaf is the highest level, let them sort without groups
+            OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelLeaf();
+            // if it is a two or three tier taxonomy, let them sort grouped by taxonomy branches
+            OfferEditSortOrderInGroup = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
 
             var hasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var taxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
@@ -53,6 +61,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             GridName = "taxonomyLeafsGrid";
             GridDataUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             EditSortOrderUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
+            EditSortOrderInGroupUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.EditSortOrderInGroup());
             HasTaxonomyLeafManagePermissions = hasTaxonomyLeafManagePermissions;
             NewUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(t => t.New());
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;

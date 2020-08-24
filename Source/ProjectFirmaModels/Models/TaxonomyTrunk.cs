@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class TaxonomyTrunk : IAuditableEntity, IHaveASortOrder
+    public partial class TaxonomyTrunk : IAuditableEntity, IHaveASortOrder, ISortingGroup
     {
         public void SetSortOrder(int? value) => TaxonomyTrunkSortOrder = value;
 
@@ -52,6 +52,11 @@ namespace ProjectFirmaModels.Models
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
         {
             return GetTaxonomyLeafs().SelectMany(x => x.TaxonomyLeafPerformanceMeasures).GroupBy(x => x.PerformanceMeasure).ToList();
+        }
+
+        public List<IHaveASortOrder> GetSortableList()
+        {
+            return new List<IHaveASortOrder>(TaxonomyBranches);
         }
     }
 }

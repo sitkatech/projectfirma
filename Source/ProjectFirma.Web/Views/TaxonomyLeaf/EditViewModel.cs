@@ -75,8 +75,14 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             taxonomyLeaf.TaxonomyBranchID = !MultiTenantHelpers.IsTaxonomyLevelLeaf()
                 ? TaxonomyBranchID
                 : HttpRequestStorage.DatabaseEntities.TaxonomyBranches.First().TaxonomyBranchID; // really should only be one
-            ;
             taxonomyLeaf.ThemeColor = ThemeColor;
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(taxonomyLeaf.TaxonomyBranchID))
+            {
+                // for new leaf, set the sort order to greater than the current max for this branch (or null if no leaves have a sort order set)
+                var maxSortOrder = HttpRequestStorage.DatabaseEntities.TaxonomyBranches
+                    .Where(x => x.TaxonomyTrunkID == taxonomyLeaf.TaxonomyBranchID).Max(x => x.TaxonomyBranchSortOrder);
+                taxonomyLeaf.TaxonomyLeafSortOrder = maxSortOrder + 1;
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
