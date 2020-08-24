@@ -180,4 +180,5 @@ VALUES
 (356, N'DocumentLibraryDocumentViewableBy', N'Document Viewable By'),
 (357, N'CustomPageViewableBy', N'Custom Page Viewable By'),
 (358, N'EnableMatchmaker', N'Enable Matchmaker'),
-(359, N'GeospatialAreaMapLayerDisplayAsReferenceLayer', 'Display as Reference Layer?')
+(359, N'GeospatialAreaMapLayerDisplayAsReferenceLayer', 'Display as Reference Layer?'),
+(360, N'MatchScore', N'Match Score')

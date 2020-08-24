@@ -306,6 +306,7 @@ namespace ProjectFirmaModels.Models
         DocumentLibraryDocumentViewableBy = 356,
         CustomPageViewableBy = 357,
         EnableMatchmaker = 358,
-        GeospatialAreaMapLayerDisplayAsReferenceLayer = 359
+        GeospatialAreaMapLayerDisplayAsReferenceLayer = 359,
+        MatchScore = 360
     }
 }

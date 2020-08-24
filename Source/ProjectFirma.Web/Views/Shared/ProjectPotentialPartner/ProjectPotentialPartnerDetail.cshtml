@@ -18,7 +18,9 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectPotentialPartner.ProjectPotentialPartnerDetail
 
 @if (ViewDataTyped.ShouldShowMatchMakerPotentialPartnerPanel)
@@ -29,9 +31,8 @@
    <br/>
    <table class="summaryLayout table table-condensed table-striped">
       <tr>
-         @*<th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>*@
-         <th class="col-sm-3">Partner</th>
-         <th class="col-sm-9">Match Details</th>
+         <th class="col-sm-8">Partner Organization</th>
+         <th class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.MatchScore.ToType())</th>
       </tr>
       @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores)
       {
@@ -40,7 +41,7 @@
                @matchMakerScore.Organization.GetDisplayNameWithoutAbbreviationAsUrl()
             </td>
             <td>
-               Match Score: @matchMakerScore.GetProjectOrganizationFitnessScoreNumberDisplayString()
+               @matchMakerScore.GetProjectOrganizationFitnessScoreNumberDisplayString()
             </td>
          </tr>
       }
