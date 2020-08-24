@@ -35,7 +35,9 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public string GridName{ get; }
         public string GridDataUrl{ get; }
         public string EditSortOrderUrl { get; }
+        public string EditSortOrderInGroupUrl { get; }
         public bool OfferEditSortOrder { get; }
+        public bool OfferEditSortOrderInGroup { get; }
         public bool HasTaxonomyBranchManagePermissions { get; }
         public string NewUrl { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -46,8 +48,10 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             var taxonomyBranchDisplayNamePluralized = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyBranchDisplayNamePluralized;
 
-            // only let them sort tier two taxonomy if that's the highest level.
+            // if branch is the highest level, let them sort without groups
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelBranch();
+            // if it is a three tier taxonomy, let them sort grouped by taxonomy trunks
+            OfferEditSortOrderInGroup = MultiTenantHelpers.IsTaxonomyLevelTrunk();
 
             HasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
@@ -64,6 +68,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             GridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             NewUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.New());
             EditSortOrderUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
+            EditSortOrderInGroupUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.EditSortOrderInGroup());
             TaxonomyBranchDisplayName = taxonomyBranchDisplayName;
         }
     }

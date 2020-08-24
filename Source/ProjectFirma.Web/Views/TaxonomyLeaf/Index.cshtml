@@ -22,6 +22,7 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyLeaf.Index
 @section JavascriptAndStylesContent
 {
@@ -30,6 +31,8 @@
 @section RightOfPageTitle
 {
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", ViewDataTyped.TaxonomyLeafDisplayName), ViewDataTyped.HasTaxonomyLeafManagePermissions)
+    @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasTaxonomyLeafManagePermissions && ViewDataTyped.OfferEditSortOrder)
+    @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderInGroupUrl, ViewDataTyped.HasTaxonomyLeafManagePermissions && ViewDataTyped.OfferEditSortOrderInGroup)
 }
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }

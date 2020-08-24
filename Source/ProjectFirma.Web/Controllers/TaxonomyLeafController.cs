@@ -322,5 +322,36 @@ namespace ProjectFirma.Web.Controllers
                 $"Successfully Updated {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()} Sort Order");
             return new ModalDialogFormJsonResult();
         }
+
+        [TaxonomyLeafManageFeature]
+        public PartialViewResult EditSortOrderInGroup()
+        {
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderBy(x => x.GetDisplayName());
+            var viewModel = new EditSortOrderInGroupViewModel();
+            return ViewEditSortOrderInGroup(taxonomyBranches, viewModel);
+        }
+
+        [HttpPost]
+        [TaxonomyLeafManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrderInGroup(EditSortOrderInGroupViewModel viewModel)
+        {
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderBy(x => x.GetDisplayName());
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrderInGroup(taxonomyBranches, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<ISortingGroup>(taxonomyBranches));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditSortOrderInGroup(IEnumerable<TaxonomyBranch> taxonomyBranches, EditSortOrderInGroupViewModel viewModel)
+        {
+            EditSortOrderInGroupViewData viewData = new EditSortOrderInGroupViewData(new List<ISortingGroup>(taxonomyBranches), FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrderInGroup, EditSortOrderInGroupViewData, EditSortOrderInGroupViewModel>(viewData, viewModel);
+        }
     }
 }
