@@ -351,6 +351,11 @@ namespace ProjectFirma.Web.Models
                 var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
             }
+            if (missingYears.Any() && !performanceMeasureActualUpdates.Any())
+            {
+                // There are missing years, but no PMs entered
+                results.Add(new PerformanceMeasuresValidationResult(FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired));
+            }
 
             // What distinct PerformanceMeasures are being worked with? 
             var pmausGrouped = performanceMeasureActualUpdates.GroupBy(pmas => pmas.PerformanceMeasureID);

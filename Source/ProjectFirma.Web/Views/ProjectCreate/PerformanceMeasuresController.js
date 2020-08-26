@@ -126,6 +126,9 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasuresController", fu
                 "PerformanceMeasureID",
                 $scope.PerformanceMeasureToAdd);
             var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
+            if ($scope.AngularModel.PerformanceMeasureActualSimples == null) {
+                $scope.AngularModel.PerformanceMeasureActualSimples = [];
+            }
             $scope.AngularModel.PerformanceMeasureActualSimples.push(newPerformanceMeasureActual);
             $scope.repositionQtipPopups();
         }
