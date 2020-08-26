@@ -167,12 +167,12 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public PartialViewResult EditSortOrder()
         {
-            var projectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
+            var projectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups.ToList().OrderBy(x => x.GetDisplayName());
             EditSortOrderInGroupViewModel viewModel = new EditSortOrderInGroupViewModel();
             return ViewEditSortOrder(projectCustomAttributeGroups, viewModel);
         }
 
-        private PartialViewResult ViewEditSortOrder(IQueryable<ProjectCustomAttributeGroup> projectCustomAttributeGroups, EditSortOrderInGroupViewModel viewModel)
+        private PartialViewResult ViewEditSortOrder(IEnumerable<ProjectCustomAttributeGroup> projectCustomAttributeGroups, EditSortOrderInGroupViewModel viewModel)
         {
             EditSortOrderInGroupViewData viewData = new EditSortOrderInGroupViewData(new List<ISortingGroup>(projectCustomAttributeGroups), FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized());
             return RazorPartialView<EditSortOrderInGroup, EditSortOrderInGroupViewData, EditSortOrderInGroupViewModel>(viewData, viewModel);
@@ -183,7 +183,7 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditSortOrder(EditSortOrderInGroupViewModel viewModel)
         {
-            var projectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
+            var projectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups.ToList().OrderBy(x => x.GetDisplayName());
 
 
             if (!ModelState.IsValid)
