@@ -222,6 +222,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             // validation 1: ensure that at least one PM has values for each year that isn't marked as 'No accomplishments to report' from ProjectCreate Project Implementation start year to min(endyear, currentyear)
             var yearsEntered = performanceMeasureActualSimples.Select(x => x.CalendarYear).Distinct();
             var missingYears = yearsExpected.GetMissingYears(yearsEntered);
+            if (missingYears.Any() && !performanceMeasureActualSimples.Any())
+            {
+                // There are missing years, but no PMs entered
+                results.Add(new PerformanceMeasuresValidationResult(FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired));
+            }
 
             // What distinct PerformanceMeasures are being worked with? 
             var pmasGrouped = performanceMeasureActualSimples.GroupBy(pmas => pmas.PerformanceMeasureID.Value);
