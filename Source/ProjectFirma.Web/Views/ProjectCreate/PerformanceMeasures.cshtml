@@ -64,8 +64,7 @@
     To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s annual accomplishments:
     <ul>
         <li>Select and add the appropriate @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() to the list below</li>
-        <li>For each @MultiTenantHelpers.GetPerformanceMeasureName(), select the appropriate @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel() options</li>
-        <li>Enter the accomplishment value</li>
+        <li>For each @MultiTenantHelpers.GetPerformanceMeasureName(), select the appropriate @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel() options and enter the accomplishment value</li>
         <li>
             You must enter at least one @MultiTenantHelpers.GetPerformanceMeasureName() per year for the duration defined by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Start Year
             through the @Html.LinkWithFieldDefinitionFor(FieldDefinitionEnum.ReportingYear.ToType(), string.Format("current {0}", FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel()), new List<string> { "fieldDefinitionLink" }).
@@ -73,7 +72,7 @@
         </li>
     </ul>
     Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view reporting guidance
-    on a specific @MultiTenantHelpers.GetPerformanceMeasureName(). You may review and update @MultiTenantHelpers.GetPerformanceMeasureName() subcategories and accomplishment values from previous years, and may add the
+    on a specific @MultiTenantHelpers.GetPerformanceMeasureName(). You may review and update @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() from previous years, and may add the
     same @MultiTenantHelpers.GetPerformanceMeasureName() multiple times.
 </p>
 <hr />
@@ -91,7 +90,7 @@
                     <div style="margin-top: 5px">
                         <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowExemptYears = !AngularViewData.ShowExemptYears">
                             <i ng-class="AngularViewData.ShowExemptYears ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i>
-                            What if the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no accomplishments to report?
+                            What if my @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no accomplishments to report?
                         </a>
                         <div ng-show="AngularViewData.ShowExemptYears">
                             Select the years for which you have no accomplishments to report and provide a brief explanation.
