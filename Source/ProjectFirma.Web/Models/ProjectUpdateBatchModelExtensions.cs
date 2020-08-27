@@ -346,7 +346,7 @@ namespace ProjectFirma.Web.Models
             // validation 1: ensure that at least one PM has values for each year that isn't marked as 'No accomplishments to report' from ProjectUpdate Project Implementation start year to min(endyear, currentyear)
             // if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
             var missingYears = new HashSet<int>();
-            if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
+            if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.PostImplementation)
             {
                 var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
