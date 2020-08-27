@@ -243,8 +243,8 @@ namespace ProjectFirma.Web.Controllers
             if (HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Any())
             {
                 currentPerformanceMeasureReportingPeriodMaximumYear =
-                    HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Max(pmrp =>
-                        pmrp.PerformanceMeasureReportingPeriodCalendarYear);
+                    Math.Min(currentCalendarYear, HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Max(pmrp =>
+                        pmrp.PerformanceMeasureReportingPeriodCalendarYear));
             }
 
             // If these don't already exist when we call GetLatestNotApprovedProjectUpdateBatchOrCreateNew, it can cause problems.
