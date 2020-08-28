@@ -27,13 +27,20 @@
         background-color: #E0E0E0;
     }
 
-    #sortables-list:hover {
+    .sortables-list:hover {
         cursor: move;
         cursor: grab;
     }
 
-    #sortables-list div:hover {
-        background-color: #E0E0E0;
+    .panel-heading a.collapsePanel:before {
+        font-family:'Glyphicons Halflings';
+        content: "\e114";
+        float: left;
+        margin-right: 5px;
+
+    }
+    .panel-heading a.collapsePanel.collapsed:before {
+        content: "\e080";
     }
 </style>
 <span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span>
@@ -42,23 +49,38 @@
 @{
     int itemCount = 0;
 }
-@foreach (var sortingGroup in ViewDataTyped.SortingGroups)
-{
-    <button type="button" class="pull-right btn btn-sm btn-firma" onclick="alphabetize(@itemCount)">Reset @sortingGroup.GetDisplayName() To Alphabetical</button>
-    <h2>@sortingGroup.GetDisplayName()</h2>
-    <div id="sortables-list-@itemCount">
-        @foreach (var sortable in sortingGroup.GetSortableList().SortByOrderThenName().ToArray())
-        {
-            <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px;">
-                <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
-                @sortable.GetDisplayName()
+
+<div class="panel-group" id="accordion">
+    @foreach (var sortingGroup in ViewDataTyped.SortingGroups)
+    {
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <a data-toggle="collapse" data-target="#panel-@itemCount" class="collapsed collapsePanel">
+                    <div style="padding-left: 22px">
+                        <span>
+                            @sortingGroup.GetDisplayName()
+                        </span>
+                    </div>
+                </a>
             </div>
-        }
+            <div id="panel-@itemCount" class="panel-collapse collapse">
+                <div style="margin: 4px 15px; text-align: right">
+                    <button type="button" class=" btn btn-xs btn-firma" onclick="alphabetize(@itemCount)">Reset To Alphabetical</button>
+                </div>
+                <div id="sortables-list-@itemCount" class="sortables-list">
+                    @foreach (var sortable in sortingGroup.GetSortableList().SortByOrderThenName().ToArray())
+                    {
+                        <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px; margin-left: 40px; text-indent: -12px;">
+                            <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
+                            @sortable.GetDisplayName()
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        itemCount++;
+    }
     </div>
-
-    itemCount++;
-}
-
 @using (Html.BeginForm())
 {
 
@@ -67,13 +89,20 @@
     var allSortableLists = [];
 
     var alphabetize = function (id) {
-        var newWorldOrder = _.sortBy(allSortableLists[id].toArray(),
-            function(sortableId) {
-                var $el = jQuery("[data-id=" + sortableId + "]");
-                var x = $el.attr("data-displayName").toLowerCase();
-                return x;
+
+        var newWorldOrder = allSortableLists[id].toArray().sort(function (sortableIdA, sortableIdB) {
+            var $elA = jQuery("[data-id=" + sortableIdA + "]");
+            var a = $elA.attr("data-displayName").toLowerCase();
+            var $elB = jQuery("[data-id=" + sortableIdB + "]");
+            var b = $elB.attr("data-displayName").toLowerCase();
+            return a.localeCompare(b, undefined, {
+                numeric: true,
+                sensitivity: 'base'
             });
+        });
+
         allSortableLists[id].sort(newWorldOrder);
+
     }
 
     jQuery(function () {
@@ -99,5 +128,5 @@
             });
 
         });
-    })
+    });
 </script>

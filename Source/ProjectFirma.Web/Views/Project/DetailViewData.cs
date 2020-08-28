@@ -36,6 +36,7 @@ using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 
@@ -123,6 +124,7 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectEvaluation> ProjectEvaluationsUserHasAccessTo { get; }
 
         public string UpdateStatusUrl { get; set; }
+
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
@@ -293,7 +295,6 @@ namespace ProjectFirma.Web.Views.Project
                 }
             }
 
-            
             if (ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null)
             {
                 if (userHasEditProjectPermissions)

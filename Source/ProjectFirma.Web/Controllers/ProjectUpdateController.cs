@@ -238,11 +238,49 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Instructions(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            int currentCalendarYear = DateTime.Now.Year;
+            int currentPerformanceMeasureReportingPeriodMaximumYear = currentCalendarYear;
+            if (HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Any())
+            {
+                currentPerformanceMeasureReportingPeriodMaximumYear =
+                    Math.Min(currentCalendarYear, HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Max(pmrp =>
+                        pmrp.PerformanceMeasureReportingPeriodCalendarYear));
+            }
+
+            // If these don't already exist when we call GetLatestNotApprovedProjectUpdateBatchOrCreateNew, it can cause problems.
+            // Arguably these should be made automatically at year boundaries or something, but for now this is at least a bit better
+            // than we found it. -- SLG & BB 8/25/20202
+            EnsurePerformanceMeasureReportingPeriodExistsForRangeOfCalendarYears(currentPerformanceMeasureReportingPeriodMaximumYear, currentCalendarYear);
             var projectUpdateBatch = ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentFirmaSession);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var firmaPage = FirmaPageTypeEnum.ProjectUpdateInstructions.GetFirmaPage();
             var viewData = new InstructionsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, firmaPage);
             return RazorView<Instructions, InstructionsViewData>(viewData);
+        }
+
+        private void EnsurePerformanceMeasureReportingPeriodExistsForRangeOfCalendarYears(int startCalendarYear, int endCalendarYear)
+        {
+            Check.Ensure(startCalendarYear <= endCalendarYear, $"{nameof(startCalendarYear)} ({startCalendarYear}) must be less than or equal to {nameof(endCalendarYear)} ({endCalendarYear})");
+
+            bool changesToSave = false;
+            for (int year = startCalendarYear; year <= endCalendarYear; year++)
+            {
+                var existingPerformanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == year);
+                if (existingPerformanceMeasureReportingPeriod != null)
+                {
+                    continue;
+                }
+
+                var newPerformanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod(year, year.ToString());
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
+                    newPerformanceMeasureReportingPeriod);
+                changesToSave = true;
+            }
+
+            if (changesToSave)
+            {
+                HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
+            }
         }
 
         [HttpPost]
@@ -420,7 +458,9 @@ namespace ProjectFirma.Web.Controllers
                                       .Any(
                                           x =>
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
-                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears ||
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectUpdateBatch.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation) ||
+                                              x.ErrorMessage == FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired);
 
             var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
             var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).ToList();
@@ -1074,7 +1114,7 @@ namespace ProjectFirma.Web.Controllers
 
             var mapInitJsonForEdit = new MapInitJson($"project_{project.ProjectID}_EditMap",
                 10,
-                MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide),
+                MapInitJson.GetAllGeospatialAreaMapLayers(),
                 MapInitJson.GetExternalMapLayers(),
                 BoundingBox.MakeNewDefaultBoundingBox(),
                 false) {DisablePopups = true};
@@ -1082,7 +1122,7 @@ namespace ProjectFirma.Web.Controllers
 
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", true, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true));
+                $"project_{project.ProjectID}_EditMap", true, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true), false);
 
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
@@ -1179,7 +1219,7 @@ namespace ProjectFirma.Web.Controllers
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(projectUpdate));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox) {AllowFullScreen = false, DisablePopups = true};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
@@ -1496,7 +1536,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType);
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", false, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false));
+                $"project_{project.ProjectID}_EditMap", false, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false), false);
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
@@ -1531,6 +1571,23 @@ namespace ProjectFirma.Web.Controllers
             }
             var viewModel = new BulkSetSpatialInformationViewModel(projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialAreaID).ToList());
             return ViewBulkSetSpatialInformation(project, projectUpdateBatch, viewModel);
+        }
+
+        // Partner Finder section of Project Update
+        [HttpGet]
+        [MatchMakerViewPotentialPartnersFeature]
+        public ActionResult PartnerFinder(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            var viewData = new PartnerFinderProjectUpdateViewData(CurrentFirmaSession, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch));
+            var viewModel = new PartnerFinderProjectUpdateViewModel();
+            return RazorView<PartnerFinderProjectUpdate, PartnerFinderProjectUpdateViewData, PartnerFinderProjectUpdateViewModel>(viewData, viewModel);
         }
 
         private ViewResult ViewBulkSetSpatialInformation(Project project, ProjectUpdateBatch projectUpdateBatch, BulkSetSpatialInformationViewModel viewModel)
@@ -3339,7 +3396,7 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, string currentSectionName)
         {
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
-            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
+            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(CurrentFirmaSession, true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;

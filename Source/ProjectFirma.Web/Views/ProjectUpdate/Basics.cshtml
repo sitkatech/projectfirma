@@ -144,7 +144,18 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.TaxonomyLeafDisplayName
         </div>
     </div>
+    
+    <script type="text/javascript" src="/Views/Shared/ConstrainProjectYears.js"></script>
+    <script>
+        @{
+            var implementationYears = ViewDataTyped.ImplementationStartYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
+            var completionYears = ViewDataTyped.CompletionYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
+        }
 
+        initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
+            "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
+            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max())
+    </script>
 </div>
 
     if (ViewDataTyped.IsEditable)

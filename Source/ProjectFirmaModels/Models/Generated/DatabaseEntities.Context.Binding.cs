@@ -56,6 +56,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
+            modelBuilder.Configurations.Add(new CustomPageRoleConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryDocumentConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryDocumentCategoryConfiguration());
@@ -87,6 +88,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyBranchConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyLeafConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyTrunkConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
@@ -112,6 +116,10 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
+            modelBuilder.Configurations.Add(new PersonSettingGridColumnConfiguration());
+            modelBuilder.Configurations.Add(new PersonSettingGridColumnSettingConfiguration());
+            modelBuilder.Configurations.Add(new PersonSettingGridColumnSettingFilterConfiguration());
+            modelBuilder.Configurations.Add(new PersonSettingGridTableConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardOrganizationConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardTaxonomyBranchConfiguration());
@@ -220,6 +228,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<County> Counties { get { return AllCounties.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPageImage> AllCustomPageImages { get; set; }
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<CustomPageRole> AllCustomPageRoles { get; set; }
+        public virtual IQueryable<CustomPageRole> CustomPageRoles { get { return AllCustomPageRoles.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<DocumentLibrary> AllDocumentLibraries { get; set; }
@@ -281,6 +291,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerOrganizationTaxonomyBranch> AllMatchmakerOrganizationTaxonomyBranches { get; set; }
+        public virtual IQueryable<MatchmakerOrganizationTaxonomyBranch> MatchmakerOrganizationTaxonomyBranches { get { return AllMatchmakerOrganizationTaxonomyBranches.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerOrganizationTaxonomyLeaf> AllMatchmakerOrganizationTaxonomyLeafs { get; set; }
+        public virtual IQueryable<MatchmakerOrganizationTaxonomyLeaf> MatchmakerOrganizationTaxonomyLeafs { get { return AllMatchmakerOrganizationTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerOrganizationTaxonomyTrunk> AllMatchmakerOrganizationTaxonomyTrunks { get; set; }
+        public virtual IQueryable<MatchmakerOrganizationTaxonomyTrunk> MatchmakerOrganizationTaxonomyTrunks { get { return AllMatchmakerOrganizationTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
@@ -331,6 +347,14 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PersonSettingGridColumn> AllPersonSettingGridColumns { get; set; }
+        public virtual IQueryable<PersonSettingGridColumn> PersonSettingGridColumns { get { return AllPersonSettingGridColumns.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PersonSettingGridColumnSettingFilter> AllPersonSettingGridColumnSettingFilters { get; set; }
+        public virtual IQueryable<PersonSettingGridColumnSettingFilter> PersonSettingGridColumnSettingFilters { get { return AllPersonSettingGridColumnSettingFilters.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PersonSettingGridColumnSetting> AllPersonSettingGridColumnSettings { get; set; }
+        public virtual IQueryable<PersonSettingGridColumnSetting> PersonSettingGridColumnSettings { get { return AllPersonSettingGridColumnSettings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PersonSettingGridTable> AllPersonSettingGridTables { get; set; }
+        public virtual IQueryable<PersonSettingGridTable> PersonSettingGridTables { get { return AllPersonSettingGridTables.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonStewardGeospatialArea> AllPersonStewardGeospatialAreas { get; set; }
         public virtual IQueryable<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get { return AllPersonStewardGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonStewardOrganization> AllPersonStewardOrganizations { get; set; }
@@ -560,13 +584,11 @@ namespace ProjectFirmaModels.Models
                 case "County":
                     return Counties.GetCounty(primaryKey);
 
-                case "CustomPageDisplayType":
-                    var customPageDisplayType = CustomPageDisplayType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(customPageDisplayType, "CustomPageDisplayType", primaryKey);
-                    return customPageDisplayType;
-
                 case "CustomPageImage":
                     return CustomPageImages.GetCustomPageImage(primaryKey);
+
+                case "CustomPageRole":
+                    return CustomPageRoles.GetCustomPageRole(primaryKey);
 
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);
@@ -635,6 +657,11 @@ namespace ProjectFirmaModels.Models
 
                 case "FirmaHomePageImage":
                     return FirmaHomePageImages.GetFirmaHomePageImage(primaryKey);
+
+                case "FirmaMenuItem":
+                    var firmaMenuItem = FirmaMenuItem.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(firmaMenuItem, "FirmaMenuItem", primaryKey);
+                    return firmaMenuItem;
 
                 case "FirmaPageImage":
                     return FirmaPageImages.GetFirmaPageImage(primaryKey);
@@ -708,6 +735,15 @@ namespace ProjectFirmaModels.Models
 
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
+
+                case "MatchmakerOrganizationTaxonomyBranch":
+                    return MatchmakerOrganizationTaxonomyBranches.GetMatchmakerOrganizationTaxonomyBranch(primaryKey);
+
+                case "MatchmakerOrganizationTaxonomyLeaf":
+                    return MatchmakerOrganizationTaxonomyLeafs.GetMatchmakerOrganizationTaxonomyLeaf(primaryKey);
+
+                case "MatchmakerOrganizationTaxonomyTrunk":
+                    return MatchmakerOrganizationTaxonomyTrunks.GetMatchmakerOrganizationTaxonomyTrunk(primaryKey);
 
                 case "MeasurementUnitType":
                     var measurementUnitType = MeasurementUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -808,6 +844,18 @@ namespace ProjectFirmaModels.Models
                     var performanceMeasureType = PerformanceMeasureType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
                     return performanceMeasureType;
+
+                case "PersonSettingGridColumn":
+                    return PersonSettingGridColumns.GetPersonSettingGridColumn(primaryKey);
+
+                case "PersonSettingGridColumnSettingFilter":
+                    return PersonSettingGridColumnSettingFilters.GetPersonSettingGridColumnSettingFilter(primaryKey);
+
+                case "PersonSettingGridColumnSetting":
+                    return PersonSettingGridColumnSettings.GetPersonSettingGridColumnSetting(primaryKey);
+
+                case "PersonSettingGridTable":
+                    return PersonSettingGridTables.GetPersonSettingGridTable(primaryKey);
 
                 case "PersonStewardGeospatialArea":
                     return PersonStewardGeospatialAreas.GetPersonStewardGeospatialArea(primaryKey);

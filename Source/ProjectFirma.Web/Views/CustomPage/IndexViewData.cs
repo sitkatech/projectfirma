@@ -38,12 +38,12 @@ namespace ProjectFirma.Web.Views.CustomPage
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession, null)
         {
-            PageTitle = "About Pages";
+            PageTitle = "Custom Pages";
 
             GridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
-                ObjectNameSingular = "About Page",
-                ObjectNamePlural = "About Pages",
+                ObjectNameSingular = "Custom Page",
+                ObjectNamePlural = "Custom Pages",
                 SaveFiltersInCookie = true
             };
 

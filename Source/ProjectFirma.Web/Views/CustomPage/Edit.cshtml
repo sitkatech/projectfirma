@@ -18,12 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.CustomPage.Edit
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.FirmaMenuItemID)
+            </div>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.FirmaMenuItemID, ViewDataTyped.Menus, new { style = "width: auto", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FirmaMenuItemID)
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(m => m.CustomPageDisplayName)
@@ -38,19 +48,24 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.CustomPageVanityUrl)
             </div>
             <div class="col-sm-9">
-               @Html.TextBoxFor(m => m.CustomPageVanityUrl, new { style = "width: auto", @class = "form-control" })
-               @Html.ValidationMessageFor(m => m.CustomPageVanityUrl)
+                @Html.TextBoxFor(m => m.CustomPageVanityUrl, new { style = "width: auto", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CustomPageVanityUrl)
             </div>
         </div>
         <div class="form-group">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9"><p class="systemText">Please select all applicable roles.</p></div>
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.CustomPageDisplayTypeID)
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.CustomPageViewableBy.ToType(), "Viewable By")
             </div>
             <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.CustomPageDisplayTypeID, ViewDataTyped.CustomPageDisplayTypes, new { style = "width: auto", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.CustomPageDisplayTypeID)
+                @Html.CheckBoxFor(x => x.ViewableByAnonymous) @Html.LabelFor(x => x.ViewableByAnonymous, new {style = "font-weight : normal; padding-right : 10px;"}, true)
+                @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new {style = "font-weight : normal; padding-right : 10px;"}, true)
+                @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new {style = "font-weight : normal; padding-right : 10px;"}, true)
+                @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new {style = "font-weight : normal; padding-right : 10px;"}, true)
+                @Html.CheckBoxFor(x => x.ViewableByAdmin) @Html.LabelFor(x => x.ViewableByAdmin, new {style = "font-weight : normal; padding-right : 10px;"}, true)
             </div>
-        </div>      
+        </div>
     </div>
     @Html.HiddenFor(m => m.CustomPageID)
 }

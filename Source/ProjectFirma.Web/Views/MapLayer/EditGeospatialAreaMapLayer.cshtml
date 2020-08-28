@@ -1,0 +1,58 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.MapLayer.EditGeospatialAreaMapLayer
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @* @Html.LabelWithSugarFor(FieldDefinitionEnum.GeospatialAreaLayerName.ToType()) *@
+                @Html.Label("Display Name")
+            </div>
+            <div class="col-sm-9">
+                @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.GeospatialAreaMapLayerDisplayAsReferenceLayer.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.DisplayOnAllMaps)
+                @Html.ValidationMessageFor(m => m.DisplayOnAllMaps)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.MapLayerLayerIsOnByDefault.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.LayerIsOnByDefault)
+                @Html.ValidationMessageFor(m => m.LayerIsOnByDefault)
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.GeospatialAreaTypeID)
+}
+

@@ -97,7 +97,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
             return selectList;
         }
 
-        internal static string ListItemToOption(SelectListItem item)
+        internal static string ListItemToOption(SelectListItem item, SelectListGroup optGroup)
         {
             TagBuilder builder = new TagBuilder("option")
             {
@@ -115,7 +115,15 @@ namespace LtInfo.Common.HtmlHelperExtensions
             {
                 builder.Attributes["disabled"] = "disabled";
             }
-            builder.Attributes["data-tokens"] = item.Text;
+
+            if (optGroup != null && !string.IsNullOrEmpty(optGroup.Name))
+            {
+                builder.Attributes["data-tokens"] = $"{item.Text} {optGroup.Name}";
+            }
+            else
+            {
+                builder.Attributes["data-tokens"] = item.Text;
+            }
             return builder.ToString(TagRenderMode.Normal);
         }
 
@@ -295,7 +303,7 @@ namespace LtInfo.Common.HtmlHelperExtensions
 
                 foreach (SelectListItem item in group)
                 {
-                    listItemBuilder.AppendLine(ListItemToOption(item));
+                    listItemBuilder.AppendLine(ListItemToOption(item, optGroup));
                 }
 
                 if (optGroup != null)

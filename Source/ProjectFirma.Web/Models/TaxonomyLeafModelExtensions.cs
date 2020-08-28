@@ -193,6 +193,13 @@ namespace ProjectFirma.Web.Models
             return fancyTreeNode;
         }
 
+        public static ComboTreeNode ToComboTreeNode(this TaxonomyLeaf taxonomyLeaf)
+        {
+            var key = $"{TaxonomyLevel.Leaf.TaxonomyLevelID}-{taxonomyLeaf.TaxonomyLeafID}";
+            var comboTreeNode = new ComboTreeNode(taxonomyLeaf.GetDisplayName(), key);
+            return comboTreeNode;
+        }
+
         public static string GetTaxonomyLeafCodeAndName(this TaxonomyLeaf taxonomyLeaf)
         {
             if(taxonomyLeaf.TaxonomyLeafCode != null) { 

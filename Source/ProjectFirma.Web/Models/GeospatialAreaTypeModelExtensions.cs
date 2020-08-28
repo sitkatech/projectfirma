@@ -40,5 +40,11 @@ namespace ProjectFirma.Web.Models
 
             return UrlTemplate.MakeHrefString(mapServiceUri.ToString(), mapServiceUri.ToString());
         }
+
+        public static readonly UrlTemplate<int> EditMapLayerUrlTemplate = new UrlTemplate<int>(SitkaRoute<MapLayerController>.BuildUrlFromExpression(t => t.EditGeospatialAreaMapLayer(UrlTemplate.Parameter1Int)));
+        public static string GetEditMapLayerUrl(this GeospatialAreaType geospatialAreaType)
+        {
+            return EditMapLayerUrlTemplate.ParameterReplace(geospatialAreaType.GeospatialAreaTypeID);
+        }
     }
 }

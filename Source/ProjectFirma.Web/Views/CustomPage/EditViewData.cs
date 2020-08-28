@@ -26,11 +26,11 @@ namespace ProjectFirma.Web.Views.CustomPage
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public IEnumerable<SelectListItem> CustomPageDisplayTypes { get; }
+        public IEnumerable<SelectListItem> Menus { get; }
 
-        public EditViewData(IEnumerable<SelectListItem> customPageDisplayTypes)
+        public EditViewData(IEnumerable<SelectListItem> menus)
         {
-            CustomPageDisplayTypes = customPageDisplayTypes;           
+            Menus = menus;
         }
     }
 }

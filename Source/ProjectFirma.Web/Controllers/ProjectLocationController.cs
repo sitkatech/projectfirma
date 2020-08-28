@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, ProjectLocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide);
+            var layerGeoJsons = MapInitJson.GetAllGeospatialAreaMapLayers();
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true};
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Controllers
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
 
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox)

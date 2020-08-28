@@ -19,27 +19,27 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.CustomPage
 {
     public class EditViewModel : FormViewModel, IValidatableObject
     {
         public int CustomPageID { get; set; }
+
+        [Required]
+        [DisplayName("Menu")]
+        public int FirmaMenuItemID { get; set; }
 
         [Required]
         [StringLength(ProjectFirmaModels.Models.CustomPage.FieldLengths.CustomPageDisplayName)]
@@ -51,9 +51,20 @@ namespace ProjectFirma.Web.Views.CustomPage
         [DisplayName("Vanity Url")]
         public string CustomPageVanityUrl { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.CustomPageDisplayType)]
-        [Required]
-        public int? CustomPageDisplayTypeID { get; set; }
+        [DisplayName("Anonymous (Public)")]
+        public bool ViewableByAnonymous { get; set; }
+
+        [DisplayName("Unassigned")]
+        public bool ViewableByUnassigned { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.NormalUser)]
+        public bool ViewableByNormal { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
+        public bool ViewableByProjectSteward { get; set; }
+
+        [DisplayName("Admin")]
+        public bool ViewableByAdmin { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -65,16 +76,64 @@ namespace ProjectFirma.Web.Views.CustomPage
         public EditViewModel(ProjectFirmaModels.Models.CustomPage customPage)
         {
             CustomPageID = customPage.CustomPageID;
+            FirmaMenuItemID = customPage.FirmaMenuItemID;
             CustomPageDisplayName = customPage.CustomPageDisplayName;
             CustomPageVanityUrl = customPage.CustomPageVanityUrl;
-            CustomPageDisplayTypeID = customPage.CustomPageDisplayTypeID;
+
+            ViewableByAnonymous = customPage.CustomPageRoles.Any(x => x.RoleID == null);
+            ViewableByUnassigned = customPage.CustomPageRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
+            ViewableByNormal = customPage.CustomPageRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
+            ViewableByProjectSteward = customPage.CustomPageRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
+            ViewableByAdmin = customPage.CustomPageRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Admin.RoleID);
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage, FirmaSession currentFirmaSession, ICollection<CustomPageRole> allCustomPageRoles)
         {
+            customPage.FirmaMenuItemID = FirmaMenuItemID;
             customPage.CustomPageDisplayName = CustomPageDisplayName;
             customPage.CustomPageVanityUrl = CustomPageVanityUrl;
-            customPage.CustomPageDisplayTypeID = CustomPageDisplayTypeID.Value;
+
+            var newCustomPageRoles = new List<CustomPageRole>();
+
+            if (ViewableByAnonymous)
+            {
+                newCustomPageRoles.Add(new CustomPageRole(customPage.CustomPageID));
+            }
+            if (ViewableByUnassigned)
+            {
+                newCustomPageRoles.Add(new CustomPageRole(customPage.CustomPageID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Unassigned.RoleID
+                });
+            }
+            if (ViewableByNormal)
+            {
+                newCustomPageRoles.Add(new CustomPageRole(customPage.CustomPageID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Normal.RoleID
+                });
+            }
+            if (ViewableByProjectSteward)
+            {
+                newCustomPageRoles.Add(new CustomPageRole(customPage.CustomPageID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.ProjectSteward.RoleID
+                });
+            }
+
+            if (ViewableByAdmin)
+            {
+                newCustomPageRoles.Add(new CustomPageRole(customPage.CustomPageID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Admin.RoleID
+                });
+            }
+
+            customPage.CustomPageRoles.Merge(newCustomPageRoles,
+                allCustomPageRoles,
+                (x, y) => x.CustomPageID == y.CustomPageID && x.RoleID == y.RoleID,
+                HttpRequestStorage.DatabaseEntities);
+
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -84,7 +143,7 @@ namespace ProjectFirma.Web.Views.CustomPage
             var existingCustomPages = MultiTenantHelpers.GetCustomPages();
             if (!CustomPageModelExtensions.IsDisplayNameUnique(existingCustomPages, CustomPageDisplayName, CustomPageID))
             {
-                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("About Page with the provided Display Name already exists.", x => x.CustomPageDisplayName));
+                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("Custom Page with the provided Display Name already exists.", x => x.CustomPageDisplayName));
             }
            
             if (!string.IsNullOrWhiteSpace(CustomPageVanityUrl))
@@ -95,7 +154,7 @@ namespace ProjectFirma.Web.Views.CustomPage
                 }
                 else if (!CustomPageModelExtensions.IsVanityUrlUnique(existingCustomPages, CustomPageVanityUrl, CustomPageID))
                 {
-                    validationResults.Add(new SitkaValidationResult<EditViewModel, string>("An About Page with the provided Vanity Url already exists.", x => x.CustomPageVanityUrl));
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, string>("An Custom Page with the provided Vanity Url already exists.", x => x.CustomPageVanityUrl));
                 }
             }
 

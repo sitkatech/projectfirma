@@ -119,15 +119,6 @@ namespace ProjectFirma.Web.Views
 
         [Test]
         [UseReporter(typeof(DiffReporter))]
-        public void CreateClearAllCookiesIconHtmlTest()
-        {
-            const string gridName = "testGridName";
-            var result = DhtmlxGridHtmlHelpers.CreateClearAllCookiesIconHtml(gridName);
-            Approvals.Verify(result);
-        }
-
-        [Test]
-        [UseReporter(typeof(DiffReporter))]
         public void CreateFilteredExcelDownloadIconHtmlTest()
         {
             const string gridName = "testGridName";

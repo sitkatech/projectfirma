@@ -186,6 +186,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
             }
+            if (!string.IsNullOrWhiteSpace(Explanation) && Explanation.Length > ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation)
+            {
+                errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(
+                    FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation),
+                    x => x.Explanation));
+            }
 
             var pmValidationResults = ValidatePerformanceMeasures();
             var allWarningMessages = pmValidationResults.SelectMany(pmvr => pmvr.GetWarningMessages());
@@ -213,6 +219,20 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var yearsExpected = project.GetProjectUpdateImplementationStartToCompletionYearRange()
                 .Where(x => !exemptYears.Contains(x)).ToList();
 
+            // validation 1: ensure that at least one PM has values for each year that isn't marked as 'No accomplishments to report' from ProjectCreate Project Implementation start year to min(endyear, currentyear)
+            // PMs are required when project stage is Implementation, Post-Implementation, or Completed
+            var missingYears = new HashSet<int>();
+            if (project.ProjectStage.RequiresPerformanceMeasureActuals() || project.ProjectStage == ProjectStage.Completed || project.ProjectStage == ProjectStage.PostImplementation)
+            {
+                var yearsEntered = performanceMeasureActualSimples.Select(x => x.CalendarYear).Distinct();
+                missingYears = yearsExpected.GetMissingYears(yearsEntered);
+            }
+            if (missingYears.Any() && !performanceMeasureActualSimples.Any())
+            {
+                // There are missing years, but no PMs entered
+                results.Add(new PerformanceMeasuresValidationResult(FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired));
+            }
+
             // What distinct PerformanceMeasures are being worked with? 
             var pmasGrouped = performanceMeasureActualSimples.GroupBy(pmas => pmas.PerformanceMeasureID.Value);
 
@@ -222,10 +242,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 int currentPerformanceMeasureID = performanceMeasureActualSimpleGroup.Key;
                 var currentPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(pm => pm.PerformanceMeasureID == currentPerformanceMeasureID);
                 string currentPerformanceMeasureDisplayName = currentPerformanceMeasure.PerformanceMeasureDisplayName;
-
-                // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
-                var yearsEntered = performanceMeasureActualSimpleGroup.Select(x => x.CalendarYear).Distinct();
-                var missingYears = yearsExpected.GetMissingYears(yearsEntered);
 
                 // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
                 var performanceMeasureActualsWithIncompleteWarnings = ValidateNoIncompletePerformanceMeasureActualRow(currentPerformanceMeasureID);

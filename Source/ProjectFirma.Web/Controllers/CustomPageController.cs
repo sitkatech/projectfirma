@@ -28,11 +28,13 @@ using ProjectFirma.Web.Views.CustomPage;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -42,11 +44,38 @@ namespace ProjectFirma.Web.Controllers
         [Route("About/{vanityUrl}")]
         public ActionResult About(string vanityUrl)
         {
+            return ViewCustomPage("About", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ProjectCustomPage/{vanityUrl}")]
+        public ActionResult Project(string vanityUrl)
+        {
+            return ViewCustomPage("ProjectCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ProgramInfoCustomPage/{vanityUrl}")]
+        public ActionResult ProgramInfo(string vanityUrl)
+        {
+            return ViewCustomPage("ProgramInfoCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [Route("ResultsCustomPage/{vanityUrl}")]
+        public ActionResult Results(string vanityUrl)
+        {
+            return ViewCustomPage("ResultsCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public ViewResult ViewCustomPage(string route, string vanityUrl)
+        {
             var customPage = MultiTenantHelpers.GetCustomPages()
                 .SingleOrDefault(x => string.Equals(x.CustomPageVanityUrl, vanityUrl, StringComparison.OrdinalIgnoreCase));
             if (vanityUrl.IsEmpty() || customPage == null)
             {
-                throw new ArgumentException($"Bad vanity url for /About: \"{vanityUrl}\"");
+                throw new ArgumentException($"Bad vanity url for /{route}: \"{vanityUrl}\"");
             }
             new CustomPageViewFeature().DemandPermission(CurrentFirmaSession, customPage);
             var hasPermission = new CustomPageManageFeature().HasPermission(CurrentFirmaSession, customPage).HasPermission;
@@ -136,11 +165,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var customPage = new CustomPage(string.Empty, string.Empty, CustomPageDisplayType.Disabled);
-            viewModel.UpdateModel(customPage, CurrentFirmaSession);
+            var customPage = new CustomPage(string.Empty, string.Empty, FirmaMenuItem.About);
+
+            HttpRequestStorage.DatabaseEntities.CustomPageRoles.Load();
+            var customPageRoles = HttpRequestStorage.DatabaseEntities.AllCustomPageRoles.Local;
+            viewModel.UpdateModel(customPage, CurrentFirmaSession, customPageRoles);
             HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully created.");
+            SetMessageForDisplay($"Custom Page '{customPage.CustomPageDisplayName}' successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -164,17 +196,19 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            viewModel.UpdateModel(customPage, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.CustomPageRoles.Load();
+            var customPageRoles = HttpRequestStorage.DatabaseEntities.AllCustomPageRoles.Local;
+            viewModel.UpdateModel(customPage, CurrentFirmaSession, customPageRoles);
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var customPageTypesAsSelectListItems = CustomPageDisplayType.All.OrderBy(x => x.CustomPageDisplayTypeDisplayName)
-                .ToSelectListWithEmptyFirstRow(x => x.CustomPageDisplayTypeID.ToString(CultureInfo.InvariantCulture),
-                    x => x.CustomPageDisplayTypeDisplayName);
-                      
-            var viewData = new EditViewData(customPageTypesAsSelectListItems);
+            var menusAsSelectListItems = FirmaMenuItem.All.ToSelectListWithEmptyFirstRow(
+                x => x.FirmaMenuItemID.ToString(CultureInfo.InvariantCulture),
+                x => x.GetFirmaMenuItemDisplayName());
+
+            var viewData = new EditViewData(menusAsSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -191,8 +225,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = true;
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete the Custom About Page '{customPage.CustomPageDisplayName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("About Page", SitkaRoute<CustomPageController>.BuildLinkFromExpression(x => x.About(customPage.CustomPageVanityUrl), "here"));
+                ? $"Are you sure you want to delete the Custom Page '{customPage.CustomPageDisplayName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Custom Page", SitkaRoute<CustomPageController>.BuildLinkFromExpression(x => x.About(customPage.CustomPageVanityUrl), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -208,7 +242,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteCustomPage(customPage, viewModel);
             }
-            SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully removed.");
+            SetMessageForDisplay($"Custom Page '{customPage.CustomPageDisplayName}' successfully removed.");
 
             customPage.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();

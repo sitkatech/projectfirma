@@ -36,6 +36,7 @@
 
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", ViewDataTyped.TaxonomyBranchDisplayName), ViewDataTyped.HasTaxonomyBranchManagePermissions && ViewDataTyped.IsNotTaxonomyLevelLeaf)
     @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasTaxonomyBranchManagePermissions && ViewDataTyped.OfferEditSortOrder)
+    @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderInGroupUrl, ViewDataTyped.HasTaxonomyBranchManagePermissions && ViewDataTyped.OfferEditSortOrderInGroup)
 }
 
 <div>

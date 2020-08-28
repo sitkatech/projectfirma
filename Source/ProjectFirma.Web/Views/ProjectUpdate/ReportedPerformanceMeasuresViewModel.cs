@@ -151,6 +151,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 yield return new SitkaValidationResult<ReportedPerformanceMeasuresViewModel, string>(
                     FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation);
             }
+            if (!string.IsNullOrWhiteSpace(Explanation) && Explanation.Length > ProjectUpdateBatch.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation)
+            {
+                yield return new SitkaValidationResult<ReportedPerformanceMeasuresViewModel, string>(
+                    FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectUpdateBatch.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation), x => x.Explanation);
+            }
         }
     }
 }

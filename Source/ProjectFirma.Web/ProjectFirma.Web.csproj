@@ -67,7 +67,11 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
-    <Compile Include="Controllers\ExternalMapLayerController.cs" />
+    <Compile Include="Models\GridSettingsViewModel.cs" />
+    <Compile Include="Models\GridTable.cs" />
+    <Compile Include="Models\GridColumn.cs" />
+    <Compile Include="Controllers\GridSettingsController.cs" />
+    <Compile Include="Controllers\MapLayerController.cs" />
     <Compile Include="Controllers\MatchMakerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
@@ -100,7 +104,9 @@
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
+    <Compile Include="Models\FirmaMenuItemModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
+    <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
@@ -254,6 +260,7 @@
     <Compile Include="Security\ProjectEvaluationManageFeature.cs" />
     <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
     <Compile Include="Security\ProjectTimelineFeature.cs" />
+    <Compile Include="Security\OrganizationProfileEditFeature.cs" />
     <Compile Include="Security\ReportTemplateManageFeature.cs" />
     <Compile Include="Security\ReportTemplateViewListFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
@@ -304,17 +311,27 @@
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\GeospatialAreaPerformanceMeasureTargetGridSpec.cs" />
-    <Compile Include="Views\ExternalMapLayer\Edit.cs" />
-    <Compile Include="Views\ExternalMapLayer\EditViewData.cs" />
-    <Compile Include="Views\ExternalMapLayer\EditViewModel.cs" />
-    <Compile Include="Views\ExternalMapLayer\Index.cs" />
-    <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
-    <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
+    <Compile Include="Views\MapLayer\EditGeospatialAreaMapLayer.cs" />
+    <Compile Include="Views\MapLayer\EditExternalMapLayer.cs" />
+    <Compile Include="Views\MapLayer\EditGeospatialAreaMapLayerViewData.cs" />
+    <Compile Include="Views\MapLayer\EditExternalMapLayerViewData.cs" />
+    <Compile Include="Views\MapLayer\EditGeospatialAreaMapLayerViewModel.cs" />
+    <Compile Include="Views\MapLayer\EditExternalMapLayerViewModel.cs" />
+    <Compile Include="Views\MapLayer\GeospatialAreaMapLayerGridSpec.cs" />
+    <Compile Include="Views\MapLayer\ExternalMapLayerGridSpec.cs" />
+    <Compile Include="Views\MapLayer\Index.cs" />
+    <Compile Include="Views\MapLayer\IndexViewData.cs" />
     <Compile Include="Views\MatchMaker\ProjectPotentialPartners.cs" />
     <Compile Include="Views\MatchMaker\ProjectPotentialPartnersViewData.cs" />
+    <Compile Include="Views\Organization\EditProfileTaxonomy.cs" />
     <Compile Include="Views\Organization\EditPrimaryContact.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewData.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
+    <Compile Include="Views\Organization\EditProfileTaxonomyViewData.cs" />
+    <Compile Include="Views\Organization\EditProfileTaxonomyViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
+    <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewData.cs" />
+    <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewModel.cs" />
     <Compile Include="Views\ProjectFactSheet\EditBasics.cs" />
     <Compile Include="Views\ProjectFactSheet\EditBasicsViewData.cs" />
     <Compile Include="Views\ProjectFactSheet\EditBasicsViewModel.cs" />
@@ -325,6 +342,9 @@
     <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
+    <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
     <Compile Include="Views\Project\UserProjectGridSpec.cs" />
     <Compile Include="Views\Reports\GenerateReports.cs" />
     <Compile Include="Views\Reports\GenerateReportsViewModel.cs" />
@@ -536,6 +556,7 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
+    <Content Include="Content\combo-tree\style.css" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js" />
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_buttons.png" />
@@ -547,6 +568,7 @@
     <Content Include="Content\jquery.fancybox-buttons.css" />
     <Content Include="Content\jquery.fancybox-thumbs.css" />
     <Content Include="Content\jquery.fancybox.css" />
+    <Content Include="Content\js\GridTable.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -598,6 +620,7 @@
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\combo-tree\comboTreePlugin.js" />
     <Content Include="Scripts\jquery-1.11.0.js" />
     <Content Include="Scripts\jquery-1.11.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
@@ -626,6 +649,7 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
+    <Content Include="Views\Shared\ConstrainProjectYears.js" />
     <Content Include="Views\Shared\EditPerformanceMeasureTargetsController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
@@ -654,8 +678,6 @@
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\EditPerformanceMeasureTargets.cshtml" />
     <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cshtml" />
-    <Content Include="Views\ExternalMapLayer\Edit.cshtml" />
-    <Content Include="Views\ExternalMapLayer\Index.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
     <Content Include="Views\Evaluation\Detail.cshtml" />
@@ -673,6 +695,10 @@
     <Content Include="Views\DocumentLibrary\NewDocument.cshtml" />
     <Content Include="Views\DocumentLibrary\EditDocument.cshtml" />
     <Content Include="Views\MatchMaker\ProjectPotentialPartners.cshtml" />
+    <Content Include="Views\Organization\EditProfileTaxonomy.cshtml" />
+    <Content Include="Views\MapLayer\EditExternalMapLayer.cshtml" />
+    <Content Include="Views\MapLayer\Index.cshtml" />
+    <Content Include="Views\MapLayer\EditGeospatialAreaMapLayer.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -808,6 +834,8 @@
     <Content Include="Views\ProjectFactSheet\Manage.cshtml" />
     <Content Include="Views\ProjectFactSheet\EditFactSheetLogo.cshtml" />
     <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
+    <Content Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cshtml" />
+    <Content Include="Views\ProjectCreate\PartnerFinderProjectCreate.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -3322,7 +3350,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.BuildDhtmlxGridHeaderTest.approved.txt" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateArbitraryHtmlTest.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateClearAllCookiesIconHtmlTest.approved.txt" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateCreateUrlHtmlTestWithCreatePopupForm.approved.txt" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateCreateUrlHtmlTestWithCreateUrl.approved.txt" />
     <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateFilteredExcelDownloadIconHtmlTest.approved.txt" />

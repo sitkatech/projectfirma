@@ -51,11 +51,13 @@ namespace ProjectFirma.Web.Views
         {
             var dhtmlxGridHeader = DhtmlxGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, gridName, ExcelDownloadUrl);
 
+            var saveGridSettingsUrl = SitkaRoute<GridSettingsController>.BuildUrlFromExpression(c => c.SaveGridSettings());
+
             var dhtmlxGrid = DhtmlxGridHtmlHelpers.DhtmlxGridImpl(gridSpec,
                 gridName,
                 optionalGridDataUrl,
                 $"background-color:white;{styleString}",
-                null, dhtmlxGridHeader, dhtmlxGridResizeType);
+                null, dhtmlxGridHeader, dhtmlxGridResizeType, saveGridSettingsUrl);
 
             return new HtmlString(dhtmlxGrid);
         }

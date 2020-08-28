@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Models
             return organizationID.HasValue ? UrlTemplate.MakeHrefString(SummaryUrlTemplate.ParameterReplace(organizationID.Value), organizationDisplayName) : new HtmlString(null);
         }
 
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, null)));
         public static string GetDetailUrl(this Organization organization)
         {
             return organization == null ? "" : SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
@@ -321,5 +321,19 @@ namespace ProjectFirma.Web.Models
             ? organization.PrimaryContactPerson.GetFullNameFirstLast()
             : ViewUtilities.NoneString;
 
+        public static List<TaxonomyTier> GetMatchmakerTaxonomyTiers(this Organization organization, TaxonomyLevel taxonomyLevel)
+        {
+            switch (taxonomyLevel.ToEnum)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    return organization.MatchmakerOrganizationTaxonomyLeafs.ToList().Select(x => new TaxonomyTier(x.TaxonomyLeaf)).ToList();
+                case TaxonomyLevelEnum.Branch:
+                    return organization.MatchmakerOrganizationTaxonomyBranches.ToList().Select(x => new TaxonomyTier(x.TaxonomyBranch)).ToList();
+                case TaxonomyLevelEnum.Trunk:
+                    return organization.MatchmakerOrganizationTaxonomyTrunks.ToList().Select(x => new TaxonomyTier(x.TaxonomyTrunk)).ToList();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }

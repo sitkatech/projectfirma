@@ -78,6 +78,13 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 ? TaxonomyTrunkID
                 : HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.First().TaxonomyTrunkID; // really should only be one
             taxonomyBranch.ThemeColor = ThemeColor;
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(taxonomyBranch.TaxonomyBranchID))
+            {
+                // for new branches, set the sort order to greater than the current max for this trunk (or null if no branches have a sort order set)
+                var maxSortOrder = HttpRequestStorage.DatabaseEntities.TaxonomyBranches
+                    .Where(x => x.TaxonomyTrunkID == taxonomyBranch.TaxonomyTrunkID).Max(x => x.TaxonomyBranchSortOrder);
+                taxonomyBranch.TaxonomyBranchSortOrder = maxSortOrder + 1;
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

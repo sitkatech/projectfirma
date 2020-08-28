@@ -60,15 +60,17 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <returns></returns>
         public static HtmlString DhtmlxGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return new HtmlString(DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, DhtmlxGridResizeType.None));
+            return new HtmlString(DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, DhtmlxGridResizeType.None, ""));
         }
 
         public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn)
         {
-            return DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, DhtmlxGridResizeType.None);
+            return DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, DhtmlxGridResizeType.None,"");
         }
 
-        public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn, string metaDivHtml, DhtmlxGridResizeType dhtmlxGridResizeType)
+        public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl,
+            string styleString, int? splitAtColumn, string metaDivHtml, DhtmlxGridResizeType dhtmlxGridResizeType,
+            string saveGridSettingsUrl)
         {
             const string template =
                 @"
@@ -83,7 +85,7 @@ namespace LtInfo.Common.DhtmlWrappers
     </script>
 </div>";
             var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
-                splitAtColumn, dhtmlxGridResizeType);
+                splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
 
             return String.Format(template, gridName, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
@@ -95,7 +97,7 @@ namespace LtInfo.Common.DhtmlWrappers
     jQuery(document).ready(function ()
     {{
         // Initialize Grid
-        Sitka.{0} = new Sitka.Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2});
+        Sitka.{0} = new Sitka.Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2}, ""{14}"");
         // Initialize Grid Columns
         Sitka.{0}.setGridColumns(
         [
@@ -109,16 +111,15 @@ namespace LtInfo.Common.DhtmlWrappers
 
         // Show loading bar
         jQuery(""#{0}LoadingBar"").show();
-
+        var showFilterBar = {10};
+        if(showFilterBar)
+        {{
+            Sitka.{0}.setupServerFilterSaving();
+            Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
+            Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
+        }}
         Sitka.{0}.grid.attachEvent(""onXLE"", function (gridObj, count){{
-            var showFilterBar = {10};
             Sitka.{0}.unfilteredRowCount = Sitka.{0}.grid.getRowsNum();
-            if(showFilterBar)
-            {{
-                Sitka.{0}.setupCookieFiltering(""{0}FilteredButton"");
-                Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
-                Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
-            }}
             jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
             jQuery(""#{0}UnfilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
             jQuery(""#{0}LoadingBar"").hide();
@@ -157,8 +158,11 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <param name="optionalGridDataUrl"></param>
         /// <param name="splitAtColumn"></param>
         /// <param name="dhtmlxGridResizeType"></param>
+        /// <param name="saveGridSettingsUrl"></param>
         /// <returns></returns>
-        private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, int? splitAtColumn, DhtmlxGridResizeType dhtmlxGridResizeType)
+        private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName,
+            string optionalGridDataUrl, int? splitAtColumn, DhtmlxGridResizeType dhtmlxGridResizeType,
+            string saveGridSettingsUrl)
         {
             const string indent = "            ";
             var gridColumnsJavascriptFunctions = BuildGridColumns(gridSpec, indent);
@@ -188,7 +192,8 @@ namespace LtInfo.Common.DhtmlWrappers
                 gridSpec.ShowFilterBar.ToString().ToLower(),
                 gridSpec.GridInstructionsWhenEmpty,
                 verticalResizeFunction,
-                resizeGridFunction);
+                resizeGridFunction, 
+                saveGridSettingsUrl);
 
             return result;
         }
@@ -247,7 +252,6 @@ namespace LtInfo.Common.DhtmlWrappers
 
         private static string CreateGridHeaderIconsHtml<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
         {
-            var clearCookiesIconHtml = CreateClearAllCookiesIconHtml(gridName);
             var filteredExcelDownloadIconHtml = CreateFilteredExcelDownloadIconHtml(gridName, excelDownloadUrl);
             var customExcelDownloadIconHtml = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
             var createIconHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
@@ -267,11 +271,6 @@ namespace LtInfo.Common.DhtmlWrappers
                 }
             {(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}
             {(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}
-            {
-                    (!string.IsNullOrWhiteSpace(clearCookiesIconHtml)
-                        ? $"<span>{clearCookiesIconHtml}</span>"
-                        : string.Empty)
-                }
             {
                     (!string.IsNullOrWhiteSpace(filteredExcelDownloadIconHtml)
                         ? $"<span>{filteredExcelDownloadIconHtml}</span>"
@@ -391,22 +390,7 @@ namespace LtInfo.Common.DhtmlWrappers
             }
             return createUrlHtml;
         }
-
-        /// <summary>
-        /// Creates the clear all cookies icon
-        /// </summary>
-        /// <param name="gridName"></param>
-        /// <returns></returns>
-        public static string CreateClearAllCookiesIconHtml(string gridName)
-        {
-            return
-                $@"<a href=""javascript:void(0);"" onclick=""Sitka.{
-                        gridName
-                    }.clearAllCookies()"" title=""Reset this grid to default column widths and filters"">{
-                        UndoIconBootstrap
-                    } Reset</a>&nbsp;";
-        }
-
+        
         /// <summary>
         /// Creates the filter icon
         /// If ShowFilterBar is false, it will return empty string
@@ -437,7 +421,7 @@ namespace LtInfo.Common.DhtmlWrappers
 
             return
                 String.Format(
-                    @"<a class=""excelbutton"" id=""{0}DownloadLink"" href=""javascript:void(0)"" onclick=""Sitka.{0}.grid.toExcel({1})"" title=""Download this table as an Excel file"">Download Table</a>",
+                    @"<a class=""excelbutton"" id=""{0}DownloadLink"" href=""javascript:void(0)"" onclick=""Sitka.{0}.sitkaGridToExcel({1})"" title=""Download this table as an Excel file"">Download Table</a>",
                     gridName,
                     excelDownloadUrl.ParameterReplace(gridName).ToJS());
         }

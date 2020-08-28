@@ -7,9 +7,9 @@ CREATE TABLE [dbo].[CustomPage](
 	[TenantID] [int] NOT NULL,
 	[CustomPageDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CustomPageVanityUrl] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[CustomPageDisplayTypeID] [int] NOT NULL,
 	[CustomPageContent] [dbo].[html] NULL,
 	[DocumentLibraryID] [int] NULL,
+	[FirmaMenuItemID] [int] NOT NULL,
  CONSTRAINT [PK_CustomPage_CustomPageID] PRIMARY KEY CLUSTERED 
 (
 	[CustomPageID] ASC
@@ -32,11 +32,6 @@ CREATE TABLE [dbo].[CustomPage](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_CustomPageDisplayType_CustomPageDisplayTypeID] FOREIGN KEY([CustomPageDisplayTypeID])
-REFERENCES [dbo].[CustomPageDisplayType] ([CustomPageDisplayTypeID])
-GO
-ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_CustomPageDisplayType_CustomPageDisplayTypeID]
-GO
 ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_DocumentLibrary_DocumentLibraryID] FOREIGN KEY([DocumentLibraryID])
 REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID])
 GO
@@ -46,6 +41,11 @@ ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_Docume
 REFERENCES [dbo].[DocumentLibrary] ([DocumentLibraryID], [TenantID])
 GO
 ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_DocumentLibrary_DocumentLibraryID_TenantID]
+GO
+ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_FirmaMenuItem_FirmaMenuItemID] FOREIGN KEY([FirmaMenuItemID])
+REFERENCES [dbo].[FirmaMenuItem] ([FirmaMenuItemID])
+GO
+ALTER TABLE [dbo].[CustomPage] CHECK CONSTRAINT [FK_CustomPage_FirmaMenuItem_FirmaMenuItemID]
 GO
 ALTER TABLE [dbo].[CustomPage]  WITH CHECK ADD  CONSTRAINT [FK_CustomPage_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

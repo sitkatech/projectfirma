@@ -378,7 +378,7 @@ namespace ProjectFirma.Web
     <p>
         You may want to <a href=""{
                     SitkaRoute<OrganizationController>.BuildAbsoluteUrlFromExpression(x => x.Detail(organization
-                        .OrganizationID))
+                        .OrganizationID, null))
                 }"">add detail for this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}</a> such as its abbreviation, {
                     FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()
                 }, website, logo, etc. This will make its {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} summary page display better.

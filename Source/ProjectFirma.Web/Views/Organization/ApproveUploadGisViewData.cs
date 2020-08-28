@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.Organization
         {
             MapInitJson = mapInitJson;
             OrganizationDetailUrl =
-                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Detail(organization));
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Detail(organization, null));
         }
     }
 }

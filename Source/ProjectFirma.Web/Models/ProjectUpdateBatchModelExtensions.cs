@@ -346,10 +346,15 @@ namespace ProjectFirma.Web.Models
             // validation 1: ensure that at least one PM has values for each year that isn't marked as 'No accomplishments to report' from ProjectUpdate Project Implementation start year to min(endyear, currentyear)
             // if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
             var missingYears = new HashSet<int>();
-            if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
+            if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.PostImplementation)
             {
                 var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
+            }
+            if (missingYears.Any() && !performanceMeasureActualUpdates.Any())
+            {
+                // There are missing years, but no PMs entered
+                results.Add(new PerformanceMeasuresValidationResult(FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired));
             }
 
             // What distinct PerformanceMeasures are being worked with? 
@@ -722,9 +727,9 @@ namespace ProjectFirma.Web.Models
             return projectStage != ProjectStage.PlanningDesign;
         }
 
-        public static List<ProjectSectionSimple> GetApplicableWizardSections(this ProjectUpdateBatch projectUpdateBatch, bool ignoreStatus, bool hasEditableCustomAttributes)
+        public static List<ProjectSectionSimple> GetApplicableWizardSections(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, bool ignoreStatus, bool hasEditableCustomAttributes)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(currentFirmaSession, projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
