@@ -365,34 +365,49 @@ namespace ProjectFirma.Web.Models
             var sortOrder = 0;
             foreach (var jsonCol in jsonGridTable.Columns)
             {
-                sortOrder++;
                 if (personSettingGridColumnDictionary.ContainsKey(jsonCol.ColumnName))
                 {
+                    sortOrder++;
                     personSettingGridColumnDictionary[jsonCol.ColumnName].SortOrder = sortOrder;
-                    continue;
                 }
-                var personSettingGridColumn = new PersonSettingGridColumn(personSettingGridTable, jsonCol.ColumnName, sortOrder);
-               
-                personSettingGridTable.PersonSettingGridColumns.Add(personSettingGridColumn);
-                
+                else
+                {
+                    var columnAlreadyExists = personSettingGridTable.PersonSettingGridColumns.Any(x => x.ColumnName == jsonCol.ColumnName);
+                    if (!columnAlreadyExists)
+                    {
+                        sortOrder++;
+                        var personSettingGridColumn = new PersonSettingGridColumn(personSettingGridTable, jsonCol.ColumnName, sortOrder);
+                        personSettingGridTable.PersonSettingGridColumns.Add(personSettingGridColumn);
+                    }
+                }
             }
 
             var gridColumnDictionary = personSettingGridTable.PersonSettingGridColumns.ToDictionary(x => x.ColumnName, StringComparer.InvariantCultureIgnoreCase);
+            var columnSettingsProcessed = new List<PersonSettingGridColumnSetting>();
             foreach (var jsonCol in jsonGridTable.Columns)
             {
                 var personSettingGridColumn = gridColumnDictionary[jsonCol.ColumnName];
                 PersonSettingGridColumnSetting personSettingGridColumnSetting;
-                var columnSettingsAlreadyExists = HttpRequestStorage.DatabaseEntities.PersonSettingGridColumnSettings
-                    .SingleOrDefault(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
-                if (columnSettingsAlreadyExists != null)
+                var existingColumnSettings = HttpRequestStorage.DatabaseEntities.AllPersonSettingGridColumnSettings.ToList();
+                var columnSettingsAlreadyExistsInDatabase = existingColumnSettings.SingleOrDefault(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
+
+
+                if (columnSettingsAlreadyExistsInDatabase != null)
                 {
-                    personSettingGridColumnSetting = columnSettingsAlreadyExists;
+                    personSettingGridColumnSetting = columnSettingsAlreadyExistsInDatabase;
+                }
+                else if (columnSettingsProcessed.Any(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID))
+                {
+                    personSettingGridColumnSetting = columnSettingsProcessed.First(x =>
+                        x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
                 }
                 else
                 {
                     personSettingGridColumnSetting = new PersonSettingGridColumnSetting(person.PersonID, personSettingGridColumn.PersonSettingGridColumnID);
                     HttpRequestStorage.DatabaseEntities.AllPersonSettingGridColumnSettings.Add(personSettingGridColumnSetting);
                 }
+
+                columnSettingsProcessed.Add(personSettingGridColumnSetting);
 
                 personSettingGridColumnSetting.PersonSettingGridColumnSettingFilters.ToList().ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
                 if (jsonCol.FilterTextArray != null && jsonCol.FilterTextArray.Length > 0)
