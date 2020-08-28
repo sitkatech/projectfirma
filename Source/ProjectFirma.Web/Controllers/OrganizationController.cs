@@ -308,12 +308,9 @@ namespace ProjectFirma.Web.Controllers
                 return feature;
             }).ToList());
 
-            if (projectSimpleLocationsFeatureCollection.Features.Any())
-            {
-                return new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show);
-            }
-
-            return null;
+            // Always return the feature collection - even if empty.
+            // SLG - 8/28/2020
+            return new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show);
         }
 
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, Person person)
