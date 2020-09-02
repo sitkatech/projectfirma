@@ -46,5 +46,11 @@
     "inputFiles": [
       "ScriptsCustom/sitka.grid.js"
     ]
+  },
+  {
+    "outputFileName": "ScriptsCustom/sitka.min.js",
+    "inputFiles": [
+      "ScriptsCustom/sitka.js"
+    ]
   }
 ]

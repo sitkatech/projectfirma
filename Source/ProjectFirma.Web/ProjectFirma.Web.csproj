@@ -1163,7 +1163,9 @@
       <DependentUpon>sitka.grid.js</DependentUpon>
     </Content>
     <Content Include="ScriptsCustom\sitka.js" />
-    <Content Include="ScriptsCustom\sitka.min.js" />
+    <Content Include="ScriptsCustom\sitka.min.js">
+      <DependentUpon>sitka.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\sitkaAjax.js" />
     <Content Include="ScriptsCustom\sitkaAjax.min.js" />
     <Content Include="ScriptsCustom\SitkaFileExtensionsValidation.js" />
