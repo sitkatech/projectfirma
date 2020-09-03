@@ -335,5 +335,16 @@ namespace ProjectFirma.Web.Models
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public static bool HasMatchmakerProfileContent(this Organization organization)
+        {
+            // TODO check all profile sections once they are built
+            return HasMatchmakerTaxonomyContent(organization);
+        }
+
+        private static bool HasMatchmakerTaxonomyContent(this Organization organization)
+        {
+            return organization.MatchmakerOrganizationTaxonomyLeafs.Any() || organization.MatchmakerOrganizationTaxonomyBranches.Any() || organization.MatchmakerOrganizationTaxonomyTrunks.Any();
+        }
     }
 }

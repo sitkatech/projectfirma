@@ -66,6 +66,10 @@ namespace ProjectFirma.Web.Views.Organization
                 peopleDictionary.ContainsKey(a.OrganizationID) ? peopleDictionary[a.OrganizationID].Count : 0, 90);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmpty(), 70);
+            if (FirmaWebConfiguration.FeatureMatchMakerEnabled && MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
+            {
+                Add("Matchmaker Service", a => a.MatchmakerOptIn.HasValue && a.MatchmakerOptIn.Value ? a.HasMatchmakerProfileContent() ? "Opt-in, has content" : "Opt-in, no content" : "Opt-out", 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            }
         }
 
         public enum OrganizationStatusFilterTypeEnum
