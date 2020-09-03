@@ -219,7 +219,7 @@
             <li>
                 <a href="#details" aria-controls="details" role="tab" data-toggle="tab" id="detailsTab">Details</a>
             </li>
-            @if (ViewDataTyped.ShowMatchmakerProfile && ViewDataTyped.Organization.MatchmakerOptIn.HasValue && ViewDataTyped.Organization.MatchmakerOptIn.Value)
+            @if (ViewDataTyped.ShowMatchmakerProfile && (ViewDataTyped.UserHasViewEditProfilePermission || ViewDataTyped.Organization.MatchmakerOptIn.HasValue && ViewDataTyped.Organization.MatchmakerOptIn.Value))
             {
                 <li>
                     <a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="profileTab">Profile</a>
