@@ -15,6 +15,7 @@ CREATE TABLE [dbo].[Organization](
 	[OrganizationTypeID] [int] NOT NULL,
 	[OrganizationBoundary] [geometry] NULL,
 	[Description] [dbo].[html] NULL,
+	[MatchmakerOptIn] [bit] NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC

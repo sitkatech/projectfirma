@@ -328,6 +328,7 @@
     <Compile Include="Views\Organization\EditPrimaryContactViewData.cs" />
     <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
     <Compile Include="Views\Organization\EditProfileTaxonomyViewData.cs" />
+    <Compile Include="Views\Organization\EditProfileOptInOutViewModel.cs" />
     <Compile Include="Views\Organization\EditProfileTaxonomyViewModel.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewData.cs" />
