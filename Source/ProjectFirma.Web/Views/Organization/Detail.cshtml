@@ -116,16 +116,6 @@
                         function(result) {  },
                         function () { alert("There was an error updating the Matchmaker Opt-in/Opt-out."); });
                 });
-                //Tried using a different change event to see if this would prevent the triple firing. It did not.
-//                matchmakerToggle.change(function() {
-//                    var isChecked = $(this).prop('checked');
-//                    var postData = {
-//                        OptIn: isChecked
-//                    };
-//                    SitkaAjax.post(@Html.Raw(ViewDataTyped.EditProfileMatchmakerOptIn.ToJS()), postData,
-//                        function(result) {  },
-//                        function() { alert("There was an error updating the Matchmaker Opt-in/Opt-out."); });
-//                });
             }
         });
     </script>
