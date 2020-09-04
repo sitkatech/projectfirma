@@ -211,6 +211,28 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditProfileTaxonomy, EditProfileTaxonomyViewData, EditProfileTaxonomyViewModel>(viewData, viewModel);
         }
 
+        /// <summary>
+        /// Dummy get signature so that it can find the post action
+        /// </summary>
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public ContentResult EditProfileMatchmakerOptIn(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            return new ContentResult();
+        }
+
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditProfileMatchmakerOptIn(OrganizationPrimaryKey organizationPrimaryKey, EditProfileOptInOutViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (organization != null)
+            {
+                organization.MatchmakerOptIn = viewModel.OptIn;
+            }
+            return new ModalDialogFormJsonResult();
+        }
 
         [HttpGet]
         [OrganizationManageFeature]

@@ -389,7 +389,7 @@ namespace ProjectFirma.Web.Models
                 var personSettingGridColumn = gridColumnDictionary[jsonCol.ColumnName];
                 PersonSettingGridColumnSetting personSettingGridColumnSetting;
                 var existingColumnSettings = HttpRequestStorage.DatabaseEntities.AllPersonSettingGridColumnSettings.ToList();
-                var columnSettingsAlreadyExistsInDatabase = existingColumnSettings.SingleOrDefault(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
+                var columnSettingsAlreadyExistsInDatabase = existingColumnSettings.SingleOrDefault(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID && x.PersonID == person.PersonID);
 
 
                 if (columnSettingsAlreadyExistsInDatabase != null)
