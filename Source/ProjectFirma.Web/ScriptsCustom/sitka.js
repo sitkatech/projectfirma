@@ -27,6 +27,9 @@ jQuery(document).ready(function ()
 
 });
 
+function encodeHtml(val) { return jQuery("<div/>").text(val).html(); }
+function decodeHtml(val) { return jQuery("<div/>").html(val).text(); }
+
 Number.prototype.formatMoney = function (currency_symbol, decimal_places, decimal_sep, thousands_sep) {
     var n = this;
     var c = decimal_places;

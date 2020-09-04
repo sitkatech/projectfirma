@@ -52,10 +52,36 @@ div.gridbox_mm table.hdr td div.hdrcell {
 }
 
 div.gridbox_mm table.hdr .filter {
-    padding-left:10px;
-    -moz-user-select:text;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-user-select: text;
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+div.gridbox_mm table.hdr td.dhtmlx-grid-bootstrap-multiselect-filter-container {
+    padding: 0;
+}
+div.gridbox_mm table.hdr .filter.dhtmlx-grid-bootstrap-multiselect-filter {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+div.gridbox_mm table.hdr .filter.dhtmlx-grid-bootstrap-multiselect-filter button.dropdown-toggle {
+    padding-right: 13px !important;
+}
+div.gridbox_mm table.hdr .filter.dhtmlx-grid-bootstrap-multiselect-filter button.dropdown-toggle .bs-caret {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+}
+.dhtmlx-grid-bootstrap-multiselect-filter .bs-actionsbox {
+    min-width: 210px;
+}
+div.gridbox td.filter input, div.gridbox td.filter select {
+    width: 100% !important;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #CCC;
 }
 
 div.gridbox_mm table.hdr .filter option {

@@ -403,9 +403,28 @@ Sitka.Grid.Class.Grid.prototype.getValuesFromCheckedGridRows = function (checkBo
     return returnList;
 };
 
+var sitkaGridFilterSelectpickerOptions = {
+    container: "body",
+    width: "100%",
+    noneSelectedText: "",
+    actionsBox: true,
+    selectedTextFormat: "count > 1"
+}
+
+// we want to intercept the call when dhtmlx builds up the list of select option items, to transform it into a multiselect
+var sitkaGridOriginalLoadSelectOptions = dhtmlXGridObject.prototype._loadSelectOptins;
+var sitkaGridLocallyDefinedMultiSelectLoadOptions = function (t, c) {
+    // invoke original
+    sitkaGridOriginalLoadSelectOptions.call(this, t, c);
+    var selectObj = jQuery(t);
+    // get rid of the empty option added in sitkaGridOriginalLoadSelectOptions, seems to confuse the multiselect
+    selectObj.find("option[value='']").remove();
+    selectObj.selectpicker(sitkaGridFilterSelectpickerOptions).selectpicker('refresh');
+};
+dhtmlXGridObject.prototype._loadSelectOptins = sitkaGridLocallyDefinedMultiSelectLoadOptions;
+
 Sitka.Grid.Class.Grid.prototype.strictHtmlFilter = function (t, i) {
     dhtmlXGridObject.prototype._in_header_select_filter_strict.call(this, t, i);
-
     // override collectValues() - NB. this replaces it for *all* _select_filter_string filters in the current grid
     this.collectValues = function (column) {
         var value = this.callEvent("onCollectValues", [column]);
@@ -423,16 +442,28 @@ Sitka.Grid.Class.Grid.prototype.strictHtmlFilter = function (t, i) {
         var currentColumn = this.hdr.grid.SitkaGridContainer._columns.value()[column];
         for (var i = 0; i < col.length; i++) {
             var val = this._get_cell_value(col[i], column);
+            var isOptions = val.indexOf("<select") > -1;
             if ((typeof (val) == "string")                                                                              // sitka mods
                 && (typeof (currentColumn.filtertype) !== "undefined")            // sitka mods
                 && (currentColumn.filtertype == "#select_filter_html_strict")    // sitka mods
             ) {
-                val = val.toString().replace(/<[^>]*>/g, "");
-                // RL 5/19/2015 - We need to convert &amp; back to &
-                val = val.replace("&amp;", "&");
+                if (isOptions) {
+                    var valueOptions = jQuery(val).children("option");
+                    valueOptions.each(function () {
+                        var valToAdd = jQuery(this).text();
+                        if (valToAdd && (!col[i]._childIndexes || col[i]._childIndexes[column] != col[i]._childIndexes[column - 1])) {
+                            c[decodeHtml(valToAdd)] = true;
+                        }
+                    });
+                    val = jQuery(val).children("option:selected").text();
+                }
+                else {
+                    val = val.toString().replace(/<[^>]*>/g, "");
+                }
             }
-            if (val && (!col[i]._childIndexes || col[i]._childIndexes[column] != col[i]._childIndexes[column - 1]))
-                c[val] = true;
+            if (val && (!col[i]._childIndexes || col[i]._childIndexes[column] != col[i]._childIndexes[column - 1])) {
+                c[decodeHtml(val)] = true;
+            }
         }
         ;
         this.dma(false);
@@ -444,18 +475,82 @@ Sitka.Grid.Class.Grid.prototype.strictHtmlFilter = function (t, i) {
         return f.sort();
     };
 
-    t.firstChild._filter = function () {
+    var tObj = jQuery(t);
+    var jSelect = tObj.find("select.dhtmlx-grid-bootstrap-multiselect-filter");
+    var jSelectElement = tObj.find("select.dhtmlx-grid-bootstrap-multiselect-filter").get()[0];
+    jSelectElement._filter = function () {
         return function (value) {
-            var filterData = t.firstChild.value;
-            var textToSearch = value.toString().replace(/<[^>]*>/g, "");
-            // RL 5/19/2015 - We need to convert &amp; back to &
-            textToSearch = textToSearch.replace("&amp;", "&");
-            var samelength = ((filterData.length == 0) || (textToSearch.length == filterData.length));
-            var matchIndex = (textToSearch.toLowerCase().indexOf(filterData.toLowerCase()) == 0);
-            return matchIndex && samelength;
+            var allVals = jSelect.val();
+            if (allVals == null) {
+                return true;
+            }
+            var textToSearch = decodeHtml((value.toString().replace(/<[^>]*>/g, "")));
+            var isOptionList = value.indexOf("<select") > -1;
+
+            if (isOptionList) {
+                textToSearch = jQuery(value).children("option:selected").text();
+            }
+            function insensitiveEqualHtml(element, index, array) {
+
+                return element.toString().toLowerCase() === textToSearch.toString().toLowerCase();
+            }
+            return allVals.some(insensitiveEqualHtml);
         };
     };
 };
+
+// This is an edited version of _in_header_select_filter_strict found in dhtmlxgrid_filter.js, it adds multiselect attributes to the select element and creates a multiselect object, importantly it omits click handler for parent cell onclick
+var sitkaGridLocallyDefinedMultiSelectFilter = function (t, i) {
+    t.innerHTML = "<select style='width:90%; font-size:8pt; font-family:Tahoma;' class='dhtmlx-grid-bootstrap-multiselect-filter' multiple='multiple'></select>";
+    var tObj = jQuery(t);
+    tObj.addClass("dhtmlx-grid-bootstrap-multiselect-filter-container");
+    var jSelect = tObj.find(".dhtmlx-grid-bootstrap-multiselect-filter");
+    jSelect.selectpicker(sitkaGridFilterSelectpickerOptions);
+
+    // we turn off the click event to prevent sorting the table when clicking in the multi's container td, this is for the thin area around the button
+    tObj.click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    });
+
+    var selectElement = jQuery(t).find('select').get()[0];
+
+    this.makeFilter(selectElement, i);
+    var combos = this.combos;
+
+    selectElement._filter = function () {
+        return function (val) {
+            var allVals = jSelect.val();
+            if (allVals == null) {
+                return true;
+            }
+            function insensitiveEqual(element, index, array) {
+                return element.toString().toLowerCase() === val.toString().toLowerCase();
+            }
+            return allVals.some(insensitiveEqual);
+        }
+    }
+
+    this._filters_ready();
+
+    var firstTimeMultiselectClicked = true;
+    var toggleBtn = tObj.find("button.dropdown-toggle");
+    toggleBtn.css("padding", "2px");
+    toggleBtn.click(function (e) {
+        // stop propagation so will not trigger column sort
+        e.stopPropagation();
+        // There is some jack-assery wrt the grid and multiselect click events, you need to manually toggle the multi drop down once then it seems good.  Not sure what tragic comedy causes this junk.
+        if (firstTimeMultiselectClicked) {
+            toggleBtn.dropdown("toggle");
+        }
+        firstTimeMultiselectClicked = false;
+    });
+}
+
+// we want to redefine everything from dhtmlx that renders a select to use our multi-select for a consistent appearance:
+dhtmlXGridObject.prototype._in_header_select_filter_strict = sitkaGridLocallyDefinedMultiSelectFilter;
+dhtmlXGridObject.prototype._in_header_select_filter = sitkaGridLocallyDefinedMultiSelectFilter;
 
 Sitka.Grid.Class.Grid.prototype.textWithDashesFilter = function (t, i) {
     dhtmlXGridObject.prototype._in_header_text_filter.call(this, t, i);
@@ -617,12 +712,37 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         jQuery(selector).each(function (i, item) { jQuery(item).removeAttr("disabled"); });
         return true;
     };
-    
+
+    var closeAllOpenMultiSelectsInGrid = function () {
+        jQuery("#" + theGridElement).find(".dhtmlx-grid-bootstrap-multiselect-filter-container").find(".btn-group.open .dropdown-toggle").dropdown("toggle");
+    };
+
     this.grid.entBox.onselectstart = function () { return true; }; // allows selection in IE & copying/pasting
     this.grid.attachEvent("onBeforeSorting", setHourGlassCursor);
     this.grid.attachEvent("onAfterSorting", setDefaultCursor);
     this.grid.attachEvent("onXLS", setHourGlassCursor);
     this.grid.attachEvent("onXLE", setDefaultCursor);
+    this.grid.attachEvent("onXLE", function () {
+        // the jquery ui positioning screws up when scrolling inside document so must hide any that are open on scroll
+        jQuery("#" + theGridElement).find("div.objbox").scroll(function () {
+            closeAllOpenMultiSelectsInGrid();
+        });
+
+        // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
+        // this closes the dropdown if you click over to a different filter
+        jQuery("#" + theGridElement).find("table.hdr tbody tr td").click(function (e) {
+            if (jQuery(e.target).hasClass("dhtmlx-grid-bootstrap-multiselect-button") === false) {
+                closeAllOpenMultiSelectsInGrid();
+            }
+        });
+    });
+
+    // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
+    // this closes any open multiselect filters if you click in an empty space in the grid
+    this.grid.attachEvent("onEmptyClick", function (e) {
+        closeAllOpenMultiSelectsInGrid();
+    });
+
     this.grid.init();
     this.grid.enableEditEvents(true, false, true);
     this.grid.enableDistributedParsing((this.scrollPosition == this.SCROLL_TO_FIRST), 200, 100);

@@ -49,8 +49,9 @@
 
 </style>
 
-<script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
-<link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" />
+@* Removing because bootstrap-toggle is broken if script is included more than once, and ViewGoogleChart can be added as a partial multiple times to a page. Consider adding to FirmaIncludes?  *@
+@* <script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script> *@
+@* <link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" /> *@
 
 
 <form id="@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm" action="@ViewDataTyped.DownloadChartDataUrl" method="post">
