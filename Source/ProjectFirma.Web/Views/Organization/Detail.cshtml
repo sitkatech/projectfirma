@@ -693,11 +693,34 @@
                     </p>
                 }
                 <div class="row" style="margin-bottom: 20px">
-                    <div class="col-xs-12">
-                        <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
-                        <p>This organization is interested in supporting @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below.</p>
-                    </div>
+                   <div class="col-xs-12">
+                      <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
+                      <p>This organization is interested in supporting @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below.</p>
+                   </div>
                 </div>
+
+
+                @* Areas of Implementation panel *@
+                <div class="row">
+                   <div class="col-md-6">
+                      <div class="panel panelFirma">
+                         <div class="panel-heading panelTitle">
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
+                            @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
+                         </div>
+                         <div class="panel-body">
+                            <div>
+                                  <p class="systemText">Nothing here yet.</p>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+
+
+
+
+                @* Taxonomy Panel *@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panelFirma">

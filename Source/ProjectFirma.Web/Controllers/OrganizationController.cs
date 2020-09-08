@@ -162,6 +162,8 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
+        #region Matchmaker Profile Taxonomy
+
         [HttpGet]
         [OrganizationProfileViewEditFeature]
         public PartialViewResult EditProfileTaxonomy(OrganizationPrimaryKey organizationPrimaryKey)
@@ -210,6 +212,54 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new EditProfileTaxonomyViewData(topLevelTaxonomyTierAsComboTreeNodes);
             return RazorPartialView<EditProfileTaxonomy, EditProfileTaxonomyViewData, EditProfileTaxonomyViewModel>(viewData, viewModel);
         }
+
+        #endregion Matchmaker Profile Taxonomy
+
+
+
+
+
+
+
+
+
+
+
+        #region Matchmaker Area of Interest
+
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            //var organization = organizationPrimaryKey.EntityObject;
+            //var taxonomyCompoundKeys = new List<string>();
+            //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyTrunks.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Trunk, x.TaxonomyTrunkID)));
+            //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyBranches.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Branch, x.TaxonomyBranchID)));
+            //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Leaf, x.TaxonomyLeafID)));
+
+            //var viewModel = new EditProfileTaxonomyViewModel(organization, taxonomyCompoundKeys);
+            //return ViewEditProfileTaxonomy(viewModel);
+            return null;
+        }
+
+
+
+
+        #endregion Matchmaker Area of Interest
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Dummy get signature so that it can find the post action
