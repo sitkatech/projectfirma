@@ -37,7 +37,7 @@ namespace ProjectFirmaModels.UnitTestCommon
             public static Organization Create(string organizationName)
             {
                 var organizationType = TestFramework.TestOrganizationType.Create();
-                var organization = new Organization(organizationName, true, organizationType);
+                var organization = new Organization(organizationName, true, organizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault);
                 return organization;
             }
 
@@ -48,7 +48,7 @@ namespace ProjectFirmaModels.UnitTestCommon
                 var testOrganizationShortName = MakeTestName(testOrganizationName, maxLengthOfOrganizationShortName);
 
                 var organizationType = TestFramework.TestOrganizationType.Create();
-                var testOrganization = new Organization(testOrganizationName, true, organizationType);
+                var testOrganization = new Organization(testOrganizationName, true, organizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault);
                 testOrganization.OrganizationShortName = testOrganizationShortName;
 
                 dbContext.AllOrganizations.Add(testOrganization);

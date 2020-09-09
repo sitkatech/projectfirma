@@ -40,7 +40,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool useOrganizationBoundaryForMatchmaker) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
@@ -54,12 +54,13 @@ namespace ProjectFirmaModels.Models
             this.OrganizationBoundary = organizationBoundary;
             this.Description = description;
             this.MatchmakerOptIn = matchmakerOptIn;
+            this.UseOrganizationBoundaryForMatchmaker = useOrganizationBoundaryForMatchmaker;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(string organizationName, bool isActive, int organizationTypeID) : this()
+        public Organization(string organizationName, bool isActive, int organizationTypeID, bool useOrganizationBoundaryForMatchmaker) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -67,12 +68,13 @@ namespace ProjectFirmaModels.Models
             this.OrganizationName = organizationName;
             this.IsActive = isActive;
             this.OrganizationTypeID = organizationTypeID;
+            this.UseOrganizationBoundaryForMatchmaker = useOrganizationBoundaryForMatchmaker;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Organization(string organizationName, bool isActive, OrganizationType organizationType) : this()
+        public Organization(string organizationName, bool isActive, OrganizationType organizationType, bool useOrganizationBoundaryForMatchmaker) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -81,6 +83,7 @@ namespace ProjectFirmaModels.Models
             this.OrganizationTypeID = organizationType.OrganizationTypeID;
             this.OrganizationType = organizationType;
             organizationType.Organizations.Add(this);
+            this.UseOrganizationBoundaryForMatchmaker = useOrganizationBoundaryForMatchmaker;
         }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static Organization CreateNewBlank(OrganizationType organizationType)
         {
-            return new Organization(default(string), default(bool), organizationType);
+            return new Organization(default(string), default(bool), organizationType, default(bool));
         }
 
         /// <summary>
@@ -258,6 +261,7 @@ namespace ProjectFirmaModels.Models
             set { Description = value?.ToString(); }
         }
         public bool? MatchmakerOptIn { get; set; }
+        public bool UseOrganizationBoundaryForMatchmaker { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 

@@ -29,6 +29,8 @@ namespace ProjectFirmaModels.Models
 {
     public partial class Organization : IAuditableEntity
     {
+        public static bool UseOrganizationBoundaryForMatchmakerDefault = true;
+
         public const string OrganizationSitka = "Sitka Technology Group";
         public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
 

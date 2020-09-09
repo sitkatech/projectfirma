@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, true, null);
             }
-            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID);
+            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID, Organization.UseOrganizationBoundaryForMatchmakerDefault);
             viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -247,7 +247,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var viewModel = new MatchmakerOrganizationLocationDetailViewModel();
+            // UseOrganizationBoundaryForMatchmaker
+            var viewModel = new MatchmakerOrganizationLocationDetailViewModel(organization);
             return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
         }
 
@@ -751,7 +752,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
-            firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType)
+            firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault)
             {
                 OrganizationGuid = keystoneOrganization.OrganizationGuid,
                 OrganizationShortName = keystoneOrganization.ShortName,
