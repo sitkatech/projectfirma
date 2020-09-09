@@ -39,6 +39,8 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using MoreLinq;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
@@ -227,22 +229,96 @@ namespace ProjectFirma.Web.Controllers
 
         #region Matchmaker Area of Interest
 
+        //[HttpGet]
+        //[OrganizationProfileViewEditFeature]
+        //public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
+        //{
+        //    //var organization = organizationPrimaryKey.EntityObject;
+        //    //var taxonomyCompoundKeys = new List<string>();
+        //    //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyTrunks.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Trunk, x.TaxonomyTrunkID)));
+        //    //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyBranches.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Branch, x.TaxonomyBranchID)));
+        //    //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Leaf, x.TaxonomyLeafID)));
+
+        //    //var viewModel = new EditProfileTaxonomyViewModel(organization, taxonomyCompoundKeys);
+        //    //return ViewEditProfileTaxonomy(viewModel);
+        //    return null;
+        //}
+
         [HttpGet]
         [OrganizationProfileViewEditFeature]
         public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            //var organization = organizationPrimaryKey.EntityObject;
-            //var taxonomyCompoundKeys = new List<string>();
-            //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyTrunks.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Trunk, x.TaxonomyTrunkID)));
-            //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyBranches.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Branch, x.TaxonomyBranchID)));
-            //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Leaf, x.TaxonomyLeafID)));
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new MatchmakerOrganizationLocationDetailViewModel();
+            return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
+        }
 
-            //var viewModel = new EditProfileTaxonomyViewModel(organization, taxonomyCompoundKeys);
-            //return ViewEditProfileTaxonomy(viewModel);
-            return null;
+        private PartialViewResult ViewEditMatchMakerAreaOfInterest(Organization organization, MatchmakerOrganizationLocationDetailViewModel viewModel)
+        {
+            var mapDivID = $"organization_{organization.OrganizationID}_EditMatchMakerAreaOfInterestDiv";
+            var detailedLocationGeoJsonFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
+            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+            // Maybe show all Org project layers here? Consider doing later.
+            //layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
+            //BoundingBox boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var boundingBox = new BoundingBox(organization.OrganizationBoundary);
+            var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox)
+            {
+                AllowFullScreen = false,
+                DisablePopups = true
+            };
+
+            var mapFormID = GenerateEditOrganizationMatchMakerAreaOfInterestFormID(organization);
+            //var uploadGisFileUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.GetEntityID()));
+            var saveFeatureCollectionUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.EditMatchMakerAreaOfInterest(organization.OrganizationID, null));
+
+            //var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
+
+            var viewData = new MatchmakerOrganizationLocationDetailViewData(organization.OrganizationID, mapInitJson, editableLayerGeoJson, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation);
+            return RazorPartialView<MatchmakerOrganizationLocationDetail, MatchmakerOrganizationLocationDetailViewData, MatchmakerOrganizationLocationDetailViewModel>(viewData, viewModel);
+        }
+
+        private static string GenerateEditOrganizationMatchMakerAreaOfInterestFormID(Organization organization)
+        {
+            return $"editOrganizationAreaOfInterestMap_{organization.OrganizationID}";
         }
 
 
+
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey, MatchmakerOrganizationLocationDetailViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
+            }
+            SaveOrganizationAreaOfInterestDetailedLocations(viewModel, organization);
+            return new ModalDialogFormJsonResult();
+        }
+
+
+        private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization)
+        {
+            // TODO - where are we saving these?
+            /*
+            foreach (var organizationLocation in organization.ProjectLocations.ToList())
+            {
+                projectLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+            if (viewModel.WktAndAnnotations != null)
+            {
+                foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)
+                {
+                    project.ProjectLocations.Add(new ProjectLocation(project, DbGeometry.FromText(wktAndAnnotation.Wkt), wktAndAnnotation.Annotation));
+                }
+            }
+            */
+        }
 
 
         #endregion Matchmaker Area of Interest
