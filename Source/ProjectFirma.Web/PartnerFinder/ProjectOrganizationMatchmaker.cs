@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -61,10 +63,14 @@ namespace ProjectFirma.Web.PartnerFinder
             double taxonomySubScore = GetTaxonomySubScore(project, organization);
             CheckEnsureScoreInValidRange(taxonomySubScore);
 
-            // Hardwired for just one component for the moment, but this will definitely change.
-            var numberOfComponents = 1;
+            // Organization Area of Interest SubScore
+            double areaOfInterestSubScore = GetOrganizationAreaOfInterestSubScore(project, organization);
+            CheckEnsureScoreInValidRange(areaOfInterestSubScore);
+
+            var numberOfComponents = 2;
             var weightPerSubScore = 1.0 / numberOfComponents; 
-            double scoreToReturn = taxonomySubScore * weightPerSubScore;
+            double scoreToReturn = (taxonomySubScore * weightPerSubScore) +
+                                   (areaOfInterestSubScore * weightPerSubScore);
 
             // Again, we want to be very sure score values fall between 0.0 and 1.0 inclusive.
             CheckEnsureScoreInValidRange(scoreToReturn);
@@ -97,6 +103,72 @@ namespace ProjectFirma.Web.PartnerFinder
             double taxonomySubScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
             return taxonomySubScore;
         }
+
+        private static double GetOrganizationAreaOfInterestSubScore(Project project, Organization organization)
+        {
+            // Simple Location sub-sub-score
+            double simpleLocationSubSubScore = 0.0;
+            {
+                var projectSimpleLocation = project.ProjectLocationPoint;
+                foreach (var currentAoiLocation in organization.MatchMakerAreaOfInterestLocations)
+                {
+                    if (projectSimpleLocation != null && 
+                        currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry != null &&
+                        projectSimpleLocation.Intersects(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry))
+                    {
+                        simpleLocationSubSubScore = 1.0;
+                    }
+                }
+            }
+
+            // Detailed location sub-sub-score
+            double detailedLocationSubSubScore = 0.0;
+            {
+                var projectDetailedLocations = project.GetProjectLocationDetails().ToList();
+                foreach (var currentAoiLocation in organization.MatchMakerAreaOfInterestLocations)
+                {
+                    foreach (var currentDetailedLocation in projectDetailedLocations)
+                    {
+                        if (currentDetailedLocation.GetProjectLocationGeometry()
+                            .Intersects(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry))
+                        {
+                            detailedLocationSubSubScore = 1.0;
+                        }
+                    }
+                }
+            }
+
+            
+            /*
+            // Geospatial area sub-sub-score
+            double projectGeospatialAreaSubSubScore = 0.0;
+            {
+                var projectGeospatialAreas = project.GetProjectGeospatialAreas().ToList();
+                foreach (var currentAoiLocation in organization.MatchMakerAreaOfInterestLocations)
+                {
+                    foreach (var currentProjectGeoSpatialArea in projectGeospatialAreas)
+                    {
+                        //currentProjectGeoSpatialArea.GeospatialAreaFeature
+                        if (currentProjectGeoSpatialArea.GeospatialAreaFeature is DBNull)
+                        //if (!(currentProjectGeoSpatialArea.GeospatialAreaFeature is DBNull) && (currentProjectGeoSpatialArea.GeospatialAreaFeature != null) &&
+                        //    (!(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry is DBNull)) && (currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry != null))
+                        {
+                            if (currentProjectGeoSpatialArea.GeospatialAreaFeature.Intersects(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry))
+                            {
+                                projectGeospatialAreaSubSubScore = 1.0;
+                            }
+                        }
+                    }
+                }
+            }
+            */
+            
+
+            // If any of the sub-sub scores are 1.0, the AOI sub score returns 1.0. This could be refined if needed.
+            var allSubScores = new List<double> {simpleLocationSubSubScore, detailedLocationSubSubScore/*, projectGeospatialAreaSubSubScore */};
+            return allSubScores.Max();
+        }
+
 
         public static void CheckEnsureScoreInValidRange(double scoreToCheck)
         {

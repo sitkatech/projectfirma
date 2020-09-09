@@ -301,7 +301,7 @@ namespace ProjectFirma.Web.Controllers
                     // We only save user-drawn layer info for now. Everything else (Organizational boundary) originates elsewhere.
                     if (wktAndOtherInfo.LayerSource == MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn)
                     {
-                        organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, DbGeometry.FromText(wktAndOtherInfo.Wkt)));
+                        organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, DbGeometry.FromText(wktAndOtherInfo.Wkt, 4326)));
                     }
                 }
             }

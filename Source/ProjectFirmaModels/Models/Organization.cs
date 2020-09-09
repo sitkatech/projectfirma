@@ -48,6 +48,11 @@ namespace ProjectFirmaModels.Models
 
         public FeatureCollection OrganizationBoundaryToFeatureCollection()
         {
+            if (OrganizationBoundary == null)
+            {
+                return new FeatureCollection();
+            }
+
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary);
             feature.Properties.Add(OrganizationType.OrganizationTypeName, OrganizationName);
             return new FeatureCollection(new List<Feature> { feature });
