@@ -39,8 +39,6 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using MoreLinq;
-using ProjectFirma.Web.Views.Map;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
@@ -280,7 +278,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<MatchmakerOrganizationLocationDetail, MatchmakerOrganizationLocationDetailViewData, MatchmakerOrganizationLocationDetailViewModel>(viewData, viewModel);
         }
 
-        private static string GenerateEditOrganizationMatchMakerAreaOfInterestFormID(Organization organization)
+        public static string GenerateEditOrganizationMatchMakerAreaOfInterestFormID(Organization organization)
         {
             return $"editOrganizationAreaOfInterestMap_{organization.OrganizationID}";
         }

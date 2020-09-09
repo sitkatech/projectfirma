@@ -95,6 +95,7 @@ namespace ProjectFirma.Web.Views.Organization
         public string EditProfileMatchmakerOptIn { get; }
         public string EditProfileTaxonomyUrl { get; }
         public string EditAreaOfInterestUrl { get; }
+        public string EditAreaOfInterestDialogFormID { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -221,7 +222,7 @@ namespace ProjectFirma.Web.Views.Organization
             EditProfileMatchmakerOptIn = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileMatchmakerOptIn(organization));
             EditProfileTaxonomyUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileTaxonomy(organization));
             EditAreaOfInterestUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerAreaOfInterest(organization));
-
+            EditAreaOfInterestDialogFormID = OrganizationController.GenerateEditOrganizationMatchMakerAreaOfInterestFormID(organization);
 
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
