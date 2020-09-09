@@ -32,6 +32,11 @@ namespace ProjectFirmaModels.Models
             return organizations.Where(x => x.IsActive).ToList().OrderBy(x => x.GetDisplayName()).ToList();
         }
 
+        public static List<Organization> GetMatchmakerOrganizations(this IQueryable<Organization> organizations)
+        {
+            return organizations.Where(x => x.IsActive && (x.MatchmakerOptIn ?? false)).ToList().OrderBy(x => x.GetDisplayName()).ToList();
+        }
+
         public static Organization GetOrganizationByOrganizationGuid(this IQueryable<Organization> organizations, Guid organizationGuid)
         {
             var organization = organizations.SingleOrDefault(x => x.OrganizationGuid == organizationGuid);
