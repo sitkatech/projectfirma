@@ -138,8 +138,6 @@ namespace ProjectFirma.Web.PartnerFinder
                 }
             }
 
-            
-            /*
             // Geospatial area sub-sub-score
             double projectGeospatialAreaSubSubScore = 0.0;
             {
@@ -148,24 +146,16 @@ namespace ProjectFirma.Web.PartnerFinder
                 {
                     foreach (var currentProjectGeoSpatialArea in projectGeospatialAreas)
                     {
-                        //currentProjectGeoSpatialArea.GeospatialAreaFeature
-                        if (currentProjectGeoSpatialArea.GeospatialAreaFeature is DBNull)
-                        //if (!(currentProjectGeoSpatialArea.GeospatialAreaFeature is DBNull) && (currentProjectGeoSpatialArea.GeospatialAreaFeature != null) &&
-                        //    (!(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry is DBNull)) && (currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry != null))
+                        if (currentProjectGeoSpatialArea.GeospatialAreaFeature.Intersects(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry))
                         {
-                            if (currentProjectGeoSpatialArea.GeospatialAreaFeature.Intersects(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry))
-                            {
-                                projectGeospatialAreaSubSubScore = 1.0;
-                            }
+                            projectGeospatialAreaSubSubScore = 1.0;
                         }
                     }
                 }
             }
-            */
-            
 
             // If any of the sub-sub scores are 1.0, the AOI sub score returns 1.0. This could be refined if needed.
-            var allSubScores = new List<double> {simpleLocationSubSubScore, detailedLocationSubSubScore/*, projectGeospatialAreaSubSubScore */};
+            var allSubScores = new List<double> {simpleLocationSubSubScore, detailedLocationSubSubScore, projectGeospatialAreaSubSubScore};
             return allSubScores.Max();
         }
 
