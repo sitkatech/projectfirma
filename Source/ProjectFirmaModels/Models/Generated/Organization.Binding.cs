@@ -40,7 +40,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool? matchmakerCash, bool? matchmakerInKindServices, bool? matchmakerCommercialServices, string matchmakerCashDescription, string matchmakerInKindServicesDescription, string matchmakerCommercialServicesDescription, string matchmakerConstraints, string matchmakerAdditionalInformation) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
@@ -54,6 +54,14 @@ namespace ProjectFirmaModels.Models
             this.OrganizationBoundary = organizationBoundary;
             this.Description = description;
             this.MatchmakerOptIn = matchmakerOptIn;
+            this.MatchmakerCash = matchmakerCash;
+            this.MatchmakerInKindServices = matchmakerInKindServices;
+            this.MatchmakerCommercialServices = matchmakerCommercialServices;
+            this.MatchmakerCashDescription = matchmakerCashDescription;
+            this.MatchmakerInKindServicesDescription = matchmakerInKindServicesDescription;
+            this.MatchmakerCommercialServicesDescription = matchmakerCommercialServicesDescription;
+            this.MatchmakerConstraints = matchmakerConstraints;
+            this.MatchmakerAdditionalInformation = matchmakerAdditionalInformation;
         }
 
         /// <summary>
@@ -258,6 +266,14 @@ namespace ProjectFirmaModels.Models
             set { Description = value?.ToString(); }
         }
         public bool? MatchmakerOptIn { get; set; }
+        public bool? MatchmakerCash { get; set; }
+        public bool? MatchmakerInKindServices { get; set; }
+        public bool? MatchmakerCommercialServices { get; set; }
+        public string MatchmakerCashDescription { get; set; }
+        public string MatchmakerInKindServicesDescription { get; set; }
+        public string MatchmakerCommercialServicesDescription { get; set; }
+        public string MatchmakerConstraints { get; set; }
+        public string MatchmakerAdditionalInformation { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
@@ -281,6 +297,11 @@ namespace ProjectFirmaModels.Models
             public const int OrganizationName = 200;
             public const int OrganizationShortName = 50;
             public const int OrganizationUrl = 200;
+            public const int MatchmakerCashDescription = 300;
+            public const int MatchmakerInKindServicesDescription = 300;
+            public const int MatchmakerCommercialServicesDescription = 300;
+            public const int MatchmakerConstraints = 300;
+            public const int MatchmakerAdditionalInformation = 300;
         }
     }
 }

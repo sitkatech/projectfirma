@@ -307,6 +307,9 @@ namespace ProjectFirmaModels.Models
         CustomPageViewableBy = 357,
         EnableMatchmaker = 358,
         GeospatialAreaMapLayerDisplayAsReferenceLayer = 359,
-        MatchScore = 360
+        MatchScore = 360,
+        OrganizationCash = 361,
+        OrganizationInKindServices = 362,
+        OrganizationCommercialServices = 363
     }
 }

@@ -16,6 +16,14 @@ CREATE TABLE [dbo].[Organization](
 	[OrganizationBoundary] [geometry] NULL,
 	[Description] [dbo].[html] NULL,
 	[MatchmakerOptIn] [bit] NULL,
+	[MatchmakerCash] [bit] NULL,
+	[MatchmakerInKindServices] [bit] NULL,
+	[MatchmakerCommercialServices] [bit] NULL,
+	[MatchmakerCashDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MatchmakerInKindServicesDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MatchmakerCommercialServicesDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MatchmakerConstraints] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MatchmakerAdditionalInformation] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
