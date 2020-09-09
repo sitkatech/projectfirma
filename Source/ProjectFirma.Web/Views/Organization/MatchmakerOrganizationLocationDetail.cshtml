@@ -42,10 +42,10 @@ Source code is available upon request via <support@sitkatech.com>.
    </ul>
    <div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true) Use Organization Boundary</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue()" }) Use Organization Boundary</label>
       </div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false) Draw Custom Boundary</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue()" }) Draw Custom Boundary</label>
       </div>
    </div>
 </p>
@@ -133,7 +133,7 @@ Source code is available upon request via <support@sitkatech.com>.
     var projectFirmaMap;
     jQuery(document).ready(function()
     {
-        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+       var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
         var editableFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.EditableLayerGeoJson).ToString(Formatting.None));
         projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
 
@@ -174,8 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
         };
 
         var layerGroup = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
-            onEachFeature: function(feature, layer)
-            {
+            onEachFeature: function(feature, layer) {
                 if (layer.getLayers)
                 {
                     layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
@@ -199,7 +198,7 @@ Source code is available upon request via <support@sitkatech.com>.
             projectFirmaMap.editableFeatureGroup.addLayer(layer);
             var leafletId = layer._leaflet_id;
             projectFirmaMap.editableFeatureGroup._layers[leafletId].feature = new Object();
-            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.properties = new Object();
+            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.properties = { LayerSource: "userCreatedPolygon"};
             projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.type = "Feature";
             var feature = projectFirmaMap.editableFeatureGroup._layers[leafletId].feature;
             bindAnnotationPopup(layer, feature);
@@ -234,29 +233,50 @@ Source code is available upon request via <support@sitkatech.com>.
     ProjectFirmaMaps.Map.prototype.getTextAreaId = function(featureId) { return "textareaFor" + featureId; };
 
 
-    function savePopupAnnotationEditor(featureId)
-    {
-        var textBoxForPopup = jQuery("#" + projectFirmaMap.getTextAreaId(featureId));
-        projectFirmaMap.editableFeatureGroup._layers[featureId].feature.properties.Info = textBoxForPopup.val();
-        projectFirmaMap.map.closePopup();
-        updateFeatureCollectionJson();
+    function savePopupAnnotationEditor(featureId) {
+       var textBoxForPopup = jQuery("#" + projectFirmaMap.getTextAreaId(featureId));
+       projectFirmaMap.editableFeatureGroup._layers[featureId].feature.properties.Info = textBoxForPopup.val();
+       projectFirmaMap.map.closePopup();
+       updateFeatureCollectionJson();
     }
 
-    function updateFeatureCollectionJson()
-    {
-        var geoJson = projectFirmaMap.editableFeatureGroup.toGeoJSON();
-        var mapForm = jQuery("#" + "@ViewDataTyped.MapFormID");
-        mapForm.html("");
-        var hiddens = [];
-        for(var i = 0; i < geoJson.features.length; ++i)
-        {
-            var currentWktName = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Wkt)\"".replace("0", i);
-            var currentWktAnnotation = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Annotation)\"".replace("0", i);
-            hiddens.push("<input type=\"hidden\" " + currentWktName + " value=\"" + Terraformer.WKT.convert(geoJson.features[i].geometry) + "\" />");
-            hiddens.push("<input type=\"hidden\" " + currentWktAnnotation + " value=\"" + Sitka.Methods.htmlEncode(geoJson.features[i].properties.Info) + "\" />");
-        }
-        mapForm.html(hiddens.join("\r\n"));
+    function updateFeatureCollectionJson() {
+       var geoJson = projectFirmaMap.editableFeatureGroup.toGeoJSON();
+       var mapForm = jQuery("#" + "@ViewDataTyped.MapFormID");
+       mapForm.html("");
+       var hiddens = [];
+       for (var i = 0; i < geoJson.features.length; ++i) {
+          var currentWktName = "name=\"@Html.NameFor(x => x.WktAndOtherInfos[0].Wkt)\"".replace("0", i);
+          var currentWktAnnotationName = "name=\"@Html.NameFor(x => x.WktAndOtherInfos[0].Annotation)\"".replace("0", i);
+          var currentWktLayerSourceName = "name=\"@Html.NameFor(x => x.WktAndOtherInfos[0].LayerSource)\"".replace("0", i);
+
+          //console.log('currentWktName:' + currentWktName);
+          //console.log('currentWktAnnotationName:' + currentWktAnnotationName);
+
+          var currentWktValue = Terraformer.WKT.convert(geoJson.features[i].geometry);
+          var currentWktAnnotationValue = Sitka.Methods.htmlEncode(geoJson.features[i].properties.Info);
+          var currentWktLayerSourceValue = Sitka.Methods.htmlEncode(geoJson.features[i].properties.LayerSource);
+
+          //debugger;
+          //console.log('currentWktValue:' + currentWktValue);
+          //console.log('currentWktAnnotationValue:' + currentWktAnnotationValue);
+          //console.log('geoJson.features[i]:' + geoJson.features[i]);
+
+          hiddens.push("<input type=\"hidden\" " + currentWktName + " value=\"" + currentWktValue + "\" />");
+          hiddens.push("<input type=\"hidden\" " + currentWktAnnotationName + " value=\"" + currentWktAnnotationValue + "\" />");
+          hiddens.push("<input type=\"hidden\" " + currentWktLayerSourceName + " value=\"" + currentWktLayerSourceValue + "\" />");
+       }
+       var radioButtonValue = jQuery("#@Html.IdFor(m => m.UseOrganizationBoundaryForMatchmaker):checked").val();
+       var radioButtonName = "name=\"@Html.NameFor(x => x.UseOrganizationBoundaryForMatchmaker)\"";
+       hiddens.push("<input type=\"hidden\" " + radioButtonName + " value=\"" + Sitka.Methods.htmlEncode(radioButtonValue) + "\" />");
+
+       mapForm.html(hiddens.join("\r\n"));
     }
+
+   function updateRadioButtonValue()
+   {
+       updateFeatureCollectionJson();
+   }
 </script>
 
 <form method="POST" id="@ViewDataTyped.MapFormID" action="@ViewDataTyped.SaveFeatureCollectionUrl"></form>

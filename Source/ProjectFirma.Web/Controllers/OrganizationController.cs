@@ -227,21 +227,6 @@ namespace ProjectFirma.Web.Controllers
 
         #region Matchmaker Area of Interest
 
-        //[HttpGet]
-        //[OrganizationProfileViewEditFeature]
-        //public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
-        //{
-        //    //var organization = organizationPrimaryKey.EntityObject;
-        //    //var taxonomyCompoundKeys = new List<string>();
-        //    //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyTrunks.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Trunk, x.TaxonomyTrunkID)));
-        //    //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyBranches.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Branch, x.TaxonomyBranchID)));
-        //    //taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Leaf, x.TaxonomyLeafID)));
-
-        //    //var viewModel = new EditProfileTaxonomyViewModel(organization, taxonomyCompoundKeys);
-        //    //return ViewEditProfileTaxonomy(viewModel);
-        //    return null;
-        //}
-
         [HttpGet]
         [OrganizationProfileViewEditFeature]
         public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
@@ -296,6 +281,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
             }
+            organization.UseOrganizationBoundaryForMatchmaker = viewModel.UseOrganizationBoundaryForMatchmaker;
             SaveOrganizationAreaOfInterestDetailedLocations(viewModel, organization);
             return new ModalDialogFormJsonResult();
         }

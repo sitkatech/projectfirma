@@ -5,10 +5,15 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class MatchmakerOrganizationLocationDetailViewModel : FormViewModel
     {
-        public class WktAndAnnotation
+        public MatchmakerOrganizationLocationDetailViewModel()
+        {
+        }
+
+        public class WktAndOtherInfo
         {
             public string Wkt { get; set; }
             public string Annotation { get; set; }
+            public string LayerSource { get; set; }
         }
 
         public MatchmakerOrganizationLocationDetailViewModel(ProjectFirmaModels.Models.Organization organization)
@@ -16,7 +21,7 @@ namespace ProjectFirma.Web.Views.Organization
             UseOrganizationBoundaryForMatchmaker = organization.UseOrganizationBoundaryForMatchmaker;
         }
 
-        public List<WktAndAnnotation> WktAndAnnotations { get; set; }
+        public List<WktAndOtherInfo> WktAndOtherInfos { get; set; }
         public bool UseOrganizationBoundaryForMatchmaker { get; set; }
     }
 }
