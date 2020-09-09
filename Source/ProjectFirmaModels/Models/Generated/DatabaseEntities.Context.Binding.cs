@@ -88,6 +88,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
+            modelBuilder.Configurations.Add(new MatchMakerAreaOfInterestLocationConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyBranchConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyTrunkConfiguration());
@@ -291,6 +292,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchMakerAreaOfInterestLocation> AllMatchMakerAreaOfInterestLocations { get; set; }
+        public virtual IQueryable<MatchMakerAreaOfInterestLocation> MatchMakerAreaOfInterestLocations { get { return AllMatchMakerAreaOfInterestLocations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyBranch> AllMatchmakerOrganizationTaxonomyBranches { get; set; }
         public virtual IQueryable<MatchmakerOrganizationTaxonomyBranch> MatchmakerOrganizationTaxonomyBranches { get { return AllMatchmakerOrganizationTaxonomyBranches.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyLeaf> AllMatchmakerOrganizationTaxonomyLeafs { get; set; }
@@ -735,6 +738,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
+
+                case "MatchMakerAreaOfInterestLocation":
+                    return MatchMakerAreaOfInterestLocations.GetMatchMakerAreaOfInterestLocation(primaryKey);
 
                 case "MatchmakerOrganizationTaxonomyBranch":
                     return MatchmakerOrganizationTaxonomyBranches.GetMatchmakerOrganizationTaxonomyBranch(primaryKey);

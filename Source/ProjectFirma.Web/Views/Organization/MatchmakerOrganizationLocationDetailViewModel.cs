@@ -11,6 +11,8 @@ namespace ProjectFirma.Web.Views.Organization
 
         public class WktAndOtherInfo
         {
+            public static string LayerSourceUserDrawn = "LayerSourceUserDrawn";
+            
             public string Wkt { get; set; }
             public string Annotation { get; set; }
             public string LayerSource { get; set; }

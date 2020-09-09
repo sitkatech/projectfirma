@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Organization
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Organization.MatchmakerOrganizationLocationDetail
 
@@ -198,7 +199,7 @@ Source code is available upon request via <support@sitkatech.com>.
             projectFirmaMap.editableFeatureGroup.addLayer(layer);
             var leafletId = layer._leaflet_id;
             projectFirmaMap.editableFeatureGroup._layers[leafletId].feature = new Object();
-            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.properties = { LayerSource: "userCreatedPolygon"};
+            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.properties = { LayerSource: "@MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn"};
             projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.type = "Feature";
             var feature = projectFirmaMap.editableFeatureGroup._layers[leafletId].feature;
             bindAnnotationPopup(layer, feature);

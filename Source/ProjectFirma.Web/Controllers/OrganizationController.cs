@@ -289,20 +289,23 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization)
         {
-            // TODO - where are we saving these?
-            /*
-            foreach (var organizationLocation in organization.ProjectLocations.ToList())
+            foreach (var organizationLocation in organization.MatchMakerAreaOfInterestLocations.ToList())
             {
-                projectLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                organizationLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
-            if (viewModel.WktAndAnnotations != null)
+
+            if (viewModel.WktAndOtherInfos != null)
             {
-                foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)
+                foreach (var wktAndOtherInfo in viewModel.WktAndOtherInfos)
                 {
-                    project.ProjectLocations.Add(new ProjectLocation(project, DbGeometry.FromText(wktAndAnnotation.Wkt), wktAndAnnotation.Annotation));
+                    // We only save user-drawn layer info for now. Everything else (Organizational boundary) originates elsewhere.
+                    if (wktAndOtherInfo.LayerSource == MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn)
+                    {
+                        organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, DbGeometry.FromText(wktAndOtherInfo.Wkt)));
+                    }
                 }
             }
-            */
+            
         }
 
 
