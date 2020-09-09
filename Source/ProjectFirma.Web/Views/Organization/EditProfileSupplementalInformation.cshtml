@@ -44,7 +44,7 @@
                 @Html.Label(string.Format("{0} Description", FieldDefinitionEnum.OrganizationCash.ToType().GetFieldDefinitionLabel()))
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerCashDescription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerCashDescription, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
                 @Html.ValidationMessageFor(m => m.MatchmakerCashDescription)
             </div>
         </div>
@@ -62,7 +62,7 @@
                 @Html.Label(string.Format("{0} Description", FieldDefinitionEnum.OrganizationInKindServices.ToType().GetFieldDefinitionLabel()))
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerInKindServicesDescription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerInKindServicesDescription, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
                 @Html.ValidationMessageFor(m => m.MatchmakerInKindServicesDescription)
             </div>
         </div>
@@ -80,7 +80,7 @@
                 @Html.Label(string.Format("{0} Description", FieldDefinitionEnum.OrganizationCommercialServices.ToType().GetFieldDefinitionLabel()))
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerCommercialServicesDescription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerCommercialServicesDescription, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
                 @Html.ValidationMessageFor(m => m.MatchmakerCommercialServicesDescription)
             </div>
         </div>
@@ -89,7 +89,7 @@
                 @Html.LabelWithSugarFor(m => m.MatchmakerConstraints)
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerConstraints, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerConstraints, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
                 @Html.ValidationMessageFor(m => m.MatchmakerConstraints)
             </div>
         </div>
@@ -98,10 +98,51 @@
                 @Html.LabelWithSugarFor(m => m.MatchmakerAdditionalInformation)
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerAdditionalInformation, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerAdditionalInformation, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
                 @Html.ValidationMessageFor(m => m.MatchmakerAdditionalInformation)
             </div>
         </div>
     </div>
     @Html.HiddenFor(m => m.OrganizationID)
 }
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var checkBoxCash = jQuery("#@Html.IdFor(x => x.MatchmakerCash)");
+        var checkBoxInKind = jQuery("#@Html.IdFor(x => x.MatchmakerInKindServices)");
+        var checkBoxCommercial = jQuery("#@Html.IdFor(x => x.MatchmakerCommercialServices)");
+        if (!checkBoxCash.prop("checked")) {
+            jQuery('#@Html.IdFor(m => m.MatchmakerCashDescription)').attr("readonly", "readonly");
+        }
+        if (!checkBoxInKind.prop("checked")) {
+            jQuery('#@Html.IdFor(m => m.MatchmakerInKindServicesDescription)').attr("readonly", "readonly");
+        }
+        if (!checkBoxCommercial.prop("checked")) {
+            jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServicesDescription)').attr("readonly", "readonly");
+        }
+        
+
+        jQuery('#@Html.IdFor(m => m.MatchmakerCash)').change(function () {
+            if (this.checked) {
+                jQuery('#@Html.IdFor(m => m.MatchmakerCashDescription)').attr("readonly", false);
+            } else {
+                jQuery('#@Html.IdFor(m => m.MatchmakerCashDescription)').attr("readonly", "readonly");
+            }
+        });
+
+        jQuery('#@Html.IdFor(m => m.MatchmakerInKindServices)').change(function () {
+            if (this.checked) {
+                jQuery('#@Html.IdFor(m => m.MatchmakerInKindServicesDescription)').attr("readonly", false);
+            } else {
+                jQuery('#@Html.IdFor(m => m.MatchmakerInKindServicesDescription)').attr("readonly", "readonly");
+            }
+        });
+
+        jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServices)').change(function () {
+            if (this.checked) {
+                jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServicesDescription)').attr("readonly", false);
+            } else {
+                jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServicesDescription)').attr("readonly", "readonly");
+            }
+        });
+    });
+</script>
