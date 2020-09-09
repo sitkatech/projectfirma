@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
    </ul>
    <div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue()" }) Use Organization Boundary</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue()" }) Use Organization Boundary @(!ViewDataTyped.OrganizationHasBoundary ? "(No Organization Boundary Found)" : String.Empty)</label>
       </div>
       <div>
          <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue()" }) Draw Custom Boundary</label>

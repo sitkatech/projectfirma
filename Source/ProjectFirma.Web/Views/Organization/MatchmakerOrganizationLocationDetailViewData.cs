@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class MatchmakerOrganizationLocationDetailViewData : FirmaUserControlViewData
     {
-        public readonly int ProjectID;
+        public readonly ProjectFirmaModels.Models.Organization Organization;
         //public readonly bool HasProjectLocationPoint;
         public readonly MapInitJson MapInitJson;
         public readonly LayerGeoJson EditableLayerGeoJson;
@@ -36,8 +36,9 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string SaveFeatureCollectionUrl;
         public readonly int AnnotationMaxLength;
         public readonly string SimplePointMarkerImg;
+        public readonly bool OrganizationHasBoundary;
 
-        public MatchmakerOrganizationLocationDetailViewData(int projectID, 
+        public MatchmakerOrganizationLocationDetailViewData(ProjectFirmaModels.Models.Organization organization, 
                                                             MapInitJson mapInitJson, 
                                                             LayerGeoJson editableLayerGeoJson, 
                                                             //string uploadGisFileUrl, 
@@ -46,7 +47,7 @@ namespace ProjectFirma.Web.Views.Organization
                                                             int annotationMaxLength
                                                             /*,bool hasProjectLocationPoint*/)
         {
-            ProjectID = projectID;
+            Organization = organization;
             MapInitJson = mapInitJson;
             EditableLayerGeoJson = editableLayerGeoJson;
             //UploadGisFileUrl = uploadGisFileUrl;
@@ -56,6 +57,7 @@ namespace ProjectFirma.Web.Views.Organization
             //HasProjectLocationPoint = hasProjectLocationPoint;
 
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
+            OrganizationHasBoundary = Organization.OrganizationBoundary != null;
         }
     }
 }

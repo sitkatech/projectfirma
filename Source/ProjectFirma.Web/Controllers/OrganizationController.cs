@@ -260,7 +260,7 @@ namespace ProjectFirma.Web.Controllers
 
             //var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
 
-            var viewData = new MatchmakerOrganizationLocationDetailViewData(organization.OrganizationID, mapInitJson, editableLayerGeoJson, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation);
+            var viewData = new MatchmakerOrganizationLocationDetailViewData(organization, mapInitJson, editableLayerGeoJson, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation);
             return RazorPartialView<MatchmakerOrganizationLocationDetail, MatchmakerOrganizationLocationDetailViewData, MatchmakerOrganizationLocationDetailViewModel>(viewData, viewModel);
         }
 
