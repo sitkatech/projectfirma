@@ -147,14 +147,14 @@ namespace ProjectFirma.Web.PartnerFinder
 
         /// <summary>
         /// Get all the scores for a particular Project.
-        /// Will consider every active Organization for now; this is just a guess.
+        /// Will consider every active Organization that has Opted-in for the matchmaker for now; this is just a guess.
         /// </summary>
         /// <param name="currentFirmaSession"></param>
         /// <param name="project"></param>
         /// <returns></returns>
         public List<PartnerOrganizationMatchMakerScore> GetPartnerOrganizationMatchMakerScoresForParticularProject(FirmaSession currentFirmaSession, Project project)
         {
-            var allAppropriateOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
+            var allAppropriateOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetMatchmakerOrganizations();
             return GetPartnerOrganizationMatchMakerScores(allAppropriateOrganizations, new List<Project> {project});
         }
 

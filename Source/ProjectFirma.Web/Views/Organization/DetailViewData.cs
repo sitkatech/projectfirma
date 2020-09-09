@@ -93,6 +93,7 @@ namespace ProjectFirma.Web.Views.Organization
         public bool UserHasViewEditProfilePermission { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public string EditProfileMatchmakerOptIn { get; }
+        public string EditProfileSupplementalInformationUrl { get; }
         public string EditProfileTaxonomyUrl { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
@@ -218,6 +219,7 @@ namespace ProjectFirma.Web.Views.Organization
                 .HasPermission(currentFirmaSession, organization).HasPermission;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             EditProfileMatchmakerOptIn = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileMatchmakerOptIn(organization));
+            EditProfileSupplementalInformationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileSupplementalInformation(organization));
             EditProfileTaxonomyUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileTaxonomy(organization));
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();

@@ -31,15 +31,26 @@
    <br/>
    <table class="summaryLayout table table-condensed table-striped">
       <tr>
-         <th class="col-sm-8">Partner Organization</th>
+         <th class="col-sm-6">Partner Organization</th>
+         <th class="col-sm-4">Resources</th>
          <th class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.MatchScore.ToType())</th>
       </tr>
       @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores)
       {
          <tr>
             <td>
-               @matchMakerScore.Organization.GetDisplayNameWithoutAbbreviationAsUrl()
+               @matchMakerScore.Organization.GetDisplayNameWithoutAbbreviationAsProfileTabUrl()
             </td>
+             <td>
+                 @if (matchMakerScore.Organization.GetMatchmakerResourcesAsString() == null)
+                 {
+                     <span class="systemText">none specified</span>
+                 }
+                 else
+                 {
+                     @matchMakerScore.Organization.GetMatchmakerResourcesAsString()
+                 }
+             </td> 
             <td>
                @matchMakerScore.GetProjectOrganizationFitnessScoreNumberDisplayString()
             </td>

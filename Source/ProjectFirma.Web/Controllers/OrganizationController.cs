@@ -164,6 +164,36 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditProfileSupplementalInformation(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new EditProfileSupplementalInformationViewModel(organization);
+            return ViewEditProfileSupplementalInformation(viewModel);
+        }
+
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditProfileSupplementalInformation(OrganizationPrimaryKey organizationPrimaryKey, EditProfileSupplementalInformationViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditProfileSupplementalInformation(viewModel);
+            }
+
+            viewModel.UpdateModel(organization);
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
+        }
+
+        private PartialViewResult ViewEditProfileSupplementalInformation(EditProfileSupplementalInformationViewModel viewModel)
+        {
+            var viewData = new EditProfileSupplementalInformationViewData();
+            return RazorPartialView<EditProfileSupplementalInformation, EditProfileSupplementalInformationViewData, EditProfileSupplementalInformationViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
         public PartialViewResult EditProfileTaxonomy(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
