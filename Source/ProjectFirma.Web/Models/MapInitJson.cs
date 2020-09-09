@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using GeoJSON.Net.Feature;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -31,8 +32,6 @@ namespace ProjectFirma.Web.Models
 {
     public class MapInitJson
     {
-        public const int CoordinateSystemId = 4326;
-
         public string MapDivID;
         public BoundingBox BoundingBox;
         public int ZoomLevel;

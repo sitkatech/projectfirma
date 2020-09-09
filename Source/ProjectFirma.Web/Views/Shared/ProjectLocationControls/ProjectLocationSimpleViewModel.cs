@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             {                
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
                 case ProjectLocationSimpleTypeEnum.LatLngInput:
-                    project.ProjectLocationPoint = DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, MapInitJson.CoordinateSystemId);
+                    project.ProjectLocationPoint = DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
                     break;
                 case ProjectLocationSimpleTypeEnum.None:
                     project.ProjectLocationPoint = null;

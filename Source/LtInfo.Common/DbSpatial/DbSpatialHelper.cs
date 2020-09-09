@@ -41,7 +41,7 @@ namespace LtInfo.Common.DbSpatial
         {
             var longitude = GetRepresentativeXCoordinate(geometry);
             var latitude = GetRepresentativeYCoordinate(geometry);
-            var coordinateSystemId = geometry.CoordinateSystemId == 0 ? Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId : geometry.CoordinateSystemId;
+            var coordinateSystemId = geometry.CoordinateSystemId == 0 ? LtInfoGeometryConfiguration.DefaultCoordinateSystemId : geometry.CoordinateSystemId;
 
             var geography = MakeDbGeographyFromLatLon(longitude, latitude - 0.5, coordinateSystemId);
 
@@ -56,7 +56,7 @@ namespace LtInfo.Common.DbSpatial
         {
             var longitude = GetRepresentativeXCoordinate(geometry);
             var latitude = GetRepresentativeYCoordinate(geometry);
-            var coordinateSystemId = geometry.CoordinateSystemId == 0 ? Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId : geometry.CoordinateSystemId;
+            var coordinateSystemId = geometry.CoordinateSystemId == 0 ? LtInfoGeometryConfiguration.DefaultCoordinateSystemId : geometry.CoordinateSystemId;
 
             var geography = MakeDbGeographyFromLatLon(longitude - 0.5, latitude, coordinateSystemId);
 

@@ -26,6 +26,7 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
@@ -304,7 +305,7 @@ namespace ProjectFirma.Web.Models
         public static List<OrganizationBoundaryStaging> CreateOrganizationBoundaryStagingStagingListFromGdb(FileInfo gisFile, string originalFilename, Organization organization)
         {
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
-                Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
+                LtInfoGeometryConfiguration.DefaultCoordinateSystemId,
                 FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
             var geoJsons =
