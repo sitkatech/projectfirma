@@ -1,0 +1,148 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditProfileSupplementalInformation.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Organization.EditProfileSupplementalInformation
+@using (Html.BeginForm())
+{
+    <p>
+        To help @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() proponents better understand the types of services or support your organization may be able to provide, complete the information below. When viewing the ‘Potential Partners’ list, @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() proponents will be able to see the Resource options you select below.
+        Any additional text you enter will display on your Profile page and should help proponents determine if your organization is in fact a potential match.
+    </p>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.MatchmakerCash)
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.MatchmakerCash)
+                @Html.ValidationMessageFor(m => m.MatchmakerCash)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.Label(string.Format("{0} Description", FieldDefinitionEnum.OrganizationCash.ToType().GetFieldDefinitionLabel()))
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerCashDescription, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
+                @Html.ValidationMessageFor(m => m.MatchmakerCashDescription)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.MatchmakerInKindServices)
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.MatchmakerInKindServices)
+                @Html.ValidationMessageFor(m => m.MatchmakerInKindServices)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.Label(string.Format("{0} Description", FieldDefinitionEnum.OrganizationInKindServices.ToType().GetFieldDefinitionLabel()))
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerInKindServicesDescription, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
+                @Html.ValidationMessageFor(m => m.MatchmakerInKindServicesDescription)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.MatchmakerCommercialServices)
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.MatchmakerCommercialServices)
+                @Html.ValidationMessageFor(m => m.MatchmakerCommercialServices)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.Label(string.Format("{0} Description", FieldDefinitionEnum.OrganizationCommercialServices.ToType().GetFieldDefinitionLabel()))
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerCommercialServicesDescription, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
+                @Html.ValidationMessageFor(m => m.MatchmakerCommercialServicesDescription)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.MatchmakerConstraints)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerConstraints, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
+                @Html.ValidationMessageFor(m => m.MatchmakerConstraints)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.MatchmakerAdditionalInformation)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.MatchmakerAdditionalInformation, new TextAreaForExtensions.TextAreaDimensions(null, 2), null, new List<string> {"form-control"})
+                @Html.ValidationMessageFor(m => m.MatchmakerAdditionalInformation)
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.OrganizationID)
+}
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        var checkBoxCash = jQuery("#@Html.IdFor(x => x.MatchmakerCash)");
+        var checkBoxInKind = jQuery("#@Html.IdFor(x => x.MatchmakerInKindServices)");
+        var checkBoxCommercial = jQuery("#@Html.IdFor(x => x.MatchmakerCommercialServices)");
+        if (!checkBoxCash.prop("checked")) {
+            jQuery('#@Html.IdFor(m => m.MatchmakerCashDescription)').attr("readonly", "readonly");
+        }
+        if (!checkBoxInKind.prop("checked")) {
+            jQuery('#@Html.IdFor(m => m.MatchmakerInKindServicesDescription)').attr("readonly", "readonly");
+        }
+        if (!checkBoxCommercial.prop("checked")) {
+            jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServicesDescription)').attr("readonly", "readonly");
+        }
+        
+
+        jQuery('#@Html.IdFor(m => m.MatchmakerCash)').change(function () {
+            if (this.checked) {
+                jQuery('#@Html.IdFor(m => m.MatchmakerCashDescription)').attr("readonly", false);
+            } else {
+                jQuery('#@Html.IdFor(m => m.MatchmakerCashDescription)').attr("readonly", "readonly");
+            }
+        });
+
+        jQuery('#@Html.IdFor(m => m.MatchmakerInKindServices)').change(function () {
+            if (this.checked) {
+                jQuery('#@Html.IdFor(m => m.MatchmakerInKindServicesDescription)').attr("readonly", false);
+            } else {
+                jQuery('#@Html.IdFor(m => m.MatchmakerInKindServicesDescription)').attr("readonly", "readonly");
+            }
+        });
+
+        jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServices)').change(function () {
+            if (this.checked) {
+                jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServicesDescription)').attr("readonly", false);
+            } else {
+                jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServicesDescription)').attr("readonly", "readonly");
+            }
+        });
+    });
+</script>

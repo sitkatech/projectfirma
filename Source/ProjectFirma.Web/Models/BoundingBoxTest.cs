@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using LtInfo.Common;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GdalOgr;
 using NUnit.Framework;
 
@@ -29,8 +30,6 @@ namespace ProjectFirma.Web.Models
     [TestFixture]
     public class BoundingBoxTest
     {
-        private const int CoordinateSystemId = 4326;
-
         [Test]
         public void CanCreateBoundingBoxFromGeoJson()
         {
@@ -40,7 +39,7 @@ namespace ProjectFirma.Web.Models
             // ---
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";
-            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, CoordinateSystemId, totalMilliseconds);
+            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, LtInfoGeometryConfiguration.DefaultCoordinateSystemId, totalMilliseconds);
             var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName, true);
 
             // Act

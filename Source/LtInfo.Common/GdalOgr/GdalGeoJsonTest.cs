@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.DbSpatial;
 using NUnit.Framework;
 
 namespace LtInfo.Common.GdalOgr
@@ -27,8 +28,6 @@ namespace LtInfo.Common.GdalOgr
     [TestFixture]
     public class GdalGeoJsonTest
     {
-        private const int CoordinateSystemId = 4326;
-        
         [Test]
         public void CanReadColumnNamesFromGeoJsonString()
         {
@@ -38,7 +37,7 @@ namespace LtInfo.Common.GdalOgr
             const string sourceLayerName = "MySampleFeatureClass";
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";
-            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, GdalGeoJsonTest.CoordinateSystemId, totalMilliseconds);
+            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, LtInfoGeometryConfiguration.DefaultCoordinateSystemId, totalMilliseconds);
 
             // Act
             // ---

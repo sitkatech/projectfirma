@@ -1,1 +1,0 @@
-﻿alter table dbo.Organization add MatchmakerOptIn bit null

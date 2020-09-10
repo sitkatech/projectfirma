@@ -26,6 +26,7 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
@@ -35,6 +36,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
+using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 
 namespace ProjectFirma.Web.Models
 {
@@ -72,6 +74,18 @@ namespace ProjectFirma.Web.Models
         public static string GetDetailUrl(this Organization organization)
         {
             return organization == null ? "" : SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
+        }
+
+        public static readonly UrlTemplate<int> DetailProfileTabUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, DetailViewData.OrganizationDetailTab.Profile)));
+        public static string GetDetailProfileTabUrl(this Organization organization)
+        {
+            return organization == null ? "" : DetailProfileTabUrlTemplate.ParameterReplace(organization.OrganizationID);
+        }
+        public static HtmlString GetDisplayNameWithoutAbbreviationAsProfileTabUrl(this Organization organization)
+        {
+            return organization != null
+                ? UrlTemplate.MakeHrefString(organization.GetDetailProfileTabUrl(), organization.GetDisplayNameWithoutAbbreviation())
+                : new HtmlString(null);
         }
 
         public static string GetDisplayNameWithoutAbbreviation(this Organization organization) => organization.IsUnknown()
@@ -291,7 +305,7 @@ namespace ProjectFirma.Web.Models
         public static List<OrganizationBoundaryStaging> CreateOrganizationBoundaryStagingStagingListFromGdb(FileInfo gisFile, string originalFilename, Organization organization)
         {
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
-                Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
+                LtInfoGeometryConfiguration.DefaultCoordinateSystemId,
                 FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
             var geoJsons =
@@ -345,6 +359,30 @@ namespace ProjectFirma.Web.Models
         private static bool HasMatchmakerTaxonomyContent(this Organization organization)
         {
             return organization.MatchmakerOrganizationTaxonomyLeafs.Any() || organization.MatchmakerOrganizationTaxonomyBranches.Any() || organization.MatchmakerOrganizationTaxonomyTrunks.Any();
+        }
+
+        public static string GetMatchmakerResourcesAsString(this Organization organization)
+        {
+            var resourcesSelected = new List<string>();
+            if (organization.MatchmakerCash ?? false)
+            {
+                resourcesSelected.Add(FieldDefinitionEnum.OrganizationCash.ToType().GetFieldDefinitionLabel());
+            }
+            if (organization.MatchmakerInKindServices ?? false)
+            {
+                resourcesSelected.Add(FieldDefinitionEnum.OrganizationInKindServices.ToType().GetFieldDefinitionLabel());
+            }
+            if (organization.MatchmakerCommercialServices ?? false)
+            {
+                resourcesSelected.Add(FieldDefinitionEnum.OrganizationCommercialServices.ToType().GetFieldDefinitionLabel());
+            }
+
+            if (resourcesSelected.Any())
+            {
+                return string.Join(", ", resourcesSelected);
+            }
+
+            return null;
         }
     }
 }

@@ -275,7 +275,7 @@
                                             <div class="col-xs-6">
                                                 @if (ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions)
                                                 {
-                                                    <span style="margin-right: 5px">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationPrimaryContactUrl, string.Format("Edit {0} for {1}", FieldDefinitionEnum.OrganizationPrimaryContact.ToType().FieldDefinitionDisplayName, ViewDataTyped.Organization.OrganizationName), 800, ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions)</span>
+                                                    <span style="margin-right: 5px">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationPrimaryContactUrl, string.Format("Edit {0} for {1}", FieldDefinitionEnum.OrganizationPrimaryContact.ToType().FieldDefinitionDisplayName, ViewDataTyped.Organization.OrganizationName), 800, ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions, null)</span>
                                                 }
                                                 @ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl(ViewDataTyped.CurrentFirmaSession)
                                             </div>
@@ -692,12 +692,100 @@
                         The Matchmaker service finds @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match your profile - the more complete and accurate your profile, the better matches it can make. You may opt-in or out of the Matchmaker service at any time.
                     </p>
                 }
-                <div class="row" style="margin-bottom: 20px">
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-xs-12">
+                        <h4>Resources Available (Demand)</h4>
+                        <p>This organization may be able to provide @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() with the following resources, but may also have some limitations.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileSupplementalInformationUrl, "Edit Matchmaker Resources & Constraints", ViewDataTyped.UserHasViewEditProfilePermission)
+                                Resources & Constraints
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-xs-3 fieldLabel">Resources</div>
+                                            <div class="col-xs-9">
+                                                @if (ViewDataTyped.Organization.MatchmakerCash ?? false)
+                                                {
+                                                    <div style="padding-bottom: 15px;">
+                                                        <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationCash.ToType())</div>
+                                                        <div>@ViewDataTyped.Organization.MatchmakerCashDescription</div>
+                                                    </div>
+                                                }
+                                                @if (ViewDataTyped.Organization.MatchmakerInKindServices ?? false)
+                                                {
+                                                    <div style="padding-bottom: 15px;">
+                                                        <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationInKindServices.ToType())</div>
+                                                        <div>@ViewDataTyped.Organization.MatchmakerInKindServicesDescription</div>
+                                                    </div>
+                                                }
+                                                @if (ViewDataTyped.Organization.MatchmakerCommercialServices ?? false)
+                                                {
+                                                    <div style="padding-bottom: 15px;">
+                                                        <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationCommercialServices.ToType())</div>
+                                                        <div>@ViewDataTyped.Organization.MatchmakerCommercialServicesDescription</div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row" style="padding-bottom: 15px;">
+                                            <div class="col-xs-5 fieldLabel">@Html.Label("Partner Constraints")</div>
+                                            <div class="col-xs-7">@ViewDataTyped.Organization.MatchmakerConstraints</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-5 fieldLabel">@Html.Label("Additional Information")</div>
+                                            <div class="col-xs-7">@ViewDataTyped.Organization.MatchmakerAdditionalInformation</div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px">
                     <div class="col-xs-12">
                         <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
                         <p>This organization is interested in supporting @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below.</p>
                     </div>
+                   <div class="col-xs-12">
+                      <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
+                      <p>This organization is interested in supporting @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below.</p>
+                   </div>
                 </div>
+
+
+                @* Areas of Interest panel *@
+                <div class="row">
+                   <div class="col-md-6">
+                      <div class="panel panelFirma">
+                         <div class="panel-heading panelTitle">
+                            @*@ModalDialogFormHelper.ModalDialogFormLink("test", ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()),500, ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)*@
+                            @*@ModalDialogFormHelper.ModalDialogFormLink("test", ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()),500, ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)*@
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
+                            @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
+                         </div>
+                         <div class="panel-body">
+                            <div>
+                                  <p class="systemText">Nothing here yet.</p>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+
+
+
+
+                @* Taxonomy Panel *@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panelFirma">

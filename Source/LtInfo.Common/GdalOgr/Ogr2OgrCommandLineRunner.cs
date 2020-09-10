@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 
 namespace LtInfo.Common.GdalOgr
@@ -32,7 +33,6 @@ namespace LtInfo.Common.GdalOgr
     /// </summary>
     public class Ogr2OgrCommandLineRunner
     {
-        public const int DefaultCoordinateSystemId = 4326;
         public const int DefaultTimeOut = 110000;
 
         private readonly FileInfo _ogr2OgrExecutable;

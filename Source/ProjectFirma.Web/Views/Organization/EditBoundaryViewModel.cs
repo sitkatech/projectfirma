@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
@@ -45,7 +46,7 @@ namespace ProjectFirma.Web.Views.Organization
                 FileResourceData.SaveAs(gdbFile.FullName);
 
                 var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
-                    Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
+                    LtInfoGeometryConfiguration.DefaultCoordinateSystemId,
                     FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
                 List<string> featureClassNames = null;

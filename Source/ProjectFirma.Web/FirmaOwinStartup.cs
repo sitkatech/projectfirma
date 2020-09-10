@@ -248,7 +248,7 @@ namespace ProjectFirma.Web
                     SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" HttpRequestStorage.DatabaseEntities.Organizations count: {HttpRequestStorage.DatabaseEntities.Organizations.Count()}");
 
                     var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
-                    organization = new Organization(keystoneUserClaims.OrganizationName, true, defaultOrganizationType);
+                    organization = new Organization(keystoneUserClaims.OrganizationName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault);
                     HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
                     sendNewOrganizationNotification = true;
                 }
