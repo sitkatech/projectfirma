@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         {
             FieldDefinitionDataValue = fieldDefinitionData?.FieldDefinitionDataValueHtmlString;
             FieldDefinitionLabel = fieldDefinitionData?.FieldDefinitionLabel;
-            FieldDefinitionDefault = fieldDefinitionDefault.DefaultDefinitionHtmlString;
+            FieldDefinitionDefault = fieldDefinitionDefault != null && !string.IsNullOrWhiteSpace(fieldDefinitionDefault.DefaultDefinition) ? fieldDefinitionDefault.DefaultDefinitionHtmlString : new HtmlString("<p><em>not defined</em></p>");
         }
 
         public void UpdateModel(FieldDefinitionData fieldDefinitionData, FieldDefinitionDefault fieldDefinitionDefault, DatabaseEntities databaseEntities)
