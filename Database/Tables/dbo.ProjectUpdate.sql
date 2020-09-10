@@ -77,3 +77,7 @@ GO
 ALTER TABLE [dbo].[ProjectUpdate]  WITH CHECK ADD  CONSTRAINT [CK_ProjectUpdate_ProjectLocationPoint_IsPointData] CHECK  (([ProjectLocationPoint] IS NULL OR [ProjectLocationPoint] IS NOT NULL AND [ProjectLocationPoint].[STGeometryType]()='Point'))
 GO
 ALTER TABLE [dbo].[ProjectUpdate] CHECK CONSTRAINT [CK_ProjectUpdate_ProjectLocationPoint_IsPointData]
+GO
+ALTER TABLE [dbo].[ProjectUpdate]  WITH CHECK ADD  CONSTRAINT [CK_ProjectUpdate_ProjectLocationPoint_SpatialReferenceID_Must_Be_4326] CHECK  (([ProjectLocationPoint] IS NULL OR [ProjectLocationPoint].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[ProjectUpdate] CHECK CONSTRAINT [CK_ProjectUpdate_ProjectLocationPoint_SpatialReferenceID_Must_Be_4326]

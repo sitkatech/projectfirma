@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
@@ -161,6 +162,8 @@ namespace ProjectFirma.Web.PartnerFinder
                     {
                         simpleLocationSubSubScore = 1.0;
                         localMatchInsights.Add($"Simple Location intersection ");
+                        // One is enough to score the subscore maximally
+                        break;
                     }
                 }
             }
@@ -173,10 +176,13 @@ namespace ProjectFirma.Web.PartnerFinder
                 {
                     foreach (var currentDetailedLocation in projectDetailedLocations)
                     {
-                        if (currentDetailedLocation.GetProjectLocationGeometry().Intersects(currentOrgDbGeometry))
+                        DbGeometry currentProjectLocationGeometry = currentDetailedLocation.GetProjectLocationGeometry();
+                        if (currentProjectLocationGeometry.Intersects(currentOrgDbGeometry))
                         {
                             detailedLocationSubSubScore = 1.0;
                             localMatchInsights.Add($"Detailed Location intersection ");
+                            // One is enough to score the subscore maximally
+                            break;
                         }
                     }
                 }
@@ -194,6 +200,8 @@ namespace ProjectFirma.Web.PartnerFinder
                         {
                             projectGeospatialAreaSubSubScore = 1.0;
                             localMatchInsights.Add($"Geospatial Area intersection ");
+                            // One is enough to score the subscore maximally
+                            break;
                         }
                     }
                 }

@@ -84,3 +84,7 @@ ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Te
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [CK_Organization_OrganizationBoundary_SpatialReferenceID_Must_Be_4326] CHECK  (([OrganizationBoundary] IS NULL OR [OrganizationBoundary].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [CK_Organization_OrganizationBoundary_SpatialReferenceID_Must_Be_4326]

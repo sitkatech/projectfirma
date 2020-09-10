@@ -140,3 +140,7 @@ GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [CK_TenantAttribute_AssociatedPerfomanceMeasureTaxonomyLevelLessThanEqualToTaxonomyLevelID] CHECK  (([AssociatePerfomanceMeasureTaxonomyLevelID]<=[TaxonomyLevelID]))
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [CK_TenantAttribute_AssociatedPerfomanceMeasureTaxonomyLevelLessThanEqualToTaxonomyLevelID]
+GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [CK_TenantAttribute_DefaultBoundingBox_SpatialReferenceID_Must_Be_4326] CHECK  (([DefaultBoundingBox] IS NULL OR [DefaultBoundingBox].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [CK_TenantAttribute_DefaultBoundingBox_SpatialReferenceID_Must_Be_4326]
