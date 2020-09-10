@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using DocumentFormat.OpenXml.Drawing.Charts;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -106,15 +104,18 @@ namespace ProjectFirma.Web.PartnerFinder
 
         private static double GetOrganizationAreaOfInterestSubScore(Project project, Organization organization)
         {
+            // The geometries we use when matching against an Organization are configurable, and may vary, so 
+            // here we get them ready to go before trying to match against all the geospatial components.
+            var organizationDbGeometriesToUseInMatching = organization.GetDbGeometriesToUseForMatchMakerMatchingAgainstThisOrganization();
+
             // Simple Location sub-sub-score
             double simpleLocationSubSubScore = 0.0;
             {
                 var projectSimpleLocation = project.ProjectLocationPoint;
-                foreach (var currentAoiLocation in organization.MatchMakerAreaOfInterestLocations)
+                foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
                 {
                     if (projectSimpleLocation != null && 
-                        currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry != null &&
-                        projectSimpleLocation.Intersects(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry))
+                        projectSimpleLocation.Intersects(currentOrgDbGeometry))
                     {
                         simpleLocationSubSubScore = 1.0;
                     }
@@ -125,12 +126,11 @@ namespace ProjectFirma.Web.PartnerFinder
             double detailedLocationSubSubScore = 0.0;
             {
                 var projectDetailedLocations = project.GetProjectLocationDetails().ToList();
-                foreach (var currentAoiLocation in organization.MatchMakerAreaOfInterestLocations)
+                foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
                 {
                     foreach (var currentDetailedLocation in projectDetailedLocations)
                     {
-                        if (currentDetailedLocation.GetProjectLocationGeometry()
-                            .Intersects(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry))
+                        if (currentDetailedLocation.GetProjectLocationGeometry().Intersects(currentOrgDbGeometry))
                         {
                             detailedLocationSubSubScore = 1.0;
                         }
@@ -142,11 +142,11 @@ namespace ProjectFirma.Web.PartnerFinder
             double projectGeospatialAreaSubSubScore = 0.0;
             {
                 var projectGeospatialAreas = project.GetProjectGeospatialAreas().ToList();
-                foreach (var currentAoiLocation in organization.MatchMakerAreaOfInterestLocations)
+                foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
                 {
                     foreach (var currentProjectGeoSpatialArea in projectGeospatialAreas)
                     {
-                        if (currentProjectGeoSpatialArea.GeospatialAreaFeature.Intersects(currentAoiLocation.MatchMakerAreaOfInterestLocationGeometry))
+                        if (currentProjectGeoSpatialArea.GeospatialAreaFeature.Intersects(currentOrgDbGeometry))
                         {
                             projectGeospatialAreaSubSubScore = 1.0;
                         }

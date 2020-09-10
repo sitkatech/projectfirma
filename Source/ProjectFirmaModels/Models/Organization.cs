@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
+using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
@@ -93,5 +94,27 @@ namespace ProjectFirmaModels.Models
         public string GetFirmaPageDisplayName() => GetDisplayName();
 
         public bool HasPageContent() => !string.IsNullOrWhiteSpace(Description);
+
+        /// <summary>
+        /// Get the dbGeometries that should be used when doing Match Maker for this particular Organization geospatially.
+        /// </summary>
+        /// <returns></returns>
+        public List<DbGeometry> GetDbGeometriesToUseForMatchMakerMatchingAgainstThisOrganization()
+        {
+            // If the user wants to use org boundary, we just return whatever that Org boundary currently is.
+            // (We do NOT store this separately)
+            if (this.UseOrganizationBoundaryForMatchmaker)
+            {
+                if (this.OrganizationBoundary == null)
+                {
+                    return new List<DbGeometry>();
+                }
+                return new List<DbGeometry> {this.OrganizationBoundary};
+            }
+
+            // Otherwise, we use the hand-drawn boundary the user opted to use, and also drew on the map (really just one for now, but the data structure supports multiple).
+            return MatchMakerAreaOfInterestLocations.Select(aoi => aoi.MatchMakerAreaOfInterestLocationGeometry).Where(x => x != null).ToList();
+        }
+
     }
 }
