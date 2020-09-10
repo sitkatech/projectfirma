@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[Organization](
 	[OrganizationBoundary] [geometry] NULL,
 	[Description] [dbo].[html] NULL,
 	[MatchmakerOptIn] [bit] NULL,
+	[UseOrganizationBoundaryForMatchmaker] [bit] NOT NULL,
 	[MatchmakerCash] [bit] NULL,
 	[MatchmakerInKindServices] [bit] NULL,
 	[MatchmakerCommercialServices] [bit] NULL,

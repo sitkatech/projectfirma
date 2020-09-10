@@ -310,6 +310,7 @@ namespace ProjectFirmaModels.Models
         MatchScore = 360,
         OrganizationCash = 361,
         OrganizationInKindServices = 362,
-        OrganizationCommercialServices = 363
+        OrganizationCommercialServices = 363,
+        AreaOfInterest = 364
     }
 }

@@ -61,10 +61,14 @@ namespace ProjectFirma.Web.PartnerFinder
             double taxonomySubScore = GetTaxonomySubScore(project, organization);
             CheckEnsureScoreInValidRange(taxonomySubScore);
 
-            // Hardwired for just one component for the moment, but this will definitely change.
-            var numberOfComponents = 1;
+            // Organization Area of Interest SubScore
+            double areaOfInterestSubScore = GetOrganizationAreaOfInterestSubScore(project, organization);
+            CheckEnsureScoreInValidRange(areaOfInterestSubScore);
+
+            var numberOfComponents = 2;
             var weightPerSubScore = 1.0 / numberOfComponents; 
-            double scoreToReturn = taxonomySubScore * weightPerSubScore;
+            double scoreToReturn = (taxonomySubScore * weightPerSubScore) +
+                                   (areaOfInterestSubScore * weightPerSubScore);
 
             // Again, we want to be very sure score values fall between 0.0 and 1.0 inclusive.
             CheckEnsureScoreInValidRange(scoreToReturn);
@@ -97,6 +101,64 @@ namespace ProjectFirma.Web.PartnerFinder
             double taxonomySubScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
             return taxonomySubScore;
         }
+
+        private static double GetOrganizationAreaOfInterestSubScore(Project project, Organization organization)
+        {
+            // The geometries we use when matching against an Organization are configurable, and may vary, so 
+            // here we get them ready to go before trying to match against all the geospatial components.
+            var organizationDbGeometriesToUseInMatching = organization.GetDbGeometriesToUseForMatchMakerMatchingAgainstThisOrganization();
+
+            // Simple Location sub-sub-score
+            double simpleLocationSubSubScore = 0.0;
+            {
+                var projectSimpleLocation = project.ProjectLocationPoint;
+                foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
+                {
+                    if (projectSimpleLocation != null && 
+                        projectSimpleLocation.Intersects(currentOrgDbGeometry))
+                    {
+                        simpleLocationSubSubScore = 1.0;
+                    }
+                }
+            }
+
+            // Detailed location sub-sub-score
+            double detailedLocationSubSubScore = 0.0;
+            {
+                var projectDetailedLocations = project.GetProjectLocationDetails().ToList();
+                foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
+                {
+                    foreach (var currentDetailedLocation in projectDetailedLocations)
+                    {
+                        if (currentDetailedLocation.GetProjectLocationGeometry().Intersects(currentOrgDbGeometry))
+                        {
+                            detailedLocationSubSubScore = 1.0;
+                        }
+                    }
+                }
+            }
+
+            // Geospatial area sub-sub-score
+            double projectGeospatialAreaSubSubScore = 0.0;
+            {
+                var projectGeospatialAreas = project.GetProjectGeospatialAreas().ToList();
+                foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
+                {
+                    foreach (var currentProjectGeoSpatialArea in projectGeospatialAreas)
+                    {
+                        if (currentProjectGeoSpatialArea.GeospatialAreaFeature.Intersects(currentOrgDbGeometry))
+                        {
+                            projectGeospatialAreaSubSubScore = 1.0;
+                        }
+                    }
+                }
+            }
+
+            // If any of the sub-sub scores are 1.0, the AOI sub score returns 1.0. This could be refined if needed.
+            var allSubScores = new List<double> {simpleLocationSubSubScore, detailedLocationSubSubScore, projectGeospatialAreaSubSubScore};
+            return allSubScores.Max();
+        }
+
 
         public static void CheckEnsureScoreInValidRange(double scoreToCheck)
         {

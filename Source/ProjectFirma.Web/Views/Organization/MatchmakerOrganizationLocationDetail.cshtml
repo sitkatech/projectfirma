@@ -1,0 +1,300 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="ProjectLocationDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Organization
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Organization.MatchmakerOrganizationLocationDetail
+
+<style>
+    .mapEditor textarea {
+        resize: none;
+        height: 60px;
+    }
+</style>
+
+<p>
+   Create a drawing of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s implementation (but not the full area affected by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).
+   The detailed @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel() information will appear on the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet and @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() summary page.
+   <ul>
+      <li>To zoom to your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() area hold down the Shift key and drag a rectangle.</li>
+      <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), such as the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() boundary, a specific stream segment, or an area of interest.</li>
+      <li>After adding a feature, click it to provide a brief description of the feature.</li>
+   </ul>
+   <div>
+      <div>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue()" }) Use Organization Boundary @(!ViewDataTyped.OrganizationHasBoundary ? "(No Organization Boundary Found)" : String.Empty)</label>
+      </div>
+      <div>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue()" }) Draw Custom Boundary</label>
+      </div>
+   </div>
+</p>
+
+<hr/>
+
+@*<p>
+    <span style="margin-right:10px">Instead of drawing your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() details by hand, you may alternately upload a GIS file.</span>
+    @ModalDialogFormHelper.ModalDialogFormLink(null,
+        "Upload a GIS File",
+        ViewDataTyped.UploadGisFileUrl,
+        "Upload GIS File",
+        1000,
+        ModalDialogFormHelper.SaveButtonID,
+        "Approve Upload",
+        "Cancel",
+        new List<string>(){"btn", "btn-sm", "btn-firma"},
+        null,
+        null,
+        ViewDataTyped.MapFormID,
+        null)
+</p>*@
+
+
+<div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 500px">
+</div>
+@*@if (ViewDataTyped.HasProjectLocationPoint)
+{
+    <div>
+        <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() location (for reference)
+    </div>
+}*@
+
+
+<script type="text/javascript">
+    getDrawOptions = function(editableFeatureGroup)
+    {
+        var myIcon = L.MakiMarkers.icon({
+            icon: "marker",
+            color: "#f357a1",
+            size: "m"
+        });
+
+        var options = {
+            position: 'topleft',
+            draw: {
+                polyline: {
+                    shapeOptions: {
+                        color: '#f357a1',
+                        weight: 10
+                    }
+                },
+                polygon: {
+                    allowIntersection: false, // Restricts shapes to simple polygons
+                    drawError: {
+                        color: '#e1e100', // Color the shape will turn when intersects
+                        message: 'Self-intersecting polygons are not allowed.' // Message that will show when intersect
+                    },
+                    shapeOptions: {
+                        color: '#f357a1'
+                    }
+                },
+                circle: false, // Turns off this drawing tool
+                rectangle: {
+                    shapeOptions: {
+                        color: "#f357a1"
+                    }
+                },
+                marker: {
+                    icon: myIcon
+                }
+            },
+            edit: {
+                featureGroup: editableFeatureGroup, //REQUIRED!!
+                edit: {
+                    maintainColor: true,
+                    opacity: 0.3
+                },
+                remove: true
+            }
+        };
+        return options;
+    };
+
+    var projectFirmaMap;
+    jQuery(document).ready(function()
+    {
+       var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
+       // The colors and many options set in the backend don't appear to actually affect the layers on the map
+       var organizationBoundaryFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.OrganizationBoundaryLayerGeoJson).ToString(Formatting.None));
+       var editableFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.EditableLayerGeoJson).ToString(Formatting.None));
+
+        projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
+
+        projectFirmaMap.editableFeatureGroup = new L.FeatureGroup();
+
+        var bindAnnotationPopup = function(layer, feature)
+        {
+            var leafletId = layer._leaflet_id;
+            var popupOptions = {
+                minWidth: 200
+            };
+            layer.bindPopup("", popupOptions);
+            layer.on('click', function(f)
+            {
+                if(layer.editing.enabled())
+                {
+                    f.target.closePopup();
+                    return;
+                }
+                var popup = f.target._popup;
+                var annotation = Sitka.Methods.isUndefinedNullOrEmpty(feature) ? "" : Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.Info) ? "" : feature.properties.Info;
+                var annotationMaxLength = @ViewDataTyped.AnnotationMaxLength;
+                var charsRemaining = annotationMaxLength - annotation.length;
+                var textareaId = projectFirmaMap.getTextAreaId(leafletId);
+                var charRemainingForTextareaId = "CharactersRemaining_" + textareaId;
+                var popupContent = "<b>Notes:</b> <br />" +
+                    "<textarea id=\"" + textareaId + "\" " +
+                    "onkeyup=\"Sitka.Methods.keepTextAreaWithinMaxLength(this, " + annotationMaxLength + ", 20, '" + charRemainingForTextareaId + "', 'Characters Remaining: ');\" " +
+                    "onkeydown=\"Sitka.Methods.keepTextAreaWithinMaxLength(this, " + annotationMaxLength + ", 20, '" + charRemainingForTextareaId +  "', 'Characters Remaining: ');\">" +
+                    annotation + "</textarea>" +
+                    "<div id=\"" + charRemainingForTextareaId + "\" style=\"text-align:right;color:#666666;\">Characters Remaining: " + charsRemaining + "</div><br />" +
+                    "<button id=\"buttonFor" + leafletId + "\" class=\"button btn-xs btn-info\" onclick=\"savePopupAnnotationEditor(" + leafletId + ")\">Save</button>";
+                popup.setContent(popupContent);
+                popup.update();
+
+                jQuery("#textboxFor" + leafletId).focus();
+            });
+        };
+
+        var layerGroup = L.geoJson(organizationBoundaryFeatureJsonObject.GeoJsonFeatureCollection, {
+            onEachFeature: function(feature, layer) {
+                if (layer.getLayers)
+                {
+                    layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
+                }
+                else
+                {
+                    projectFirmaMap.editableFeatureGroup.addLayer(layer);
+                }
+                bindAnnotationPopup(layer, feature);
+            }
+        });
+
+         var layerGroup2 = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
+            onEachFeature: function(feature, layer) {
+               if (layer.getLayers)
+               {
+                  layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
+               }
+               else
+               {
+                  projectFirmaMap.editableFeatureGroup.addLayer(layer);
+               }
+               bindAnnotationPopup(layer, feature);
+            }
+         });
+
+        var drawOptions = getDrawOptions(projectFirmaMap.editableFeatureGroup);
+        var drawControl = new L.Control.Draw(drawOptions);
+        projectFirmaMap.map.addControl(drawControl);
+        projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+
+        projectFirmaMap.map.on('draw:created', function(e)
+        {
+            var layer = e.layer;
+            projectFirmaMap.editableFeatureGroup.addLayer(layer);
+            var leafletId = layer._leaflet_id;
+            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature = new Object();
+            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.properties = { LayerSource: "@MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn"};
+            projectFirmaMap.editableFeatureGroup._layers[leafletId].feature.type = "Feature";
+            var feature = projectFirmaMap.editableFeatureGroup._layers[leafletId].feature;
+            bindAnnotationPopup(layer, feature);
+            updateFeatureCollectionJson();
+        });
+        projectFirmaMap.map.on('draw:edited', function(e)
+        {
+            updateFeatureCollectionJson();
+        });
+
+        projectFirmaMap.map.on('draw:deleted', function(e)
+        {
+            updateFeatureCollectionJson();
+        });
+
+        updateFeatureCollectionJson();
+
+        var saveButton = jQuery("#" + "@ModalDialogFormHelper.SaveButtonID");
+        if(!Sitka.Methods.isUndefinedNullOrEmpty(saveButton))
+        {
+            saveButton.text("Save");
+        }
+
+        var modalTitle = jQuery(".ui-dialog-title");
+        if(!Sitka.Methods.isUndefinedNullOrEmpty(modalTitle))
+        {
+            modalTitle.html(
+                "@string.Format("Edit {0} - Detail", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel())");
+        }
+    });
+
+    ProjectFirmaMaps.Map.prototype.getTextAreaId = function(featureId) { return "textareaFor" + featureId; };
+
+
+    function savePopupAnnotationEditor(featureId) {
+       var textBoxForPopup = jQuery("#" + projectFirmaMap.getTextAreaId(featureId));
+       projectFirmaMap.editableFeatureGroup._layers[featureId].feature.properties.Info = textBoxForPopup.val();
+       projectFirmaMap.map.closePopup();
+       updateFeatureCollectionJson();
+    }
+
+    function updateFeatureCollectionJson() {
+       var geoJson = projectFirmaMap.editableFeatureGroup.toGeoJSON();
+       var mapForm = jQuery("#" + "@ViewDataTyped.MapFormID");
+       mapForm.html("");
+       var hiddens = [];
+       for (var i = 0; i < geoJson.features.length; ++i) {
+          var currentWktName = "name=\"@Html.NameFor(x => x.WktAndOtherInfos[0].Wkt)\"".replace("0", i);
+          var currentWktAnnotationName = "name=\"@Html.NameFor(x => x.WktAndOtherInfos[0].Annotation)\"".replace("0", i);
+          var currentWktLayerSourceName = "name=\"@Html.NameFor(x => x.WktAndOtherInfos[0].LayerSource)\"".replace("0", i);
+
+          //console.log('currentWktName:' + currentWktName);
+          //console.log('currentWktAnnotationName:' + currentWktAnnotationName);
+
+          var currentWktValue = Terraformer.WKT.convert(geoJson.features[i].geometry);
+          var currentWktAnnotationValue = Sitka.Methods.htmlEncode(geoJson.features[i].properties.Info);
+          var currentWktLayerSourceValue = Sitka.Methods.htmlEncode(geoJson.features[i].properties.LayerSource);
+
+          //debugger;
+          //console.log('currentWktValue:' + currentWktValue);
+          //console.log('currentWktAnnotationValue:' + currentWktAnnotationValue);
+          //console.log('geoJson.features[i]:' + geoJson.features[i]);
+
+          hiddens.push("<input type=\"hidden\" " + currentWktName + " value=\"" + currentWktValue + "\" />");
+          hiddens.push("<input type=\"hidden\" " + currentWktAnnotationName + " value=\"" + currentWktAnnotationValue + "\" />");
+          hiddens.push("<input type=\"hidden\" " + currentWktLayerSourceName + " value=\"" + currentWktLayerSourceValue + "\" />");
+       }
+       var radioButtonValue = jQuery("#@Html.IdFor(m => m.UseOrganizationBoundaryForMatchmaker):checked").val();
+       var radioButtonName = "name=\"@Html.NameFor(x => x.UseOrganizationBoundaryForMatchmaker)\"";
+       hiddens.push("<input type=\"hidden\" " + radioButtonName + " value=\"" + Sitka.Methods.htmlEncode(radioButtonValue) + "\" />");
+
+       mapForm.html(hiddens.join("\r\n"));
+    }
+
+   function updateRadioButtonValue()
+   {
+       updateFeatureCollectionJson();
+   }
+</script>
+
+<form method="POST" id="@ViewDataTyped.MapFormID" action="@ViewDataTyped.SaveFeatureCollectionUrl"></form>

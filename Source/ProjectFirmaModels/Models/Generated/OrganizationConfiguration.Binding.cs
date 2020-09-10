@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.OrganizationBoundary).HasColumnName(@"OrganizationBoundary").HasColumnType("geometry").IsOptional();
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar").IsOptional();
             Property(x => x.MatchmakerOptIn).HasColumnName(@"MatchmakerOptIn").HasColumnType("bit").IsOptional();
+            Property(x => x.UseOrganizationBoundaryForMatchmaker).HasColumnName(@"UseOrganizationBoundaryForMatchmaker").HasColumnType("bit").IsRequired();
             Property(x => x.MatchmakerCash).HasColumnName(@"MatchmakerCash").HasColumnType("bit").IsOptional();
             Property(x => x.MatchmakerInKindServices).HasColumnName(@"MatchmakerInKindServices").HasColumnType("bit").IsOptional();
             Property(x => x.MatchmakerCommercialServices).HasColumnName(@"MatchmakerCommercialServices").HasColumnType("bit").IsOptional();
