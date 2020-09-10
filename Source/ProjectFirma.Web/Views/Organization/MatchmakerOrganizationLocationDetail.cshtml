@@ -135,7 +135,10 @@ Source code is available upon request via <support@sitkatech.com>.
     jQuery(document).ready(function()
     {
        var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
-        var editableFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.EditableLayerGeoJson).ToString(Formatting.None));
+       // The colors and many options set in the backend don't appear to actually affect the layers on the map
+       var organizationBoundaryFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.OrganizationBoundaryLayerGeoJson).ToString(Formatting.None));
+       var editableFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.EditableLayerGeoJson).ToString(Formatting.None));
+
         projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
 
         projectFirmaMap.editableFeatureGroup = new L.FeatureGroup();
@@ -174,7 +177,7 @@ Source code is available upon request via <support@sitkatech.com>.
             });
         };
 
-        var layerGroup = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
+        var layerGroup = L.geoJson(organizationBoundaryFeatureJsonObject.GeoJsonFeatureCollection, {
             onEachFeature: function(feature, layer) {
                 if (layer.getLayers)
                 {
@@ -187,6 +190,20 @@ Source code is available upon request via <support@sitkatech.com>.
                 bindAnnotationPopup(layer, feature);
             }
         });
+
+         var layerGroup2 = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
+            onEachFeature: function(feature, layer) {
+               if (layer.getLayers)
+               {
+                  layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
+               }
+               else
+               {
+                  projectFirmaMap.editableFeatureGroup.addLayer(layer);
+               }
+               bindAnnotationPopup(layer, feature);
+            }
+         });
 
         var drawOptions = getDrawOptions(projectFirmaMap.editableFeatureGroup);
         var drawControl = new L.Control.Draw(drawOptions);

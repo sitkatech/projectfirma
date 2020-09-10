@@ -30,26 +30,29 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly ProjectFirmaModels.Models.Organization Organization;
         //public readonly bool HasProjectLocationPoint;
         public readonly MapInitJson MapInitJson;
-        public readonly LayerGeoJson EditableLayerGeoJson;
+        public readonly LayerGeoJson OrganizationBoundaryLayerGeoJson;
+        
         //public readonly string UploadGisFileUrl;
         public readonly string MapFormID;
         public readonly string SaveFeatureCollectionUrl;
         public readonly int AnnotationMaxLength;
         public readonly string SimplePointMarkerImg;
         public readonly bool OrganizationHasBoundary;
+        public readonly LayerGeoJson EditableLayerGeoJson;
 
         public MatchmakerOrganizationLocationDetailViewData(ProjectFirmaModels.Models.Organization organization, 
                                                             MapInitJson mapInitJson, 
-                                                            LayerGeoJson editableLayerGeoJson, 
+                                                            LayerGeoJson organizationBoundaryLayerGeoJson, 
                                                             //string uploadGisFileUrl, 
                                                             string mapFormID, 
                                                             string saveFeatureCollectionUrl, 
-                                                            int annotationMaxLength
+                                                            int annotationMaxLength,
+                                                            LayerGeoJson editableLayerGeoJson
                                                             /*,bool hasProjectLocationPoint*/)
         {
             Organization = organization;
             MapInitJson = mapInitJson;
-            EditableLayerGeoJson = editableLayerGeoJson;
+            OrganizationBoundaryLayerGeoJson = organizationBoundaryLayerGeoJson;
             //UploadGisFileUrl = uploadGisFileUrl;
             MapFormID = mapFormID;
             SaveFeatureCollectionUrl = saveFeatureCollectionUrl;
@@ -58,6 +61,7 @@ namespace ProjectFirma.Web.Views.Organization
 
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
             OrganizationHasBoundary = Organization.OrganizationBoundary != null;
+            EditableLayerGeoJson = editableLayerGeoJson;
         }
     }
 }

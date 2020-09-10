@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
+using System.Linq;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using LtInfo.Common.DesignByContract;
@@ -162,5 +163,27 @@ namespace LtInfo.Common.GeoJson
             return JsonTools.SerializeObject(dbGeometryAsFeature, formatting);
         }
 
+        public static FeatureCollection FeatureCollectionFromDbGeometry(DbGeometry dbGeometry, string featurePropertyName, string featurePropertyValue)
+        {
+            return FeatureCollectionFromDbGeometry(new List<DbGeometry> {dbGeometry}, featurePropertyName, featurePropertyValue);
+        }
+
+        public static FeatureCollection FeatureCollectionFromDbGeometry(IEnumerable<DbGeometry> dbGeometries, string featurePropertyName, string featurePropertyValue)
+        {
+            var featureCollectionFromDbGeometry = new FeatureCollection();
+            if (dbGeometries == null)
+            {
+                return featureCollectionFromDbGeometry;
+            }
+
+            foreach (var dbGeometry in dbGeometries.Where(x => x != null))
+            {
+                var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(dbGeometry);
+                feature.Properties.Add(featurePropertyName, featurePropertyValue);
+                featureCollectionFromDbGeometry.Features.Add(feature);
+            }
+
+            return featureCollectionFromDbGeometry;
+        }
     }
 }

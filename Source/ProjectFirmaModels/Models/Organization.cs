@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
@@ -48,14 +49,7 @@ namespace ProjectFirmaModels.Models
 
         public FeatureCollection OrganizationBoundaryToFeatureCollection()
         {
-            if (OrganizationBoundary == null)
-            {
-                return new FeatureCollection();
-            }
-
-            var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(OrganizationBoundary);
-            feature.Properties.Add(OrganizationType.OrganizationTypeName, OrganizationName);
-            return new FeatureCollection(new List<Feature> { feature });
+            return DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(OrganizationBoundary, OrganizationType.OrganizationTypeName, OrganizationName);
         }
 
         public bool IsMyProject(Project project)

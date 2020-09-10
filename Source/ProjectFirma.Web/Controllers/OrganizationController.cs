@@ -38,6 +38,7 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.GeoJson;
 using MoreLinq;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -240,8 +241,15 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditMatchMakerAreaOfInterest(Organization organization, MatchmakerOrganizationLocationDetailViewModel viewModel)
         {
             var mapDivID = $"organization_{organization.OrganizationID}_EditMatchMakerAreaOfInterestDiv";
-            var detailedLocationGeoJsonFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
-            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+
+            var organizationBoundaryFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
+
+            var editableLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "asdf", "asdf");
+
+            var orgBoundaryLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Boundary Geometry", organizationBoundaryFeatureCollection, "red", 1, LayerInitialVisibility.Hide);
+            
+            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", editableLayerGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            
 
             var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
             // Maybe show all Org project layers here? Consider doing later.
@@ -260,7 +268,7 @@ namespace ProjectFirma.Web.Controllers
 
             //var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
 
-            var viewData = new MatchmakerOrganizationLocationDetailViewData(organization, mapInitJson, editableLayerGeoJson, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation);
+            var viewData = new MatchmakerOrganizationLocationDetailViewData(organization, mapInitJson, orgBoundaryLayerGeoJson, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, editableLayerGeoJson);
             return RazorPartialView<MatchmakerOrganizationLocationDetail, MatchmakerOrganizationLocationDetailViewData, MatchmakerOrganizationLocationDetailViewModel>(viewData, viewModel);
         }
 
