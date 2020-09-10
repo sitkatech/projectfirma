@@ -768,9 +768,24 @@
                             @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
                          </div>
                          <div class="panel-body">
-                            <div>
-                                  <p class="systemText">Nothing here yet.</p>
-                            </div>
+                             <div>
+                                 @if (ViewDataTyped.HasAreaOfInterest)
+                                 {
+                                     //Display a map of the area of interest here
+                                 }
+                                 else
+                                 {
+                                    <p class="systemText">No @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() set.</p>
+                                     if (ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && ViewDataTyped.Organization.OrganizationBoundary == null)
+                                     {
+                                        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Boundary as the @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary was found.</p>
+                                     }
+                                     if (!ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && !ViewDataTyped.Organization.MatchMakerAreaOfInterestLocations.Any())
+                                     {
+                                        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use a custom @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no areas were set.</p>
+                                     }
+                                 }
+                             </div>
                          </div>
                       </div>
                    </div>
