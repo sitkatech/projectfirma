@@ -181,4 +181,7 @@ VALUES
 (357, N'CustomPageViewableBy', N'Custom Page Viewable By'),
 (358, N'EnableMatchmaker', N'Enable Matchmaker'),
 (359, N'GeospatialAreaMapLayerDisplayAsReferenceLayer', 'Display as Reference Layer?'),
-(360, N'MatchScore', N'Match Score')
+(360, N'MatchScore', N'Match Score'),
+(361, N'OrganizationCash', N'Cash'),
+(362, N'OrganizationInKindServices', N'In-Kind Services'),
+(363, N'OrganizationCommercialServices', N'Commercial Services')

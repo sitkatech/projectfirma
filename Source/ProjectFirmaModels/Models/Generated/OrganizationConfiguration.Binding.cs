@@ -28,6 +28,14 @@ namespace ProjectFirmaModels.Models
             Property(x => x.OrganizationBoundary).HasColumnName(@"OrganizationBoundary").HasColumnType("geometry").IsOptional();
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar").IsOptional();
             Property(x => x.MatchmakerOptIn).HasColumnName(@"MatchmakerOptIn").HasColumnType("bit").IsOptional();
+            Property(x => x.MatchmakerCash).HasColumnName(@"MatchmakerCash").HasColumnType("bit").IsOptional();
+            Property(x => x.MatchmakerInKindServices).HasColumnName(@"MatchmakerInKindServices").HasColumnType("bit").IsOptional();
+            Property(x => x.MatchmakerCommercialServices).HasColumnName(@"MatchmakerCommercialServices").HasColumnType("bit").IsOptional();
+            Property(x => x.MatchmakerCashDescription).HasColumnName(@"MatchmakerCashDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.MatchmakerInKindServicesDescription).HasColumnName(@"MatchmakerInKindServicesDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.MatchmakerCommercialServicesDescription).HasColumnName(@"MatchmakerCommercialServicesDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.MatchmakerConstraints).HasColumnName(@"MatchmakerConstraints").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.MatchmakerAdditionalInformation).HasColumnName(@"MatchmakerAdditionalInformation").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.OrganizationsWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_Organization_Person_PrimaryContactPersonID_PersonID

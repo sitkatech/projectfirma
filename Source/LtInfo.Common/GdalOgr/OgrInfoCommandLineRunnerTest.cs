@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using LtInfo.Common.DbSpatial;
 using NUnit.Framework;
 
 namespace LtInfo.Common.GdalOgr
@@ -29,8 +30,6 @@ namespace LtInfo.Common.GdalOgr
     [TestFixture]
     public class OgrInfoCommandLineRunnerTest
     {
-        private const int CoordinateSystemId = 4326;
-
         [Test]
         public void CanProperlyCreateCommandLineOptionsForOgrInfoToParseFeatureClasses()
         {
@@ -92,7 +91,7 @@ namespace LtInfo.Common.GdalOgr
             // ---
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";
-            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, CoordinateSystemId, totalMilliseconds);
+            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, LtInfoGeometryConfiguration.DefaultCoordinateSystemId, totalMilliseconds);
             var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName, true);
 
             // Act

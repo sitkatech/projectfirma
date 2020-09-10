@@ -22,6 +22,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
+using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common.DbSpatial;
@@ -57,7 +58,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
                 case ProjectLocationSimpleTypeEnum.LatLngInput:
                     project.ProjectLocationPoint = ProjectLocationPointX.HasValue && ProjectLocationPointY.HasValue
-                        ? DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, MapInitJson.CoordinateSystemId)
+                        ? DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
                         : null;
                     break;
                 case ProjectLocationSimpleTypeEnum.None:

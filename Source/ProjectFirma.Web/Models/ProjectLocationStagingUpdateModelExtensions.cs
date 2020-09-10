@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using LtInfo.Common;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GdalOgr;
 using ProjectFirma.Web.Common;
 
@@ -19,7 +21,7 @@ namespace ProjectFirmaModels.Models
         public static List<ProjectLocationStagingUpdate> CreateProjectLocationStagingUpdateListFromGdb(FileInfo gdbFile, string originalFilename, ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
         {
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
-                Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
+                LtInfoGeometryConfiguration.DefaultCoordinateSystemId,
                 FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
             var featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), gdbFile, originalFilename,Ogr2OgrCommandLineRunner.DefaultTimeOut);
@@ -40,7 +42,7 @@ namespace ProjectFirmaModels.Models
         public static List<ProjectLocationStagingUpdate> CreateProjectLocationStagingUpdateListFromKml(FileInfo kmlFile, string originalFilename, ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
         {
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
-                Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
+                LtInfoGeometryConfiguration.DefaultCoordinateSystemId,
                 FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
             var featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileKml(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), kmlFile, originalFilename, Ogr2OgrCommandLineRunner.DefaultTimeOut);
@@ -53,7 +55,7 @@ namespace ProjectFirmaModels.Models
         public static List<ProjectLocationStagingUpdate> CreateProjectLocationStagingUpdateListFromKmz(FileInfo disposableTempFileFileInfo, string fileName, ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
-                Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
+                LtInfoGeometryConfiguration.DefaultCoordinateSystemId,
                 FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
             var featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileKmz(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), disposableTempFileFileInfo, fileName, Ogr2OgrCommandLineRunner.DefaultTimeOut);
