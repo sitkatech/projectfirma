@@ -182,4 +182,7 @@ VALUES
 (358, N'EnableMatchmaker', N'Enable Matchmaker'),
 (359, N'GeospatialAreaMapLayerDisplayAsReferenceLayer', 'Display as Reference Layer?'),
 (360, N'MatchScore', N'Match Score'),
-(361, N'AreaOfInterest', N'Area of Interest')
+(361, N'OrganizationCash', N'Cash'),
+(362, N'OrganizationInKindServices', N'In-Kind Services'),
+(363, N'OrganizationCommercialServices', N'Commercial Services'),
+(364, N'AreaOfInterest', N'Area of Interest')

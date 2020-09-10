@@ -308,6 +308,9 @@ namespace ProjectFirmaModels.Models
         EnableMatchmaker = 358,
         GeospatialAreaMapLayerDisplayAsReferenceLayer = 359,
         MatchScore = 360,
-        AreaOfInterest = 361
+        OrganizationCash = 361,
+        OrganizationInKindServices = 362,
+        OrganizationCommercialServices = 363,
+        AreaOfInterest = 364
     }
 }

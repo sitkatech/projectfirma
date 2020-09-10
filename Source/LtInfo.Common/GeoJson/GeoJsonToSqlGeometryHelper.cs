@@ -6,6 +6,7 @@ using GeoJSON.Net;
 using GeoJSON.Net.Geometry;
 using Microsoft.SqlServer.Types;
 using GeoJSON.Net.Feature;
+using LtInfo.Common.DbSpatial;
 
 namespace LtInfo.Common.GeoJson
 {
@@ -31,7 +32,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="point"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static SqlGeometry ToSqlGeometry(this Point point, int srid = 4326)
+		public static SqlGeometry ToSqlGeometry(this Point point, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			SqlGeometryBuilder gb = new SqlGeometryBuilder();
 			gb.SetSrid(srid);
@@ -55,7 +56,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="multiPoint"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static SqlGeometry ToSqlGeometry(this MultiPoint multiPoint, int srid = 4326)
+		public static SqlGeometry ToSqlGeometry(this MultiPoint multiPoint, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			SqlGeometryBuilder gb = new SqlGeometryBuilder();
 			gb.SetSrid(srid);
@@ -83,7 +84,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="lineString"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static SqlGeometry ToSqlGeometry(this LineString lineString, int srid = 4326)
+		public static SqlGeometry ToSqlGeometry(this LineString lineString, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			SqlGeometryBuilder gb = new SqlGeometryBuilder();
 			gb.SetSrid(srid);
@@ -119,7 +120,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="multiLineString"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static SqlGeometry ToSqlGeometry(this MultiLineString multiLineString, int srid = 4326)
+		public static SqlGeometry ToSqlGeometry(this MultiLineString multiLineString, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			SqlGeometryBuilder gb = new SqlGeometryBuilder();
 			gb.SetSrid(srid);
@@ -158,7 +159,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="polygon"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static SqlGeometry ToSqlGeometry(this Polygon polygon, int srid = 4326)
+		public static SqlGeometry ToSqlGeometry(this Polygon polygon, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			SqlGeometryBuilder gb = new SqlGeometryBuilder();
 			gb.SetSrid(srid);
@@ -195,7 +196,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="multiPolygon"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static SqlGeometry ToSqlGeometry(this MultiPolygon multiPolygon, int srid = 4326)
+		public static SqlGeometry ToSqlGeometry(this MultiPolygon multiPolygon, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			SqlGeometryBuilder gb = new SqlGeometryBuilder();
 			gb.SetSrid(srid);
@@ -223,7 +224,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="geometryCollection"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static SqlGeometry ToSqlGeometry(this GeometryCollection geometryCollection, int srid = 4326)
+		public static SqlGeometry ToSqlGeometry(this GeometryCollection geometryCollection, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			SqlGeometryBuilder gb = new SqlGeometryBuilder();
 			gb.SetSrid(srid);
@@ -264,7 +265,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="feature"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static SqlGeometry ToSqlGeometry(this Feature feature, int srid = 4326)
+		public static SqlGeometry ToSqlGeometry(this Feature feature, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			switch (feature.Geometry.Type)
 			{
@@ -297,7 +298,7 @@ namespace LtInfo.Common.GeoJson
 		/// <param name="featureCollection"></param>
 		/// <param name="srid"></param>
 		/// <returns></returns>
-		public static List<SqlGeometry> ToSqlGeometry(this FeatureCollection featureCollection, int srid = 4326)
+		public static List<SqlGeometry> ToSqlGeometry(this FeatureCollection featureCollection, int srid = LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
 		{
 			List<SqlGeometry> retList = new List<SqlGeometry>();
 			foreach (var feature in featureCollection.Features)

@@ -22,6 +22,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using LtInfo.Common;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -83,7 +85,7 @@ namespace ProjectFirma.Web.Views.Tenant
 
         public void UpdateModel()
         {
-            var defaultBoundingBox = DbGeometry.FromText(String.Format("POLYGON(({0} {1}, {0} {2}, {3} {2}, {3} {1}, {0} {1}))", West, North, South, East), 4326);
+            var defaultBoundingBox = DbGeometry.FromText(String.Format("POLYGON(({0} {1}, {0} {2}, {3} {2}, {3} {1}, {0} {1}))", West, North, South, East), LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(x => x.TenantID == TenantID);
             tenantAttribute.DefaultBoundingBox = defaultBoundingBox;
         }

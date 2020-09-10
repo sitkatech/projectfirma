@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.IO;
 using System.Linq;
+using LtInfo.Common.DbSpatial;
 using NUnit.Framework;
 
 namespace LtInfo.Common.GdalOgr
@@ -28,8 +29,6 @@ namespace LtInfo.Common.GdalOgr
     [TestFixture]
     public class Ogr2OgrCommandLineRunnerTest : DatabaseDirectAccessTestFixtureBase
     {
-        private const int CoordinateSystemId = 4326;
-
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
@@ -57,7 +56,7 @@ namespace LtInfo.Common.GdalOgr
             var actualCommandLineArguments = Ogr2OgrCommandLineRunner.BuildCommandLineArgumentsForFileGdbToGeoJson(
                 inputGdbFile,
                 gdalDataDirectoryInfo,
-                sourceLayerName, CoordinateSystemId, true);
+                sourceLayerName, LtInfoGeometryConfiguration.DefaultCoordinateSystemId, true);
 
             // Assert
             // ------
@@ -65,7 +64,7 @@ namespace LtInfo.Common.GdalOgr
             // Expecting a command line something like this:
             //"C:\Program Files\GDAL\ogr2ogr.exe" --config GDAL_DATA "C:\\Program Files\\GDAL\\gdal-data" -t_srs EPSG:4326 -explodecollections -f GeoJSON /dev/stdout "C:\\svn\\sitkatech\\trunk\\Corral\\Source\\ProjectFirma.Web\\Models\\GdalOgr\\SampleFileGeodatabase.gdb.zip" \"MySourceLayerName\" -dim 2
 
-            var expectedCommandLineArguments = new[] { "--config", "GDAL_DATA", gdalDataDirectoryInfo.FullName, "-t_srs", Ogr2OgrCommandLineRunner.GetMapProjection(CoordinateSystemId), "-explodecollections", "-f", "GeoJSON", "/dev/stdout", inputGdbFile.FullName, string.Format("\"{0}\"", sourceLayerName), "-dim", "2" };
+            var expectedCommandLineArguments = new[] { "--config", "GDAL_DATA", gdalDataDirectoryInfo.FullName, "-t_srs", Ogr2OgrCommandLineRunner.GetMapProjection(LtInfoGeometryConfiguration.DefaultCoordinateSystemId), "-explodecollections", "-f", "GeoJSON", "/dev/stdout", inputGdbFile.FullName, string.Format("\"{0}\"", sourceLayerName), "-dim", "2" };
 
             Assert.That(actualCommandLineArguments, Is.EquivalentTo(expectedCommandLineArguments), "Should produce expected arguments");
 
@@ -88,7 +87,7 @@ namespace LtInfo.Common.GdalOgr
             // ---
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";
-            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, CoordinateSystemId, totalMilliseconds);
+            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, LtInfoGeometryConfiguration.DefaultCoordinateSystemId, totalMilliseconds);
             var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName, true);
 
             // Assert
