@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
@@ -16,10 +17,12 @@ namespace ProjectFirma.Web.PartnerFinder
         public Project Project { get; }
         public Organization Organization { get; }
         public double PartnerOrganizationFitnessScoreNumber { get; }
+        public List<string> ScoreInsightMessages { get; }
 
         public PartnerOrganizationMatchMakerScore(Project project,
                                                   Organization organization,
-                                                  double partnerOrganizationFitnessScoreNumber)
+                                                  double partnerOrganizationFitnessScoreNumber,
+                                                  List<string> scoreInsightMessages)
         {
             Check.EnsureNotNull(project);
             Check.EnsureNotNull(project);
@@ -28,6 +31,7 @@ namespace ProjectFirma.Web.PartnerFinder
             this.Project = project;
             this.Organization = organization;
             this.PartnerOrganizationFitnessScoreNumber = partnerOrganizationFitnessScoreNumber;
+            this.ScoreInsightMessages = scoreInsightMessages;
         }
 
         public string GetProjectOrganizationMatchString()
@@ -39,11 +43,18 @@ namespace ProjectFirma.Web.PartnerFinder
         {
             return $"{this.PartnerOrganizationFitnessScoreNumber:0.00}";
         }
+
+        public string GetScoreInsightMessagesConcatenated()
+        {
+            return string.Join("", this.ScoreInsightMessages);
+        }
     }
 
     public class ProjectOrganizationMatchmaker
     {
-        public double GetPartnerOrganizationFitnessScoreNumber(Project project, Organization organization)
+        public double GetPartnerOrganizationFitnessScoreNumber(Project project,
+                                                               Organization organization, 
+                                                               ref List<String> matchInsightStrings)
         {
             // Preconditions
             Check.EnsureNotNull(project);
@@ -58,11 +69,11 @@ namespace ProjectFirma.Web.PartnerFinder
             // * SubScores are also restricted to 0.0. - 1.0.
 
             // Taxonomy SubScore
-            double taxonomySubScore = GetTaxonomySubScore(project, organization);
+            double taxonomySubScore = GetTaxonomySubScore(project, organization, ref matchInsightStrings);
             CheckEnsureScoreInValidRange(taxonomySubScore);
 
             // Organization Area of Interest SubScore
-            double areaOfInterestSubScore = GetOrganizationAreaOfInterestSubScore(project, organization);
+            double areaOfInterestSubScore = GetOrganizationAreaOfInterestSubScore(project, organization, ref matchInsightStrings);
             CheckEnsureScoreInValidRange(areaOfInterestSubScore);
 
             var numberOfComponents = 2;
@@ -76,10 +87,14 @@ namespace ProjectFirma.Web.PartnerFinder
             return scoreToReturn;
         }
 
-        private static double GetTaxonomySubScore(Project project, Organization organization)
+        private static double GetTaxonomySubScore(Project project, 
+                                                  Organization organization,
+                                                  ref List<string> matchInsightStrings)
         {
+            List<string> localMatchInsights = new List<string>();
+
             var matchmakerLeaves = organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => x.TaxonomyLeaf).ToList();
-            
+
             var branchIDsIncluded = matchmakerLeaves.Select(x => x.TaxonomyBranchID).ToList();
             // if any Branch is selected, but no Leaves are selected for that branch, treat as if all leaves are selected
             var matchmakerLeavesFromSelectedBranches = organization.MatchmakerOrganizationTaxonomyBranches
@@ -97,13 +112,40 @@ namespace ProjectFirma.Web.PartnerFinder
             var matchesLeaf = matchmakerLeaves.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
             var matchesLeafForBranch = matchmakerLeavesFromSelectedBranches.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
             var matchesLeafForTrunk = matchmakerLeavesFromSelectedTrunks.Any(x => x.TaxonomyLeafID == project.TaxonomyLeafID);
-            
+
+            if (matchesLeaf)
+            {
+                localMatchInsights.Add($"{matchmakerLeaves.Count} Leaf matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+            }
+
+            if (matchesLeafForBranch)
+            {
+                localMatchInsights.Add($"{matchmakerLeavesFromSelectedBranches.Count} Leaf for selected branch matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+            }
+
+            if (matchesLeafForTrunk)
+            {
+                localMatchInsights.Add($"{matchmakerLeavesFromSelectedTrunks.Count} Leaf for selected trunk matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+            }
+
             double taxonomySubScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
+
+            // We want the overall score to appear first in output
+            if (taxonomySubScore > 0)
+            {
+                localMatchInsights.Insert(0, $"Taxonomy SubScore = {taxonomySubScore:0.0}: ");
+                matchInsightStrings.AddRange(localMatchInsights);
+            }
+
             return taxonomySubScore;
         }
 
-        private static double GetOrganizationAreaOfInterestSubScore(Project project, Organization organization)
+        private static double GetOrganizationAreaOfInterestSubScore(Project project, 
+                                                                    Organization organization,
+                                                                    ref List<string> matchInsightStrings)
         {
+            List<string> localMatchInsights = new List<string>();
+
             // The geometries we use when matching against an Organization are configurable, and may vary, so 
             // here we get them ready to go before trying to match against all the geospatial components.
             var organizationDbGeometriesToUseInMatching = organization.GetDbGeometriesToUseForMatchMakerMatchingAgainstThisOrganization();
@@ -118,6 +160,7 @@ namespace ProjectFirma.Web.PartnerFinder
                         projectSimpleLocation.Intersects(currentOrgDbGeometry))
                     {
                         simpleLocationSubSubScore = 1.0;
+                        localMatchInsights.Add($"Simple Location intersection ");
                     }
                 }
             }
@@ -133,6 +176,7 @@ namespace ProjectFirma.Web.PartnerFinder
                         if (currentDetailedLocation.GetProjectLocationGeometry().Intersects(currentOrgDbGeometry))
                         {
                             detailedLocationSubSubScore = 1.0;
+                            localMatchInsights.Add($"Detailed Location intersection ");
                         }
                     }
                 }
@@ -149,6 +193,7 @@ namespace ProjectFirma.Web.PartnerFinder
                         if (currentProjectGeoSpatialArea.GeospatialAreaFeature.Intersects(currentOrgDbGeometry))
                         {
                             projectGeospatialAreaSubSubScore = 1.0;
+                            localMatchInsights.Add($"Geospatial Area intersection ");
                         }
                     }
                 }
@@ -156,7 +201,16 @@ namespace ProjectFirma.Web.PartnerFinder
 
             // If any of the sub-sub scores are 1.0, the AOI sub score returns 1.0. This could be refined if needed.
             var allSubScores = new List<double> {simpleLocationSubSubScore, detailedLocationSubSubScore, projectGeospatialAreaSubSubScore};
-            return allSubScores.Max();
+            var areaOfInterestOverallScore = allSubScores.Max();
+
+            // We want the overall score to appear first in output
+            if (areaOfInterestOverallScore > 0)
+            {
+                localMatchInsights.Insert(0, $"Area of Interest SubScore = {areaOfInterestOverallScore:0.0}: ");
+                matchInsightStrings.AddRange(localMatchInsights);
+            }
+
+            return areaOfInterestOverallScore;
         }
 
 
@@ -181,10 +235,11 @@ namespace ProjectFirma.Web.PartnerFinder
             {
                 foreach (var currentProject in projects)
                 {
-                    var currentScore = GetPartnerOrganizationFitnessScoreNumber(currentProject, currentOrganization);
+                    List<String> scoreInsightStrings = new List<string>();
+                    var currentScore = GetPartnerOrganizationFitnessScoreNumber(currentProject, currentOrganization, ref scoreInsightStrings);
                     if (currentScore >= matchScoreCutoff)
                     {
-                        PartnerOrganizationMatchMakerScore currentMatchMakerScore = new PartnerOrganizationMatchMakerScore(currentProject, currentOrganization, currentScore);
+                        PartnerOrganizationMatchMakerScore currentMatchMakerScore = new PartnerOrganizationMatchMakerScore(currentProject, currentOrganization, currentScore, scoreInsightStrings);
                         scoresToReturn.Add(currentMatchMakerScore);
                     }
                 }

@@ -764,8 +764,6 @@
                    <div class="col-md-6">
                       <div class="panel panelFirma">
                          <div class="panel-heading panelTitle">
-                            @*@ModalDialogFormHelper.ModalDialogFormLink("test", ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()),500, ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)*@
-                            @*@ModalDialogFormHelper.ModalDialogFormLink("test", ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()),500, ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)*@
                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
                             @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
                          </div>
