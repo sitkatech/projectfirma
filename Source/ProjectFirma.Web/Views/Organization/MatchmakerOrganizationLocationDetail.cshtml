@@ -73,13 +73,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 500px">
 </div>
-@*@if (ViewDataTyped.HasProjectLocationPoint)
-{
-    <div>
-        <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() location (for reference)
-    </div>
-}*@
-
 
 <script type="text/javascript">
     getDrawOptions = function(editableFeatureGroup)
@@ -138,12 +131,13 @@ Source code is available upon request via <support@sitkatech.com>.
        // The colors and many options set in the backend don't appear to actually affect the layers on the map
        var organizationBoundaryFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.OrganizationBoundaryLayerGeoJson).ToString(Formatting.None));
        var editableFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.EditableLayerGeoJson).ToString(Formatting.None));
+       debugger;
 
         projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
 
         projectFirmaMap.editableFeatureGroup = new L.FeatureGroup();
 
-        var bindAnnotationPopup = function(layer, feature)
+       var bindAnnotationPopup = function(layer, feature)
         {
             var leafletId = layer._leaflet_id;
             var popupOptions = {
@@ -178,7 +172,9 @@ Source code is available upon request via <support@sitkatech.com>.
         };
 
         var layerGroup = L.geoJson(organizationBoundaryFeatureJsonObject.GeoJsonFeatureCollection, {
-            onEachFeature: function(feature, layer) {
+           onEachFeature: function (feature, layer) {
+                debugger;
+                console.log('organizationBoundaryFeatureJsonObject -- onEachFeature function -- layer thingy function');
                 if (layer.getLayers)
                 {
                     layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
@@ -192,14 +188,22 @@ Source code is available upon request via <support@sitkatech.com>.
         });
 
          var layerGroup2 = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
-            onEachFeature: function(feature, layer) {
+            onEachFeature: function (feature, layer) {
+               debugger;
+               console.log('editableFeatureJsonObject -- onEachFeature function -- layer thingy function');
+               console.log('LayerInitialVisibility for feature: ' + editableFeatureJsonObject.LayerInitialVisibility);
                if (layer.getLayers)
                {
                   layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
                }
                else
                {
-                  projectFirmaMap.editableFeatureGroup.addLayer(layer);
+                  if (editableFeatureJsonObject.LayerInitialVisibility)
+                  {
+                     projectFirmaMap.editableFeatureGroup.addLayer(layer);
+                     console.log('Trying to set color..');
+                     projectFirmaMap.editableFeatureGroup.setStyle({ color: 'purple', opacity: .5 });
+                  }
                }
                bindAnnotationPopup(layer, feature);
             }
@@ -210,8 +214,9 @@ Source code is available upon request via <support@sitkatech.com>.
         projectFirmaMap.map.addControl(drawControl);
         projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
 
-        projectFirmaMap.map.on('draw:created', function(e)
-        {
+       projectFirmaMap.map.on('draw:created', function (e)
+       {
+            console.log('map_on_draw--created function');
             var layer = e.layer;
             projectFirmaMap.editableFeatureGroup.addLayer(layer);
             var leafletId = layer._leaflet_id;
@@ -222,14 +227,17 @@ Source code is available upon request via <support@sitkatech.com>.
             bindAnnotationPopup(layer, feature);
             updateFeatureCollectionJson();
         });
-        projectFirmaMap.map.on('draw:edited', function(e)
-        {
-            updateFeatureCollectionJson();
+
+       projectFirmaMap.map.on('draw:edited', function (e)
+       {
+          console.log('map_on_draw--edited function');
+          updateFeatureCollectionJson();
         });
 
         projectFirmaMap.map.on('draw:deleted', function(e)
         {
-            updateFeatureCollectionJson();
+           console.log('map_on_draw--deleted function');
+           updateFeatureCollectionJson();
         });
 
         updateFeatureCollectionJson();
@@ -250,7 +258,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
     ProjectFirmaMaps.Map.prototype.getTextAreaId = function(featureId) { return "textareaFor" + featureId; };
 
-
     function savePopupAnnotationEditor(featureId) {
        var textBoxForPopup = jQuery("#" + projectFirmaMap.getTextAreaId(featureId));
        projectFirmaMap.editableFeatureGroup._layers[featureId].feature.properties.Info = textBoxForPopup.val();
@@ -258,7 +265,8 @@ Source code is available upon request via <support@sitkatech.com>.
        updateFeatureCollectionJson();
     }
 
-    function updateFeatureCollectionJson() {
+   function updateFeatureCollectionJson() {
+       console.log('updateFeatureCollectionJson');
        var geoJson = projectFirmaMap.editableFeatureGroup.toGeoJSON();
        var mapForm = jQuery("#" + "@ViewDataTyped.MapFormID");
        mapForm.html("");

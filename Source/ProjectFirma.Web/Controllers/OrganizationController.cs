@@ -273,13 +273,13 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"organization_{organization.OrganizationID}_EditMatchMakerAreaOfInterestDiv";
 
             var organizationBoundaryFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
+            FeatureCollection editableLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "SomePropertyOrOther", "SomeValueOrOther");
 
-            var editableLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "asdf", "asdf");
+            LayerInitialVisibility initialVisibilityForOrgBoundary = viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide;
+            LayerInitialVisibility initialVisibilityForUserEditedBoundary = !viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide;
 
-            var orgBoundaryLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Boundary Geometry", organizationBoundaryFeatureCollection, "red", 1, LayerInitialVisibility.Hide);
-            
-            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", editableLayerGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
-            
+            var orgBoundaryLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Boundary Geometry", organizationBoundaryFeatureCollection, "red", 1, initialVisibilityForOrgBoundary);
+            LayerGeoJson editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", editableLayerGeoJsonFeatureCollection, "red", 1, initialVisibilityForUserEditedBoundary);
 
             var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
             // Maybe show all Org project layers here? Consider doing later.
@@ -295,8 +295,6 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = GenerateEditOrganizationMatchMakerAreaOfInterestFormID(organization);
             //var uploadGisFileUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.GetEntityID()));
             var saveFeatureCollectionUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.EditMatchMakerAreaOfInterest(organization.OrganizationID, null));
-
-            //var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
 
             var viewData = new MatchmakerOrganizationLocationDetailViewData(organization, mapInitJson, orgBoundaryLayerGeoJson, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, editableLayerGeoJson);
             return RazorPartialView<MatchmakerOrganizationLocationDetail, MatchmakerOrganizationLocationDetailViewData, MatchmakerOrganizationLocationDetailViewModel>(viewData, viewModel);
