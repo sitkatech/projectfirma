@@ -771,7 +771,24 @@
                              <div>
                                  @if (ViewDataTyped.HasAreaOfInterest)
                                  {
-                                     //Display a map of the area of interest here
+                                 <div class="col-xs-12">
+                                     <div id="@ViewDataTyped.AreaOfInterestMapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0"></div>
+                                     <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
+                                     <script type="text/javascript">
+                                            jQuery(document).ready(function() {
+                                                var areaOfInterestMapInitJson =
+                                                    @Html.Raw(JObject.FromObject(ViewDataTyped.AreaOfInterestMapInitJson).ToString(Formatting.None));
+                                                var areaOfInterestMap = new ProjectFirmaMaps.Map(areaOfInterestMapInitJson);
+
+                                                jQuery("#profileTab").on("shown.bs.tab",
+                                                    function () {
+                                                        console.log('test');
+                                                        areaOfInterestMap.map.invalidateSize();
+                                                        areaOfInterestMap.setMapBounds(areaOfInterestMapInitJson);
+                                                    });
+                                            });
+                                     </script>
+                                 </div>
                                  }
                                  else
                                  {
