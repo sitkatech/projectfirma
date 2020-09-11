@@ -764,7 +764,7 @@
                    <div class="col-md-6">
                       <div class="panel panelFirma">
                          <div class="panel-heading panelTitle">
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
                             @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
                          </div>
                          <div class="panel-body">
@@ -806,14 +806,13 @@
                          </div>
                       </div>
                    </div>
-                </div>
+                
 
 
 
 
-                @* Taxonomy Panel *@
-                <div class="row">
-                    <div class="col-md-6">
+                     @* Taxonomy Panel *@
+                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit Matchmaker {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)

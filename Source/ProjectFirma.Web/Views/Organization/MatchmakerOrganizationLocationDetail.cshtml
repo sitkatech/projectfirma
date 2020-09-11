@@ -43,10 +43,10 @@ Source code is available upon request via <support@sitkatech.com>.
    </ul>
    <div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue()" }) Use Organization Boundary @(!ViewDataTyped.OrganizationHasBoundary ? "(No Organization Boundary Found)" : String.Empty)</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue(this)" }) Use Organization Boundary @(!ViewDataTyped.OrganizationHasBoundary ? "(No Organization Boundary Found)" : String.Empty)</label>
       </div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue()" }) Draw Custom Boundary</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue(this)" }) Draw Custom Boundary</label>
       </div>
    </div>
 </p>
@@ -131,7 +131,6 @@ Source code is available upon request via <support@sitkatech.com>.
        // The colors and many options set in the backend don't appear to actually affect the layers on the map
        var organizationBoundaryFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.OrganizationBoundaryLayerGeoJson).ToString(Formatting.None));
        var editableFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.EditableLayerGeoJson).ToString(Formatting.None));
-       debugger;
 
         projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
 
@@ -176,7 +175,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
         var layerGroup = L.geoJson(organizationBoundaryFeatureJsonObject.GeoJsonFeatureCollection, {
            onEachFeature: function (feature, layer) {
-                debugger;
                 console.log('organizationBoundaryFeatureJsonObject -- onEachFeature function -- layer thingy function');
                 if (layer.getLayers)
                 {
@@ -184,10 +182,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                   if (organizationBoundaryFeatureJsonObject.LayerInitialVisibility)
-                   {
-                      projectFirmaMap.orgBoundaryFeatureGroup.addLayer(layer);
-                   }
+                     projectFirmaMap.orgBoundaryFeatureGroup.addLayer(layer);
                 }
                 bindAnnotationPopup(layer, feature);
             }
@@ -195,7 +190,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
          var layerGroup2 = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
             onEachFeature: function (feature, layer) {
-               debugger;
                console.log('editableFeatureJsonObject -- onEachFeature function -- layer thingy function');
                console.log('LayerInitialVisibility for feature: ' + editableFeatureJsonObject.LayerInitialVisibility);
                if (layer.getLayers)
@@ -204,12 +198,9 @@ Source code is available upon request via <support@sitkatech.com>.
                }
                else
                {
-                  if (editableFeatureJsonObject.LayerInitialVisibility)
-                  {
-                     projectFirmaMap.editableFeatureGroup.addLayer(layer);
-                     console.log('Trying to set color..');
-                     projectFirmaMap.editableFeatureGroup.setStyle({ color: 'purple', opacity: .5 });
-                  }
+                  projectFirmaMap.editableFeatureGroup.addLayer(layer);
+                  console.log('Trying to set color..');
+                  projectFirmaMap.editableFeatureGroup.setStyle({ color: 'purple', opacity: .5 });
                }
                bindAnnotationPopup(layer, feature);
             }
@@ -217,14 +208,21 @@ Source code is available upon request via <support@sitkatech.com>.
 
         var drawOptions = getDrawOptions(projectFirmaMap.editableFeatureGroup);
         var drawControl = new L.Control.Draw(drawOptions);
-        projectFirmaMap.map.addControl(drawControl);
-        projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+       projectFirmaMap.map.addControl(drawControl);
 
-        projectFirmaMap.map.addLayer(projectFirmaMap.orgBoundaryFeatureGroup);
+       if (organizationBoundaryFeatureJsonObject.LayerInitialVisibility)
+       {
+          projectFirmaMap.map.addLayer(projectFirmaMap.orgBoundaryFeatureGroup);
+       }
 
+       if (editableFeatureJsonObject.LayerInitialVisibility)
+       {
+          projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+       }
+       
        projectFirmaMap.map.on('draw:created', function (e)
        {
-            console.log('map_on_draw--created function');
+            //console.log('map_on_draw--created function');
             var layer = e.layer;
             projectFirmaMap.editableFeatureGroup.addLayer(layer);
             var leafletId = layer._leaflet_id;
@@ -238,13 +236,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
        projectFirmaMap.map.on('draw:edited', function (e)
        {
-          console.log('map_on_draw--edited function');
+          //console.log('map_on_draw--edited function');
           updateFeatureCollectionJson();
         });
 
         projectFirmaMap.map.on('draw:deleted', function(e)
         {
-           console.log('map_on_draw--deleted function');
+           //console.log('map_on_draw--deleted function');
            updateFeatureCollectionJson();
         });
 
@@ -274,7 +272,7 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
    function updateFeatureCollectionJson() {
-       console.log('updateFeatureCollectionJson');
+       //console.log('updateFeatureCollectionJson');
        var geoJson = projectFirmaMap.editableFeatureGroup.toGeoJSON();
        var mapForm = jQuery("#" + "@ViewDataTyped.MapFormID");
        mapForm.html("");
@@ -307,9 +305,18 @@ Source code is available upon request via <support@sitkatech.com>.
        mapForm.html(hiddens.join("\r\n"));
     }
 
-   function updateRadioButtonValue()
-   {
-       updateFeatureCollectionJson();
+   function updateRadioButtonValue(target) {
+      var selectedTheOrganizationBoundaryRadioButton = jQuery(target).val();
+
+      if (selectedTheOrganizationBoundaryRadioButton === 'True') {
+         projectFirmaMap.map.addLayer(projectFirmaMap.orgBoundaryFeatureGroup);
+         projectFirmaMap.map.removeLayer(projectFirmaMap.editableFeatureGroup);
+      } else {
+         projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+         projectFirmaMap.map.removeLayer(projectFirmaMap.orgBoundaryFeatureGroup);
+      }
+
+      updateFeatureCollectionJson();
    }
 </script>
 
