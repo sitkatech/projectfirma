@@ -34,19 +34,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </style>
 
 <p>
-   Create a drawing of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s implementation (but not the full area affected by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).
-   The detailed @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel() information will appear on the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet and @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() summary page.
-   <ul>
-      <li>To zoom to your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() area hold down the Shift key and drag a rectangle.</li>
-      <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), such as the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() boundary, a specific stream segment, or an area of interest.</li>
-      <li>After adding a feature, click it to provide a brief description of the feature.</li>
-   </ul>
+   <div>
+      To define your organization's area of interest you may use its jurisdictional boundary
+      (defined on the Overview tab), or draw a polygon. The Matchmaker service will find
+      intersections between this area of interest and projects' spatial data (simple
+      locations, detailed locations, and geospatial areas such as watersheds or districts).
+   </div>
+   <br/>
    <div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue(this)" }) Use Organization Boundary @(!ViewDataTyped.OrganizationHasBoundary ? "(No Organization Boundary Found)" : String.Empty)</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue(this)" }) Use Organization's Boundary @(!ViewDataTyped.OrganizationHasBoundary ? "(No Organization Boundary Found)" : String.Empty)</label>
       </div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue(this)" }) Draw Custom Boundary</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue(this)" }) Draw Area of Interest</label>
       </div>
    </div>
 </p>
