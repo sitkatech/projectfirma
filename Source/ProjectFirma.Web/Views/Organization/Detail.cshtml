@@ -764,24 +764,55 @@
                    <div class="col-md-6">
                       <div class="panel panelFirma">
                          <div class="panel-heading panelTitle">
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
                             @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
                          </div>
                          <div class="panel-body">
-                            <div>
-                                  <p class="systemText">Nothing here yet.</p>
-                            </div>
+                             <div>
+                                 @if (ViewDataTyped.HasAreaOfInterest)
+                                 {
+                                 <div class="col-xs-12">
+                                     <div id="@ViewDataTyped.AreaOfInterestMapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0"></div>
+                                     <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
+                                     <script type="text/javascript">
+                                            jQuery(document).ready(function() {
+                                                var areaOfInterestMapInitJson =
+                                                    @Html.Raw(JObject.FromObject(ViewDataTyped.AreaOfInterestMapInitJson).ToString(Formatting.None));
+                                                var areaOfInterestMap = new ProjectFirmaMaps.Map(areaOfInterestMapInitJson);
+
+                                                jQuery("#profileTab").on("shown.bs.tab",
+                                                    function () {
+                                                        console.log('test');
+                                                        areaOfInterestMap.map.invalidateSize();
+                                                        areaOfInterestMap.setMapBounds(areaOfInterestMapInitJson);
+                                                    });
+                                            });
+                                     </script>
+                                 </div>
+                                 }
+                                 else
+                                 {
+                                    <p class="systemText">No @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() set.</p>
+                                     if (ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && ViewDataTyped.Organization.OrganizationBoundary == null)
+                                     {
+                                        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Boundary as the @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary was found.</p>
+                                     }
+                                     if (!ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && !ViewDataTyped.Organization.MatchMakerAreaOfInterestLocations.Any())
+                                     {
+                                        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use a custom @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no areas were set.</p>
+                                     }
+                                 }
+                             </div>
                          </div>
                       </div>
                    </div>
-                </div>
+                
 
 
 
 
-                @* Taxonomy Panel *@
-                <div class="row">
-                    <div class="col-md-6">
+                     @* Taxonomy Panel *@
+                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit Matchmaker {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)

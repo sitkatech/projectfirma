@@ -34,19 +34,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </style>
 
 <p>
-   Create a drawing of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s implementation (but not the full area affected by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).
-   The detailed @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel() information will appear on the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet and @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() summary page.
-   <ul>
-      <li>To zoom to your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() area hold down the Shift key and drag a rectangle.</li>
-      <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), such as the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() boundary, a specific stream segment, or an area of interest.</li>
-      <li>After adding a feature, click it to provide a brief description of the feature.</li>
-   </ul>
+   <div>
+      To define your organization's area of interest you may use its jurisdictional boundary
+      (defined on the Overview tab), or draw a polygon. The Matchmaker service will find
+      intersections between this area of interest and projects' spatial data (simple
+      locations, detailed locations, and geospatial areas such as watersheds or districts).
+   </div>
+   <br/>
    <div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue()" }) Use Organization Boundary @(!ViewDataTyped.OrganizationHasBoundary ? "(No Organization Boundary Found)" : String.Empty)</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, true, new { onchange = "updateRadioButtonValue(this)" }) Use Organization's Boundary @(!ViewDataTyped.OrganizationHasBoundary ? "(No Organization Boundary Found)" : String.Empty)</label>
       </div>
       <div>
-         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue()" }) Draw Custom Boundary</label>
+         <label>@Html.RadioButtonFor(m => m.UseOrganizationBoundaryForMatchmaker, false, new { onchange = "updateRadioButtonValue(this)" }) Draw Area of Interest</label>
       </div>
    </div>
 </p>
@@ -73,13 +73,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 500px">
 </div>
-@*@if (ViewDataTyped.HasProjectLocationPoint)
-{
-    <div>
-        <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() location (for reference)
-    </div>
-}*@
-
 
 <script type="text/javascript">
     getDrawOptions = function(editableFeatureGroup)
@@ -141,9 +134,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
         projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
 
-        projectFirmaMap.editableFeatureGroup = new L.FeatureGroup();
+        // user-editable boundary feature group
+       projectFirmaMap.editableFeatureGroup = new L.FeatureGroup();
+       // org boundary feature group
+       projectFirmaMap.orgBoundaryFeatureGroup = new L.FeatureGroup();
 
-        var bindAnnotationPopup = function(layer, feature)
+       var bindAnnotationPopup = function(layer, feature)
         {
             var leafletId = layer._leaflet_id;
             var popupOptions = {
@@ -178,21 +174,25 @@ Source code is available upon request via <support@sitkatech.com>.
         };
 
         var layerGroup = L.geoJson(organizationBoundaryFeatureJsonObject.GeoJsonFeatureCollection, {
-            onEachFeature: function(feature, layer) {
+           onEachFeature: function (feature, layer) {
+                console.log('organizationBoundaryFeatureJsonObject -- onEachFeature function -- layer thingy function');
                 if (layer.getLayers)
                 {
-                    layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
+                   layer.getLayers().forEach(function (l) { projectFirmaMap.orgBoundaryFeatureGroup.addLayer(l); });
                 }
                 else
                 {
-                    projectFirmaMap.editableFeatureGroup.addLayer(layer);
+                   projectFirmaMap.orgBoundaryFeatureGroup.addLayer(layer);
+                   projectFirmaMap.orgBoundaryFeatureGroup.setStyle({ color: '@Organization.OrganizationAreaOfInterestMapLayerColor'});
                 }
                 bindAnnotationPopup(layer, feature);
             }
         });
 
          var layerGroup2 = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
-            onEachFeature: function(feature, layer) {
+            onEachFeature: function (feature, layer) {
+               //console.log('editableFeatureJsonObject -- onEachFeature function -- layer thingy function');
+               //console.log('LayerInitialVisibility for feature: ' + editableFeatureJsonObject.LayerInitialVisibility);
                if (layer.getLayers)
                {
                   layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
@@ -200,18 +200,32 @@ Source code is available upon request via <support@sitkatech.com>.
                else
                {
                   projectFirmaMap.editableFeatureGroup.addLayer(layer);
+                  //console.log('Trying to set color..');
+                  projectFirmaMap.editableFeatureGroup.setStyle({ color: '@Organization.OrganizationAreaOfInterestMapLayerColor' });
                }
+               feature.properties.LayerSource =
+                  '@MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn';
                bindAnnotationPopup(layer, feature);
             }
          });
 
         var drawOptions = getDrawOptions(projectFirmaMap.editableFeatureGroup);
         var drawControl = new L.Control.Draw(drawOptions);
-        projectFirmaMap.map.addControl(drawControl);
-        projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+       projectFirmaMap.map.addControl(drawControl);
 
-        projectFirmaMap.map.on('draw:created', function(e)
-        {
+       if (organizationBoundaryFeatureJsonObject.LayerInitialVisibility)
+       {
+          projectFirmaMap.map.addLayer(projectFirmaMap.orgBoundaryFeatureGroup);
+       }
+
+       if (editableFeatureJsonObject.LayerInitialVisibility)
+       {
+          projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+       }
+
+       projectFirmaMap.map.on('draw:created', function (e)
+       {
+            //console.log('map_on_draw--created function');
             var layer = e.layer;
             projectFirmaMap.editableFeatureGroup.addLayer(layer);
             var leafletId = layer._leaflet_id;
@@ -222,14 +236,17 @@ Source code is available upon request via <support@sitkatech.com>.
             bindAnnotationPopup(layer, feature);
             updateFeatureCollectionJson();
         });
-        projectFirmaMap.map.on('draw:edited', function(e)
-        {
-            updateFeatureCollectionJson();
+
+       projectFirmaMap.map.on('draw:edited', function (e)
+       {
+          //console.log('map_on_draw--edited function');
+          updateFeatureCollectionJson();
         });
 
         projectFirmaMap.map.on('draw:deleted', function(e)
         {
-            updateFeatureCollectionJson();
+           //console.log('map_on_draw--deleted function');
+           updateFeatureCollectionJson();
         });
 
         updateFeatureCollectionJson();
@@ -250,7 +267,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
     ProjectFirmaMaps.Map.prototype.getTextAreaId = function(featureId) { return "textareaFor" + featureId; };
 
-
     function savePopupAnnotationEditor(featureId) {
        var textBoxForPopup = jQuery("#" + projectFirmaMap.getTextAreaId(featureId));
        projectFirmaMap.editableFeatureGroup._layers[featureId].feature.properties.Info = textBoxForPopup.val();
@@ -258,7 +274,9 @@ Source code is available upon request via <support@sitkatech.com>.
        updateFeatureCollectionJson();
     }
 
-    function updateFeatureCollectionJson() {
+   function updateFeatureCollectionJson() {
+       //console.log('updateFeatureCollectionJson');
+       //debugger;
        var geoJson = projectFirmaMap.editableFeatureGroup.toGeoJSON();
        var mapForm = jQuery("#" + "@ViewDataTyped.MapFormID");
        mapForm.html("");
@@ -291,9 +309,18 @@ Source code is available upon request via <support@sitkatech.com>.
        mapForm.html(hiddens.join("\r\n"));
     }
 
-   function updateRadioButtonValue()
-   {
-       updateFeatureCollectionJson();
+   function updateRadioButtonValue(target) {
+      var selectedTheOrganizationBoundaryRadioButton = jQuery(target).val();
+
+      if (selectedTheOrganizationBoundaryRadioButton === 'True') {
+         projectFirmaMap.map.addLayer(projectFirmaMap.orgBoundaryFeatureGroup);
+         projectFirmaMap.map.removeLayer(projectFirmaMap.editableFeatureGroup);
+      } else {
+         projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+         projectFirmaMap.map.removeLayer(projectFirmaMap.orgBoundaryFeatureGroup);
+      }
+
+      updateFeatureCollectionJson();
    }
 </script>
 
