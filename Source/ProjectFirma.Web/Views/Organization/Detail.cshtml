@@ -319,7 +319,7 @@
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized() and Boundary
+                                @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized() and boundary
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -327,13 +327,13 @@
                                         <div class="pull-right">
                                             @if (ViewDataTyped.UserHasOrganizationManagePermissions)
                                             {
-                                                <a href="@ViewDataTyped.EditBoundaryUrl" title="Edit Organization Boundary" class="btn btn-firma">
+                                                <a href="@ViewDataTyped.EditBoundaryUrl" title="Edit Organization boundary" class="btn btn-firma">
                                                     @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue")
-                                                    Edit Boundary
+                                                    Edit boundary
                                                 </a>
                                                 if (ViewDataTyped.Organization.OrganizationBoundary != null)
                                                 {
-                                                    @ModalDialogFormHelper.MakeDeleteLink(string.Format("{0} Delete Boundary", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")), ViewDataTyped.DeleteOrganizationBoundaryUrl, new List<string> { "btn", "btn-firma" }, ViewDataTyped.UserHasOrganizationManagePermissions)
+                                                    @ModalDialogFormHelper.MakeDeleteLink(string.Format("{0} Delete Organization boundary", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")), ViewDataTyped.DeleteOrganizationBoundaryUrl, new List<string> { "btn", "btn-firma" }, ViewDataTyped.UserHasOrganizationManagePermissions)
                                                 }
                                             }
                                         </div>
@@ -756,10 +756,6 @@
                         <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
                         <p>This organization is interested in supporting @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below.</p>
                     </div>
-                   <div class="col-xs-12">
-                      <h4>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest (Demand)</h4>
-                      <p>This organization is interested in supporting @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below.</p>
-                   </div>
                 </div>
 
 
@@ -768,25 +764,55 @@
                    <div class="col-md-6">
                       <div class="panel panelFirma">
                          <div class="panel-heading panelTitle">
-                            @*@ModalDialogFormHelper.ModalDialogFormLink("test", ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()),500, ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)*@
-                            @*@ModalDialogFormHelper.ModalDialogFormLink("test", ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()),500, ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)*@
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit Area of Interest {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
                             @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
                          </div>
                          <div class="panel-body">
-                            <div>
-                                  <p class="systemText">Nothing here yet.</p>
-                            </div>
+                             <div>
+                                 @if (ViewDataTyped.HasAreaOfInterest)
+                                 {
+                                 <div class="col-xs-12">
+                                     <div id="@ViewDataTyped.AreaOfInterestMapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0"></div>
+                                     <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
+                                     <script type="text/javascript">
+                                            jQuery(document).ready(function() {
+                                                var areaOfInterestMapInitJson =
+                                                    @Html.Raw(JObject.FromObject(ViewDataTyped.AreaOfInterestMapInitJson).ToString(Formatting.None));
+                                                var areaOfInterestMap = new ProjectFirmaMaps.Map(areaOfInterestMapInitJson);
+
+                                                jQuery("#profileTab").on("shown.bs.tab",
+                                                    function () {
+                                                        console.log('test');
+                                                        areaOfInterestMap.map.invalidateSize();
+                                                        areaOfInterestMap.setMapBounds(areaOfInterestMapInitJson);
+                                                    });
+                                            });
+                                     </script>
+                                 </div>
+                                 }
+                                 else
+                                 {
+                                    <p class="systemText">No @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() set.</p>
+                                     if (ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && ViewDataTyped.Organization.OrganizationBoundary == null)
+                                     {
+                                        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s boundary as the @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary was found.</p>
+                                     }
+                                     if (!ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && !ViewDataTyped.Organization.MatchMakerAreaOfInterestLocations.Any())
+                                     {
+                                        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use a custom @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no areas were set.</p>
+                                     }
+                                 }
+                             </div>
                          </div>
                       </div>
                    </div>
-                </div>
+                
 
 
 
 
-                @* Taxonomy Panel *@
-                <div class="row">
+                     @* Taxonomy Panel *@
+                
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">

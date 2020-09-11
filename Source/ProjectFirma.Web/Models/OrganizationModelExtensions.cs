@@ -350,15 +350,47 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static string GetOptInHasContentString(this Organization organization)
+        {
+            bool optIn = organization.MatchmakerOptIn.HasValue;
+            bool hasContent = optIn && organization.HasMatchmakerProfileContent();
+
+            if (!optIn)
+            {
+                return "Opt-out";
+            }
+
+            if (hasContent)
+            {
+                return "Opt-in, has content";
+            }
+            return "Opt-in, no content";
+        }
+
         public static bool HasMatchmakerProfileContent(this Organization organization)
         {
             // TODO check all profile sections once they are built
-            return HasMatchmakerTaxonomyContent(organization);
+            bool hasMatchmakerTaxonomyContent = HasMatchmakerTaxonomyContent(organization);
+            bool hasMatchmakerAreaOfInterestContent = HasMatchmakerAreaOfInterestContent(organization);
+
+            return hasMatchmakerTaxonomyContent ||
+                   hasMatchmakerAreaOfInterestContent;
         }
 
         private static bool HasMatchmakerTaxonomyContent(this Organization organization)
         {
             return organization.MatchmakerOrganizationTaxonomyLeafs.Any() || organization.MatchmakerOrganizationTaxonomyBranches.Any() || organization.MatchmakerOrganizationTaxonomyTrunks.Any();
+        }
+
+        private static bool HasMatchmakerAreaOfInterestContent(this Organization organization)
+        {
+            // Custom, user-defined location selected and set
+            bool setToUseUserDrawnAreaOfInterestAndOneIsDrawnAndSaved = !organization.UseOrganizationBoundaryForMatchmaker && organization.MatchMakerAreaOfInterestLocations.Any();
+            // Organization boundary selected and such a boundary is set for Organization
+            bool setToUseOrganizationBoundaryAndOneIsDefined = organization.UseOrganizationBoundaryForMatchmaker && organization.OrganizationBoundary != null;
+
+            return setToUseUserDrawnAreaOfInterestAndOneIsDrawnAndSaved ||
+                   setToUseOrganizationBoundaryAndOneIsDefined;
         }
 
         public static string GetMatchmakerResourcesAsString(this Organization organization)

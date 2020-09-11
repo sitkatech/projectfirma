@@ -29,3 +29,7 @@ ALTER TABLE [dbo].[ProjectLocation]  WITH CHECK ADD  CONSTRAINT [FK_ProjectLocat
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[ProjectLocation] CHECK CONSTRAINT [FK_ProjectLocation_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[ProjectLocation]  WITH CHECK ADD  CONSTRAINT [CK_ProjectLocation_ProjectLocationGeometry_SpatialReferenceID_Must_Be_4326] CHECK  (([ProjectLocationGeometry] IS NULL OR [ProjectLocationGeometry].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[ProjectLocation] CHECK CONSTRAINT [CK_ProjectLocation_ProjectLocationGeometry_SpatialReferenceID_Must_Be_4326]

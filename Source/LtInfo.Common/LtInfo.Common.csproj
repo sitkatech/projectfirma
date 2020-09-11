@@ -198,6 +198,7 @@
     <Compile Include="DhtmlWrappers\DhtmlxGridColumnFormatType.cs" />
     <Compile Include="DhtmlWrappers\DhtmlxGridColumnAggregationType.cs" />
     <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.cs" />
+    <Compile Include="DhtmlWrappers\GridOutputFormat.cs" />
     <Compile Include="DhtmlWrappers\SelectProjectsModalDialogForm.cs" />
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />

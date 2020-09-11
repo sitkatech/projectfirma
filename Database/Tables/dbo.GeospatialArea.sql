@@ -43,6 +43,10 @@ REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[GeospatialArea] CHECK CONSTRAINT [FK_GeospatialArea_Tenant_TenantID]
 GO
+ALTER TABLE [dbo].[GeospatialArea]  WITH CHECK ADD  CONSTRAINT [CK_GeospatialArea_GeospatialAreaFeature_SpatialReferenceID_Must_Be_4326] CHECK  (([GeospatialAreaFeature] IS NULL OR [GeospatialAreaFeature].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[GeospatialArea] CHECK CONSTRAINT [CK_GeospatialArea_GeospatialAreaFeature_SpatialReferenceID_Must_Be_4326]
+GO
 SET ARITHABORT ON
 SET CONCAT_NULL_YIELDS_NULL ON
 SET QUOTED_IDENTIFIER ON

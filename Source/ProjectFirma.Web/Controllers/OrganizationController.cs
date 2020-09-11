@@ -263,7 +263,6 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            // UseOrganizationBoundaryForMatchmaker
             var viewModel = new MatchmakerOrganizationLocationDetailViewModel(organization);
             return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
         }
@@ -273,13 +272,13 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"organization_{organization.OrganizationID}_EditMatchMakerAreaOfInterestDiv";
 
             var organizationBoundaryFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
+            FeatureCollection editableLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "SomePropertyOrOther", "SomeValueOrOther");
 
-            var editableLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "asdf", "asdf");
+            LayerInitialVisibility initialVisibilityForOrgBoundary = viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide;
+            LayerInitialVisibility initialVisibilityForUserEditedBoundary = !viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide;
 
-            var orgBoundaryLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Boundary Geometry", organizationBoundaryFeatureCollection, "red", 1, LayerInitialVisibility.Hide);
-            
-            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", editableLayerGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
-            
+            var orgBoundaryLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Boundary Geometry", organizationBoundaryFeatureCollection, "red", 1, initialVisibilityForOrgBoundary);
+            LayerGeoJson editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", editableLayerGeoJsonFeatureCollection, "red", 1, initialVisibilityForUserEditedBoundary);
 
             var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
             // Maybe show all Org project layers here? Consider doing later.
@@ -296,8 +295,6 @@ namespace ProjectFirma.Web.Controllers
             //var uploadGisFileUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.GetEntityID()));
             var saveFeatureCollectionUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.EditMatchMakerAreaOfInterest(organization.OrganizationID, null));
 
-            //var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
-
             var viewData = new MatchmakerOrganizationLocationDetailViewData(organization, mapInitJson, orgBoundaryLayerGeoJson, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, editableLayerGeoJson);
             return RazorPartialView<MatchmakerOrganizationLocationDetail, MatchmakerOrganizationLocationDetailViewData, MatchmakerOrganizationLocationDetailViewModel>(viewData, viewModel);
         }
@@ -306,8 +303,6 @@ namespace ProjectFirma.Web.Controllers
         {
             return $"editOrganizationAreaOfInterestMap_{organization.OrganizationID}";
         }
-
-
 
         [HttpPost]
         [OrganizationProfileViewEditFeature]
@@ -321,15 +316,19 @@ namespace ProjectFirma.Web.Controllers
             }
             organization.UseOrganizationBoundaryForMatchmaker = viewModel.UseOrganizationBoundaryForMatchmaker;
             SaveOrganizationAreaOfInterestDetailedLocations(viewModel, organization);
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
         }
-
 
         private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization)
         {
-            foreach (var organizationLocation in organization.MatchMakerAreaOfInterestLocations.ToList())
+            // It's only appropriate to delete the hand drawn boundary if they are actually currently using it.
+            // Otherwise, just keep the last-known value around in case they change their mind and toggle back to it.
+            if (!viewModel.UseOrganizationBoundaryForMatchmaker)
             {
-                organizationLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                foreach (var organizationLocation in organization.MatchMakerAreaOfInterestLocations.ToList())
+                {
+                    organizationLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
             }
 
             if (viewModel.WktAndOtherInfos != null)
@@ -339,7 +338,7 @@ namespace ProjectFirma.Web.Controllers
                     // We only save user-drawn layer info for now. Everything else (Organizational boundary) originates elsewhere.
                     if (wktAndOtherInfo.LayerSource == MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn)
                     {
-                        organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, DbGeometry.FromText(wktAndOtherInfo.Wkt, 4326)));
+                        organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, DbGeometry.FromText(wktAndOtherInfo.Wkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId)));
                     }
                 }
             }
@@ -455,6 +454,7 @@ namespace ProjectFirma.Web.Controllers
 
             var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
             var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
+            var matchMakerAreaOfInterestInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
             var viewData = new DetailViewData(CurrentFirmaSession,
                                               organization,
                                               mapInitJson,
@@ -465,7 +465,8 @@ namespace ProjectFirma.Web.Controllers
                                               expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
                                               topLevelMatchmakerTaxonomyTier,
                                               maximumTaxonomyLeaves,
-                                              activeTab);
+                                              activeTab,
+                                              matchMakerAreaOfInterestInitJson);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -524,6 +525,36 @@ namespace ProjectFirma.Web.Controllers
             //var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
 
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
+        }
+
+        private static MapInitJson GetOrganizationAreaOfInterestMapInitJson(Organization organization)
+        {
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+
+            var dbGeometries = new List<DbGeometry>();
+
+            // organization boundary layer
+            if (organization.UseOrganizationBoundaryForMatchmaker && organization.OrganizationBoundary != null)
+            {
+                layers.Add(new LayerGeoJson("Organization Boundary",
+                    organization.OrganizationBoundaryToFeatureCollection(), Organization.OrganizationAreaOfInterestMapLayerColor, 1,
+                    LayerInitialVisibility.Show));
+                dbGeometries.Add(organization.OrganizationBoundary);
+            }
+
+            // custom areas of interest
+            if (!organization.UseOrganizationBoundaryForMatchmaker &&
+                organization.MatchMakerAreaOfInterestLocations.Any())
+            {
+                var areaOfInterestLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "Area Of Interest", "User Set");
+                var areaOfInterestLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.Show);
+                layers.Add(areaOfInterestLayerGeoJson);
+                dbGeometries.AddRange(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry));
+            }
+
+            var boundingBox = new BoundingBox(dbGeometries);
+
+            return new MapInitJson($"organization_{organization.OrganizationID}_area_of_interest_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }
 
         private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(Organization organization)

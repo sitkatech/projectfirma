@@ -34,3 +34,7 @@ ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [FK_County_Tenant_TenantI
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[County] CHECK CONSTRAINT [FK_County_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[County]  WITH CHECK ADD  CONSTRAINT [CK_County_CountyFeature_SpatialReferenceID_Must_Be_4326] CHECK  (([CountyFeature] IS NULL OR [CountyFeature].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[County] CHECK CONSTRAINT [CK_County_CountyFeature_SpatialReferenceID_Must_Be_4326]

@@ -35,3 +35,11 @@ ALTER TABLE [dbo].[StateProvince]  WITH CHECK ADD  CONSTRAINT [FK_StateProvince_
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[StateProvince] CHECK CONSTRAINT [FK_StateProvince_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[StateProvince]  WITH CHECK ADD  CONSTRAINT [CK_StateProvince_StateProvinceFeature_SpatialReferenceID_Must_Be_4326] CHECK  (([StateProvinceFeature] IS NULL OR [StateProvinceFeature].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[StateProvince] CHECK CONSTRAINT [CK_StateProvince_StateProvinceFeature_SpatialReferenceID_Must_Be_4326]
+GO
+ALTER TABLE [dbo].[StateProvince]  WITH CHECK ADD  CONSTRAINT [CK_StateProvince_StateProvinceFeatureForAnalysis_SpatialReferenceID_Must_Be_4326] CHECK  (([StateProvinceFeatureForAnalysis] IS NULL OR [StateProvinceFeatureForAnalysis].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[StateProvince] CHECK CONSTRAINT [CK_StateProvince_StateProvinceFeatureForAnalysis_SpatialReferenceID_Must_Be_4326]

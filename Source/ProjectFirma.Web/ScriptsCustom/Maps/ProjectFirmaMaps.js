@@ -116,7 +116,6 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     if (!mapInitJson.DisablePopups) {
         this.map.on("click", function (e) { self.getFeatureInfo(e); });
     }
-     
     self.setMapBounds(mapInitJson);
 };
 
