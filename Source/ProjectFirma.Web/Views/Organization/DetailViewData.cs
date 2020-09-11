@@ -105,18 +105,20 @@ namespace ProjectFirma.Web.Views.Organization
         public int MaximumTaxonomyLeaves { get; }
         public OrganizationDetailTab ActiveTab { get; }
         public bool HasAreaOfInterest { get; set; }
+        public readonly MapInitJson AreaOfInterestMapInitJson;
+        public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
 
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
             LayerGeoJson projectLocationsLayerGeoJson,
             bool hasSpatialData,
-            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
             ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
             List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier,
             int maximumTaxonomyLeaves,
-            OrganizationDetailTab activeTab) : base(currentFirmaSession)
+            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson) : base(currentFirmaSession)
         {
             Organization = organization;
             PageTitle = organization.GetDisplayName();
@@ -227,6 +229,7 @@ namespace ProjectFirma.Web.Views.Organization
             EditAreaOfInterestUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerAreaOfInterest(organization));
             EditAreaOfInterestDialogFormID = OrganizationController.GenerateEditOrganizationMatchMakerAreaOfInterestFormID(organization);
             HasAreaOfInterest = (Organization.UseOrganizationBoundaryForMatchmaker && Organization.OrganizationBoundary != null) || (!Organization.UseOrganizationBoundaryForMatchmaker && Organization.MatchMakerAreaOfInterestLocations.Any());
+            AreaOfInterestMapInitJson = matchMakerAreaOfInterestInitJson;
 
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();

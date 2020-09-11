@@ -453,6 +453,7 @@ namespace ProjectFirma.Web.Controllers
 
             var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
             var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
+            var matchMakerAreaOfInterestInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
             var viewData = new DetailViewData(CurrentFirmaSession,
                                               organization,
                                               mapInitJson,
@@ -463,7 +464,8 @@ namespace ProjectFirma.Web.Controllers
                                               expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
                                               topLevelMatchmakerTaxonomyTier,
                                               maximumTaxonomyLeaves,
-                                              activeTab);
+                                              activeTab,
+                                              matchMakerAreaOfInterestInitJson);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -522,6 +524,36 @@ namespace ProjectFirma.Web.Controllers
             //var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
 
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
+        }
+
+        private static MapInitJson GetOrganizationAreaOfInterestMapInitJson(Organization organization)
+        {
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+
+            var dbGeometries = new List<DbGeometry>();
+
+            // organization boundary layer
+            if (organization.UseOrganizationBoundaryForMatchmaker && organization.OrganizationBoundary != null)
+            {
+                layers.Add(new LayerGeoJson("Organization Boundary",
+                    organization.OrganizationBoundaryToFeatureCollection(), organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
+                    LayerInitialVisibility.Show));
+                dbGeometries.Add(organization.OrganizationBoundary);
+            }
+
+            // custom areas of interest
+            if (!organization.UseOrganizationBoundaryForMatchmaker &&
+                organization.MatchMakerAreaOfInterestLocations.Any())
+            {
+                var areaOfInterestLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "Area Of Interest", "User Set");
+                var areaOfInterestLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+                layers.Add(areaOfInterestLayerGeoJson);
+                dbGeometries.AddRange(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry));
+            }
+
+            var boundingBox = new BoundingBox(dbGeometries);
+
+            return new MapInitJson($"organization_{organization.OrganizationID}_area_of_interest_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }
 
         private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(Organization organization)
