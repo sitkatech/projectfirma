@@ -319,7 +319,7 @@
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized() and Boundary
+                                @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized() and boundary
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -327,13 +327,13 @@
                                         <div class="pull-right">
                                             @if (ViewDataTyped.UserHasOrganizationManagePermissions)
                                             {
-                                                <a href="@ViewDataTyped.EditBoundaryUrl" title="Edit Organization Boundary" class="btn btn-firma">
+                                                <a href="@ViewDataTyped.EditBoundaryUrl" title="Edit Organization boundary" class="btn btn-firma">
                                                     @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue")
-                                                    Edit Boundary
+                                                    Edit boundary
                                                 </a>
                                                 if (ViewDataTyped.Organization.OrganizationBoundary != null)
                                                 {
-                                                    @ModalDialogFormHelper.MakeDeleteLink(string.Format("{0} Delete Boundary", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")), ViewDataTyped.DeleteOrganizationBoundaryUrl, new List<string> { "btn", "btn-firma" }, ViewDataTyped.UserHasOrganizationManagePermissions)
+                                                    @ModalDialogFormHelper.MakeDeleteLink(string.Format("{0} Delete Organization boundary", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")), ViewDataTyped.DeleteOrganizationBoundaryUrl, new List<string> { "btn", "btn-firma" }, ViewDataTyped.UserHasOrganizationManagePermissions)
                                                 }
                                             }
                                         </div>
@@ -764,7 +764,7 @@
                    <div class="col-md-6">
                       <div class="panel panelFirma">
                          <div class="panel-heading panelTitle">
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
                             @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
                          </div>
                          <div class="panel-body">
@@ -795,7 +795,7 @@
                                     <p class="systemText">No @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() set.</p>
                                      if (ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && ViewDataTyped.Organization.OrganizationBoundary == null)
                                      {
-                                        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Boundary as the @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary was found.</p>
+                                        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s boundary as the @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary was found.</p>
                                      }
                                      if (!ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && !ViewDataTyped.Organization.MatchMakerAreaOfInterestLocations.Any())
                                      {
@@ -812,7 +812,8 @@
 
 
                      @* Taxonomy Panel *@
-                     <div class="col-md-6">
+                
+                    <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit Matchmaker {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
