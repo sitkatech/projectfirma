@@ -1467,7 +1467,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)
                 {
-                    projectUpdateBatch.ProjectLocationUpdates.Add(new ProjectLocationUpdate(projectUpdateBatch, DbGeometry.FromText(wktAndAnnotation.Wkt), wktAndAnnotation.Annotation));
+                    projectUpdateBatch.ProjectLocationUpdates.Add(new ProjectLocationUpdate(projectUpdateBatch, DbGeometry.FromText(wktAndAnnotation.Wkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId), wktAndAnnotation.Annotation));
                 }
             }
         }
