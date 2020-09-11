@@ -66,7 +66,6 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Edit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey)
         {
             var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(fieldDefinitionPrimaryKey);
-//            var fieldDefinitionDefault = fieldDefinitionData.FieldDefinition.FieldDefinitionDefault;
             var fieldDefinitionDefault = HttpRequestStorage.DatabaseEntities.FieldDefinitionDefaults.GetFieldDefinitionDefaultByFieldDefinition(fieldDefinitionPrimaryKey);            
             var viewModel = new EditViewModel(fieldDefinitionData, fieldDefinitionDefault);
             return ViewEdit(fieldDefinitionPrimaryKey, viewModel);
@@ -90,6 +89,12 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var fieldDefinitionDefault = CurrentFirmaSession.IsSitkaAdministrator() ? HttpRequestStorage.DatabaseEntities.FieldDefinitionDefaults.GetFieldDefinitionDefaultByFieldDefinition(fieldDefinitionPrimaryKey) : null;
+            if (CurrentFirmaSession.IsSitkaAdministrator() && fieldDefinitionDefault == null)
+            {
+                // need to insert a default
+                fieldDefinitionDefault = new FieldDefinitionDefault(fieldDefinitionData.FieldDefinition, "<p><em>not defined</em></p>");
+                HttpRequestStorage.DatabaseEntities.FieldDefinitionDefaults.Add(fieldDefinitionDefault);
+            }
 
             viewModel.UpdateModel(fieldDefinitionData, fieldDefinitionDefault, HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay("Field Definition successfully saved.");
