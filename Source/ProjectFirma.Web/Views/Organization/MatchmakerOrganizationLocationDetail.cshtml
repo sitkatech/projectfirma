@@ -135,7 +135,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
         projectFirmaMap = new ProjectFirmaMaps.Map(mapInitJson);
 
-        projectFirmaMap.editableFeatureGroup = new L.FeatureGroup();
+        // user-editable boundary feature group
+       projectFirmaMap.editableFeatureGroup = new L.FeatureGroup();
+       // org boundary feature group
+       projectFirmaMap.orgBoundaryFeatureGroup = new L.FeatureGroup();
 
        var bindAnnotationPopup = function(layer, feature)
         {
@@ -177,11 +180,14 @@ Source code is available upon request via <support@sitkatech.com>.
                 console.log('organizationBoundaryFeatureJsonObject -- onEachFeature function -- layer thingy function');
                 if (layer.getLayers)
                 {
-                    layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
+                   layer.getLayers().forEach(function (l) { projectFirmaMap.orgBoundaryFeatureGroup.addLayer(l); });
                 }
                 else
                 {
-                    projectFirmaMap.editableFeatureGroup.addLayer(layer);
+                   if (organizationBoundaryFeatureJsonObject.LayerInitialVisibility)
+                   {
+                      projectFirmaMap.orgBoundaryFeatureGroup.addLayer(layer);
+                   }
                 }
                 bindAnnotationPopup(layer, feature);
             }
@@ -213,6 +219,8 @@ Source code is available upon request via <support@sitkatech.com>.
         var drawControl = new L.Control.Draw(drawOptions);
         projectFirmaMap.map.addControl(drawControl);
         projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
+
+        projectFirmaMap.map.addLayer(projectFirmaMap.orgBoundaryFeatureGroup);
 
        projectFirmaMap.map.on('draw:created', function (e)
        {

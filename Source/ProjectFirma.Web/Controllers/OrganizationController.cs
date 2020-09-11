@@ -325,9 +325,14 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization)
         {
-            foreach (var organizationLocation in organization.MatchMakerAreaOfInterestLocations.ToList())
+            // It's only appropriate to delete the hand drawn boundary if they are actually currently using it.
+            // Otherwise, just keep the last-known value around in case they change their mind and toggle back to it.
+            if (!viewModel.UseOrganizationBoundaryForMatchmaker)
             {
-                organizationLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                foreach (var organizationLocation in organization.MatchMakerAreaOfInterestLocations.ToList())
+                {
+                    organizationLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
             }
 
             if (viewModel.WktAndOtherInfos != null)
