@@ -68,9 +68,11 @@ namespace ProjectFirma.Web.Views.Organization
             Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmpty(), 70);
             if (FirmaWebConfiguration.FeatureMatchMakerEnabled && MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
             {
-                Add("Matchmaker Service", a => a.MatchmakerOptIn.HasValue && a.MatchmakerOptIn.Value ? a.HasMatchmakerProfileContent() ? "Opt-in, has content" : "Opt-in, no content" : "Opt-out", 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                Add("Matchmaker Service", a => a.GetOptInHasContentString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
         }
+
+
 
         public enum OrganizationStatusFilterTypeEnum
         {

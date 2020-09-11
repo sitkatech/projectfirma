@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
         public const string OrganizationAreaOfInterestMapLayerColor = "purple";
 
         public bool IsUnknown() => !String.IsNullOrWhiteSpace(this.OrganizationName) &&
-                                                                        this.OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
+                                   this.OrganizationName.Equals(OrganizationUnknown, StringComparison.InvariantCultureIgnoreCase);
 
         public string GetDisplayName() => this.IsUnknown()
             ? "Unknown or unspecified"
