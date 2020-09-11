@@ -541,7 +541,7 @@ namespace ProjectFirma.Web.Controllers
             if (organization.UseOrganizationBoundaryForMatchmaker && organization.OrganizationBoundary != null)
             {
                 layers.Add(new LayerGeoJson("Organization Boundary",
-                    organization.OrganizationBoundaryToFeatureCollection(), organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
+                    organization.OrganizationBoundaryToFeatureCollection(), Organization.OrganizationAreaOfInterestMapLayerColor, 1,
                     LayerInitialVisibility.Show));
                 dbGeometries.Add(organization.OrganizationBoundary);
             }
@@ -551,7 +551,7 @@ namespace ProjectFirma.Web.Controllers
                 organization.MatchMakerAreaOfInterestLocations.Any())
             {
                 var areaOfInterestLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "Area Of Interest", "User Set");
-                var areaOfInterestLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+                var areaOfInterestLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.Show);
                 layers.Add(areaOfInterestLayerGeoJson);
                 dbGeometries.AddRange(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry));
             }

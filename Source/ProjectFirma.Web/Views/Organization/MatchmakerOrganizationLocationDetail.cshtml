@@ -182,7 +182,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                     projectFirmaMap.orgBoundaryFeatureGroup.addLayer(layer);
+                   projectFirmaMap.orgBoundaryFeatureGroup.addLayer(layer);
+                   projectFirmaMap.orgBoundaryFeatureGroup.setStyle({ color: '@Organization.OrganizationAreaOfInterestMapLayerColor'});
                 }
                 bindAnnotationPopup(layer, feature);
             }
@@ -190,8 +191,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
          var layerGroup2 = L.geoJson(editableFeatureJsonObject.GeoJsonFeatureCollection, {
             onEachFeature: function (feature, layer) {
-               console.log('editableFeatureJsonObject -- onEachFeature function -- layer thingy function');
-               console.log('LayerInitialVisibility for feature: ' + editableFeatureJsonObject.LayerInitialVisibility);
+               //console.log('editableFeatureJsonObject -- onEachFeature function -- layer thingy function');
+               //console.log('LayerInitialVisibility for feature: ' + editableFeatureJsonObject.LayerInitialVisibility);
                if (layer.getLayers)
                {
                   layer.getLayers().forEach(function(l) { projectFirmaMap.editableFeatureGroup.addLayer(l); });
@@ -199,9 +200,11 @@ Source code is available upon request via <support@sitkatech.com>.
                else
                {
                   projectFirmaMap.editableFeatureGroup.addLayer(layer);
-                  console.log('Trying to set color..');
-                  projectFirmaMap.editableFeatureGroup.setStyle({ color: 'purple', opacity: .5 });
+                  //console.log('Trying to set color..');
+                  projectFirmaMap.editableFeatureGroup.setStyle({ color: '@Organization.OrganizationAreaOfInterestMapLayerColor' });
                }
+               feature.properties.LayerSource =
+                  '@MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn';
                bindAnnotationPopup(layer, feature);
             }
          });
@@ -219,7 +222,7 @@ Source code is available upon request via <support@sitkatech.com>.
        {
           projectFirmaMap.map.addLayer(projectFirmaMap.editableFeatureGroup);
        }
-       
+
        projectFirmaMap.map.on('draw:created', function (e)
        {
             //console.log('map_on_draw--created function');
@@ -273,6 +276,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
    function updateFeatureCollectionJson() {
        //console.log('updateFeatureCollectionJson');
+       debugger;
        var geoJson = projectFirmaMap.editableFeatureGroup.toGeoJSON();
        var mapForm = jQuery("#" + "@ViewDataTyped.MapFormID");
        mapForm.html("");
