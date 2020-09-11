@@ -34,7 +34,7 @@
          <th class="col-sm-6">Partner Organization</th>
          <th class="col-sm-2">Resources</th>
          <th class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.MatchScore.ToType())</th>
-         <th class="col-sm-4">Match Score Insights</th>
+         @*<th class="col-sm-4">Match Score Insights</th>*@
       </tr>
       @foreach (var matchMakerScore in ViewDataTyped.RelevantPartnerOrganizationMatchMakerScores)
       {
@@ -55,9 +55,10 @@
       <td>
          @matchMakerScore.GetProjectOrganizationFitnessScoreNumberDisplayString()
       </td>
-      <td>
+      @*Yes, this is partial progress on PF-2277, but it was done before Matt wrote his story.*@
+      @*<td>
          @matchMakerScore.GetScoreInsightMessagesConcatenated()
-      </td>
+      </td>*@
    </tr>
       }
    </table>

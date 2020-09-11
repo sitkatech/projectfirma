@@ -263,7 +263,6 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            // UseOrganizationBoundaryForMatchmaker
             var viewModel = new MatchmakerOrganizationLocationDetailViewModel(organization);
             return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
         }
@@ -305,8 +304,6 @@ namespace ProjectFirma.Web.Controllers
             return $"editOrganizationAreaOfInterestMap_{organization.OrganizationID}";
         }
 
-
-
         [HttpPost]
         [OrganizationProfileViewEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
@@ -319,9 +316,8 @@ namespace ProjectFirma.Web.Controllers
             }
             organization.UseOrganizationBoundaryForMatchmaker = viewModel.UseOrganizationBoundaryForMatchmaker;
             SaveOrganizationAreaOfInterestDetailedLocations(viewModel, organization);
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
         }
-
 
         private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization)
         {
