@@ -86,12 +86,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var options = {
             position: 'topleft',
             draw: {
-                polyline: {
-                    shapeOptions: {
-                        color: '#f357a1',
-                        weight: 10
-                    }
-                },
+                polyline: false, // Turns off this drawing tool
                 polygon: {
                     allowIntersection: false, // Restricts shapes to simple polygons
                     drawError: {
@@ -108,9 +103,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         color: "#f357a1"
                     }
                 },
-                marker: {
-                    icon: myIcon
-                }
+               marker: false // Turns off this drawing tool
             },
             edit: {
                 featureGroup: editableFeatureGroup, //REQUIRED!!
@@ -293,7 +286,6 @@ Source code is available upon request via <support@sitkatech.com>.
           var currentWktAnnotationValue = Sitka.Methods.htmlEncode(geoJson.features[i].properties.Info);
           var currentWktLayerSourceValue = Sitka.Methods.htmlEncode(geoJson.features[i].properties.LayerSource);
 
-          //debugger;
           //console.log('currentWktValue:' + currentWktValue);
           //console.log('currentWktAnnotationValue:' + currentWktAnnotationValue);
           //console.log('geoJson.features[i]:' + geoJson.features[i]);
