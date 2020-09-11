@@ -34,9 +34,9 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
-using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 
 namespace ProjectFirma.Web.Models
 {
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Models
             return organization == null ? "" : SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
         }
 
-        public static readonly UrlTemplate<int> DetailProfileTabUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, DetailViewData.OrganizationDetailTab.Profile)));
+        public static readonly UrlTemplate<int> DetailProfileTabUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         public static string GetDetailProfileTabUrl(this Organization organization)
         {
             return organization == null ? "" : DetailProfileTabUrlTemplate.ParameterReplace(organization.OrganizationID);
@@ -350,15 +350,47 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static string GetOptInHasContentString(this Organization organization)
+        {
+            bool optIn = organization.MatchmakerOptIn.HasValue;
+            bool hasContent = optIn && organization.HasMatchmakerProfileContent();
+
+            if (!optIn)
+            {
+                return "Opt-out";
+            }
+
+            if (hasContent)
+            {
+                return "Opt-in, has content";
+            }
+            return "Opt-in, no content";
+        }
+
         public static bool HasMatchmakerProfileContent(this Organization organization)
         {
             // TODO check all profile sections once they are built
-            return HasMatchmakerTaxonomyContent(organization);
+            bool hasMatchmakerTaxonomyContent = HasMatchmakerTaxonomyContent(organization);
+            bool hasMatchmakerAreaOfInterestContent = HasMatchmakerAreaOfInterestContent(organization);
+
+            return hasMatchmakerTaxonomyContent ||
+                   hasMatchmakerAreaOfInterestContent;
         }
 
         private static bool HasMatchmakerTaxonomyContent(this Organization organization)
         {
             return organization.MatchmakerOrganizationTaxonomyLeafs.Any() || organization.MatchmakerOrganizationTaxonomyBranches.Any() || organization.MatchmakerOrganizationTaxonomyTrunks.Any();
+        }
+
+        private static bool HasMatchmakerAreaOfInterestContent(this Organization organization)
+        {
+            // Custom, user-defined location selected and set
+            bool setToUseUserDrawnAreaOfInterestAndOneIsDrawnAndSaved = !organization.UseOrganizationBoundaryForMatchmaker && organization.MatchMakerAreaOfInterestLocations.Any();
+            // Organization boundary selected and such a boundary is set for Organization
+            bool setToUseOrganizationBoundaryAndOneIsDefined = organization.UseOrganizationBoundaryForMatchmaker && organization.OrganizationBoundary != null;
+
+            return setToUseUserDrawnAreaOfInterestAndOneIsDrawnAndSaved ||
+                   setToUseOrganizationBoundaryAndOneIsDefined;
         }
 
         public static string GetMatchmakerResourcesAsString(this Organization organization)

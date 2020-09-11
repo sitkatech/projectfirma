@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.Organization
 {
-    public abstract class Detail : LtInfo.Common.Mvc.TypedWebViewPage<DetailViewData>
+    public abstract class Detail : LtInfo.Common.Mvc.TypedWebViewPage<OrganizationDetailViewData>
     {
     }
 }

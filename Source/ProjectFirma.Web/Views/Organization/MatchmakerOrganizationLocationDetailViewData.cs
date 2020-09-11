@@ -21,12 +21,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.Organization
 {
     public class MatchmakerOrganizationLocationDetailViewData : FirmaUserControlViewData
     {
+        //public static string LayerInitialVisibilityString = "LayerInitialVisibility";
+
         public readonly ProjectFirmaModels.Models.Organization Organization;
         //public readonly bool HasProjectLocationPoint;
         public readonly MapInitJson MapInitJson;
@@ -40,12 +41,12 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly bool OrganizationHasBoundary;
         public readonly LayerGeoJson EditableLayerGeoJson;
 
-        public MatchmakerOrganizationLocationDetailViewData(ProjectFirmaModels.Models.Organization organization, 
-                                                            MapInitJson mapInitJson, 
-                                                            LayerGeoJson organizationBoundaryLayerGeoJson, 
-                                                            //string uploadGisFileUrl, 
-                                                            string mapFormID, 
-                                                            string saveFeatureCollectionUrl, 
+        public MatchmakerOrganizationLocationDetailViewData(ProjectFirmaModels.Models.Organization organization,
+                                                            MapInitJson mapInitJson,
+                                                            LayerGeoJson organizationBoundaryLayerGeoJson,
+                                                            //string uploadGisFileUrl,
+                                                            string mapFormID,
+                                                            string saveFeatureCollectionUrl,
                                                             int annotationMaxLength,
                                                             LayerGeoJson editableLayerGeoJson
                                                             /*,bool hasProjectLocationPoint*/)

@@ -2236,7 +2236,7 @@
     <Compile Include="Views\Shared\TextControls\EditNoteViewModel.cs" />
     <Compile Include="Views\Shared\TextControls\EditNoteViewModelTest.cs" />
     <Compile Include="Views\Organization\Detail.cs" />
-    <Compile Include="Views\Organization\DetailViewData.cs" />
+    <Compile Include="Views\Organization\OrganizationDetailViewData.cs" />
     <Compile Include="Views\Organization\EditViewModelTest.cs" />
     <Compile Include="Views\User\EditRoles.cs">
       <SubType>Code</SubType>
