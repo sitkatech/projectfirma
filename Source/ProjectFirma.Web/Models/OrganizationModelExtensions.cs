@@ -34,9 +34,9 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
-using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 
 namespace ProjectFirma.Web.Models
 {
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Models
             return organization == null ? "" : SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
         }
 
-        public static readonly UrlTemplate<int> DetailProfileTabUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, DetailViewData.OrganizationDetailTab.Profile)));
+        public static readonly UrlTemplate<int> DetailProfileTabUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         public static string GetDetailProfileTabUrl(this Organization organization)
         {
             return organization == null ? "" : DetailProfileTabUrlTemplate.ParameterReplace(organization.OrganizationID);

@@ -43,7 +43,6 @@ using MoreLinq;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
-using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
@@ -186,7 +185,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(organization);
-            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
 
         private PartialViewResult ViewEditProfileSupplementalInformation(EditProfileSupplementalInformationViewModel viewModel)
@@ -230,7 +229,7 @@ namespace ProjectFirma.Web.Controllers
             var matchmakerOrganizationTaxonomyLeafs = HttpRequestStorage.DatabaseEntities.AllMatchmakerOrganizationTaxonomyLeafs.Local;
         
             viewModel.UpdateModel(organization, matchmakerOrganizationTaxonomyTrunks, matchmakerOrganizationTaxonomyBranches, matchmakerOrganizationTaxonomyLeafs);
-            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
         
         private PartialViewResult ViewEditProfileTaxonomy(EditProfileTaxonomyViewModel viewModel)
@@ -316,7 +315,7 @@ namespace ProjectFirma.Web.Controllers
             }
             organization.UseOrganizationBoundaryForMatchmaker = viewModel.UseOrganizationBoundaryForMatchmaker;
             SaveOrganizationAreaOfInterestDetailedLocations(viewModel, organization);
-            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
 
         private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization)
@@ -435,10 +434,10 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationViewFeature]
-        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey, DetailViewData.OrganizationDetailTab? organizationDetailTab)
+        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey, OrganizationDetailViewData.OrganizationDetailTab? organizationDetailTab)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var activeTab = organizationDetailTab ?? DetailViewData.OrganizationDetailTab.Overview;
+            var activeTab = organizationDetailTab ?? OrganizationDetailViewData.OrganizationDetailTab.Overview;
             var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(organization);
             var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(organization, CurrentFirmaSession);
 
@@ -455,7 +454,7 @@ namespace ProjectFirma.Web.Controllers
             var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
             var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
             var matchMakerAreaOfInterestInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
-            var viewData = new DetailViewData(CurrentFirmaSession,
+            var viewData = new OrganizationDetailViewData(CurrentFirmaSession,
                                               organization,
                                               mapInitJson,
                                               projectLocationsLayerGeoJson,
@@ -467,7 +466,7 @@ namespace ProjectFirma.Web.Controllers
                                               maximumTaxonomyLeaves,
                                               activeTab,
                                               matchMakerAreaOfInterestInitJson);
-            return RazorView<Detail, DetailViewData>(viewData);
+            return RazorView<Detail, OrganizationDetailViewData>(viewData);
         }
 
         private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, Person person)

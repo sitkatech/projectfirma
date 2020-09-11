@@ -31,7 +31,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class DetailViewData : FirmaViewData
+    public class OrganizationDetailViewData : FirmaViewData
     {
         public enum OrganizationDetailTab
         {
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly MapInitJson AreaOfInterestMapInitJson;
         public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
 
-        public DetailViewData(FirmaSession currentFirmaSession,
+        public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
             LayerGeoJson projectLocationsLayerGeoJson,
