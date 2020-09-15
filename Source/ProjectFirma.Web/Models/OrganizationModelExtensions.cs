@@ -352,7 +352,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetOptInHasContentString(this Organization organization)
         {
-            bool optIn = organization.MatchmakerOptIn.HasValue;
+            bool optIn = organization.MatchmakerOptIn.HasValue && organization.MatchmakerOptIn.Value;
             bool hasContent = optIn && organization.HasMatchmakerProfileContent();
 
             if (!optIn)
