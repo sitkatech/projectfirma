@@ -185,4 +185,5 @@ VALUES
 (361, N'OrganizationCash', N'Cash'),
 (362, N'OrganizationInKindServices', N'In-Kind Services'),
 (363, N'OrganizationCommercialServices', N'Commercial Services'),
-(364, N'AreaOfInterest', N'Area of Interest')
+(364, N'AreaOfInterest', N'Area of Interest'),
+(365, N'MatchmakerKeyword', N'Matchmaker Keyword')

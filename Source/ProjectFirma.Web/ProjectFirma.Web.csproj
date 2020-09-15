@@ -105,6 +105,7 @@
     <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
     <Compile Include="Models\FirmaMenuItemModelExtensions.cs" />
+    <Compile Include="Models\MatchmakerKeywordModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
@@ -480,6 +481,10 @@
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
     <Compile Include="Views\Shared\FirmaIncludesViewData.cs" />
     <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
+    <Compile Include="Views\Shared\MatchmakerOrganizationControls\BootstrapOrganizationMatchmakerKeyword.cs" />
+    <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cs" />
+    <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywordsViewData.cs" />
+    <Compile Include="Views\Shared\MatchmakerOrganizationControls\MatchmakerKeywordHelper.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContacts.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewData.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewModel.cs" />
@@ -1821,6 +1826,7 @@
     <Content Include="Views\Reports\Projects.cshtml" />
     <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
     <Content Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetail.cshtml" />
+    <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
