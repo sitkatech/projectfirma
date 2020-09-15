@@ -74,12 +74,14 @@ Source code is available upon request via <support@sitkatech.com>.
                 });
                 return item;
             },
-            onRemove: function(pill)
-            {
+           onRemove: function (pill)
+           {
+                //debugger;
                 // event.item: contains the item
                 var postData = new Object();
                 postData.OrganizationIDList = [@ViewDataTyped.Organization.OrganizationID];
-                postData.MatchmakerKeywordName = pill.data("matchmaker-keyword-id");
+                //postData.MatchmakerKeywordName = pill.data("matchmaker-keyword-id");
+                postData.MatchmakerKeywordName = pill.data("tag-id");
                 SitkaAjax.postJSON(@Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.RemoveKeywordsUrl.ToJS()), postData, function() {});
             }
         });

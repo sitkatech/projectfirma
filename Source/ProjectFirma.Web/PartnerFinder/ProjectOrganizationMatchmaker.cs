@@ -249,11 +249,34 @@ namespace ProjectFirma.Web.PartnerFinder
         {
             List<string> localMatchInsights = new List<string>();
 
+            // Just searching Name & Description for now, but definitely could search additional meta data
+            double keywordProjectNameKeywordScore = 0.0;
+            double keywordProjectDescriptionKeywordScore = 0.0;
 
-            double keywordScore = 0.0;
+            string currentProjectName = project.ProjectName.ToLower();
+            string currentProjectDescription = project.ProjectDescription.ToLower();
 
-            CheckEnsureScoreInValidRange(keywordScore);
-            subScores.Add(keywordScore);
+            List<MatchmakerKeyword> keywordsForOrganization = organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword).ToList();
+            foreach (var currentMatchmakerKeyword in keywordsForOrganization)
+            {
+                string currentOrgKeyword = currentMatchmakerKeyword.MatchmakerKeywordName.ToLower();
+                if (currentProjectName.Contains(currentOrgKeyword))
+                {
+                    keywordProjectNameKeywordScore = 1.0;
+                }
+
+                if (currentProjectDescription.Contains(currentOrgKeyword))
+                {
+                    keywordProjectDescriptionKeywordScore = 1.0;
+                }
+            }
+
+            // If any of the sub-sub scores are 1.0, the Keyword sub score returns 1.0. This could be refined if needed.
+            var allSubScores = new List<double> { keywordProjectNameKeywordScore, keywordProjectDescriptionKeywordScore };
+            double keywordOverallScore = allSubScores.Max();
+
+            CheckEnsureScoreInValidRange(keywordOverallScore);
+            subScores.Add(keywordOverallScore);
         }
 
 

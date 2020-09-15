@@ -823,6 +823,7 @@
     <Compile Include="Models\MatchmakerOrganizationTaxonomyTrunk.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyBranch.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyLeaf.cs" />
+    <Compile Include="Models\OrganizationMatchmakerKeyword.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />
