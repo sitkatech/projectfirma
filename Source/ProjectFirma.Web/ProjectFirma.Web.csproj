@@ -67,6 +67,7 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
     <Compile Include="Models\GridColumn.cs" />
@@ -481,6 +482,9 @@
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
     <Compile Include="Views\Shared\FirmaIncludesViewData.cs" />
     <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
+    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizations.cs" />
+    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizationsViewData.cs" />
+    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizationsViewModel.cs" />
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\BootstrapOrganizationMatchmakerKeyword.cs" />
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cs" />
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywordsViewData.cs" />
@@ -1827,6 +1831,7 @@
     <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
     <Content Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetail.cshtml" />
     <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
+    <Content Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizations.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

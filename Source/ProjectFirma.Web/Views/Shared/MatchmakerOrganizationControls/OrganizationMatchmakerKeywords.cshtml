@@ -30,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <script>
     jQuery(document).ready(function()
     {
-       alert('Starting up Organization Matchmaker Keyword control');
+       //alert('Starting up Organization Matchmaker Keyword control');
        var loaded = false;
        var organizationMatchmakerKeywordsDiv = jQuery("#organizationMatchmakerKeywordsDiv");
        if (Sitka.Methods.isUndefinedNullOrEmpty(organizationMatchmakerKeywordsDiv))
@@ -52,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
             suggestion_url: @Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.FindKeywordsUrl.ToJS()),
            onBeforeAdd: function (item)
            {
-               console.log('Attempting to add keyword...');
+                //console.log('Attempting to add keyword...');
                 if (!loaded)
                 {
                     return item;

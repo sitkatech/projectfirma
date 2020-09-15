@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="TagHelper.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BulkMatchmakerKeywordProjectsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,25 +18,27 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
+namespace ProjectFirma.Web.Views.Shared.MatchmakerKeyword
 {
-    public class MatchmakerKeywordHelper
+    public class BulkMatchmakerKeywordOrganizationsViewData : FirmaUserControlViewData
     {
-        public readonly List<BootstrapOrganizationMatchmakerKeyword> Keywords;
-        public readonly string AddKeywordsUrl;
-        public readonly string RemoveKeywordsUrl;
-        public readonly string FindKeywordsUrl;
+        public string FindMatchmakerKeywordUrl { get; }
+        public List<string> OrganizationDisplayNames { get; }
+        public string OrganizationLabel { get; }
 
-        public MatchmakerKeywordHelper(List<BootstrapOrganizationMatchmakerKeyword> keywords)
+        public BulkMatchmakerKeywordOrganizationsViewData(List<string> organizationDisplayNames)
         {
-            Keywords = keywords;
-            AddKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.AddMatchmakerKeywordsToOrganization());
-            RemoveKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.RemoveMatchmakerKeywordsFromOrganization());
-            FindKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.FindMatchmakerKeyword(null));
+            OrganizationDisplayNames = organizationDisplayNames;
+            FindMatchmakerKeywordUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.FindMatchmakerKeyword(null));
+
+            OrganizationLabel = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}" + (OrganizationDisplayNames.Count > 1 ? "s" : String.Empty);
         }
     }
 }
