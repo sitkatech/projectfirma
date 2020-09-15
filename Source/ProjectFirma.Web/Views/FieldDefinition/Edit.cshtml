@@ -57,7 +57,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
                 else
                 {
-                    @ViewDataTyped.FieldDefinition.FieldDefinitionDefault.DefaultDefinitionHtmlString
+                    @(ViewDataTyped.FieldDefinition.FieldDefinitionDefault != null ? ViewDataTyped.FieldDefinition.FieldDefinitionDefault.DefaultDefinitionHtmlString : new HtmlString(string.Empty))
                     @Html.HiddenFor(m=>m.FieldDefinitionDefault)
                 }
             </div>
