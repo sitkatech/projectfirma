@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.PartnerFinder
     {
         // Anything below this score is deemed not good enough to show to a user as
         // a potential match. We'll see if this is useful idea.
-        public const double MatchScoreDisplayCutoff = 0.5;
+        public const double MatchScoreDisplayCutoff = 0.2;
 
         public Project Project { get; }
         public Organization Organization { get; }
