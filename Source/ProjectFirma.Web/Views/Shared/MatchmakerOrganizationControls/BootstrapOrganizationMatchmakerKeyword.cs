@@ -39,7 +39,11 @@ namespace ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
         }
 
         public BootstrapOrganizationMatchmakerKeyword(ProjectFirmaModels.Models.MatchmakerKeyword matchmakerKeyword) :
-            this(matchmakerKeyword.MatchmakerKeywordName, matchmakerKeyword.MatchmakerKeywordName, matchmakerKeyword.GetDetailUrl(), matchmakerKeyword.OrganizationMatchmakerKeywords.Count)
+            this(matchmakerKeyword.MatchmakerKeywordName, 
+                matchmakerKeyword.MatchmakerKeywordName, 
+                //matchmakerKeyword.GetDetailUrl(),
+                null, // No detail URL for now
+                matchmakerKeyword.OrganizationMatchmakerKeywords.Count)
         {
         }
     }
