@@ -97,6 +97,7 @@ namespace ProjectFirma.Web.Views.Organization
         public string EditProfileTaxonomyUrl { get; }
         public string EditAreaOfInterestUrl { get; }
         public string EditAreaOfInterestDialogFormID { get; }
+        public string EditOrgClassificationsUrl { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -238,6 +239,8 @@ namespace ProjectFirma.Web.Views.Organization
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             MaximumTaxonomyLeaves = maximumTaxonomyLeaves;
             ActiveTab = activeTab;
+
+            EditOrgClassificationsUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerClassifications(organization));
         }
     }
 }

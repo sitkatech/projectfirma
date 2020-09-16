@@ -1,0 +1,76 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Money.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirmaModels.Models
+@model ProjectFirma.Web.Models.SitkaListbox
+    <script type="text/javascript">
+
+    angular.module("ProjectFirmaApp").controller("SitkaListboxController", function ($scope, angularModelAndViewData) {
+
+        $scope.AngularModel = angularModelAndViewData.AngularModel;
+
+        $scope.allOptions = $scope.AngularModel.SelectListItems;
+        $scope.selectedItems = [];
+        console.log($scope.AngularModel);
+
+        $scope.change = function() {
+            console.log('changed');
+        }
+        
+
+    });
+
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: {}
+        };
+    });
+
+    jQuery(document).ready(function () {
+        angular.bootstrap(jQuery("#@Model.ListboxUniqueID"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+
+    });
+    </script>
+<div ng-app="ProjectFirmaApp" id="@Model.ListboxUniqueID" ng-controller="SitkaListboxController" style="max-height: 600px">
+    <div class="col-md-4">
+        left
+    </div>
+    <div class="col-md-4">
+        middle
+    </div>
+    <div class="col-md-4">
+        right
+    </div>
+    @Html.ListBoxFor(x => x.SelectedItems, Model.SelectListItems, new { @class = "sitka-listbox" })
+    <select name="test" multiple="multiple" ng-model="selectedItems" ng-change="change()">
+        <option value="1">test</option>
+        <option value="2">test2</option>
+    </select>
+</div>
+    
+
+
+
