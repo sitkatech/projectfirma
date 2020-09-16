@@ -88,14 +88,15 @@ namespace ProjectFirma.Web.Controllers
         //    return new ModalDialogFormJsonResult();
         //}
 
-        //[HttpGet]
-        //[FirmaAdminFeature]
-        //public PartialViewResult Edit(KeywordPrimaryKey KeywordPrimaryKey)
-        //{
-        //    var Keyword = KeywordPrimaryKey.EntityObject;
-        //    var viewModel = new EditViewModel(Keyword);
-        //    return ViewEdit(viewModel);
-        //}
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult Edit(MatchmakerKeywordPrimaryKey matchmakerKeywordPrimaryKey)
+        {
+            var matchmakerKeyword = matchmakerKeywordPrimaryKey.EntityObject;
+            throw new NotImplementedException("Only half implemented here; seeing if Matt actually wants this or if it falls short of MVP.");
+            //var viewModel = new EditViewModel(matchmakerKeyword);
+            //return ViewEdit(viewModel);
+        }
 
         //[HttpPost]
         //[FirmaAdminFeature]
@@ -122,9 +123,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var matchmakerKeyword = HttpRequestStorage.DatabaseEntities.MatchmakerKeywords.GetMatchmakerKeyword(matchmakerKeywordName);
             Check.RequireNotNullThrowNotFound(matchmakerKeyword, matchmakerKeywordName);
-            throw new NotImplementedException("Need to finish detail URL");
-            //var viewData = new DetailViewData(CurrentFirmaSession, Keyword);
-            //return RazorView<Detail, DetailViewData>(viewData);
+            var viewData = new MatchmakerKeywordDetailViewData(CurrentFirmaSession, matchmakerKeyword);
+            return RazorView<MatchmakerKeywordDetail, MatchmakerKeywordDetailViewData>(viewData);
         }
 
         //[HttpGet]
