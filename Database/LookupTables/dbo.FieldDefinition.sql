@@ -185,6 +185,5 @@ VALUES
 (361, N'OrganizationCash', N'Cash'),
 (362, N'OrganizationInKindServices', N'In-Kind Services'),
 (363, N'OrganizationCommercialServices', N'Commercial Services'),
-(364, N'AreaOfInterest', N'Area of Interest')
-
--- When appending new field definitions to this insert, you must also create a default definition in dbo.FieldDefinitionDefault. If the definition is unknown, use "not defined" as the default definition.
+(364, N'AreaOfInterest', N'Area of Interest'),
+(365, N'MatchmakerKeyword', N'Matchmaker Keyword')

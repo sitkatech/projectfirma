@@ -352,7 +352,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetOptInHasContentString(this Organization organization)
         {
-            bool optIn = organization.MatchmakerOptIn.HasValue;
+            bool optIn = organization.MatchmakerOptIn.HasValue && organization.MatchmakerOptIn.Value;
             bool hasContent = optIn && organization.HasMatchmakerProfileContent();
 
             if (!optIn)
@@ -372,9 +372,11 @@ namespace ProjectFirma.Web.Models
             // TODO check all profile sections once they are built
             bool hasMatchmakerTaxonomyContent = HasMatchmakerTaxonomyContent(organization);
             bool hasMatchmakerAreaOfInterestContent = HasMatchmakerAreaOfInterestContent(organization);
+            bool hasMatchmakerKeywordContent = HasMatchmakerKeywordContent(organization);
 
             return hasMatchmakerTaxonomyContent ||
-                   hasMatchmakerAreaOfInterestContent;
+                   hasMatchmakerAreaOfInterestContent ||
+                   hasMatchmakerKeywordContent;
         }
 
         private static bool HasMatchmakerTaxonomyContent(this Organization organization)
@@ -391,6 +393,12 @@ namespace ProjectFirma.Web.Models
 
             return setToUseUserDrawnAreaOfInterestAndOneIsDrawnAndSaved ||
                    setToUseOrganizationBoundaryAndOneIsDefined;
+        }
+
+        private static bool HasMatchmakerKeywordContent(this Organization organization)
+        {
+            // Are any Matchmaker Keywords defined for this Organization?
+            return organization.OrganizationMatchmakerKeywords.Any();
         }
 
         public static string GetMatchmakerResourcesAsString(this Organization organization)

@@ -69,18 +69,17 @@ namespace ProjectFirma.Web.PartnerFinder
             // * Scores are restricted to 0.0 - 1.0 where 0.0 is unsuitable, and 1.0 is perfect match.
             // * SubScores are also restricted to 0.0. - 1.0.
 
+            List<double> subScores = new List<double>();
+
             // Taxonomy SubScore
-            double taxonomySubScore = GetTaxonomySubScore(project, organization, ref matchInsightStrings);
-            CheckEnsureScoreInValidRange(taxonomySubScore);
-
+            CalculateTaxonomySubScore(project, organization, ref subScores, ref matchInsightStrings);
             // Organization Area of Interest SubScore
-            double areaOfInterestSubScore = GetOrganizationAreaOfInterestSubScore(project, organization, ref matchInsightStrings);
-            CheckEnsureScoreInValidRange(areaOfInterestSubScore);
+            CalculateOrganizationAreaOfInterestSubScore(project, organization, ref subScores, ref matchInsightStrings);
+            // Keywords SubScore
+            CalculateOrganizationMatchmakerKeywordSubScore(project, organization, ref subScores, ref matchInsightStrings);
 
-            var numberOfComponents = 2;
-            var weightPerSubScore = 1.0 / numberOfComponents; 
-            double scoreToReturn = (taxonomySubScore * weightPerSubScore) +
-                                   (areaOfInterestSubScore * weightPerSubScore);
+            // Calculate final score from sub-scores
+            double scoreToReturn = CalculateFinalScoreFromSubScores(subScores);
 
             // Again, we want to be very sure score values fall between 0.0 and 1.0 inclusive.
             CheckEnsureScoreInValidRange(scoreToReturn);
@@ -88,9 +87,28 @@ namespace ProjectFirma.Web.PartnerFinder
             return scoreToReturn;
         }
 
-        private static double GetTaxonomySubScore(Project project, 
-                                                  Organization organization,
-                                                  ref List<string> matchInsightStrings)
+        private double CalculateFinalScoreFromSubScores(List<double> subScores)
+        {
+            double finalScore = 0.0;
+
+            var numberOfComponents = subScores.Count;
+            var weightPerSubScore = 1.0 / numberOfComponents;
+            foreach (var currentSubScore in subScores)
+            {
+                CheckEnsureScoreInValidRange(currentSubScore);
+                finalScore += currentSubScore * weightPerSubScore;
+            }
+
+            // Never hurts to check this.
+            CheckEnsureScoreInValidRange(finalScore);
+
+            return finalScore;
+        }
+
+        private static void CalculateTaxonomySubScore(Project project,
+                                                      Organization organization,
+                                                      ref List<double> subScores,
+                                                      ref List<string> matchInsightStrings)
         {
             List<string> localMatchInsights = new List<string>();
 
@@ -138,12 +156,14 @@ namespace ProjectFirma.Web.PartnerFinder
                 matchInsightStrings.AddRange(localMatchInsights);
             }
 
-            return taxonomySubScore;
+            CheckEnsureScoreInValidRange(taxonomySubScore);
+            subScores.Add(taxonomySubScore);
         }
 
-        private static double GetOrganizationAreaOfInterestSubScore(Project project, 
-                                                                    Organization organization,
-                                                                    ref List<string> matchInsightStrings)
+        private static void CalculateOrganizationAreaOfInterestSubScore(Project project, 
+                                                                        Organization organization,
+                                                                        ref List<double> subScores,
+                                                                        ref List<string> matchInsightStrings)
         {
             List<string> localMatchInsights = new List<string>();
 
@@ -218,7 +238,45 @@ namespace ProjectFirma.Web.PartnerFinder
                 matchInsightStrings.AddRange(localMatchInsights);
             }
 
-            return areaOfInterestOverallScore;
+            CheckEnsureScoreInValidRange(areaOfInterestOverallScore);
+            subScores.Add(areaOfInterestOverallScore);
+        }
+
+        private static void CalculateOrganizationMatchmakerKeywordSubScore(Project project,
+                                                                       Organization organization,
+                                                                       ref List<double> subScores,
+                                                                       ref List<string> matchInsightStrings)
+        {
+            List<string> localMatchInsights = new List<string>();
+
+            // Just searching Name & Description for now, but definitely could search additional meta data
+            double keywordProjectNameKeywordScore = 0.0;
+            double keywordProjectDescriptionKeywordScore = 0.0;
+
+            string currentProjectName = project.ProjectName.ToLower();
+            string currentProjectDescription = project.ProjectDescription.ToLower();
+
+            List<MatchmakerKeyword> keywordsForOrganization = organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword).ToList();
+            foreach (var currentMatchmakerKeyword in keywordsForOrganization)
+            {
+                string currentOrgKeyword = currentMatchmakerKeyword.MatchmakerKeywordName.ToLower();
+                if (currentProjectName.Contains(currentOrgKeyword))
+                {
+                    keywordProjectNameKeywordScore = 1.0;
+                }
+
+                if (currentProjectDescription.Contains(currentOrgKeyword))
+                {
+                    keywordProjectDescriptionKeywordScore = 1.0;
+                }
+            }
+
+            // If any of the sub-sub scores are 1.0, the Keyword sub score returns 1.0. This could be refined if needed.
+            var allSubScores = new List<double> { keywordProjectNameKeywordScore, keywordProjectDescriptionKeywordScore };
+            double keywordOverallScore = allSubScores.Max();
+
+            CheckEnsureScoreInValidRange(keywordOverallScore);
+            subScores.Add(keywordOverallScore);
         }
 
 

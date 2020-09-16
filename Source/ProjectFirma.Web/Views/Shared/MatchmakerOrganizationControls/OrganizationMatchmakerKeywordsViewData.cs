@@ -20,20 +20,18 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Tag;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectControls
+namespace ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
 {
-    public class ProjectBasicsTagsViewData
+    public class OrganizationMatchmakerKeywordsViewData
     {
-        public readonly ProjectFirmaModels.Models.Project Project;
-        public readonly TagHelper TagHelper;
+        public readonly ProjectFirmaModels.Models.Organization Organization;
+        public readonly MatchmakerKeywordHelper MatchmakerKeywordHelper;
 
-        public ProjectBasicsTagsViewData(ProjectFirmaModels.Models.Project project)
+        public OrganizationMatchmakerKeywordsViewData(ProjectFirmaModels.Models.Organization organization)
         {
-            Project = project;
-            TagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
+            Organization = organization;
+            MatchmakerKeywordHelper = new MatchmakerKeywordHelper(organization.OrganizationMatchmakerKeywords.Select(x => new BootstrapOrganizationMatchmakerKeyword(x.MatchmakerKeyword)).ToList());
         }
     }
 }

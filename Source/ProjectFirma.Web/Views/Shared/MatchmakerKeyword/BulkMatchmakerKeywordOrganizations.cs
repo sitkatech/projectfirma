@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectBasicsTagsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BulkMatchmakerKeywordProjects.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,21 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Tag;
-
-namespace ProjectFirma.Web.Views.Shared.ProjectControls
+namespace ProjectFirma.Web.Views.Shared.MatchmakerKeyword
 {
-    public class ProjectBasicsTagsViewData
+    public abstract class BulkMatchmakerKeywordOrganizations : LtInfo.Common.Mvc.TypedWebPartialViewPage<BulkMatchmakerKeywordOrganizationsViewData, BulkMatchmakerKeywordOrganizationsViewModel>
     {
-        public readonly ProjectFirmaModels.Models.Project Project;
-        public readonly TagHelper TagHelper;
-
-        public ProjectBasicsTagsViewData(ProjectFirmaModels.Models.Project project)
-        {
-            Project = project;
-            TagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
-        }
     }
 }

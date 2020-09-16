@@ -311,6 +311,7 @@ namespace ProjectFirmaModels.Models
         OrganizationCash = 361,
         OrganizationInKindServices = 362,
         OrganizationCommercialServices = 363,
-        AreaOfInterest = 364
+        AreaOfInterest = 364,
+        MatchmakerKeyword = 365
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectBasicsTagsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectBasicsTags.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,22 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.Web.Mvc;
+using LtInfo.Common.HtmlHelperExtensions;
+using LtInfo.Common.Mvc;
 
-using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Tag;
-
-namespace ProjectFirma.Web.Views.Shared.ProjectControls
+namespace ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
 {
-    public class ProjectBasicsTagsViewData
+    public abstract class OrganizationMatchmakerKeywords : TypedWebPartialViewPage<OrganizationMatchmakerKeywordsViewData>
     {
-        public readonly ProjectFirmaModels.Models.Project Project;
-        public readonly TagHelper TagHelper;
-
-        public ProjectBasicsTagsViewData(ProjectFirmaModels.Models.Project project)
+        public static void RenderPartialView(HtmlHelper html, OrganizationMatchmakerKeywordsViewData viewData)
         {
-            Project = project;
-            TagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
+            html.RenderRazorSitkaPartial<OrganizationMatchmakerKeywords, OrganizationMatchmakerKeywordsViewData>(viewData);
         }
+
     }
 }

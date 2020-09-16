@@ -174,7 +174,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var projectBasicsViewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
-            var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList()));
+            var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project);
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.PerformanceMeasureSortOrder)));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
             // Budget - conditional based on BudgetType

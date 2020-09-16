@@ -28,6 +28,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -95,8 +96,15 @@ namespace ProjectFirma.Web.Views.Organization
         public string EditProfileMatchmakerOptIn { get; }
         public string EditProfileSupplementalInformationUrl { get; }
         public string EditProfileTaxonomyUrl { get; }
+
         public string EditAreaOfInterestUrl { get; }
         public string EditAreaOfInterestDialogFormID { get; }
+
+        // Might not need these next two?
+        public string EditMatchmakerKeywordsUrl { get; }
+        public string EditMatchmakerKeywordDialogFormID { get; }
+        public OrganizationMatchmakerKeywordsViewData OrganizationMatchmakerKeywordsViewData { get; }
+
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -230,6 +238,8 @@ namespace ProjectFirma.Web.Views.Organization
             EditAreaOfInterestDialogFormID = OrganizationController.GenerateEditOrganizationMatchMakerAreaOfInterestFormID(organization);
             HasAreaOfInterest = (Organization.UseOrganizationBoundaryForMatchmaker && Organization.OrganizationBoundary != null) || (!Organization.UseOrganizationBoundaryForMatchmaker && Organization.MatchMakerAreaOfInterestLocations.Any());
             AreaOfInterestMapInitJson = matchMakerAreaOfInterestInitJson;
+
+            OrganizationMatchmakerKeywordsViewData = new OrganizationMatchmakerKeywordsViewData(organization);
 
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
