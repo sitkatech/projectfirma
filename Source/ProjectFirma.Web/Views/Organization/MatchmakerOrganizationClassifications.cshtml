@@ -38,7 +38,7 @@
 {
     for (int i = 0; i < ViewDataTyped.AllClassificationSystems.Count; i++)
     {
-        <h2>@FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.AllClassificationSystems[i].ClassificationSystemName</h2>
+        <h3>@FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.AllClassificationSystems[i].ClassificationSystemName</h3>
         var additionalViewData = new
         {
             DescriptionsDictionary = ViewDataTyped.AllClassificationSystems[i].Classifications.Select(x => new { ID = x.ClassificationID, Description = x.ClassificationDescription }).ToDictionary(x => x.ID, x => x.Description)

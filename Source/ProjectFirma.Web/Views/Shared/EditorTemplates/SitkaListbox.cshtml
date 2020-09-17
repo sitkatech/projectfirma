@@ -53,7 +53,6 @@
             $scope.$watch('Items',
                 function() {
                     $scope.updateItemsLists();
-                    console.log($scope.Items);
                 },
                 true);
 
@@ -76,11 +75,15 @@
 </script>
 
 <style type="text/css">
+    /* 
+        These styles could be moved to a separate file or the base.theme.less file, however
+        it might be beneficial to keep them here for now while we iterate on this listbox abstraction
+    */
     .sitka-listbox {
         border: 2px solid #000;
         border-radius: 3px;
-        min-height: 200px;
-        max-height: 200px;
+        min-height: 150px;
+        max-height: 150px;
         overflow: auto;
     }
 
@@ -172,6 +175,7 @@
     </div>
     <select name="@Html.NameFor(x => x.SelectedItems)"
             id="@Html.IdFor(x => x.SelectedItems)"
+            style="display: none;"
             multiple="multiple"
             ng-model="ItemsSelected"
             ng-options="item as item.Text for item in Items track by item.Value"
