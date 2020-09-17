@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.Organization
             }
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), x => x.FundingSource.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), x => x.FundingSource.Organization.OrganizationType?.GetOrganizationTypeHtmlStringWithColor(), 80, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.GetDetailUrl(), x.FundingSource.GetDisplayName()), 120);
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.Organization.GetDetailUrl(), x.FundingSource.Organization.GetDisplayName()), 120);
             Add($"Provided by {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => (x.FundingSource.Organization == organization).ToYesOrEmpty(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
