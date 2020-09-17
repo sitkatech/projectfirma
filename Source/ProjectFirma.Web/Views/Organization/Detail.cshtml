@@ -963,7 +963,16 @@
                                 @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
-                                
+                                @foreach (var classificationsGroupedBySystem in ViewDataTyped.MatchmakerClassificationsGroupedByClassificationSystem)
+                                {
+                                    <h3>@classificationsGroupedBySystem.Key.ClassificationSystemName</h3>
+                                    <ul>
+                                        @foreach (var classification in classificationsGroupedBySystem)
+                                        {
+                                            <li>@classification.Classification.DisplayName</li>
+                                        }
+                                    </ul>
+                                }
                             </div>
                         </div>
                     </div>

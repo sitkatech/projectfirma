@@ -6,7 +6,7 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public class SitkaListbox : PartialViewModel, IValidatableObject
+    public class SitkaLeftRightListbox : PartialViewModel, IValidatableObject
     {
         /// <summary>
         /// A uniqueID will prevent any collisions from other listboxes that may be on the page
@@ -15,12 +15,12 @@ namespace ProjectFirma.Web.Models
         public List<SelectListItem> SelectListItems { get; }
         public List<string> SelectedItems { get; set; }
 
-        public SitkaListbox()
+        public SitkaLeftRightListbox()
         {
 
         }
 
-        public SitkaListbox(string listboxUniqueID, List<SelectListItem> selectListItems)
+        public SitkaLeftRightListbox(string listboxUniqueID, List<SelectListItem> selectListItems)
         {
             ListboxUniqueID = listboxUniqueID;
             SelectListItems = selectListItems;

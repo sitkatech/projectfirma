@@ -494,6 +494,9 @@ namespace ProjectFirma.Web.Controllers
             var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
             var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
             var matchMakerAreaOfInterestInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
+            var matchmakerClassificationsGroupedByClassificationSystem = HttpRequestStorage.DatabaseEntities
+                .MatchmakerOrganizationClassifications.Where(x => x.OrganizationID == organization.OrganizationID)
+                .GroupBy(x => x.Classification.ClassificationSystem).ToList();
             var viewData = new OrganizationDetailViewData(CurrentFirmaSession,
                                               organization,
                                               mapInitJson,
@@ -505,7 +508,8 @@ namespace ProjectFirma.Web.Controllers
                                               topLevelMatchmakerTaxonomyTier,
                                               maximumTaxonomyLeaves,
                                               activeTab,
-                                              matchMakerAreaOfInterestInitJson);
+                                              matchMakerAreaOfInterestInitJson,
+                                              matchmakerClassificationsGroupedByClassificationSystem);
             return RazorView<Detail, OrganizationDetailViewData>(viewData);
         }
 

@@ -109,6 +109,8 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly MapInitJson AreaOfInterestMapInitJson;
         public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
 
+        public readonly List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>> MatchmakerClassificationsGroupedByClassificationSystem;
+
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
@@ -119,7 +121,9 @@ namespace ProjectFirma.Web.Views.Organization
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
             List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier,
             int maximumTaxonomyLeaves,
-            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson) : base(currentFirmaSession)
+            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson,
+            List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>>
+                matchmakerClassificationsGroupedByClassificationSystem) : base(currentFirmaSession)
         {
             Organization = organization;
             PageTitle = organization.GetDisplayName();
@@ -241,6 +245,7 @@ namespace ProjectFirma.Web.Views.Organization
             ActiveTab = activeTab;
 
             EditOrgClassificationsUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerClassifications(organization));
+            MatchmakerClassificationsGroupedByClassificationSystem = matchmakerClassificationsGroupedByClassificationSystem;
         }
     }
 }

@@ -107,7 +107,7 @@
     <Compile Include="Models\FirmaMenuItemModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
-    <Compile Include="Models\SitkaListbox.cs" />
+    <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
@@ -1826,7 +1826,7 @@
     <Content Include="Views\Reports\Projects.cshtml" />
     <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
     <Content Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetail.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\SitkaListbox.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SitkaLeftRightListbox.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

@@ -43,6 +43,6 @@
         {
             DescriptionsDictionary = ViewDataTyped.AllClassificationSystems[i].Classifications.Select(x => new { ID = x.ClassificationID, Description = x.ClassificationDescription }).ToDictionary(x => x.ID, x => x.Description)
         };
-        @Html.EditorFor(x => x.Listboxes[i], additionalViewData)
+        @Html.EditorFor(x => x.ClassificationSystemListboxes[i], additionalViewData)
     }
 }
