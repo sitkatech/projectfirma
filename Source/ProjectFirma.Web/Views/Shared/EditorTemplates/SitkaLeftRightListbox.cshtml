@@ -57,6 +57,26 @@
                 }
             }
 
+            $scope.SelectDisabled = function() {
+                if (jQuery.isEmptyObject($scope.CurrentlySelectedItem)) {
+                    return true;
+                }
+                if (!$scope.CurrentlySelectedItem.Selected) {
+                    return false;
+                } 
+                return true;
+            }
+
+            $scope.DeselectDisabled = function () {
+                if (jQuery.isEmptyObject($scope.CurrentlySelectedItem)) {
+                    return true;
+                }
+                if ($scope.CurrentlySelectedItem.Selected) {
+                    return false;
+                }
+                return true;
+            }
+
             $scope.$watch('Items',
                 function() {
                     $scope.updateItemsLists();
@@ -160,8 +180,8 @@
         </div>
         <div class="col-md-2">
             <div class="sitka-listbox-buttons">
-                <button type="button" class="btn btn-firma" ng-click="SelectItem()"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                <button type="button" class="btn btn-firma" ng-click="DeselectItem()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                <button type="button" class="btn btn-firma" ng-click="SelectItem()" ng-disabled="SelectDisabled()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                <button type="button" class="btn btn-firma" ng-click="DeselectItem()" ng-disabled="DeselectDisabled()"><span class="glyphicon glyphicon-chevron-left"></span></button>
             </div>
         </div>
         <div class="col-md-5">
