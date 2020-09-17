@@ -147,7 +147,7 @@
 <div ng-app="ProjectFirmaApp" id="@Model.ListboxUniqueID" ng-controller="SitkaLeftRightListboxController">
     <div class="row sitka-listbox-container">
         <div class="col-md-5">
-            <h4>Available Items:</h4>
+            <h4>Available Items ({{ItemsAvailable.length}})</h4>
             <div class="sitka-listbox">
                 <ul>
                     <li ng-repeat="item in ItemsAvailable" ng-class="{active: item == $parent.CurrentlySelectedItem}">
@@ -164,7 +164,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <h4>Selected Items:</h4>
+            <h4>Selected Items</h4>
             <div class="sitka-listbox">
                 <ul>
                     <li ng-repeat="item in ItemsSelected" ng-class="{active: item == $parent.CurrentlySelectedItem}">
