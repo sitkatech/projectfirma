@@ -32,14 +32,6 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.Organization>
     {
-
-        public static HtmlString MakeOrganizationTypeHtmlString(ProjectFirmaModels.Models.Organization organization)
-        {
-            var organizationType = organization.OrganizationType;
-            var organizationTypeColor = organizationType.LegendColor;
-            return new HtmlString($"<span style=\"vertical-align:middle; width:10px; height:10px; margin-right:5px; display:inline-block; background:{organizationTypeColor};\"></span>{organizationType.OrganizationTypeName}");
-        }
-
         public IndexGridSpec(FirmaSession currentFirmaSession, bool hasDeletePermissions)
         {
             var projectDictionary = HttpRequestStorage.DatabaseEntities.Projects.ToDictionary(x => x.ProjectID);
@@ -62,7 +54,7 @@ namespace ProjectFirma.Web.Views.Organization
             }
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
             Add("Short Name", a => a.OrganizationShortName, 100);
-            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), MakeOrganizationTypeHtmlString, 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), x => x.OrganizationType?.GetOrganizationTypeHtmlStringWithColor(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), a => a.GetPrimaryContactPersonAsUrl(currentFirmaSession), 120);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(fundingSourceDictionary, projectFundingSourceBudgetsDictionary, projectFundingSourceExpenditureDictionary, projectDictionary).Count, 90);
             if (currentFirmaSession.Person.CanViewProposals())
