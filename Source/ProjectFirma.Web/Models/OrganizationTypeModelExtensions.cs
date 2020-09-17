@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -25,6 +26,12 @@ namespace ProjectFirmaModels.Models
         {
             return SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildUrlFromExpression(c =>
                 c.DeleteOrganizationType(organizationType.OrganizationTypeID));
+        }
+
+        public static HtmlString GetOrganizationTypeHtmlStringWithColor(this OrganizationType organizationType)
+        {
+            var organizationTypeColor = organizationType.LegendColor;
+            return new HtmlString($"<span style=\"vertical-align:middle; width:10px; height:10px; margin-right:5px; display:inline-block; background:{organizationTypeColor};\"></span>{organizationType.OrganizationTypeName}");
         }
     }
 }
