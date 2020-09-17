@@ -38,7 +38,8 @@
             $scope.Items = $scope.AngularModel.SelectListItems;
             $scope.ItemsSelected = $scope.Items.filter(x => x.Selected);
             $scope.ItemsAvailable = $scope.Items.filter(x => !x.Selected);
-            $scope.CurrentlySelectedItem = {};
+
+            $scope.CurrentlySelectedItem = $scope.ItemsAvailable.length > 0 ? $scope.ItemsAvailable[0] : {};
 
             $scope.HasDescriptionsDictionary = function() {
                 return !jQuery.isEmptyObject($scope.DescriptionsDictionary);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity.Infrastructure.Pluralization;
+using System.Linq;
 using System.Web;
 using LtInfo.Common.HtmlHelperExtensions;
 
@@ -14,5 +15,7 @@ namespace ProjectFirmaModels.Models
         public HtmlString FieldDefinitionDataValueHtmlString => ClassificationSystemDefinitionHtmlString;      
 
         public bool HasClassifications => Classifications.Any();
+
+        public string ClassificationSystemNamePluralized => new EnglishPluralizationService().Pluralize(ClassificationSystemName);
     }
 }
