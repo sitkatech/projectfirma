@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using System.Data.Entity.Infrastructure.Pluralization
 @using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Security
@@ -959,17 +960,26 @@
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgClassificationsUrl, string.Format("Edit {0}", FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
-                                @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
+                                @{
+                                    var tenantHasMultipleClassificationSystems = ViewDataTyped.MatchmakerClassificationsGroupedByClassificationSystem.Count > 1;
+                                    var panelTitle = tenantHasMultipleClassificationSystems
+                                        ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
+                                        : new EnglishPluralizationService().Pluralize(ViewDataTyped.MatchmakerClassificationsGroupedByClassificationSystem.First().Key.ClassificationSystemName);
+                                }
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgClassificationsUrl, string.Format("Edit {0}", panelTitle), ViewDataTyped.UserHasViewEditProfilePermission)
+                                @panelTitle
                             </div>
                             <div class="panel-body">
                                 @foreach (var classificationsGroupedBySystem in ViewDataTyped.MatchmakerClassificationsGroupedByClassificationSystem)
                                 {
-                                    <h3>@classificationsGroupedBySystem.Key.ClassificationSystemName</h3>
+                                    if (tenantHasMultipleClassificationSystems)
+                                    {
+                                        <h4>@classificationsGroupedBySystem.Key.ClassificationSystemName</h4>
+                                    }
                                     <ul>
                                         @foreach (var classification in classificationsGroupedBySystem)
                                         {
-                                            <li>@classification.Classification.DisplayName</li>
+                                            <li><a href="@classification.Classification.GetDetailUrl()" title="View @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel() detail page">@classification.Classification.DisplayName</a></li>
                                         }
                                     </ul>
                                 }
