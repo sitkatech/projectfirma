@@ -831,24 +831,26 @@
                      </div>
                   </div>
                </div>
-
-                    @* Taxonomy Panel *@
-                    <div class="col-md-6">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit Matchmaker {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
-                                @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()
-                            </div>
-                            <div class="panel-body">
-                                <div>
-                                    @if (!ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Any())
-                                    {
-                                        <p class="systemText">None selected</p>
-                                    }
-                                    else
-                                    {
-                                        <table class="table table-condensed">
-                                            <thead>
+            </div>
+            @* Org Profile second row of panels *@
+            <div class="row">
+                @* Taxonomy Panel *@
+                <div class="col-md-6">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit Matchmaker {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
+                            @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                @if (!ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Any())
+                                {
+                                    <p class="systemText">None selected</p>
+                                }
+                                else
+                                {
+                                    <table class="table table-condensed">
+                                        <thead>
                                             <tr>
                                                 @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
                                                 {
@@ -861,8 +863,8 @@
                                                 }
                                                 <th>@ViewDataTyped.TaxonomyLeafDisplayName</th>
                                             </tr>
-                                            </thead>
-                                            <tbody>
+                                        </thead>
+                                        <tbody>
                                             @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
                                             {
                                                 foreach (var trunk in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
@@ -967,17 +969,13 @@
                                                     }
                                                 }
                                             }
-                                            </tbody>
-                                        </table>
-                                    }
-                                </div>
+                                        </tbody>
+                                    </table>
+                                }
                             </div>
                         </div>
                     </div>
-
                 </div>
-            @* Org Profile second row of panels *@
-            <div class="row">
                 @*Classifications*@
                 <div class="col-md-6">
                     <div class="panel panelFirma">
