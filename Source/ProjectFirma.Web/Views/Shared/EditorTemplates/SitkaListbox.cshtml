@@ -22,21 +22,35 @@
 @using Newtonsoft.Json.Linq
 @using ProjectFirmaModels.Models
 @model ProjectFirma.Web.Models.SitkaListbox
-    <script type="text/javascript">
+<script type="text/javascript">
 
     angular.module("ProjectFirmaApp").controller("SitkaListboxController", function ($scope, angularModelAndViewData) {
-
         $scope.AngularModel = angularModelAndViewData.AngularModel;
+        $scope.Items = $scope.AngularModel.SelectListItems;
+        $scope.ItemsSelected = $scope.Items.filter(x => x.Selected);
+        $scope.ItemsAvailable = $scope.Items.filter(x => !x.Selected);
+        $scope.CurrentlySelectedItem = {};
 
-        $scope.allOptions = $scope.AngularModel.SelectListItems;
-        $scope.selectedItems = [];
-        console.log($scope.AngularModel);
-
-        $scope.change = function() {
-            console.log('changed');
+        $scope.SelectItem = function() {
+            if ($scope.CurrentlySelectedItem.Value) {
+                $scope.CurrentlySelectedItem.Selected = true;
+            }
         }
-        
 
+        $scope.DeselectItem = function () {
+            if ($scope.CurrentlySelectedItem.Value) {
+                $scope.CurrentlySelectedItem.Selected = false;
+            }
+        }
+
+        $scope.$watch('Items', function () {
+            $scope.updateItemsLists();
+        }, true);
+        
+        $scope.updateItemsLists = function() {
+            $scope.ItemsSelected = $scope.Items.filter(x => x.Selected);
+            $scope.ItemsAvailable = $scope.Items.filter(x => !x.Selected);
+        }
     });
 
     angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
@@ -49,26 +63,85 @@
 
     jQuery(document).ready(function () {
         angular.bootstrap(jQuery("#@Model.ListboxUniqueID"), ["ProjectFirmaApp"]);
-
-        jQuery(".selectpicker").selectpicker("refresh");
-
     });
-    </script>
-<div ng-app="ProjectFirmaApp" id="@Model.ListboxUniqueID" ng-controller="SitkaListboxController" style="max-height: 600px">
-    <div class="col-md-4">
-        left
+</script>
+
+<style>
+    .sitka-listbox {
+        border: 2px solid #000;
+        border-radius: 3px;
+    }
+    .sitka-listbox ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .sitka-listbox ul li input {
+        /*opacity: 0;
+        position: absolute;*/
+        z-index: -1;
+    }
+        .sitka-listbox ul li input:focus + label {
+            box-shadow: 1px 1px #000;
+        }
+    
+    .sitka-listbox ul li label {
+        
+    }
+        .sitka-listbox ul li label:focus {
+            background-color: red;
+        }
+    .sitka-listbox ul li.active label {
+        background-color: orange;
+    }
+     
+</style>
+
+<div ng-app="ProjectFirmaApp" id="@Model.ListboxUniqueID" ng-controller="SitkaListboxController">
+    <div class="row">
+        <div class="col-md-4">
+            Available Items
+            <div class="sitka-listbox">
+                <ul>
+                    <li ng-repeat="item in ItemsAvailable" ng-class="{active: item == $parent.CurrentlySelectedItem}">
+                        <input id="{{ item.Value }}" type="radio" tabindex="0" ng-model="$parent.CurrentlySelectedItem" ng-value="item" name="ItemsRadioInput" />
+                        <label for="{{ item.Value }}">{{ item.Text }}</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="sitka-listbox-buttons">
+                <button type="button" class="btn btn-firma" ng-click="DeselectItem()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+                <button type="button" class="btn btn-firma"  ng-click="SelectItem()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            Selected Items
+            <div class="sitka-listbox">
+
+                <ul>
+                    <li ng-repeat="item in ItemsSelected">
+                        
+                        <input id="{{ item.Value }}" type="radio" tabindex="0" ng-model="$parent.CurrentlySelectedItem" ng-value="item" name="ItemsRadioInput" /> 
+                        <label for="{{ item.Value }}">{{ item.Text }}</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        middle
-    </div>
-    <div class="col-md-4">
-        right
-    </div>
-    @Html.ListBoxFor(x => x.SelectedItems, Model.SelectListItems, new { @class = "sitka-listbox" })
-    <select name="test" multiple="multiple" ng-model="selectedItems" ng-change="change()">
-        <option value="1">test</option>
-        <option value="2">test2</option>
+
+
+    <select
+        name="@Html.NameFor(x => x.SelectedItems)"
+        id="@Html.IdFor(x => x.SelectedItems)"
+        multiple="multiple"
+        ng-model="ItemsSelected"
+        ng-options="item as item.Text for item in Items track by item.Value"
+        ng-change="change()">
     </select>
+
+
 </div>
     
 
