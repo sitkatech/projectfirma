@@ -70,6 +70,9 @@
     .sitka-listbox {
         border: 2px solid #000;
         border-radius: 3px;
+        min-height: 200px;
+        max-height: 200px;
+        overflow: auto;
     }
     .sitka-listbox ul {
         list-style: none;
@@ -77,30 +80,46 @@
         margin: 0;
     }
     .sitka-listbox ul li input {
-        /*opacity: 0;
-        position: absolute;*/
+        opacity: 0;
+        position: absolute;
         z-index: -1;
     }
-        .sitka-listbox ul li input:focus + label {
-            box-shadow: 1px 1px #000;
-        }
+    .sitka-listbox ul li input:focus + label {
+        outline: 5px auto;
+        outline-offset: -2px;
+    }
     
     .sitka-listbox ul li label {
-        
+        display: block;
+        margin-bottom: 0;
+        padding-left: 5px;
+        cursor: pointer;
     }
-        .sitka-listbox ul li label:focus {
-            background-color: red;
-        }
+    .sitka-listbox ul li label:hover {
+        background-color: #f1f1f1;
+    }
     .sitka-listbox ul li.active label {
-        background-color: orange;
+        background-color: #F18C20;
     }
-     
+     .sitka-listbox-container {
+         display: flex;
+     }
+    .sitka-listbox-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    .sitka-listbox-buttons button + button {
+        margin-top: 10px;
+    }
 </style>
 
 <div ng-app="ProjectFirmaApp" id="@Model.ListboxUniqueID" ng-controller="SitkaListboxController">
-    <div class="row">
-        <div class="col-md-4">
-            Available Items
+    <div class="row sitka-listbox-container">
+        <div class="col-md-5">
+            <h4>Available Items:</h4>
             <div class="sitka-listbox">
                 <ul>
                     <li ng-repeat="item in ItemsAvailable" ng-class="{active: item == $parent.CurrentlySelectedItem}">
@@ -110,20 +129,19 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             <div class="sitka-listbox-buttons">
+                <button type="button" class="btn btn-firma" ng-click="SelectItem()"><span class="glyphicon glyphicon-chevron-right"></span></button>
                 <button type="button" class="btn btn-firma" ng-click="DeselectItem()"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                <button type="button" class="btn btn-firma"  ng-click="SelectItem()"><span class="glyphicon glyphicon-chevron-right"></span></button>
             </div>
         </div>
-        <div class="col-md-4">
-            Selected Items
+        <div class="col-md-5">
+            <h4>Selected Items:</h4>
             <div class="sitka-listbox">
-
                 <ul>
-                    <li ng-repeat="item in ItemsSelected">
-                        
-                        <input id="{{ item.Value }}" type="radio" tabindex="0" ng-model="$parent.CurrentlySelectedItem" ng-value="item" name="ItemsRadioInput" /> 
+                    <li ng-repeat="item in ItemsSelected" ng-class="{active: item == $parent.CurrentlySelectedItem}">
+
+                        <input id="{{ item.Value }}" type="radio" tabindex="0" ng-model="$parent.CurrentlySelectedItem" ng-value="item" name="ItemsRadioInput" />
                         <label for="{{ item.Value }}">{{ item.Text }}</label>
                     </li>
                 </ul>
