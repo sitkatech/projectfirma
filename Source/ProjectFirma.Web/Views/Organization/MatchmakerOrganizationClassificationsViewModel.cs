@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class MatchmakerOrganizationClassificationsViewModel : FormViewModel
     {
-        public List<SitkaListbox> ListboxReals { get; set; }
+        public List<SitkaListbox> Listboxes { get; set; }
 
         public MatchmakerOrganizationClassificationsViewModel()
         {
@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.Organization
 
         public MatchmakerOrganizationClassificationsViewModel(ProjectFirmaModels.Models.Organization organization, List<ProjectFirmaModels.Models.ClassificationSystem> allClassificationSystems)
         {
-            ListboxReals = new List<SitkaListbox>();
+            Listboxes = new List<SitkaListbox>();
             foreach (var classificationSystem in allClassificationSystems)
             {
                 var allSelectListItems = classificationSystem.Classifications.ToList();
@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.Organization
                 var selectListItems = allSelectListItems.ToSelectList(x => x.ClassificationID.ToString(), x => x.DisplayName,
                     selectedClassifications.Select(y => y.ClassificationID).ToList()).ToList();
                 var listboxReal = new SitkaListbox($"ClassificationSystemID_{classificationSystem.ClassificationSystemID}",selectListItems);
-                ListboxReals.Add(listboxReal);
+                Listboxes.Add(listboxReal);
             }
         }
     }
