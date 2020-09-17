@@ -1,0 +1,216 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="SitkaLeftRightListbox.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirmaModels.Models
+@model ProjectFirma.Web.Models.SitkaLeftRightListbox
+@{
+    var descriptionsDictionary = ViewData.ContainsKey("DescriptionsDictionary")
+        ? ViewData["DescriptionsDictionary"]
+        : new { };
+}
+<script type="text/javascript">
+    angular.module("ProjectFirmaApp").controller("SitkaLeftRightListboxController",
+        function($scope, angularModelAndViewData) {
+            $scope.AngularModel = angularModelAndViewData.AngularModel;
+            $scope.DescriptionsDictionary = angularModelAndViewData.DescriptionsDictionary;
+
+            console.log($scope.DescriptionsDictionary);
+
+            $scope.Items = $scope.AngularModel.SelectListItems;
+            $scope.ItemsSelected = $scope.Items.filter(x => x.Selected);
+            $scope.ItemsAvailable = $scope.Items.filter(x => !x.Selected);
+
+            $scope.CurrentlySelectedItem = $scope.ItemsAvailable.length > 0 ? $scope.ItemsAvailable[0] : {};
+
+            $scope.HasDescriptionsDictionary = function() {
+                return !jQuery.isEmptyObject($scope.DescriptionsDictionary);
+            }
+
+            $scope.SelectItem = function() {
+                if ($scope.CurrentlySelectedItem.Value) {
+                    $scope.CurrentlySelectedItem.Selected = true;
+                }
+            }
+
+            $scope.DeselectItem = function() {
+                if ($scope.CurrentlySelectedItem.Value) {
+                    $scope.CurrentlySelectedItem.Selected = false;
+                }
+            }
+
+            $scope.SelectDisabled = function() {
+                if (jQuery.isEmptyObject($scope.CurrentlySelectedItem)) {
+                    return true;
+                }
+                if (!$scope.CurrentlySelectedItem.Selected) {
+                    return false;
+                } 
+                return true;
+            }
+
+            $scope.DeselectDisabled = function () {
+                if (jQuery.isEmptyObject($scope.CurrentlySelectedItem)) {
+                    return true;
+                }
+                if ($scope.CurrentlySelectedItem.Selected) {
+                    return false;
+                }
+                return true;
+            }
+
+            $scope.$watch('Items',
+                function() {
+                    $scope.updateItemsLists();
+                    console.log($scope.Items);
+                },
+                true);
+
+            $scope.updateItemsLists = function() {
+                $scope.ItemsSelected = $scope.Items.filter(x => x.Selected);
+                $scope.ItemsAvailable = $scope.Items.filter(x => !x.Selected);
+            }
+        });
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+        function() {
+            return {
+                AngularModel: @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                DescriptionsDictionary: @Html.Raw(JObject.FromObject(descriptionsDictionary).ToString(Formatting.None))
+            };
+        });
+
+    jQuery(document).ready(function () {
+        angular.bootstrap(jQuery("#@Model.ListboxUniqueID"), ["ProjectFirmaApp"]);
+    });
+</script>
+
+<style type="text/css">
+    /*
+        These styles could be moved to a separate file or the base.theme.less file, however
+        it might be beneficial to keep them here for now while we iterate on this listbox abstraction
+    */
+    .sitka-listbox {
+        border: 2px solid #000;
+        border-radius: 3px;
+        min-height: 150px;
+        max-height: 150px;
+        overflow: auto;
+    }
+
+    .sitka-listbox ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sitka-listbox ul li input {
+        opacity: 0;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .sitka-listbox ul li input:focus + label {
+        outline: 5px auto;
+        outline-offset: -2px;
+    }
+
+    .sitka-listbox ul li label {
+        display: block;
+        margin-bottom: 0;
+        padding-left: 5px;
+        cursor: pointer;
+    }
+
+    .sitka-listbox ul li label:hover {
+        background-color: #f1f1f1;
+    }
+
+    .sitka-listbox ul li.active label {
+        background-color: #F18C20;
+    }
+
+    .sitka-listbox-container {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    .sitka-listbox-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .sitka-listbox-buttons button + button {
+        margin-top: 10px;
+    }
+</style>
+
+<div ng-app="ProjectFirmaApp" id="@Model.ListboxUniqueID" ng-controller="SitkaLeftRightListboxController">
+    <div class="row sitka-listbox-container">
+        <div class="col-md-5">
+            <h4>Available Items ({{ItemsAvailable.length}})</h4>
+            <div class="sitka-listbox">
+                <ul>
+                    <li ng-repeat="item in ItemsAvailable" ng-class="{active: item == $parent.CurrentlySelectedItem}">
+                        <input id="{{ item.Value }}" type="radio" tabindex="0" ng-model="$parent.CurrentlySelectedItem" ng-value="item" name="ItemsRadioInput" />
+                        <label for="{{ item.Value }}">{{ item.Text }}</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="sitka-listbox-buttons">
+                <button type="button" class="btn btn-firma" ng-click="SelectItem()" ng-disabled="SelectDisabled()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+                <button type="button" class="btn btn-firma" ng-click="DeselectItem()" ng-disabled="DeselectDisabled()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h4>Selected Items</h4>
+            <div class="sitka-listbox">
+                <ul>
+                    <li ng-repeat="item in ItemsSelected" ng-class="{active: item == $parent.CurrentlySelectedItem}">
+                        <input id="{{ item.Value }}" type="radio" tabindex="0" ng-model="$parent.CurrentlySelectedItem" ng-value="item" name="ItemsRadioInput" />
+                        <label for="{{ item.Value }}">{{ item.Text }}</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row sitka-listbox-description" ng-if="HasDescriptionsDictionary()">
+        <div class="col-lg-12">
+            <p>
+                <strong>Description:</strong>
+                <span ng-if="DescriptionsDictionary[CurrentlySelectedItem.Value]">{{ DescriptionsDictionary[CurrentlySelectedItem.Value] }}</span>
+                <span class="systemText" ng-if="!DescriptionsDictionary[CurrentlySelectedItem.Value]">No description available</span>
+            </p>
+        </div>
+    </div>
+    <select name="@Html.NameFor(x => x.SelectedItems)"
+            id="@Html.IdFor(x => x.SelectedItems)"
+            style="display: none;"
+            multiple="multiple"
+            ng-model="ItemsSelected"
+            ng-options="item as item.Text for item in Items track by item.Value"
+            ng-change="change()">
+    </select>
+</div>

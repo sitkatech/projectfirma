@@ -109,6 +109,7 @@
     <Compile Include="Models\MatchmakerKeywordModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
+    <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
@@ -335,8 +336,11 @@
     <Compile Include="Views\Organization\EditProfileTaxonomyViewModel.cs" />
     <Compile Include="Views\Organization\EditProfileSupplementalInformationViewData.cs" />
     <Compile Include="Views\Organization\EditProfileSupplementalInformationViewModel.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationClassifications.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetail.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationClassificationsViewData.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewData.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationClassificationsViewModel.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewModel.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewData.cs" />
@@ -719,6 +723,7 @@
     <Content Include="Views\MapLayer\EditGeospatialAreaMapLayer.cshtml" />
     <Content Include="Views\Organization\EditProfileSupplementalInformation.cshtml" />
     <Content Include="Views\Organization\MatchmakerOrganizationLocationDetail.cshtml" />
+    <Content Include="Views\Organization\MatchmakerOrganizationClassifications.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1835,6 +1840,7 @@
     <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
     <Content Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizations.cshtml" />
     <Content Include="Views\Shared\MatchmakerKeywordDetail.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SitkaLeftRightListbox.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

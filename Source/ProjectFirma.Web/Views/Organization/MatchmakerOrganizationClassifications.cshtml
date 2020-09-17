@@ -1,0 +1,56 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectLocationDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Mvc
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Organization
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Organization.MatchmakerOrganizationClassifications
+
+@{
+    var classificationString = ViewDataTyped.AllClassificationSystems.Count > 1 ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() : ViewDataTyped.AllClassificationSystems.First().ClassificationSystemNamePluralized;
+}
+
+<p>
+    <div>
+        Identify the types or categories of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() you are interested in. The Matchmaker service will weight @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() that share your selected @classificationString.
+    </div>
+</p>
+
+@using (Html.BeginForm())
+{
+    for (int i = 0; i < ViewDataTyped.AllClassificationSystems.Count; i++)
+    {
+        <hr />
+        if (ViewDataTyped.AllClassificationSystems.Count > 1)
+        {
+            <h3>@FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.AllClassificationSystems[i].ClassificationSystemName</h3>
+        }
+        var additionalViewData = new
+        {
+            DescriptionsDictionary = ViewDataTyped.AllClassificationSystems[i].Classifications.Select(x => new { ID = x.ClassificationID, Description = x.ClassificationDescription }).ToDictionary(x => x.ID, x => x.Description)
+        };
+        @Html.EditorFor(x => x.ClassificationSystemListboxes[i], additionalViewData)
+    }
+}

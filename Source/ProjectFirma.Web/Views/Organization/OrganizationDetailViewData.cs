@@ -105,6 +105,7 @@ namespace ProjectFirma.Web.Views.Organization
         public string EditMatchmakerKeywordDialogFormID { get; }
         public OrganizationMatchmakerKeywordsViewData OrganizationMatchmakerKeywordsViewData { get; }
 
+        public string EditOrgClassificationsUrl { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -116,6 +117,9 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly MapInitJson AreaOfInterestMapInitJson;
         public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
 
+        public readonly List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>> MatchmakerClassificationsGroupedByClassificationSystem;
+        public readonly List<ProjectFirmaModels.Models.ClassificationSystem> AllClassificationSystems;
+
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
@@ -126,7 +130,10 @@ namespace ProjectFirma.Web.Views.Organization
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
             List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier,
             int maximumTaxonomyLeaves,
-            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson) : base(currentFirmaSession)
+            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson,
+            List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>>
+                matchmakerClassificationsGroupedByClassificationSystem,
+            List<ProjectFirmaModels.Models.ClassificationSystem> allClassificationSystems) : base(currentFirmaSession)
         {
             Organization = organization;
             PageTitle = organization.GetDisplayName();
@@ -248,6 +255,10 @@ namespace ProjectFirma.Web.Views.Organization
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             MaximumTaxonomyLeaves = maximumTaxonomyLeaves;
             ActiveTab = activeTab;
+
+            EditOrgClassificationsUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerClassifications(organization));
+            MatchmakerClassificationsGroupedByClassificationSystem = matchmakerClassificationsGroupedByClassificationSystem;
+            AllClassificationSystems = allClassificationSystems;
         }
     }
 }
