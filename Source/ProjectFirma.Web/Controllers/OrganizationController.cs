@@ -376,11 +376,14 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+
             if (!ModelState.IsValid)
             {
                 return ViewEditMatchMakerClassifications(organization, allClassificationSystems,  viewModel);
             }
-            
+
+            viewModel.UpdateModel(CurrentFirmaSession, organization, HttpRequestStorage.DatabaseEntities);
+
             return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
 
