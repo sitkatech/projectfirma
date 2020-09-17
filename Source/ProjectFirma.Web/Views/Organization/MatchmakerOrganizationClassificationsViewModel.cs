@@ -26,8 +26,8 @@ namespace ProjectFirma.Web.Views.Organization
                 var selectedClassifications = organization.MatchmakerOrganizationClassifications.Select(x => x.Classification).ToList();
                 var selectListItems = allSelectListItems.ToSelectList(x => Convert.ToString(x.ClassificationID), x => x.DisplayName,
                     selectedClassifications.Select(y => Convert.ToString(y.ClassificationID)).ToList()).ToList();
-                var listboxReal = new SitkaListbox($"ClassificationSystemID_{classificationSystem.ClassificationSystemID}",selectListItems);
-                Listboxes.Add(listboxReal);
+                var sitkaListbox = new SitkaListbox($"ClassificationSystemID_{classificationSystem.ClassificationSystemID}",selectListItems);
+                Listboxes.Add(sitkaListbox);
             }
         }
 
@@ -38,7 +38,6 @@ namespace ProjectFirma.Web.Views.Organization
                     x.OrganizationID == organization.OrganizationID).ToList();
 
             var matchmakerOrganizationClassificationIDsSubmitted = Listboxes.SelectMany(x => x.SelectedItems.Select(y => Int32.Parse(y))).ToList();
-
 
             var matchmakerClassificationsToRemove = allCurrentMatchmakerClassifications.Where(x => !matchmakerOrganizationClassificationIDsSubmitted.Contains(x.ClassificationID));
             var matchmakerClassificationIDsToAdd = matchmakerOrganizationClassificationIDsSubmitted.Where(x =>
