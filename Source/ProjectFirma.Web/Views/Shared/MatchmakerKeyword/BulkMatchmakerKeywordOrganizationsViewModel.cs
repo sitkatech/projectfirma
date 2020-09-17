@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectBasicsTagsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BulkMatchmakerKeywordOrganizationsViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,22 +18,23 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
+using LtInfo.Common.Models;
 
-using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Tag;
-
-namespace ProjectFirma.Web.Views.Shared.ProjectControls
+namespace ProjectFirma.Web.Views.Shared.MatchmakerKeyword
 {
-    public class ProjectBasicsTagsViewData
+    public class BulkMatchmakerKeywordOrganizationsViewModel : FormViewModel
     {
-        public readonly ProjectFirmaModels.Models.Project Project;
-        public readonly TagHelper TagHelper;
+        [Required]
+        public List<int> OrganizationIDList { get; set; }
 
-        public ProjectBasicsTagsViewData(ProjectFirmaModels.Models.Project project)
-        {
-            Project = project;
-            TagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
-        }
+        [Required]
+        [StringLength(ProjectFirmaModels.Models.MatchmakerKeyword.FieldLengths.MatchmakerKeywordName)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.MatchmakerKeyword)]
+        [RegularExpression(@"^[a-zA-Z0-9-_\s]{1,}$", ErrorMessage = FirmaValidationMessages.LettersNumbersSpacesDashesAndUnderscoresOnly)]
+        public string MatchmakerKeywordName { get; set; }
     }
 }

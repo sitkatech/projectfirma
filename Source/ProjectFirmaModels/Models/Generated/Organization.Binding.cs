@@ -33,6 +33,7 @@ namespace ProjectFirmaModels.Models
             this.MatchmakerOrganizationTaxonomyTrunks = new HashSet<MatchmakerOrganizationTaxonomyTrunk>();
             this.OrganizationBoundaryStagings = new HashSet<OrganizationBoundaryStaging>();
             this.OrganizationImages = new HashSet<OrganizationImage>();
+            this.OrganizationMatchmakerKeywords = new HashSet<OrganizationMatchmakerKeyword>();
             this.People = new HashSet<Person>();
             this.PersonStewardOrganizations = new HashSet<PersonStewardOrganization>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
@@ -110,7 +111,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || MatchMakerAreaOfInterestLocations.Any() || MatchmakerOrganizationClassifications.Any() || MatchmakerOrganizationTaxonomyBranches.Any() || MatchmakerOrganizationTaxonomyLeafs.Any() || MatchmakerOrganizationTaxonomyTrunks.Any() || OrganizationBoundaryStagings.Any() || OrganizationImages.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
+            return FundingSources.Any() || MatchMakerAreaOfInterestLocations.Any() || MatchmakerOrganizationClassifications.Any() || MatchmakerOrganizationTaxonomyBranches.Any() || MatchmakerOrganizationTaxonomyLeafs.Any() || MatchmakerOrganizationTaxonomyTrunks.Any() || OrganizationBoundaryStagings.Any() || OrganizationImages.Any() || OrganizationMatchmakerKeywords.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
         }
 
         /// <summary>
@@ -160,6 +161,11 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(OrganizationImage).Name);
             }
 
+            if(OrganizationMatchmakerKeywords.Any())
+            {
+                dependentObjects.Add(typeof(OrganizationMatchmakerKeyword).Name);
+            }
+
             if(People.Any())
             {
                 dependentObjects.Add(typeof(Person).Name);
@@ -185,7 +191,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MatchMakerAreaOfInterestLocation).Name, typeof(MatchmakerOrganizationClassification).Name, typeof(MatchmakerOrganizationTaxonomyBranch).Name, typeof(MatchmakerOrganizationTaxonomyLeaf).Name, typeof(MatchmakerOrganizationTaxonomyTrunk).Name, typeof(OrganizationBoundaryStaging).Name, typeof(OrganizationImage).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MatchMakerAreaOfInterestLocation).Name, typeof(MatchmakerOrganizationClassification).Name, typeof(MatchmakerOrganizationTaxonomyBranch).Name, typeof(MatchmakerOrganizationTaxonomyLeaf).Name, typeof(MatchmakerOrganizationTaxonomyTrunk).Name, typeof(OrganizationBoundaryStaging).Name, typeof(OrganizationImage).Name, typeof(OrganizationMatchmakerKeyword).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
 
 
         /// <summary>
@@ -246,6 +252,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in OrganizationImages.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in OrganizationMatchmakerKeywords.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -311,6 +322,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<MatchmakerOrganizationTaxonomyTrunk> MatchmakerOrganizationTaxonomyTrunks { get; set; }
         public virtual ICollection<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get; set; }
         public virtual ICollection<OrganizationImage> OrganizationImages { get; set; }
+        public virtual ICollection<OrganizationMatchmakerKeyword> OrganizationMatchmakerKeywords { get; set; }
         public virtual ICollection<Person> People { get; set; }
         public virtual ICollection<PersonStewardOrganization> PersonStewardOrganizations { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
