@@ -378,5 +378,34 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttributeFromCache().EnableReports;
         }
 
+        public static string GetRelativeUrlForEnvironment(Uri currentUrl,
+            FirmaEnvironmentType firmaEnvironmentType)
+        {
+            var currentTenant = HttpRequestStorage.Tenant;
+
+            string newHost;
+            switch (firmaEnvironmentType)
+            {
+                case FirmaEnvironmentType.Local:
+                    newHost = currentTenant.CanonicalHostNameLocal;
+                    break;
+                case FirmaEnvironmentType.Qa:
+                    newHost = currentTenant.CanonicalHostNameQa;
+                    break;
+                case FirmaEnvironmentType.Prod:
+                    newHost = currentTenant.CanonicalHostNameProd;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(firmaEnvironmentType), firmaEnvironmentType, null);
+            }
+
+            UriBuilder uriBuilder = new UriBuilder
+            {
+                Scheme = currentUrl.Scheme, 
+                Host = newHost, 
+                Path = currentUrl.PathAndQuery
+            };
+            return uriBuilder.ToString();
+        }
     }
 }
