@@ -495,8 +495,9 @@ namespace ProjectFirma.Web.Controllers
             var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
             var matchMakerAreaOfInterestInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
             var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
-            var matchmakerClassificationsGroupedByClassificationSystem = HttpRequestStorage.DatabaseEntities
-                .MatchmakerOrganizationClassifications.Where(x => x.OrganizationID == organization.OrganizationID)
+            var matchmakerOrganizationClassificationsOrdered = HttpRequestStorage.DatabaseEntities
+                .MatchmakerOrganizationClassifications.Where(x => x.OrganizationID == organization.OrganizationID).OrderBy(x => x.Classification.ClassificationSortOrder).ToList();
+            var matchmakerClassificationsGroupedByClassificationSystem = matchmakerOrganizationClassificationsOrdered
                 .GroupBy(x => x.Classification.ClassificationSystem).ToList();
             var viewData = new OrganizationDetailViewData(CurrentFirmaSession,
                                               organization,
