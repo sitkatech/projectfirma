@@ -149,6 +149,10 @@
         display: flex;
         margin-bottom: 10px;
     }
+    .sitka-listbox-container .listbox-header {
+        margin-bottom: 5px;
+        display: block;
+    }
 
     .sitka-listbox-buttons {
         display: flex;
@@ -166,7 +170,7 @@
 <div ng-app="ProjectFirmaApp" id="@Model.ListboxUniqueID" ng-controller="SitkaLeftRightListboxController">
     <div class="row sitka-listbox-container">
         <div class="col-md-5">
-            <h4>Available Items ({{ItemsAvailable.length}})</h4>
+            <strong class="listbox-header">Available Items ({{ItemsAvailable.length}})</strong>
             <div class="sitka-listbox">
                 <ul>
                     <li ng-repeat="item in ItemsAvailable" ng-class="{active: item == $parent.CurrentlySelectedItem}">
@@ -183,7 +187,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <h4>Selected Items</h4>
+            <strong class="listbox-header">Selected Items</strong>
             <div class="sitka-listbox">
                 <ul>
                     <li ng-repeat="item in ItemsSelected" ng-class="{active: item == $parent.CurrentlySelectedItem}">
