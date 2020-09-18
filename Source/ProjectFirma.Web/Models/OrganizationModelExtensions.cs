@@ -373,10 +373,12 @@ namespace ProjectFirma.Web.Models
             bool hasMatchmakerTaxonomyContent = HasMatchmakerTaxonomyContent(organization);
             bool hasMatchmakerAreaOfInterestContent = HasMatchmakerAreaOfInterestContent(organization);
             bool hasMatchmakerKeywordContent = HasMatchmakerKeywordContent(organization);
+            bool hasMatchmakerClassificationsContent = HasMatchmakerClassificationsContent(organization);
 
             return hasMatchmakerTaxonomyContent ||
                    hasMatchmakerAreaOfInterestContent ||
-                   hasMatchmakerKeywordContent;
+                   hasMatchmakerKeywordContent ||
+                   hasMatchmakerClassificationsContent;
         }
 
         private static bool HasMatchmakerTaxonomyContent(this Organization organization)
@@ -399,6 +401,11 @@ namespace ProjectFirma.Web.Models
         {
             // Are any Matchmaker Keywords defined for this Organization?
             return organization.OrganizationMatchmakerKeywords.Any();
+        }
+
+        private static bool HasMatchmakerClassificationsContent(this Organization organization)
+        {
+            return organization.MatchmakerOrganizationClassifications.Any();
         }
 
         public static string GetMatchmakerResourcesAsString(this Organization organization)
