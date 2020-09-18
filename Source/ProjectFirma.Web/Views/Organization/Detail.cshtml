@@ -1,23 +1,24 @@
 ﻿@*-----------------------------------------------------------------------
-   <copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-   Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-   <author>Sitka Technology Group</author>
-   </copyright>
+    <copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-   <license>
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU Affero General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-   Source code is available upon request via <support@sitkatech.com>.
-   </license>
-   -----------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Data.Entity.Infrastructure.Pluralization
 @using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
@@ -36,14 +37,14 @@
 
 @section JavascriptAndStylesContent
 {
-   @{ DhtmlxGridIncludes.RenderPartialView(Html); }
-   @{ MapJavascriptIncludes.RenderPartialView(Html); }
-   <script src="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.js")" type="text/javascript"></script>
-   <link href="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.css")" rel="stylesheet" type="text/css" />
-   <script src="@Url.Content("~/Content/combo-tree/comboTreePlugin.js")" type="text/javascript"></script>
-   <link href="@Url.Content("~/Content/combo-tree/style.css")" rel="stylesheet" type="text/css" />
-   <link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" type="text/css" />
-   <script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+    <script src="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/leaflet/leaflet.legend/leaflet-legend.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Content/combo-tree/comboTreePlugin.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/combo-tree/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
    <link href="~/Content/bootstrap-tags/bootstrap-tags.min.css" rel="stylesheet" type="text/css" />
    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
@@ -55,7 +56,7 @@
 
 
 
-   <script type="text/javascript">
+    <script type="text/javascript">
 
         jQuery(function () {
             jQuery("#overviewTab").on("shown.bs.tab", function () {
@@ -102,14 +103,14 @@
                     });
             });
         });
-   </script>
-   <script>
-      jQuery(function () {
+    </script>
+    <script>
+        jQuery(function () {
          jQuery('[data-toggle="popover"]').popover({});
-      })
-   </script>
+        })
+    </script>
 
-   <script type="text/javascript">
+    <script type="text/javascript">
         /**
          * Toggle to save the Matchmaker Opt-in/Opt-out status.
          * Based on toggle on the ForwardLookingFactSheet.cshtml and BackwardLookingFactSheet.cshtml
@@ -128,246 +129,246 @@
                 });
             }
         });
-   </script>
+    </script>
 
-   <style>
-      /* customizing the look of the clusters*/
-      .marker-cluster-small {
-         background-color: #9e9e9e;
-         opacity: 0.7;
-      }
-
-         .marker-cluster-small div {
+    <style>
+        /* customizing the look of the clusters*/
+        .marker-cluster-small {
             background-color: #9e9e9e;
             opacity: 0.7;
-         }
+        }
 
-      .marker-cluster-medium {
-         background-color: #6e6e6e;
-         opacity: 0.7;
-      }
+        .marker-cluster-small div {
+            background-color: #9e9e9e;
+            opacity: 0.7;
+        }
 
-         .marker-cluster-medium div {
+        .marker-cluster-medium {
             background-color: #6e6e6e;
             opacity: 0.7;
-         }
+        }
 
-      .marker-cluster-large {
-         background-color: #3e3e3e;
-         opacity: 0.7;
-      }
+        .marker-cluster-medium div {
+            background-color: #6e6e6e;
+            opacity: 0.7;
+        }
 
-         .marker-cluster-large div {
+        .marker-cluster-large {
             background-color: #3e3e3e;
             opacity: 0.7;
-         }
+        }
 
-      .marker-cluster div {
-         color: #e0ffff;
-         font-weight: 900;
+        .marker-cluster-large div {
+            background-color: #3e3e3e;
+            opacity: 0.7;
+        }
+
+        .marker-cluster div {
+            color: #e0ffff;
+            font-weight: 900;
+        }
+
+        .table > tbody > tr.noBorderRow > td {
+            border-top: none;
+        }
+
+        .noBorderRow > td {
+            border-top: none;
+        }
+
+        .taxonomyCount {
+            margin-bottom: 1rem;
       }
 
-      .table > tbody > tr.noBorderRow > td {
-         border-top: none;
-      }
-
-      .noBorderRow > td {
-         border-top: none;
-      }
-
-      .taxonomyCount {
-         margin-bottom: 1rem;
-      }
-
-         .taxonomyCount > a {
+        .taxonomyCount > a {
             border-bottom: 1px dotted #6c757d;
             text-decoration: none;
             color: #333;
-         }
+        }
 
-            .taxonomyCount > a:hover {
-               position: relative;
-               cursor: pointer;
-               text-decoration: none;
-               color: #333;
-            }
+        .taxonomyCount > a:hover {
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
 
       .popover {
-         font-size: 12px;
-      }
+            font-size: 12px;
+        }
 
-      .matchmaker .toggle.btn {
-         min-width: 70px;
-      }
+        .matchmaker .toggle.btn {
+            min-width: 70px;
+        }
 
-      .matchmaker .toggle-off.btn {
-         padding-left: 18px;
-      }
+        .matchmaker .toggle-off.btn {
+            padding-left: 18px;
+        }
 
-      .matchmaker .toggle-on.btn {
-         padding-left: 8px;
-      }
-   </style>
+        .matchmaker .toggle-on.btn {
+            padding-left: 8px;
+        }
+    </style>
 }
 
 <div>
-   <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</a>
 </div>
 
 <div class="container-fluid">
-   <div class="row">
-      <ul class="nav nav-tabs" id="organizationDetailsTabs" style="border-bottom: none;">
-         <li class="active">
-            <a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
-         </li>
-         <li>
-            <a href="#expenditures" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
-         </li>
-         <li>
-            <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
-         </li>
-         <li>
-            <a href="#details" aria-controls="details" role="tab" data-toggle="tab" id="detailsTab">Details</a>
-         </li>
-         @if (ViewDataTyped.ShowMatchmakerProfile && (ViewDataTyped.UserHasViewEditProfilePermission || ViewDataTyped.Organization.MatchmakerOptIn.HasValue && ViewDataTyped.Organization.MatchmakerOptIn.Value))
-         {
-            <li>
-               <a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="profileTab">Profile</a>
+    <div class="row">
+        <ul class="nav nav-tabs" id="organizationDetailsTabs" style="border-bottom: none;">
+            <li class="active">
+                <a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
-         }
-      </ul>
-   </div>
+            <li>
+                <a href="#expenditures" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
+            </li>
+            <li>
+                <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
+            </li>
+            <li>
+                <a href="#details" aria-controls="details" role="tab" data-toggle="tab" id="detailsTab">Details</a>
+            </li>
+            @if (ViewDataTyped.ShowMatchmakerProfile && (ViewDataTyped.UserHasViewEditProfilePermission || ViewDataTyped.Organization.MatchmakerOptIn.HasValue && ViewDataTyped.Organization.MatchmakerOptIn.Value))
+            {
+                <li>
+                    <a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="profileTab">Profile</a>
+                </li>
+            }
+        </ul>
+    </div>
 </div>
 <div class="panel panel-default">
-   <div class="panel-body">
-      <div class="tab-content">
-         <div role="tabpanel" class="tab-pane active" id="organizationOverview">
-            <div class="row">
-               <div class="col-md-6">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Organization.GetDisplayName()), ViewDataTyped.UserHasOrganizationManagePermissions)
-                        Basics
-                     </div>
-                     <div class="panel-body">
-                        <div class="row">
-                           @if (ViewDataTyped.Organization.LogoFileResourceInfo != null)
-                           {
-                              <div class="col-xs-1">
-                                 <div style="text-align: center;">
-                                    <img src="@ViewDataTyped.Organization.LogoFileResourceInfo.GetFileResourceUrl()" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
-                                 </div>
-                              </div>
-                           }
-
-                           <div class="@ViewDataTyped.Organization.LogoFileResourceInfo != null ? col-xs-11 : col-xs-12">
-                              <div class="row">
-                                 <div class="col-xs-6 fieldLabel text-right">@Html.Label("Name")</div>
-                                 <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationName</div>
-                              </div>
-                              <div class="row">
-                                 <div class="col-xs-6 fieldLabel text-right">@Html.Label("Short Name")</div>
-                                 <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationShortName</div>
-                              </div>
-                              <div class="row">
-                                 <div class="col-xs-6 fieldLabel text-right">@Html.Label("Home Page")</div>
-                                 <div class="col-xs-6">
-                                    <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
-                                 </div>
-                              </div>
-                              <hr />
-                              <div class="row">
-                                 <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationType.ToType())</div>
-                                 <div class="col-xs-6">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
-                              </div>
-                              <div class="row">
-                                 <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationPrimaryContact.ToType())</div>
-                                 <div class="col-xs-6">
-                                    @if (ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions)
+    <div class="panel-body">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="organizationOverview">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Organization.GetDisplayName()), ViewDataTyped.UserHasOrganizationManagePermissions)
+                                Basics
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    @if (ViewDataTyped.Organization.LogoFileResourceInfo != null)
                                     {
-                                       <span style="margin-right: 5px">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationPrimaryContactUrl, string.Format("Edit {0} for {1}", FieldDefinitionEnum.OrganizationPrimaryContact.ToType().FieldDefinitionDisplayName, ViewDataTyped.Organization.OrganizationName), 800, ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions, null)</span>
+                                        <div class="col-xs-1">
+                                            <div style="text-align: center;">
+                                                <img src="@ViewDataTyped.Organization.LogoFileResourceInfo.GetFileResourceUrl()" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
+                                            </div>
+                                        </div>
                                     }
-                                    @ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl(ViewDataTyped.CurrentFirmaSession)
-                                 </div>
-                              </div>
-                           </div>
+
+                                    <div class="@ViewDataTyped.Organization.LogoFileResourceInfo != null ? col-xs-11 : col-xs-12">
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.Label("Name")</div>
+                                            <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.Label("Short Name")</div>
+                                            <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationShortName</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.Label("Home Page")</div>
+                                            <div class="col-xs-6">
+                                                <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationType.ToType())</div>
+                                            <div class="col-xs-6">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationPrimaryContact.ToType())</div>
+                                            <div class="col-xs-6">
+                                                @if (ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions)
+                                                {
+                                                    <span style="margin-right: 5px">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationPrimaryContactUrl, string.Format("Edit {0} for {1}", FieldDefinitionEnum.OrganizationPrimaryContact.ToType().FieldDefinitionDisplayName, ViewDataTyped.Organization.OrganizationName), 800, ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions, null)</span>
+                                                }
+                                                @ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl(ViewDataTyped.CurrentFirmaSession)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-md-6">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()</a>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                                <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()</a>
 
-                        <span class="pull-right">
-                           @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus").ToString(), ViewDataTyped.NewFundingSourceUrl, string.Format("Create a new {0}", FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()), new List<string>(), ViewDataTyped.CanCreateNewFundingSource)
-                        </span>
-                     </div>
-                     <div class="panel-body">
-                        @if (ViewDataTyped.Organization.FundingSources.Any())
-                        {
-                           <ul>
-                              @foreach (var fundingSource in ViewDataTyped.Organization.FundingSources.OrderBy(x => x.FundingSourceName))
-                              {
-                                 <li>
-                                    @fundingSource.GetDisplayNameAsUrl()
-                                 </li>
-                              }
-                           </ul>
-                        }
-                        else
-                        {
-                           <p class="systemText">No @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() set for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
-                        }
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized() and boundary
-                     </div>
-                     <div class="panel-body">
-                        <div class="row">
-                           <div class="col-xs-12">
-                              <div class="pull-right">
-                                 @if (ViewDataTyped.UserHasOrganizationManagePermissions)
-                                 {
-                                    <a href="@ViewDataTyped.EditBoundaryUrl" title="Edit Organization boundary" class="btn btn-firma">
-                                       @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue")
-                                       Edit boundary
-                                    </a>
-                                    if (ViewDataTyped.Organization.OrganizationBoundary != null)
-                                    {
-                                       @ModalDialogFormHelper.MakeDeleteLink(string.Format("{0} Delete Organization boundary", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")), ViewDataTyped.DeleteOrganizationBoundaryUrl, new List<string> { "btn", "btn-firma" }, ViewDataTyped.UserHasOrganizationManagePermissions)
-                                    }
-                                 }
-                              </div>
-                              @if (ViewDataTyped.HasSpatialData)
-                              {
-                                 <p>
-                                    The map displays the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary, and the locations of any active @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() that have spatial data.
-                                 </p>
-                              }
-                              else
-                              {
-                                 <p class="systemText">No spatial data associated with this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
-                              }
-                           </div>
-                           <div class="col-xs-12">
-                              @if (ViewDataTyped.HasSpatialData)
-                              {
-                                 <div style="font-weight: bold; margin-top: 10px">
+                                <span class="pull-right">
+                                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus").ToString(), ViewDataTyped.NewFundingSourceUrl, string.Format("Create a new {0}", FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()), new List<string>(), ViewDataTyped.CanCreateNewFundingSource)
+                                </span>
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.Organization.FundingSources.Any())
+                                {
+                                    <ul>
+                                        @foreach (var fundingSource in ViewDataTyped.Organization.FundingSources.OrderBy(x => x.FundingSourceName))
+                                        {
+                                            <li>
+                                                @fundingSource.GetDisplayNameAsUrl()
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p class="systemText">No @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() set for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized() and boundary
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="pull-right">
+                                            @if (ViewDataTyped.UserHasOrganizationManagePermissions)
+                                            {
+                                                <a href="@ViewDataTyped.EditBoundaryUrl" title="Edit Organization boundary" class="btn btn-firma">
+                                                    @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue")
+                                                    Edit boundary
+                                                </a>
+                                                if (ViewDataTyped.Organization.OrganizationBoundary != null)
+                                                {
+                                                    @ModalDialogFormHelper.MakeDeleteLink(string.Format("{0} Delete Organization boundary", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")), ViewDataTyped.DeleteOrganizationBoundaryUrl, new List<string> { "btn", "btn-firma" }, ViewDataTyped.UserHasOrganizationManagePermissions)
+                                                }
+                                            }
+                                        </div>
+                                        @if (ViewDataTyped.HasSpatialData)
+                                        {
+                                            <p>
+                                                The map displays the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary, and the locations of any active @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() that have spatial data.
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="systemText">No spatial data associated with this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
+                                        }
+                                    </div>
+                                    <div class="col-xs-12">
+                                        @if (ViewDataTyped.HasSpatialData)
+                                        {
+                                            <div style="font-weight: bold; margin-top: 10px">
                                     <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
-                                 </div>
-                                 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
-                                 </div>
-                                 <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
-                                 <script type="text/javascript">
+                                            </div>
+                                            <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
+                                            </div>
+                                            <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
+                                            <script type="text/javascript">
                                                 // we are extending ProjectFirma Maps here with functionality specific to this view.  Similar to ProjectLocationMap.cshtml script.
                                                 ProjectFirmaMaps.Map.prototype.initializeProjectLocations =
                                                     function(mapInitJson) {
@@ -462,360 +463,359 @@
                                                         });
 
                                                 });
-                                 </script>
-                              }
-                           </div>
+                                            </script>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    @ViewDataTyped.Organization.OrganizationName is:
+                                </p>
+                                <ul>
+                                    @if (ViewDataTyped.TenantHasCanStewardProjectsOrganizationRelationship)
+                                    {
+                                        <li>
+                                            the <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong> for
+                                            <strong>@ViewDataTyped.NumberOfStewardedProjects</strong>
+                                            @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                        </li>
+                                    }
+                                    <li>
+                                        the <strong>Lead Implementer</strong> for
+                                        <strong>@ViewDataTyped.NumberOfLeadImplementedProjects</strong>
+                                        @(ViewDataTyped.NumberOfLeadImplementedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                    </li>
+                                    <li>
+                                        a contributor to
+                                        <strong>@ViewDataTyped.NumberOfProjectsContributedTo</strong>
+                                        @(ViewDataTyped.NumberOfProjectsContributedTo == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                    </li>
+                                </ul>
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (ViewDataTyped.ShowProposals)
+                {
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    @ViewDataTyped.ProposalsPanelHeader
+                                </div>
+                                <div class="panel-body">
+                                    <p></p>
+                                    @Html.DhtmlxGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (ViewDataTyped.ShowPendingProjects)
+                {
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    Pending @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() (Not Visible to the Public)
+                                </div>
+                                <div class="panel-body">
+                                    <p></p>
+                                    @Html.DhtmlxGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                Users
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.Organization.People.Any())
+                                {
+                                    <ul>
+                                        @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.GetFullNameLastFirst()))
+                                        {
+                                            <li>
+                                                @person.GetFullNameFirstLastAsUrl(ViewDataTyped.CurrentFirmaSession)
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <p class="systemText">No Users belong to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row">
-               <div class="col-sm-12">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()
-                     </div>
-                     <div class="panel-body">
-                        <p>
-                           @ViewDataTyped.Organization.OrganizationName is:
-                        </p>
+            <div role="tabpanel" class="tab-pane" id="expenditures">
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="col-xs-12">
+                        <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() associated with this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are presented in several ways:</p>
                         <ul>
-                           @if (ViewDataTyped.TenantHasCanStewardProjectsOrganizationRelationship)
-                           {
-                              <li>
-                                 the <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong> for
-                                 <strong>@ViewDataTyped.NumberOfStewardedProjects</strong>
-                                 @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
-                              </li>
-                           }
-                           <li>
-                              the <strong>Lead Implementer</strong> for
-                              <strong>@ViewDataTyped.NumberOfLeadImplementedProjects</strong>
-                              @(ViewDataTyped.NumberOfLeadImplementedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
-                           </li>
-                           <li>
-                              a contributor to
-                              <strong>@ViewDataTyped.NumberOfProjectsContributedTo</strong>
-                              @(ViewDataTyped.NumberOfProjectsContributedTo == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
-                           </li>
+                            <li>The <strong>Expenditures Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</strong> chart shows all @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() that originate with @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() owned by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</li>
+                            <li>
+                                The <strong>Expenditures Received from other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong> chart shows @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() received from other
+                                @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() for all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() where this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is the
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @ViewDataTyped.ProjectStewardOrLeadImplementorFieldDefinitionName
+                            </li>
+                            <li>The <strong>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()</strong> table at the bottom of the page provides a list of all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() for which this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() provided or received funding, and the annual expenditure amounts</li>
                         </ul>
-                        @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                     </div>
-                  </div>
-               </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    @if (ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData.HasData)
+                                    {
+                                        ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData);
+                                    }
+                                    else
+                                    {
+                                        <p class="systemText">No expenditure data available</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                Received from Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    @if (ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData.HasData)
+                                    {
+                                        ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
+                                    }
+                                    else
+                                    {
+                                        <p class="systemText">No expenditure data available.</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
+                            </div>
+                            <div class="panel-body">
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            @if (ViewDataTyped.ShowProposals)
-            {
-               <div class="row">
-                  <div class="col-sm-12">
-                     <div class="panel panelFirma">
-                        <div class="panel-heading panelTitle">
-                           @ViewDataTyped.ProposalsPanelHeader
-                        </div>
-                        <div class="panel-body">
-                           <p></p>
-                           @Html.DhtmlxGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            }
-            @if (ViewDataTyped.ShowPendingProjects)
-            {
-               <div class="row">
-                  <div class="col-sm-12">
-                     <div class="panel panelFirma">
-                        <div class="panel-heading panelTitle">
-                           Pending @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() (Not Visible to the Public)
-                        </div>
-                        <div class="panel-body">
-                           <p></p>
-                           @Html.DhtmlxGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            }
 
-            <div class="row">
-               <div class="col-sm-12">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        Users
-                     </div>
-                     <div class="panel-body">
-                        @if (ViewDataTyped.Organization.People.Any())
+            <div role="tabpanel" class="tab-pane" id="accomplishments">
+                @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+                {
+                    <p>
+                        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+                    </p>
+                    foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
+                    {
+                        <div class="row">
+                            @foreach (var performanceMeasureChartViewData in batch)
+                            {
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                    <div class="panel panelFirma">
+                                        <div class="panel-body">
+                                            <div style="margin: auto;">
+                                                @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="systemText">
+                                There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div role="tabpanel" class="tab-pane" id="details">
+                <div class="row">
+                    <div class="col-xs-12">
+                        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.DescriptionViewData); }
+                        @if (ViewDataTyped.Organization.Description == null)
                         {
-                           <ul>
-                              @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.GetFullNameLastFirst()))
-                              {
-                                 <li>
-                                    @person.GetFullNameFirstLastAsUrl(ViewDataTyped.CurrentFirmaSession)
-                                 </li>
-                              }
-                           </ul>
+                            if (ViewDataTyped.Organization.OrganizationUrl != null)
+                            {
+                                <p class="systemText">
+                                    More information can be found on this organization's home page:
+                                    <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="systemText">No additional details available.</p>
+                            }
                         }
-                        else
-                        {
-                           <p class="systemText">No Users belong to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
-                        }
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div role="tabpanel" class="tab-pane" id="expenditures">
-            <div class="row" style="margin-bottom: 20px">
-               <div class="col-xs-12">
-                  <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() associated with this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are presented in several ways:</p>
-                  <ul>
-                     <li>The <strong>Expenditures Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</strong> chart shows all @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() that originate with @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() owned by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</li>
-                     <li>
-                        The <strong>Expenditures Received from other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong> chart shows @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() received from other
-                        @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() for all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() where this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is the
-                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @ViewDataTyped.ProjectStewardOrLeadImplementorFieldDefinitionName
-                     </li>
-                     <li>The <strong>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()</strong> table at the bottom of the page provides a list of all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() for which this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() provided or received funding, and the annual expenditure amounts</li>
-                  </ul>
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-md-6">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
-                     </div>
-                     <div class="panel-body">
-                        <div>
-                           @if (ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData.HasData)
-                           {
-                              ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData);
-                           }
-                           else
-                           {
-                              <p class="systemText">No expenditure data available</p>
-                           }
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-md-6">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        Received from Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
-                     </div>
-                     <div class="panel-body">
-                        <div>
-                           @if (ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData.HasData)
-                           {
-                              ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
-                           }
-                           else
-                           {
-                              <p class="systemText">No expenditure data available.</p>
-                           }
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-sm-12">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
-                     </div>
-                     <div class="panel-body">
-                        @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
+                    </div>
 
-         <div role="tabpanel" class="tab-pane" id="accomplishments">
-            @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
-            {
-               <p>
-                  The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
-               </p>
-               foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
-               {
-                  <div class="row">
-                     @foreach (var performanceMeasureChartViewData in batch)
-                     {
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                           <div class="panel panelFirma">
-                              <div class="panel-body">
-                                 <div style="margin: auto;">
-                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     }
-                  </div>
-               }
-            }
-            else
-            {
-               <div class="row">
-                  <div class="col-xs-12">
-                     <p class="systemText">
-                        There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).
-                     </p>
-                  </div>
-               </div>
-            }
-         </div>
-         <div role="tabpanel" class="tab-pane" id="details">
-            <div class="row">
-               <div class="col-xs-12">
-                  @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.DescriptionViewData); }
-                  @if (ViewDataTyped.Organization.Description == null)
-                  {
-                     if (ViewDataTyped.Organization.OrganizationUrl != null)
-                     {
-                        <p class="systemText">
-                           More information can be found on this organization's home page:
-                           <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
-                        </p>
-                     }
-                     else
-                     {
-                        <p class="systemText">No additional details available.</p>
-                     }
-                  }
-               </div>
-
+                </div>
             </div>
-         </div>
-         <div role="tabpanel" class="tab-pane" id="Profile">
-            @if (ViewDataTyped.UserHasViewEditProfilePermission)
-            {
-               <div class="pull-right matchmaker" style="padding-left: 10px;">
+            <div role="tabpanel" class="tab-pane" id="Profile">
+                @if (ViewDataTyped.UserHasViewEditProfilePermission)
+                {
+                    <div class="pull-right matchmaker" style="padding-left: 10px;">
                   <label><input type="checkbox" data-toggle="toggle" data-on="Opt-in" data-off="Opt-out" name="MatchmakerToggleInput" id="MatchmakerToggle" @(ViewDataTyped.Organization.MatchmakerOptIn.HasValue && ViewDataTyped.Organization.MatchmakerOptIn.Value ? "checked" : "") /></label> Matchmaker
-               </div>
-               <p>
+                    </div>
+                    <p>
                   Your profile helps community members better understand your organization, in terms of resources you might offer and/or the types of @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() you're interested in knowing about or perhaps supporting in some way.
-                  The Matchmaker service finds @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match your profile - the more complete and accurate your profile, the better matches it can make. You may opt-in or out of the Matchmaker service at any time.
-               </p>
-            }
-            <div class="row" style="margin-top: 20px">
-               <div class="col-xs-12">
+                        The Matchmaker service finds @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match your profile - the more complete and accurate your profile, the better matches it can make. You may opt-in or out of the Matchmaker service at any time.
+                    </p>
+                }
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-xs-12">
                   <h4>Supply: Resources Available</h4>
                   <p>This organization may be able to provide @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() with the following resources, but may also have some limitations. In economic terms, this section describes their "supply."</p>
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileSupplementalInformationUrl, "Edit Matchmaker Resources & Constraints", ViewDataTyped.UserHasViewEditProfilePermission)
-                        Resources & Constraints
-                     </div>
-                     <div class="panel-body">
-                        <div class="row">
-                           <div class="col-md-6">
-                              <div class="row">
-                                 <div class="col-xs-3 fieldLabel">Resources</div>
-                                 <div class="col-xs-9">
-                                    @if (ViewDataTyped.Organization.MatchmakerCash ?? false)
-                                    {
-                                       <div style="padding-bottom: 15px;">
-                                          <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationCash.ToType())</div>
-                                          <div>@ViewDataTyped.Organization.MatchmakerCashDescription</div>
-                                       </div>
-                                    }
-                                    @if (ViewDataTyped.Organization.MatchmakerInKindServices ?? false)
-                                    {
-                                       <div style="padding-bottom: 15px;">
-                                          <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationInKindServices.ToType())</div>
-                                          <div>@ViewDataTyped.Organization.MatchmakerInKindServicesDescription</div>
-                                       </div>
-                                    }
-                                    @if (ViewDataTyped.Organization.MatchmakerCommercialServices ?? false)
-                                    {
-                                       <div style="padding-bottom: 15px;">
-                                          <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationCommercialServices.ToType())</div>
-                                          <div>@ViewDataTyped.Organization.MatchmakerCommercialServicesDescription</div>
-                                       </div>
-                                    }
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-md-6">
-                              <div class="row" style="padding-bottom: 15px;">
-                                 <div class="col-xs-5 fieldLabel">@Html.Label("Partner Constraints")</div>
-                                 <div class="col-xs-7">@ViewDataTyped.Organization.MatchmakerConstraints</div>
-                              </div>
-                              <div class="row">
-                                 <div class="col-xs-5 fieldLabel">@Html.Label("Additional Information")</div>
-                                 <div class="col-xs-7">@ViewDataTyped.Organization.MatchmakerAdditionalInformation</div>
-                              </div>
-                           </div>
-                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileSupplementalInformationUrl, "Edit Matchmaker Resources & Constraints", ViewDataTyped.UserHasViewEditProfilePermission)
+                                Resources & Constraints
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-xs-3 fieldLabel">Resources</div>
+                                            <div class="col-xs-9">
+                                                @if (ViewDataTyped.Organization.MatchmakerCash ?? false)
+                                                {
+                                                    <div style="padding-bottom: 15px;">
+                                                        <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationCash.ToType())</div>
+                                                        <div>@ViewDataTyped.Organization.MatchmakerCashDescription</div>
+                                                    </div>
+                                                }
+                                                @if (ViewDataTyped.Organization.MatchmakerInKindServices ?? false)
+                                                {
+                                                    <div style="padding-bottom: 15px;">
+                                                        <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationInKindServices.ToType())</div>
+                                                        <div>@ViewDataTyped.Organization.MatchmakerInKindServicesDescription</div>
+                                                    </div>
+                                                }
+                                                @if (ViewDataTyped.Organization.MatchmakerCommercialServices ?? false)
+                                                {
+                                                    <div style="padding-bottom: 15px;">
+                                                        <div>@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationCommercialServices.ToType())</div>
+                                                        <div>@ViewDataTyped.Organization.MatchmakerCommercialServicesDescription</div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row" style="padding-bottom: 15px;">
+                                            <div class="col-xs-5 fieldLabel">@Html.Label("Partner Constraints")</div>
+                                            <div class="col-xs-7">@ViewDataTyped.Organization.MatchmakerConstraints</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-5 fieldLabel">@Html.Label("Additional Information")</div>
+                                            <div class="col-xs-7">@ViewDataTyped.Organization.MatchmakerAdditionalInformation</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="row" style="margin-top: 20px">
-               <div class="col-xs-12">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-xs-12">
                   <h4>Demand: @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest</h4>
                   <p>This organization is interested in supporting  @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below. In economic terms, this section describes their "demand."</p>
-               </div>
-            </div>
+                    </div>
+                </div>
 
             <div class="row">
 
-               @* Areas of Interest panel *@
-               <div class="col-md-6">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
-                        @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
-                     </div>
-                     <div class="panel-body">
-                        <div>
-                           @if (ViewDataTyped.HasAreaOfInterest)
-                           {
-                              <div class="col-xs-12">
-                                 <div id="@ViewDataTyped.AreaOfInterestMapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0"></div>
-                                 <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
-                                 <script type="text/javascript">
-                                    jQuery(document).ready(function() {
-                                       var areaOfInterestMapInitJson =
-                                          @Html.Raw(JObject.FromObject(ViewDataTyped.AreaOfInterestMapInitJson).ToString(Formatting.None));
-                                       var areaOfInterestMap = new ProjectFirmaMaps.Map(areaOfInterestMapInitJson);
+                @* Areas of Interest panel *@
+                    <div class="col-md-6">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAreaOfInterestUrl, string.Format("Edit {0}", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditAreaOfInterestDialogFormID)
+                                @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    @if (ViewDataTyped.HasAreaOfInterest)
+                                    {
+                                        <div class="col-xs-12">
+                                            <div id="@ViewDataTyped.AreaOfInterestMapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0"></div>
+                                            <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
+                                            <script type="text/javascript">
+                                                jQuery(document).ready(function() {
+                                                    var areaOfInterestMapInitJson =
+                                                        @Html.Raw(JObject.FromObject(ViewDataTyped.AreaOfInterestMapInitJson).ToString(Formatting.None));
+                                                    var areaOfInterestMap = new ProjectFirmaMaps.Map(areaOfInterestMapInitJson);
 
-                                       jQuery("#profileTab").on("shown.bs.tab",
-                                          function() {
-                                             console.log('test');
-                                             areaOfInterestMap.map.invalidateSize();
-                                             areaOfInterestMap.setMapBounds(areaOfInterestMapInitJson);
-                                          });
-                                    });
-                                 </script>
-                              </div>
-                           }
-                           else
-                           {
-                              <p class="systemText">No @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() set.</p>
-                              if (ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && ViewDataTyped.Organization.OrganizationBoundary == null)
-                              {
-                                 <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s boundary as the @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary was found.</p>
-                              }
-                              if (!ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && !ViewDataTyped.Organization.MatchMakerAreaOfInterestLocations.Any())
-                              {
-                                 <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use a custom @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no areas were set.</p>
-                              }
-                           }
+                                                    jQuery("#profileTab").on("shown.bs.tab",
+                                                        function () {
+                                                            areaOfInterestMap.map.invalidateSize();
+                                                            areaOfInterestMap.setMapBounds(areaOfInterestMapInitJson);
+                                                        });
+                                                });
+                                            </script>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p class="systemText">No @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() set.</p>
+                                        if (ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && ViewDataTyped.Organization.OrganizationBoundary == null)
+                                        {
+                                            <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s boundary as the @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary was found.</p>
+                                        }
+                                        if (!ViewDataTyped.Organization.UseOrganizationBoundaryForMatchmaker && !ViewDataTyped.Organization.MatchMakerAreaOfInterestLocations.Any())
+                                        {
+                                            <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is set to use a custom @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel() but no areas were set.</p>
+                                        }
+                                    }
+                                </div>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                    </div>
 
                @* Matchmaker Keywords panel *@
                <div class="col-md-6">
@@ -831,154 +831,189 @@
                      </div>
                   </div>
                </div>
-
-               @* Taxonomy Panel *@
-               <div class="col-md-6">
-                  <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit Matchmaker {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
-                        @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()
-                     </div>
-                     <div class="panel-body">
-                        <div>
-                           @if (!ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Any())
-                           {
-                              <p class="systemText">None selected</p>
-                           }
-                           else
-                           {
-                              <table class="table table-condensed">
-                                 <thead>
-                                    <tr>
-                                       @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
-                                       {
-                                          <th>@ViewDataTyped.TaxonomyTrunkDisplayName</th>
-                                          <th>@ViewDataTyped.TaxonomyBranchDisplayName</th>
-                                       }
-                                       @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
-                                       {
-                                          <th>@ViewDataTyped.TaxonomyBranchDisplayName</th>
-                                       }
-                                       <th>@ViewDataTyped.TaxonomyLeafDisplayName</th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
-                                    {
-                                       foreach (var trunk in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
-                                       {
-                                          if (trunk.GrandChildren != null)
-                                          {
-                                             <tr>
-                                                <td>@Html.Raw(trunk.GetDisplayNameAsDetailUrl())</td>
-                                                <td>
-                                                   <div class="taxonomyCount">
-                                                      <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@trunk.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
-                                                         @trunk.GetTaxonomyTierCountText()
-                                                      </a>
-                                                   </div>
-                                                </td>
-                                                <td>
-                                                   <div class="taxonomyCount">
-                                                      <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@trunk.GrandChildren.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
-                                                         @MatchmakerTaxonomyTier.GetTaxonomyTierCountText(trunk.GrandChildren.Count, trunk.MaximumGrandChildrenCount, TaxonomyLevelEnum.Leaf)
-                                                      </a>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          }
-                                          else
-                                          {
-                                             for (int i = 0; i < trunk.Children.Count; i++)
-                                             {
-                                                var branch = trunk.Children[i];
-                                                <tr>
-                                                   <td style="@(i != 0 ? "border-top:none" : "")">@(i == 0 ? Html.Raw(trunk.GetDisplayNameAsDetailUrl()) : new HtmlString(""))</td>
-                                                   <td>@Html.Raw(branch.GetDisplayNameAsDetailUrl())</td>
-                                                   <td>
-                                                      @if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
-                                                      {
-                                                         <div class="taxonomyCount">
-                                                            <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
-                                                               @branch.GetTaxonomyTierCountText()
-                                                            </a>
-                                                         </div>
-                                                      }
-                                                      else
-                                                      {
-                                                         foreach (var leaf in branch.Children)
-                                                         {
-                                                            @Html.Raw(leaf.GetDisplayNameAsDetailUrl())<br />
-                                                         }
-                                                      }
-                                                   </td>
-                                                </tr>
-                                             }
-                                          }
-                                       }
-                                    }
-                                    @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
-                                    {
-                                       foreach (var branch in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
-                                       {
-                                          <tr>
-                                             <td>@Html.Raw(branch.GetDisplayNameAsDetailUrl())</td>
-                                             <td>
-                                                @if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
+            </div>
+            @* Org Profile second row of panels *@
+            <div class="row">
+                @* Taxonomy Panel *@
+                <div class="col-md-6">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit Matchmaker {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
+                            @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                @if (!ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Any())
+                                {
+                                    <p class="systemText">None selected</p>
+                                }
+                                else
+                                {
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
                                                 {
-                                                   <div class="taxonomyCount">
-                                                      <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
-                                                         @branch.GetTaxonomyTierCountText()
-                                                      </a>
-                                                   </div>
+                                                    <th>@ViewDataTyped.TaxonomyTrunkDisplayName</th>
+                                                    <th>@ViewDataTyped.TaxonomyBranchDisplayName</th>
+                                                }
+                                                @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
+                                                {
+                                                    <th>@ViewDataTyped.TaxonomyBranchDisplayName</th>
+                                                }
+                                                <th>@ViewDataTyped.TaxonomyLeafDisplayName</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
+                                            {
+                                                foreach (var trunk in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
+                                                {
+                                                    if (trunk.GrandChildren != null)
+                                                    {
+                                                        <tr>
+                                                            <td>@Html.Raw(trunk.GetDisplayNameAsDetailUrl())</td>
+                                                            <td>
+                                                                <div class="taxonomyCount">
+                                                                    <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@trunk.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                        @trunk.GetTaxonomyTierCountText()
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="taxonomyCount">
+                                                                    <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@trunk.GrandChildren.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                        @MatchmakerTaxonomyTier.GetTaxonomyTierCountText(trunk.GrandChildren.Count, trunk.MaximumGrandChildrenCount, TaxonomyLevelEnum.Leaf)
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        for (int i = 0; i < trunk.Children.Count; i++)
+                                                        {
+                                                            var branch = trunk.Children[i];
+                                                            <tr>
+                                                                <td style="@(i != 0 ? "border-top:none" : "")">@(i == 0 ? Html.Raw(trunk.GetDisplayNameAsDetailUrl()) : new HtmlString(""))</td>
+                                                                <td>@Html.Raw(branch.GetDisplayNameAsDetailUrl())</td>
+                                                                <td>
+                                                                    @if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
+                                                                    {
+                                                                        <div class="taxonomyCount">
+                                                                            <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                                @branch.GetTaxonomyTierCountText()
+                                                                            </a>
+                                                                        </div>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        foreach (var leaf in branch.Children)
+                                                                        {
+                                                                            @Html.Raw(leaf.GetDisplayNameAsDetailUrl())<br />
+                                                                        }
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
+                                            {
+                                                foreach (var branch in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
+                                                {
+                                                    <tr>
+                                                        <td>@Html.Raw(branch.GetDisplayNameAsDetailUrl())</td>
+                                                        <td>
+                                                            @if (branch.Children.Count > 5 || branch.Children.Count == branch.MaximumChildrenCount)
+                                                            {
+                                                                <div class="taxonomyCount">
+                                                                    <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" data-html="true" data-content="@branch.Children.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                        @branch.GetTaxonomyTierCountText()
+                                                                    </a>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (var leaf in branch.Children)
+                                                                {
+                                                                    @Html.Raw(leaf.GetDisplayNameAsDetailUrl())<br />
+                                                                }
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Leaf)
+                                            {
+                                                if (ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count > 5 || ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count == ViewDataTyped.MaximumTaxonomyLeaves)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div class="taxonomyCount">
+                                                                <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
+                                                                    @MatchmakerTaxonomyTier.GetTaxonomyTierCountText(ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count, ViewDataTyped.MaximumTaxonomyLeaves, TaxonomyLevelEnum.Leaf)
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 }
                                                 else
                                                 {
-                                                   foreach (var leaf in branch.Children)
-                                                   {
-                                                      @Html.Raw(leaf.GetDisplayNameAsDetailUrl())<br />
-                                                   }
+                                                    foreach (var leaf in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
+                                                    {
+                                                        <tr>
+                                                            <td>@Html.Raw(leaf.GetDisplayNameAsDetailUrl())</td>
+                                                        </tr>
+                                                    }
                                                 }
-                                             </td>
-                                          </tr>
-                                       }
-                                    }
-                                    @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Leaf)
-                                    {
-                                       if (ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count > 5 || ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count == ViewDataTyped.MaximumTaxonomyLeaves)
-                                       {
-                                          <tr>
-                                             <td>
-                                                <div class="taxonomyCount">
-                                                   <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="@ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Select(x => Html.Raw(x.GetDisplayNameAsDetailUrl())).ToDelimitedString("<br/>")">
-                                                      @MatchmakerTaxonomyTier.GetTaxonomyTierCountText(ViewDataTyped.TopLevelMatchmakerTaxonomyTier.Count, ViewDataTyped.MaximumTaxonomyLeaves, TaxonomyLevelEnum.Leaf)
-                                                   </a>
-                                                </div>
-                                             </td>
-                                          </tr>
-                                       }
-                                       else
-                                       {
-                                          foreach (var leaf in ViewDataTyped.TopLevelMatchmakerTaxonomyTier)
-                                          {
-                                             <tr>
-                                                <td>@Html.Raw(leaf.GetDisplayNameAsDetailUrl())</td>
-                                             </tr>
-                                          }
-                                       }
-                                    }
-                                 </tbody>
-                              </table>
-                           }
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
-
+                    </div>
+                </div>
+                @*Classifications*@
+                <div class="col-md-6">
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            @{
+                                var tenantHasMultipleClassificationSystems = ViewDataTyped.AllClassificationSystems.Count > 1;
+                                var panelTitle = tenantHasMultipleClassificationSystems
+                                    ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
+                                    : new EnglishPluralizationService().Pluralize(ViewDataTyped.AllClassificationSystems.First().ClassificationSystemName);
+                            }
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgClassificationsUrl, string.Format("Edit {0}", panelTitle), ViewDataTyped.UserHasViewEditProfilePermission)
+                            @panelTitle
+                        </div>
+                        <div class="panel-body">
+                            @if (!ViewDataTyped.MatchmakerClassificationsGroupedByClassificationSystem.Any())
+                            {
+                                <p class="systemText">None selected</p>
+                            }
+                            @foreach (var classificationsGroupedBySystem in ViewDataTyped.MatchmakerClassificationsGroupedByClassificationSystem)
+                            {
+                                if (tenantHasMultipleClassificationSystems)
+                                {
+                                    <h4>@classificationsGroupedBySystem.Key.ClassificationSystemName</h4>
+                                }
+                                <ul>
+                                    @foreach (var classification in classificationsGroupedBySystem)
+                                    {
+                                        <li><a href="@classification.Classification.GetDetailUrl()" title="View @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel() detail page">@classification.Classification.DisplayName</a></li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
+</div>
 </div>
 <script>
     jQuery(document).ready(function() {

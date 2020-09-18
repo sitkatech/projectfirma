@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected Classification()
         {
             this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
+            this.MatchmakerOrganizationClassifications = new HashSet<MatchmakerOrganizationClassification>();
             this.ProjectClassifications = new HashSet<ProjectClassification>();
         }
 
@@ -87,7 +88,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationPerformanceMeasures.Any() || ProjectClassifications.Any();
+            return ClassificationPerformanceMeasures.Any() || MatchmakerOrganizationClassifications.Any() || ProjectClassifications.Any();
         }
 
         /// <summary>
@@ -102,6 +103,11 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(ClassificationPerformanceMeasure).Name);
             }
 
+            if(MatchmakerOrganizationClassifications.Any())
+            {
+                dependentObjects.Add(typeof(MatchmakerOrganizationClassification).Name);
+            }
+
             if(ProjectClassifications.Any())
             {
                 dependentObjects.Add(typeof(ProjectClassification).Name);
@@ -112,7 +118,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(ProjectClassification).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Classification).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(MatchmakerOrganizationClassification).Name, typeof(ProjectClassification).Name};
 
 
         /// <summary>
@@ -142,6 +148,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in MatchmakerOrganizationClassifications.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ProjectClassifications.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -162,6 +173,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ClassificationID; } set { ClassificationID = value; } }
 
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
+        public virtual ICollection<MatchmakerOrganizationClassification> MatchmakerOrganizationClassifications { get; set; }
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FileResourceInfo KeyImageFileResourceInfo { get; set; }

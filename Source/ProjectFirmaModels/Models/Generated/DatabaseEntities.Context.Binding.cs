@@ -90,6 +90,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
             modelBuilder.Configurations.Add(new MatchMakerAreaOfInterestLocationConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerKeywordConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerOrganizationClassificationConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyBranchConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyTrunkConfiguration());
@@ -298,6 +299,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<MatchMakerAreaOfInterestLocation> MatchMakerAreaOfInterestLocations { get { return AllMatchMakerAreaOfInterestLocations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerKeyword> AllMatchmakerKeywords { get; set; }
         public virtual IQueryable<MatchmakerKeyword> MatchmakerKeywords { get { return AllMatchmakerKeywords.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerOrganizationClassification> AllMatchmakerOrganizationClassifications { get; set; }
+        public virtual IQueryable<MatchmakerOrganizationClassification> MatchmakerOrganizationClassifications { get { return AllMatchmakerOrganizationClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyBranch> AllMatchmakerOrganizationTaxonomyBranches { get; set; }
         public virtual IQueryable<MatchmakerOrganizationTaxonomyBranch> MatchmakerOrganizationTaxonomyBranches { get { return AllMatchmakerOrganizationTaxonomyBranches.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyLeaf> AllMatchmakerOrganizationTaxonomyLeafs { get; set; }
@@ -750,6 +753,9 @@ namespace ProjectFirmaModels.Models
 
                 case "MatchmakerKeyword":
                     return MatchmakerKeywords.GetMatchmakerKeyword(primaryKey);
+
+                case "MatchmakerOrganizationClassification":
+                    return MatchmakerOrganizationClassifications.GetMatchmakerOrganizationClassification(primaryKey);
 
                 case "MatchmakerOrganizationTaxonomyBranch":
                     return MatchmakerOrganizationTaxonomyBranches.GetMatchmakerOrganizationTaxonomyBranch(primaryKey);

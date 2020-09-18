@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.PartnerFinder
     {
         // Anything below this score is deemed not good enough to show to a user as
         // a potential match. We'll see if this is useful idea.
-        public const double MatchScoreDisplayCutoff = 0.5;
+        public const double MatchScoreDisplayCutoff = 0.2;
 
         public Project Project { get; }
         public Organization Organization { get; }
@@ -77,6 +77,8 @@ namespace ProjectFirma.Web.PartnerFinder
             CalculateOrganizationAreaOfInterestSubScore(project, organization, ref subScores, ref matchInsightStrings);
             // Keywords SubScore
             CalculateOrganizationMatchmakerKeywordSubScore(project, organization, ref subScores, ref matchInsightStrings);
+            // Classifications SubScore
+            CalculateOrganizationMatchmakerClassificationSubScore(project, organization, ref subScores, ref matchInsightStrings);
 
             // Calculate final score from sub-scores
             double scoreToReturn = CalculateFinalScoreFromSubScores(subScores);
@@ -86,7 +88,7 @@ namespace ProjectFirma.Web.PartnerFinder
 
             return scoreToReturn;
         }
-
+        
         private double CalculateFinalScoreFromSubScores(List<double> subScores)
         {
             double finalScore = 0.0;
@@ -158,6 +160,27 @@ namespace ProjectFirma.Web.PartnerFinder
 
             CheckEnsureScoreInValidRange(taxonomySubScore);
             subScores.Add(taxonomySubScore);
+        }
+
+        private static void CalculateOrganizationMatchmakerClassificationSubScore(Project project,
+            Organization organization,
+            ref List<double> subScores,
+            ref List<string> matchInsightStrings)
+        {
+            List<string> localMatchInsights = new List<string>();
+            double classificationMatchScore = 0.0;
+
+            var organizationClassificationIDs = organization.MatchmakerOrganizationClassifications.Select(x => x.ClassificationID).ToList();
+            var projectClassificationIDs = project.ProjectClassifications.Select(x => x.ClassificationID).ToList();
+
+            if (organizationClassificationIDs.Any(x => projectClassificationIDs.Contains(x)))
+            {
+                classificationMatchScore = 1.0;
+            }
+
+            CheckEnsureScoreInValidRange(classificationMatchScore);
+            subScores.Add(classificationMatchScore);
+
         }
 
         private static void CalculateOrganizationAreaOfInterestSubScore(Project project, 
