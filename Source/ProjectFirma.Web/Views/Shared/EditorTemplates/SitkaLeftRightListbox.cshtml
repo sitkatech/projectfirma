@@ -33,8 +33,6 @@
             $scope.AngularModel = angularModelAndViewData.AngularModel;
             $scope.DescriptionsDictionary = angularModelAndViewData.DescriptionsDictionary;
 
-            console.log($scope.DescriptionsDictionary);
-
             $scope.Items = $scope.AngularModel.SelectListItems;
             $scope.ItemsSelected = $scope.Items.filter(x => x.Selected);
             $scope.ItemsAvailable = $scope.Items.filter(x => !x.Selected);
@@ -80,7 +78,7 @@
             $scope.$watch('Items',
                 function() {
                     $scope.updateItemsLists();
-                    console.log($scope.Items);
+                    //console.log($scope.Items);
                 },
                 true);
 
