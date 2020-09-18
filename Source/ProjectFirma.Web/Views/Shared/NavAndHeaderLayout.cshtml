@@ -98,9 +98,18 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                     <div class="col-sm-12 col-md-5">
                         @if(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType != FirmaEnvironmentType.Prod)
-                        { 
-                            <div class="environment alert alert-warning @FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
-                                Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
+                        {
+                            <div class="environment dropdown">
+                                <button class=" btn btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
+                                </button>
+                                @if (FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Local || ViewDataTyped.CurrentFirmaSession.IsSitkaAdministrator())
+                                {
+                                    <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
+                                        <li><a href="@ViewDataTyped.QaUrl">Go to QA</a></li>
+                                        <li><a href="@ViewDataTyped.LocalUrl">Go to LOCAL</a></li>
+                                    </ul>
+                                }
                             </div>
                         }
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
