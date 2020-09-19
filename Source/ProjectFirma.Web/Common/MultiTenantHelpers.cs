@@ -407,5 +407,26 @@ namespace ProjectFirma.Web.Common
             };
             return uriBuilder.ToString();
         }
+
+        private static List<TenantSimple> TenantSimples = new List<TenantSimple>();
+
+        public static List<TenantSimple> GetAllTenantSimples()
+        {
+            if (!TenantSimples.Any())
+            {
+                TenantSimples.AddRange(HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList().Select(x => new TenantSimple
+                (
+                    x.TenantShortDisplayName, 
+                    x.Tenant.CanonicalHostNameLocal, 
+                    x.Tenant.CanonicalHostNameQa, 
+                    x.Tenant.CanonicalHostNameProd,
+                    x.TenantSquareLogoFileResourceInfo?.GetFileResourceUrl()
+                )));
+            }
+
+            return TenantSimples;
+        }
+
+        
     }
 }

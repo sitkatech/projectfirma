@@ -59,6 +59,7 @@ namespace ProjectFirma.Web.Views
         public string RequestSupportUrl { get; }
         public string LocalUrl { get; }
         public string QaUrl { get; }
+        public List<TenantSimple> TenantSimples { get; }
         public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
         public ViewPageContentViewData CustomFooterViewData { get; }
@@ -97,6 +98,8 @@ namespace ProjectFirma.Web.Views
 
             QaUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(currentUrl, FirmaEnvironmentType.Qa);
             LocalUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(currentUrl, FirmaEnvironmentType.Local);
+
+            TenantSimples = MultiTenantHelpers.GetAllTenantSimples();
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 
