@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
             CanonicalHostNameProd = new UriBuilder() { Scheme = "https", Host = canonicalHostNameProd }.ToString();
             TenantSquareLogoUrl = tenantSquareLogoUrl;
         }
-
+        
         public string GetTenantSquareLogoUrlForEnvironment(FirmaEnvironmentType environmentType)
         {
             switch (environmentType)
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public string GetCanonicalUrlForTenantEnvironment(FirmaEnvironmentType environmentType)
+        public string GetCanonicalUrlForTenantEnvironment(FirmaEnvironmentType environmentType, Uri currentUrl)
         {
             string canonicalUrl;
             switch (environmentType)
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Models
                 default:
                     throw new ArgumentOutOfRangeException(nameof(environmentType), environmentType, null);
             }
-            return canonicalUrl;
+            return new UriBuilder(canonicalUrl) { Path = currentUrl.PathAndQuery}.ToString();
         }
     }
 }

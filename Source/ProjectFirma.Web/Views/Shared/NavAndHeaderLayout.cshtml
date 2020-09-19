@@ -123,7 +123,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tenantDropdownMenu">
                                         @foreach (var tenant in ViewDataTyped.TenantSimples)
                                         {
-                                            <li><a href="@tenant.GetCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)"/></span> @tenant.TenantName</a></li>
+                                            <li><a href="@tenant.GetCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)"/></span> @tenant.TenantName</a></li>
                                         }
                                     </ul>
                                 </div>

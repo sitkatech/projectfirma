@@ -57,6 +57,7 @@ namespace ProjectFirma.Web.Views
         public string RegisterAccountUrl { get; }
         public string ForgotPasswordUrl { get; }
         public string RequestSupportUrl { get; }
+        public Uri CurrentUrl { get; }
         public string LocalUrl { get; }
         public string QaUrl { get; }
         public List<TenantSimple> TenantSimples { get; }
@@ -92,12 +93,12 @@ namespace ProjectFirma.Web.Views
             LogInUrl = FirmaHelpers.GenerateLogInUrl();
             LogOutUrl = FirmaHelpers.GenerateLogOutUrlWithReturnUrl();
 
-            var currentUrl = HttpContext.Current.Request.Url;
-            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(currentUrl.AbsoluteUri);
-            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(currentUrl.AbsoluteUri);
+            CurrentUrl = HttpContext.Current.Request.Url;
+            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(CurrentUrl.AbsoluteUri);
+            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(CurrentUrl.AbsoluteUri);
 
-            QaUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(currentUrl, FirmaEnvironmentType.Qa);
-            LocalUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(currentUrl, FirmaEnvironmentType.Local);
+            QaUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Qa);
+            LocalUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Local);
 
             TenantSimples = MultiTenantHelpers.GetAllTenantSimples();
 
