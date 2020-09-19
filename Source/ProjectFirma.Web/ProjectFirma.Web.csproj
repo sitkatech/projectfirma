@@ -110,6 +110,7 @@
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
+    <Compile Include="Models\TenantSimple.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
