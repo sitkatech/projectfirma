@@ -57,6 +57,10 @@ namespace ProjectFirma.Web.Views
         public string RegisterAccountUrl { get; }
         public string ForgotPasswordUrl { get; }
         public string RequestSupportUrl { get; }
+        public Uri CurrentUrl { get; }
+        public string LocalUrl { get; }
+        public string QaUrl { get; }
+        public List<TenantSimple> TenantSimples { get; }
         public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
         public ViewPageContentViewData CustomFooterViewData { get; }
@@ -89,9 +93,14 @@ namespace ProjectFirma.Web.Views
             LogInUrl = FirmaHelpers.GenerateLogInUrl();
             LogOutUrl = FirmaHelpers.GenerateLogOutUrlWithReturnUrl();
 
-            var currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
-            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(currentUrl);
-            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(currentUrl);
+            CurrentUrl = HttpContext.Current.Request.Url;
+            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(CurrentUrl.AbsoluteUri);
+            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(CurrentUrl.AbsoluteUri);
+
+            QaUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Qa);
+            LocalUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Local);
+
+            TenantSimples = MultiTenantHelpers.GetAllTenantSimples();
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 

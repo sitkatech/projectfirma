@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableReports)]
         public bool EnableReports { get; set; }
 
-        [DisplayName("Enable Matchmaker?")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableMatchmaker)]
         public bool EnableMatchmaker { get; set; }
 
         /// <summary>

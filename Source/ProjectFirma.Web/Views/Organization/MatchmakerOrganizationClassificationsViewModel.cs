@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.Organization
             ClassificationSystemListboxes = new List<SitkaLeftRightListbox>();
             foreach (var classificationSystem in allClassificationSystems)
             {
-                var allSelectListItems = classificationSystem.Classifications.ToList();
+                var allSelectListItems = classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ToList();
                 var selectedClassifications = organization.MatchmakerOrganizationClassifications.Select(x => x.Classification).ToList();
                 var selectListItems = allSelectListItems.ToSelectList(x => Convert.ToString(x.ClassificationID), x => x.DisplayName,
                     selectedClassifications.Select(y => Convert.ToString(y.ClassificationID)).ToList()).ToList();
