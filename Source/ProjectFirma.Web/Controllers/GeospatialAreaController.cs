@@ -83,11 +83,13 @@ namespace ProjectFirma.Web.Controllers
 
             const string chartTitle = "Reported Expenditures By Organization Type";
             var chartContainerID = chartTitle.Replace(" ", "");
+
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
                 x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 chartContainerID,
-                chartTitle);
+                chartTitle,
+                organizationTypes.ToDictionary(x => x.OrganizationTypeName, x => x.LegendColor));
 
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
 

@@ -57,7 +57,8 @@ namespace ProjectFirma.Web.Models
             List<string> filterValues,
             Func<ProjectFundingSourceExpenditure, IComparable> sortFunction,
             string chartContainerID,
-            string chartTitle)
+            string chartTitle,
+            Dictionary<string, string> seriesColorDictionary)
         {
             var projectFundingSourceExpenditureList = projectFundingSourceExpenditures.ToList();
             if (!projectFundingSourceExpenditureList.Any())
@@ -67,8 +68,9 @@ namespace ProjectFirma.Web.Models
             var beginCalendarYear = projectFundingSourceExpenditureList.Min(x => x.CalendarYear);
             var endCalendarYear = projectFundingSourceExpenditureList.Max(x => x.CalendarYear);
             var rangeOfYears = FirmaDateUtilities.GetRangeOfYears(beginCalendarYear, endCalendarYear);
+            
 
-            return projectFundingSourceExpenditureList.ToGoogleChart(filterFunction, filterValues, sortFunction, rangeOfYears, chartContainerID, chartTitle, GoogleChartType.ColumnChart, true);
+            return projectFundingSourceExpenditureList.ToGoogleChart(filterFunction, filterValues, sortFunction, rangeOfYears, chartContainerID, chartTitle, GoogleChartType.ColumnChart, true, seriesColorDictionary);
         }
 
         //TODO: The GetFullCategoryYearDictionary and GetGoogleChartDataTable functions are probably fine in this Extension class, but the ToGoogleChart functions are more about display and probably could be in a better location
@@ -80,10 +82,11 @@ namespace ProjectFirma.Web.Models
             string chartContainerID,
             string chartTitle,
             GoogleChartType googleChartType,
-            bool isStacked)
+            bool isStacked,
+            Dictionary<string, string> seriesColorDictionary)
         {
             var fullCategoryYearDictionary = GetFullCategoryYearDictionary(projectFundingSourceExpenditures, filterFunction, filterValues, sortFunction, rangeOfYears);
-            var googleChartDataTable = GetGoogleChartDataTable(fullCategoryYearDictionary, rangeOfYears, googleChartType);
+            var googleChartDataTable = GetGoogleChartDataTable(fullCategoryYearDictionary, rangeOfYears, googleChartType, seriesColorDictionary);
             var googleChartAxis = new GoogleChartAxis("Annual Expenditures", MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Short);
             var googleChartConfiguration = new GoogleChartConfiguration(chartTitle,
                 isStacked,
@@ -91,6 +94,7 @@ namespace ProjectFirma.Web.Models
                 googleChartDataTable,
                 new GoogleChartAxis(FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel(), null, null),
                 new List<GoogleChartAxis> { googleChartAxis });
+            googleChartConfiguration.SetSeriesIgnoringNullGoogleChartSeries(googleChartDataTable);
             var googleChart = new GoogleChartJson(chartTitle, chartContainerID, googleChartConfiguration,
                 googleChartType, googleChartDataTable, null);
             return googleChart;
@@ -114,7 +118,7 @@ namespace ProjectFirma.Web.Models
             return fullCategoryYearDictionary;
         }
 
-        private static GoogleChartDataTable GetGoogleChartDataTable(Dictionary<string, Dictionary<int, decimal>> fullCategoryYearDictionary, List<int> rangeOfYears, GoogleChartType columnDisplayType)
+        private static GoogleChartDataTable GetGoogleChartDataTable(Dictionary<string, Dictionary<int, decimal>> fullCategoryYearDictionary, List<int> rangeOfYears, GoogleChartType columnDisplayType, Dictionary<string, string> seriesColorDictionary)
         {
             var googleChartRowCs = new List<GoogleChartRowC>();
             var sortedYearCategoryDictionary =
@@ -136,9 +140,12 @@ namespace ProjectFirma.Web.Models
             var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(columnLabel, columnLabel, "string") };
             googleChartColumns.AddRange(
                 sortedYearCategoryDictionary.Select(
-                        x => new GoogleChartColumn(x.Key, x.Key, "number", new GoogleChartSeries(columnDisplayType, GoogleChartAxisType.Primary), null, null)));
+                        x => new GoogleChartColumn(x.Key, x.Key, "number", new GoogleChartSeries(columnDisplayType, GoogleChartAxisType.Primary, seriesColorDictionary != null && seriesColorDictionary.ContainsKey(x.Key) ? seriesColorDictionary[x.Key] : null, null, null), null, null)));
 
-            return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            
+
+            return googleChartDataTable;
         }
 
         public static string GetFundingSourceCustomAttributesValue(this ProjectFundingSourceExpenditure projectFundingSourceExpenditure, FundingSourceCustomAttributeType fundingSourceCustomAttributeType)
