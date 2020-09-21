@@ -619,7 +619,8 @@ namespace ProjectFirma.Web.Controllers
                 chartContainerID,
                 chartTitle,
                 GoogleChartType.ColumnChart,
-                true);
+                true,
+                null);
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
@@ -634,7 +635,8 @@ namespace ProjectFirma.Web.Controllers
             var chartTitle = $"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} By {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}";
             var chartContainerID = chartTitle.Replace(" ", "");
             var filterValues = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).Select(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName).Distinct().ToList();
-
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes;
+            
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 filterValues,
                 x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
@@ -642,7 +644,8 @@ namespace ProjectFirma.Web.Controllers
                 chartContainerID,
                 chartTitle,
                 GoogleChartType.ColumnChart,
-                true);
+                true,
+                organizationTypes.ToDictionary(x => x.OrganizationTypeName, x => x.LegendColor));
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
