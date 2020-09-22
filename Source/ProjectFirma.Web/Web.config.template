@@ -49,6 +49,7 @@
     <add key="KeystoneOpenIDUrl" value="https://${keystone-base-url}/core" />
     <add key="ImpersonationAllowed" value="${impersonation-allowed}" />
     <add key="GeoServerUrl" value="${geoserver-url}" />
+    <add key="TenantDropdownEnabled" value="${tenant-dropdown-enabled}" />
 
     <!-- projectfirma.com reCAPTCHA key, be sure to add domain names to reCAPTCHA admin control panel when adding new tenants with new domains -->
     <!-- reCAPTCHA domains as of 09/23/2019: clackamaspartnership.org, idaho.gov, peakstopeople.org, projectfirma.com, pugetsoundinfo.wa.gov, rcdprojects.org -->

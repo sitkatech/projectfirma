@@ -70,6 +70,10 @@ namespace ProjectFirma.Web.Views
         public string TenantBannerLogoUrl { get; private set; }
         public FirmaIncludesViewData FirmaIncludesViewData { get; }
 
+        public bool ShowTenantDropdown { get; }
+        public bool ShowEnvironmentLabel { get; }
+        public bool ShowEnvironmentDropdown { get; }
+
         /// <summary>
         /// Call for page without associated FirmaPage
         /// </summary>
@@ -117,6 +121,19 @@ namespace ProjectFirma.Web.Views
             TenantShortDisplayName = MultiTenantHelpers.GetTenantShortDisplayName();
             TenantBannerLogoUrl = MultiTenantHelpers.GetTenantBannerLogoUrl();
             TenantToolDisplayName = MultiTenantHelpers.GetToolDisplayName();
+            ShowTenantDropdown =
+                // Tenant dropdown can be globally disabled if necessary. (Reclamation needs this, and so might other hard-ish forks.)
+                FirmaWebConfiguration.TenantDropdownEnabled &&
+                // Always show on local
+                FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Local ||
+                // Always show if Sitka Admin
+                CurrentFirmaSession.IsSitkaAdministrator();
+            ShowEnvironmentLabel = FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType != FirmaEnvironmentType.Prod;
+            ShowEnvironmentDropdown =
+                // Always show on local
+                FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Local ||
+                // Always show if Sitka Admin
+                CurrentFirmaSession.IsSitkaAdministrator();
             FirmaIncludesViewData = new FirmaIncludesViewData();
         }
 
