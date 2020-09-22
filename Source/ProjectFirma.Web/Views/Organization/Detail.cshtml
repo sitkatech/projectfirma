@@ -826,11 +826,17 @@
                                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMatchmakerKeywordsUrl, string.Format("Edit {0}", FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditMatchmakerKeywordDialogFormID)
                                         @FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized()
                                     </div>
-                                    <div class="panel-body">
+                                   @*<div class="panel-body">
                                         <p class="systemText">@FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized()</p>
-                                        @*@{ ProjectBasicsTags.RenderPartialView(Html, ViewDataTyped.ProjectBasicsTagsViewData); }*@
-                                        @{ OrganizationMatchmakerKeywords.RenderPartialView(Html, ViewDataTyped.OrganizationMatchmakerKeywordsViewData); }
-                                    </div>
+                                       @{ OrganizationMatchmakerKeywords.RenderPartialView(Html, ViewDataTyped.OrganizationMatchmakerKeywordsViewData); }
+                                    </div>*@
+                                   <p>
+                                      @{
+                                         var keywords = ViewDataTyped.Organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword.MatchmakerKeywordName).ToList();
+                                         var commaKeywords = string.Join(", ", keywords);
+                                         @commaKeywords
+                                      }
+                                   </p>
                                 </div>
                             </div>
                             @* Taxonomy Panel *@

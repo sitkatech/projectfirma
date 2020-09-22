@@ -19,15 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls;
+
 namespace ProjectFirma.Web.Views.Keyword
 {
     public class MatchmakerKeywordsModalViewData : FirmaUserControlViewData
     {
         public readonly ProjectFirmaModels.Models.Organization Organization;
-        
+        public OrganizationMatchmakerKeywordsViewData OrganizationMatchmakerKeywordsViewData;
+
         public MatchmakerKeywordsModalViewData(ProjectFirmaModels.Models.Organization organization)
         {
             Organization = organization;
+            OrganizationMatchmakerKeywordsViewData = new OrganizationMatchmakerKeywordsViewData(organization);
         }
+
+
     }
 }

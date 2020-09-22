@@ -19,12 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Keyword.MatchmakerKeywordsModal
 
-<p>
-[Something goes here]
-<hr/>
-
-
-
-
+<div class="panel-body">
+   <p class="systemText">@FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized()</p>
+   @{ OrganizationMatchmakerKeywords.RenderPartialView(Html, ViewDataTyped.OrganizationMatchmakerKeywordsViewData); }
+</div>
