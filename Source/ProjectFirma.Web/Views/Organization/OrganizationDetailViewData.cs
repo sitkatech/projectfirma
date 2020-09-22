@@ -247,6 +247,7 @@ namespace ProjectFirma.Web.Views.Organization
             AreaOfInterestMapInitJson = matchMakerAreaOfInterestInitJson;
 
             OrganizationMatchmakerKeywordsViewData = new OrganizationMatchmakerKeywordsViewData(organization);
+            EditMatchmakerKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.EditMatchMakerKeywordsModal(organization));
 
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();

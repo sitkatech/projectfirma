@@ -568,7 +568,6 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var boundingBox = new BoundingBox(dbGeometries);
-            //var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
 
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }

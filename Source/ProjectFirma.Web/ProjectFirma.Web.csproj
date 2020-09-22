@@ -325,6 +325,9 @@
     <Compile Include="Views\MapLayer\ExternalMapLayerGridSpec.cs" />
     <Compile Include="Views\MapLayer\Index.cs" />
     <Compile Include="Views\MapLayer\IndexViewData.cs" />
+    <Compile Include="Views\Keyword\MatchmakerKeywordsModal.cs" />
+    <Compile Include="Views\Keyword\MatchmakerKeywordsModalViewData.cs" />
+    <Compile Include="Views\Keyword\MatchmakerKeywordsModalViewModel.cs" />
     <Compile Include="Views\MatchMaker\ProjectPotentialPartners.cs" />
     <Compile Include="Views\MatchMaker\ProjectPotentialPartnersViewData.cs" />
     <Compile Include="Views\Organization\EditProfileSupplementalInformation.cs" />
@@ -725,6 +728,7 @@
     <Content Include="Views\Organization\EditProfileSupplementalInformation.cshtml" />
     <Content Include="Views\Organization\MatchmakerOrganizationLocationDetail.cshtml" />
     <Content Include="Views\Organization\MatchmakerOrganizationClassifications.cshtml" />
+    <Content Include="Views\Keyword\MatchmakerKeywordsModal.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

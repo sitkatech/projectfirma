@@ -23,12 +23,17 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using GeoJSON.Net.Feature;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 //using ProjectFirma.Web.Views.Keyword;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Keyword;
+using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.Shared.MatchmakerKeyword;
 using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls;
 using ProjectFirmaModels;
@@ -300,5 +305,23 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<BulkKeywordProjects, BulkMatchmakerKeywordOrganizationsViewData, BulkMatchmakerKeywordOrganizationsViewModel>(viewData, viewModel);
         }
         */
+
+
+        #region Modal Pop-Up Keyword Editor
+
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditMatchMakerKeywordsModal(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+           var viewModel = new MatchmakerKeywordsModalViewModel(organization);
+           var viewData = new MatchmakerKeywordsModalViewData(organization);
+           return RazorPartialView<MatchmakerKeywordsModal, MatchmakerKeywordsModalViewData, MatchmakerKeywordsModalViewModel>(viewData, viewModel);
+        }
+
+        #endregion Modal Pop-Up Keyword Editor
+
+
+
     }
 }
