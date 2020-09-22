@@ -193,7 +193,8 @@ namespace ProjectFirma.Web.Controllers
                 organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
                 x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 chartContainerID,
-                chartTitle);
+                chartTitle,
+                organizationTypes.ToDictionary(x => x.OrganizationTypeName, x => x.LegendColor));
 
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
 

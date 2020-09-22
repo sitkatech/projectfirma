@@ -70,6 +70,7 @@ namespace ProjectFirma.Web.Common
         public static List<string> CanonicalHostNames => Tenant.All.OrderBy(x => x.TenantID).Select(x => FirmaEnvironment.GetCanonicalHostNameForEnvironment(x)).ToList();
 
         public static string GeoServerUrl = SitkaConfiguration.GetRequiredAppSetting("GeoServerUrl");
+        public static bool TenantDropdownEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("TenantDropdownEnabled"));
 
         // Feature Flag Settings
         public static readonly bool FeatureMatchMakerEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureMatchMakerEnabled"));
