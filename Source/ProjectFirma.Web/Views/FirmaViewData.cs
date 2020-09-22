@@ -124,15 +124,11 @@ namespace ProjectFirma.Web.Views
             ShowTenantDropdown =
                 // Tenant dropdown can be globally disabled if necessary. (Reclamation needs this, and so might other hard-ish forks.)
                 FirmaWebConfiguration.TenantDropdownEnabled &&
-                // Always show on local
-                FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Local ||
-                // Always show if Sitka Admin
-                CurrentFirmaSession.IsSitkaAdministrator();
+                (FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Local ||
+                 CurrentFirmaSession.IsSitkaAdministrator());
             ShowEnvironmentLabel = FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType != FirmaEnvironmentType.Prod;
             ShowEnvironmentDropdown =
-                // Always show on local
                 FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Local ||
-                // Always show if Sitka Admin
                 CurrentFirmaSession.IsSitkaAdministrator();
             FirmaIncludesViewData = new FirmaIncludesViewData();
         }
