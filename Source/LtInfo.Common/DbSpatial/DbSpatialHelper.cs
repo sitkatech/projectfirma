@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Data.SqlTypes;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using Microsoft.SqlServer.Types;
 
@@ -92,16 +93,18 @@ namespace LtInfo.Common.DbSpatial
 
         public static DbGeography GeographyFromGeometry(DbGeometry ogrGeometry)
         {
-            return DbGeography.FromBinary(ogrGeometry.AsBinary());
+            // Not enforcing 4326 here, but am explicitly passing through relevant starting CoordinateSystemId.
+            return DbGeography.FromBinary(ogrGeometry.AsBinary(), ogrGeometry.CoordinateSystemId);
         }
 
-        public static DbGeometry ToDbGeometry(this SqlGeometry sqlGeometry)
+        public static DbGeometry ToDbGeometry(this SqlGeometry sqlGeometry, int coordinateSystemIDToUse)
         {
-            return DbGeometry.FromBinary(sqlGeometry.STAsBinary().Buffer);
+            return DbGeometry.FromBinary(sqlGeometry.STAsBinary().Buffer, coordinateSystemIDToUse);
         }
 
         public static SqlGeometry ToSqlGeometry(this DbGeometry dbGeometry)
         {
+            // Not enforcing 4326 here, but am explicitly passing through relevant starting CoordinateSystemId.
             return SqlGeometry.STGeomFromWKB(new SqlBytes(dbGeometry.AsBinary()), dbGeometry.CoordinateSystemId);
         }
 
@@ -111,7 +114,11 @@ namespace LtInfo.Common.DbSpatial
             var thresholdInDegrees = FeetToAverageLatLonDegree(iHaveSqlGeometries.First().GetDbGeometry(), thresholdInFeet);
             iHaveSqlGeometries.ForEach(x =>
             {
-                x.SetDbGeometry(x.GetSqlGeometry().MakeValid().Reduce(thresholdInDegrees).ToDbGeometry());
+                // SqlGeometries are in a "Euclidean (flat) coordinate system", so forcing our resulting DbGeometry to 4326 (LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
+                // should be entirely appropriate. -- SLG 9/22/2020
+                SqlGeometry validSqlGeometry = x.GetSqlGeometry().MakeValid().Reduce(thresholdInDegrees);
+                DbGeometry newValidDbGeometry = validSqlGeometry.ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                x.SetDbGeometry(newValidDbGeometry);
             });
         }
     }
