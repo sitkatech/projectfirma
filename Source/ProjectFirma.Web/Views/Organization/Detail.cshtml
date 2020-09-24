@@ -833,6 +833,7 @@
                                           var keywords = ViewDataTyped.Organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword.MatchmakerKeywordName).ToList();
                                           if (keywords.Any())
                                           {
+                                             <p>The following keywords describe the types of projects this organization is interested in.</p>
                                              var commaKeywords = string.Join(", ", keywords);
                                              @commaKeywords
                                           }
