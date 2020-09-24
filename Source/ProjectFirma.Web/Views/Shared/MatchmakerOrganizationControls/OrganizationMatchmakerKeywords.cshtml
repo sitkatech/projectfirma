@@ -21,7 +21,6 @@
 @using LtInfo.Common
 @using Microsoft.Web.Mvc
 @using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
 @inherits ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls.OrganizationMatchmakerKeywords
@@ -39,15 +38,12 @@
     }
 </style>
 
-@* Div where controls are constructed *@
+@* Div where tag controls are constructed *@
 <div id="organizationMatchmakerKeywordsDiv">
 </div>
 
 @*Form that gets submitted by Save button for enclosing ModalDialogForm. This needs to be associated when ModalDialogForm URL is first constructed.*@
 @*This is probably not located at the right level for a reusable component*@
-<!--<form id="@OrganizationMatchmakerKeywordsViewData.EditMatchmakerKeywordDialogFormID">
-</form>-->
-
 @using (Html.BeginForm<KeywordController>(x => x.EditMatchMakerKeywordsModal(ViewDataTyped.Organization),
    FormMethod.Post,
    new Dictionary<string, object> { { "id", OrganizationMatchmakerKeywordsViewData.EditMatchmakerKeywordDialogFormID } }))
@@ -55,12 +51,9 @@
    <input id="MatchmakerKeywordsJson" name="MatchmakerKeywordsJson" type="hidden" value="@ViewDataTyped.GetMatchmakerKeywordsAsJson()">
 }
 
-
 <script type="text/javascript">
 
-   @*//var keywordsArray = @ViewDataTyped.GetMatchmakerKeywordsAsJson().ToJS();*@
    //Better done with model...
-   @*var keywordsArray = @Html.Raw(JObject.FromObject(ViewDataTyped.OrganizationMatchmakerKeywordJson).ToString(Formatting.None));*@
    var keywordsArray = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.keywordStrings));
 
    function setFormElementForKeywords()
@@ -87,7 +80,6 @@
 
       // bootstrap-tags library must be included on parent page
       organizationMatchmakerKeywordsDiv.tags({
-         @*values: @Html.Raw(JArray.FromObject(ViewDataTyped.MatchmakerKeywordHelper.Keywords)),*@
          values: @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.keywordStrings)),
          templates: {
             pill: "<div class='btn btn-sm btn-tag' style='margin: 0 5px 5px 0; display:inline-block; position: relative' data-tag-id='{1}'>{0}</div>",
