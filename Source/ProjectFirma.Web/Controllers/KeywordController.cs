@@ -78,6 +78,12 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(organization, HttpRequestStorage.DatabaseEntities, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
+            // Clean up any orphaned MatchmakerKeywords (just for this Tenant)
+            var orphanedMatchmakerKeywords = HttpRequestStorage.DatabaseEntities.MatchmakerKeywords
+                .Where(mk => !mk.OrganizationMatchmakerKeywords.Any()).ToList();
+            orphanedMatchmakerKeywords.ForEach(omk => omk.Delete(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
             return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
 
