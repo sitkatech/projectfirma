@@ -19,19 +19,48 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
 {
-    public class OrganizationMatchmakerKeywordsViewData
+
+    public class OrganizationMatchmakerKeywordJson
     {
+        [JsonProperty(PropertyName = "keywords")]
+        public List<string> Keywords { get; set; }
+
+        public OrganizationMatchmakerKeywordJson(ProjectFirmaModels.Models.Organization organization)
+        {
+            Keywords = organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword.MatchmakerKeywordName).ToList();
+        }
+    }
+
+
+        public class OrganizationMatchmakerKeywordsViewData
+    {
+        public const string EditMatchmakerKeywordDialogFormID = "EditMatchmakerKeywordDialogFormID";
+
         public readonly ProjectFirmaModels.Models.Organization Organization;
         public readonly MatchmakerKeywordHelper MatchmakerKeywordHelper;
+        public OrganizationMatchmakerKeywordJson OrganizationMatchmakerKeywordJson;
+        public List<string> keywordStrings;
 
         public OrganizationMatchmakerKeywordsViewData(ProjectFirmaModels.Models.Organization organization)
         {
             Organization = organization;
             MatchmakerKeywordHelper = new MatchmakerKeywordHelper(organization.OrganizationMatchmakerKeywords.Select(x => new BootstrapOrganizationMatchmakerKeyword(x.MatchmakerKeyword)).ToList());
+            OrganizationMatchmakerKeywordJson = new OrganizationMatchmakerKeywordJson(organization);
+            keywordStrings = organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword.MatchmakerKeywordName).ToList();
+        }
+
+        public string GetMatchmakerKeywordsAsJson()
+        {
+            List<string> matchmakerKeywordStrings = Organization.OrganizationMatchmakerKeywords.Select(mmk => mmk.MatchmakerKeyword.MatchmakerKeywordName).ToList();
+            string matchmakerKeywordStringsAsJson = JsonConvert.SerializeObject(matchmakerKeywordStrings);
+            return matchmakerKeywordStringsAsJson;
         }
     }
+
 }

@@ -820,20 +820,20 @@
                     <div class="col-md-6">
                         <div class="row">
 
-                           @* Matchmaker Keywords panel 2*@
+                           @* Matchmaker Keywords panel*@
                            <div class="col-lg-12">
                               <div class="panel panelFirma">
                                  <div class="panel-heading panelTitle">
-                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMatchmakerKeywordsUrl, string.Format("Edit {0}", FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditMatchmakerKeywordDialogFormID)
+                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditMatchmakerKeywordsUrl, string.Format("Edit {0}", FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission, ViewDataTyped.EditMatchmakerKeywordDialogFormID)
                                     @FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized()
                                  </div>
                                  <div class="panel-body">
                                     <div>
                                        @{
-                                          var keywords2 = ViewDataTyped.Organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword.MatchmakerKeywordName).ToList();
-                                          if (keywords2.Any())
+                                          var keywords = ViewDataTyped.Organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword.MatchmakerKeywordName).ToList();
+                                          if (keywords.Any())
                                           {
-                                             var commaKeywords = string.Join(", ", keywords2);
+                                             var commaKeywords = string.Join(", ", keywords);
                                              @commaKeywords
                                           }
                                           else

@@ -1,88 +1,133 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="ProjectBasicsTags.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+   <copyright file="ProjectBasicsTags.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+   Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+   <author>Sitka Technology Group</author>
+   </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+   <license>
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+   Source code is available upon request via <support@sitkatech.com>.
+   </license>
+   -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using Microsoft.Web.Mvc
+@using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Controllers
+@using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
 @inherits ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls.OrganizationMatchmakerKeywords
 
 @* Div where controls are constructed *@
 <div id="organizationMatchmakerKeywordsDiv" style="line-height: 2em; margin-top: 5px; text-align: left;">
 </div>
 
+@*Form that gets submitted by Save button for enclosing ModalDialogForm. This needs to be associated when ModalDialogForm URL is first constructed.*@
+@*This is probably not located at the right level for a reusable component*@
+<!--<form id="@OrganizationMatchmakerKeywordsViewData.EditMatchmakerKeywordDialogFormID">
+</form>-->
 
-<script>
-    jQuery(document).ready(function()
-    {
-       //alert('Starting up Organization Matchmaker Keyword control');
-       var loaded = false;
-       var organizationMatchmakerKeywordsDiv = jQuery("#organizationMatchmakerKeywordsDiv");
-       if (Sitka.Methods.isUndefinedNullOrEmpty(organizationMatchmakerKeywordsDiv))
-       {
-            alert('could not find organizationMatchmakerKeywords div/control');
-            return;
-        }
+@using (Html.BeginForm<KeywordController>(x => x.EditMatchMakerKeywordsModal(ViewDataTyped.Organization),
+   FormMethod.Post,
+   new Dictionary<string, object> { { "id", OrganizationMatchmakerKeywordsViewData.EditMatchmakerKeywordDialogFormID } }))
+{
+   <input id="MatchmakerKeywordsJson" name="MatchmakerKeywordsJson" type="hidden" value="@ViewDataTyped.GetMatchmakerKeywordsAsJson()">
+}
 
-        // bootstrap-tags library must be included on parent page
-        organizationMatchmakerKeywordsDiv.tags({
-            values: @Html.Raw(JArray.FromObject(ViewDataTyped.MatchmakerKeywordHelper.Keywords)),
-            templates: {
-                pill: "<div class='btn btn-sm btn-tag' style='margin: 0 5px 5px 0; display:inline-block; position: relative' data-tag-id='{1}'>{0}</div>",
-                delete_icon: "<span class='glyphicon glyphicon-remove'></span>",
-                input_pill: "<div class='btn btn-sm btn-tag' style='display: block; max-width: 200px;'></div>",
-                ok_icon: "<span class='glyphicon glyphicon-plus'></span>",
-                number: " ({0})"
-            },
-            suggestion_url: @Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.FindKeywordsUrl.ToJS()),
-           onBeforeAdd: function (item)
-           {
-                //console.log('Attempting to add keyword...');
-                if (!loaded)
-                {
-                    return item;
-                }
-                var matchmakerKeywordName = item.text;
-                var postData = new Object();
-                postData.OrganizationIDList = [@ViewDataTyped.Organization.OrganizationID];
-                postData.MatchmakerKeywordName = matchmakerKeywordName;
-                SitkaAjax.ajax({
-                    type: "POST",
-                    url: @Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.AddKeywordsUrl.ToJS()),
-                    data: postData,
-                    dataType: "json",
-                    async: false
-                }, function (newKeyword) { item = newKeyword; }, function()
-                {
-                    alert("There was an error adding the keyword '" + matchmakerKeywordName + "'");
-                    item = null;
-                });
-                return item;
-            },
-           onRemove: function (pill)
-           {
-                // event.item: contains the item
-                var postData = new Object();
-                postData.OrganizationIDList = [@ViewDataTyped.Organization.OrganizationID];
-                postData.MatchmakerKeywordName = pill.data("tag-id");
-                SitkaAjax.postJSON(@Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.RemoveKeywordsUrl.ToJS()), postData, function() {});
+
+<script type="text/javascript">
+
+   @*//var keywordsArray = @ViewDataTyped.GetMatchmakerKeywordsAsJson().ToJS();*@
+   //Better done with model...
+   @*var keywordsArray = @Html.Raw(JObject.FromObject(ViewDataTyped.OrganizationMatchmakerKeywordJson).ToString(Formatting.None));*@
+   var keywordsArray = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.keywordStrings));
+
+   function setFormElementForKeywords()
+   {
+      console.log('setFormElementForKeywords');
+      var keywordsAsJson = JSON.stringify(keywordsArray);
+      jQuery('#MatchmakerKeywordsJson').val(keywordsAsJson);
+   }
+
+   jQuery(document).ready(function()
+   {
+      console.log('Starting up Organization Matchmaker Keyword control');
+      console.log('keywordsArray: ' + keywordsArray);
+
+      var loaded = false;
+
+      // Div where keywords will be shown
+      var organizationMatchmakerKeywordsDiv = jQuery("#organizationMatchmakerKeywordsDiv");
+      if (Sitka.Methods.isUndefinedNullOrEmpty(organizationMatchmakerKeywordsDiv))
+      {
+         alert('could not find organizationMatchmakerKeywords div/control');
+         return;
+      }
+
+      // bootstrap-tags library must be included on parent page
+      organizationMatchmakerKeywordsDiv.tags({
+         values: @Html.Raw(JArray.FromObject(ViewDataTyped.MatchmakerKeywordHelper.Keywords)),
+         templates: {
+            pill: "<div class='btn btn-sm btn-tag' style='margin: 0 5px 5px 0; display:inline-block; position: relative' data-tag-id='{1}'>{0}</div>",
+            delete_icon: "<span class='glyphicon glyphicon-remove'></span>",
+            input_pill: "<div class='btn btn-sm btn-tag' style='display: block; max-width: 200px;'></div>",
+            ok_icon: "<span class='glyphicon glyphicon-plus'></span>",
+            number: " ({0})"
+         },
+         suggestion_url: @Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.FindKeywordsUrl.ToJS()),
+         onBeforeAdd: function (item)
+         {
+            console.log('Attempting to add keyword...');
+            if (!loaded)
+            {
+               return item;
             }
-        });
-        loaded = true;
-    });
+            var matchmakerKeywordName = item.text;
+
+            keywordsArray.push(matchmakerKeywordName);
+            console.log('keywordsArray:' + keywordsArray);
+            setFormElementForKeywords();
+
+            @*var postData = new Object();
+                   postData.OrganizationIDList = [@ViewDataTyped.Organization.OrganizationID];
+                   postData.MatchmakerKeywordName = matchmakerKeywordName;
+                   SitkaAjax.ajax({
+                       type: "POST",
+                       url: @Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.AddKeywordsUrl.ToJS()),
+                       data: postData,
+                       dataType: "json",
+                       async: false
+                   }, function (newKeyword) { item = newKeyword; }, function()
+                   {
+                       alert("There was an error adding the keyword '" + matchmakerKeywordName + "'");
+                       item = null;
+                   });*@
+
+            return item;
+         },
+         onRemove: function (pill)
+         {
+            console.log('Attempting to remove keyword...');
+            // event.item: contains the item
+            var matchmakerKeywordName = pill.data("tag-id");
+            keywordsArray.splice(keywordsArray.indexOf(matchmakerKeywordName), 1);
+            console.log('keywordsArray:' + keywordsArray);
+            setFormElementForKeywords();
+
+            @*var postData = new Object();
+                   postData.OrganizationIDList = [@ViewDataTyped.Organization.OrganizationID];
+                   postData.MatchmakerKeywordName = pill.data("tag-id");
+                   SitkaAjax.postJSON(@Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.RemoveKeywordsUrl.ToJS()), postData, function() {});*@
+         }
+      });
+      loaded = true;
+   });
 </script>

@@ -248,6 +248,7 @@ namespace ProjectFirma.Web.Views.Organization
 
             OrganizationMatchmakerKeywordsViewData = new OrganizationMatchmakerKeywordsViewData(organization);
             EditMatchmakerKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.EditMatchMakerKeywordsModal(organization));
+            EditMatchmakerKeywordDialogFormID = OrganizationMatchmakerKeywordsViewData.EditMatchmakerKeywordDialogFormID;
 
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();

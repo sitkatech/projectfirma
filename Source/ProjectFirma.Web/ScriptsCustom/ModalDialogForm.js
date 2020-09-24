@@ -67,7 +67,7 @@ function findBootstrapDialogForm(optionalDialogFormId, dialogDiv) {
 }
 
 function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, javascriptReadyFunction, htmlContentsOfDialogBox) {
-    // Retrieve values from the HTML5 data attributes of the link        
+    // Retrieve values from the HTML5 data attributes of the link
     var dialogTitle = element.attr("data-dialog-title");
 
     var width = parseInt(element.attr("data-dialog-width"));

@@ -319,6 +319,26 @@ namespace ProjectFirma.Web.Controllers
            return RazorPartialView<MatchmakerKeywordsModal, MatchmakerKeywordsModalViewData, MatchmakerKeywordsModalViewModel>(viewData, viewModel);
         }
 
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        public ActionResult EditMatchMakerKeywordsModal(OrganizationPrimaryKey organizationPrimaryKey, MatchmakerKeywordsModalViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+
+            if (!ModelState.IsValid)
+            {
+                var viewData = new MatchmakerKeywordsModalViewData(organization);
+                return RazorPartialView<MatchmakerKeywordsModal, MatchmakerKeywordsModalViewData, MatchmakerKeywordsModalViewModel>(viewData, viewModel);
+            }
+
+            viewModel.UpdateModel(organization, HttpRequestStorage.DatabaseEntities, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            return new ModalDialogFormJsonResult();
+        }
+
+
+
         #endregion Modal Pop-Up Keyword Editor
 
 
