@@ -25,6 +25,11 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.Keyword.MatchmakerKeywordsModal
 
 <div class="panel-body">
+   
+   <p>
+      Enter terms that describe the types of projects you are interested in. You may enter as many keywords as you like. The Matchmaker service will find projects that have the same keywords in their titles or descriptions.
+   </p>
+
    <p class="systemText">@FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized()</p>
    @{ OrganizationMatchmakerKeywords.RenderPartialView(Html, ViewDataTyped.OrganizationMatchmakerKeywordsViewData); }
 </div>
