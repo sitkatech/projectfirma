@@ -204,9 +204,12 @@ Source code is available upon request via <support@sitkatech.com>.
                bindAnnotationPopup(layer, feature);
             }
          });
+
         var drawOptions = getDrawOptions(projectFirmaMap.editableFeatureGroup);
         drawControl = new L.Control.Draw(drawOptions);
-        projectFirmaMap.map.addControl(drawControl);
+        if (!@Model.UseOrganizationBoundaryForMatchmaker.ToJS()) {
+            projectFirmaMap.map.addControl(drawControl);
+        }
 
        if (organizationBoundaryFeatureJsonObject.LayerInitialVisibility)
        {
