@@ -60,6 +60,7 @@ namespace ProjectFirma.Web.Views
         public Uri CurrentUrl { get; }
         public string LocalUrl { get; }
         public string QaUrl { get; }
+        public string ProdUrl { get; }
         public List<TenantSimple> TenantSimples { get; }
         public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
@@ -103,6 +104,7 @@ namespace ProjectFirma.Web.Views
 
             QaUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Qa);
             LocalUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Local);
+            ProdUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Prod);
 
             TenantSimples = MultiTenantHelpers.GetAllTenantSimples();
 
