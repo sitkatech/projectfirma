@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -35,17 +36,44 @@ namespace ProjectFirma.Web.Views.Keyword
                                 DatabaseEntities databaseEntities,
                                 FirmaSession currentFirmaSession)
         {
-            organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword).ForEach(mmk => mmk.Delete(databaseEntities));
+            // Keyword strings coming off the form
+            List<String> matchmakerKeywordStringsFromForm = GetKeywordStringsFromJsonFormVariable();
+
+            // Find MatchmakerKeywords that aren't already saved, across all Organizations for this Tenant
+            List<string> matchmakerKeywordStringsThatAreNotAlreadySavedInTable
+                = matchmakerKeywordStringsFromForm.Where(ks => !databaseEntities.MatchmakerKeywords.Any(dmk => dmk.MatchmakerKeywordName == ks)).ToList();
+
+            // Make sure we save these all-new MatchmakerKeywords
+            var previouslyUnknownMatchmakerKeywordsForThisTenant = matchmakerKeywordStringsThatAreNotAlreadySavedInTable
+                .Select(ks => new MatchmakerKeyword(ks)).ToList();
+            databaseEntities.AllMatchmakerKeywords.AddRange(previouslyUnknownMatchmakerKeywordsForThisTenant);
+
+            // Delete ALL OrganizationMatchmakerKeywords for this particular Organization
             organization.OrganizationMatchmakerKeywords.ToList().ForEach(omk => omk.Delete(databaseEntities));
-            List<MatchmakerKeyword> matchmakerKeywords = GetMatchmakerKeywordsFromJsonFormVariable();
-            organization.OrganizationMatchmakerKeywords = matchmakerKeywords.OrderBy(mk => mk.MatchmakerKeywordName).Select(mk => new OrganizationMatchmakerKeyword(organization, mk)).ToList();
+
+            // Get the MatchmakerKeywords for all the incoming form variables. Some of these may be existing, some may be newly created.
+
+            // First, the existing
+            var matchMakerKeywordsWeNeedToAssociateToThisOrg = databaseEntities.MatchmakerKeywords.Where(mk => matchmakerKeywordStringsFromForm.Contains(mk.MatchmakerKeywordName)).ToList();
+            // Next, the new
+            matchMakerKeywordsWeNeedToAssociateToThisOrg.AddRange(previouslyUnknownMatchmakerKeywordsForThisTenant);
+
+            // Make new OrganizationMatchmakerKeywords
+            organization.OrganizationMatchmakerKeywords = matchMakerKeywordsWeNeedToAssociateToThisOrg.OrderBy(mk => mk.MatchmakerKeywordName).Select(mk => new OrganizationMatchmakerKeyword(organization, mk)).ToList();
         }
 
-        private List<MatchmakerKeyword> GetMatchmakerKeywordsFromJsonFormVariable()
+
+        private List<String> GetKeywordStringsFromJsonFormVariable()
         {
             List<string> matchmakerKeywordStrings = JsonConvert.DeserializeObject<List<string>>(this.MatchmakerKeywordsJson);
             // Deliberately trim, then de-dupe. Found issues with extra trailing spaces in testing.
             matchmakerKeywordStrings = matchmakerKeywordStrings.Select(s => s.Trim().ToLower()).Distinct().ToList();
+            return matchmakerKeywordStrings;
+        }
+
+        private List<MatchmakerKeyword> GetMatchmakerKeywordsFromJsonFormVariable()
+        {
+            var matchmakerKeywordStrings = GetKeywordStringsFromJsonFormVariable();
             List<MatchmakerKeyword> matchmakerKeywords = matchmakerKeywordStrings.Select(mks => new MatchmakerKeyword(mks)).ToList();
             return matchmakerKeywords;
         }
