@@ -26,8 +26,21 @@
 @using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
 @inherits ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls.OrganizationMatchmakerKeywords
 
+<style type="text/css">
+    #organizationMatchmakerKeywordsDiv {
+        line-height: 2em;
+        margin-top: 5px;
+        text-align: left;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    #organizationMatchmakerKeywordsDiv .pills-list {
+        margin-top: 10px;
+    }
+</style>
+
 @* Div where controls are constructed *@
-<div id="organizationMatchmakerKeywordsDiv" style="line-height: 2em; margin-top: 5px; text-align: left;">
+<div id="organizationMatchmakerKeywordsDiv">
 </div>
 
 @*Form that gets submitted by Save button for enclosing ModalDialogForm. This needs to be associated when ModalDialogForm URL is first constructed.*@
@@ -81,7 +94,7 @@
             delete_icon: "<span class='glyphicon glyphicon-remove'></span>",
             input_pill: "<div class='btn btn-sm btn-tag' style='display: block; max-width: 200px;'></div>",
             ok_icon: "<span class='glyphicon glyphicon-plus'></span>",
-            number: " ({0})"
+            number: ""
          },
          suggestion_url: @Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.FindKeywordsUrl.ToJS()),
          onBeforeAdd: function (item)
