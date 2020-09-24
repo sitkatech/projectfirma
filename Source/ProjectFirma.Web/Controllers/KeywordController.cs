@@ -334,7 +334,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(organization, HttpRequestStorage.DatabaseEntities, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
 
 
