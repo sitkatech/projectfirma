@@ -37,13 +37,15 @@ namespace ProjectFirma.Web.Views.Keyword
         {
             organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword).ForEach(mmk => mmk.Delete(databaseEntities));
             organization.OrganizationMatchmakerKeywords.ToList().ForEach(omk => omk.Delete(databaseEntities));
-            var matchmakerKeywords = GetMatchmakerKeywordsFromJson();
+            List<MatchmakerKeyword> matchmakerKeywords = GetMatchmakerKeywordsFromJsonFormVariable();
             organization.OrganizationMatchmakerKeywords = matchmakerKeywords.OrderBy(mk => mk.MatchmakerKeywordName).Select(mk => new OrganizationMatchmakerKeyword(organization, mk)).ToList();
         }
 
-        private List<MatchmakerKeyword> GetMatchmakerKeywordsFromJson()
+        private List<MatchmakerKeyword> GetMatchmakerKeywordsFromJsonFormVariable()
         {
             List<string> matchmakerKeywordStrings = JsonConvert.DeserializeObject<List<string>>(this.MatchmakerKeywordsJson);
+            // Deliberately trim, then de-dupe. Found issues with extra trailing spaces in testing.
+            matchmakerKeywordStrings = matchmakerKeywordStrings.Select(s => s.Trim().ToLower()).Distinct().ToList();
             List<MatchmakerKeyword> matchmakerKeywords = matchmakerKeywordStrings.Select(mks => new MatchmakerKeyword(mks)).ToList();
             return matchmakerKeywords;
         }
