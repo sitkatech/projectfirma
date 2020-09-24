@@ -111,7 +111,11 @@ namespace ProjectFirma.Web.Models
 
                 // Partner Finder
                 case ProjectWorkflowSectionGroupingEnum.Partners:
-                    var projectCreateSectionsForPartnerFinder = projectWorkflowSectionGrouping.ProjectCreateSections.ToList();
+                    List<ProjectCreateSection> projectCreateSectionsForPartnerFinder = new List<ProjectCreateSection>();
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
+                    {
+                        projectCreateSectionsForPartnerFinder.AddRange(projectWorkflowSectionGrouping.ProjectCreateSections.ToList());
+                    }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForPartnerFinder, ignoreStatus);
                 default:
                     throw new ArgumentOutOfRangeException($"Unhandled Workflow Section Grouping: {projectWorkflowSectionGrouping.ToEnum}");
