@@ -54,7 +54,7 @@
 <script type="text/javascript">
 
    //Better done with model...
-   var keywordsArray = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.keywordStrings));
+   var keywordsArray = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.KeywordStrings));
 
    function setFormElementForKeywords()
    {
@@ -80,7 +80,7 @@
 
       // bootstrap-tags library must be included on parent page
       organizationMatchmakerKeywordsDiv.tags({
-         values: @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.keywordStrings)),
+         values: @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.KeywordStrings)),
          templates: {
             pill: "<div class='btn btn-sm btn-tag' style='margin: 0 5px 5px 0; display:inline-block; position: relative' data-tag-id='{1}'>{0}</div>",
             delete_icon: "<span class='glyphicon glyphicon-remove'></span>",

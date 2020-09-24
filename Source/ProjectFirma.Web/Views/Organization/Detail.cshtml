@@ -834,7 +834,7 @@
                                           if (keywords.Any())
                                           {
                                               <p>The following keywords describe the types of projects this organization is interested in.</p>
-                                              foreach (string keyword in keywords)
+                                              foreach (string keyword in keywords.OrderBy(k => k))
                                               {
                                                   <span class="firma-tag-display">@keyword</span>
                                               }

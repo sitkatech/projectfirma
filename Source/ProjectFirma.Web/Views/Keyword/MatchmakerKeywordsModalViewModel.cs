@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Keyword
             organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword).ForEach(mmk => mmk.Delete(databaseEntities));
             organization.OrganizationMatchmakerKeywords.ToList().ForEach(omk => omk.Delete(databaseEntities));
             var matchmakerKeywords = GetMatchmakerKeywordsFromJson();
-            organization.OrganizationMatchmakerKeywords = matchmakerKeywords.Select(mk => new OrganizationMatchmakerKeyword(organization, mk)).ToList();
+            organization.OrganizationMatchmakerKeywords = matchmakerKeywords.OrderBy(mk => mk.MatchmakerKeywordName).Select(mk => new OrganizationMatchmakerKeyword(organization, mk)).ToList();
         }
 
         private List<MatchmakerKeyword> GetMatchmakerKeywordsFromJson()

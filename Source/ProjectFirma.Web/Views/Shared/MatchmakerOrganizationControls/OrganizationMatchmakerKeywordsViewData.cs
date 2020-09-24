@@ -44,15 +44,13 @@ namespace ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
 
         public readonly ProjectFirmaModels.Models.Organization Organization;
         public readonly MatchmakerKeywordHelper MatchmakerKeywordHelper;
-        public OrganizationMatchmakerKeywordJson OrganizationMatchmakerKeywordJson;
-        public List<string> keywordStrings;
+        public List<string> KeywordStrings;
 
         public OrganizationMatchmakerKeywordsViewData(ProjectFirmaModels.Models.Organization organization)
         {
             Organization = organization;
             MatchmakerKeywordHelper = new MatchmakerKeywordHelper(organization.OrganizationMatchmakerKeywords.Select(x => new BootstrapOrganizationMatchmakerKeyword(x.MatchmakerKeyword)).ToList());
-            OrganizationMatchmakerKeywordJson = new OrganizationMatchmakerKeywordJson(organization);
-            keywordStrings = organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword.MatchmakerKeywordName).ToList();
+            KeywordStrings = organization.OrganizationMatchmakerKeywords.Select(omk => omk.MatchmakerKeyword.MatchmakerKeywordName).OrderBy(k => k).ToList();
         }
 
         public string GetMatchmakerKeywordsAsJson()
