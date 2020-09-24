@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
     }
 
 
-        public class OrganizationMatchmakerKeywordsViewData
+    public class OrganizationMatchmakerKeywordsViewData
     {
         public const string EditMatchmakerKeywordDialogFormID = "EditMatchmakerKeywordDialogFormID";
 
