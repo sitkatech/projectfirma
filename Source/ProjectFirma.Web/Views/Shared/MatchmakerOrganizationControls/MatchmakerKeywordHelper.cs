@@ -26,16 +26,16 @@ namespace ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
 {
     public class MatchmakerKeywordHelper
     {
-        public readonly List<BootstrapOrganizationMatchmakerKeyword> Keywords;
-        public readonly string AddKeywordsUrl;
-        public readonly string RemoveKeywordsUrl;
+        //public readonly List<BootstrapOrganizationMatchmakerKeyword> Keywords;
+        //public readonly string AddKeywordsUrl;
+        //public readonly string RemoveKeywordsUrl;
         public readonly string FindKeywordsUrl;
 
         public MatchmakerKeywordHelper(List<BootstrapOrganizationMatchmakerKeyword> keywords)
         {
-            Keywords = keywords;
-            AddKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.AddMatchmakerKeywordsToOrganization());
-            RemoveKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.RemoveMatchmakerKeywordsFromOrganization());
+            //Keywords = keywords;
+            //AddKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.AddMatchmakerKeywordsToOrganization());
+            //RemoveKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.RemoveMatchmakerKeywordsFromOrganization());
             FindKeywordsUrl = SitkaRoute<KeywordController>.BuildUrlFromExpression(c => c.FindMatchmakerKeyword(null));
         }
     }

@@ -74,7 +74,8 @@
 
       // bootstrap-tags library must be included on parent page
       organizationMatchmakerKeywordsDiv.tags({
-         values: @Html.Raw(JArray.FromObject(ViewDataTyped.MatchmakerKeywordHelper.Keywords)),
+         @*values: @Html.Raw(JArray.FromObject(ViewDataTyped.MatchmakerKeywordHelper.Keywords)),*@
+         values: @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.keywordStrings)),
          templates: {
             pill: "<div class='btn btn-sm btn-tag' style='margin: 0 5px 5px 0; display:inline-block; position: relative' data-tag-id='{1}'>{0}</div>",
             delete_icon: "<span class='glyphicon glyphicon-remove'></span>",
@@ -96,21 +97,6 @@
             console.log('keywordsArray:' + keywordsArray);
             setFormElementForKeywords();
 
-            @*var postData = new Object();
-                   postData.OrganizationIDList = [@ViewDataTyped.Organization.OrganizationID];
-                   postData.MatchmakerKeywordName = matchmakerKeywordName;
-                   SitkaAjax.ajax({
-                       type: "POST",
-                       url: @Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.AddKeywordsUrl.ToJS()),
-                       data: postData,
-                       dataType: "json",
-                       async: false
-                   }, function (newKeyword) { item = newKeyword; }, function()
-                   {
-                       alert("There was an error adding the keyword '" + matchmakerKeywordName + "'");
-                       item = null;
-                   });*@
-
             return item;
          },
          onRemove: function (pill)
@@ -121,11 +107,6 @@
             keywordsArray.splice(keywordsArray.indexOf(matchmakerKeywordName), 1);
             console.log('keywordsArray:' + keywordsArray);
             setFormElementForKeywords();
-
-            @*var postData = new Object();
-                   postData.OrganizationIDList = [@ViewDataTyped.Organization.OrganizationID];
-                   postData.MatchmakerKeywordName = pill.data("tag-id");
-                   SitkaAjax.postJSON(@Html.Raw(ViewDataTyped.MatchmakerKeywordHelper.RemoveKeywordsUrl.ToJS()), postData, function() {});*@
          }
       });
       loaded = true;

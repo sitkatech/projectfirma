@@ -490,11 +490,6 @@
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
     <Compile Include="Views\Shared\FirmaIncludesViewData.cs" />
     <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
-    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizations.cs" />
-    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizationsViewData.cs" />
-    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizationsViewModel.cs" />
-    <Compile Include="Views\Shared\MatchmakerKeywordDetail.cs" />
-    <Compile Include="Views\Shared\MatchmakerKeywordDetailViewData.cs" />
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\BootstrapOrganizationMatchmakerKeyword.cs" />
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cs" />
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywordsViewData.cs" />
@@ -1843,8 +1838,6 @@
     <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
     <Content Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetail.cshtml" />
     <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
-    <Content Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizations.cshtml" />
-    <Content Include="Views\Shared\MatchmakerKeywordDetail.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SitkaLeftRightListbox.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
@@ -3555,6 +3548,7 @@
   <ItemGroup>
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
+    <Folder Include="Views\Shared\MatchmakerKeyword\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
