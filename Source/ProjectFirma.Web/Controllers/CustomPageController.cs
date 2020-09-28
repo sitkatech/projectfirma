@@ -69,12 +69,27 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ViewResult ViewCustomPage(string route, string vanityUrl)
+        public ActionResult ViewCustomPage(string route, string vanityUrl)
         {
             var customPage = MultiTenantHelpers.GetCustomPages()
                 .SingleOrDefault(x => string.Equals(x.CustomPageVanityUrl, vanityUrl, StringComparison.OrdinalIgnoreCase));
             if (vanityUrl.IsEmpty() || customPage == null)
             {
+                // Search engines sometimes have stale routes; we re-map for them
+                string remappedVanityUrl = null;
+                switch (vanityUrl)
+                {
+                    case "MeetingsAndNotes":
+                        remappedVanityUrl = "MeetingNotes";
+                        break;
+                }
+
+                // If we found a remapping, redirect permanently to it
+                if (remappedVanityUrl != null)
+                {
+                    return RedirectToAction(new SitkaRoute<CustomPageController>(x => x.ViewCustomPage(route, remappedVanityUrl)));
+                }
+
                 throw new ArgumentException($"Bad vanity url for /{route}: \"{vanityUrl}\"");
             }
             new CustomPageViewFeature().DemandPermission(CurrentFirmaSession, customPage);
