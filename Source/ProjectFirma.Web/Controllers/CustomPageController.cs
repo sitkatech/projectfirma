@@ -75,12 +75,16 @@ namespace ProjectFirma.Web.Controllers
                 .SingleOrDefault(x => string.Equals(x.CustomPageVanityUrl, vanityUrl, StringComparison.OrdinalIgnoreCase));
             if (vanityUrl.IsEmpty() || customPage == null)
             {
-                // Search engines sometimes have stale routes; we re-map for them
+                // Search engines sometimes have stale routes; we re-map for them.
+                // (This is really fairly coddled, but it could benefit humans too, theoretically.)
                 string remappedVanityUrl = null;
                 switch (vanityUrl)
                 {
                     case "MeetingsAndNotes":
                         remappedVanityUrl = "MeetingNotes";
+                        break;
+                    case "AboutClackamasPartnership":
+                        remappedVanityUrl = "About";
                         break;
                 }
 
@@ -90,7 +94,12 @@ namespace ProjectFirma.Web.Controllers
                     return RedirectToAction(new SitkaRoute<CustomPageController>(x => x.ViewCustomPage(route, remappedVanityUrl)));
                 }
 
-                throw new ArgumentException($"Bad vanity url for /{route}: \"{vanityUrl}\"");
+                // Otherwise, we just redirect to the site's main page, and put up a warning in case this was actually a human doing the navigation.
+                SetWarningForDisplay($"Could not find vanity URL /{route}: \"{vanityUrl}\"");
+                return RedirectToAction(new SitkaRoute<HomeController>(x => x.Index()));
+
+                // Since we either return the requested vanity URL, OR redirect to SOMETHING, search engines should
+                // stop bashing their heads eventually here.
             }
             new CustomPageViewFeature().DemandPermission(CurrentFirmaSession, customPage);
             var hasPermission = new CustomPageManageFeature().HasPermission(CurrentFirmaSession, customPage).HasPermission;
