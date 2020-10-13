@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add("# of Users", a =>
                 peopleDictionary.ContainsKey(a.OrganizationID) ? peopleDictionary[a.OrganizationID].Count : 0, 90);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmpty(), 70);
+            Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmptyForGrid(), 70, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             if (FirmaWebConfiguration.FeatureMatchMakerEnabled && MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
             {
                 Add("Matchmaker Service", a => a.GetOptInHasContentString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
