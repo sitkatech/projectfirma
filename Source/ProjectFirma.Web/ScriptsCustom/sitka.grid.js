@@ -722,24 +722,31 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     this.grid.attachEvent("onAfterSorting", setDefaultCursor);
     this.grid.attachEvent("onXLS", setHourGlassCursor);
     this.grid.attachEvent("onXLE", setDefaultCursor);
-    this.grid.attachEvent("onXLE", function () {
-        // the jquery ui positioning screws up when scrolling inside document so must hide any that are open on scroll
-        jQuery("#" + theGridElement).find("div.objbox").scroll(function () {
-            closeAllOpenMultiSelectsInGrid();
-        });
 
-        // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
-        // this closes the dropdown if you click over to a different filter
+    // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
+    // this closes the dropdown if you click over to a different filter
+    this.grid.attachEvent("onXLE", function () {
         jQuery("#" + theGridElement).find("table.hdr tbody tr td").click(function (e) {
-            if (jQuery(e.target).hasClass("dhtmlx-grid-bootstrap-multiselect-button") === false) {
+            if (jQuery(e.target).hasClass("dropdown-toggle") === false) {
                 closeAllOpenMultiSelectsInGrid();
             }
         });
     });
 
     // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
-    // this closes any open multiselect filters if you click in an empty space in the grid
+    // this closes any open multiselect filters if you click in an empty space in the grid. This empty click doesn't
+    // encompass clicks on the actual table data. https://docs.dhtmlx.com/api__dhtmlxgrid_onemptyclick_event.html
     this.grid.attachEvent("onEmptyClick", function (e) {
+        // looks up the DOM tree and gets the closest parent '.dropdown-toggle'. If it doesn't find any
+        // it should be safe to close the multiselects
+        if (jQuery(e.target).closest(".dropdown-toggle").length < 1) {
+            closeAllOpenMultiSelectsInGrid();
+        }
+    });
+
+    // Again, dhtmlx wants to take over so many click events. Because the above onEmptyClick doesn't do anything when clicking on the table data
+    // When a row is selected(or a user clicks on the table content) we want to close all multiselects
+    this.grid.attachEvent("onRowSelect", function (e) {
         closeAllOpenMultiSelectsInGrid();
     });
 
