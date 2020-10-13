@@ -90,7 +90,6 @@ namespace ProjectFirma.Web.Views.Organization
         public int NumberOfProjectsContributedTo { get; }
         public ViewPageContentViewData DescriptionViewData { get; }
 
-        public bool ShowMatchmakerProfile { get; }
         public bool UserHasViewEditProfilePermission { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public string EditProfileMatchmakerOptIn { get; }
@@ -114,6 +113,9 @@ namespace ProjectFirma.Web.Views.Organization
         public int MaximumTaxonomyLeaves { get; }
         public OrganizationDetailTab ActiveTab { get; }
         public bool HasAreaOfInterest { get; set; }
+
+        public bool ShowMatchmakerProfileTab { get; }
+
         public readonly MapInitJson AreaOfInterestMapInitJson;
         public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
 
@@ -233,10 +235,13 @@ namespace ProjectFirma.Web.Views.Organization
             NumberOfLeadImplementedProjects = allAssociatedProjects.Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
             NumberOfProjectsContributedTo = allAssociatedProjects.ToList().GetActiveProjects().Count;
             DescriptionViewData = new ViewPageContentViewData(organization, currentFirmaSession);
-            
-            ShowMatchmakerProfile = FirmaWebConfiguration.FeatureMatchMakerEnabled && MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
-            UserHasViewEditProfilePermission = new OrganizationProfileViewEditFeature()
-                .HasPermission(currentFirmaSession, organization).HasPermission;
+
+            UserHasViewEditProfilePermission = new OrganizationProfileViewEditFeature().HasPermission(currentFirmaSession, organization).HasPermission;
+
+            bool matchmakerEnabledForTenant = MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
+            bool matchmakerOptedInForThisOrganization = Organization.MatchmakerOptIn.HasValue && Organization.MatchmakerOptIn.Value;
+            ShowMatchmakerProfileTab = matchmakerEnabledForTenant && (UserHasViewEditProfilePermission || matchmakerOptedInForThisOrganization);
+
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             EditProfileMatchmakerOptIn = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileMatchmakerOptIn(organization));
             EditProfileSupplementalInformationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileSupplementalInformation(organization));

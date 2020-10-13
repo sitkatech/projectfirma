@@ -52,8 +52,8 @@ namespace ProjectFirma.Web.Security
                 return false;
             }
 
-            // Make sure Matchmaker is enabled
-            if (!FirmaWebConfiguration.FeatureMatchMakerEnabled || !MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
+            // Make sure Matchmaker is enabled for this Tenant
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
             {
                 return false;
             }

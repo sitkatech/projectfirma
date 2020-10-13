@@ -651,7 +651,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<MatchmakerTaxonomyTier> GetTopLevelMatchmakerTaxonomyTier(Organization organization)
         {
-            if (!(FirmaWebConfiguration.FeatureMatchMakerEnabled && MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker))
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
             {
                 return new List<MatchmakerTaxonomyTier>();
             }
