@@ -73,7 +73,8 @@ namespace ProjectFirma.Web.Common
         public static bool TenantDropdownEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("TenantDropdownEnabled"));
 
         // Feature Flag Settings
-        public static readonly bool FeatureMatchMakerEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureMatchMakerEnabled"));
+        // FeatureMatchMakerEnabled now has shipped, but leaving this in place so we can see readily how to set up the next Feature.
+        //public static readonly bool FeatureMatchMakerEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureMatchMakerEnabled"));
 
         public static string GetCanonicalHost(string hostName, bool useApproximateMatch)
         {

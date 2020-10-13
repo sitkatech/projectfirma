@@ -189,7 +189,7 @@ namespace ProjectFirma.Web.Models
                 // Partner Finder
                 // Whole section is conditional
                 case ProjectWorkflowSectionGroupingEnum.Partners:
-                    bool shouldShowPartnerFinder = new MatchMakerViewPotentialPartnersFeature().HasPermissionByFirmaSession(currentFirmaSession);
+                    bool shouldShowPartnerFinder = new MatchMakerViewPotentialPartnersFeature().HasPermissionForProjectByFirmaSession(currentFirmaSession, projectUpdateBatch.Project);
                     if (!shouldShowPartnerFinder)
                     {
                         // An empty group won't be shown.

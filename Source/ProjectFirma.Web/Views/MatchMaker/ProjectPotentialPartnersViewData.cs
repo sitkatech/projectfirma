@@ -37,4 +37,20 @@ namespace ProjectFirma.Web.Views.MatchMaker
             PotentialPartnerDetailViewData = new ProjectPotentialPartnerDetailViewData(currentFirmaSession, project, ProjectPotentialPartnerListDisplayMode.StandAloneFullList);
         }
     }
+
+/*
+    public class OrganizationPotentialPartnersViewData : FirmaViewData
+    {
+        public OrganizationPotentialPartnerDetailViewData PotentialPartnerDetailViewData;
+
+        public OrganizationPotentialPartnersViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization) :base(currentFirmaSession)
+        {
+            PageTitle = $"Potential Partners for Organization {organization.GetDisplayName()}";
+            BreadCrumbTitle = "Organization Potential Partners";
+
+            PotentialPartnerDetailViewData = new ProjectPotentialPartnerDetailViewData(currentFirmaSession, project, ProjectPotentialPartnerListDisplayMode.StandAloneFullList);
+        }
+    }
+*/
+
 }

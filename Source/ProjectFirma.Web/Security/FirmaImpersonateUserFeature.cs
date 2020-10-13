@@ -47,13 +47,6 @@ namespace ProjectFirma.Web.Security
             return new PermissionCheckResult();
         }
 
-        ////This should only ever be called by HasPermission
-        //[Obsolete]
-        //public new bool HasPermissionByFirmaSession(FirmaSession firmaSession)
-        //{
-        //    return base.HasPermissionByPerson(person);
-        //}
-
         public new bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
             bool currentEffectiveUserHasRole = firmaSession.Person != null && base.HasPermissionByFirmaSession(firmaSession);

@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.Tenant
             GridName = gridName;
             GridDataUrl = gridDataUrl;
             UsesCostTypes = tenantAttribute.BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID;
-            MatchmakerEnabled = FirmaWebConfiguration.FeatureMatchMakerEnabled;
+            //MatchmakerEnabled = FirmaWebConfiguration.FeatureMatchMakerEnabled;
             CostTypes = costTypes;
         }
     }

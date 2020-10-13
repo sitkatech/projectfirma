@@ -230,7 +230,7 @@
             <li>
                 <a href="#details" aria-controls="details" role="tab" data-toggle="tab" id="detailsTab">Details</a>
             </li>
-            @if (ViewDataTyped.ShowMatchmakerProfile && (ViewDataTyped.UserHasViewEditProfilePermission || ViewDataTyped.Organization.MatchmakerOptIn.HasValue && ViewDataTyped.Organization.MatchmakerOptIn.Value))
+            @if (ViewDataTyped.ShowMatchmakerProfileTab)
             {
                 <li>
                     <a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="profileTab">Profile</a>
@@ -538,8 +538,30 @@
                         </div>
                     </div>
                 }
+            
+            @*I think this view is needed, but ran out of my self-imposed tiny timebox to finish it. -- SLG 10/13/2020*@
+            @*@if (ViewDataTyped.ShowPotentialPartners)
+            {
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                           Potential Matchmaker @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() (Not Visible to the Public)
+                        </div>
+                        <div class="panel-body">
+                           <p></p>
+                           @Html.DhtmlxGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            }*@
+            
+            
+            
 
-                <div class="row">
+
+            <div class="row">
                     <div class="col-sm-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
