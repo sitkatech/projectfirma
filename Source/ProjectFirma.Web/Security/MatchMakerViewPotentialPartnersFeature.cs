@@ -93,6 +93,49 @@ namespace ProjectFirma.Web.Security
             return HasPermissionForProjectByPerson(firmaSession.Person, project);
         }
 
+        /// <summary>
+        /// Can the given person see all potential Matchmaker Projects for this particular Organization?
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="organization"></param>
+        /// <returns></returns>
+        public bool HasPermissionForOrganizationByPerson(Person person, Organization organization)
+        {
+            // If no organization(??) or anonymous user, no permission
+            if (organization == null || person == null)
+            {
+                return false;
+            }
+
+            // Make sure Matchmaker is enabled for this Tenant
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
+            {
+                return false;
+            }
+
+            // Admins can always view
+            if (person.IsAdministrator())
+            {
+                return true;
+            }
+
+            // Normal users who are in the Organization
+            // (This could be tighter if desired)
+            if (person.OrganizationID == organization.OrganizationID)
+            {
+                return true;
+            }
+
+            // Nobody else
+            return false;
+        }
+
+        public bool HasPermissionForOrganizationByFirmaSession(FirmaSession firmaSession, Organization organization)
+        {
+            return HasPermissionForOrganizationByPerson(firmaSession.Person, organization);
+        }
+
+
     }
 }
 

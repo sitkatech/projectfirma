@@ -216,6 +216,8 @@ namespace ProjectFirma.Web.Views.Organization
 
             ShowPendingProjects = currentFirmaSession.Person.CanViewPendingProjects();
 
+            //ShowPotentialPartners = new MatchMakerViewPotentialPartnersFeature().HasPermissionForOrganizationByFirmaSession(currentFirmaSession, organization);
+
             PendingProjectsGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, true)
                 {
