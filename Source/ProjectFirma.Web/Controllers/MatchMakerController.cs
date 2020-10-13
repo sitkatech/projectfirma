@@ -7,10 +7,10 @@ namespace ProjectFirma.Web.Controllers
 {
     public class MatchMakerController : FirmaBaseController
     {
-        [MatchMakerViewPotentialPartnersFeature]
         public ActionResult ProjectPotentialPartners(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            new MatchMakerViewPotentialPartnersFeature().DemandPermission(CurrentFirmaSession, project);
 
             var viewData = new ProjectPotentialPartnersViewData(CurrentFirmaSession, project);
             return RazorView<ProjectPotentialPartners, ProjectPotentialPartnersViewData>(viewData);

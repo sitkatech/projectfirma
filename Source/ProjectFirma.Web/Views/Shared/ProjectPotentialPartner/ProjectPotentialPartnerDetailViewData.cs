@@ -55,9 +55,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectPotentialPartner
                                                      ProjectFirmaModels.Models.Project project,
                                                      ProjectPotentialPartnerListDisplayMode displayMode)
         {
+            bool hasMatchmakerViewPermissionsForProject = new MatchMakerViewPotentialPartnersFeature().HasPermissionForProjectByFirmaSession(currentFirmaSession, project);
             ShouldShowMatchMakerPotentialPartnerPanel = FirmaWebConfiguration.FeatureMatchMakerEnabled &&
-                                              MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker &&
-                                              new MatchMakerViewPotentialPartnersFeature().HasPermissionByFirmaSession(currentFirmaSession);
+                                                        MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker &&
+                                                        hasMatchmakerViewPermissionsForProject;
 
             DisplayMode = displayMode;
 

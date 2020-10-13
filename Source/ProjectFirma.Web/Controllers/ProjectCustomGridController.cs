@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Controllers
             var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentTenant);
             var projects = HttpRequestStorage.DatabaseEntities.Projects
                 .ToList().GetActiveProjects()
-                .Where(p => organization.IsLeadImplementingOrganizationForProject(p) || organization.IsProjectStewardOrganizationForProject(p))
+                .Where(p => organization.IsPrimaryContactOrganizationForProject(p) || organization.IsProjectStewardOrganizationForProject(p))
                 .OrderBy(x => x.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;

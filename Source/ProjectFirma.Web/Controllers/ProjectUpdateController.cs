@@ -1575,10 +1575,11 @@ namespace ProjectFirma.Web.Controllers
 
         // Partner Finder section of Project Update
         [HttpGet]
-        [MatchMakerViewPotentialPartnersFeature]
         public ActionResult PartnerFinder(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            new MatchMakerViewPotentialPartnersFeature().DemandPermission(CurrentFirmaSession, project);
+
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             if (projectUpdateBatch == null)
             {

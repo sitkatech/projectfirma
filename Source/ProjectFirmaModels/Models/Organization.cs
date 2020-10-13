@@ -57,7 +57,7 @@ namespace ProjectFirmaModels.Models
 
         public bool IsMyProject(Project project)
         {
-            return IsLeadImplementingOrganizationForProject(project) ||
+            return IsPrimaryContactOrganizationForProject(project) ||
                    IsProjectStewardOrganizationForProject(project) ||
                    IsProposingOrganization(project);
         }
@@ -77,7 +77,7 @@ namespace ProjectFirmaModels.Models
             return project.ProposingPerson?.OrganizationID == OrganizationID;
         }
 
-        public bool IsLeadImplementingOrganizationForProject(Project project)
+        public bool IsPrimaryContactOrganizationForProject(Project project)
         {
             var primaryContactOrganization = project.GetPrimaryContactOrganization();
             return primaryContactOrganization != null &&
