@@ -43,13 +43,16 @@ namespace ProjectFirma.Web.Views.Organization
         public List<SelectListItem> ActiveOrAllOrganizationsSelectListItems { get; }
         public string ShowOnlyActiveOrAll { get; }
 
-
-
-        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOrAllOrganizationsSelectListItems, bool hasOrganizationManagePermissions)
+        public IndexViewData(FirmaSession currentFirmaSession,
+                             ProjectFirmaModels.Models.FirmaPage firmaPage,
+                             string gridDataUrl,
+                             List<SelectListItem> activeOrAllOrganizationsSelectListItems)
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}";
-            GridSpec = new IndexGridSpec(currentFirmaSession, hasOrganizationManagePermissions)
+
+            HasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            GridSpec = new IndexGridSpec(currentFirmaSession, HasOrganizationManagePermissions)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
@@ -61,7 +64,6 @@ namespace ProjectFirma.Web.Views.Organization
 
             PullOrganizationFromKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.PullOrganizationFromKeystone());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            HasOrganizationManagePermissions = hasOrganizationManagePermissions;
             NewUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
 
             ActiveOrAllOrganizationsSelectListItems = activeOrAllOrganizationsSelectListItems;
