@@ -23,6 +23,8 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits Basics
@@ -90,7 +92,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="form-group form-group-condensed">
         <div class="col-sm-4 control-label">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.PlanningDesignStartYear.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Planning / Design Start Year</strong>
+            @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
         </div>
         <div class="col-sm-8">
             @if (ViewDataTyped.IsEditable)
@@ -106,7 +108,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="form-group form-group-condensed">
         <div class="col-sm-4 control-label">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.ImplementationStartYear.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Implementation Start Year</strong>
+            @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
         </div>
         <div class="col-sm-8">
             @if (ViewDataTyped.IsEditable)
@@ -123,6 +125,16 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-group form-group-condensed">
         <div class="col-sm-4 control-label">
             @Html.LabelWithSugarFor(m => m.CompletionYear)
+            @{
+                // The following required icon is used for dynamically displaying the required icon for the completion year when the project
+                // is in certain stages. Added some simple javascript in the ConstrainProjectYears.js file to handle the changes since that
+                // is what is already being used to make the years dynamic upon selection of other years. If we have to do much more
+                // like this we should probably change this to all be angular -- 10/14/2020 SMG [PF-2281]
+                var completedDateRequiredProjectStageIDs = ViewDataTyped.ProjectStagesModels.Where(x => x == ProjectStage.Completed || x == ProjectStage.PostImplementation).Select(x => x.ProjectStageID).ToList();
+            }
+            <sup style="display: @(completedDateRequiredProjectStageIDs.Contains(Model.ProjectStageID) ? "inline-block" : "none");" data-show-when-project-stage-in="@String.Join(",", completedDateRequiredProjectStageIDs)">
+                <span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span>
+            </sup>
         </div>
         <div class="col-sm-8">
             @if (ViewDataTyped.IsEditable)
@@ -154,7 +166,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
             "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
-            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max())
+            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(), "@Html.IdFor(x => x.ProjectStageID)")
     </script>
 </div>
 

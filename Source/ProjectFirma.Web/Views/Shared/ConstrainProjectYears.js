@@ -15,7 +15,7 @@
 // Setup automatic constraining of project year selection inputs to valid years only
 function initializeYearConstraining(planningYearInputId,
     implementationYearId, implementationMinYear, implementationMaxYear, 
-    completionYearId, completionMinYear, completionMaxYear) {
+    completionYearId, completionMinYear, completionMaxYear, projectStageElementID) {
 
     function constrainYearOptions() {
         var designStartSelect = jQuery("#" + planningYearInputId);
@@ -34,4 +34,24 @@ function initializeYearConstraining(planningYearInputId,
     jQuery("#" + planningYearInputId).on("input", () => constrainYearOptions());
     jQuery("#" + implementationYearId).on("input", () => constrainYearOptions());
     jQuery("#" + completionYearId).on("input", () => constrainYearOptions());
+
+    if (projectStageElementID) {
+        var projectStageSelect = jQuery("#" + projectStageElementID);
+        var allRequiredIconsToBeChecked = jQuery('[data-show-when-project-stage-in]');
+        projectStageSelect.on('change',
+            function() {
+                var projectStageIDSelected = $(this).val();
+                allRequiredIconsToBeChecked.each(function (index) {
+                    var stagesThatWouldEnableRequiredIcon = $(this).data('show-when-project-stage-in').split(",");
+                    if (stagesThatWouldEnableRequiredIcon.includes(projectStageIDSelected.toString())) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+            });
+    }
+
+
 }

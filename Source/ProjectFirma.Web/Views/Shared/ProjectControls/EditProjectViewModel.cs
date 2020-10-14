@@ -50,9 +50,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int ProjectStageID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ImplementationStartYear)]
+        [Required]
         public int? ImplementationStartYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PlanningDesignStartYear)]
+        [Required]
         public int? PlanningDesignStartYear { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
