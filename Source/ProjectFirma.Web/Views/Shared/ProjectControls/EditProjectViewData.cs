@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public IEnumerable<SelectListItem> ImplementationStartYearRange { get; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; }
         public IEnumerable<SelectListItem> ProjectStages { get; }
+        public IEnumerable<ProjectStage> ProjectStagesModels = ProjectStage.All.Except(new List<ProjectStage> { ProjectStage.Proposal }).OrderBy(x => x.SortOrder);
         public IEnumerable<SelectListItem> Organizations { get; }
         public IEnumerable<SelectListItem> PrimaryContactPeople { get; }
         public Person DefaultPrimaryContactPerson { get; }
@@ -61,6 +62,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             EditProjectType = editProjectType;
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
             TotalExpenditures = totalExpenditures;
+            ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.GetDisplayName());
             PrimaryContactPeople = primaryContactPeople.ToSelectListWithEmptyFirstRow(
