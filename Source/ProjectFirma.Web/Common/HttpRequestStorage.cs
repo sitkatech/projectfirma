@@ -86,7 +86,12 @@ namespace ProjectFirma.Web.Common
                         var httpContext = HttpContext.Current;
                         if (httpContext != null)
                         {
-                            return MultiTenantHelpers.GetTenantFromHostUrl(httpContext.Request.Url);
+                            var tenantFromHostUrl = MultiTenantHelpers.GetTenantFromHostUrl(httpContext.Request.Url);
+                            if (!tenantFromHostUrl.TenantEnabled)
+                            {
+                                throw new SitkaDisplayErrorException($"Tenant {tenantFromHostUrl.TenantName} is disabled");
+                            }
+                            return tenantFromHostUrl;
                         }
                         else
                         {

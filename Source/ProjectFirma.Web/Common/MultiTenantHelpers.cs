@@ -421,7 +421,7 @@ namespace ProjectFirma.Web.Common
                     x.Tenant.CanonicalHostNameQa, 
                     x.Tenant.CanonicalHostNameProd,
                     x.TenantSquareLogoFileResourceInfo?.GetFileResourceUrl(),
-                    x.Tenant.ShowInTenantDropdown
+                    x.Tenant.TenantEnabled
                 )));
             }
 
