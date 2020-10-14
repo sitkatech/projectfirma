@@ -420,7 +420,8 @@ namespace ProjectFirma.Web.Common
                     x.Tenant.CanonicalHostNameLocal, 
                     x.Tenant.CanonicalHostNameQa, 
                     x.Tenant.CanonicalHostNameProd,
-                    x.TenantSquareLogoFileResourceInfo?.GetFileResourceUrl()
+                    x.TenantSquareLogoFileResourceInfo?.GetFileResourceUrl(),
+                    x.Tenant.ShowInTenantDropdown
                 )));
             }
 

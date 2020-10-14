@@ -14,6 +14,7 @@ CREATE TABLE [dbo].[Tenant](
 	[ArePerformanceMeasuresExternallySourced] [bit] NOT NULL,
 	[AreOrganizationsExternallySourced] [bit] NOT NULL,
 	[AreFundingSourcesExternallySourced] [bit] NOT NULL,
+	[ShowInTenantDropdown] [bit] NOT NULL,
  CONSTRAINT [PK_Tenant_TenantID] PRIMARY KEY CLUSTERED 
 (
 	[TenantID] ASC

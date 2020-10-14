@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views
             LocalUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Local);
             ProdUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Prod);
 
-            TenantSimples = MultiTenantHelpers.GetAllTenantSimples();
+            TenantSimples = MultiTenantHelpers.GetAllTenantSimples().Where(ts => ts.ShowTenantInSwitcherDropdown).ToList();
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 

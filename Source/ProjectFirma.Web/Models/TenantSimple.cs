@@ -10,14 +10,16 @@ namespace ProjectFirma.Web.Models
         public string CanonicalHostNameQa;
         public string CanonicalHostNameProd;
         public string TenantSquareLogoUrl;
+        public bool ShowTenantInSwitcherDropdown;
 
-        public TenantSimple(string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, string tenantSquareLogoUrl)
+        public TenantSimple(string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, string tenantSquareLogoUrl, bool showTenantInSwitcherDropdown)
         {
             TenantName = tenantName;
             CanonicalUrlLocal = new UriBuilder() { Scheme = "https", Host = canonicalHostNameLocal }.ToString();
             CanonicalHostNameQa = new UriBuilder() { Scheme = "https", Host = canonicalHostNameQa }.ToString();
             CanonicalHostNameProd = new UriBuilder() { Scheme = "https", Host = canonicalHostNameProd }.ToString();
             TenantSquareLogoUrl = tenantSquareLogoUrl;
+            ShowTenantInSwitcherDropdown = showTenantInSwitcherDropdown;
         }
         
         public string GetTenantSquareLogoUrlForEnvironment(FirmaEnvironmentType environmentType)
