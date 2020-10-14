@@ -49,6 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsEditable = true;
 
         public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.Except(new List<ProjectStage>{ProjectStage.Proposal}).OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
+        public IEnumerable<ProjectStage> ProjectStagesModels = ProjectStage.All.Except(new List<ProjectStage>{ProjectStage.Proposal}).OrderBy(x => x.SortOrder);
 
         public BasicsViewData(FirmaSession currentFirmaSession, IEnumerable<FundingType> fundingTypes,
             IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs, bool showProjectStageDropDown, string instructionsPageUrl,

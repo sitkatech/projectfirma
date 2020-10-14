@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using HtmlDiff
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
 @using Newtonsoft.Json.Linq
@@ -220,6 +221,17 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="form-group">
             <div class="col-xs-12 col-sm-4 control-label">
                 @Html.LabelWithSugarFor(m => m.CompletionYear)
+                @{
+                    // The following required icon is used for dynamically displaying the required icon for the completion year when the project
+                    // is in certain stages. Added some simple javascript in the ConstrainProjectYears.js file to handle the changes since that
+                    // is what is already being used to make the years dynamic upon selection of other years. If we have to do much more
+                    // like this we should probably change this to all be angular -- 10/14/2020 SMG [PF-2281]
+                    var completedDateRequiredProjectStageIDs = ViewDataTyped.ProjectStagesModels.Where(x => x == ProjectStage.Completed || x == ProjectStage.PostImplementation).Select(x => x.ProjectStageID).ToList();
+                    var displayRequiredIconInitially = Model.ProjectStageID.HasValue && completedDateRequiredProjectStageIDs.Contains(Model.ProjectStageID.Value);
+                }
+                <sup style="display: @(displayRequiredIconInitially ? "inline-block" : "none");" data-show-when-project-stage-in="@String.Join(",", completedDateRequiredProjectStageIDs)">
+                    <span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span>
+                </sup>
             </div>
             <div class="col-xs-12 col-sm-8">
                 @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new {@class = "form-control", style = "width: auto;"})
@@ -285,6 +297,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
         initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
             "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
-            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max())
+            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(), "@Html.IdFor(x => x.ProjectStageID)")
     </script>
 }
