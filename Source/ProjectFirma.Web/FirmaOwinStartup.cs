@@ -56,6 +56,10 @@ namespace ProjectFirma.Web
 
                     var tenant = GetTenantFromUrl(ctx.Request);
                     HttpRequestStorage.Tenant = tenant;
+                    if (!tenant.TenantEnabled)
+                    {
+                        throw new SitkaDisplayErrorException($"Tenant {tenant.TenantName} is disabled; cannot show site");
+                    }
 
                     var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
                     var tenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
