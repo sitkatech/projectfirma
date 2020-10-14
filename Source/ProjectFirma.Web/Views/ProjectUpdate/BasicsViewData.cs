@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public IEnumerable<SelectListItem> ImplementationStartYearRange { get; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; }
         public IEnumerable<SelectListItem> ProjectStages { get; }
+        public IEnumerable<ProjectStage> ProjectStagesModels { get; }
         public string TaxonomyLeafDisplayName { get; }
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
@@ -54,6 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdate = projectUpdate;
             TaxonomyLeafDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyLeaf.GetDisplayName();
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
+            ProjectStagesModels = projectStages;
             PlanningDesignStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
             ImplementationStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
