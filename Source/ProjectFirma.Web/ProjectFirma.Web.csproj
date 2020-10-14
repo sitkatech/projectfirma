@@ -2284,7 +2284,7 @@
     <Compile Include="Views\Organization\Edit.cs" />
     <Compile Include="Views\Organization\EditViewData.cs" />
     <Compile Include="Views\Organization\EditViewModel.cs" />
-    <Compile Include="Views\Organization\IndexGridSpec.cs" />
+    <Compile Include="Views\Organization\OrganizationIndexGridSpec.cs" />
     <Compile Include="Views\Organization\Index.cs" />
     <Compile Include="Views\Organization\IndexViewData.cs" />
     <Compile Include="Views\Shared\MapJavascriptIncludes.cs" />

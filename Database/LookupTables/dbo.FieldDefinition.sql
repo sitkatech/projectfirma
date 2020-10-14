@@ -186,4 +186,5 @@ VALUES
 (362, N'OrganizationInKindServices', N'In-Kind Services'),
 (363, N'OrganizationCommercialServices', N'Commercial Services'),
 (364, N'AreaOfInterest', N'Area of Interest'),
-(365, N'MatchmakerKeyword', N'Keyword')
+(365, N'MatchmakerKeyword', N'Keyword'),
+(366, N'OrganizationKeystoneGuid', N'Organization Keystone GUID')

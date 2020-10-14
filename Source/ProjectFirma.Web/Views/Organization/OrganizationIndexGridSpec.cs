@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Linq;
-using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
@@ -30,9 +29,9 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.Organization>
+    public class OrganizationIndexGridSpec : GridSpec<ProjectFirmaModels.Models.Organization>
     {
-        public IndexGridSpec(FirmaSession currentFirmaSession, bool hasDeletePermissions)
+        public OrganizationIndexGridSpec(FirmaSession currentFirmaSession, bool hasDeletePermissions)
         {
             var projectDictionary = HttpRequestStorage.DatabaseEntities.Projects.ToDictionary(x => x.ProjectID);
             var fundingSourceDictionary = HttpRequestStorage.DatabaseEntities.FundingSources
@@ -67,10 +66,13 @@ namespace ProjectFirma.Web.Views.Organization
                 peopleDictionary.ContainsKey(a.OrganizationID) ? peopleDictionary[a.OrganizationID].Count : 0, 90);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmptyForGrid(), 70, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Has Keystone GUID", x => (x.OrganizationGuid != null).ToCheckboxImageOrEmptyForGrid(), 70, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+
             if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
             {
                 Add("Matchmaker Service", a => a.GetOptInHasContentString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
+
         }
 
 

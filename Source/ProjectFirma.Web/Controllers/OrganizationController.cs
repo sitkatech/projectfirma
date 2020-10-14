@@ -38,14 +38,12 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GeoJson;
 using MoreLinq;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
 using Index = ProjectFirma.Web.Views.Organization.Index;
-using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
 using Organization = ProjectFirmaModels.Models.Organization;
 
@@ -57,11 +55,11 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPage = FirmaPageTypeEnum.OrganizationsList.GetFirmaPage();
-            var gridDataUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations));
+            var gridDataUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(OrganizationIndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations));
             var activeOrAllOrganizationsSelectListItems = new List<SelectListItem>()
             {
-                new SelectListItem() {Text = "Active Organizations Only", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations))},
-                new SelectListItem() {Text = "All Organizations", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations))}
+                new SelectListItem() {Text = "Active Organizations Only", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(OrganizationIndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations))},
+                new SelectListItem() {Text = "All Organizations", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(OrganizationIndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations))}
             };
 
             var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems);
@@ -69,10 +67,10 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationViewFeature]
-        public GridJsonNetJObjectResult<Organization> IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum organizationStatusFilterType)
+        public GridJsonNetJObjectResult<Organization> IndexGridJsonData(OrganizationIndexGridSpec.OrganizationStatusFilterTypeEnum organizationStatusFilterType)
         {
             var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var gridSpec = new IndexGridSpec(CurrentFirmaSession, hasDeleteOrganizationPermission);
+            var gridSpec = new OrganizationIndexGridSpec(CurrentFirmaSession, hasDeleteOrganizationPermission);
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations
                 .Include(x => x.PrimaryContactPerson)
                 .Include(x => x.ProjectOrganizations.Select(y => y.Project))
@@ -80,10 +78,10 @@ namespace ProjectFirma.Web.Controllers
 
             switch (organizationStatusFilterType)
             {
-                case IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations:
+                case OrganizationIndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations:
                     organizations = organizations.Where(x => x.IsActive).ToList();
                     break;
-                case IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations:
+                case OrganizationIndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("organizationStatusFilterType", organizationStatusFilterType,
