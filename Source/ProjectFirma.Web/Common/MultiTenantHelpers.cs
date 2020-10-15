@@ -412,20 +412,22 @@ namespace ProjectFirma.Web.Common
 
         public static List<TenantSimple> GetAllTenantSimples()
         {
-            if (!TenantSimples.Any())
+            lock (TenantSimples)
             {
-                TenantSimples.AddRange(HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList().Select(x => new TenantSimple
-                (
-                    x.TenantShortDisplayName, 
-                    x.Tenant.CanonicalHostNameLocal, 
-                    x.Tenant.CanonicalHostNameQa, 
-                    x.Tenant.CanonicalHostNameProd,
-                    x.TenantSquareLogoFileResourceInfo?.GetFileResourceUrl(),
-                    x.Tenant.TenantEnabled
-                )));
+                if (!TenantSimples.Any())
+                {
+                    TenantSimples.AddRange(HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList().Select(x => new TenantSimple
+                    (
+                        x.TenantShortDisplayName,
+                        x.Tenant.CanonicalHostNameLocal,
+                        x.Tenant.CanonicalHostNameQa,
+                        x.Tenant.CanonicalHostNameProd,
+                        x.TenantSquareLogoFileResourceInfo?.GetFileResourceUrl(),
+                        x.Tenant.TenantEnabled
+                    )));
+                }
+                return TenantSimples;
             }
-
-            return TenantSimples;
         }
 
         
