@@ -28,6 +28,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.ModalDialog;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -426,6 +427,7 @@ namespace ProjectFirma.Web.Common
                         x.Tenant.TenantEnabled
                     )));
                 }
+                Check.Assert(TenantSimples.Count == TenantSimples.DistinctBy(x => x.TenantName).Count(), "Duplicate TenantSimples found for being used in the header Tenant switcher. Further investigation may be required on how they got there.");
                 return TenantSimples;
             }
         }
