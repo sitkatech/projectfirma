@@ -25,6 +25,7 @@ CREATE TABLE [dbo].[Organization](
 	[MatchmakerCommercialServicesDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[MatchmakerConstraints] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[MatchmakerAdditionalInformation] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[IsUnknownOrUnspecified] [bit] NOT NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
@@ -88,3 +89,7 @@ GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [CK_Organization_OrganizationBoundary_SpatialReferenceID_Must_Be_4326] CHECK  (([OrganizationBoundary] IS NULL OR [OrganizationBoundary].[STSrid]=(4326)))
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [CK_Organization_OrganizationBoundary_SpatialReferenceID_Must_Be_4326]
+GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [CK_Organization_Unknown_or_Unspecified_bit_set_when_needed] CHECK  ((NOT [OrganizationName] like '%Unknown or Unspecified Organization%' AND [IsUnknownOrUnspecified]=(0) OR [OrganizationName] like '%Unknown or Unspecified Organization%' AND [IsUnknownOrUnspecified]=(1)))
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [CK_Organization_Unknown_or_Unspecified_bit_set_when_needed]

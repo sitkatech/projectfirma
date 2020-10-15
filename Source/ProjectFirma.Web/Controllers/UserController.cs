@@ -389,10 +389,7 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult ViewInvite(InviteViewModel viewModel)
         {
             var firmaPage = FirmaPageTypeEnum.InviteUser.GetFirmaPage();
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.OrderBy(x => x.OrganizationName)
-                .ToList();
-            var cancelUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
-            var viewData = new InviteViewData(CurrentFirmaSession, organizations, firmaPage, cancelUrl);
+            var viewData = new InviteViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Invite, InviteViewData, InviteViewModel>(viewData, viewModel);
         }
 
@@ -411,34 +408,45 @@ namespace ProjectFirma.Web.Controllers
                 .Organization.OrganizationName;
             var primaryContactEmail = tenantAttribute.PrimaryContactPerson.Email;
 
-            var inviteModel = new KeystoneService.KeystoneInviteModel
-            {
-                FirstName = viewModel.FirstName,
-                LastName = viewModel.LastName,
-                Email = viewModel.Email,
-                SiteName = toolDisplayName,
-                Subject = $"Invitation to {toolDisplayName}",
-                WelcomeText =
-                    $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
-                RedirectURL = homeUrl,
-                SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {primaryContactFullName} at {primaryContactOrganizationName} ({primaryContactEmail})",
-                OrganizationGuid = viewModel.OrganizationGuid,
-                SignatureBlock = $"The {toolDisplayName} team"
-            };
+            KeystoneService.KeystoneApiResponse<KeystoneService.KeystoneNewUserModel> keystoneNewUserResponse = null;
 
-            var keystoneService = new KeystoneService(HttpRequestStorage.GetHttpContextUserThroughOwin());
-            var response = keystoneService.Invite(inviteModel);
-            if (response.StatusCode != HttpStatusCode.OK || response.Error != null)
+            var theSelectedOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(viewModel.OrganizationID);
+            Check.EnsureNotNull(theSelectedOrganization);
+            if (theSelectedOrganization.OrganizationGuid == null)
             {
-                ModelState.AddModelError("Email",
-                    $"There was a problem inviting the user to Keystone: {response.Error.Message}.");
-                if (response.Error.ModelState != null)
+                ModelState.AddModelError("OrganizationID", $"Organization is not in Keystone");
+            }
+            else
+            {
+                var inviteModel = new KeystoneService.KeystoneInviteModel
                 {
-                    foreach (var modelStateKey in response.Error.ModelState.Keys)
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName,
+                    Email = viewModel.Email,
+                    SiteName = toolDisplayName,
+                    Subject = $"Invitation to {toolDisplayName}",
+                    WelcomeText =
+                        $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
+                    RedirectURL = homeUrl,
+                    SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {primaryContactFullName} at {primaryContactOrganizationName} ({primaryContactEmail})",
+                    OrganizationGuid = theSelectedOrganization.OrganizationGuid,
+                    SignatureBlock = $"The {toolDisplayName} team"
+                };
+
+                var keystoneService = new KeystoneService(HttpRequestStorage.GetHttpContextUserThroughOwin());
+                keystoneNewUserResponse = keystoneService.Invite(inviteModel);
+                if (keystoneNewUserResponse.StatusCode != HttpStatusCode.OK || keystoneNewUserResponse.Error != null)
+                {
+                    ModelState.AddModelError("Email",
+                        $"There was a problem inviting the user to Keystone: {keystoneNewUserResponse.Error.Message}.");
+                    if (keystoneNewUserResponse.Error.ModelState != null)
                     {
-                        foreach (var err in response.Error.ModelState[modelStateKey])
+                        foreach (var modelStateKey in keystoneNewUserResponse.Error.ModelState.Keys)
                         {
-                            ModelState.AddModelError(modelStateKey, err);
+                            foreach (var err in keystoneNewUserResponse.Error.ModelState[modelStateKey])
+                            {
+                                ModelState.AddModelError(modelStateKey, err);
+                            }
                         }
                     }
                 }
@@ -449,7 +457,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewInvite(viewModel);
             }
 
-            var keystoneUser = response.Payload.Claims;
+            var keystoneUser = keystoneNewUserResponse.Payload.Claims;
             var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
             if (existingUser != null)
             {
@@ -465,7 +473,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            if (!viewModel.DoNotSendInviteEmailIfExisting && !response.Payload.Created)
+            if (!viewModel.DoNotSendInviteEmailIfExisting && !keystoneNewUserResponse.Payload.Created)
             {
                 SendExistingKeystoneUserCreatedMessage(newUser, CurrentPerson);
             }
@@ -495,7 +503,7 @@ namespace ProjectFirma.Web.Controllers
                     var defaultOrganizationType =
                         HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
                     var firmaOrganization =
-                        new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault)
+                        new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault, false)
                         {
                             OrganizationGuid = keystoneOrganization.OrganizationGuid,
                             OrganizationShortName = keystoneOrganization.ShortName,

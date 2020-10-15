@@ -43,7 +43,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool useOrganizationBoundaryForMatchmaker, bool? matchmakerCash, bool? matchmakerInKindServices, bool? matchmakerCommercialServices, string matchmakerCashDescription, string matchmakerInKindServicesDescription, string matchmakerCommercialServicesDescription, string matchmakerConstraints, string matchmakerAdditionalInformation) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool useOrganizationBoundaryForMatchmaker, bool? matchmakerCash, bool? matchmakerInKindServices, bool? matchmakerCommercialServices, string matchmakerCashDescription, string matchmakerInKindServicesDescription, string matchmakerCommercialServicesDescription, string matchmakerConstraints, string matchmakerAdditionalInformation, bool isUnknownOrUnspecified) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
@@ -66,12 +66,13 @@ namespace ProjectFirmaModels.Models
             this.MatchmakerCommercialServicesDescription = matchmakerCommercialServicesDescription;
             this.MatchmakerConstraints = matchmakerConstraints;
             this.MatchmakerAdditionalInformation = matchmakerAdditionalInformation;
+            this.IsUnknownOrUnspecified = isUnknownOrUnspecified;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(string organizationName, bool isActive, int organizationTypeID, bool useOrganizationBoundaryForMatchmaker) : this()
+        public Organization(string organizationName, bool isActive, int organizationTypeID, bool useOrganizationBoundaryForMatchmaker, bool isUnknownOrUnspecified) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -80,12 +81,13 @@ namespace ProjectFirmaModels.Models
             this.IsActive = isActive;
             this.OrganizationTypeID = organizationTypeID;
             this.UseOrganizationBoundaryForMatchmaker = useOrganizationBoundaryForMatchmaker;
+            this.IsUnknownOrUnspecified = isUnknownOrUnspecified;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Organization(string organizationName, bool isActive, OrganizationType organizationType, bool useOrganizationBoundaryForMatchmaker) : this()
+        public Organization(string organizationName, bool isActive, OrganizationType organizationType, bool useOrganizationBoundaryForMatchmaker, bool isUnknownOrUnspecified) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -95,6 +97,7 @@ namespace ProjectFirmaModels.Models
             this.OrganizationType = organizationType;
             organizationType.Organizations.Add(this);
             this.UseOrganizationBoundaryForMatchmaker = useOrganizationBoundaryForMatchmaker;
+            this.IsUnknownOrUnspecified = isUnknownOrUnspecified;
         }
 
         /// <summary>
@@ -102,7 +105,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static Organization CreateNewBlank(OrganizationType organizationType)
         {
-            return new Organization(default(string), default(bool), organizationType, default(bool));
+            return new Organization(default(string), default(bool), organizationType, default(bool), default(bool));
         }
 
         /// <summary>
@@ -311,6 +314,7 @@ namespace ProjectFirmaModels.Models
         public string MatchmakerCommercialServicesDescription { get; set; }
         public string MatchmakerConstraints { get; set; }
         public string MatchmakerAdditionalInformation { get; set; }
+        public bool IsUnknownOrUnspecified { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 

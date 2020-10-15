@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, true, null);
             }
-            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID, Organization.UseOrganizationBoundaryForMatchmakerDefault);
+            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID, Organization.UseOrganizationBoundaryForMatchmakerDefault, false);
             viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -156,7 +156,8 @@ namespace ProjectFirma.Web.Controllers
                 x => x.GetFullNameFirstLastAndOrg());
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin, userHasAdminPermissions, viewModel.OrganizationGuid);
+            string requestOrganizationChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange());
+            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, requestOrganizationChangeUrl, isSitkaAdmin, userHasAdminPermissions, viewModel.OrganizationGuid);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -386,12 +387,6 @@ namespace ProjectFirma.Web.Controllers
 
 
         #endregion Matchmaker Classifications
-
-
-
-
-
-
 
 
 
@@ -855,7 +850,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
-            firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault)
+            firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault, false)
             {
                 OrganizationGuid = keystoneOrganization.OrganizationGuid,
                 OrganizationShortName = keystoneOrganization.ShortName,

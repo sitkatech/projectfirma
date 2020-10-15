@@ -10,15 +10,18 @@ namespace ProjectFirma.Web.Views.User
         [Required]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
+
         [Required]
         [DisplayName("Last Name")]
         public string LastName { get; set; }
+
         [Required]
         [DisplayName("Email")]
         public string Email { get; set; }
+
         [Required]
         [DisplayName("Organization")]
-        public Guid? OrganizationGuid { get; set; }
+        public int OrganizationID { get; set; }
 
         public bool DoNotSendInviteEmailIfExisting { get; set; }
     }
