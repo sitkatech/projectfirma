@@ -20,6 +20,8 @@ namespace ProjectFirma.Web.Models
                     return supportRequestType.SupportRequestTypeDisplayName;
                 case SupportRequestTypeEnum.NewOrganizationOrFundingSource:
                     return $"Need an {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} or {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} added to the list";
+                case SupportRequestTypeEnum.AddOrganizationToKeystone:
+                    return $"Need an {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} added to Keystone";
                 case SupportRequestTypeEnum.HelpWithProjectUpdate:
                     return $"Can't figure out how to update my {a.GetFieldDefinitionLabel()}";
                 case SupportRequestTypeEnum.RequestProjectPrimaryContactChange:

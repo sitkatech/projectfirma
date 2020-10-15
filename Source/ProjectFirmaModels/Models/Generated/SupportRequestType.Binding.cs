@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
         public static readonly SupportRequestTypeOther Other = SupportRequestTypeOther.Instance;
         public static readonly SupportRequestTypeRequestProjectPrimaryContactChange RequestProjectPrimaryContactChange = SupportRequestTypeRequestProjectPrimaryContactChange.Instance;
         public static readonly SupportRequestTypeRequestPermissionToAddProjects RequestPermissionToAddProjects = SupportRequestTypeRequestPermissionToAddProjects.Instance;
+        public static readonly SupportRequestTypeAddOrganizationToKeystone AddOrganizationToKeystone = SupportRequestTypeAddOrganizationToKeystone.Instance;
 
         public static readonly List<SupportRequestType> All;
         public static readonly ReadOnlyDictionary<int, SupportRequestType> AllLookupDictionary;
@@ -37,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static SupportRequestType()
         {
-            All = new List<SupportRequestType> { ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, ProvideFeedback, RequestOrganizationNameChange, Other, RequestProjectPrimaryContactChange, RequestPermissionToAddProjects };
+            All = new List<SupportRequestType> { ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, ProvideFeedback, RequestOrganizationNameChange, Other, RequestProjectPrimaryContactChange, RequestPermissionToAddProjects, AddOrganizationToKeystone };
             AllLookupDictionary = new ReadOnlyDictionary<int, SupportRequestType>(All.ToDictionary(x => x.SupportRequestTypeID));
         }
 
@@ -109,6 +110,8 @@ namespace ProjectFirmaModels.Models
         {
             switch (enumValue)
             {
+                case SupportRequestTypeEnum.AddOrganizationToKeystone:
+                    return AddOrganizationToKeystone;
                 case SupportRequestTypeEnum.ForgotLoginInfo:
                     return ForgotLoginInfo;
                 case SupportRequestTypeEnum.HelpWithProjectUpdate:
@@ -143,7 +146,8 @@ namespace ProjectFirmaModels.Models
         RequestOrganizationNameChange = 6,
         Other = 7,
         RequestProjectPrimaryContactChange = 8,
-        RequestPermissionToAddProjects = 9
+        RequestPermissionToAddProjects = 9,
+        AddOrganizationToKeystone = 10
     }
 
     public partial class SupportRequestTypeReportBug : SupportRequestType
@@ -198,5 +202,11 @@ namespace ProjectFirmaModels.Models
     {
         private SupportRequestTypeRequestPermissionToAddProjects(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
         public static readonly SupportRequestTypeRequestPermissionToAddProjects Instance = new SupportRequestTypeRequestPermissionToAddProjects(9, @"RequestPermissionToAddProjects", @"Request permission to add projects", 11);
+    }
+
+    public partial class SupportRequestTypeAddOrganizationToKeystone : SupportRequestType
+    {
+        private SupportRequestTypeAddOrganizationToKeystone(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
+        public static readonly SupportRequestTypeAddOrganizationToKeystone Instance = new SupportRequestTypeAddOrganizationToKeystone(10, @"AddOrganizationToKeystone", @"Request an Organization be added to Keystone", 5);
     }
 }

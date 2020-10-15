@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class IndexViewData : FirmaViewData
     {
-        public IndexGridSpec GridSpec { get; }
+        public OrganizationIndexGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
         public string PullOrganizationFromKeystoneUrl { get; }
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.Organization
             PageTitle = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}";
 
             HasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            GridSpec = new IndexGridSpec(currentFirmaSession, HasOrganizationManagePermissions)
+            GridSpec = new OrganizationIndexGridSpec(currentFirmaSession, HasOrganizationManagePermissions)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",

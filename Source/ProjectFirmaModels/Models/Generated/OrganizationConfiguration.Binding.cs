@@ -37,6 +37,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.MatchmakerCommercialServicesDescription).HasColumnName(@"MatchmakerCommercialServicesDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
             Property(x => x.MatchmakerConstraints).HasColumnName(@"MatchmakerConstraints").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
             Property(x => x.MatchmakerAdditionalInformation).HasColumnName(@"MatchmakerAdditionalInformation").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.IsUnknownOrUnspecified).HasColumnName(@"IsUnknownOrUnspecified").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.OrganizationsWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_Organization_Person_PrimaryContactPersonID_PersonID

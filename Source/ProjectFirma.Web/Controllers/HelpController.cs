@@ -98,9 +98,6 @@ namespace ProjectFirma.Web.Controllers
             return Redirect(returnUrl);
         }
 
-
-
-
         [AnonymousUnclassifiedFeature]
         [CrossAreaRoute]
         [HttpGet]
@@ -227,6 +224,35 @@ namespace ProjectFirma.Web.Controllers
         {
             return Support(viewModel);
         }
+
+
+
+
+
+
+
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        [HttpGet]
+        public PartialViewResult RequestOrganizationAddedToKeystone()
+        {
+            return ViewSupport(SupportRequestTypeEnum.AddOrganizationToKeystone, string.Empty);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        [HttpPost]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RequestOrganizationAddedToKeystone(SupportFormViewModel viewModel)
+        {
+            return Support(viewModel);
+        }
+
+
+        
+
+
+
 
         [AnonymousUnclassifiedFeature]
         [CrossAreaRoute]
