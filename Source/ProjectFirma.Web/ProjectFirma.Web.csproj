@@ -340,7 +340,10 @@
     <Compile Include="Views\Organization\EditProfileTaxonomyViewModel.cs" />
     <Compile Include="Views\Organization\EditProfileSupplementalInformationViewData.cs" />
     <Compile Include="Views\Organization\EditProfileSupplementalInformationViewModel.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationPerformanceMeasures.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationClassifications.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationPerformanceMeasuresViewData.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationPerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetail.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationClassificationsViewData.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewData.cs" />
@@ -724,6 +727,7 @@
     <Content Include="Views\Organization\MatchmakerOrganizationLocationDetail.cshtml" />
     <Content Include="Views\Organization\MatchmakerOrganizationClassifications.cshtml" />
     <Content Include="Views\Keyword\MatchmakerKeywordsModal.cshtml" />
+    <Content Include="Views\Organization\MatchmakerOrganizationPerformanceMeasures.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

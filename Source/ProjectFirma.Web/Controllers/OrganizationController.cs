@@ -391,7 +391,46 @@ namespace ProjectFirma.Web.Controllers
 
 
 
+        #region Matchmaker Performance Measures
 
+
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditMatchMakerPerformanceMeasures(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var allPerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            var viewModel = new MatchmakerOrganizationPerformanceMeasuresViewModel(organization, allPerformanceMeasures);
+            return ViewEditMatchMakerPerformanceMeasures(organization, allPerformanceMeasures, viewModel);
+        }
+
+        private PartialViewResult ViewEditMatchMakerPerformanceMeasures(Organization organization, List<PerformanceMeasure> allPerformanceMeasures, MatchmakerOrganizationPerformanceMeasuresViewModel viewModel)
+        {
+
+            var viewData = new MatchmakerOrganizationPerformanceMeasuresViewData(organization, allPerformanceMeasures);
+            return RazorPartialView<MatchmakerOrganizationPerformanceMeasures, MatchmakerOrganizationPerformanceMeasuresViewData, MatchmakerOrganizationPerformanceMeasuresViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditMatchMakerPerformanceMeasures(OrganizationPrimaryKey organizationPrimaryKey, MatchmakerOrganizationPerformanceMeasuresViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var allPerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditMatchMakerPerformanceMeasures(organization, allPerformanceMeasures, viewModel);
+            }
+
+            viewModel.UpdateModel(CurrentFirmaSession, organization, HttpRequestStorage.DatabaseEntities);
+
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
+        }
+
+
+        #endregion Matchmaker Performance Measures
 
 
 

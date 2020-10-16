@@ -105,6 +105,7 @@ namespace ProjectFirma.Web.Views.Organization
         public OrganizationMatchmakerKeywordsViewData OrganizationMatchmakerKeywordsViewData { get; }
 
         public string EditOrgClassificationsUrl { get; }
+        public string EditOrgPerformanceMeasuresUrl { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -268,6 +269,8 @@ namespace ProjectFirma.Web.Views.Organization
             EditOrgClassificationsUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerClassifications(organization));
             MatchmakerClassificationsGroupedByClassificationSystem = matchmakerClassificationsGroupedByClassificationSystem;
             AllClassificationSystems = allClassificationSystems;
+
+            EditOrgPerformanceMeasuresUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerPerformanceMeasures(organization));
         }
     }
 }

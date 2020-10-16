@@ -79,6 +79,8 @@ namespace ProjectFirma.Web.PartnerFinder
             CalculateOrganizationMatchmakerKeywordSubScore(project, organization, ref subScores, ref matchInsightStrings);
             // Classifications SubScore
             CalculateOrganizationMatchmakerClassificationSubScore(project, organization, ref subScores, ref matchInsightStrings);
+            // Performance Measure SubScore
+            CalculateOrganizationMatchmakerPerformanceMeasureSubScore(project, organization, ref subScores, ref matchInsightStrings);
 
             // Calculate final score from sub-scores
             double scoreToReturn = CalculateFinalScoreFromSubScores(subScores);
@@ -180,6 +182,31 @@ namespace ProjectFirma.Web.PartnerFinder
 
             CheckEnsureScoreInValidRange(classificationMatchScore);
             subScores.Add(classificationMatchScore);
+
+        }
+
+        private static void CalculateOrganizationMatchmakerPerformanceMeasureSubScore(Project project,
+            Organization organization,
+            ref List<double> subScores,
+            ref List<string> matchInsightStrings)
+        {
+            List<string> localMatchInsights = new List<string>();
+            double performanceMeasureMatchScore = 0.0;
+
+            var organizationPerformanceMeasureIDs = organization.MatchmakerOrganizationPerformanceMeasures.Select(x => x.PerformanceMeasureID).ToList();
+            var projectPerformanceMeasureActualIDs = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureID).ToList();
+            var projectPerformanceMeasureExpectedIDs = project.PerformanceMeasureExpecteds.Select(x => x.PerformanceMeasureID).ToList();
+
+            var performanceMeasureIDs = new HashSet<int>(projectPerformanceMeasureActualIDs);
+            performanceMeasureIDs.UnionWith(projectPerformanceMeasureExpectedIDs);
+
+            if (organizationPerformanceMeasureIDs.Any(x => performanceMeasureIDs.Contains(x)))
+            {
+                performanceMeasureMatchScore = 1.0;
+            }
+
+            CheckEnsureScoreInValidRange(performanceMeasureMatchScore);
+            subScores.Add(performanceMeasureMatchScore);
 
         }
 

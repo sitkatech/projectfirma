@@ -23,24 +23,38 @@
 @using ProjectFirmaModels.Models
 @model ProjectFirma.Web.Models.SitkaLeftRightListbox
 @{
-    var descriptionsDictionary = ViewData.ContainsKey("DescriptionsDictionary")
-        ? ViewData["DescriptionsDictionary"]
+    var moreInformationDictionary = ViewData.ContainsKey("MoreInformationDictionary")
+        ? ViewData["MoreInformationDictionary"]
         : new { };
+    var moreInformationLabel = ViewData.ContainsKey("MoreInformationLabel")
+        ? ViewData["MoreInformationLabel"]
+        : "";
+    var showFilterBox = ViewData.ContainsKey("ShowFilterBox")
+        ? Boolean.Parse(ViewData["ShowFilterBox"].ToString()) ? "true" : "false"
+        : "false";
 }
-<script type="text/javascript">
+    <script type="text/javascript">
     angular.module("ProjectFirmaApp").controller("SitkaLeftRightListboxController",
         function($scope, angularModelAndViewData) {
             $scope.AngularModel = angularModelAndViewData.AngularModel;
-            $scope.DescriptionsDictionary = angularModelAndViewData.DescriptionsDictionary;
+            $scope.MoreInformationDictionary = angularModelAndViewData.MoreInformationDictionary;
+            $scope.MoreInformationLabel = angularModelAndViewData.MoreInformationLabel;
+            $scope.NoInformationAvailableMessage = "No" + angularModelAndViewData.MoreInformationLabel.toLowerCase() + "available";
+            $scope.ShowFilterBox = angularModelAndViewData.ShowFilterBox;
+            $scope.ListboxUniqueID = angularModelAndViewData.ListboxUniqueID;
 
             $scope.Items = $scope.AngularModel.SelectListItems;
-            $scope.ItemsSelected = $scope.Items.filter(x => x.Selected);
-            $scope.ItemsAvailable = $scope.Items.filter(x => !x.Selected);
+            // ItemsSelectedUnfiltered is what will be posted on Save
+            $scope.ItemsSelectedUnfiltered = $scope.Items.filter(function (x) { return x.Selected; });
+            $scope.ItemsSelected = $scope.Items.filter(function(x) { return x.Selected; });
+            $scope.ItemsAvailable = $scope.Items.filter(function (x) { return !x.Selected; });
 
             $scope.CurrentlySelectedItem = $scope.ItemsAvailable.length > 0 ? $scope.ItemsAvailable[0] : {};
 
+
+
             $scope.HasDescriptionsDictionary = function() {
-                return !jQuery.isEmptyObject($scope.DescriptionsDictionary);
+                return !jQuery.isEmptyObject($scope.MoreInformationDictionary);
             }
 
             $scope.SelectItem = function() {
@@ -82,16 +96,57 @@
                 },
                 true);
 
+            $scope.GetItemsAvailableFilterText = function () {
+                var input = document.getElementById("ItemsAvailableSearch_" + $scope.ListboxUniqueID);
+                return input != null ? input.value.toUpperCase() : null;
+            }
+
+            $scope.GetItemsSelectedFilterText = function () {
+                var input = document.getElementById("ItemsSelectedSearch_" + $scope.ListboxUniqueID);
+                return input != null ? input.value.toUpperCase() : null;
+            }
+
+            $scope.MatchesCurrentFilter = function (selectItem, filterText) {
+                if (Sitka.Methods.isUndefinedNullOrEmpty(filterText)) {
+                    return true;
+                }
+                return selectItem.Text.toLowerCase().includes(filterText.toLowerCase());
+            }
+
+            $scope.updateSelectedItemsList = function() {
+                $scope.ItemsSelectedUnfiltered = $scope.Items.filter(function(x) { return x.Selected; });
+                $scope.ItemsSelected = $scope.Items.filter(function (x) {
+                    var keepItem = x.Selected;
+                    if ($scope.ShowFilterBox) {
+                        keepItem = keepItem && $scope.MatchesCurrentFilter(x, $scope.GetItemsSelectedFilterText());
+                    }
+                    return keepItem;
+                });
+            }
+
+            $scope.updateAvailableItemsList = function() {
+                $scope.ItemsAvailable = $scope.Items.filter(function (x) {
+                    var keepItem = !x.Selected;
+                    if ($scope.ShowFilterBox) {
+                        keepItem = keepItem && $scope.MatchesCurrentFilter(x, $scope.GetItemsAvailableFilterText());
+                    }
+                    return keepItem;
+                });
+            }
+
             $scope.updateItemsLists = function() {
-                $scope.ItemsSelected = $scope.Items.filter(x => x.Selected);
-                $scope.ItemsAvailable = $scope.Items.filter(x => !x.Selected);
+                $scope.updateSelectedItemsList();
+                $scope.updateAvailableItemsList();
             }
         });
     angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
         function() {
             return {
                 AngularModel: @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
-                DescriptionsDictionary: @Html.Raw(JObject.FromObject(descriptionsDictionary).ToString(Formatting.None))
+                MoreInformationDictionary: @Html.Raw(JObject.FromObject(moreInformationDictionary).ToString(Formatting.None)),
+                MoreInformationLabel: "@moreInformationLabel",
+                ShowFilterBox: @showFilterBox,
+                ListboxUniqueID: "@Model.ListboxUniqueID"
             };
         });
 
@@ -174,6 +229,7 @@
     <div class="row sitka-listbox-container">
         <div class="col-md-5">
             <strong class="listbox-header">Available Items ({{ItemsAvailable.length}})</strong>
+            <input ng-if="ShowFilterBox" class="form-control" type="text" placeholder="Search..." id="ItemsAvailableSearch_@Model.ListboxUniqueID" ng-keyup="updateAvailableItemsList()" autocomplete="off">
             <div class="sitka-listbox">
                 <ul>
                     <li ng-repeat="item in ItemsAvailable" ng-class="{active: item == $parent.CurrentlySelectedItem}">
@@ -191,6 +247,7 @@
         </div>
         <div class="col-md-5">
             <strong class="listbox-header">Selected Items</strong>
+            <input ng-if="ShowFilterBox" class="form-control" type="text" placeholder="Search..." id="ItemsSelectedSearch_@Model.ListboxUniqueID" ng-keyup="updateSelectedItemsList()" autocomplete="off">
             <div class="sitka-listbox">
                 <ul>
                     <li ng-repeat="item in ItemsSelected" ng-class="{active: item == $parent.CurrentlySelectedItem}">
@@ -204,9 +261,9 @@
     <div class="row sitka-listbox-description" ng-if="HasDescriptionsDictionary()">
         <div class="col-lg-12">
             <p>
-                <strong>Description:</strong>
-                <span ng-if="DescriptionsDictionary[CurrentlySelectedItem.Value]">{{ DescriptionsDictionary[CurrentlySelectedItem.Value] }}</span>
-                <span class="systemText" ng-if="!DescriptionsDictionary[CurrentlySelectedItem.Value]">No description available</span>
+                <strong>{{ MoreInformationLabel }}:</strong>
+                <span ng-if="MoreInformationDictionary[CurrentlySelectedItem.Value]">{{ MoreInformationDictionary[CurrentlySelectedItem.Value] }}</span>
+                <span class="systemText" ng-if="!MoreInformationDictionary[CurrentlySelectedItem.Value]">{{ NoInformationAvailableMessage }}</span>
             </p>
         </div>
     </div>
@@ -214,7 +271,7 @@
             id="@Html.IdFor(x => x.SelectedItems)"
             style="display: none;"
             multiple="multiple"
-            ng-model="ItemsSelected"
+            ng-model="ItemsSelectedUnfiltered"
             ng-options="item as item.Text for item in Items track by item.Value"
             ng-change="change()">
     </select>
