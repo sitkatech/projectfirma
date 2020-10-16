@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Organization.MatchmakerOrganizationPerformanceMeasures
@@ -32,7 +33,7 @@
 {
     var additionalViewData = new
     {
-        MoreInformationDictionary = ViewDataTyped.AllPerformanceMeasures.Select(x => new { ID = x.PerformanceMeasureID, Description = x.PerformanceMeasureDefinition }).ToDictionary(x => x.ID, x => x.Description),
+        MoreInformationDictionary = ViewDataTyped.AllPerformanceMeasures.Select(x => new { ID = x.PerformanceMeasureID, Description = x.PerformanceMeasureDefinition.ToEllipsifiedString(300) }).ToDictionary(x => x.ID, x => x.Description),
         MoreInformationLabel = "Definition",
         ShowFilterBox = true
     };
