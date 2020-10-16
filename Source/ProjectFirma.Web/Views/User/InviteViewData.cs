@@ -20,9 +20,12 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using ProjectFirmaModels.Models;
+using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 
@@ -30,17 +33,37 @@ namespace ProjectFirma.Web.Views.User
 {
     public class InviteViewData : FirmaViewData
     {
-        public IEnumerable<SelectListItem> AllOrganizations { get; }
+        public IEnumerable<SelectListItem> OrganizationsSelectList { get; }
         public string CancelUrl { get; }
         public string IndexUrl { get; }
 
-        public InviteViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.Organization> organizations, ProjectFirmaModels.Models.FirmaPage psInfoPage, string userIndexUrl) : base(currentFirmaSession, psInfoPage)
+        public InviteViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage psInfoPage) : base(currentFirmaSession, psInfoPage)
         {
-            CancelUrl = userIndexUrl;
             PageTitle = "Invite User";
             EntityName = "Users";
-            AllOrganizations = organizations.ToSelectList(x => x.OrganizationGuid.ToString(), x => x.OrganizationName);
+
+            CancelUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
             IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
+
+            // ReSharper disable once ConvertClosureToMethodGroup
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.OrganizationName).ToList();
+            var filteredOrganizations = allOrganizations.Where(o => o.OrganizationGuid != null || o.IsUnknownOrUnspecified).ToList();
+            //var filteredOrganizations = allOrganizations.ToList();
+            OrganizationsSelectList = filteredOrganizations.ToSelectList(x => x.OrganizationID.ToString(), x => x.OrganizationName);
+        }
+
+        private string MakeOrganizationNameWithKeystoneGuidWarning(ProjectFirmaModels.Models.Organization organization)
+        {
+            string noGuidWarning = organization.OrganizationGuid == null ? " [No Keystone Organization GUID]" : string.Empty;
+            return $"{organization.OrganizationName}{noGuidWarning}";
+        }
+
+        public HtmlString GetRequestOrgAddedToKeystoneModalDialogLink(string linkText)
+        {
+            string requestOrganizationAddedToKeystoneUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationAddedToKeystone());
+            HtmlString requestOrgAddedToKeystoneModalDialogLink = ModalDialogFormHelper.ModalDialogFormLink(linkText, requestOrganizationAddedToKeystoneUrl,
+                "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null);
+            return requestOrgAddedToKeystoneModalDialogLink;
         }
     }
 }

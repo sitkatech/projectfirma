@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
@@ -83,6 +84,8 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string ProposalsPanelHeader;
 
         public readonly bool ShowPendingProjects;
+
+        public readonly string OrganizationKeystoneGuidDisplayString;
 
         public bool TenantHasCanStewardProjectsOrganizationRelationship { get; }
         public int NumberOfStewardedProjects { get; }
@@ -217,7 +220,12 @@ namespace ProjectFirma.Web.Views.Organization
 
             ShowPendingProjects = currentFirmaSession.Person.CanViewPendingProjects();
 
-            //ShowPotentialPartners = new MatchMakerViewPotentialPartnersFeature().HasPermissionForOrganizationByFirmaSession(currentFirmaSession, organization);
+            // If they have no permissions, just say "yes" or "no" if GUID set.
+            // If they have manage permissions, show the GUID, otherwise "None". 
+            bool hasOrganizationKeystoneGuid = (organization.OrganizationGuid != null);
+            string hasOrganizationKeystoneGuidBooleanAsString = hasOrganizationKeystoneGuid.ToYesNo();
+            string organizationKeystoneGuidAsStringOrNone = hasOrganizationKeystoneGuid ? organization.OrganizationGuid.ToString() : "None";
+            OrganizationKeystoneGuidDisplayString = UserHasOrganizationManagePermissions ? organizationKeystoneGuidAsStringOrNone : hasOrganizationKeystoneGuidBooleanAsString;
 
             PendingProjectsGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, true)

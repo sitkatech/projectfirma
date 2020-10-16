@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Security
             }
 
             // "Project Stewards who have stewardship powers over the project."
-            if (person.IsPersonAProjectOwnerWhoCanStewardProjects())
+            if (person.CanStewardProject(project))
             {
                 return true;
             }

@@ -36,7 +36,7 @@ namespace ProjectFirma.Api.Controllers
                 organizationDto.OrganizationTypeID = _databaseEntities.OrganizationTypes.SingleOrDefault(x => x.OrganizationTypeName == organizationDto.OrganizationTypeName)?.OrganizationTypeID ?? _databaseEntities.OrganizationTypes.Single(x => x.IsDefaultOrganizationType).OrganizationTypeID;
                 return UpdateOrganization(apiKey, organizationDto);
             }
-            var organization = new Organization(organizationDto.OrganizationName, organizationDto.IsActive, organizationDto.OrganizationTypeID, true);
+            var organization = new Organization(organizationDto.OrganizationName, organizationDto.IsActive, organizationDto.OrganizationTypeID, true, false);
             organization.OrganizationGuid = organizationDto.OrganizationGuid;
             organization.OrganizationShortName = organizationDto.OrganizationShortName;
             organization.OrganizationUrl = organizationDto.OrganizationUrl;

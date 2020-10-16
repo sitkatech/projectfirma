@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Common
             public string SignatureBlock { get; set; }
             public string SupportURL { get; set; }
             public string SupportEmail { get; set; }
-
             public string SupportBlock { get; set; }
             public Guid? OrganizationGuid { get; set; }
         }

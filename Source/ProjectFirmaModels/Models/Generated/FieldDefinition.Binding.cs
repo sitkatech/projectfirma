@@ -312,6 +312,7 @@ namespace ProjectFirmaModels.Models
         OrganizationInKindServices = 362,
         OrganizationCommercialServices = 363,
         AreaOfInterest = 364,
-        MatchmakerKeyword = 365
+        MatchmakerKeyword = 365,
+        OrganizationKeystoneGuid = 366
     }
 }
