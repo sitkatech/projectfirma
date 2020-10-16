@@ -61,14 +61,14 @@ if (!Array.indexOf) {
 }
 
 
-dhtmlXGridObject.prototype._in_header_formatted_numeric_filter_box = function (a, b) {
+dhx.Grid.prototype._in_header_formatted_numeric_filter_box = function (a, b) {
     a.innerHTML = "<input type=\"text\" style=\"width:90%; font-size:8pt; font-family:Tahoma; -moz-user-select:text; \">";
     a.onclick = a.onmousedown = function (a) { return (a || event).cancelBubble = !0; };
     a.onselectstart = function () { return event.cancelBubble = !0; };
     this.makeFilter(a.firstChild, b);
 };
 
-dhtmlXGridObject.prototype._in_header_date_range_filter = function (a, b) {
+dhx.Grid.prototype._in_header_date_range_filter = function (a, b) {
     var self = this;
     var dhtmlxGrid = this.SitkaGridContainer.grid;
     a.innerHTML = "<div style='width:100%; margin:0 auto; text-align: left;'>From: <input type='text' id='datefrom' style='width:60px;font-size:8pt;-moz-user-select:text; color:#000'><br />To: <input type='text' id='dateto' style='width:60px;font-size:8pt;-moz-user-select:text;color:#000;margin-left:16px'></div>";
@@ -110,7 +110,7 @@ dhtmlXGridObject.prototype._in_header_date_range_filter = function (a, b) {
 };
 
 //JHB 12/4/15: Replaced existing sort function with one that does a case-insentive string sort
-dhtmlXGridObject.prototype._sortCore = function (col, type, order, arrTS, s) {
+dhx.Grid.prototype._sortCore = function (col, type, order, arrTS, s) {
     var sort = "sort";
 
     if (this._sst) {
@@ -172,7 +172,7 @@ dhtmlXGridObject.prototype._sortCore = function (col, type, order, arrTS, s) {
         }
 };
 
-dhtmlXGridObject.prototype.getChildElement = function (element, id) {
+dhx.Grid.prototype.getChildElement = function (element, id) {
     for (var i = 0; i < element.childNodes.length; i++) {
         if (element.childNodes[i].id == id)
             return element.childNodes[i];
@@ -181,7 +181,7 @@ dhtmlXGridObject.prototype.getChildElement = function (element, id) {
 };
 
 //this is pretty much the same thing as dhtmlxGridObjects Numeric_filter but with a stripNonNumeric function when evaluating cell content.
-dhtmlXGridObject.prototype._in_header_formatted_numeric_filter = function (a, b) {
+dhx.Grid.prototype._in_header_formatted_numeric_filter = function (a, b) {
     this._in_header_html_filter.call(this, a, b);   //reuse the same input box construction
     a.firstChild._filter = function () {
         var a = this.value, b, e = "==", f = parseFloat(a.replace("=", "")), g = null;
@@ -337,21 +337,26 @@ Sitka.Grid.Class = {
 
         this._columns = [];
         this.grid = null;
-        this.grid = new dhtmlXGridObject(this.gridElement);
 
-        this.grid.setImagePath("/content/dhtmlx/dhtmlxGrid/codebase/imgs/");
+        var dhxConfig = {
+            headerRowHeight: 50
+        }
 
-        this.htmlFilter.prototype = dhtmlXGridObject.prototype._in_header_text_filter.prototype;
-        this.grid._in_header_html_filter = this.htmlFilter; // defines #html_filter shortcut in the header
+        this.grid = new dhx.Grid(this.gridElement, dhxConfig);
 
-        this.formattedNumericFilter.prototype = dhtmlXGridObject.prototype._in_header_formatted_numeric_filter.prototype;
-        this.grid._in_header_formatted_numeric_filter.prototype = this.formattedNumericFilter;
+        //this.grid.setImagePath("/content/dhtmlx/dhtmlxGrid/codebase/imgs/");
 
-        this.textWithDashesFilter.prototype = dhtmlXGridObject.prototype._in_header_text_filter.prototype;
-        this.grid._in_header_text_withdashes_filter = this.textWithDashesFilter; // defines #text_withdashes_filter shortcut in the header
+        //this.htmlFilter.prototype = dhx.Grid.prototype._in_header_text_filter.prototype;
+        //this.grid._in_header_html_filter = this.htmlFilter; // defines #html_filter shortcut in the header
 
-        this.strictHtmlFilter.prototype = dhtmlXGridObject.prototype._in_header_select_filter_strict.prototype;
-        this.grid._in_header_select_filter_html_strict = this.strictHtmlFilter; // defines #select_filter_html_strict shortcut in the header
+        //this.formattedNumericFilter.prototype = dhx.Grid.prototype._in_header_formatted_numeric_filter.prototype;
+        //this.grid._in_header_formatted_numeric_filter.prototype = this.formattedNumericFilter;
+
+        //this.textWithDashesFilter.prototype = dhx.Grid.prototype._in_header_text_filter.prototype;
+        //this.grid._in_header_text_withdashes_filter = this.textWithDashesFilter; // defines #text_withdashes_filter shortcut in the header
+
+        //this.strictHtmlFilter.prototype = dhx.Grid.prototype._in_header_select_filter_strict.prototype;
+        //this.grid._in_header_select_filter_html_strict = this.strictHtmlFilter; // defines #select_filter_html_strict shortcut in the header
 
         this.grid.SitkaGridContainer = this; // give the grid a pointer back to us (this) for event handling
 
@@ -376,7 +381,7 @@ Sitka.Grid.Class.Grid.prototype.getColumnIndexByName = function (columnName) {
 };
 
 Sitka.Grid.Class.Grid.prototype.htmlFilter = function (t, i) {
-    dhtmlXGridObject.prototype._in_header_text_filter.call(this, t, i);
+    dhx.Grid.prototype._in_header_text_filter.call(this, t, i);
     t.firstChild._filter = function () {
         return function (value) {
             var filterData = t.firstChild.value;
@@ -412,7 +417,7 @@ var sitkaGridFilterSelectpickerOptions = {
 }
 
 // we want to intercept the call when dhtmlx builds up the list of select option items, to transform it into a multiselect
-var sitkaGridOriginalLoadSelectOptions = dhtmlXGridObject.prototype._loadSelectOptins;
+var sitkaGridOriginalLoadSelectOptions = dhx.Grid.prototype._loadSelectOptins;
 var sitkaGridLocallyDefinedMultiSelectLoadOptions = function (t, c) {
     // invoke original
     sitkaGridOriginalLoadSelectOptions.call(this, t, c);
@@ -421,10 +426,10 @@ var sitkaGridLocallyDefinedMultiSelectLoadOptions = function (t, c) {
     selectObj.find("option[value='']").remove();
     selectObj.selectpicker(sitkaGridFilterSelectpickerOptions).selectpicker('refresh');
 };
-dhtmlXGridObject.prototype._loadSelectOptins = sitkaGridLocallyDefinedMultiSelectLoadOptions;
+dhx.Grid.prototype._loadSelectOptins = sitkaGridLocallyDefinedMultiSelectLoadOptions;
 
 Sitka.Grid.Class.Grid.prototype.strictHtmlFilter = function (t, i) {
-    dhtmlXGridObject.prototype._in_header_select_filter_strict.call(this, t, i);
+    dhx.Grid.prototype._in_header_select_filter_strict.call(this, t, i);
     // override collectValues() - NB. this replaces it for *all* _select_filter_string filters in the current grid
     this.collectValues = function (column) {
         var value = this.callEvent("onCollectValues", [column]);
@@ -549,11 +554,11 @@ var sitkaGridLocallyDefinedMultiSelectFilter = function (t, i) {
 }
 
 // we want to redefine everything from dhtmlx that renders a select to use our multi-select for a consistent appearance:
-dhtmlXGridObject.prototype._in_header_select_filter_strict = sitkaGridLocallyDefinedMultiSelectFilter;
-dhtmlXGridObject.prototype._in_header_select_filter = sitkaGridLocallyDefinedMultiSelectFilter;
+dhx.Grid.prototype._in_header_select_filter_strict = sitkaGridLocallyDefinedMultiSelectFilter;
+dhx.Grid.prototype._in_header_select_filter = sitkaGridLocallyDefinedMultiSelectFilter;
 
 Sitka.Grid.Class.Grid.prototype.textWithDashesFilter = function (t, i) {
-    dhtmlXGridObject.prototype._in_header_text_filter.call(this, t, i);
+    dhx.Grid.prototype._in_header_text_filter.call(this, t, i);
     t.firstChild._filter = function () {
         return function (value) {
             var filterData = t.firstChild.value;
@@ -666,6 +671,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     }
     var columnTitles = this._columns.pluck("title").value();
 
+    /*
     if (groupingHeader) {
         this.grid.setHeader(groupingHeader);
         this.grid.attachHeader(columnTitles);
@@ -677,11 +683,13 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     if (filterHeader) {
         this.grid.attachHeader(filterHeader);
     }
+    
 
     this.grid.setInitWidths(this._columns.pluck("width").join());
     this.grid.setColAlign(this._columns.pluck("align").join());
     var columnTypes = this._columns.pluck("type");
     this.grid.setColTypes(columnTypes.join());
+    
 
     // set the number formats for each column
     var columnFormatTypes = this._columns.pluck("formatType");
@@ -690,11 +698,12 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     this.setColumnNumberFormats(columnFormatTypes, "currencySitka", "$0,000");
     this.setColumnNumberFormats(columnFormatTypes, "decimalSitka", "0,000.00");
     this.setColumnNumberFormats(columnFormatTypes, "latLongSitka", "000.000");
+    
 
     this.grid.setColSorting(this._columns.pluck("sorting").join());
     this.grid.setSkin(this.skin);
     this.grid.setNoHeader(hideHeader);
-
+    */
     var theGridElement = this.gridElement;
     var setHourGlassCursor = function () {
         // Wait cursor over grid elements
@@ -717,12 +726,15 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         jQuery("#" + theGridElement).find(".dhtmlx-grid-bootstrap-multiselect-filter-container").find(".btn-group.open .dropdown-toggle").dropdown("toggle");
     };
 
+    /*
     this.grid.entBox.onselectstart = function () { return true; }; // allows selection in IE & copying/pasting
     this.grid.attachEvent("onBeforeSorting", setHourGlassCursor);
     this.grid.attachEvent("onAfterSorting", setDefaultCursor);
     this.grid.attachEvent("onXLS", setHourGlassCursor);
     this.grid.attachEvent("onXLE", setDefaultCursor);
+    */
 
+    /*
     // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
     // this closes the dropdown if you click over to a different filter
     this.grid.attachEvent("onXLE", function () {
@@ -732,7 +744,8 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
             }
         });
     });
-
+    */
+    /*
     // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
     // this closes any open multiselect filters if you click in an empty space in the grid. This empty click doesn't
     // encompass clicks on the actual table data. https://docs.dhtmlx.com/api__dhtmlxgrid_onemptyclick_event.html
@@ -749,10 +762,10 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     this.grid.attachEvent("onRowSelect", function (e) {
         closeAllOpenMultiSelectsInGrid();
     });
-
-    this.grid.init();
-    this.grid.enableEditEvents(true, false, true);
-    this.grid.enableDistributedParsing((this.scrollPosition == this.SCROLL_TO_FIRST), 200, 100);
+    */
+    //this.grid.init();
+    //this.grid.enableEditEvents(true, false, true);
+    //this.grid.enableDistributedParsing((this.scrollPosition == this.SCROLL_TO_FIRST), 200, 100);
 
     if (this.dataElement) {
         if (typeof (this.dataElement.html) === "function") {
@@ -764,8 +777,9 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     }
     else if (dataUrl) {
 
+        /*
         if (true) {
-            this.grid.enableSmartRendering(true);
+            //this.grid.enableSmartRendering(true);
 
             //  For dhtmlxgrid smart rendering height has to be the same between row content (image heights), sitka_dhtmlxgrid_skins.css (.ev_sitkaskin, .odd_sitkaskin), and sitka.js (grid.setAwaitedRowHeight) or paged grids scrolling will be off in dhtmlxgrid smart rendering mode
             var rowHeightInPxThatMatchesSkin = this.awaitedRowHeight;
@@ -778,6 +792,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         if (splitAtColumn != null) {
             this.grid.splitAt(splitAtColumn);
         }
+        */
         this.load(dataUrl);
     }
 
@@ -793,9 +808,11 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         }
     }
 
+    /*
     this.grid.enableAutoSizeSaving(null, "path=/");
     this.grid.enableOrderSaving(null, "path=/");
     this.grid.enableSortingSaving(null, "path=/");
+    */
 
     return this.grid;
 };
@@ -803,6 +820,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
 Sitka.Grid.Class.Grid.prototype.buildWithDataUrl = function (hideHeader, groupingHeader, dataUrl) { this.buildWithArguments(hideHeader, groupingHeader, null, dataUrl); };
 
 Sitka.Grid.Class.Grid.prototype.load = function (dataUrl) {
+    /*
     window.dhx4.attachEvent("onLoadXMLError", function (request, object) {
         // status of 0 is a click away from grid (firefox errors on this, but we don't care), 200 is a-okay.
         if (object.status !== 200 && object.status !== 0) {
@@ -810,8 +828,9 @@ Sitka.Grid.Class.Grid.prototype.load = function (dataUrl) {
         }
         return false;
     });
-    this.grid.clearAll();
-    this.grid.load(dataUrl, "json");
+    */
+    //this.grid.clearAll();
+    this.grid.data.load(dataUrl);
 };
 
 Sitka.Grid.Class.Grid.prototype.setGridInstructions = function (instructionHtml, show) {
@@ -933,20 +952,24 @@ Sitka.Grid.Class.Grid.prototype.setGridFromSavedValues = function (filterValuesA
 Sitka.Grid.Class.Grid.prototype.setupFilterCountElement = function (filterCountElementId) {
     var self = this;
     this.filterCountElement = jQuery("#" + filterCountElementId);
+    /*
     this.grid.attachEvent("onFilterEnd", function () {
         self.updateFilterCountElement();
         self.showOrHideFilteringButton();
     });
+    */
 };
 
 Sitka.Grid.Class.Grid.prototype.setupFilterDownloadElement = function (filterDownloadElementId) {
     var self = this;
     this.filterDownloadElement = jQuery("#" + filterDownloadElementId);
     this.filterDownloadElement.parent().show();
+    /*
     this.grid.attachEvent("onFilterEnd", function () {
         self.updateFilterDownloadElement();
         self.showOrHideFilteringButton();
     });
+    */
 };
 
 Sitka.Grid.Class.Grid.prototype.updateFilterCountElement = function () {
@@ -1024,9 +1047,11 @@ Sitka.Grid.Class.Grid.prototype.resizeGridWithVerticalFill = function ()
     var windowHeight = jQuery(window).height();
     var gridHeight = windowHeight - heightOffset;
     gridHeight = Math.max(gridHeight, 300); //Enforce minimum height
+    /*
     this.grid.enableAutoHeight(true, gridHeight, true);
     this.grid.enableAutoWidth(true, gridDiv.parent().width(), 100);
     this.grid.setSizes();
+    */
     jQuery("#" + this.gridName + "MetaDivID").width(gridDiv.width());
 };
 
@@ -1041,11 +1066,11 @@ Sitka.Grid.Class.Grid.prototype.resizeGridWidths = function ()
 
 Sitka.Grid.Class.Grid.prototype.setupServerFilterSaving = function (filterElementId) {
     var self = this;
-    this.grid.attachEvent("onFilterStart", function () {
+    /*this.grid.attachEvent("onFilterStart", function () {
         self.saveFiltersToServer();
         self.showOrHideFilteringButton();
         return true;
-    });
+    });*/
 };
 
 

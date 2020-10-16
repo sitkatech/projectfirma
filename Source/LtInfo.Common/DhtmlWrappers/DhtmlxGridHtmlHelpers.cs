@@ -105,7 +105,10 @@ namespace LtInfo.Common.DhtmlWrappers
         ]);
 
         var columnFilterList = ""{4}"";
-        {5}
+        //about to omit attachFooter
+        /*
+            {5}
+        */
         
         Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9});
 
@@ -118,6 +121,7 @@ namespace LtInfo.Common.DhtmlWrappers
             Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
             Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
         }}
+        /*
         Sitka.{0}.grid.attachEvent(""onXLE"", function (gridObj, count){{
             Sitka.{0}.unfilteredRowCount = Sitka.{0}.grid.getRowsNum();
             jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
@@ -136,7 +140,7 @@ namespace LtInfo.Common.DhtmlWrappers
                 Sitka.{0}.setGridInstructions(""<div style=\""padding:10px; font-weight:bold\"">{11}</div>"", true);
             }}
         }});
-    
+        
         Sitka.{0}.grid.attachEvent(""onCheckbox"", function(rId,cInd,state) {{
             Sitka.{0}.updateSelectedCheckboxCount();
         }});
@@ -144,7 +148,7 @@ namespace LtInfo.Common.DhtmlWrappers
         Sitka.{0}.grid.attachEvent(""onFilterEnd"", function() {{
             Sitka.{0}.updateSelectedCheckboxCount();
         }});
-
+        */
         {12}
         {13}
     }});";
