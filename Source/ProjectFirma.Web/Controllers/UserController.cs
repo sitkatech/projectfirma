@@ -311,7 +311,7 @@ namespace ProjectFirma.Web.Controllers
         [UserEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditStewardshipAreas(PersonPrimaryKey personPrimaryKey,
-            EditUserStewardshipAreasViewModel viewModel)
+                                                 EditUserStewardshipAreasViewModel viewModel)
         {
             var person = personPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
