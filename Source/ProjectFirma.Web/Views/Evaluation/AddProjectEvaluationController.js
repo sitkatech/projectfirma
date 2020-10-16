@@ -186,7 +186,7 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
         var selectedLeafID = this.SelectedTaxonomyLeaf.TaxonomyTierID;
         var projectsAbleToSelect = _.filter($scope.selectableProjects, function (p) { return p.TaxonomyLeafID == selectedLeafID; });
 
-        var projectStageIDs = _.uniq(projectsAbleToSelect.map(p => p.ProjectStageID));
+        var projectStageIDs = _.uniq(projectsAbleToSelect.map(function (p) { return p.ProjectStageID; }));
         $scope.selectableProjectStages = _.filter($scope.AngularViewData.ProjectStageSimples,
             function (projectStage) {
                 
