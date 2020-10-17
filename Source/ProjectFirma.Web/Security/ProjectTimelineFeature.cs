@@ -28,8 +28,10 @@ namespace ProjectFirma.Web.Security
                 {
                     return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
                 }
-                
-                var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession);
+
+                bool isUsersProject = contextModelObject.IsMyProject(firmaSession);
+                bool userHasUpdateAdminPermission = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission;
+                var projectIsEditableByUser = userHasUpdateAdminPermission || isUsersProject;
                 if (projectIsEditableByUser)
                 {
                     return new PermissionCheckResult();

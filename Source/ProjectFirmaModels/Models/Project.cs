@@ -237,7 +237,15 @@ namespace ProjectFirmaModels.Models
 
         public bool IsPendingProject()
         {
-            return !IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+            return IsPendingProject(this.ProjectStageID, this.ProjectApprovalStatusID);
+        }
+
+        // Centralizing the logic here so it can be shared, and changes will be consistent.
+        public static bool IsPendingProject(int projectStageID, int projectApprovalStatusID)
+        {
+            bool isProposal = projectStageID == ProjectStage.Proposal.ProjectStageID;
+            bool projectApprovalStatusIsApproved = projectApprovalStatusID == ProjectApprovalStatus.Approved.ProjectApprovalStatusID;
+            return !isProposal && !projectApprovalStatusIsApproved;
         }
 
         public bool IsPendingApproval()

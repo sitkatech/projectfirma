@@ -26,12 +26,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount, int? proposingOrganizationID) : this()
+        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int projectStageID, int projectApprovalStatusID, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount, int? proposingOrganizationID) : this()
         {
             this.ProjectID = projectID;
             this.PrimaryKey = primaryKey;
             this.TenantID = tenantID;
             this.ProjectName = projectName;
+            this.ProjectStageID = projectStageID;
+            this.ProjectApprovalStatusID = projectApprovalStatusID;
             this.PrimaryContactOrganizationID = primaryContactOrganizationID;
             this.PrimaryContactOrganizationDisplayName = primaryContactOrganizationDisplayName;
             this.PrimaryContactPersonID = primaryContactPersonID;
@@ -57,6 +59,8 @@ namespace ProjectFirmaModels.Models
             this.PrimaryKey = vProjectDetail.PrimaryKey;
             this.TenantID = vProjectDetail.TenantID;
             this.ProjectName = vProjectDetail.ProjectName;
+            this.ProjectStageID = vProjectDetail.ProjectStageID;
+            this.ProjectApprovalStatusID = vProjectDetail.ProjectApprovalStatusID;
             this.PrimaryContactOrganizationID = vProjectDetail.PrimaryContactOrganizationID;
             this.PrimaryContactOrganizationDisplayName = vProjectDetail.PrimaryContactOrganizationDisplayName;
             this.PrimaryContactPersonID = vProjectDetail.PrimaryContactPersonID;
@@ -80,6 +84,8 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get; set; }
         public int TenantID { get; set; }
         public string ProjectName { get; set; }
+        public int ProjectStageID { get; set; }
+        public int ProjectApprovalStatusID { get; set; }
         public int? PrimaryContactOrganizationID { get; set; }
         public string PrimaryContactOrganizationDisplayName { get; set; }
         public int? PrimaryContactPersonID { get; set; }

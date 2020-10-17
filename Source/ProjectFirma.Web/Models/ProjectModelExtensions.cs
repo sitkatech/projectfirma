@@ -122,9 +122,26 @@ namespace ProjectFirma.Web.Models
             return ProjectMapSimplePopuUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        /// <summary>
+        /// Does the given user have full edit rights / possession of the given Project?
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="currentFirmaSession"></param>
+        /// <returns></returns>
         public static bool IsMyProject(this Project project, FirmaSession currentFirmaSession)
         {
-            return !currentFirmaSession.IsAnonymousUser() && (project.IsPersonThePrimaryContact(currentFirmaSession.Person) || currentFirmaSession.Person.Organization.IsMyProject(project) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
+            if (currentFirmaSession.IsAnonymousUser())
+            {
+                return false;
+            }
+
+            bool isPersonThePrimaryContact = project.IsPersonThePrimaryContact(currentFirmaSession.Person);
+            bool isProjectInPersonsOrganization = currentFirmaSession.Person.Organization.IsMyProject(project);
+            bool userHasProjectStewardPermissionsForProject = currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project));
+
+            bool isUsersProject = isPersonThePrimaryContact || isProjectInPersonsOrganization || userHasProjectStewardPermissionsForProject;
+
+            return isUsersProject;
         }
 
         public static bool IsMyProject(this vProjectDetail projectDetail, FirmaSession currentFirmaSession)
@@ -475,8 +492,10 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession, vProjectDetail projectDetail, string projectLabel, bool hasPermissionBySession)
         {
+            bool userCanDoProjectApproval = new ProjectApproveFeature().HasPermission(firmaSession, project, projectLabel, hasPermissionBySession).HasPermission;
+            bool userHasEditRightsToProject = projectDetail.IsMyProject(firmaSession);
 
-            return projectDetail.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project, projectLabel, hasPermissionBySession).HasPermission;
+            return userHasEditRightsToProject || userCanDoProjectApproval;
         }
 
         public static HtmlString GetDisplayNameAsUrl(this Project project) => UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName());

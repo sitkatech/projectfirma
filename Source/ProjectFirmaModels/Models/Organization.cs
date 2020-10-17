@@ -55,21 +55,49 @@ namespace ProjectFirmaModels.Models
             return DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(OrganizationBoundary, OrganizationType.OrganizationTypeName, OrganizationName);
         }
 
+        /// <summary>
+        /// Intended to mean Organization currently has full edit rights to Project
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public bool IsMyProject(Project project)
         {
-            return IsPrimaryContactOrganizationForProject(project) ||
-                   IsProjectStewardOrganizationForProject(project) ||
-                   IsProposingOrganization(project);
+            // Keep this function 100% aligned with IsMyProject(vProjectDetail projectDetail) for consistency!!!
+            bool thisOrgIsPrimaryContactOrganizationForProject = IsPrimaryContactOrganizationForProject(project);
+            bool thisOrgIsProjectStewardOrganizationForProject = IsProjectStewardOrganizationForProject(project);
+            bool projectPrimaryContactPersonIsInThisOrg = project.PrimaryContactPerson?.OrganizationID == OrganizationID;
+
+            bool thisOrgIsProposingOrganization = IsProposingOrganization(project);
+            bool projectIsInStageProposal = project.ProjectStage == ProjectStage.Proposal;
+            bool projectIsPendingProject = project.IsPendingProject();
+
+            bool isProposingOrganizationAndThisIsAProposalOrPendingProject = thisOrgIsProposingOrganization && (projectIsInStageProposal || projectIsPendingProject);
+
+            bool isMyProject =  thisOrgIsPrimaryContactOrganizationForProject ||
+                                thisOrgIsProjectStewardOrganizationForProject ||
+                                projectPrimaryContactPersonIsInThisOrg ||
+                                isProposingOrganizationAndThisIsAProposalOrPendingProject;
+            return isMyProject;
         }
 
+        // Keep this function 100% aligned with IsMyProject(Project project) for consistency!!!
         public bool IsMyProject(vProjectDetail projectDetail)
         {
-            var isLeadImplementingOrganizationForProject = projectDetail.PrimaryContactOrganizationID == OrganizationID;
-            var isProjectStewardOrganizationForProject = projectDetail.CanStewardProjectsOrganizationID == OrganizationID;
-            var isProposingOrganization = projectDetail.ProposingOrganizationID == OrganizationID;
-            return isLeadImplementingOrganizationForProject ||
-                   isProjectStewardOrganizationForProject ||
-                   isProposingOrganization;
+            bool thisOrgIsPrimaryContactOrganizationForProject = projectDetail.PrimaryContactOrganizationID == OrganizationID;
+            bool thisOrgIsProjectStewardOrganizationForProject = projectDetail.CanStewardProjectsOrganizationID == OrganizationID;
+            bool projectPrimaryContactPersonIsInThisOrg = projectDetail.PrimaryContactOrganizationID == OrganizationID;
+
+            bool thisOrgIsProposingOrganization = projectDetail.ProposingOrganizationID == OrganizationID;
+            bool projectIsInStageProposal = projectDetail.ProjectStageID == ProjectStage.Proposal.ProjectStageID;
+            bool projectIsPendingProject = Project.IsPendingProject(projectDetail.ProjectStageID, projectDetail.ProjectApprovalStatusID);
+
+            bool isProposingOrganizationAndThisIsAProposalOrPendingProject = thisOrgIsProposingOrganization && (projectIsInStageProposal || projectIsPendingProject);
+
+            bool isMyProject = thisOrgIsPrimaryContactOrganizationForProject ||
+                               thisOrgIsProjectStewardOrganizationForProject ||
+                               projectPrimaryContactPersonIsInThisOrg ||
+                               isProposingOrganizationAndThisIsAProposalOrPendingProject;
+            return isMyProject;
         }
 
         private bool IsProposingOrganization(Project project)
