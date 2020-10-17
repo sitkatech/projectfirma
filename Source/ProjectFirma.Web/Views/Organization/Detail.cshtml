@@ -1059,7 +1059,32 @@
                                     </div>
                                  </div>
                               </div>
-                           </div>
+
+                            @*Performance Measures*@
+                            <div class="col-lg-12">
+                                <div class="panel panelFirma">
+                                    <div class="panel-heading panelTitle">
+                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgPerformanceMeasuresUrl, string.Format("Edit {0}", FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
+                                        @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()
+                                    </div>
+                                    <div class="panel-body">
+                                        @if (!ViewDataTyped.Organization.MatchmakerOrganizationPerformanceMeasures.Any())
+                                        {
+                                            <p class="systemText">None selected</p>
+                                        }
+                                        else
+                                        {
+                                            <ul>
+                                                @foreach (var performanceMeasure in ViewDataTyped.Organization.MatchmakerOrganizationPerformanceMeasures)
+                                                {
+                                                    <li><a href="@performanceMeasure.PerformanceMeasure.GetSummaryUrl()" title="View @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() detail page">@performanceMeasure.PerformanceMeasure.GetDisplayName()</a></li>
+                                                }
+                                            </ul>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

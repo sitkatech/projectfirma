@@ -263,6 +263,10 @@
     <Compile Include="Models\Generated\MatchmakerOrganizationClassification.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\MatchmakerOrganizationClassificationConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\MatchmakerOrganizationClassificationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationPerformanceMeasure.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationPerformanceMeasure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationPerformanceMeasureConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerOrganizationPerformanceMeasurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyBranch.Binding.cs" />
     <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyBranch.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyBranchConfiguration.Binding.cs" />
@@ -824,6 +828,7 @@
     <Compile Include="Models\MatchMakerAreaOfInterestLocation.cs" />
     <Compile Include="Models\MatchmakerKeyword.cs" />
     <Compile Include="Models\MatchmakerKeyword.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\MatchmakerOrganizationPerformanceMeasure.cs" />
     <Compile Include="Models\MatchmakerOrganizationClassification.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyTrunk.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyBranch.cs" />
