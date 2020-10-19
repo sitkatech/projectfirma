@@ -65,7 +65,6 @@ namespace ProjectFirmaModels.Models
             // Keep this function 100% aligned with IsMyProject(vProjectDetail projectDetail) for consistency!!!
             bool thisOrgIsPrimaryContactOrganizationForProject = IsPrimaryContactOrganizationForProject(project);
             bool thisOrgIsProjectStewardOrganizationForProject = IsProjectStewardOrganizationForProject(project);
-            bool projectPrimaryContactPersonIsInThisOrg = project.PrimaryContactPerson?.OrganizationID == OrganizationID;
 
             bool thisOrgIsProposingOrganization = IsProposingOrganization(project);
             bool projectIsInStageProposal = project.ProjectStage == ProjectStage.Proposal;
@@ -75,7 +74,6 @@ namespace ProjectFirmaModels.Models
 
             bool isMyProject =  thisOrgIsPrimaryContactOrganizationForProject ||
                                 thisOrgIsProjectStewardOrganizationForProject ||
-                                projectPrimaryContactPersonIsInThisOrg ||
                                 isProposingOrganizationAndThisIsAProposalOrPendingProject;
             return isMyProject;
         }
@@ -85,7 +83,6 @@ namespace ProjectFirmaModels.Models
         {
             bool thisOrgIsPrimaryContactOrganizationForProject = projectDetail.PrimaryContactOrganizationID == OrganizationID;
             bool thisOrgIsProjectStewardOrganizationForProject = projectDetail.CanStewardProjectsOrganizationID == OrganizationID;
-            bool projectPrimaryContactPersonIsInThisOrg = projectDetail.PrimaryContactOrganizationID == OrganizationID;
 
             bool thisOrgIsProposingOrganization = projectDetail.ProposingOrganizationID == OrganizationID;
             bool projectIsInStageProposal = projectDetail.ProjectStageID == ProjectStage.Proposal.ProjectStageID;
@@ -95,7 +92,6 @@ namespace ProjectFirmaModels.Models
 
             bool isMyProject = thisOrgIsPrimaryContactOrganizationForProject ||
                                thisOrgIsProjectStewardOrganizationForProject ||
-                               projectPrimaryContactPersonIsInThisOrg ||
                                isProposingOrganizationAndThisIsAProposalOrPendingProject;
             return isMyProject;
         }
