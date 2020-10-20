@@ -38,8 +38,9 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string CurrentProjectStatus { get; set; }
         public string CurrentProjectStatusColor { get; set; }
         public string FinalStatusUpdateStatus { get; set; }
-
-
+        public List<ReportTemplatePerformanceMeasureActualModel> ReportedPerformanceMeasures { get; set; }
+        public List<ReportTemplatePerformanceMeasureExpectedModel> ExpectedPerformanceMeasures { get; set; }
+        
         public ReportTemplateProjectModel(Project project)
         {
             // Private properties
@@ -82,6 +83,19 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             {
                 FinalStatusUpdateStatus = finalProjectStatus;
             }
+
+            ReportedPerformanceMeasures = Project.PerformanceMeasureActuals.Select(x => new ReportTemplatePerformanceMeasureActualModel(x))
+                .OrderBy(x => x.PerformanceMeasureName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryOptionName)
+                .ThenByDescending(x => x.Year)
+                .ToList();
+
+            ExpectedPerformanceMeasures = Project.PerformanceMeasureExpecteds.Select(x => new ReportTemplatePerformanceMeasureExpectedModel(x))
+                .OrderBy(x => x.PerformanceMeasureName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryOptionName)
+                .ToList();
         }
 
         public List<ReportTemplateProjectContactModel> GetProjectContacts()
@@ -136,7 +150,6 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             return projectKeyPhoto != null ? new ReportTemplateProjectImageModel(projectKeyPhoto) : null;
         }
 
-
         public List<ReportTemplateProjectStatusModel> GetAllProjectStatusesFromTheLastWeek()
         {
             var lastMonday = GetStartOfWeek(DateTime.Now, DayOfWeek.Monday).AddDays(-7);
@@ -150,6 +163,5 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             int diff = dt.DayOfWeek - startOfWeek;
             return dt.AddDays(-1 * diff).Date;
         }
-
     }
 }

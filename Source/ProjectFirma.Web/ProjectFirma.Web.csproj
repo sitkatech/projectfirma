@@ -112,6 +112,8 @@
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="Models\TenantSimple.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplatePerformanceMeasureExpectedModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplatePerformanceMeasureActualModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplatePersonModel.cs" />
