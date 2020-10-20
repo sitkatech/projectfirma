@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -14,6 +15,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         private List<ProjectContact> ProjectContacts { get; set; }
         private List<ProjectOrganization> ProjectOrganizations { get; set; }
         private List<ProjectImage> ProjectImages { get; set; }
+        private List<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; set; }
 
 
         public string ProjectName { get; set; }
@@ -156,6 +158,14 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             var allProjectStatuses = Project.ProjectProjectStatuses.ToList();
             var filteredProjectStatuses = allProjectStatuses.Where(x => x.ProjectProjectStatusUpdateDate >= lastMonday);
             return filteredProjectStatuses.OrderByDescending(x => x.ProjectProjectStatusUpdateDate).Select(x => new ReportTemplateProjectStatusModel(x)).ToList();
+        }
+
+        public List<ReportTemplateTechnicalAssistanceRequestModel> GetTechnicalAssistanceRequests()
+        {
+            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
+            return Project.TechnicalAssistanceRequests.Select(x => new ReportTemplateTechnicalAssistanceRequestModel(x, technicalAssistanceParameters))
+                .OrderByDescending(x => x.FiscalYear)
+                .ToList();
         }
 
         private DateTime GetStartOfWeek(DateTime dt, DayOfWeek startOfWeek)
