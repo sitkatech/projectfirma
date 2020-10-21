@@ -22,6 +22,7 @@
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
+@using MoreLinq
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -31,18 +32,79 @@
 @section JavascriptAndStylesContent
 {
     <script src="@Url.Content("~/Content/combo-tree/comboTreePlugin.js")" type="text/javascript"></script>
-    <link href="@Url.Content("~/Content/combo-tree/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/combo-tree/style.css")" rel="stylesheet" type="text/css"/>
+
 }
+
+<style>
+    .comboTreeDropDownContainer{
+        display: block !important; 
+        max-height: 450px;
+    }
+
+    .comboTreeInputWrapper {
+        display: none !important;
+    }
+
+    .topLevelTaxonomy {
+        font-weight: bold;
+    }
+
+    ul {
+        list-style: none;
+    }
+</style>
+
+<p>
+    <div>
+        Select the items below that are most relevant to your organization. The Matchmaker service will find @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() aligned with your selections.
+    </div>
+</p>
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal" style="height: 350px">
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomySystemName.ToType())
+    <div class="form-horizontal" style="height: 500px">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" id="taxonomySelector" placeholder="Select" autocomplete="off">
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-9">
-                <input type="text" id="taxonomySelector" placeholder="Select" autocomplete="off">
+            <div class="col-xs-6" style="margin-top: 30px">
+                <label>Selected Items</label>
+                <p class="systemText" style="display: none" id="noneSelectedText">None selected</p>
+                <div id="selectedItemsDisplayTree" style="max-height: 415px; overflow-y: scroll;">
+                    @foreach (var treeNode in ViewDataTyped.TopLevelTaxonomyTierAsComboTreeNodes)
+                    {
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li id="@treeNode.Key" class="topLevelTaxonomy taxonomyItem @(treeNode.SubNodes != null && treeNode.SubNodes.Count > 0 ? treeNode.SubNodes.Select(x => "parent" + x.Key).ToDelimitedString(" ") : "")">@treeNode.Title</li>
+                            @if (treeNode.SubNodes != null && treeNode.SubNodes.Count > 0)
+                            {
+                                <li style="list-style: none;">
+                                    <ul>
+                                        @foreach (var subNode in treeNode.SubNodes)
+                                        {
+                                            <li style="list-style: disc;" id="@subNode.Key" class="taxonomyItem @(subNode.SubNodes != null && subNode.SubNodes.Count > 0 ? subNode.SubNodes.Select(x => "parent" + x.Key).ToDelimitedString(" ") : "")">@subNode.Title</li>
+                                            if (subNode.SubNodes != null && subNode.SubNodes.Count > 0)
+                                            {
+                                                <li style="list-style-type: none;">
+                                                    <ul>
+                                                        @foreach (var subSubNode in subNode.SubNodes)
+                                                        {
+                                                            <li style="list-style: circle;" id="@subSubNode.Key" class="taxonomyItem">@subSubNode.Title</li>
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -56,12 +118,45 @@
         source: treeSources,
         isMultiple: true,
         selected: selectedNodes,
-        cascadeSelect: true
+        cascadeSelect: true,
+        collapse: true,
+        alwaysOpen: true,
+        expandTopLevel: true
     });
+
+    // hide all, then show the selected items
+    jQuery("#selectedItemsDisplayTree .taxonomyItem").hide();
+    if (comboTreeInstance.getSelectedIds() != null && comboTreeInstance.getSelectedIds().length > 0) {
+        comboTreeInstance.getSelectedIds().forEach(function (selectedID) {
+            jQuery("#noneSelectedText").hide();
+            jQuery("#" + selectedID).show();
+            jQuery(".parent" + selectedID).show();
+        });
+    }
+    else {
+        jQuery("#noneSelectedText").show();
+        // hide selectedItemsDisplayTree so there isn't a tiny scrollbar displayed for an empty div
+        jQuery("#selectedItemsDisplayTree").hide();
+        
+    }
+
 
     comboTreeInstance.onChange(function(event) {
         if (comboTreeInstance.getSelectedIds() != null && comboTreeInstance.getSelectedIds().length > 0) {
             $('#taxonomySelector').val("" + comboTreeInstance.getSelectedIds().length + " selected");
+            // make sure selectedItemsDisplayTree div is showing
+            jQuery("#selectedItemsDisplayTree").show();
+            jQuery("#selectedItemsDisplayTree .taxonomyItem").hide();
+            comboTreeInstance.getSelectedIds().forEach(function (selectedID) {
+                jQuery("#noneSelectedText").hide();
+                jQuery("#" + selectedID).show();
+                jQuery(".parent" + selectedID).show();
+            });
+        } else {
+            jQuery("#selectedItemsDisplayTree .taxonomyItem").hide();
+            // hide selectedItemsDisplayTree so there isn't a tiny scrollbar displayed for an empty div
+            jQuery("#selectedItemsDisplayTree").hide();
+            jQuery("#noneSelectedText").show();
         }
     });
 
@@ -78,6 +173,6 @@
         if (selectedNodes.length > 0) {
             $('#taxonomySelector').val("" + selectedNodes.length + " selected");
         }
-        
+        jQuery("#" + comboTreeInstance.comboTreeId + "ComboTreeSourceUlmain").attr('style', 'max-height: 415px; overflow-y: scroll');
     });
 </script>
