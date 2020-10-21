@@ -26,6 +26,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web.Mvc;
+using log4net;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
@@ -45,6 +46,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class UserController : FirmaBaseController
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(SitkaSmtpClient));
 
         [UserEditFeature]
         public ViewResult Index()
@@ -412,8 +414,10 @@ namespace ProjectFirma.Web.Controllers
 
             var theSelectedOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(viewModel.OrganizationID);
             Check.EnsureNotNull(theSelectedOrganization);
-            if (theSelectedOrganization.OrganizationGuid == null)
+            bool organizationSelectedIsNotUnknownOrg = !theSelectedOrganization.IsUnknown();
+            if (organizationSelectedIsNotUnknownOrg && theSelectedOrganization.OrganizationGuid == null)
             {
+                // If we pick an Org, it must already be in Keystone, and so the local dbo.Organization must have a valid OrganizationGuid
                 ModelState.AddModelError("OrganizationID", $"Organization is not in Keystone");
             }
             else
@@ -437,8 +441,7 @@ namespace ProjectFirma.Web.Controllers
                 keystoneNewUserResponse = keystoneService.Invite(inviteModel);
                 if (keystoneNewUserResponse.StatusCode != HttpStatusCode.OK || keystoneNewUserResponse.Error != null)
                 {
-                    ModelState.AddModelError("Email",
-                        $"There was a problem inviting the user to Keystone: {keystoneNewUserResponse.Error.Message}.");
+                    ModelState.AddModelError("Email", $"There was a problem inviting the user to Keystone: {keystoneNewUserResponse.Error.Message}.");
                     if (keystoneNewUserResponse.Error.ModelState != null)
                     {
                         foreach (var modelStateKey in keystoneNewUserResponse.Error.ModelState.Keys)
@@ -448,6 +451,18 @@ namespace ProjectFirma.Web.Controllers
                                 ModelState.AddModelError(modelStateKey, err);
                             }
                         }
+                    }
+                }
+                else
+                {
+                    // Sanity check - did we get back the same Organization GUID we asked for?
+                    // (The GUID could also be null here, for the unknown org, but in that case we'll also get back null so this check is still valid.)
+                    var keystoneUserTmp = keystoneNewUserResponse.Payload.Claims;
+                    if (keystoneUserTmp.OrganizationGuid != inviteModel.OrganizationGuid)
+                    {
+                        string errorMessage = $"There was a problem with the Keystone Organization GUID Invited:{inviteModel.OrganizationGuid} Received back: {keystoneUserTmp.OrganizationGuid}. Please contact Sitka for assistance.";
+                        _logger.Error(errorMessage);
+                        ModelState.AddModelError("OrganizationID", errorMessage);
                     }
                 }
             }

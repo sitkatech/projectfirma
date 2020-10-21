@@ -138,13 +138,13 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var activeProjectStages = GetActiveProjectStages(project);
 
-            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
-            var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
-            var userHasProjectTimelinePermissions = new ProjectTimelineFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
-            var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
-            var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
-            var userHasStartUpdateWorkflowPermission = new ProjectStartUpdateWorkflowFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            bool userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            bool userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            bool userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            bool userHasProjectTimelinePermissions = new ProjectTimelineFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            bool userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            bool userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            bool userHasStartUpdateWorkflowPermission = new ProjectStartUpdateWorkflowFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
 
             var editProjectCustomAttributesUrl = SitkaRoute<ProjectCustomAttributesController>.BuildUrlFromExpression(c => c.EditProjectCustomAttributesForProject(project));
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
