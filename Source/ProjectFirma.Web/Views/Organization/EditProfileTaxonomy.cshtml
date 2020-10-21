@@ -75,7 +75,7 @@
             <div class="col-xs-6" style="margin-top: 30px">
                 <label>Selected Items</label>
                 <p class="systemText" style="display: none" id="noneSelectedText">None selected</p>
-                <div id="selectedItemsDisplayTree" style="max-height: 415px; overflow-y: scroll;">
+                <div id="selectedItemsDisplayTree" style="max-height: 415px; overflow-y: auto;">
                     @foreach (var treeNode in ViewDataTyped.TopLevelTaxonomyTierAsComboTreeNodes)
                     {
                         <ul style="list-style: none; padding-left: 0;">
@@ -135,17 +135,12 @@
     }
     else {
         jQuery("#noneSelectedText").show();
-        // hide selectedItemsDisplayTree so there isn't a tiny scrollbar displayed for an empty div
-        jQuery("#selectedItemsDisplayTree").hide();
-        
     }
 
 
     comboTreeInstance.onChange(function(event) {
         if (comboTreeInstance.getSelectedIds() != null && comboTreeInstance.getSelectedIds().length > 0) {
             $('#taxonomySelector').val("" + comboTreeInstance.getSelectedIds().length + " selected");
-            // make sure selectedItemsDisplayTree div is showing
-            jQuery("#selectedItemsDisplayTree").show();
             jQuery("#selectedItemsDisplayTree .taxonomyItem").hide();
             comboTreeInstance.getSelectedIds().forEach(function (selectedID) {
                 jQuery("#noneSelectedText").hide();
@@ -154,8 +149,6 @@
             });
         } else {
             jQuery("#selectedItemsDisplayTree .taxonomyItem").hide();
-            // hide selectedItemsDisplayTree so there isn't a tiny scrollbar displayed for an empty div
-            jQuery("#selectedItemsDisplayTree").hide();
             jQuery("#noneSelectedText").show();
         }
     });
@@ -173,6 +166,6 @@
         if (selectedNodes.length > 0) {
             $('#taxonomySelector').val("" + selectedNodes.length + " selected");
         }
-        jQuery("#" + comboTreeInstance.comboTreeId + "ComboTreeSourceUlmain").attr('style', 'max-height: 415px; overflow-y: scroll');
+        jQuery("#" + comboTreeInstance.comboTreeId + "ComboTreeSourceUlmain").attr('style', 'max-height: 415px; overflow-y: auto');
     });
 </script>
