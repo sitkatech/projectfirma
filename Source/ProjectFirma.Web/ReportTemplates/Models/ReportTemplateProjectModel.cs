@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -14,6 +15,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         private List<ProjectContact> ProjectContacts { get; set; }
         private List<ProjectOrganization> ProjectOrganizations { get; set; }
         private List<ProjectImage> ProjectImages { get; set; }
+        private List<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; set; }
 
 
         public string ProjectName { get; set; }
@@ -38,8 +40,8 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string CurrentProjectStatus { get; set; }
         public string CurrentProjectStatusColor { get; set; }
         public string FinalStatusUpdateStatus { get; set; }
-
-
+       
+        
         public ReportTemplateProjectModel(Project project)
         {
             // Private properties
@@ -82,6 +84,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             {
                 FinalStatusUpdateStatus = finalProjectStatus;
             }
+
         }
 
         public List<ReportTemplateProjectContactModel> GetProjectContacts()
@@ -136,7 +139,6 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             return projectKeyPhoto != null ? new ReportTemplateProjectImageModel(projectKeyPhoto) : null;
         }
 
-
         public List<ReportTemplateProjectStatusModel> GetAllProjectStatusesFromTheLastWeek()
         {
             var lastMonday = GetStartOfWeek(DateTime.Now, DayOfWeek.Monday).AddDays(-7);
@@ -145,11 +147,37 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             return filteredProjectStatuses.OrderByDescending(x => x.ProjectProjectStatusUpdateDate).Select(x => new ReportTemplateProjectStatusModel(x)).ToList();
         }
 
+        public List<ReportTemplateProjectReportedPerformanceMeasureModel> GetProjectReportedPerformanceMeasures()
+        {
+            return Project.PerformanceMeasureActuals.Select(x => new ReportTemplateProjectReportedPerformanceMeasureModel(x))
+                .OrderBy(x => x.PerformanceMeasureName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryOptionName)
+                .ThenByDescending(x => x.Year)
+                .ToList();
+        }
+
+        public List<ReportTemplateProjectExpectedPerformanceMeasureModel> GetProjectExpectedPerformanceMeasures()
+        {
+            return Project.PerformanceMeasureExpecteds.Select(x => new ReportTemplateProjectExpectedPerformanceMeasureModel(x))
+                .OrderBy(x => x.PerformanceMeasureName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryOptionName)
+                .ToList();
+        }
+
+        public List<ReportTemplateProjectTechnicalAssistanceRequestModel> GetProjectTechnicalAssistanceRequests()
+        {
+            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
+            return Project.TechnicalAssistanceRequests.Select(x => new ReportTemplateProjectTechnicalAssistanceRequestModel(x, technicalAssistanceParameters))
+                .OrderByDescending(x => x.FiscalYear)
+                .ToList();
+        }
+
         private DateTime GetStartOfWeek(DateTime dt, DayOfWeek startOfWeek)
         {
             int diff = dt.DayOfWeek - startOfWeek;
             return dt.AddDays(-1 * diff).Date;
         }
-
     }
 }
