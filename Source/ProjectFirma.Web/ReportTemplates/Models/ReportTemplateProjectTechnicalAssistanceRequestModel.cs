@@ -6,7 +6,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.ReportTemplates.Models
 {
-    public class ReportTemplateTechnicalAssistanceRequestModel
+    public class ReportTemplateProjectTechnicalAssistanceRequestModel
     {
         public int FiscalYear { get; set; }
         public ReportTemplatePersonModel AssignedPerson { get; set; }
@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public decimal DollarValueDecimal { get; set; }
         public string DollarValueString { get; set; }
 
-        public ReportTemplateTechnicalAssistanceRequestModel(TechnicalAssistanceRequest technicalAssistanceRequest,
+        public ReportTemplateProjectTechnicalAssistanceRequestModel(TechnicalAssistanceRequest technicalAssistanceRequest,
             List<TechnicalAssistanceParameter> assistanceParameters)
         {
             FiscalYear = technicalAssistanceRequest.FiscalYear;

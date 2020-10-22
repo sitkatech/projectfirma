@@ -5,7 +5,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.ReportTemplates.Models
 {
-    public class ReportTemplatePerformanceMeasureActualModel : ReportTemplateBaseModel
+    public class ReportTemplateProjectReportedPerformanceMeasureModel : ReportTemplateBaseModel
     {
         private PerformanceMeasureActual PerformanceMeasureActual { get; set; }
         private Project Project { get; }
@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
 
 
-        public ReportTemplatePerformanceMeasureActualModel(PerformanceMeasureActual performanceMeasureActual)
+        public ReportTemplateProjectReportedPerformanceMeasureModel(PerformanceMeasureActual performanceMeasureActual)
         {
             PerformanceMeasureActual = performanceMeasureActual;
             Project = performanceMeasureActual.Project;

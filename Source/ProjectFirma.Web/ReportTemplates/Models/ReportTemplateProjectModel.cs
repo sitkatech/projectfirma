@@ -40,8 +40,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string CurrentProjectStatus { get; set; }
         public string CurrentProjectStatusColor { get; set; }
         public string FinalStatusUpdateStatus { get; set; }
-        public List<ReportTemplatePerformanceMeasureActualModel> ReportedPerformanceMeasures { get; set; }
-        public List<ReportTemplatePerformanceMeasureExpectedModel> ExpectedPerformanceMeasures { get; set; }
+       
         
         public ReportTemplateProjectModel(Project project)
         {
@@ -86,18 +85,6 @@ namespace ProjectFirma.Web.ReportTemplates.Models
                 FinalStatusUpdateStatus = finalProjectStatus;
             }
 
-            ReportedPerformanceMeasures = Project.PerformanceMeasureActuals.Select(x => new ReportTemplatePerformanceMeasureActualModel(x))
-                .OrderBy(x => x.PerformanceMeasureName)
-                .ThenBy(x => x.PerformanceMeasureSubcategoryName)
-                .ThenBy(x => x.PerformanceMeasureSubcategoryOptionName)
-                .ThenByDescending(x => x.Year)
-                .ToList();
-
-            ExpectedPerformanceMeasures = Project.PerformanceMeasureExpecteds.Select(x => new ReportTemplatePerformanceMeasureExpectedModel(x))
-                .OrderBy(x => x.PerformanceMeasureName)
-                .ThenBy(x => x.PerformanceMeasureSubcategoryName)
-                .ThenBy(x => x.PerformanceMeasureSubcategoryOptionName)
-                .ToList();
         }
 
         public List<ReportTemplateProjectContactModel> GetProjectContacts()
@@ -160,10 +147,29 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             return filteredProjectStatuses.OrderByDescending(x => x.ProjectProjectStatusUpdateDate).Select(x => new ReportTemplateProjectStatusModel(x)).ToList();
         }
 
-        public List<ReportTemplateTechnicalAssistanceRequestModel> GetTechnicalAssistanceRequests()
+        public List<ReportTemplateProjectReportedPerformanceMeasureModel> GetProjectReportedPerformanceMeasures()
+        {
+            return Project.PerformanceMeasureActuals.Select(x => new ReportTemplateProjectReportedPerformanceMeasureModel(x))
+                .OrderBy(x => x.PerformanceMeasureName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryOptionName)
+                .ThenByDescending(x => x.Year)
+                .ToList();
+        }
+
+        public List<ReportTemplateProjectExpectedPerformanceMeasureModel> GetProjectExpectedPerformanceMeasures()
+        {
+            return Project.PerformanceMeasureExpecteds.Select(x => new ReportTemplateProjectExpectedPerformanceMeasureModel(x))
+                .OrderBy(x => x.PerformanceMeasureName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryName)
+                .ThenBy(x => x.PerformanceMeasureSubcategoryOptionName)
+                .ToList();
+        }
+
+        public List<ReportTemplateProjectTechnicalAssistanceRequestModel> GetProjectTechnicalAssistanceRequests()
         {
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            return Project.TechnicalAssistanceRequests.Select(x => new ReportTemplateTechnicalAssistanceRequestModel(x, technicalAssistanceParameters))
+            return Project.TechnicalAssistanceRequests.Select(x => new ReportTemplateProjectTechnicalAssistanceRequestModel(x, technicalAssistanceParameters))
                 .OrderByDescending(x => x.FiscalYear)
                 .ToList();
         }
