@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
         {
             OrganizationID = organization.OrganizationID;
             OrganizationName = organization.OrganizationName;
-            OrganizationGuid = organization.OrganizationGuid;
+            OrganizationGuid = organization.KeystoneOrganizationGuid;
             OrganizationShortName = organization.OrganizationShortName;
             OrganizationTypeID = organization.OrganizationTypeID;
             OrganizationTypeName = organization.OrganizationType.OrganizationTypeName;

@@ -415,7 +415,7 @@ namespace ProjectFirma.Web.Controllers
             var theSelectedOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(viewModel.OrganizationID);
             Check.EnsureNotNull(theSelectedOrganization);
             bool organizationSelectedIsNotUnknownOrg = !theSelectedOrganization.IsUnknown();
-            if (organizationSelectedIsNotUnknownOrg && theSelectedOrganization.OrganizationGuid == null)
+            if (organizationSelectedIsNotUnknownOrg && theSelectedOrganization.KeystoneOrganizationGuid == null)
             {
                 // If we pick an Org, it must already be in Keystone, and so the local dbo.Organization must have a valid OrganizationGuid
                 ModelState.AddModelError("OrganizationID", $"Organization is not in Keystone");
@@ -433,7 +433,7 @@ namespace ProjectFirma.Web.Controllers
                         $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
                     RedirectURL = homeUrl,
                     SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {primaryContactFullName} at {primaryContactOrganizationName} ({primaryContactEmail})",
-                    OrganizationGuid = theSelectedOrganization.OrganizationGuid,
+                    OrganizationGuid = theSelectedOrganization.KeystoneOrganizationGuid,
                     SignatureBlock = $"The {toolDisplayName} team"
                 };
 
@@ -504,7 +504,7 @@ namespace ProjectFirma.Web.Controllers
             if (organizationGuid.HasValue)
             {
                 organization =
-                    HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationGuid(organizationGuid
+                    HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByKeystoneOrganizationGuid(organizationGuid
                         .Value);
 
                 if (organization == null)
@@ -520,7 +520,7 @@ namespace ProjectFirma.Web.Controllers
                     var firmaOrganization =
                         new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault, false)
                         {
-                            OrganizationGuid = keystoneOrganization.OrganizationGuid,
+                            KeystoneOrganizationGuid = keystoneOrganization.OrganizationGuid,
                             OrganizationShortName = keystoneOrganization.ShortName,
                             OrganizationUrl = keystoneOrganization.URL
                         };

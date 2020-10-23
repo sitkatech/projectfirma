@@ -1,6 +1,6 @@
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName])
 VALUES
-(366, N'OrganizationKeystoneGuid', N'Organization Keystone GUID')
+(366, N'OrganizationKeystoneGuid', N'Keystone Organization GUID')
 
 INSERT [dbo].[FieldDefinitionDefault] ([FieldDefinitionID], [DefaultDefinition])
 VALUES

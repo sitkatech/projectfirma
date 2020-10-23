@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
             : this()
         {
             OrganizationID = organizationID;
-            OrganizationGuid = organizationGuid;
+            KeystoneOrganizationGuid = organizationGuid;
             OrganizationName = organizationName;
             OrganizationShortName = organizationShortName;
             OrganizationTypeID = organizationTypeId;
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
             : this()
         {
             OrganizationID = organization.OrganizationID;
-            OrganizationGuid = organization.OrganizationGuid;
+            KeystoneOrganizationGuid = organization.KeystoneOrganizationGuid;
             OrganizationName = organization.OrganizationName;
             OrganizationShortName = organization.OrganizationShortName;
             OrganizationTypeID = organization.OrganizationTypeID;
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public int OrganizationID { get; set; }
-        public Guid? OrganizationGuid { get; set; }
+        public Guid? KeystoneOrganizationGuid { get; set; }
         public string OrganizationName { get; set; }
         public string OrganizationShortName { get; set; }
         public int OrganizationTypeID { get; set; }

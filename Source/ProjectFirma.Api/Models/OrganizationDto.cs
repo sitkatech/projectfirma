@@ -10,7 +10,7 @@ namespace ProjectFirma.Api.Models
         {
             OrganizationID = organization.OrganizationID;
             OrganizationName = organization.OrganizationName;
-            OrganizationGuid = organization.OrganizationGuid;
+            OrganizationGuid = organization.KeystoneOrganizationGuid;
             OrganizationShortName = organization.OrganizationShortName;
             OrganizationTypeID = organization.OrganizationTypeID;
             OrganizationTypeName = organization.OrganizationType != null ? organization.OrganizationType.OrganizationTypeName : string.Empty; // Organization type won't be available if object is unsaved

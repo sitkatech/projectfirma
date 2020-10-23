@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, true, null);
+                return ViewEdit(viewModel, false, null);
             }
             var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID, Organization.UseOrganizationBoundaryForMatchmakerDefault, false);
             viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
@@ -157,7 +157,7 @@ namespace ProjectFirma.Web.Controllers
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             string requestOrganizationChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange());
-            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, requestOrganizationChangeUrl, isSitkaAdmin, userHasAdminPermissions, viewModel.OrganizationGuid);
+            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, requestOrganizationChangeUrl, isSitkaAdmin, userHasAdminPermissions, viewModel.KeystoneOrganizationGuid);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -869,11 +869,11 @@ namespace ProjectFirma.Web.Controllers
 
             var keystoneClient = new KeystoneDataClient();
 
-            var organizationGuid = viewModel.OrganizationGuid.Value;
+            var keystoneOrganizationGuid = viewModel.KeystoneOrganizationGuid.Value;
             KeystoneDataService.Organization keystoneOrganization;
             try
             {
-                keystoneOrganization = keystoneClient.GetOrganization(organizationGuid);
+                keystoneOrganization = keystoneClient.GetOrganization(keystoneOrganizationGuid);
             }
             catch (Exception)
             {
@@ -881,7 +881,7 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
 
-            var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == organizationGuid);
+            var firmaOrganization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.KeystoneOrganizationGuid == keystoneOrganizationGuid);
             if (firmaOrganization != null)
             {
                 SetErrorForDisplay("This organization already exists in ProjectFirma. Go to the organization’s basics editor to sync its information with Keystone.");
@@ -891,7 +891,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
             firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault, false)
             {
-                OrganizationGuid = keystoneOrganization.OrganizationGuid,
+                KeystoneOrganizationGuid = keystoneOrganization.OrganizationGuid,
                 OrganizationShortName = keystoneOrganization.ShortName,
                 OrganizationUrl = keystoneOrganization.URL
             };
