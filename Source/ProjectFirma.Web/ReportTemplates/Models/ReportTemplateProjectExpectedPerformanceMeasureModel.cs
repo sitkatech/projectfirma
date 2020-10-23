@@ -22,8 +22,16 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             Value = performanceMeasureExpected.ExpectedValue;
             UnitType = performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType.LegendDisplayName;
             PerformanceMeasureName = performanceMeasureExpected.PerformanceMeasure.PerformanceMeasureDisplayName;
-            PerformanceMeasureSubcategoryName = performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions?.FirstOrDefault(x => x.PerformanceMeasureExpectedID == performanceMeasureExpected.PerformanceMeasureExpectedID)?.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName ?? String.Empty;
-            PerformanceMeasureSubcategoryOptionName = performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions?.FirstOrDefault(x => x.PerformanceMeasureExpectedID == performanceMeasureExpected.PerformanceMeasureExpectedID)?.GetPerformanceMeasureSubcategoryOptionName() ?? String.Empty;
+
+            var performanceMeasureSubcategoryName = performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions?.FirstOrDefault(x => x.PerformanceMeasureExpectedID == performanceMeasureExpected.PerformanceMeasureExpectedID)?.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName ?? String.Empty;
+            PerformanceMeasureSubcategoryName = performanceMeasureSubcategoryName != "Default"
+                ? performanceMeasureSubcategoryName
+                : String.Empty;
+
+            var performanceMeasureSubcategoryOptionName = performanceMeasureExpected.PerformanceMeasureExpectedSubcategoryOptions?.FirstOrDefault(x => x.PerformanceMeasureExpectedID == performanceMeasureExpected.PerformanceMeasureExpectedID)?.GetPerformanceMeasureSubcategoryOptionName() ?? String.Empty;
+            PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName != "Default"
+                ? performanceMeasureSubcategoryOptionName
+                : String.Empty;
         }
     }
 }
