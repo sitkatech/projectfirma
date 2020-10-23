@@ -1,0 +1,51 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+
+@using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ProjectFinder.Index
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+   
+}
+
+<div style="padding-top: 10px;">
+    <p>The @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() listed below may be associated with @ViewDataTyped.Organization.GetDisplayName() by one or all of the following: @FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel(), @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabel(),  @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(), or @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel().</p>
+    <p>Use the filters below to search for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by type, or click a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s name to see more details. Selecting a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from the grid will display the results in the map.</p>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        @Html.DhtmlxGrid(ViewDataTyped.ProjectFinderGridSpec, ViewDataTyped.ProjectFinderGridName, ViewDataTyped.ProjectFinderGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    </div>
+    <div class="col-md-5">
+        <p>Map goes here</p>
+    </div>
+</div>
+

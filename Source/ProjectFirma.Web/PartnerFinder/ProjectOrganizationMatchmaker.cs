@@ -19,11 +19,15 @@ namespace ProjectFirma.Web.PartnerFinder
         public Organization Organization { get; }
         public double PartnerOrganizationFitnessScoreNumber { get; }
         public List<string> ScoreInsightMessages { get; }
+        public Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight> ScoreInsightDictionary { get; }
+
 
         public PartnerOrganizationMatchMakerScore(Project project,
-                                                  Organization organization,
-                                                  double partnerOrganizationFitnessScoreNumber,
-                                                  List<string> scoreInsightMessages)
+            Organization organization,
+            double partnerOrganizationFitnessScoreNumber,
+            List<string> scoreInsightMessages,
+            Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType,
+                MatchMakerScoreSubScoreInsight> scoreInsightDictionary)
         {
             Check.EnsureNotNull(project);
             Check.EnsureNotNull(project);
@@ -33,6 +37,7 @@ namespace ProjectFirma.Web.PartnerFinder
             this.Organization = organization;
             this.PartnerOrganizationFitnessScoreNumber = partnerOrganizationFitnessScoreNumber;
             this.ScoreInsightMessages = scoreInsightMessages;
+            this.ScoreInsightDictionary = scoreInsightDictionary;
         }
 
         public string GetProjectOrganizationMatchString()
@@ -54,8 +59,10 @@ namespace ProjectFirma.Web.PartnerFinder
     public class ProjectOrganizationMatchmaker
     {
         public double GetPartnerOrganizationFitnessScoreNumber(Project project,
-                                                               Organization organization, 
-                                                               ref List<String> matchInsightStrings)
+            Organization organization,
+            ref List<string> matchInsightStrings,
+            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+                scoreInsightDictionary)
         {
             // Preconditions
             Check.EnsureNotNull(project);
@@ -72,15 +79,15 @@ namespace ProjectFirma.Web.PartnerFinder
             List<double> subScores = new List<double>();
 
             // Taxonomy SubScore
-            CalculateTaxonomySubScore(project, organization, ref subScores, ref matchInsightStrings);
+            CalculateTaxonomySubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
             // Organization Area of Interest SubScore
-            CalculateOrganizationAreaOfInterestSubScore(project, organization, ref subScores, ref matchInsightStrings);
+            CalculateOrganizationAreaOfInterestSubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
             // Keywords SubScore
-            CalculateOrganizationMatchmakerKeywordSubScore(project, organization, ref subScores, ref matchInsightStrings);
+            CalculateOrganizationMatchmakerKeywordSubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
             // Classifications SubScore
-            CalculateOrganizationMatchmakerClassificationSubScore(project, organization, ref subScores, ref matchInsightStrings);
+            CalculateOrganizationMatchmakerClassificationSubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
             // Performance Measure SubScore
-            CalculateOrganizationMatchmakerPerformanceMeasureSubScore(project, organization, ref subScores, ref matchInsightStrings);
+            CalculateOrganizationMatchmakerPerformanceMeasureSubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
 
             // Calculate final score from sub-scores
             double scoreToReturn = CalculateFinalScoreFromSubScores(subScores);
@@ -110,9 +117,11 @@ namespace ProjectFirma.Web.PartnerFinder
         }
 
         private static void CalculateTaxonomySubScore(Project project,
-                                                      Organization organization,
-                                                      ref List<double> subScores,
-                                                      ref List<string> matchInsightStrings)
+            Organization organization,
+            ref List<double> subScores,
+            ref List<string> matchInsightStrings,
+            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+                scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
 
@@ -157,8 +166,10 @@ namespace ProjectFirma.Web.PartnerFinder
             if (taxonomySubScore > 0)
             {
                 localMatchInsights.Insert(0, $"Taxonomy SubScore = {taxonomySubScore:0.0}: ");
-                matchInsightStrings.AddRange(localMatchInsights);
             }
+
+            matchInsightStrings.AddRange(localMatchInsights);
+            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem, new MatchMakerScoreSubScoreInsight(taxonomySubScore, localMatchInsights));
 
             CheckEnsureScoreInValidRange(taxonomySubScore);
             subScores.Add(taxonomySubScore);
@@ -167,7 +178,9 @@ namespace ProjectFirma.Web.PartnerFinder
         private static void CalculateOrganizationMatchmakerClassificationSubScore(Project project,
             Organization organization,
             ref List<double> subScores,
-            ref List<string> matchInsightStrings)
+            ref List<string> matchInsightStrings,
+            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+                scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
             double classificationMatchScore = 0.0;
@@ -178,8 +191,13 @@ namespace ProjectFirma.Web.PartnerFinder
             if (organizationClassificationIDs.Any(x => projectClassificationIDs.Contains(x)))
             {
                 classificationMatchScore = 1.0;
+                localMatchInsights.Insert(0, $"Classification SubScore = {classificationMatchScore:0.0}: ");
             }
 
+            
+            matchInsightStrings.AddRange(localMatchInsights);
+            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification, new MatchMakerScoreSubScoreInsight(classificationMatchScore, localMatchInsights));
+            
             CheckEnsureScoreInValidRange(classificationMatchScore);
             subScores.Add(classificationMatchScore);
 
@@ -188,7 +206,9 @@ namespace ProjectFirma.Web.PartnerFinder
         private static void CalculateOrganizationMatchmakerPerformanceMeasureSubScore(Project project,
             Organization organization,
             ref List<double> subScores,
-            ref List<string> matchInsightStrings)
+            ref List<string> matchInsightStrings,
+            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+                scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
             double performanceMeasureMatchScore = 0.0;
@@ -203,17 +223,23 @@ namespace ProjectFirma.Web.PartnerFinder
             if (organizationPerformanceMeasureIDs.Any(x => performanceMeasureIDs.Contains(x)))
             {
                 performanceMeasureMatchScore = 1.0;
+                localMatchInsights.Insert(0, $"Performance Measure SubScore = {performanceMeasureMatchScore:0.0}: ");
             }
+
+            matchInsightStrings.AddRange(localMatchInsights);
+            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure, new MatchMakerScoreSubScoreInsight(performanceMeasureMatchScore, localMatchInsights));
 
             CheckEnsureScoreInValidRange(performanceMeasureMatchScore);
             subScores.Add(performanceMeasureMatchScore);
 
         }
 
-        private static void CalculateOrganizationAreaOfInterestSubScore(Project project, 
-                                                                        Organization organization,
-                                                                        ref List<double> subScores,
-                                                                        ref List<string> matchInsightStrings)
+        private static void CalculateOrganizationAreaOfInterestSubScore(Project project,
+            Organization organization,
+            ref List<double> subScores,
+            ref List<string> matchInsightStrings,
+            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+                scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
 
@@ -285,17 +311,20 @@ namespace ProjectFirma.Web.PartnerFinder
             if (areaOfInterestOverallScore > 0)
             {
                 localMatchInsights.Insert(0, $"Area of Interest SubScore = {areaOfInterestOverallScore:0.0}: ");
-                matchInsightStrings.AddRange(localMatchInsights);
             }
 
+            matchInsightStrings.AddRange(localMatchInsights);
+            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest, new MatchMakerScoreSubScoreInsight(areaOfInterestOverallScore, localMatchInsights));
             CheckEnsureScoreInValidRange(areaOfInterestOverallScore);
             subScores.Add(areaOfInterestOverallScore);
         }
 
         private static void CalculateOrganizationMatchmakerKeywordSubScore(Project project,
-                                                                       Organization organization,
-                                                                       ref List<double> subScores,
-                                                                       ref List<string> matchInsightStrings)
+            Organization organization,
+            ref List<double> subScores,
+            ref List<string> matchInsightStrings,
+            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+                scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
 
@@ -313,17 +342,22 @@ namespace ProjectFirma.Web.PartnerFinder
                 if (currentProjectName.Contains(currentOrgKeyword))
                 {
                     keywordProjectNameKeywordScore = 1.0;
+                    localMatchInsights.Add($"Keyword Project Name SubScore = {keywordProjectNameKeywordScore:0.0}: ");
                 }
 
                 if (currentProjectDescription.Contains(currentOrgKeyword))
                 {
                     keywordProjectDescriptionKeywordScore = 1.0;
+                    localMatchInsights.Add($"Keyword Project Description SubScore = {keywordProjectNameKeywordScore:0.0}: ");
                 }
             }
 
             // If any of the sub-sub scores are 1.0, the Keyword sub score returns 1.0. This could be refined if needed.
             var allSubScores = new List<double> { keywordProjectNameKeywordScore, keywordProjectDescriptionKeywordScore };
             double keywordOverallScore = allSubScores.Max();
+
+            matchInsightStrings.AddRange(localMatchInsights);
+            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword, new MatchMakerScoreSubScoreInsight(keywordOverallScore, localMatchInsights));
 
             CheckEnsureScoreInValidRange(keywordOverallScore);
             subScores.Add(keywordOverallScore);
@@ -352,10 +386,14 @@ namespace ProjectFirma.Web.PartnerFinder
                 foreach (var currentProject in projects)
                 {
                     List<String> scoreInsightStrings = new List<string>();
-                    var currentScore = GetPartnerOrganizationFitnessScoreNumber(currentProject, currentOrganization, ref scoreInsightStrings);
+                    Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+                        scoreInsightDictionary =
+                            new Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType,
+                                MatchMakerScoreSubScoreInsight>();
+                    var currentScore = GetPartnerOrganizationFitnessScoreNumber(currentProject, currentOrganization, ref scoreInsightStrings, ref scoreInsightDictionary);
                     if (currentScore >= matchScoreCutoff)
                     {
-                        PartnerOrganizationMatchMakerScore currentMatchMakerScore = new PartnerOrganizationMatchMakerScore(currentProject, currentOrganization, currentScore, scoreInsightStrings);
+                        PartnerOrganizationMatchMakerScore currentMatchMakerScore = new PartnerOrganizationMatchMakerScore(currentProject, currentOrganization, currentScore, scoreInsightStrings, scoreInsightDictionary);
                         scoresToReturn.Add(currentMatchMakerScore);
                     }
                 }
