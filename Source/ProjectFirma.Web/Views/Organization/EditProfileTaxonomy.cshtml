@@ -18,13 +18,8 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
-@using LtInfo.Common.Mvc
 @using MoreLinq
 @using Newtonsoft.Json.Linq
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Organization.EditProfileTaxonomy
@@ -37,13 +32,35 @@
 }
 
 <style>
-    .comboTreeDropDownContainer{
-        display: block !important; 
+    .comboTreeDropDownContainer {
+        display: block !important;
         max-height: 450px;
+        background: #fff;
+        border: none;
     }
+        .comboTreeDropDownContainer li span.comboTreeItemTitle.comboTreeItemHover {
+            background-color: #337ab7; /* same color as the active item in SitkaLeftRightListbox*/
+            color: #fff;
+        }
 
-    .comboTreeInputWrapper {
-        display: none !important;
+        .comboTreeDropDownContainer li:hover {
+            background-color: #f1f1f1; /* same hover color as SitkaLeftRightListbox */
+        }
+            .comboTreeDropDownContainer li:hover ul {
+                background-color: #fff; /* needed for IE */
+            }
+
+        .comboTreeInputWrapper {
+            display: none !important;
+        }
+
+    /* mimic styling of SitkaLeftRightListbox */
+    .sitka-listBox {
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        max-height: 415px;
+        min-height: 415px;
+        overflow-y: auto;
     }
 
     .topLevelTaxonomy {
@@ -68,18 +85,19 @@
             <div class="col-xs-6">
                 <div class="form-group">
                     <div class="col-sm-12">
+                        <label>Available Items</label>
                         <input type="text" id="taxonomySelector" placeholder="Select" autocomplete="off">
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6" style="margin-top: 30px">
+            <div class="col-xs-6" style="margin-top: 20px">
                 <label>Selected Items</label>
-                <p class="systemText" style="display: none" id="noneSelectedText">None selected</p>
-                <div id="selectedItemsDisplayTree" style="max-height: 415px; overflow-y: auto;">
+                <div id="selectedItemsDisplayTree" style="max-height: 415px; overflow-y: auto; margin-top: 20px">
+                    <p class="systemText" style="display: none; margin-top: 15px" id="noneSelectedText">None selected</p>
                     @foreach (var treeNode in ViewDataTyped.TopLevelTaxonomyTierAsComboTreeNodes)
                     {
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li id="@treeNode.Key" class="topLevelTaxonomy taxonomyItem @(treeNode.SubNodes != null && treeNode.SubNodes.Count > 0 ? treeNode.SubNodes.Select(x => "parent" + x.Key).ToDelimitedString(" ") : "")">@treeNode.Title</li>
+                        <ul style="list-style: none; padding-left: 0; margin-bottom: 0">
+                            <li id="@treeNode.Key" style="margin-top: 15px;" class="topLevelTaxonomy taxonomyItem @(treeNode.SubNodes != null && treeNode.SubNodes.Count > 0 ? treeNode.SubNodes.Select(x => "parent" + x.Key).ToDelimitedString(" ") : "")">@treeNode.Title</li>
                             @if (treeNode.SubNodes != null && treeNode.SubNodes.Count > 0)
                             {
                                 <li style="list-style: none;">
@@ -166,6 +184,8 @@
         if (selectedNodes.length > 0) {
             $('#taxonomySelector').val("" + selectedNodes.length + " selected");
         }
-        jQuery("#" + comboTreeInstance.comboTreeId + "ComboTreeSourceUlmain").attr('style', 'max-height: 415px; overflow-y: auto');
+        jQuery("#" + comboTreeInstance.comboTreeId + "ComboTreeSourceUlmain").attr('class', 'sitka-listBox');
+        // mimic styling of search bar in SitkaLeftRightListbox
+        jQuery("#" + comboTreeInstance.comboTreeId + "MultiFilter").attr('class', 'form-control');
     });
 </script>
