@@ -16,7 +16,6 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string PerformanceMeasureSubcategoryName { get; set; }
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
 
-
         public ReportTemplateProjectReportedPerformanceMeasureModel(PerformanceMeasureActual performanceMeasureActual)
         {
             PerformanceMeasureActual = performanceMeasureActual;
@@ -25,8 +24,16 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             UnitType = performanceMeasureActual.PerformanceMeasure.MeasurementUnitType.LegendDisplayName;
             Year = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
             PerformanceMeasureName = performanceMeasureActual.PerformanceMeasure.PerformanceMeasureDisplayName;
-            PerformanceMeasureSubcategoryName = performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions?.FirstOrDefault(x => x.PerformanceMeasureActualID == performanceMeasureActual.PerformanceMeasureActualID)?.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName ?? String.Empty;
-            PerformanceMeasureSubcategoryOptionName = performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions?.FirstOrDefault(x => x.PerformanceMeasureActualID == performanceMeasureActual.PerformanceMeasureActualID)?.GetPerformanceMeasureSubcategoryOptionName() ?? String.Empty;
+
+            var performanceMeasureSubcategoryName = performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions?.FirstOrDefault(x => x.PerformanceMeasureActualID == performanceMeasureActual.PerformanceMeasureActualID)?.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName ?? String.Empty;
+            PerformanceMeasureSubcategoryName = performanceMeasureSubcategoryName != "Default"
+                ? performanceMeasureSubcategoryName
+                : String.Empty;
+            
+            var performanceMeasureSubcategoryOptionName = performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions?.FirstOrDefault(x => x.PerformanceMeasureActualID == performanceMeasureActual.PerformanceMeasureActualID)?.GetPerformanceMeasureSubcategoryOptionName() ?? String.Empty;
+            PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName != "Default"
+                ? performanceMeasureSubcategoryOptionName
+                : String.Empty;
         }
     }
 }
