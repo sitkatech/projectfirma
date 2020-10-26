@@ -5,6 +5,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.PartnerFinder;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectFinder
 {
@@ -12,16 +13,14 @@ namespace ProjectFirma.Web.Views.ProjectFinder
     {
         public ProjectFinderGridSpec()
         {
-            //todo: all field definitions
-            Add("Match Score", x => x.PartnerOrganizationFitnessScoreNumber.ToString(), 50, DhtmlxGridColumnFilterType.Html);
-            Add("Project", x => x.Project.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => x.PartnerOrganizationFitnessScoreNumber.ToString(), 50, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), x => x.Project.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.Html);
             Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
-            Add("Keyword", x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword].Matched.ToYesNo(), 50, DhtmlxGridColumnFilterType.Html);
-            Add("Areas of Interest", x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest].Matched.ToYesNo(), 50, DhtmlxGridColumnFilterType.Html);
-            Add("Taxonomy", x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem].Matched.ToYesNo(), 50, DhtmlxGridColumnFilterType.Html);
-            Add("Classification", x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification].Matched.ToYesNo(), 50, DhtmlxGridColumnFilterType.Html);
-            Add("Performance Measure", x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure].Matched.ToYesNo(), 50, DhtmlxGridColumnFilterType.Html);
-            
+            Add(FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword].Matched.ToCheckboxImageOrEmptyForGrid(), 50, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest].Matched.ToCheckboxImageOrEmptyForGrid(), 50, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem].Matched.ToCheckboxImageOrEmptyForGrid(), 50, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification].Matched.ToCheckboxImageOrEmptyForGrid(), 50, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure].Matched.ToCheckboxImageOrEmptyForGrid(), 50, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
         }
     }
 }
