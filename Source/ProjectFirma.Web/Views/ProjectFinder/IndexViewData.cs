@@ -19,11 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.PartnerFinder;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectFinder
@@ -35,16 +38,25 @@ namespace ProjectFirma.Web.Views.ProjectFinder
         public string ProjectFinderGridDataUrl { get; }
         public ProjectFirmaModels.Models.Organization Organization { get; }
         public List<PartnerOrganizationMatchMakerScore> ProjectMatchMakerScoresForOrganization { get; }
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public Dictionary<string, List<ProjectMapLegendElement>> LegendFormats { get; }
 
         public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization,
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
-            ProjectFinderGridSpec projectFinderGridSpec) : base(currentFirmaSession)
+            ProjectFinderGridSpec projectFinderGridSpec, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentFirmaSession)
         {
+            ContainerFluid = true;
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder";
             ProjectFinderGridSpec = projectFinderGridSpec;
             ProjectFinderGridName = "projectFinderGrid";
             ProjectFinderGridDataUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(tc => tc.ProjectFinderGridFullJsonData());
             Organization = organization;
+
+
+            LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(MultiTenantHelpers.GetTopLevelTaxonomyTiers(), true);
+            ProjectLocationsMapInitJson = projectLocationsMapInitJson;
+
+
         }
     }
 }

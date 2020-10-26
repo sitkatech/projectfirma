@@ -74,6 +74,7 @@ namespace ProjectFirma.Web.Views
         public bool ShowTenantDropdown { get; }
         public bool ShowEnvironmentLabel { get; }
         public bool ShowEnvironmentDropdown { get; }
+        public bool ContainerFluid { get; set; }
 
         /// <summary>
         /// Call for page without associated FirmaPage
