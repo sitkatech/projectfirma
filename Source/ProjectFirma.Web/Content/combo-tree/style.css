@@ -161,3 +161,7 @@ span.comboTreeItemTitle {
     border-right: none;
     border-bottom: 1px solid var(--ct-border-color);
 }
+
+.comboTreeParentSubCount {
+    display: inline;
+}

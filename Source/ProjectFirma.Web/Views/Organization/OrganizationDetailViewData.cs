@@ -222,10 +222,10 @@ namespace ProjectFirma.Web.Views.Organization
 
             // If they have no permissions, just say "yes" or "no" if GUID set.
             // If they have manage permissions, show the GUID, otherwise "None". 
-            bool hasOrganizationKeystoneGuid = (organization.OrganizationGuid != null);
-            string hasOrganizationKeystoneGuidBooleanAsString = hasOrganizationKeystoneGuid.ToYesNo();
-            string organizationKeystoneGuidAsStringOrNone = hasOrganizationKeystoneGuid ? organization.OrganizationGuid.ToString() : "None";
-            OrganizationKeystoneGuidDisplayString = UserHasOrganizationManagePermissions ? organizationKeystoneGuidAsStringOrNone : hasOrganizationKeystoneGuidBooleanAsString;
+            bool hasKeystoneOrganizationGuid = (organization.KeystoneOrganizationGuid != null);
+            string hasKeystoneOrganizationGuidBooleanAsString = hasKeystoneOrganizationGuid.ToYesNo();
+            string organizationKeystoneGuidAsStringOrNone = hasKeystoneOrganizationGuid ? organization.KeystoneOrganizationGuid.ToString() : "None";
+            OrganizationKeystoneGuidDisplayString = UserHasOrganizationManagePermissions ? organizationKeystoneGuidAsStringOrNone : hasKeystoneOrganizationGuidBooleanAsString;
 
             PendingProjectsGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, true)

@@ -17,7 +17,9 @@
       cascadeSelect: false,
       selected: [],
       collapse: false,
-      selectableLastNode: false
+      selectableLastNode: false,
+      alwaysOpen: false,
+      expandTopLevel: false
     };
 
   // LIFE CYCLE
@@ -111,19 +113,19 @@
   };
 
   ComboTree.prototype.createFilterHTMLForMultiSelect = function (){
-    return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Type to filter"/>';
+    return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Search..."/>';
   }
 
-  ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId) {
-    var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl' + (parentId ? parentId : 'main' ) + '" style="' + ((this.options.collapse && parentId) ? 'display:none;' : '')  + '">';
+  ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId, expandSubs) {
+    var subItemsHtml = '<UL id="' + this.comboTreeId + 'ComboTreeSourceUl' + (parentId ? parentId : 'main' ) + '" style="' + ((this.options.collapse && parentId && !expandSubs) ? 'display:none;' : '')  + '">';
     for (var i=0; i<subItems.length; i++){
-      subItemsHtml += this.createSourceItemHTML(subItems[i]);
+      subItemsHtml += this.createSourceItemHTML(subItems[i], parentId == null);
     }
     subItemsHtml += '</UL>'
     return subItemsHtml;
   }
 
-  ComboTree.prototype.createSourceItemHTML = function (sourceItem) {
+  ComboTree.prototype.createSourceItemHTML = function (sourceItem, isSubOfTopLevel) {
     var itemHtml = "",
       isThereSubs = sourceItem.hasOwnProperty("subs");
     let isSelectable = (sourceItem.isSelectable === undefined ? true : sourceItem.isSelectable),
@@ -134,15 +136,19 @@
 
     if (isThereSubs)
 //          itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '<span class="mdi mdi-chevron-right-circle-outline"></span>' : '<span class="mdi mdi-chevron-down-circle-outline"></span>') + '</span>';
-          itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse ? '+' : '&minus;') + '</span>';
+          itemHtml += '<span class="comboTreeParentPlus">' + (this.options.collapse && (this.options.expandTopLevel && !isSubOfTopLevel || !this.options.expandTopLevel) ? '+' : '&minus;') + '</span>';
 
     if (this.options.isMultiple)
       itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + (!selectableLastNode && isSelectable ? '<input type="checkbox" />' : '') + sourceItem.title + '</span>';
     else
       itemHtml += '<span data-id="' + sourceItem.id + '" data-selectable="' + isSelectable + '" class="comboTreeItemTitle ' + selectableClass + '">' + sourceItem.title + '</span>';
 
+//      if (isThereSubs) {
+//          itemHtml += '<div class="comboTreeParentSubCount" style="' + (this.options.collapse && (this.options.expandTopLevel && !isSubOfTopLevel || !this.options.expandTopLevel) ? 'display:inline;' : 'display:none;') + '">' + ' (' + sourceItem.subs.length + ')' + '</div>';
+//      }
+
     if (isThereSubs)
-      itemHtml += this.createSourceSubItemsHTML(sourceItem.subs, sourceItem.id);
+      itemHtml += this.createSourceSubItemsHTML(sourceItem.subs, sourceItem.id, this.options.expandTopLevel && isSubOfTopLevel);
 
     itemHtml += '</LI>';
     return itemHtml;
@@ -283,31 +289,39 @@
   };
 
   ComboTree.prototype.closeDropDownMenu = function () {
-    $(this._elemDropDownContainer).slideUp(100);
+    if (!this.options.alwaysOpen) {
+        $(this._elemDropDownContainer).slideUp(100);
+    }
   };
 
   // Selection Tree Open/Close
   ComboTree.prototype.toggleSelectionTree = function (item, direction) {
     var subMenu = $(item).children('ul')[0];
     if (direction === undefined){
-      if ($(subMenu).is(':visible'))
-          //$(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-right-circle-outline"></span>');
-          $(item).children('span.comboTreeParentPlus').html("+");
-      else
-          //$(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-down-circle-outline"></span>');
-          $(item).children('span.comboTreeParentPlus').html("&minus;");
+        if ($(subMenu).is(':visible')) {
+            //$(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-right-circle-outline"></span>');
+            $(item).children('span.comboTreeParentPlus').html("+");
+            //$(item).children('div.comboTreeParentSubCount').show();
+        } else {
+            //$(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-down-circle-outline"></span>');
+            $(item).children('span.comboTreeParentPlus').html("&minus;");
+            //$(item).children('div.comboTreeParentSubCount').hide();
+        }
+
 
       $(subMenu).slideToggle(50);
     }
     else if (direction == 1 && !$(subMenu).is(':visible')){
         //$(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-down-circle-outline"></span>');
         $(item).children('span.comboTreeParentPlus').html("&minus;");
+        //$(item).children('div.comboTreeParentSubCount').hide();
       $(subMenu).slideDown(50);
     }
     else if (direction == -1){
       if ($(subMenu).is(':visible')){
           //$(item).children('span.comboTreeParentPlus').html('<span class="mdi mdi-chevron-right-circle-outline"></span>');
           $(item).children('span.comboTreeParentPlus').html("+");
+          //$(item).children('div.comboTreeParentSubCount').show();
         $(subMenu).slideUp(50);
       }
       else {

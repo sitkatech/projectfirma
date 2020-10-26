@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Organization
                 peopleDictionary.ContainsKey(a.OrganizationID) ? peopleDictionary[a.OrganizationID].Count : 0, 90);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmptyForGrid(), 70, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Has Keystone GUID", x => (x.OrganizationGuid != null).ToCheckboxImageOrEmptyForGrid(), 70, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Has Keystone GUID", x => (x.KeystoneOrganizationGuid != null).ToCheckboxImageOrEmptyForGrid(), 70, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
 
             if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
             {

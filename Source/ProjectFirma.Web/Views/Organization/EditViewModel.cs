@@ -27,6 +27,7 @@ using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.KeystoneDataService;
@@ -67,7 +68,7 @@ namespace ProjectFirma.Web.Views.Organization
         public HttpPostedFileBase LogoFileResourceData { get; set; }
 
         [DisplayName("Keystone Organization Guid")]
-        public Guid? OrganizationGuid { get; set; }
+        public Guid? KeystoneOrganizationGuid { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -85,7 +86,7 @@ namespace ProjectFirma.Web.Views.Organization
             PrimaryContactPersonID = organization.PrimaryContactPerson?.PersonID;
             OrganizationUrl = organization.OrganizationUrl;
             IsActive = organization.IsActive;
-            OrganizationGuid = organization.OrganizationGuid;
+            KeystoneOrganizationGuid = organization.KeystoneOrganizationGuid;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Organization organization, FirmaSession currentFirmaSession, DatabaseEntities databaseEntities)
@@ -107,7 +108,7 @@ namespace ProjectFirma.Web.Views.Organization
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (isSitkaAdmin)
             {
-                organization.OrganizationGuid = OrganizationGuid;
+                organization.KeystoneOrganizationGuid = KeystoneOrganizationGuid;
             }
 
         }
@@ -115,11 +116,37 @@ namespace ProjectFirma.Web.Views.Organization
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
+            
+            bool isNewOrganization = this.OrganizationID <= 0;
+
+            // If New organization, make sure Org name not already taken by existing Org
+            if (isNewOrganization)
+            {
+                var existingOrg = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(o => o.OrganizationName.ToLower() == this.OrganizationName.ToLower());
+                if (existingOrg != null)
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, string>($"There is already an Organization named {this.OrganizationName}.", x => x.OrganizationName));
+                }
+            }
+            else
+            // If Existing Organization being edited, and name is being changed, make sure Org name not already taken by other Org
+            {
+                var existingOrgWithCurrentID = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(o => o.OrganizationID == this.OrganizationID);
+                Check.EnsureNotNull(existingOrgWithCurrentID, $"Was expecting to find existing record for Organization with OrganizationID {this.OrganizationID}; please contact Sitka support");
+                bool organizationNameIsBeingChanged = existingOrgWithCurrentID.OrganizationName.ToLower() != this.OrganizationName.ToLower();
+                if (organizationNameIsBeingChanged)
+                {
+                    var existingOrgWithNewName = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(o => o.OrganizationName.ToLower() == this.OrganizationName.ToLower());
+                    if (existingOrgWithNewName != null)
+                    {
+                        validationResults.Add(new SitkaValidationResult<EditViewModel, string>($"There is already another Organization named {this.OrganizationName}.", x => x.OrganizationName));
+                    }
+                }
+            }
 
             if (string.IsNullOrEmpty(OrganizationShortName))
             {
                 validationResults.Add(new SitkaValidationResult<EditViewModel, string>("The Short Name field is required.", x => x.OrganizationShortName));
-
             }
 
             if (LogoFileResourceData != null && LogoFileResourceData.ContentLength > MaxLogoSizeInBytes)
@@ -129,23 +156,23 @@ namespace ProjectFirma.Web.Views.Organization
             }
 
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(HttpRequestStorage.FirmaSession);
-            if (OrganizationGuid.HasValue && isSitkaAdmin)
+            if (KeystoneOrganizationGuid.HasValue && isSitkaAdmin)
             {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == OrganizationGuid);
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.KeystoneOrganizationGuid == KeystoneOrganizationGuid);
                 if (organization != null && organization.OrganizationID != OrganizationID)
                 {
-                    validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("This Guid is already associated with an Organization", x => x.OrganizationGuid));
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("This Guid is already associated with an Organization", x => x.KeystoneOrganizationGuid));
                 }
                 else
                 {
                     try
                     {
                         var keystoneClient = new KeystoneDataClient();
-                        var keystoneOrganization = keystoneClient.GetOrganization(OrganizationGuid.Value);
+                        var keystoneOrganization = keystoneClient.GetOrganization(KeystoneOrganizationGuid.Value);
                     }
                     catch (Exception)
                     {
-                        validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("Organization Guid not found in Keystone", x => x.OrganizationGuid));
+                        validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("Organization Guid not found in Keystone", x => x.KeystoneOrganizationGuid));
                     }
                     
                 }

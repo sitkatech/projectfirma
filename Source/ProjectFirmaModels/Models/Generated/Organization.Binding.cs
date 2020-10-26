@@ -44,10 +44,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool useOrganizationBoundaryForMatchmaker, bool? matchmakerCash, bool? matchmakerInKindServices, bool? matchmakerCommercialServices, string matchmakerCashDescription, string matchmakerInKindServicesDescription, string matchmakerCommercialServicesDescription, string matchmakerConstraints, string matchmakerAdditionalInformation, bool isUnknownOrUnspecified) : this()
+        public Organization(int organizationID, Guid? keystoneOrganizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool useOrganizationBoundaryForMatchmaker, bool? matchmakerCash, bool? matchmakerInKindServices, bool? matchmakerCommercialServices, string matchmakerCashDescription, string matchmakerInKindServicesDescription, string matchmakerCommercialServicesDescription, string matchmakerConstraints, string matchmakerAdditionalInformation, bool isUnknownOrUnspecified) : this()
         {
             this.OrganizationID = organizationID;
-            this.OrganizationGuid = organizationGuid;
+            this.KeystoneOrganizationGuid = keystoneOrganizationGuid;
             this.OrganizationName = organizationName;
             this.OrganizationShortName = organizationShortName;
             this.PrimaryContactPersonID = primaryContactPersonID;
@@ -299,7 +299,7 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int OrganizationID { get; set; }
         public int TenantID { get; set; }
-        public Guid? OrganizationGuid { get; set; }
+        public Guid? KeystoneOrganizationGuid { get; set; }
         public string OrganizationName { get; set; }
         public string OrganizationShortName { get; set; }
         public int? PrimaryContactPersonID { get; set; }

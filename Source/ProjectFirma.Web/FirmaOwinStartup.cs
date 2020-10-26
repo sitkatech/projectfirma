@@ -236,7 +236,7 @@ namespace ProjectFirma.Web
                 // for the noise here. -- SLG 1/21/2020
 
                 // first look by guid, then by name; 
-                var organizationByGuid = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationGuid(keystoneUserClaims.OrganizationGuid.Value);
+                var organizationByGuid = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByKeystoneOrganizationGuid(keystoneUserClaims.OrganizationGuid.Value);
                 SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" (TenantID: {HttpRequestStorage.Tenant.TenantID}): In SyncLocalAccountStore - organizationByGuid '{keystoneUserClaims.OrganizationGuid}' found: {organizationByGuid != null}");
 
                 var organizationByName = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationName(keystoneUserClaims.OrganizationName);
@@ -263,9 +263,9 @@ namespace ProjectFirma.Web
 
                 organization.OrganizationName = keystoneUserClaims.OrganizationName;
 
-                if (!organization.OrganizationGuid.HasValue)
+                if (!organization.KeystoneOrganizationGuid.HasValue)
                 {
-                    organization.OrganizationGuid = keystoneUserClaims.OrganizationGuid;
+                    organization.KeystoneOrganizationGuid = keystoneUserClaims.OrganizationGuid;
                 }
 
                 person.Organization = organization;

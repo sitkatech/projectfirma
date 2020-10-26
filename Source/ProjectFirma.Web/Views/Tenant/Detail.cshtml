@@ -217,19 +217,16 @@
                       @ViewDataTyped.TenantAttribute.EnableReports.ToYesNo()
                    </div>
                 </div>
-                
-                @if (ViewDataTyped.MatchmakerEnabled)
-                {
-                   <div class="row">
-                      <div class="col-sm-5 fieldLabel text-right">
-                         @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableMatchmaker.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                         @FieldDefinitionEnum.EnableMatchmaker.ToType().GetFieldDefinitionLabel()?
-                      </div>
-                      <div class="col-sm-7">
-                         @ViewDataTyped.TenantAttribute.EnableMatchmaker.ToYesNo()
-                      </div>
-                   </div>
-                }
+
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableMatchmaker.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableMatchmaker.ToType().GetFieldDefinitionLabel()?
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.EnableMatchmaker.ToYesNo()
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">

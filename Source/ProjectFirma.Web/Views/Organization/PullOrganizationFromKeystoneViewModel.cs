@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Organization
     {
         [Required]
         [DisplayName("Keystone Organization Guid")]
-        public Guid? OrganizationGuid { get; set; }
+        public Guid? KeystoneOrganizationGuid { get; set; }
 
         // Needed by model binder
         public PullOrganizationFromKeystoneViewModel()
