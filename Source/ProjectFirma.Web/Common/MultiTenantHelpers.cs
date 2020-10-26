@@ -416,6 +416,7 @@ namespace ProjectFirma.Web.Common
             {
                 TenantSimples.AddRange(HttpRequestStorage.DatabaseEntities.AllTenantAttributes.ToList().Select(x => new TenantSimple
                 (
+                    x.TenantID,
                     x.TenantShortDisplayName, 
                     x.Tenant.CanonicalHostNameLocal, 
                     x.Tenant.CanonicalHostNameQa, 
