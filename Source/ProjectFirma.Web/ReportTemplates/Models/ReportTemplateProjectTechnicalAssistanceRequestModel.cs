@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
@@ -19,8 +20,11 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string DollarValueString { get; set; }
 
         public ReportTemplateProjectTechnicalAssistanceRequestModel(TechnicalAssistanceRequest technicalAssistanceRequest,
-            List<TechnicalAssistanceParameter> assistanceParameters)
+                                                                    List<TechnicalAssistanceParameter> assistanceParameters)
         {
+            Check.EnsureNotNull(technicalAssistanceRequest);
+            Check.EnsureNotNull(assistanceParameters);
+
             FiscalYear = technicalAssistanceRequest.FiscalYear;
             AssignedPerson = new ReportTemplatePersonModel(technicalAssistanceRequest.Person);
             Type = technicalAssistanceRequest.TechnicalAssistanceType.TechnicalAssistanceTypeDisplayName;

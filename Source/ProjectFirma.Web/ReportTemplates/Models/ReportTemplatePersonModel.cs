@@ -4,10 +4,11 @@ namespace ProjectFirma.Web.ReportTemplates.Models
 {
     public class ReportTemplatePersonModel : ReportTemplateBaseModel
     {
-
+        // Private properties
         private Person Person { get; set; }
         private Organization Organization { get; set; }
 
+        // Public properties
         public string FullName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,16 +18,18 @@ namespace ProjectFirma.Web.ReportTemplates.Models
 
         public ReportTemplatePersonModel(Person person)
         {
-            // Private properties
             Person = person;
-            Organization = Person.Organization;
+            if (Person != null)
+            {
+                Organization = Person.Organization;
 
-            // Public properties
-            FullName = Person.GetFullNameFirstLast();
-            FirstName = Person.FirstName;
-            LastName = Person.LastName;
-            Email = Person.Email;
-            Phone = Person.Phone;
+                // Public properties
+                FullName = Person.GetFullNameFirstLast();
+                FirstName = Person.FirstName;
+                LastName = Person.LastName;
+                Email = Person.Email;
+                Phone = Person.Phone;
+            }
         }
 
         public ReportTemplateOrganizationModel GetOrganization()
