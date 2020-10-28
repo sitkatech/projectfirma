@@ -82,7 +82,7 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     for (var i = 0; i < mapInitJson.ExternalMapLayers.length; ++i) {
         var layerConfig = mapInitJson.ExternalMapLayers[i];
         if (!layerConfig.IsTiledMapService) {
-            this.addVectorLayerFromAGOL(layerConfig, overlayLayers, mapInitJson.RequestSupportUrl);
+            this.addVectorLayerFromAGOL(layerConfig, overlayLayers, mapInitJson.RequestSupportUrl, mapInitJson.DisablePopups);
         }
     }
 
@@ -128,9 +128,10 @@ ProjectFirmaMaps.Map.prototype.addTiledLayerFromAGOL = function (layerConfig, ov
     }
 }
 
-ProjectFirmaMaps.Map.prototype.addVectorLayerFromAGOL = function (layerConfig, overlayLayers, requestSupportUrl) {
-    var featureLayer = L.esri.featureLayer({ url: layerConfig.LayerUrl });
-    if (layerConfig.FeatureNameField) {
+ProjectFirmaMaps.Map.prototype.addVectorLayerFromAGOL = function (layerConfig, overlayLayers, requestSupportUrl, disablePopups) {
+    var isInteractive = !disablePopups;
+    var featureLayer = L.esri.featureLayer({ url: layerConfig.LayerUrl, interactive: isInteractive });
+    if (!disablePopups && layerConfig.FeatureNameField) {
         featureLayer.bindPopup(function (evt) {
             var latlng = this.getLatLng();
             if (evt.feature.properties[layerConfig.FeatureNameField]) {
