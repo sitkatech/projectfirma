@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using NUnit.Framework;
 using ProjectFirma.Web.ScheduledJobs;
+using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.ScheduledJobs
 {
@@ -141,6 +142,10 @@ namespace ProjectFirma.Web.ScheduledJobs
             if (tz.IsAmbiguousTime(localCronTime) || tz.IsInvalidTime(localCronTime))
             {
                 localCronTime = localCronTime.Add(TimeSpan.Parse("1:01:00"));
+
+                // Make sure we've fixed the issue
+                Check.Ensure(!tz.IsAmbiguousTime(localCronTime));
+                Check.Ensure(!tz.IsInvalidTime(localCronTime));
             }
 
             var utcCronTime = TimeZoneInfo.ConvertTimeToUtc(localCronTime);
