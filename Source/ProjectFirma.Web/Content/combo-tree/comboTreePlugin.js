@@ -113,7 +113,7 @@
   };
 
   ComboTree.prototype.createFilterHTMLForMultiSelect = function (){
-    return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Search"/>';
+    return '<input id="' + this.comboTreeId + 'MultiFilter" type="text" class="multiplesFilter" placeholder="Search..."/>';
   }
 
   ComboTree.prototype.createSourceSubItemsHTML = function (subItems, parentId, expandSubs) {

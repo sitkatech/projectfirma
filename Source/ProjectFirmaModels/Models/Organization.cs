@@ -48,7 +48,7 @@ namespace ProjectFirmaModels.Models
 
         public string GetAuditDescriptionString() => OrganizationName;
 
-        public bool IsInKeystone() => OrganizationGuid.HasValue;
+        public bool IsInKeystone() => KeystoneOrganizationGuid.HasValue;
 
         public FeatureCollection OrganizationBoundaryToFeatureCollection()
         {

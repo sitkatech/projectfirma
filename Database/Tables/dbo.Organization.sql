@@ -5,7 +5,7 @@ GO
 CREATE TABLE [dbo].[Organization](
 	[OrganizationID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[OrganizationGuid] [uniqueidentifier] NULL,
+	[KeystoneOrganizationGuid] [uniqueidentifier] NULL,
 	[OrganizationName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[OrganizationShortName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PrimaryContactPersonID] [int] NULL,
@@ -43,12 +43,12 @@ CREATE TABLE [dbo].[Organization](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-CREATE UNIQUE NONCLUSTERED INDEX [AK_Organization_OrganizationGuid_TenantID] ON [dbo].[Organization]
+CREATE UNIQUE NONCLUSTERED INDEX [AK_Organization_KeystoneOrganizationGuid_TenantID] ON [dbo].[Organization]
 (
-	[OrganizationGuid] ASC,
+	[KeystoneOrganizationGuid] ASC,
 	[TenantID] ASC
 )
-WHERE ([OrganizationGuid] IS NOT NULL)
+WHERE ([KeystoneOrganizationGuid] IS NOT NULL)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_FileResourceInfo_LogoFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([LogoFileResourceInfoID])

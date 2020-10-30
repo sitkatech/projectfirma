@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Controllers
 
         [CrossAreaRoute]
         [HttpGet]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public ViewResult Projects()
         {
             var firmaPage = FirmaPageTypeEnum.ReportProjects.GetFirmaPage();
@@ -209,35 +209,35 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public PartialViewResult SelectReportToGenerateFromSelectedProjects()
         {
             return new PartialViewResult();
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public PartialViewResult SelectReportToGenerateFromSelectedProjects(GenerateReportsViewModel viewModel)
         {
             // Get the list of projects and then order them by the order they were received from the post request
             var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
             projectsList = projectsList.OrderBy(p => viewModel.ProjectIDList.IndexOf(p.ProjectID)).ToList();
             var reportTemplateSelectListItems =
-                HttpRequestStorage.DatabaseEntities.ReportTemplates.ToList().Where(x => x.ReportTemplateModel.ReportTemplateModelID == ReportTemplateModel.Project.PrimaryKey).ToSelectList(x => x.ReportTemplateID.ToString(),
+                HttpRequestStorage.DatabaseEntities.ReportTemplates.ToList().Where(x => x.ReportTemplateModel.ReportTemplateModelID == ReportTemplateModel.Project.PrimaryKey).OrderBy(x => x.DisplayName).ToSelectList(x => x.ReportTemplateID.ToString(),
                     x => $"{x.DisplayName} - {x.Description}");
             var viewData = new GenerateReportsViewData(CurrentFirmaSession, projectsList, reportTemplateSelectListItems);
             return RazorPartialView<GenerateReports, GenerateReportsViewData, GenerateReportsViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public ActionResult GenerateReportsFromSelectedProjects()
         {
             return new PartialViewResult();
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public ActionResult GenerateReportsFromSelectedProjects(GenerateReportsViewModel viewModel)
         {
             var reportTemplatePrimaryKey = (ReportTemplatePrimaryKey) viewModel.ReportTemplateID;

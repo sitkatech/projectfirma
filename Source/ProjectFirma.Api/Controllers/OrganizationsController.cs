@@ -37,7 +37,7 @@ namespace ProjectFirma.Api.Controllers
                 return UpdateOrganization(apiKey, organizationDto);
             }
             var organization = new Organization(organizationDto.OrganizationName, organizationDto.IsActive, organizationDto.OrganizationTypeID, true, false);
-            organization.OrganizationGuid = organizationDto.OrganizationGuid;
+            organization.KeystoneOrganizationGuid = organizationDto.OrganizationGuid;
             organization.OrganizationShortName = organizationDto.OrganizationShortName;
             organization.OrganizationUrl = organizationDto.OrganizationUrl;
             organization.Description = organizationDto.Description;
@@ -86,7 +86,7 @@ namespace ProjectFirma.Api.Controllers
             }
 
             organization.OrganizationName = organizationDto.OrganizationName;
-            organization.OrganizationGuid = organizationDto.OrganizationGuid;
+            organization.KeystoneOrganizationGuid = organizationDto.OrganizationGuid;
             organization.OrganizationShortName = organizationDto.OrganizationShortName;
             organization.OrganizationTypeID = organizationDto.OrganizationTypeID;
             organization.IsActive = organizationDto.IsActive;

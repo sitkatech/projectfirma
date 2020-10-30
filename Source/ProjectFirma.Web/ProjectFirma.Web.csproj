@@ -270,6 +270,7 @@
     <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
     <Compile Include="Security\ProjectTimelineFeature.cs" />
     <Compile Include="Security\OrganizationProfileEditFeature.cs" />
+    <Compile Include="Security\ReportTemplateGenerateReportsFeature.cs" />
     <Compile Include="Security\ReportTemplateManageFeature.cs" />
     <Compile Include="Security\ReportTemplateViewListFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />

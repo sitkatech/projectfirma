@@ -63,8 +63,8 @@ from
 ) a left join dbo.OrganizationTypeRelationshipType otrt on a.OrganizationTypeID = otrt.OrganizationTypeID and a.RelationshipTypeID = otrt.RelationshipTypeID and otrt.TenantID = @TenantIDTo
 where otrt.OrganizationTypeRelationshipTypeID is null
 
-insert into dbo.Organization(TenantID, OrganizationGuid, OrganizationName, OrganizationShortName, OrganizationTypeID, IsActive, OrganizationUrl)
-select @TenantIDTo as TenantID, o.OrganizationGuid, o.OrganizationName, o.OrganizationShortName, ot2.OrganizationTypeID, o.IsActive, o.OrganizationUrl
+insert into dbo.Organization(TenantID, KeystoneOrganizationGuid, OrganizationName, OrganizationShortName, OrganizationTypeID, IsActive, OrganizationUrl)
+select @TenantIDTo as TenantID, o.KeystoneOrganizationGuid, o.OrganizationName, o.OrganizationShortName, ot2.OrganizationTypeID, o.IsActive, o.OrganizationUrl
 from dbo.Organization o
 join dbo.OrganizationType ot on o.OrganizationTypeID = ot.OrganizationTypeID
 left join dbo.OrganizationType ot2 on ot.OrganizationTypeName = ot2.OrganizationTypeName and ot2.TenantID = @TenantIDTo

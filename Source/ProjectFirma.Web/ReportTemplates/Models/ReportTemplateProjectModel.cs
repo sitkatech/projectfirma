@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -52,9 +53,8 @@ namespace ProjectFirma.Web.ReportTemplates.Models
 
             // Public properties
             ProjectName = Project.ProjectName;
-            ProjectUrl = Project.GetDetailAbsoluteUrl();
+            ProjectUrl = GetProjectUrlForReport(project);
             PrimaryContactOrganization = Project.GetPrimaryContactOrganization() != null ? new ReportTemplateOrganizationModel(Project.GetPrimaryContactOrganization()) : null;
-            
             ProjectStage = Project.ProjectStage.ProjectStageDisplayName;
             NumberOfReportedPerformanceMeasures = Project.PerformanceMeasureActuals.Count;
             ProjectPrimaryContact = Project.GetPrimaryContact() != null ? new ReportTemplatePersonModel(Project.GetPrimaryContact()) : null;
@@ -85,6 +85,21 @@ namespace ProjectFirma.Web.ReportTemplates.Models
                 FinalStatusUpdateStatus = finalProjectStatus;
             }
 
+        }
+
+        /// <summary>
+        /// This goes on a bit of a different path to get a project url than normal. For some reason
+        /// using the project extension method GetDetailAbsoluteUrl() was returning absolute urls for the wrong
+        /// tenant when generating reports in QA (and likely PROD)
+        /// </summary>
+        /// <param name="project"></param>
+        private string GetProjectUrlForReport(Project project)
+        {
+            var tenant = MultiTenantHelpers.GetAllTenantSimples().First(x => x.TenantID == project.TenantID);
+            var tenantCanonicalUrlUriBuilder = tenant.GetCanonicalUrlUriBuilderForCurrentEnvironment();
+            tenantCanonicalUrlUriBuilder.Path = Project.GetDetailUrl();
+            tenantCanonicalUrlUriBuilder.Port = -1;
+            return tenantCanonicalUrlUriBuilder.ToString();
         }
 
         public List<ReportTemplateProjectContactModel> GetProjectContacts()

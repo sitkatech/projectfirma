@@ -249,7 +249,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            var userHasReportDownloadPermissions = new ReportTemplateViewListFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userHasReportDownloadPermissions = new ReportTemplateGenerateReportsFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var geospatialAreas = HttpRequestStorage.DatabaseEntities.vGeospatialAreas.Where(x => x.TenantID == tenant.TenantID).ToDictionary(x => x.GeospatialAreaID);
             var projectCustomAttributes = HttpRequestStorage.DatabaseEntities.vProjectCustomAttributeValues.Where(x => x.TenantID == tenant.TenantID)
                 .GroupBy(x => x.ProjectID)
