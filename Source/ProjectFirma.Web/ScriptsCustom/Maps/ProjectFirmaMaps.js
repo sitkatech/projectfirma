@@ -223,6 +223,8 @@ ProjectFirmaMaps.Map.prototype.setMapBounds = function(mapInitJson) {
     ]);
 };
 
+
+
 ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
     var self = this;
     if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
@@ -240,6 +242,7 @@ ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
         // On submission of this form it will behave similarly as if you clicked on the map marker itself. I ended up having
         // to do this on form submit because dhtmlx is a pain in the butt and overrides all click events... - SMG [PF-2243]
         if (layer.id) {
+
             jQuery(document).on('submit',
                 'form[data-id="' + layer.id + '"]',
                 function (e) {

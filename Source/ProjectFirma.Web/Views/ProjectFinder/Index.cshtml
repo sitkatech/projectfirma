@@ -80,6 +80,23 @@
                 true);
         }
 
+        var defaultIcon = L.MakiMarkers.icon({ icon: "marker", color: "#7EB1FF", size: "s" });
+        var hoverIcon = L.MakiMarkers.icon({ icon: "marker", color: "#1774FE", size: "s" });
+
+        ProjectFirmaMaps.Map.prototype.bindElementHoverToMarkerColor = function(marker) {
+            jQuery(document).on('mouseover',
+                'form[data-id="' + marker.id + '"]',
+                function(e) {
+                    marker.setIcon(hoverIcon);
+
+                });
+            jQuery(document).on('mouseout',
+                'form[data-id="' + marker.id + '"]',
+                function(e) {
+                    marker.setIcon(defaultIcon);
+                });
+        }
+
         ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault) {
             var self = this;
             if (layer != null) {
@@ -87,22 +104,16 @@
                 this.layerControl.removeLayer(layer);
             }
 
-            var markerColorTable = this.legendColorsToUse[this.mapCustomizationObject.ColorByPropertyName];
             var markerClusterGroup = L.markerClusterGroup({ maxClusterRadius: 40 });
             var newLayer = L.geoJson(points.GeoJsonFeatureCollection,
                 {
                     pointToLayer: function(feature, latlng) {
-                        var legendColor = _.result(_.find(markerColorTable,
-                                function(legendItem) {
-                                    return legendItem.LegendID ==
-                                        feature.properties[self.mapCustomizationObject.ColorByPropertyName];
-                                }),
-                            'LegendColor');
-                        var marker = L.marker(latlng,
-                            { icon: L.MakiMarkers.icon({ icon: "marker", color: legendColor, size: "s" }) });
+                        
+                        var marker = L.marker(latlng, { icon: defaultIcon });
                         marker.id = feature.properties.ProjectID;
 
                         self.bindPopupToFeature(marker, feature);
+                        self.bindElementHoverToMarkerColor(marker);
                         return marker;
                     },
                     filter: function(feature) {
@@ -118,7 +129,6 @@
                     }
                 });
 
-            //debugger;
             if (this.areLocationsClustered) {
                 newLayer.addTo(markerClusterGroup);
                 layer = markerClusterGroup;
@@ -156,11 +166,11 @@
             return allLegendsHtml;
         };
 
-        jQuery(document).ready(function () {
+        jQuery(document).ready(function() {
 
             // Same height calculation as the grid height
             var setMapDivHeight = function() {
-                var mapDiv =  jQuery("#@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID");
+                var mapDiv = jQuery("#@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID");
                 var top = mapDiv.offset().top;
                 var heightOffset = top + 50;
                 var windowHeight = jQuery(window).height();
@@ -170,7 +180,7 @@
             }
 
             setMapDivHeight(); // set the map div height before initializing map
-            $( window ).resize(function() {
+            $(window).resize(function() {
                 setMapDivHeight();
             });
 
@@ -198,5 +208,6 @@
     </div>
     <div class="col-md-5">
         <div id="@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID" style="margin: 20px 0 5px 0"></div>
+        <p>To zoom hold down shift and drag a rectangle</p>
     </div>
 </div>
