@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
             ProjectFinderGridSpec projectFinderGridSpec, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentFirmaSession)
         {
-            ContainerFluid = true;
+            ContainerFluid = false;
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder";
             ProjectFinderGridSpec = projectFinderGridSpec;
             ProjectFinderGridName = "projectFinderGrid";

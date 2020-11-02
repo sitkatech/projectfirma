@@ -1819,3 +1819,6 @@ button.grid-map-marker.grid-map-marker-enabled:hover {
 button.grid-map-marker.grid-map-marker-disabled {
   color: #555555;
 }
+.project-finder-grid .gridbox {
+  width: 100%!important;
+}

@@ -156,14 +156,30 @@
             return allLegendsHtml;
         };
 
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
+
+            // Same height calculation as the grid height
+            var setMapDivHeight = function() {
+                var mapDiv =  jQuery("#@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID");
+                var top = mapDiv.offset().top;
+                var heightOffset = top + 50;
+                var windowHeight = jQuery(window).height();
+                var mapHeight = windowHeight - heightOffset;
+                mapHeight = Math.max(mapHeight, 300); //Enforce minimum height
+                mapDiv.height(mapHeight);
+            }
+
+            setMapDivHeight(); // set the map div height before initializing map
+            $( window ).resize(function() {
+                setMapDivHeight();
+            });
+
             var projectLocationsMapInitJson =
                 @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
             projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
         });
 
-        
     </script>
 }
 
@@ -177,12 +193,10 @@
     <p>Use the filters below to search for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by type, or click a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s name to see more details. Selecting a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from the grid will display the results in the map.</p>
 </div>
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-7 project-finder-grid">
         @Html.DhtmlxGrid(ViewDataTyped.ProjectFinderGridSpec, ViewDataTyped.ProjectFinderGridName, ViewDataTyped.ProjectFinderGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
     <div class="col-md-5">
-        <div id="@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID" style="height: 80vh; margin: 5px 0 5px 0">
-        </div>
-
+        <div id="@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID" style="margin: 20px 0 5px 0"></div>
     </div>
 </div>
