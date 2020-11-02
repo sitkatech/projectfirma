@@ -733,7 +733,14 @@
                 }
                 <div class="row" style="margin-top: 20px">
                     <div class="col-xs-12">
-                        <a href="@ViewDataTyped.ProjectFinderPageUrl" class="btn btn-firma btn-sm pull-right @(ViewDataTyped.MatchmakerProjectFinderButtonDisabled ? "disabled" : "")"><span class="glyphicon glyphicon-search"></span> Project Finder</a>
+                        @if (ViewDataTyped.MatchmakerProjectFinderButtonDisabled)
+                        {
+                            <button onclick="ProjectFirma.Views.Methods.addTooltipPopup(this, 'Your profile is empty, so it\'s not possible to identify @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() matches. Please fill out your profile as completely as possible before using the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Finder.')" class="btn btn-firma btn-sm pull-right disabled"><span class="glyphicon glyphicon-search"></span> Project Finder</button>
+                        }
+                        else
+                        {
+                            <a href="@ViewDataTyped.ProjectFinderPageUrl" class="btn btn-firma btn-sm pull-right"><span class="glyphicon glyphicon-search"></span> Project Finder</a>
+                        }
                         <h4>Supply: Resources Available</h4>
                         <p>This organization may be able to provide @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() with the following resources, but may also have some limitations. In economic terms, this section describes their "supply."</p>
                     </div>
