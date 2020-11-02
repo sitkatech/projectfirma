@@ -33,15 +33,15 @@
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
+
     <script type="text/javascript">
-        ProjectFirmaMaps.Map.prototype.initializeProjectLocations = function(projectLocationsMapInitJson)
-        {
-            if (Sitka.Methods.isUndefinedNullOrEmpty(projectLocationsMapInitJson.ProjectMapCustomization))
-            {
+        ProjectFirmaMaps.Map.prototype.initializeProjectLocations = function(projectLocationsMapInitJson) {
+            if (Sitka.Methods.isUndefinedNullOrEmpty(projectLocationsMapInitJson.ProjectMapCustomization)) {
                 throw new Error("No map customization object defined!");
             }
 
-            this.legendColorsToUse = @Html.Raw(JObject.FromObject(ViewDataTyped.LegendFormats).ToString(Formatting.None));
+            this.legendColorsToUse =
+                @Html.Raw(JObject.FromObject(ViewDataTyped.LegendFormats).ToString(Formatting.None));
 
             // default to clustering
             this.areLocationsClustered = false;
@@ -57,71 +57,76 @@
             this.removeClickEventHandler();
         };
 
-        ProjectFirmaMaps.Map.prototype.changeFilter = function(filterPropertyNameSelected, actualFilter)
-        {
+        ProjectFirmaMaps.Map.prototype.changeFilter = function(filterPropertyNameSelected, actualFilter) {
             this.mapCustomizationObject.FilterPropertyName = filterPropertyNameSelected;
             this.mapCustomizationObject.FilterPropertyValues = actualFilter;
             this.addLocationLayers();
         };
 
-        ProjectFirmaMaps.Map.prototype.changePropertyToColorProjectLocationsBy = function(colorByPropertyName)
-        {
+        ProjectFirmaMaps.Map.prototype.changePropertyToColorProjectLocationsBy = function(colorByPropertyName) {
             this.mapCustomizationObject.ColorByPropertyName = colorByPropertyName;
             this.addLocationLayers();
         };
 
-        ProjectFirmaMaps.Map.prototype.changeClustering = function(areLocationsClustered)
-        {
+        ProjectFirmaMaps.Map.prototype.changeClustering = function(areLocationsClustered) {
             this.areLocationsClustered = areLocationsClustered;
             this.addLocationLayers();
         };
 
-        ProjectFirmaMaps.Map.prototype.addLocationLayers = function()
-        {
-            this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations, this.projectLocationsLayer, "Mapped @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())", true);
+        ProjectFirmaMaps.Map.prototype.addLocationLayers = function() {
+            this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations,
+                this.projectLocationsLayer,
+                "Mapped @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())",
+                true);
         }
 
-        ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault)
-        {
+        ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault) {
             var self = this;
-            if (layer != null)
-            {
+            if (layer != null) {
                 this.map.removeLayer(layer);
                 this.layerControl.removeLayer(layer);
             }
 
             var markerColorTable = this.legendColorsToUse[this.mapCustomizationObject.ColorByPropertyName];
             var markerClusterGroup = L.markerClusterGroup({ maxClusterRadius: 40 });
-            var newLayer = L.geoJson(points.GeoJsonFeatureCollection, {
-                pointToLayer: function(feature, latlng)
+            var newLayer = L.geoJson(points.GeoJsonFeatureCollection,
                 {
-                    var legendColor = _.result(_.find(markerColorTable, function(legendItem) { return legendItem.LegendID == feature.properties[self.mapCustomizationObject.ColorByPropertyName]; }), 'LegendColor');
-                    var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: legendColor, size: "s" }) });
-                    self.bindPopupToFeature(marker, feature);
-                    return marker;
-                },
-                filter: function(feature)
-                {
-                    var b = !!Sitka.Methods.isUndefinedNullOrEmpty(self.mapCustomizationObject.FilterPropertyName) ||
-                        _.intersection(
-                            _.map(feature.properties[self.mapCustomizationObject.FilterPropertyName].split(","), Number),
-                            _.map(self.mapCustomizationObject.FilterPropertyValues, Number))
-                            .length > 0;
-                    return b;
-                }
-            });
-            if (this.areLocationsClustered)
-            {
+                    pointToLayer: function(feature, latlng) {
+                        var legendColor = _.result(_.find(markerColorTable,
+                                function(legendItem) {
+                                    return legendItem.LegendID ==
+                                        feature.properties[self.mapCustomizationObject.ColorByPropertyName];
+                                }),
+                            'LegendColor');
+                        var marker = L.marker(latlng,
+                            { icon: L.MakiMarkers.icon({ icon: "marker", color: legendColor, size: "s" }) });
+                        marker.id = feature.properties.ProjectID;
+
+                        self.bindPopupToFeature(marker, feature);
+                        return marker;
+                    },
+                    filter: function(feature) {
+                        var b =
+                            !!Sitka.Methods.isUndefinedNullOrEmpty(self.mapCustomizationObject.FilterPropertyName) ||
+                                _.intersection(
+                                    _.map(feature.properties[self.mapCustomizationObject.FilterPropertyName].split(","),
+                                        Number),
+                                    _.map(self.mapCustomizationObject.FilterPropertyValues, Number))
+                                .length >
+                                0;
+                        return b;
+                    }
+                });
+
+            //debugger;
+            if (this.areLocationsClustered) {
                 newLayer.addTo(markerClusterGroup);
                 layer = markerClusterGroup;
-            }
-            else
-            {
+            } else {
                 layer = newLayer;
             }
 
-            if (showByDefault)
-            {
+            if (showByDefault) {
                 layer.addTo(this.map);
             }
 
@@ -137,26 +142,32 @@
         ProjectFirmaMaps.Map.prototype.getLegend = function() {
             var markerColorTable = this.legendColorsToUse[this.mapCustomizationObject.ColorByPropertyName];
             var allLegendsHtml = "";
-            for (var i = 0; i < markerColorTable.length; ++i)
-            {
-                var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "s" }),
+            for (var i = 0; i < markerColorTable.length; ++i) {
+                var currentLegendIcon =
+                        L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "s" }),
                     currentLegendAsHtml = currentLegendIcon.options.iconUrl;
-                allLegendsHtml += "<div class=\"mapLegendElement\">" + "<img class='mapLegendIcon' src= '" + currentLegendAsHtml  + "'></img>" + markerColorTable[i].LegendText + "</div>";
+                allLegendsHtml += "<div class=\"mapLegendElement\">" +
+                    "<img class='mapLegendIcon' src= '" +
+                    currentLegendAsHtml +
+                    "'></img>" +
+                    markerColorTable[i].LegendText +
+                    "</div>";
             }
             return allLegendsHtml;
         };
 
-
-
-
-
         jQuery(document).ready(function() {
-            var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
+            var projectLocationsMapInitJson =
+                @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
             projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
-
         });
 
+        jQuery(document).on('click',
+            'button[data-id]',
+            function(e) {
+                console.log(e, 'doin it');
+            });
     </script>
 }
 
@@ -179,4 +190,3 @@
 
     </div>
 </div>
-

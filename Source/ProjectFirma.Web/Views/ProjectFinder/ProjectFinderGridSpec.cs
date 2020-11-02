@@ -1,4 +1,5 @@
-﻿using LtInfo.Common;
+﻿using System.Web;
+using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -21,6 +22,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             Add(FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem].Matched.ToCheckboxImageOrEmptyForGrid(), 50, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification].Matched.ToCheckboxImageOrEmptyForGrid(), 50, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure].Matched.ToCheckboxImageOrEmptyForGrid(), 50, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Map", x => new HtmlString($"<form onsubmit=\"return false;\"data-id=\"{x.Project.ProjectID}\"><button type=\"submit\">Map</button></form>"), 50, DhtmlxGridColumnFilterType.Html);
         }
     }
 }

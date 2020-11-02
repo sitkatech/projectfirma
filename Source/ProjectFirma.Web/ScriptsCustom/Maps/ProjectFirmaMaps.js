@@ -228,14 +228,28 @@ ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
     if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
         layer.bindPopup("Loading...");
         layer.on("click",
-            function(e) {
+            function (e) {
                 //var popup = e.target.getPopup();
                 self.map.setView(e.target.getLatLng());
                 jQuery.get(feature.properties.PopupUrl).done(function(data) {
                     layer.bindPopup(data).openPopup({});
                 });
-
             });
+
+        // If the layer has an 'id' attribute, we want to listen to any submit events on any forms with the 'data-id' attribute.
+        // On submission of this form it will behave similarly as if you clicked on the map marker itself. I ended up having
+        // to do this on form submit because dhtmlx is a pain in the butt and overrides all click events... - SMG [PF-2243]
+        if (layer.id) {
+            jQuery(document).on('submit',
+                'form[data-id="' + layer.id + '"]',
+                function (e) {
+                    e.preventDefault();
+                    self.map.setView(layer.getLatLng());
+                    jQuery.get(feature.properties.PopupUrl).done(function (data) {
+                        layer.bindPopup(data).openPopup();
+                    });
+                });
+        }
     }
 };
 
