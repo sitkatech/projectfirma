@@ -181,7 +181,7 @@ namespace LtInfo.Common.DhtmlWrappers
             var result = String.Format(GridJavascriptDocumentReady,
                 gridName,
                 Skin,
-                SkinRowHeight,
+                gridSpec.SkinRowHeight,
                 gridColumnsJavascriptFunctions,
                 gridSpec.ColumnFilterListForJavascript,
                 gridSpec.GetColumnTotals(gridName),
