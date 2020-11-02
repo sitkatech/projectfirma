@@ -33,9 +33,11 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             ShowFilterBar = true;
             GridInstructionsWhenEmpty = "No records available"; // default no records available message
+            InitWidthsByPercentage = false;
             SkinRowHeight = DhtmlxGridHtmlHelpers.SkinRowHeight;
         }
 
+        public bool InitWidthsByPercentage { get; set; }
         public int SkinRowHeight { get; set; }
         public string LoadingBarHtml { get; set; }
         public string ObjectNameSingular { get; set; }
