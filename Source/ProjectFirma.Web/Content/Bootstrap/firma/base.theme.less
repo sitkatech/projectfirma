@@ -2175,3 +2175,26 @@ nav#wizardNav ul {
         }
     }
 }
+
+button.grid-map-marker {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+
+
+    &.grid-map-marker-enabled {
+        color: @link-color;
+
+        &:hover {
+            color: @link-hover-color;
+        }
+    }
+
+    &.grid-map-marker-disabled {
+        color: @gray;
+    }
+}

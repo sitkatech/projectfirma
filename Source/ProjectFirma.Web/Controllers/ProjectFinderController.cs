@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = CurrentFirmaSession.Person.Organization;
             var projectFinderGridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization);
-            var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).ToList();
+            var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
 
             var filterValues = ResultsController.GetDefaultFilterValuesForFilterType(ProjectMapCustomization.DefaultLocationFilterType.ToEnum, true);
@@ -57,7 +57,9 @@ namespace ProjectFirma.Web.Controllers
             var organization = CurrentFirmaSession.Person.Organization;
             var gridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresForOrganization, gridSpec);
+            var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldShowOnMap()).ToList();
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresExcludingInvalidStages, gridSpec);
             return gridJsonNetJObjectResult;
         }
        

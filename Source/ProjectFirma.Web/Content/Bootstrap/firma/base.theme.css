@@ -1801,3 +1801,21 @@ nav#wizardNav ul li.workflowSection a:hover {
 .project-status-legend ul li + li {
   margin-top: 5px;
 }
+button.grid-map-marker {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  font-size: 20px;
+}
+button.grid-map-marker.grid-map-marker-enabled {
+  color: #337ab7;
+}
+button.grid-map-marker.grid-map-marker-enabled:hover {
+  color: #23527c;
+}
+button.grid-map-marker.grid-map-marker-disabled {
+  color: #555555;
+}
