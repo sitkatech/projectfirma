@@ -412,6 +412,20 @@ namespace ProjectFirma.Web.Common
 
         public static List<TenantSimple> GetAllTenantSimples()
         {
+            // ReSharper disable twice InconsistentlySynchronizedField
+            if (TenantSimples.Any())
+            {
+                // This CAN return an incomplete set when the app is first booting up. But
+                // this tiny window of vulnerability is traded off against never needing a
+                // lock in the read-only case, which is 99.9999% of the time this function is called.
+                //
+                // Since this gets called on every page for every user of every tenant, it seemed
+                // wise to optimize the lock away if we could in the majority case.
+                //
+                // -- SLG 11/03/2020
+                return TenantSimples;
+            }
+
             lock (TenantSimples)
             {
                 if (!TenantSimples.Any())
