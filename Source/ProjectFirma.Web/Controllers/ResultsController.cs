@@ -350,7 +350,7 @@ namespace ProjectFirma.Web.Controllers
             return projectLocationFilterTypesAndValues;
         }
 
-        private static List<int> GetDefaultFilterValuesForFilterType(ProjectLocationFilterTypeEnum projectLocationFilterType, bool currentPersonCanViewProposals)
+        public static List<int> GetDefaultFilterValuesForFilterType(ProjectLocationFilterTypeEnum projectLocationFilterType, bool currentPersonCanViewProposals)
         {
             switch (projectLocationFilterType)
             {

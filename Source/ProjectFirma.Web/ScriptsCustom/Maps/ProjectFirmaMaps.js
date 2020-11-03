@@ -223,19 +223,21 @@ ProjectFirmaMaps.Map.prototype.setMapBounds = function(mapInitJson) {
     ]);
 };
 
+
+
 ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
     var self = this;
     if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
         layer.bindPopup("Loading...");
         layer.on("click",
-            function(e) {
+            function (e) {
                 //var popup = e.target.getPopup();
                 self.map.setView(e.target.getLatLng());
                 jQuery.get(feature.properties.PopupUrl).done(function(data) {
                     layer.bindPopup(data).openPopup({});
                 });
-
             });
+
     }
 };
 

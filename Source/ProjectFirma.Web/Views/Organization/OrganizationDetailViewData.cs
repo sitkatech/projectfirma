@@ -27,6 +27,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.PartnerFinder;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls;
@@ -119,6 +120,9 @@ namespace ProjectFirma.Web.Views.Organization
         public bool HasAreaOfInterest { get; set; }
 
         public bool ShowMatchmakerProfileTab { get; }
+        public string ProjectFinderPageUrl { get; }
+        public Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> MatchmakerProfileCompletionDictionary { get; }
+        public bool MatchmakerProjectFinderButtonDisabled { get; set; }
 
         public readonly MapInitJson AreaOfInterestMapInitJson;
         public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
@@ -279,6 +283,11 @@ namespace ProjectFirma.Web.Views.Organization
             AllClassificationSystems = allClassificationSystems;
 
             EditOrgPerformanceMeasuresUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerPerformanceMeasures(organization));
+            ProjectFinderPageUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(c => c.Index());
+            MatchmakerProfileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
+            MatchmakerProjectFinderButtonDisabled = !MatchmakerProfileCompletionDictionary.Values.Any(x => x);
         }
+
+        
     }
 }

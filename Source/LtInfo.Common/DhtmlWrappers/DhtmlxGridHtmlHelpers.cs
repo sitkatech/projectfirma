@@ -107,7 +107,7 @@ namespace LtInfo.Common.DhtmlWrappers
         var columnFilterList = ""{4}"";
         {5}
         
-        Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9});
+        Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9}, {15});
 
         // Show loading bar
         jQuery(""#{0}LoadingBar"").show();
@@ -181,7 +181,7 @@ namespace LtInfo.Common.DhtmlWrappers
             var result = String.Format(GridJavascriptDocumentReady,
                 gridName,
                 Skin,
-                SkinRowHeight,
+                gridSpec.SkinRowHeight,
                 gridColumnsJavascriptFunctions,
                 gridSpec.ColumnFilterListForJavascript,
                 gridSpec.GetColumnTotals(gridName),
@@ -193,7 +193,8 @@ namespace LtInfo.Common.DhtmlWrappers
                 gridSpec.GridInstructionsWhenEmpty,
                 verticalResizeFunction,
                 resizeGridFunction, 
-                saveGridSettingsUrl);
+                saveGridSettingsUrl,
+                gridSpec.InitWidthsByPercentage.ToString().ToLower());
 
             return result;
         }

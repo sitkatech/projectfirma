@@ -68,6 +68,7 @@
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
+    <Compile Include="Controllers\ProjectFinderController.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
     <Compile Include="Models\GridColumn.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="Models\TenantSimple.cs" />
+    <Compile Include="PartnerFinder\MatchMakerScoreSubScoreInsight.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectExpectedPerformanceMeasureModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectReportedPerformanceMeasureModel.cs" />
@@ -366,6 +368,9 @@
     <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectFinder\Index.cs" />
+    <Compile Include="Views\ProjectFinder\IndexViewData.cs" />
+    <Compile Include="Views\ProjectFinder\ProjectFinderGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
@@ -869,6 +874,7 @@
     <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
     <Content Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cshtml" />
     <Content Include="Views\ProjectCreate\PartnerFinderProjectCreate.cshtml" />
+    <Content Include="Views\ProjectFinder\Index.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

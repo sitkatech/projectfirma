@@ -35,7 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @RenderSection("BeforeBodyContainer", false)
 }
 
-<div class="container firmaContent">
+<div class="@(ViewDataTyped.ContainerFluid ? "container-fluid" : "container")  firmaContent">
     <div class="rightFloatingInfo">
         @RenderSection("RightOfPageTitle", false)
     </div>

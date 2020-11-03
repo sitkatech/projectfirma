@@ -34,6 +34,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.PartnerFinder;
 using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
@@ -438,5 +439,43 @@ namespace ProjectFirma.Web.Models
 
             return null;
         }
+
+        public static Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool>
+            GetMatchmakerOrganizationProfileCompletionDictionary(this Organization organization)
+        {
+            var allSubScoreTypes = Enum.GetValues(typeof(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType)).OfType<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType>();
+
+            var returnDict = new Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool>();
+
+            foreach (var subScoreType in allSubScoreTypes)
+            {
+                switch (subScoreType)
+                {
+                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword:
+                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword, organization.HasMatchmakerKeywordContent());
+                        break;
+                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest:
+                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest, organization.HasMatchmakerAreaOfInterestContent());
+                        break;
+                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem:
+                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem, organization.HasMatchmakerTaxonomyContent());
+                        
+                        break;
+                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification:
+                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification, organization.HasMatchmakerClassificationsContent());
+                        break;
+                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure:
+                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure, organization.HasMatchmakerPerformanceMeasureContent());
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                       
+                }
+            }
+
+            return returnDict;
+
+        }
+
     }
 }
