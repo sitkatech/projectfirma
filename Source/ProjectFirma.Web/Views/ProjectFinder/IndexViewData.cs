@@ -37,7 +37,6 @@ namespace ProjectFirma.Web.Views.ProjectFinder
         public string ProjectFinderGridName { get; }
         public string ProjectFinderGridDataUrl { get; }
         public ProjectFirmaModels.Models.Organization Organization { get; }
-        public List<PartnerOrganizationMatchMakerScore> ProjectMatchMakerScoresForOrganization { get; }
         public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
         public Dictionary<string, List<ProjectMapLegendElement>> LegendFormats { get; }
 
@@ -45,7 +44,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
             ProjectFinderGridSpec projectFinderGridSpec, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentFirmaSession)
         {
-            ContainerFluid = false;
+            ContainerFluid = true;
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder";
             ProjectFinderGridSpec = projectFinderGridSpec;
             ProjectFinderGridName = "projectFinderGrid";
