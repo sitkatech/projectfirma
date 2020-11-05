@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             SkinRowHeight = 30;
             InitWidthsByPercentage = true;
 
-            Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => x.PartnerOrganizationFitnessScoreNumber.ToString(), 10, DhtmlxGridColumnFilterType.Numeric);
+            Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => x.GetMatchMakerScoreWithPopover(), 10, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), x => x.Project.GetDisplayNameAsUrl(), 18, DhtmlxGridColumnFilterType.Html);
             Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 18, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword].Matched.ToCheckboxImageOrEmptyForGrid(), 8, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
