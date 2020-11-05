@@ -98,12 +98,12 @@
         }
 
         // this is an override for the function in ProjectFirmaMaps.js
-        ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
+        ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function(layer, feature) {
             var self = this;
             if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
                 layer.bindPopup("Loading...");
                 layer.on("click",
-                    function (e) {
+                    function(e) {
                         //var popup = e.target.getPopup();
                         self.map.setView(e.target.getLatLng());
                         jQuery.get(feature.properties.PopupUrl).done(function(data) {
@@ -118,7 +118,7 @@
 
                     jQuery(document).on('submit',
                         'form[data-id="' + layer.id + '"]',
-                        function (e) {
+                        function(e) {
                             e.preventDefault();
                             self.map.setView(layer.getLatLng(), 8);
                             //jQuery.get(feature.properties.PopupUrl).done(function (data) {
@@ -140,7 +140,7 @@
             var newLayer = L.geoJson(points.GeoJsonFeatureCollection,
                 {
                     pointToLayer: function(feature, latlng) {
-                        
+
                         var marker = L.marker(latlng, { icon: defaultIcon });
                         marker.id = feature.properties.ProjectID;
 
@@ -211,6 +211,7 @@
                 mapDiv.height(mapHeight);
             }
 
+
             setMapDivHeight(); // set the map div height before initializing map
             $(window).resize(function() {
                 setMapDivHeight();
@@ -220,6 +221,62 @@
                 @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
             projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
+
+            // clone the markers so we can keep them in memory after we remove/add
+            var allMarkers = _.map(projectFirmaMap.projectLocationsLayer._layers, function(x) {
+                return x;
+            });
+
+            var grid;
+
+            var filterEndEvent = function() {
+                var activeRows = grid.rowsBuffer;
+                // get all the ids here for the active rows
+                var activeRowIDs = _.map(activeRows,
+                    function(row, index) {
+                        return row.idd;
+                    });
+
+                // foreach marker that was initially loaded. Hide and display them based on the active rows in the grid
+                _.each(allMarkers,
+                    function(marker, index) {
+                        if (activeRowIDs.indexOf(marker.id) > -1) {
+                            //marker.addTo(projectFirmaMap);
+                            //marker.setStyle({ opacity: 1 });
+                            projectFirmaMap.projectLocationsLayer.addLayer(marker);
+                        } else {
+                            //marker.remove();
+                            //marker.setStyle({ opacity: 0 });
+                            projectFirmaMap.projectLocationsLayer.removeLayer(marker);
+                        }
+                    });
+            }
+
+            // wait for grid to be initialized. Kind of hacky, but I think it's relatively appropriate
+            var waitForGridAndInitBinding = function() {
+                if (Sitka.@(ViewDataTyped.ProjectFinderGridName) !== undefined) {
+                    grid = Sitka.@(ViewDataTyped.ProjectFinderGridName).grid;
+                    grid.attachEvent("onFilterEnd",
+                        function() {
+
+                            filterEndEvent();
+                        });
+                } else {
+
+                    setTimeout(waitForGridAndInitBinding, 250);
+                }
+            }
+
+            waitForGridAndInitBinding();
+
+
+            // setup the two-way binding?
+            //var grid = Sitka.@(ViewDataTyped.ProjectFinderGridName).grid;
+            //grid.attachEvent("onFilterEnd", function () {
+            //    console.log('filter ended here');
+            //});
+
+
         });
 
     </script>
