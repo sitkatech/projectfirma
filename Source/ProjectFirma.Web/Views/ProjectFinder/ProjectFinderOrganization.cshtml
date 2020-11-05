@@ -27,7 +27,7 @@
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.ProjectFinder.Index
+@inherits ProjectFirma.Web.Views.ProjectFinder.ProjectFinderOrganization
 
 @section JavascriptAndStylesContent
 {
@@ -43,7 +43,7 @@
             this.legendColorsToUse =
                 @Html.Raw(JObject.FromObject(ViewDataTyped.LegendFormats).ToString(Formatting.None));
 
-            // default to clustering
+            // default to not clustering
             this.areLocationsClustered = false;
             // set the project locations
             this.projectLocations = projectLocationsMapInitJson.ProjectLocationsLayerGeoJson;
@@ -81,33 +81,17 @@
         }
 
         var defaultIcon = L.MakiMarkers.icon({ icon: "marker", color: "#7EB1FF", size: "s" });
-        var hoverIcon = L.MakiMarkers.icon({ icon: "marker", color: "#1774FE", size: "s" });
-
-        ProjectFirmaMaps.Map.prototype.bindElementHoverToMarkerColor = function(marker) {
-            jQuery(document).on('mouseover',
-                'form[data-id="' + marker.id + '"]',
-                function(e) {
-                    marker.setIcon(hoverIcon);
-
-                });
-            jQuery(document).on('mouseout',
-                'form[data-id="' + marker.id + '"]',
-                function(e) {
-                    marker.setIcon(defaultIcon);
-                });
-        }
+        var clickedMarkerIcon = L.MakiMarkers.icon({ icon: "marker", color: "#1774FE", size: "m" });
 
         // this is an override for the function in ProjectFirmaMaps.js
-        ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function (layer, feature) {
+        ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function(layer, feature) {
             var self = this;
             if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
                 layer.bindPopup("Loading...");
                 layer.on("click",
-                    function (e) {
-                        //var popup = e.target.getPopup();
-                        self.map.setView(e.target.getLatLng());
-                        jQuery.get(feature.properties.PopupUrl).done(function(data) {
-                            layer.bindPopup(data).openPopup({});
+                    function(e) {
+                        jQuery.get(feature.properties.PopupUrl).done(function (data) {
+                            layer.bindPopup(data).openPopup(null,null,{keepInView: true});
                         });
                     });
 
@@ -115,19 +99,26 @@
                 // On submission of this form it will behave similarly as if you clicked on the map marker itself. I ended up having
                 // to do this on form submit because dhtmlx is a pain in the butt and overrides all click events... - SMG [PF-2243]
                 if (layer.id) {
-
                     jQuery(document).on('submit',
                         'form[data-id="' + layer.id + '"]',
-                        function (e) {
+                        function(e) {
                             e.preventDefault();
+                            // maybe we can check for the current zoom level and not zoom OUT if they are already more zoomed in? - SMG 11/5/2020
                             self.map.setView(layer.getLatLng(), 8);
-                            //jQuery.get(feature.properties.PopupUrl).done(function (data) {
-                            //    layer.bindPopup(data).openPopup();
-                            //});
+                            self.resetMapIconsToDefault();
+                            layer.setIcon(clickedMarkerIcon);
                         });
                 }
             }
         };
+
+        ProjectFirmaMaps.Map.prototype.resetMapIconsToDefault = function() {
+            var self = this;
+            _.each(self.projectLocationsLayer._layers,
+                function(marker, key) {
+                    marker.setIcon(defaultIcon);
+                });
+        }
 
         ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault) {
             var self = this;
@@ -140,12 +131,11 @@
             var newLayer = L.geoJson(points.GeoJsonFeatureCollection,
                 {
                     pointToLayer: function(feature, latlng) {
-                        
+
                         var marker = L.marker(latlng, { icon: defaultIcon });
                         marker.id = feature.properties.ProjectID;
 
                         self.bindPopupToFeature(marker, feature);
-                        self.bindElementHoverToMarkerColor(marker);
                         return marker;
                     },
                     filter: function(feature) {
@@ -199,7 +189,6 @@
         };
 
         jQuery(document).ready(function() {
-
             // Same height calculation as the grid height
             var setMapDivHeight = function() {
                 var mapDiv = jQuery("#@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID");
@@ -220,6 +209,52 @@
                 @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
             projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
+
+            // clone the markers so we can keep them in memory after we remove/add
+            var allMarkers = _.map(projectFirmaMap.projectLocationsLayer._layers,
+                function(x) {
+                    return x;
+                });
+
+            // hold a reference to the grid
+            var grid;
+
+            var filterEndEvent = function() {
+                var activeRows = grid.rowsBuffer;
+                // get all the ids here for the active rows
+                var activeRowIDs = _.map(activeRows,
+                    function(row, index) {
+                        return row.idd;
+                    });
+
+                // foreach marker that was initially loaded. Hide and display them based on the active rows in the grid
+                _.each(allMarkers,
+                    function(marker, index) {
+                        if (activeRowIDs.indexOf(marker.id) > -1) {
+                            projectFirmaMap.projectLocationsLayer.addLayer(marker);
+                        } else {
+                            projectFirmaMap.projectLocationsLayer.removeLayer(marker);
+                        }
+                    });
+            }
+
+            // wait for grid to be initialized. Kind of hacky, but I think it's relatively appropriate
+            var waitForGridAndInitBinding = function() {
+                if (Sitka.@(ViewDataTyped.ProjectFinderGridName) !== undefined) {
+                    grid = Sitka.@(ViewDataTyped.ProjectFinderGridName).grid;
+                    grid.attachEvent("onFilterEnd",
+                        function() {
+
+                            filterEndEvent();
+                        });
+                } else {
+
+                    setTimeout(waitForGridAndInitBinding, 250);
+                }
+            }
+
+            waitForGridAndInitBinding();
+
         });
 
     </script>

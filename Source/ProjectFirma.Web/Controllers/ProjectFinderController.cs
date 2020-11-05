@@ -14,29 +14,24 @@ using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.ProjectFinder;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
-using Index = ProjectFirma.Web.Views.ProjectFinder.Index;
-using IndexViewData = ProjectFirma.Web.Views.ProjectFinder.IndexViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
 
     public class ProjectFinderController : FirmaBaseController
     {
-
-
-
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         [HttpGet]
-        public ViewResult Index()
+        public ViewResult Organization(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            var organization = CurrentFirmaSession.Person.Organization;
+            var organization = organizationPrimaryKey.EntityObject;
             var projectFinderGridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization);
             var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
 
             var filterValues = ResultsController.GetDefaultFilterValuesForFilterType(ProjectMapCustomization.DefaultLocationFilterType.ToEnum, true);
-            
+
             var initialCustomization = new ProjectMapCustomization(ProjectMapCustomization.DefaultLocationFilterType, filterValues, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
@@ -49,9 +44,9 @@ namespace ProjectFirma.Web.Controllers
 
             var profileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
             DisplayMatchMakerToastMessagesIfAny(organization, projectMatchmakerScoresForOrganization, profileCompletionDictionary);
-            
-            var viewData = new IndexViewData(CurrentFirmaSession, organization, projectMatchmakerScoresForOrganization,  projectFinderGridSpec, projectLocationsMapInitJson);
-            return RazorView<Index, IndexViewData>(viewData);
+
+            var viewData = new ProjectFinderOrganizationViewData(CurrentFirmaSession, organization, projectMatchmakerScoresForOrganization, projectFinderGridSpec, projectLocationsMapInitJson);
+            return RazorView<ProjectFinderOrganization, ProjectFinderOrganizationViewData>(viewData);
         }
 
         private void DisplayMatchMakerToastMessagesIfAny(Organization organization, List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization, Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> profileCompletionDictionary)
@@ -94,14 +89,14 @@ namespace ProjectFirma.Web.Controllers
 
         // All projects that match with the organization
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData()
+        public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            var organization = CurrentFirmaSession.Person.Organization;
+            var organization = organizationPrimaryKey.EntityObject;
             var gridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization);
             var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldShowOnMap()).ToList();
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresExcludingInvalidStages, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresExcludingInvalidStages, gridSpec, x => x.Project.PrimaryKey);
             return gridJsonNetJObjectResult;
         }
        
