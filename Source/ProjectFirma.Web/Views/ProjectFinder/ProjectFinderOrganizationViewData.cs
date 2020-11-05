@@ -31,7 +31,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectFinder
 {
-    public class IndexViewData : FirmaViewData
+    public class ProjectFinderOrganizationViewData : FirmaViewData
     {
         public ProjectFinderGridSpec ProjectFinderGridSpec { get; }
         public string ProjectFinderGridName { get; }
@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
         public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
         public Dictionary<string, List<ProjectMapLegendElement>> LegendFormats { get; }
 
-        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization,
+        public ProjectFinderOrganizationViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization,
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
             ProjectFinderGridSpec projectFinderGridSpec, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentFirmaSession)
         {
@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder";
             ProjectFinderGridSpec = projectFinderGridSpec;
             ProjectFinderGridName = "projectFinderGrid";
-            ProjectFinderGridDataUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(tc => tc.ProjectFinderGridFullJsonData());
+            ProjectFinderGridDataUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(tc => tc.ProjectFinderGridFullJsonData(organization.OrganizationID));
             Organization = organization;
 
 

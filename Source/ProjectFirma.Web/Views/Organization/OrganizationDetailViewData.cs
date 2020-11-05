@@ -283,7 +283,7 @@ namespace ProjectFirma.Web.Views.Organization
             AllClassificationSystems = allClassificationSystems;
 
             EditOrgPerformanceMeasuresUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerPerformanceMeasures(organization));
-            ProjectFinderPageUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(c => c.Index());
+            ProjectFinderPageUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(c => c.Organization(organization));
             MatchmakerProfileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
             MatchmakerProjectFinderButtonDisabled = !MatchmakerProfileCompletionDictionary.Values.Any(x => x);
         }

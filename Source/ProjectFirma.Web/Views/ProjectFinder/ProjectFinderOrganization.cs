@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 namespace ProjectFirma.Web.Views.ProjectFinder
 {
-    public abstract class Index : LtInfo.Common.Mvc.TypedWebViewPage<IndexViewData>
+    public abstract class ProjectFinderOrganization : LtInfo.Common.Mvc.TypedWebViewPage<ProjectFinderOrganizationViewData>
     {
     }
 }
