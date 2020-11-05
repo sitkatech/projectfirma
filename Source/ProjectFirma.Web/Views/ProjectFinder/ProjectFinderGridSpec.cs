@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
                 ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
                 : new EnglishPluralizationService().Pluralize(allClassificationSystems.First().ClassificationSystemName);
 
-            Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => x.PartnerOrganizationFitnessScoreNumber.ToString(), 5, DhtmlxGridColumnFilterType.Numeric);
+            Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => (decimal) x.PartnerOrganizationFitnessScoreNumber, 5);
             Add(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), x => x.Project.GetDisplayNameAsUrl(), 20, DhtmlxGridColumnFilterType.Html);
             Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 20, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword].Matched.ToCheckboxImageOrEmptyForGrid(), 8, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);

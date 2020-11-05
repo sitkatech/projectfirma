@@ -43,7 +43,7 @@
             this.legendColorsToUse =
                 @Html.Raw(JObject.FromObject(ViewDataTyped.LegendFormats).ToString(Formatting.None));
 
-            // default to clustering
+            // default to not clustering
             this.areLocationsClustered = false;
             // set the project locations
             this.projectLocations = projectLocationsMapInitJson.ProjectLocationsLayerGeoJson;
@@ -90,10 +90,8 @@
                 layer.bindPopup("Loading...");
                 layer.on("click",
                     function(e) {
-                        //var popup = e.target.getPopup();
-                        self.map.setView(e.target.getLatLng());
-                        jQuery.get(feature.properties.PopupUrl).done(function(data) {
-                            layer.bindPopup(data).openPopup({});
+                        jQuery.get(feature.properties.PopupUrl).done(function (data) {
+                            layer.bindPopup(data).openPopup(null,null,{keepInView: true});
                         });
                     });
 
