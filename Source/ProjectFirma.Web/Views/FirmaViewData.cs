@@ -353,7 +353,7 @@ namespace ProjectFirma.Web.Views
             // Group 2 - My Organization's Projects & Organizations Project Finder Page
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.MyOrganizationsProjects()), currentFirmaSession, $"My {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}'s {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
 
-            if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker && currentFirmaSession.Person?.Organization != null)
             {
                 projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectFinderController>(c => c.Organization(currentFirmaSession.Person.OrganizationID)), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder", "Group2"));
             }
