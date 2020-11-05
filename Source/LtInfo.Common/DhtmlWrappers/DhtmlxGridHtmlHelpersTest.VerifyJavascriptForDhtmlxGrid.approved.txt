@@ -23,7 +23,7 @@
         var columnFilterList = "#select_filter_html_strict,#select_filter_html_strict,#text_filter,#select_filter_strict,#numeric_filter";
         Sitka.testGridName.grid.attachFooter(",,,,{#stat_total}", ["","","","","text-align:right"]);
         
-        Sitka.testGridName.buildWithArguments(null, null, columnFilterList, "TestController/ListGridDataXml", false, null);
+        Sitka.testGridName.buildWithArguments(null, null, columnFilterList, "TestController/ListGridDataXml", false, null, false);
 
         // Show loading bar
         jQuery("#testGridNameLoadingBar").show();
