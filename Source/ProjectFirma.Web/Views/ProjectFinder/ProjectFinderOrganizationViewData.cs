@@ -39,10 +39,13 @@ namespace ProjectFirma.Web.Views.ProjectFinder
         public ProjectFirmaModels.Models.Organization Organization { get; }
         public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
         public Dictionary<string, List<ProjectMapLegendElement>> LegendFormats { get; }
+        public LayerGeoJson MatchMakerAreaOfInterestGeoJson { get; }
 
-        public ProjectFinderOrganizationViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization,
+        public ProjectFinderOrganizationViewData(FirmaSession currentFirmaSession,
+            ProjectFirmaModels.Models.Organization organization,
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
-            ProjectFinderGridSpec projectFinderGridSpec, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentFirmaSession)
+            ProjectFinderGridSpec projectFinderGridSpec, ProjectLocationsMapInitJson projectLocationsMapInitJson,
+            LayerGeoJson matchMakerAreaOfInterestGeoJson) : base(currentFirmaSession)
         {
             ContainerFluid = true;
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder";
@@ -54,7 +57,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
 
             LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(MultiTenantHelpers.GetTopLevelTaxonomyTiers(), true);
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
-
+            MatchMakerAreaOfInterestGeoJson = matchMakerAreaOfInterestGeoJson;
 
         }
     }

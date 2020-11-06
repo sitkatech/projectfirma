@@ -90,8 +90,8 @@
                 layer.bindPopup("Loading...");
                 layer.on("click",
                     function(e) {
-                        jQuery.get(feature.properties.PopupUrl).done(function (data) {
-                            layer.bindPopup(data).openPopup(null,null,{keepInView: true});
+                        jQuery.get(feature.properties.PopupUrl).done(function(data) {
+                            layer.bindPopup(data).openPopup(null, null, { keepInView: true });
                         });
                     });
 
@@ -205,10 +205,42 @@
                 setMapDivHeight();
             });
 
+
+            var matchMakerAreaOfInterestGeoJson = @(ViewDataTyped.MatchMakerAreaOfInterestGeoJson != null
+                ? @Html.Raw(JObject.FromObject(ViewDataTyped.MatchMakerAreaOfInterestGeoJson).ToString(Formatting.None))
+                : new HtmlString("{}"));
+
+
             var projectLocationsMapInitJson =
                 @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
             projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
+
+            
+            projectFirmaMap.areaOfInterestFeatureGroup = new L.FeatureGroup();
+
+            var layerGroup = L.geoJson(matchMakerAreaOfInterestGeoJson.GeoJsonFeatureCollection, {
+                onEachFeature: function (feature, layer) {
+                    if (layer.getLayers)
+                    {
+                        layer.getLayers().forEach(function (l) { projectFirmaMap.areaOfInterestFeatureGroup.addLayer(l); });
+                    }
+                    else
+                    {
+                        projectFirmaMap.areaOfInterestFeatureGroup.addLayer(layer);
+                        projectFirmaMap.areaOfInterestFeatureGroup.setStyle({ color: '@Organization.OrganizationAreaOfInterestMapLayerColor'});
+                    }
+                    projectFirmaMap.bindHoverToFeature(layer, feature);
+                }
+            });
+
+            if (matchMakerAreaOfInterestGeoJson.LayerInitialVisibility)
+            {
+                projectFirmaMap.map.addLayer(projectFirmaMap.areaOfInterestFeatureGroup);
+            }
+
+            projectFirmaMap.addLayerToLayerControl(projectFirmaMap.areaOfInterestFeatureGroup, "@FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()");
+
 
             // clone the markers so we can keep them in memory after we remove/add
             var allMarkers = _.map(projectFirmaMap.projectLocationsLayer._layers,

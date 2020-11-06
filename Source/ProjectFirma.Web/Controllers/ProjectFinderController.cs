@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -14,6 +16,7 @@ using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.ProjectFinder;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
+using static ProjectFirmaModels.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -45,8 +48,36 @@ namespace ProjectFirma.Web.Controllers
             var profileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
             DisplayMatchMakerToastMessagesIfAny(organization, projectMatchmakerScoresForOrganization, profileCompletionDictionary);
 
-            var viewData = new ProjectFinderOrganizationViewData(CurrentFirmaSession, organization, projectMatchmakerScoresForOrganization, projectFinderGridSpec, projectLocationsMapInitJson);
+            var matchMakerAreaOfInterestGeoJson = GetMatchMakerAreaOfInterestGeoJson(organization);
+
+            var viewData = new ProjectFinderOrganizationViewData(CurrentFirmaSession, organization, projectMatchmakerScoresForOrganization, projectFinderGridSpec, projectLocationsMapInitJson, matchMakerAreaOfInterestGeoJson);
             return RazorView<ProjectFinderOrganization, ProjectFinderOrganizationViewData>(viewData);
+        }
+
+        private static LayerGeoJson GetMatchMakerAreaOfInterestGeoJson(Organization organization)
+        {
+            LayerGeoJson layer = null;
+
+            // organization boundary layer
+            if (organization.UseOrganizationBoundaryForMatchmaker && organization.OrganizationBoundary != null)
+            {
+                var organizationBoundaryToFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
+                organizationBoundaryToFeatureCollection.Features.ForEach(x => x.Properties.Add("Hover Name", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()));
+                layer = new LayerGeoJson("Organization Boundary",
+                    organizationBoundaryToFeatureCollection, ProjectFirmaModels.Models.Organization.OrganizationAreaOfInterestMapLayerColor, 1,
+                    LayerInitialVisibility.Show);
+            }
+
+            // custom areas of interest
+            if (!organization.UseOrganizationBoundaryForMatchmaker &&
+                organization.MatchMakerAreaOfInterestLocations.Any())
+            {
+                var areaOfInterestLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "Area Of Interest", "User Set");
+                areaOfInterestLayerGeoJsonFeatureCollection.Features.ForEach(x => x.Properties.Add("Hover Name", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()));
+                layer = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, ProjectFirmaModels.Models.Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.Show);
+            }
+
+            return layer;
         }
 
         private void DisplayMatchMakerToastMessagesIfAny(Organization organization, List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization, Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> profileCompletionDictionary)
