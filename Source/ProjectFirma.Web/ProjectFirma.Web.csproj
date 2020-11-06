@@ -369,8 +369,8 @@
     <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
-    <Compile Include="Views\ProjectFinder\Index.cs" />
-    <Compile Include="Views\ProjectFinder\IndexViewData.cs" />
+    <Compile Include="Views\ProjectFinder\ProjectFinderOrganization.cs" />
+    <Compile Include="Views\ProjectFinder\ProjectFinderOrganizationViewData.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
@@ -875,7 +875,7 @@
     <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
     <Content Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cshtml" />
     <Content Include="Views\ProjectCreate\PartnerFinderProjectCreate.cshtml" />
-    <Content Include="Views\ProjectFinder\Index.cshtml" />
+    <Content Include="Views\ProjectFinder\ProjectFinderOrganization.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

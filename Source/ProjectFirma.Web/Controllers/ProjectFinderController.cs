@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -14,29 +16,25 @@ using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.ProjectFinder;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
-using Index = ProjectFirma.Web.Views.ProjectFinder.Index;
-using IndexViewData = ProjectFirma.Web.Views.ProjectFinder.IndexViewData;
+using static ProjectFirmaModels.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
 {
 
     public class ProjectFinderController : FirmaBaseController
     {
-
-
-
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         [HttpGet]
-        public ViewResult Index()
+        public ViewResult Organization(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            var organization = CurrentFirmaSession.Person.Organization;
+            var organization = organizationPrimaryKey.EntityObject;
             var projectFinderGridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization);
             var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
 
             var filterValues = ResultsController.GetDefaultFilterValuesForFilterType(ProjectMapCustomization.DefaultLocationFilterType.ToEnum, true);
-            
+
             var initialCustomization = new ProjectMapCustomization(ProjectMapCustomization.DefaultLocationFilterType, filterValues, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
@@ -49,9 +47,37 @@ namespace ProjectFirma.Web.Controllers
 
             var profileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
             DisplayMatchMakerToastMessagesIfAny(organization, projectMatchmakerScoresForOrganization, profileCompletionDictionary);
-            
-            var viewData = new IndexViewData(CurrentFirmaSession, organization, projectMatchmakerScoresForOrganization,  projectFinderGridSpec, projectLocationsMapInitJson);
-            return RazorView<Index, IndexViewData>(viewData);
+
+            var matchMakerAreaOfInterestGeoJson = GetMatchMakerAreaOfInterestGeoJson(organization);
+
+            var viewData = new ProjectFinderOrganizationViewData(CurrentFirmaSession, organization, projectMatchmakerScoresForOrganization, projectFinderGridSpec, projectLocationsMapInitJson, matchMakerAreaOfInterestGeoJson);
+            return RazorView<ProjectFinderOrganization, ProjectFinderOrganizationViewData>(viewData);
+        }
+
+        private static LayerGeoJson GetMatchMakerAreaOfInterestGeoJson(Organization organization)
+        {
+            LayerGeoJson layer = null;
+
+            // organization boundary layer
+            if (organization.UseOrganizationBoundaryForMatchmaker && organization.OrganizationBoundary != null)
+            {
+                var organizationBoundaryToFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
+                organizationBoundaryToFeatureCollection.Features.ForEach(x => x.Properties.Add("Hover Name", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()));
+                layer = new LayerGeoJson("Organization Boundary",
+                    organizationBoundaryToFeatureCollection, ProjectFirmaModels.Models.Organization.OrganizationAreaOfInterestMapLayerColor, 1,
+                    LayerInitialVisibility.Show);
+            }
+
+            // custom areas of interest
+            if (!organization.UseOrganizationBoundaryForMatchmaker &&
+                organization.MatchMakerAreaOfInterestLocations.Any())
+            {
+                var areaOfInterestLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "Area Of Interest", "User Set");
+                areaOfInterestLayerGeoJsonFeatureCollection.Features.ForEach(x => x.Properties.Add("Hover Name", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()));
+                layer = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, ProjectFirmaModels.Models.Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.Show);
+            }
+
+            return layer;
         }
 
         private void DisplayMatchMakerToastMessagesIfAny(Organization organization, List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization, Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> profileCompletionDictionary)
@@ -94,14 +120,14 @@ namespace ProjectFirma.Web.Controllers
 
         // All projects that match with the organization
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData()
+        public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            var organization = CurrentFirmaSession.Person.Organization;
+            var organization = organizationPrimaryKey.EntityObject;
             var gridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization);
             var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldShowOnMap()).ToList();
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresExcludingInvalidStages, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresExcludingInvalidStages, gridSpec, x => x.Project.PrimaryKey);
             return gridJsonNetJObjectResult;
         }
        

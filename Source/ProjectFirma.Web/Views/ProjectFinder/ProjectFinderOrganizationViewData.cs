@@ -31,7 +31,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectFinder
 {
-    public class IndexViewData : FirmaViewData
+    public class ProjectFinderOrganizationViewData : FirmaViewData
     {
         public ProjectFinderGridSpec ProjectFinderGridSpec { get; }
         public string ProjectFinderGridName { get; }
@@ -39,22 +39,25 @@ namespace ProjectFirma.Web.Views.ProjectFinder
         public ProjectFirmaModels.Models.Organization Organization { get; }
         public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
         public Dictionary<string, List<ProjectMapLegendElement>> LegendFormats { get; }
+        public LayerGeoJson MatchMakerAreaOfInterestGeoJson { get; }
 
-        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization,
+        public ProjectFinderOrganizationViewData(FirmaSession currentFirmaSession,
+            ProjectFirmaModels.Models.Organization organization,
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
-            ProjectFinderGridSpec projectFinderGridSpec, ProjectLocationsMapInitJson projectLocationsMapInitJson) : base(currentFirmaSession)
+            ProjectFinderGridSpec projectFinderGridSpec, ProjectLocationsMapInitJson projectLocationsMapInitJson,
+            LayerGeoJson matchMakerAreaOfInterestGeoJson) : base(currentFirmaSession)
         {
             ContainerFluid = true;
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder";
             ProjectFinderGridSpec = projectFinderGridSpec;
             ProjectFinderGridName = "projectFinderGrid";
-            ProjectFinderGridDataUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(tc => tc.ProjectFinderGridFullJsonData());
+            ProjectFinderGridDataUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(tc => tc.ProjectFinderGridFullJsonData(organization.OrganizationID));
             Organization = organization;
 
 
             LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(MultiTenantHelpers.GetTopLevelTaxonomyTiers(), true);
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
-
+            MatchMakerAreaOfInterestGeoJson = matchMakerAreaOfInterestGeoJson;
 
         }
     }
