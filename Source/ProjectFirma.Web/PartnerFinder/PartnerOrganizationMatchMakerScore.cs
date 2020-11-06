@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.PartnerFinder
 
         public HtmlString GetMatchMakerScoreWithPopover()
         {
-            var scoreWithPopover = new HtmlString($"<a role=\"button\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"false\" data-content=\"toms Test!\">{this.PartnerOrganizationFitnessScoreNumber}</a>");
+            var scoreWithPopover = new HtmlString($"<div><a role=\"button\" data-toggle=\"popover\" data-container=\"body\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"false\" data-content=\"toms Test!\">{this.PartnerOrganizationFitnessScoreNumber}</a></div>");
 
             return scoreWithPopover;
         }

@@ -223,6 +223,16 @@
         });
 
     </script>
+    <script>
+        jQuery(function() {
+            jQuery('[data-toggle="popover"]').popover({});
+
+            jQuery('[data-toggle="popover"]').on('show.bs.popover',
+                function() {
+                    console.log("inside show method");
+                });
+        });
+    </script>
 }
 
 @section RightOfPageTitle
@@ -233,6 +243,13 @@
 <div style="padding-top: 10px;">
     <p>The @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() listed below may be associated with @ViewDataTyped.Organization.GetDisplayName() by one or all of the following: @FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel(), @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabel(),  @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(), or @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel().</p>
     <p>Use the filters below to search for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by type, or click a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s name to see more details. Selecting a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from the grid will display the results in the map.</p>
+    <p>
+        <a role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-content="toms Test!">this is a sample popover</a>
+    </p>
+    <div class="taxonomyCount">
+        <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" data-placement="right" data-html="true" data-content="<p>This shou<br/>ld be readable in a popover</p>">click this to get a popover
+        </a>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-7 project-finder-grid">
