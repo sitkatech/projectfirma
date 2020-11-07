@@ -37,7 +37,6 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using ProjectFirma.Web.Views.Tag;
 using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System;

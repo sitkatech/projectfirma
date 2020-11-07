@@ -19,14 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
+using LtInfo.Common.Mvc;
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Views.ContactRelationshipType
 {
     public class EditContactRelationshipTypeViewData : FirmaUserControlViewData
     {
+        public List<SelectListItem> ProjectStageSelectListItems;
 
         public EditContactRelationshipTypeViewData()
         {
-
+            ProjectStageSelectListItems = ProjectStage.AllLookupDictionary.ToSelectListWithEmptyFirstRow(psk => psk.Key.ToString(CultureInfo.InvariantCulture), psk => psk.Value.ProjectStageDisplayName).ToList();
         }
     }
 }

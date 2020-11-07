@@ -46,6 +46,9 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsContactRelationshipTypeRequired)]
         public bool? IsContactRelationshipTypeRequired { get; set; }
 
+        [DisplayName("If Required, minimum Project Stage Contact must be set by")]
+        public int? IsContactRelationshipRequiredMinimumProjectStageID { get; set; }
+
         [Required]
         [DisplayName("Relationship Type Description")]
         public string ContactRelationshipTypeDescription { get; set; }
@@ -63,6 +66,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
             RelationshipTypeID = contactRelationshipType.ContactRelationshipTypeID;
             ContactRelationshipTypeName = contactRelationshipType.ContactRelationshipTypeName;
             IsContactRelationshipTypeRequired = contactRelationshipType.IsContactRelationshipTypeRequired;
+            IsContactRelationshipRequiredMinimumProjectStageID = contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStageID;
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
         }
 
@@ -71,6 +75,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
             contactRelationshipType.ContactRelationshipTypeName = ContactRelationshipTypeName;
 
             contactRelationshipType.IsContactRelationshipTypeRequired = IsContactRelationshipTypeRequired ?? false;
+            contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStageID = IsContactRelationshipRequiredMinimumProjectStageID;
             contactRelationshipType.ContactRelationshipTypeDescription = ContactRelationshipTypeDescription;
         }
 
