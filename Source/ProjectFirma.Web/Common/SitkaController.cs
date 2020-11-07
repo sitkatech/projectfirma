@@ -341,6 +341,7 @@ namespace ProjectFirma.Web.Common
             // In DHTMLX Grid 4.2 Formulas don't work so PrintFooter true is not very useful, leaving off for now
             var generator = new ExcelWriter { PrintFooter = false };
             var xml = Request.Form["grid_xml"];
+            Check.EnsureNotNull(xml, "Could not find 'grid_xml' form element in form POST. Is this a properly formed POST request?");
             xml = Server.UrlDecode(xml);
             xml = xml.Replace("<![CDATA[$", "<![CDATA["); // RL 7/11/2015 Poor man's hack to remove currency and allow for total rows
             xml = BlankRowFixup(xml);
