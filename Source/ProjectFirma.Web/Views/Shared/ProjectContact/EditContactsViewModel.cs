@@ -77,7 +77,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
 
         public string GetRequiredRelationshipTypeErrorStringSuffix(ProjectStage currentProjectStage, ProjectFirmaModels.Models.ContactRelationshipType contactRelationshipType)
         {
-            if (currentProjectStage.SortOrder >= contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.SortOrder)
+            bool hasMinimumProjectStageSet = contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage != null;
+            if (hasMinimumProjectStageSet && currentProjectStage.SortOrder >= contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.SortOrder)
             {
                 return $"Project Stage is at or beyond {contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.ProjectStageDisplayName}, when the {contactRelationshipType.ContactRelationshipTypeName} must be set.";
             }
