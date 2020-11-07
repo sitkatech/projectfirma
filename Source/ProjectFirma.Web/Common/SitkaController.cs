@@ -292,13 +292,13 @@ namespace ProjectFirma.Web.Common
         }
 
         /// <summary>
-        /// Convert a controller name into the segement of the URL following MVC conventions adding .mvc as needed: Foo => string: Foo.mvc or Foo
+        /// Convert a controller name into the segment of the URL following MVC conventions adding .mvc as needed: Foo => string: Foo.mvc or Foo
         /// </summary>
         /// <param name="controllerName">Controller name (name minus the "Controller" suffix)</param>
         public static string ControllerNameToUrlSegment(string controllerName)
         {
             var mvcFileExtensionIfAny = (SitkaWebConfiguration.UseMvcExtensionInUrl) ? ".mvc" : "";
-            return string.Format("{0}{1}", controllerName, mvcFileExtensionIfAny);
+            return $"{controllerName}{mvcFileExtensionIfAny}";
         }
 
         public static List<MethodInfo> FindAttributedMethods(Type webServiceType, Type attributeType)
