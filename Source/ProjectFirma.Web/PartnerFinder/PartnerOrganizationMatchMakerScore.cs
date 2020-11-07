@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Web;
+using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
 
@@ -53,9 +57,36 @@ namespace ProjectFirma.Web.PartnerFinder
 
         public HtmlString GetMatchMakerScoreWithPopover()
         {
-            var scoreWithPopover = new HtmlString($"<div><a role=\"button\" data-toggle=\"popover\" data-container=\"body\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"false\" data-content=\"toms Test!\">{this.PartnerOrganizationFitnessScoreNumber}</a></div>");
+            //<div>
+            //<p>This organization matches on 4 of 5 elements:</p>
+	           // <ul>
+            //    <li><strong>Area of Interest:</strong> Simple Location and Congressional District 02</li>
+            //    <li><strong>First Keyword:</strong> “livestock” </li>
+            //    <li><strong>Focus Area:</strong>  Water Quality Implementation Program</li>
+            //    <li><strong>Project Theme:</strong> Rangelands </li>
+            //    </ul>
+            //<p>It did not match on Performance Measures.</p>
+            //</div>
+            var itemsMatched = this.ScoreInsightDictionary.Where(x => x.Value.Matched);
+            var countOfMatches = itemsMatched.Count();
+            var itemsNotMatched = this.ScoreInsightDictionary.Where(x => !x.Value.Matched).Select(x => x.Key);
+            var countOfTotalPossibleItemsToMatchOn = Enum.GetNames(typeof(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType)).Length;
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"<div><p>This organization matches on {countOfMatches} of {countOfTotalPossibleItemsToMatchOn} elements:</p>");
+            sb.Append("<ul>");
+            foreach (var match in itemsMatched)
+            {
+                sb.Append($"<li><strong>{match.Key}:</strong> {string.Join(", ", match.Value.ScoreInsights)}</li>");
+            }
+            sb.Append("</ul>");
+            sb.Append($"<p>It did not match on {string.Join(",", itemsNotMatched)}</p>");
+            sb.Append("</div>");
+
+            var scoreWithPopover = new HtmlString($"<a tabindex=\"0\" role=\"button\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"true\" data-content=\"{sb}\">{this.PartnerOrganizationFitnessScoreNumber}</a>");
 
             return scoreWithPopover;
+
         }
     }
 }
