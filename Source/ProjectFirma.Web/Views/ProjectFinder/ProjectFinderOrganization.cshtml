@@ -270,14 +270,28 @@
                     });
             }
 
+            // Select the map marker, but don't zoom to it
+            var rowSelectEvent = function(rowId) {
+                _.each(allMarkers,
+                    function (marker, index) {
+                        if (rowId == marker.id) {
+                            projectFirmaMap.resetMapIconsToDefault();
+                            marker.setIcon(clickedMarkerIcon);
+                        } 
+                    });
+            }
+
             // wait for grid to be initialized. Kind of hacky, but I think it's relatively appropriate
             var waitForGridAndInitBinding = function() {
                 if (Sitka.@(ViewDataTyped.ProjectFinderGridName) !== undefined) {
                     grid = Sitka.@(ViewDataTyped.ProjectFinderGridName).grid;
                     grid.attachEvent("onFilterEnd",
                         function() {
-
                             filterEndEvent();
+                        });
+                    grid.attachEvent("onRowSelect",
+                        function(id, ind) {
+                            rowSelectEvent(id);
                         });
                 } else {
 
