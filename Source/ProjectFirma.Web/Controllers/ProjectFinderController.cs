@@ -28,8 +28,11 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Organization(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
+
+            var organizationHasOptedIn = organization.MatchmakerOptIn ?? false;
+
             var projectFinderGridSpec = new ProjectFinderGridSpec();
-            var projectMatchmakerScoresForOrganization = new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization);
+            var projectMatchmakerScoresForOrganization = organizationHasOptedIn ? new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization) : new List<PartnerOrganizationMatchMakerScore>();
             var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
 
@@ -46,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
 
             var profileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
-            DisplayMatchMakerToastMessagesIfAny(organization, projectMatchmakerScoresForOrganization, profileCompletionDictionary);
+            DisplayMatchMakerToastMessagesIfAny(organization, projectMatchmakerScoresForOrganization, profileCompletionDictionary, organizationHasOptedIn);
 
             var matchMakerAreaOfInterestGeoJson = GetMatchMakerAreaOfInterestGeoJson(organization);
 
@@ -80,12 +83,21 @@ namespace ProjectFirma.Web.Controllers
             return layer;
         }
 
-        private void DisplayMatchMakerToastMessagesIfAny(Organization organization, List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization, Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> profileCompletionDictionary)
+        private void DisplayMatchMakerToastMessagesIfAny(Organization organization,
+            List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
+            Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> profileCompletionDictionary,
+            bool organizationHasOptedIn)
         {
 
             var linkToOrgProfile = SitkaRoute<OrganizationController>.BuildLinkFromExpression(
                 x => x.Detail(organization.OrganizationID, OrganizationDetailViewData.OrganizationDetailTab.Profile),
                 $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Profile");
+
+            if (!organizationHasOptedIn)
+            {
+                SetErrorForDisplay($"The {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.GetDisplayName()}) has not opted in to the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Matchmaker service. If you are the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} please fill out your {linkToOrgProfile} as completely as possible and Opt-In to the service.");
+                return;
+            }
 
             // When Org profile is not filled out at all (no matches are possible)
             if (!profileCompletionDictionary.Values.Any(x => x))
@@ -123,8 +135,9 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
+            var organizationHasOptedIn = organization.MatchmakerOptIn ?? false;
             var gridSpec = new ProjectFinderGridSpec();
-            var projectMatchmakerScoresForOrganization = new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization);
+            var projectMatchmakerScoresForOrganization = organizationHasOptedIn ? new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization) : new List<PartnerOrganizationMatchMakerScore>();
             var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldShowOnMap()).ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresExcludingInvalidStages, gridSpec, x => x.Project.PrimaryKey);
