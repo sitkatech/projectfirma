@@ -26,10 +26,10 @@ CREATE TABLE [dbo].[ContactRelationshipType](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ContactRelationshipType]  WITH CHECK ADD  CONSTRAINT [FK_ContactRelationshipRequiredMinimumProjectStageID_ProjectStage_ProjectStageID] FOREIGN KEY([IsContactRelationshipRequiredMinimumProjectStageID])
+ALTER TABLE [dbo].[ContactRelationshipType]  WITH CHECK ADD  CONSTRAINT [FK_ContactRelationshipType_ProjectStage_IsContactRelationshipRequiredMinimumProjectStageID_ProjectStageID] FOREIGN KEY([IsContactRelationshipRequiredMinimumProjectStageID])
 REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
-ALTER TABLE [dbo].[ContactRelationshipType] CHECK CONSTRAINT [FK_ContactRelationshipRequiredMinimumProjectStageID_ProjectStage_ProjectStageID]
+ALTER TABLE [dbo].[ContactRelationshipType] CHECK CONSTRAINT [FK_ContactRelationshipType_ProjectStage_IsContactRelationshipRequiredMinimumProjectStageID_ProjectStageID]
 GO
 ALTER TABLE [dbo].[ContactRelationshipType]  WITH CHECK ADD  CONSTRAINT [FK_ContactRelationshipType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
