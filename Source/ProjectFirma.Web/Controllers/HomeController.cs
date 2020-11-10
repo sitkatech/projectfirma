@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Controllers
 {
     public class HomeController : FirmaBaseController
     {
+        // Yes, this is in fact a POST. 
+        [HttpPost]
         [AnonymousUnclassifiedFeature]
         public FileResult ExportGridToExcel(string gridName)
         {

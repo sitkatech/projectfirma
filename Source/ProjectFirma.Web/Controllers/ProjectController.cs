@@ -37,7 +37,6 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using ProjectFirma.Web.Views.Tag;
 using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System;
@@ -804,6 +803,12 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public JsonResult Find(string term)
         {
+            // Assuming for now that a null search is really a search for everything, but that
+            // may not be a good assumption. -- SLG
+            if (term == null)
+            {
+                term = string.Empty;
+            }
             var projectFindResults = GetViewableProjectsFromSearchCriteria(term.Trim());
             var results = projectFindResults.Take(ProjectsCountLimit).Select(p => new ListItem(p.GetDisplayName().ToEllipsifiedString(100), p.GetDetailUrl())).ToList();
             if (projectFindResults.Count > ProjectsCountLimit)

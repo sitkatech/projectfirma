@@ -1170,6 +1170,7 @@ namespace ProjectFirma.Web.Controllers
 
         // Partner Finder section of Project Update
         [HttpGet]
+        [ProjectCreateFeature]
         public ActionResult PartnerFinder(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;

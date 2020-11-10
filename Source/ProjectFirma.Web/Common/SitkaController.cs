@@ -292,13 +292,13 @@ namespace ProjectFirma.Web.Common
         }
 
         /// <summary>
-        /// Convert a controller name into the segement of the URL following MVC conventions adding .mvc as needed: Foo => string: Foo.mvc or Foo
+        /// Convert a controller name into the segment of the URL following MVC conventions adding .mvc as needed: Foo => string: Foo.mvc or Foo
         /// </summary>
         /// <param name="controllerName">Controller name (name minus the "Controller" suffix)</param>
         public static string ControllerNameToUrlSegment(string controllerName)
         {
             var mvcFileExtensionIfAny = (SitkaWebConfiguration.UseMvcExtensionInUrl) ? ".mvc" : "";
-            return string.Format("{0}{1}", controllerName, mvcFileExtensionIfAny);
+            return $"{controllerName}{mvcFileExtensionIfAny}";
         }
 
         public static List<MethodInfo> FindAttributedMethods(Type webServiceType, Type attributeType)
@@ -341,6 +341,7 @@ namespace ProjectFirma.Web.Common
             // In DHTMLX Grid 4.2 Formulas don't work so PrintFooter true is not very useful, leaving off for now
             var generator = new ExcelWriter { PrintFooter = false };
             var xml = Request.Form["grid_xml"];
+            Check.EnsureNotNull(xml, "Could not find 'grid_xml' form element in form POST. Is this a properly formed POST request?");
             xml = Server.UrlDecode(xml);
             xml = xml.Replace("<![CDATA[$", "<![CDATA["); // RL 7/11/2015 Poor man's hack to remove currency and allow for total rows
             xml = BlankRowFixup(xml);

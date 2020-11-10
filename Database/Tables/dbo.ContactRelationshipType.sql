@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[ContactRelationshipType](
 	[TenantID] [int] NOT NULL,
 	[ContactRelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[IsContactRelationshipTypeRequired] [bit] NOT NULL,
+	[IsContactRelationshipRequiredMinimumProjectStageID] [int] NULL,
 	[ContactRelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ContactRelationshipType_ContactRelationshipTypeID] PRIMARY KEY CLUSTERED 
 (
@@ -24,6 +25,11 @@ CREATE TABLE [dbo].[ContactRelationshipType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ContactRelationshipType]  WITH CHECK ADD  CONSTRAINT [FK_ContactRelationshipType_ProjectStage_IsContactRelationshipRequiredMinimumProjectStageID_ProjectStageID] FOREIGN KEY([IsContactRelationshipRequiredMinimumProjectStageID])
+REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
+GO
+ALTER TABLE [dbo].[ContactRelationshipType] CHECK CONSTRAINT [FK_ContactRelationshipType_ProjectStage_IsContactRelationshipRequiredMinimumProjectStageID_ProjectStageID]
 GO
 ALTER TABLE [dbo].[ContactRelationshipType]  WITH CHECK ADD  CONSTRAINT [FK_ContactRelationshipType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

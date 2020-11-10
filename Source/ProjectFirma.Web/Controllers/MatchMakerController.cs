@@ -7,6 +7,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class MatchMakerController : FirmaBaseController
     {
+        [ProjectViewFeature]
         public ActionResult ProjectPotentialPartners(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;

@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using DocumentFormat.OpenXml.Wordprocessing;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -32,6 +33,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
 {
     public class EditContactsViewModel : FormViewModel, IValidatableObject
     {
+        /// <summary>
+        /// Only needed during validation
+        /// </summary>
+        public int ProjectStageID { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectPrimaryContact)]
         public int? PrimaryContactPersonID { get; set; }
         public List<ProjectContactSimple> ProjectContactSimples { get; set; }
@@ -43,9 +49,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         {
         }
 
-        public EditContactsViewModel(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ProjectContact> projectContacts,
-            FirmaSession currentFirmaSession)
-        {           
+        public EditContactsViewModel(ProjectFirmaModels.Models.Project project,
+                                    List<ProjectFirmaModels.Models.ProjectContact> projectContacts,
+                                    FirmaSession currentFirmaSession)
+        {
+            ProjectStageID = project.ProjectStageID;
             PrimaryContactPersonID = project.PrimaryContactPersonID;
             ProjectContactSimples = projectContacts.Select(x => new ProjectContactSimple(x)).ToList();
         }
@@ -67,6 +75,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             return GetValidationResults();
         }
 
+        public string GetRequiredRelationshipTypeErrorStringSuffix(ProjectStage currentProjectStage, ProjectFirmaModels.Models.ContactRelationshipType contactRelationshipType)
+        {
+            bool hasMinimumProjectStageSet = contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage != null;
+            if (hasMinimumProjectStageSet && currentProjectStage.SortOrder >= contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.SortOrder)
+            {
+                return $"Project Stage is at or beyond {contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.ProjectStageDisplayName}, when the {contactRelationshipType.ContactRelationshipTypeName} must be set.";
+            }
+
+            return string.Empty;
+        }
+
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var errors = new List<ValidationResult>();
@@ -80,20 +99,27 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             {
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same contact multiple times."));
             }
-            
-            var relationshipTypeThatIsRequiredAndOnlyOneSelected = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
+
+            var currentProjectStage = ProjectStage.AllLookupDictionary[this.ProjectStageID];
+
+            // Is the ContactRelationship required?
+            var relationshipTypeThatIsRequired = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
+            // Only required if current ProjectStage is at or beyond the minimum level required for this ContactRelationshipType, if set. For example, not required until Implementation.
+            // Note that we rely on *SORT ORDER* here to determine the temporal order of the ProjectStages.
+            var relationshipTypeThatIsRequiredFiltered = relationshipTypeThatIsRequired.Where(rt => rt.IsContactRelationshipRequiredMinimumProjectStage == null ||
+                                                                                                                   currentProjectStage.SortOrder >= rt.IsContactRelationshipRequiredMinimumProjectStage.SortOrder).ToList();
 
             var projectContactsGroupedByRelationshipTypeID = ProjectContactSimples.GroupBy(x => x.ContactRelationshipTypeID).ToList();
 
-            errors.AddRange(relationshipTypeThatIsRequiredAndOnlyOneSelected
+            errors.AddRange(relationshipTypeThatIsRequiredFiltered
                 .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
-                    $"Cannot have more than one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
+                    $"Cannot have more than one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {GetRequiredRelationshipTypeErrorStringSuffix(currentProjectStage, relationshipType)}")));
 
-            errors.AddRange(relationshipTypeThatIsRequiredAndOnlyOneSelected
+            errors.AddRange(relationshipTypeThatIsRequiredFiltered
                 .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
                 .Select(relationshipType => new ValidationResult(
-                    $"Must have one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
+                    $"Must have one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {GetRequiredRelationshipTypeErrorStringSuffix(currentProjectStage, relationshipType)}")));
 
             //var allValidRelationshipTypes = ProjectContactSimples.All(x =>
             //{

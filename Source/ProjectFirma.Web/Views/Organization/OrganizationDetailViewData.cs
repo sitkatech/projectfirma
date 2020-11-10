@@ -120,6 +120,7 @@ namespace ProjectFirma.Web.Views.Organization
         public bool HasAreaOfInterest { get; set; }
 
         public bool ShowMatchmakerProfileTab { get; }
+        public bool ShowMatchmakerProfileTabDetails { get; }
         public string ProjectFinderPageUrl { get; }
         public Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> MatchmakerProfileCompletionDictionary { get; }
         public bool MatchmakerProjectFinderButtonDisabled { get; set; }
@@ -255,7 +256,8 @@ namespace ProjectFirma.Web.Views.Organization
 
             bool matchmakerEnabledForTenant = MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
             bool matchmakerOptedInForThisOrganization = Organization.MatchmakerOptIn.HasValue && Organization.MatchmakerOptIn.Value;
-            ShowMatchmakerProfileTab = matchmakerEnabledForTenant && (UserHasViewEditProfilePermission || matchmakerOptedInForThisOrganization);
+            ShowMatchmakerProfileTab = matchmakerEnabledForTenant;
+            ShowMatchmakerProfileTabDetails = matchmakerEnabledForTenant && (UserHasViewEditProfilePermission || matchmakerOptedInForThisOrganization);
 
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             EditProfileMatchmakerOptIn = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileMatchmakerOptIn(organization));
