@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.PartnerFinder
             sb.Append($"<p>It did not match on {string.Join(",", itemsNotMatched)}</p>");
             sb.Append("</div>");
 
-            var scoreWithPopover = new HtmlString($"<a tabindex=\"0\" role=\"button\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"true\" data-content=\"{sb}\">{this.PartnerOrganizationFitnessScoreNumber}</a>");
+            var scoreWithPopover = new HtmlString($"<a tabindex=\"0\" role=\"button\" onclick=\"jQuery(this).popover('show')\" data-container=\"body\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"true\" data-content=\"{sb}\">{this.PartnerOrganizationFitnessScoreNumber}</a>");
 
             return scoreWithPopover;
 

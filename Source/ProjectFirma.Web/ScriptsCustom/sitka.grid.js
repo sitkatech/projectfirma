@@ -728,11 +728,6 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     this.grid.attachEvent("onXLS", setHourGlassCursor);
     this.grid.attachEvent("onXLE", setDefaultCursor);
 
-    // this is to enable bootstrap popovers inside a grid
-    this.grid.attachEvent("onXLE", function () {
-        jQuery('[data-toggle="popover"]').popover({});
-    });
-
     // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
     // this closes the dropdown if you click over to a different filter
     this.grid.attachEvent("onXLE", function () {
