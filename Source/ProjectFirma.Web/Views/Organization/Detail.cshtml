@@ -713,8 +713,7 @@
         @if (ViewDataTyped.ShowMatchmakerProfileTab)
         {
             <div role="tabpanel" class="tab-pane" id="Profile">
-            @if (ViewDataTyped.UserHasViewEditProfilePermission)
-            {
+            
                 <div class="row">
                     <div class="col-md-10">
                         <p>
@@ -724,14 +723,16 @@
                     </div>
                     <div class="col-md-2">
                         <div class="matchmaker">
+                            
                             <label>
                                 Matchmaker<br/>
-                                <input type="checkbox" data-toggle="toggle" data-on="Opt-in" data-off="Opt-out" name="MatchmakerToggleInput" id="MatchmakerToggle" @(ViewDataTyped.Organization.MatchmakerOptIn.HasValue && ViewDataTyped.Organization.MatchmakerOptIn.Value ? "checked" : "") />
-                            </label> 
+                                <input type="checkbox" @(ViewDataTyped.UserHasViewEditProfilePermission ? "" : "disabled=\"disabled\"") data-toggle="toggle" data-on="Opt-in" data-off="Opt-out" name="MatchmakerToggleInput" id="MatchmakerToggle" @(ViewDataTyped.Organization.MatchmakerOptIn.HasValue && ViewDataTyped.Organization.MatchmakerOptIn.Value ? "checked" : "")/>
+                            </label>
+                            
                         </div>
                     </div>
                 </div>
-            }
+            
             @if (ViewDataTyped.ShowMatchmakerProfileTabDetails)
             {
                 <div class="row" style="margin-top: 20px">
