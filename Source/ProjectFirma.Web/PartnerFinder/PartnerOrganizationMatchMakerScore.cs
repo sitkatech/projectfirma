@@ -19,14 +19,14 @@ namespace ProjectFirma.Web.PartnerFinder
         public Organization Organization { get; }
         public double PartnerOrganizationFitnessScoreNumber { get; }
         public List<string> ScoreInsightMessages { get; }
-        public Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight> ScoreInsightDictionary { get; }
+        public Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight> ScoreInsightDictionary { get; }
 
 
         public PartnerOrganizationMatchMakerScore(Project project,
             Organization organization,
             double partnerOrganizationFitnessScoreNumber,
             List<string> scoreInsightMessages,
-            Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType,
+            Dictionary<MatchmakerSubScoreTypeEnum,
                 MatchMakerScoreSubScoreInsight> scoreInsightDictionary)
         {
             Check.EnsureNotNull(project);
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.PartnerFinder
             var itemsMatched = this.ScoreInsightDictionary.Where(x => x.Value.Matched);
             var countOfMatches = itemsMatched.Count();
             var itemsNotMatched = this.ScoreInsightDictionary.Where(x => !x.Value.Matched).Select(x => x.Key);
-            var countOfTotalPossibleItemsToMatchOn = Enum.GetNames(typeof(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType)).Length;
+            var countOfTotalPossibleItemsToMatchOn = Enum.GetNames(typeof(MatchmakerSubScoreTypeEnum)).Length;
 
             var sb = new StringBuilder();
             sb.AppendLine($"<div><p>This organization matches on {countOfMatches} of {countOfTotalPossibleItemsToMatchOn} elements:</p>");

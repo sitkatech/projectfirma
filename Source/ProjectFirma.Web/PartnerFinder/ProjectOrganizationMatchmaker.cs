@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.PartnerFinder
         public double GetPartnerOrganizationFitnessScoreNumber(Project project,
             Organization organization,
             ref List<string> matchInsightStrings,
-            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+            ref Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight>
                 scoreInsightDictionary)
         {
             // Preconditions
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.PartnerFinder
             Organization organization,
             ref List<double> subScores,
             ref List<string> matchInsightStrings,
-            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+            ref Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight>
                 scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.PartnerFinder
             }
 
             matchInsightStrings.AddRange(localMatchInsights);
-            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem, new MatchMakerScoreSubScoreInsight(taxonomySubScore, localMatchInsights));
+            scoreInsightDictionary.Add(MatchmakerSubScoreTypeEnum.TaxonomySystem, new MatchMakerScoreSubScoreInsight(taxonomySubScore, localMatchInsights));
 
             CheckEnsureScoreInValidRange(taxonomySubScore);
             subScores.Add(taxonomySubScore);
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.PartnerFinder
             Organization organization,
             ref List<double> subScores,
             ref List<string> matchInsightStrings,
-            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+            ref Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight>
                 scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.PartnerFinder
 
             
             matchInsightStrings.AddRange(localMatchInsights);
-            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification, new MatchMakerScoreSubScoreInsight(classificationMatchScore, localMatchInsights));
+            scoreInsightDictionary.Add(MatchmakerSubScoreTypeEnum.Classification, new MatchMakerScoreSubScoreInsight(classificationMatchScore, localMatchInsights));
             
             CheckEnsureScoreInValidRange(classificationMatchScore);
             subScores.Add(classificationMatchScore);
@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.PartnerFinder
             Organization organization,
             ref List<double> subScores,
             ref List<string> matchInsightStrings,
-            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+            ref Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight>
                 scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
@@ -180,7 +180,7 @@ namespace ProjectFirma.Web.PartnerFinder
             }
 
             matchInsightStrings.AddRange(localMatchInsights);
-            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure, new MatchMakerScoreSubScoreInsight(performanceMeasureMatchScore, localMatchInsights));
+            scoreInsightDictionary.Add(MatchmakerSubScoreTypeEnum.PerformanceMeasure, new MatchMakerScoreSubScoreInsight(performanceMeasureMatchScore, localMatchInsights));
 
             CheckEnsureScoreInValidRange(performanceMeasureMatchScore);
             subScores.Add(performanceMeasureMatchScore);
@@ -191,7 +191,7 @@ namespace ProjectFirma.Web.PartnerFinder
             Organization organization,
             ref List<double> subScores,
             ref List<string> matchInsightStrings,
-            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+            ref Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight>
                 scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
@@ -267,7 +267,7 @@ namespace ProjectFirma.Web.PartnerFinder
             }
 
             matchInsightStrings.AddRange(localMatchInsights);
-            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest, new MatchMakerScoreSubScoreInsight(areaOfInterestOverallScore, localMatchInsights));
+            scoreInsightDictionary.Add(MatchmakerSubScoreTypeEnum.AreaOfInterest, new MatchMakerScoreSubScoreInsight(areaOfInterestOverallScore, localMatchInsights));
             CheckEnsureScoreInValidRange(areaOfInterestOverallScore);
             subScores.Add(areaOfInterestOverallScore);
         }
@@ -276,7 +276,7 @@ namespace ProjectFirma.Web.PartnerFinder
             Organization organization,
             ref List<double> subScores,
             ref List<string> matchInsightStrings,
-            ref Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+            ref Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight>
                 scoreInsightDictionary)
         {
             List<string> localMatchInsights = new List<string>();
@@ -310,7 +310,7 @@ namespace ProjectFirma.Web.PartnerFinder
             double keywordOverallScore = allSubScores.Max();
 
             matchInsightStrings.AddRange(localMatchInsights);
-            scoreInsightDictionary.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword, new MatchMakerScoreSubScoreInsight(keywordOverallScore, localMatchInsights));
+            scoreInsightDictionary.Add(MatchmakerSubScoreTypeEnum.MatchmakerKeyword, new MatchMakerScoreSubScoreInsight(keywordOverallScore, localMatchInsights));
 
             CheckEnsureScoreInValidRange(keywordOverallScore);
             subScores.Add(keywordOverallScore);
@@ -339,9 +339,9 @@ namespace ProjectFirma.Web.PartnerFinder
                 foreach (var currentProject in projects)
                 {
                     List<String> scoreInsightStrings = new List<string>();
-                    Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, MatchMakerScoreSubScoreInsight>
+                    Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight>
                         scoreInsightDictionary =
-                            new Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType,
+                            new Dictionary<MatchmakerSubScoreTypeEnum,
                                 MatchMakerScoreSubScoreInsight>();
                     var currentScore = GetPartnerOrganizationFitnessScoreNumber(currentProject, currentOrganization, ref scoreInsightStrings, ref scoreInsightDictionary);
                     if (currentScore >= matchScoreCutoff)
