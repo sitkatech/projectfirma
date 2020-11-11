@@ -49,6 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
         {
             ContainerFluid = true;
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder";
+            PageSubTitle = $"({organization.OrganizationShortName})";
             ProjectFinderGridSpec = projectFinderGridSpec;
             ProjectFinderGridName = "projectFinderGrid";
             ProjectFinderGridDataUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(tc => tc.ProjectFinderGridFullJsonData(organization.OrganizationID));
