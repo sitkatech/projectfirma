@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.PartnerFinder
             //</div>
             var itemsMatched = this.ScoreInsightDictionary.Where(x => x.Value.Matched);
             var countOfMatches = itemsMatched.Count();
-            var itemsNotMatched = this.ScoreInsightDictionary.Where(x => !x.Value.Matched).Select(x => x.Key);
+            var itemsNotMatched = this.ScoreInsightDictionary.Where(x => !x.Value.Matched).Select(x => MatchmakerSubScoreType.ToType(x.Key).MatchmakerSubScoreTypeDisplayName);
             var countOfTotalPossibleItemsToMatchOn = Enum.GetNames(typeof(MatchmakerSubScoreTypeEnum)).Length;
 
             var sb = new StringBuilder();
@@ -77,10 +77,10 @@ namespace ProjectFirma.Web.PartnerFinder
             sb.Append("<ul>");
             foreach (var match in itemsMatched)
             {
-                sb.Append($"<li><strong>{match.Key}:</strong> {string.Join(", ", match.Value.ScoreInsights)}</li>");
+                sb.Append($"<li><strong>{MatchmakerSubScoreType.ToType(match.Key).MatchmakerSubScoreTypeDisplayName}:</strong> {string.Join(", ", match.Value.ScoreInsights)}</li>");
             }
             sb.Append("</ul>");
-            sb.Append($"<p>It did not match on {string.Join(",", itemsNotMatched)}</p>");
+            sb.Append($"<p>It did not match on {string.Join(", ", itemsNotMatched)}</p>");
             sb.Append("</div>");
 
             var scoreWithPopover = new HtmlString($"<a tabindex=\"0\" role=\"button\" onclick=\"jQuery(this).popover('show')\" data-container=\"body\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"true\" data-content=\"{sb}\">{this.PartnerOrganizationFitnessScoreNumber}</a>");
