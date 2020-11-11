@@ -280,8 +280,6 @@
     <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunkConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunkPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\MatchmakerSubScoreType.Binding.cs" />
-    <Compile Include="Models\Generated\MatchmakerSubScoreType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\MatchmakerSubScoreTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\MatchmakerSubScoreTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\MeasurementUnitType.Binding.cs" />
     <Compile Include="Models\Generated\MeasurementUnitTypePrimaryKey.Binding.cs" />

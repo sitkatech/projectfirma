@@ -95,7 +95,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyBranchConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyTrunkConfiguration());
-            modelBuilder.Configurations.Add(new MatchmakerSubScoreTypeConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
@@ -311,7 +310,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<MatchmakerOrganizationTaxonomyLeaf> MatchmakerOrganizationTaxonomyLeafs { get { return AllMatchmakerOrganizationTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyTrunk> AllMatchmakerOrganizationTaxonomyTrunks { get; set; }
         public virtual IQueryable<MatchmakerOrganizationTaxonomyTrunk> MatchmakerOrganizationTaxonomyTrunks { get { return AllMatchmakerOrganizationTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<MatchmakerSubScoreType> MatchmakerSubScoreTypes { get; set; }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
@@ -775,7 +773,9 @@ namespace ProjectFirmaModels.Models
                     return MatchmakerOrganizationTaxonomyTrunks.GetMatchmakerOrganizationTaxonomyTrunk(primaryKey);
 
                 case "MatchmakerSubScoreType":
-                    return MatchmakerSubScoreTypes.GetMatchmakerSubScoreType(primaryKey);
+                    var matchmakerSubScoreType = MatchmakerSubScoreType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(matchmakerSubScoreType, "MatchmakerSubScoreType", primaryKey);
+                    return matchmakerSubScoreType;
 
                 case "MeasurementUnitType":
                     var measurementUnitType = MeasurementUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

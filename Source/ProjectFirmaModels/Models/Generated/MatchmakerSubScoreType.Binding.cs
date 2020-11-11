@@ -3,10 +3,11 @@
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[MatchmakerSubScoreType]
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
+using System.Data;
 using System.Linq;
 using System.Web;
 using CodeFirstStoreFunctions;
@@ -16,104 +17,144 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[MatchmakerSubScoreType] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[MatchmakerSubScoreType]")]
-    public partial class MatchmakerSubScoreType : IHavePrimaryKey, ICanDeleteFull
+    public abstract partial class MatchmakerSubScoreType : IHavePrimaryKey
     {
-        /// <summary>
-        /// Default Constructor; only used by EF
-        /// </summary>
-        protected MatchmakerSubScoreType()
-        {
+        public static readonly MatchmakerSubScoreTypeMatchmakerKeyword MatchmakerKeyword = MatchmakerSubScoreTypeMatchmakerKeyword.Instance;
+        public static readonly MatchmakerSubScoreTypeAreaOfInterest AreaOfInterest = MatchmakerSubScoreTypeAreaOfInterest.Instance;
+        public static readonly MatchmakerSubScoreTypeTaxonomySystem TaxonomySystem = MatchmakerSubScoreTypeTaxonomySystem.Instance;
+        public static readonly MatchmakerSubScoreTypeClassification Classification = MatchmakerSubScoreTypeClassification.Instance;
+        public static readonly MatchmakerSubScoreTypePerformanceMeasure PerformanceMeasure = MatchmakerSubScoreTypePerformanceMeasure.Instance;
 
+        public static readonly List<MatchmakerSubScoreType> All;
+        public static readonly ReadOnlyDictionary<int, MatchmakerSubScoreType> AllLookupDictionary;
+
+        /// <summary>
+        /// Static type constructor to coordinate static initialization order
+        /// </summary>
+        static MatchmakerSubScoreType()
+        {
+            All = new List<MatchmakerSubScoreType> { MatchmakerKeyword, AreaOfInterest, TaxonomySystem, Classification, PerformanceMeasure };
+            AllLookupDictionary = new ReadOnlyDictionary<int, MatchmakerSubScoreType>(All.ToDictionary(x => x.MatchmakerSubScoreTypeID));
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        public MatchmakerSubScoreType(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : this()
+        protected MatchmakerSubScoreType(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName)
         {
-            this.MatchmakerSubScoreTypeID = matchmakerSubScoreTypeID;
-            this.MatchmakerSubScoreTypeName = matchmakerSubScoreTypeName;
-            this.MatchmakerSubScoreTypeDisplayName = matchmakerSubScoreTypeDisplayName;
-        }
-
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public MatchmakerSubScoreType(string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.MatchmakerSubScoreTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            
-            this.MatchmakerSubScoreTypeName = matchmakerSubScoreTypeName;
-            this.MatchmakerSubScoreTypeDisplayName = matchmakerSubScoreTypeDisplayName;
-        }
-
-
-        /// <summary>
-        /// Creates a "blank" object of this type and populates primitives with defaults
-        /// </summary>
-        public static MatchmakerSubScoreType CreateNewBlank()
-        {
-            return new MatchmakerSubScoreType(default(string), default(string));
-        }
-
-        /// <summary>
-        /// Does this object have any dependent objects? (If it does have dependent objects, these would need to be deleted before this object could be deleted.)
-        /// </summary>
-        /// <returns></returns>
-        public bool HasDependentObjects()
-        {
-            return false;
-        }
-
-        /// <summary>
-        /// Active Dependent type names of this object
-        /// </summary>
-        public List<string> DependentObjectNames() 
-        {
-            var dependentObjects = new List<string>();
-            
-            return dependentObjects.Distinct().ToList();
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(MatchmakerSubScoreType).Name};
-
-
-        /// <summary>
-        /// Delete just the entity 
-        /// </summary>
-        public void Delete(DatabaseEntities dbContext)
-        {
-            dbContext.MatchmakerSubScoreTypes.Remove(this);
-        }
-        
-        /// <summary>
-        /// Delete entity plus all children
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
-            
-            Delete(dbContext);
+            MatchmakerSubScoreTypeID = matchmakerSubScoreTypeID;
+            MatchmakerSubScoreTypeName = matchmakerSubScoreTypeName;
+            MatchmakerSubScoreTypeDisplayName = matchmakerSubScoreTypeDisplayName;
         }
 
         [Key]
-        public int MatchmakerSubScoreTypeID { get; set; }
-        public string MatchmakerSubScoreTypeName { get; set; }
-        public string MatchmakerSubScoreTypeDisplayName { get; set; }
+        public int MatchmakerSubScoreTypeID { get; private set; }
+        public string MatchmakerSubScoreTypeName { get; private set; }
+        public string MatchmakerSubScoreTypeDisplayName { get; private set; }
         [NotMapped]
-        public int PrimaryKey { get { return MatchmakerSubScoreTypeID; } set { MatchmakerSubScoreTypeID = value; } }
+        public int PrimaryKey { get { return MatchmakerSubScoreTypeID; } }
 
-
-
-        public static class FieldLengths
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public bool Equals(MatchmakerSubScoreType other)
         {
-            public const int MatchmakerSubScoreTypeName = 200;
-            public const int MatchmakerSubScoreTypeDisplayName = 200;
+            if (other == null)
+            {
+                return false;
+            }
+            return other.MatchmakerSubScoreTypeID == MatchmakerSubScoreTypeID;
         }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as MatchmakerSubScoreType);
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return MatchmakerSubScoreTypeID;
+        }
+
+        public static bool operator ==(MatchmakerSubScoreType left, MatchmakerSubScoreType right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(MatchmakerSubScoreType left, MatchmakerSubScoreType right)
+        {
+            return !Equals(left, right);
+        }
+
+        public MatchmakerSubScoreTypeEnum ToEnum { get { return (MatchmakerSubScoreTypeEnum)GetHashCode(); } }
+
+        public static MatchmakerSubScoreType ToType(int enumValue)
+        {
+            return ToType((MatchmakerSubScoreTypeEnum)enumValue);
+        }
+
+        public static MatchmakerSubScoreType ToType(MatchmakerSubScoreTypeEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case MatchmakerSubScoreTypeEnum.AreaOfInterest:
+                    return AreaOfInterest;
+                case MatchmakerSubScoreTypeEnum.Classification:
+                    return Classification;
+                case MatchmakerSubScoreTypeEnum.MatchmakerKeyword:
+                    return MatchmakerKeyword;
+                case MatchmakerSubScoreTypeEnum.PerformanceMeasure:
+                    return PerformanceMeasure;
+                case MatchmakerSubScoreTypeEnum.TaxonomySystem:
+                    return TaxonomySystem;
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
+        }
+    }
+
+    public enum MatchmakerSubScoreTypeEnum
+    {
+        MatchmakerKeyword = 1,
+        AreaOfInterest = 2,
+        TaxonomySystem = 3,
+        Classification = 4,
+        PerformanceMeasure = 5
+    }
+
+    public partial class MatchmakerSubScoreTypeMatchmakerKeyword : MatchmakerSubScoreType
+    {
+        private MatchmakerSubScoreTypeMatchmakerKeyword(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
+        public static readonly MatchmakerSubScoreTypeMatchmakerKeyword Instance = new MatchmakerSubScoreTypeMatchmakerKeyword(1, @"MatchmakerKeyword", @"Matchmaker Keyword");
+    }
+
+    public partial class MatchmakerSubScoreTypeAreaOfInterest : MatchmakerSubScoreType
+    {
+        private MatchmakerSubScoreTypeAreaOfInterest(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
+        public static readonly MatchmakerSubScoreTypeAreaOfInterest Instance = new MatchmakerSubScoreTypeAreaOfInterest(2, @"AreaOfInterest", @"Area Of Interest");
+    }
+
+    public partial class MatchmakerSubScoreTypeTaxonomySystem : MatchmakerSubScoreType
+    {
+        private MatchmakerSubScoreTypeTaxonomySystem(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
+        public static readonly MatchmakerSubScoreTypeTaxonomySystem Instance = new MatchmakerSubScoreTypeTaxonomySystem(3, @"TaxonomySystem", @"Taxonomy System");
+    }
+
+    public partial class MatchmakerSubScoreTypeClassification : MatchmakerSubScoreType
+    {
+        private MatchmakerSubScoreTypeClassification(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
+        public static readonly MatchmakerSubScoreTypeClassification Instance = new MatchmakerSubScoreTypeClassification(4, @"Classification", @"Classification");
+    }
+
+    public partial class MatchmakerSubScoreTypePerformanceMeasure : MatchmakerSubScoreType
+    {
+        private MatchmakerSubScoreTypePerformanceMeasure(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
+        public static readonly MatchmakerSubScoreTypePerformanceMeasure Instance = new MatchmakerSubScoreTypePerformanceMeasure(5, @"PerformanceMeasure", @"Performance Measure");
     }
 }
