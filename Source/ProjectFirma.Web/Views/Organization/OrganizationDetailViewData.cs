@@ -291,7 +291,7 @@ namespace ProjectFirma.Web.Views.Organization
             MatchmakerProfileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
             MatchmakerProjectFinderButtonDisabled = !MatchmakerProfileCompletionDictionary.Values.Any(x => x);
 
-            ShouldShowBackgroundTab = DescriptionViewData.HasPageContent || new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            ShouldShowBackgroundTab = DescriptionViewData.HasPageContent || new OrganizationBackgroundEditFeature().HasPermission(currentFirmaSession, organization).HasPermission;
         }
 
         

@@ -258,6 +258,7 @@
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
+    <Compile Include="Security\OrganizationBackgroundEditFeature.cs" />
     <Compile Include="Security\OrganizationPrimaryContactManageFeature.cs" />
     <Compile Include="Security\OfferProjectFactSheetLinkFeature.cs" />
     <Compile Include="Security\MatchMakerViewPotentialPartnersFeature.cs" />
