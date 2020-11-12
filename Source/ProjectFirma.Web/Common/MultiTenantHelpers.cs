@@ -468,7 +468,7 @@ namespace ProjectFirma.Web.Common
                     .ClassificationSystemName);
         }
 
-        public static FieldDefinitionEnum GetTenantFieldDefinitionEnumForMatchmaker()
+        public static FieldDefinitionEnum GetTenantFieldDefinitionEnumForMatchmakerTaxonomy()
         {
             var tenantTaxonomyLevelEnum = GetTenantAttributeFromCache().TaxonomyLevel.ToEnum;
             switch (tenantTaxonomyLevelEnum)
