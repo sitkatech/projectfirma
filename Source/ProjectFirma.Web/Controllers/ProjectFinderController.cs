@@ -43,8 +43,7 @@ namespace ProjectFirma.Web.Controllers
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "blue", 1,
                     LayerInitialVisibility.Show);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
-                initialCustomization, "ProjectLocationsMap", true);
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap", true);
 
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
 
@@ -95,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
 
             if (!organizationHasOptedIn)
             {
-                SetErrorForDisplay($"The {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.OrganizationName}) has not opted in to the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Matchmaker service. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({organization.PrimaryContactPerson.GetFullNameFirstLast()}) will need to fill out the {linkToOrgProfile} as completely as possible and Opt-In to the service.");
+                SetErrorForDisplay($"The {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.OrganizationName}) has not opted in to the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Matchmaker service. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) will need to fill out the {linkToOrgProfile} as completely as possible and Opt-In to the service.");
                 return;
             }
 

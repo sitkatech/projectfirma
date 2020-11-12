@@ -132,6 +132,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly List<ProjectFirmaModels.Models.ClassificationSystem> AllClassificationSystems;
 
         public bool ShouldShowBackgroundTab { get; }
+        public string MatchmakerProjectFinderButtonContent { get; }
 
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
@@ -289,11 +290,28 @@ namespace ProjectFirma.Web.Views.Organization
             EditOrgPerformanceMeasuresUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerPerformanceMeasures(organization));
             ProjectFinderPageUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(c => c.Organization(organization));
             MatchmakerProfileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
-            MatchmakerProjectFinderButtonDisabled = !MatchmakerProfileCompletionDictionary.Values.Any(x => x);
 
+            MatchmakerProjectFinderButtonDisabled = !organization.MatchmakerOptIn.HasValue || !organization.MatchmakerOptIn.Value || !MatchmakerProfileCompletionDictionary.Values.Any(x => x);
             ShouldShowBackgroundTab = DescriptionViewData.HasPageContent || new OrganizationBackgroundEditFeature().HasPermission(currentFirmaSession, organization).HasPermission;
+            MatchmakerProjectFinderButtonContent = GetMatchmakerProjectFinderButtonContent(organization, MatchmakerProfileCompletionDictionary);
+            
         }
 
-        
+        private string GetMatchmakerProjectFinderButtonContent(ProjectFirmaModels.Models.Organization organization, Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> matchmakerProfileCompletionDictionary)
+        {
+            if (!organization.MatchmakerOptIn.HasValue || !organization.MatchmakerOptIn.Value)
+            {
+                return
+                    $"This {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} has not opted in to the Matchmaker service.";
+            }
+
+            if (!MatchmakerProfileCompletionDictionary.Values.Any(x => x))
+            {
+                return
+                    $"Your profile is empty, so it is not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. Please fill out your profile as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder.";
+            }
+
+            return string.Empty;
+        }
     }
 }
