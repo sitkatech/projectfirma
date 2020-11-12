@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Controllers
 
     public class ProjectFinderController : FirmaBaseController
     {
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [OrganizationViewFeature]
         [HttpGet]
         public ViewResult Organization(OrganizationPrimaryKey organizationPrimaryKey)
         {
@@ -101,14 +101,14 @@ namespace ProjectFirma.Web.Controllers
             // When Org profile is not filled out at all (no matches are possible)
             if (!profileCompletionDictionary.Values.Any(x => x))
             {
-                SetErrorForDisplay($"The profile for your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.OrganizationName}) is empty, so it’s not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. Please fill out your {linkToOrgProfile} as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder");
+                SetErrorForDisplay($"The profile for your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.OrganizationName}) is empty, so it’s not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) will need to fill out the {linkToOrgProfile} as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder");
                 return;
             }
 
             // When Org profile is partially filled out and there are no matches
             if (profileCompletionDictionary.Values.Any(x => x == false) && !projectMatchmakerScoresForOrganization.Any())
             {
-                SetWarningForDisplay($"0 {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches found. Please fill out your {linkToOrgProfile} as completely as possible to increase your potential for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches.");
+                SetWarningForDisplay($"0 {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches found. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) should fill out the {linkToOrgProfile} as completely as possible to increase the potential for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches.");
                 return;
             }
 
@@ -116,21 +116,21 @@ namespace ProjectFirma.Web.Controllers
             // When Org profile is partially filled out and matches exist
             if (profileCompletionDictionary.Values.Any(x => x == false) && projectMatchmakerScoresForOrganization.Any())
             {
-                SetWarningForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} can only be found for {profileCompletionDictionary.Values.Count(x => x)} out of {profileCompletionDictionary.Values.Count} match categories. Complete your {linkToOrgProfile} to access all your {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches!");
+                SetWarningForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} can only be found for {profileCompletionDictionary.Values.Count(x => x)} out of {profileCompletionDictionary.Values.Count} match categories. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) should fill out their {linkToOrgProfile} to access more potential {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches!");
                 return;
             }
 
             // When Org profile is completely filled out and there are no matches
             if (profileCompletionDictionary.Values.All(x => x != false) && !projectMatchmakerScoresForOrganization.Any())
             {
-                SetWarningForDisplay($"No matches just yet! To increase potential matches, add more detail where possible to your {linkToOrgProfile}.");
+                SetWarningForDisplay($"No matches just yet! To increase potential matches, the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) should add more detail where possible to their {linkToOrgProfile}.");
             }
 
         }
 
 
         // All projects that match with the organization
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [OrganizationViewFeature]
         public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
