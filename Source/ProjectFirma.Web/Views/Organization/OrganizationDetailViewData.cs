@@ -297,7 +297,7 @@ namespace ProjectFirma.Web.Views.Organization
             
         }
 
-        private string GetMatchmakerProjectFinderButtonContent(ProjectFirmaModels.Models.Organization organization, Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> matchmakerProfileCompletionDictionary)
+        private string GetMatchmakerProjectFinderButtonContent(ProjectFirmaModels.Models.Organization organization, Dictionary<MatchmakerSubScoreTypeEnum, bool> matchmakerProfileCompletionDictionary)
         {
             if (!organization.MatchmakerOptIn.HasValue || !organization.MatchmakerOptIn.Value)
             {
@@ -305,7 +305,7 @@ namespace ProjectFirma.Web.Views.Organization
                     $"This {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} has not opted in to the Matchmaker service.";
             }
 
-            if (!MatchmakerProfileCompletionDictionary.Values.Any(x => x))
+            if (!matchmakerProfileCompletionDictionary.Values.Any(x => x))
             {
                 return
                     $"Your profile is empty, so it is not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. Please fill out your profile as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder.";
