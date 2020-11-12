@@ -100,26 +100,29 @@ namespace ProjectFirma.Web.PartnerFinder
 
             if (matchesLeaf)
             {
-                localMatchInsights.Add($"{matchmakerLeaves.Count} Leaf matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                //localMatchInsights.Add($"{matchmakerLeaves.Count} Leaf matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                localMatchInsights.Add($"{project.TaxonomyLeaf.TaxonomyLeafName}");
             }
 
             if (matchesLeafForBranch)
             {
-                localMatchInsights.Add($"{matchmakerLeavesFromSelectedBranches.Count} Leaf for selected branch matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                //localMatchInsights.Add($"{matchmakerLeavesFromSelectedBranches.Count} Leaf for selected branch matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                localMatchInsights.Add($"{project.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName}");
             }
 
             if (matchesLeafForTrunk)
             {
-                localMatchInsights.Add($"{matchmakerLeavesFromSelectedTrunks.Count} Leaf for selected trunk matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                //localMatchInsights.Add($"{matchmakerLeavesFromSelectedTrunks.Count} Leaf for selected trunk matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                localMatchInsights.Add($"{project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName}");
             }
 
             double taxonomySubScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
 
             // We want the overall score to appear first in output
-            if (taxonomySubScore > 0)
-            {
-                localMatchInsights.Insert(0, $"Taxonomy SubScore = {taxonomySubScore:0.0}: ");
-            }
+            //if (taxonomySubScore > 0)
+            //{
+            //    localMatchInsights.Insert(0, $"Taxonomy SubScore = {taxonomySubScore:0.0}: ");
+            //}
 
             matchInsightStrings.AddRange(localMatchInsights);
             scoreInsightDictionary.Add(MatchmakerSubScoreTypeEnum.TaxonomySystem, new MatchMakerScoreSubScoreInsight(taxonomySubScore, localMatchInsights));
@@ -144,7 +147,8 @@ namespace ProjectFirma.Web.PartnerFinder
             if (organizationClassificationIDs.Any(x => projectClassificationIDs.Contains(x)))
             {
                 classificationMatchScore = 1.0;
-                localMatchInsights.Insert(0, $"Classification SubScore = {classificationMatchScore:0.0}: ");
+                //localMatchInsights.Insert(0, $"Classification SubScore = {classificationMatchScore:0.0}: ");
+                localMatchInsights.Add($"Classification match");
             }
 
             
@@ -176,7 +180,8 @@ namespace ProjectFirma.Web.PartnerFinder
             if (organizationPerformanceMeasureIDs.Any(x => performanceMeasureIDs.Contains(x)))
             {
                 performanceMeasureMatchScore = 1.0;
-                localMatchInsights.Insert(0, $"Performance Measure SubScore = {performanceMeasureMatchScore:0.0}: ");
+                //localMatchInsights.Insert(0, $"Performance Measure SubScore = {performanceMeasureMatchScore:0.0}: ");
+                localMatchInsights.Add("Performance Measure match");
             }
 
             matchInsightStrings.AddRange(localMatchInsights);
@@ -210,7 +215,7 @@ namespace ProjectFirma.Web.PartnerFinder
                         projectSimpleLocation.Intersects(currentOrgDbGeometry))
                     {
                         simpleLocationSubSubScore = 1.0;
-                        localMatchInsights.Add($"Simple Location intersection ");
+                        localMatchInsights.Add($"Simple Location");
                         // One is enough to score the subscore maximally
                         break;
                     }
@@ -229,7 +234,7 @@ namespace ProjectFirma.Web.PartnerFinder
                         if (currentProjectLocationGeometry.Intersects(currentOrgDbGeometry))
                         {
                             detailedLocationSubSubScore = 1.0;
-                            localMatchInsights.Add($"Detailed Location intersection ");
+                            localMatchInsights.Add($"Detailed Location");
                             // One is enough to score the subscore maximally
                             break;
                         }
@@ -248,7 +253,7 @@ namespace ProjectFirma.Web.PartnerFinder
                         if (currentProjectGeoSpatialArea.GeospatialAreaFeature.Intersects(currentOrgDbGeometry))
                         {
                             projectGeospatialAreaSubSubScore = 1.0;
-                            localMatchInsights.Add($"Geospatial Area intersection ");
+                            localMatchInsights.Add($"{currentProjectGeoSpatialArea.GeospatialAreaName}");
                             // One is enough to score the subscore maximally
                             break;
                         }
@@ -261,10 +266,10 @@ namespace ProjectFirma.Web.PartnerFinder
             var areaOfInterestOverallScore = allSubScores.Max();
 
             // We want the overall score to appear first in output
-            if (areaOfInterestOverallScore > 0)
-            {
-                localMatchInsights.Insert(0, $"Area of Interest SubScore = {areaOfInterestOverallScore:0.0}: ");
-            }
+            //if (areaOfInterestOverallScore > 0)
+            //{
+            //    localMatchInsights.Insert(0, $"Area of Interest SubScore = {areaOfInterestOverallScore:0.0}: ");
+            //}
 
             matchInsightStrings.AddRange(localMatchInsights);
             scoreInsightDictionary.Add(MatchmakerSubScoreTypeEnum.AreaOfInterest, new MatchMakerScoreSubScoreInsight(areaOfInterestOverallScore, localMatchInsights));
@@ -295,13 +300,15 @@ namespace ProjectFirma.Web.PartnerFinder
                 if (currentProjectName.Contains(currentOrgKeyword))
                 {
                     keywordProjectNameKeywordScore = 1.0;
-                    localMatchInsights.Add($"Keyword Project Name SubScore = {keywordProjectNameKeywordScore:0.0}: ");
+                    //localMatchInsights.Add($"Keyword Project Name SubScore = {keywordProjectNameKeywordScore:0.0}: ");
+                    localMatchInsights.Add($"'{currentOrgKeyword}'");
                 }
 
                 if (currentProjectDescription.Contains(currentOrgKeyword))
                 {
                     keywordProjectDescriptionKeywordScore = 1.0;
-                    localMatchInsights.Add($"Keyword Project Description SubScore = {keywordProjectNameKeywordScore:0.0}: ");
+                    //localMatchInsights.Add($"Keyword Project Description SubScore = {keywordProjectNameKeywordScore:0.0}: ");
+                    localMatchInsights.Add($"'{currentOrgKeyword}'");
                 }
             }
 
