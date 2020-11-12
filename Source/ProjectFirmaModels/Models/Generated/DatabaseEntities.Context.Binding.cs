@@ -772,6 +772,11 @@ namespace ProjectFirmaModels.Models
                 case "MatchmakerOrganizationTaxonomyTrunk":
                     return MatchmakerOrganizationTaxonomyTrunks.GetMatchmakerOrganizationTaxonomyTrunk(primaryKey);
 
+                case "MatchmakerSubScoreType":
+                    var matchmakerSubScoreType = MatchmakerSubScoreType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(matchmakerSubScoreType, "MatchmakerSubScoreType", primaryKey);
+                    return matchmakerSubScoreType;
+
                 case "MeasurementUnitType":
                     var measurementUnitType = MeasurementUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(measurementUnitType, "MeasurementUnitType", primaryKey);

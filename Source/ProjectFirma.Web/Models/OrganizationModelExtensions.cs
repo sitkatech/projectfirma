@@ -440,32 +440,32 @@ namespace ProjectFirma.Web.Models
             return null;
         }
 
-        public static Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool>
+        public static Dictionary<MatchmakerSubScoreTypeEnum, bool>
             GetMatchmakerOrganizationProfileCompletionDictionary(this Organization organization)
         {
-            var allSubScoreTypes = Enum.GetValues(typeof(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType)).OfType<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType>();
+            var allSubScoreTypes = Enum.GetValues(typeof(MatchmakerSubScoreTypeEnum)).OfType<MatchmakerSubScoreTypeEnum>();
 
-            var returnDict = new Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool>();
+            var returnDict = new Dictionary<MatchmakerSubScoreTypeEnum, bool>();
 
             foreach (var subScoreType in allSubScoreTypes)
             {
                 switch (subScoreType)
                 {
-                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword:
-                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword, organization.HasMatchmakerKeywordContent());
+                    case MatchmakerSubScoreTypeEnum.MatchmakerKeyword:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.MatchmakerKeyword, organization.HasMatchmakerKeywordContent());
                         break;
-                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest:
-                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest, organization.HasMatchmakerAreaOfInterestContent());
+                    case MatchmakerSubScoreTypeEnum.AreaOfInterest:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.AreaOfInterest, organization.HasMatchmakerAreaOfInterestContent());
                         break;
-                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem:
-                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem, organization.HasMatchmakerTaxonomyContent());
+                    case MatchmakerSubScoreTypeEnum.TaxonomySystem:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.TaxonomySystem, organization.HasMatchmakerTaxonomyContent());
                         
                         break;
-                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification:
-                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification, organization.HasMatchmakerClassificationsContent());
+                    case MatchmakerSubScoreTypeEnum.Classification:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.Classification, organization.HasMatchmakerClassificationsContent());
                         break;
-                    case MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure:
-                        returnDict.Add(MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure, organization.HasMatchmakerPerformanceMeasureContent());
+                    case MatchmakerSubScoreTypeEnum.PerformanceMeasure:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.PerformanceMeasure, organization.HasMatchmakerPerformanceMeasureContent());
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

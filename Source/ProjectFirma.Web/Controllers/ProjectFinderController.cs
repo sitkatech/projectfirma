@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void DisplayMatchMakerToastMessagesIfAny(Organization organization,
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
-            Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> profileCompletionDictionary,
+            Dictionary<MatchmakerSubScoreTypeEnum, bool> profileCompletionDictionary,
             bool organizationHasOptedIn)
         {
 
