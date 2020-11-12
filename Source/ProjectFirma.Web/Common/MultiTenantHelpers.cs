@@ -468,5 +468,20 @@ namespace ProjectFirma.Web.Common
                     .ClassificationSystemName);
         }
 
+        public static FieldDefinitionEnum GetTenantFieldDefinitionEnumForMatchmaker()
+        {
+            var tenantTaxonomyLevelEnum = GetTenantAttributeFromCache().TaxonomyLevel.ToEnum;
+            switch (tenantTaxonomyLevelEnum)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    return FieldDefinitionEnum.TaxonomyLeaf;
+                case TaxonomyLevelEnum.Branch:
+                    return FieldDefinitionEnum.TaxonomyBranch;
+                case TaxonomyLevelEnum.Trunk:
+                    return FieldDefinitionEnum.TaxonomyTrunk;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }
