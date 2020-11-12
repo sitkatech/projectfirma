@@ -131,6 +131,8 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>> MatchmakerClassificationsGroupedByClassificationSystem;
         public readonly List<ProjectFirmaModels.Models.ClassificationSystem> AllClassificationSystems;
 
+        public bool ShouldShowBackgroundTab { get; }
+
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
@@ -288,6 +290,8 @@ namespace ProjectFirma.Web.Views.Organization
             ProjectFinderPageUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(c => c.Organization(organization));
             MatchmakerProfileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
             MatchmakerProjectFinderButtonDisabled = !MatchmakerProfileCompletionDictionary.Values.Any(x => x);
+
+            ShouldShowBackgroundTab = DescriptionViewData.HasPageContent || new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
         

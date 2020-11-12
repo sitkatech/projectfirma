@@ -41,6 +41,7 @@ namespace ProjectFirma.Web.Views
         public string ProjectSearchUrl { get; }
         public string ProjectFindUrl { get; }
         public string PageTitle { get; set; }
+        public string PageSubTitle { get; set; }
         public string HtmlPageTitle { get; set; }
         public string BreadCrumbTitle { get; set; }
         public string EntityName { get; set; }

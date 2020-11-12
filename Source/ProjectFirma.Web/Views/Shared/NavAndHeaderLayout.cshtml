@@ -255,6 +255,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
                                         <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">View Account</a></li>
+                                        <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
                                         <li class="divider"></li>
                                         <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
                                     </ul>

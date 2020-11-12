@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
+﻿using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.PartnerFinder;
-using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Organization;
-using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.ProjectFinder;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
-using static ProjectFirmaModels.Models.Organization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {
 
     public class ProjectFinderController : FirmaBaseController
     {
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [AnonymousUnclassifiedFeature]
         [HttpGet]
         public ViewResult Organization(OrganizationPrimaryKey organizationPrimaryKey)
         {
@@ -95,14 +90,14 @@ namespace ProjectFirma.Web.Controllers
 
             if (!organizationHasOptedIn)
             {
-                SetErrorForDisplay($"The {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.GetDisplayName()}) has not opted in to the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Matchmaker service. If you are the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} please fill out your {linkToOrgProfile} as completely as possible and Opt-In to the service.");
+                SetErrorForDisplay($"The {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.OrganizationName}) has not opted in to the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Matchmaker service. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({organization.PrimaryContactPerson.GetFullNameFirstLast()}) will need to fill out the {linkToOrgProfile} as completely as possible and Opt-In to the service.");
                 return;
             }
 
             // When Org profile is not filled out at all (no matches are possible)
             if (!profileCompletionDictionary.Values.Any(x => x))
             {
-                SetErrorForDisplay($"The profile for your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.GetDisplayName()}) is empty, so it’s not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. Please fill out your {linkToOrgProfile} as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder");
+                SetErrorForDisplay($"The profile for your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.OrganizationName}) is empty, so it’s not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. Please fill out your {linkToOrgProfile} as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder");
                 return;
             }
 
@@ -131,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         // All projects that match with the organization
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
