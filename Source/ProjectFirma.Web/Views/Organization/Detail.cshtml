@@ -1050,12 +1050,9 @@
                                     <div class="panel-heading panelTitle">
                                         @{
                                             var tenantHasMultipleClassificationSystems = ViewDataTyped.AllClassificationSystems.Count > 1;
-                                            var panelTitle = tenantHasMultipleClassificationSystems
-                                                ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
-                                                : new EnglishPluralizationService().Pluralize(ViewDataTyped.AllClassificationSystems.First().ClassificationSystemName);
                                         }
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgClassificationsUrl, string.Format("Edit {0}", panelTitle), ViewDataTyped.UserHasViewEditProfilePermission)
-                                        @panelTitle
+                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgClassificationsUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTenantNameForClassificationFieldDefinition()), ViewDataTyped.UserHasViewEditProfilePermission)
+                                        @MultiTenantHelpers.GetTenantNameForClassificationFieldDefinition(true)
                                     </div>
                                     <div class="panel-body">
                                         @if (!ViewDataTyped.MatchmakerClassificationsGroupedByClassificationSystem.Any())

@@ -445,6 +445,28 @@ namespace ProjectFirma.Web.Common
             }
         }
 
-        
+        /// <summary>
+        /// Tenants that have more than one classification system will return the field definition for Classification.
+        /// Otherwise we will return the first classification system name.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetTenantNameForClassificationFieldDefinition(bool pluralize)
+        {
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+            var tenantHasMultipleClassificationSystems = allClassificationSystems.Count > 1;
+
+            if (pluralize)
+            {
+                return tenantHasMultipleClassificationSystems
+                    ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
+                    : new EnglishPluralizationService().Pluralize(allClassificationSystems.First().ClassificationSystemName);
+            }
+
+            return tenantHasMultipleClassificationSystems
+                ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()
+                : new EnglishPluralizationService().Singularize(allClassificationSystems.First()
+                    .ClassificationSystemName);
+        }
+
     }
 }

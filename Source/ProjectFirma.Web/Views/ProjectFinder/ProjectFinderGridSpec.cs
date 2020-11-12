@@ -19,19 +19,13 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             SkinRowHeight = 30;
             InitWidthsByPercentage = true;
 
-            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
-            var tenantHasMultipleClassificationSystems = allClassificationSystems.Count > 1;
-            var panelTitle = tenantHasMultipleClassificationSystems
-                ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
-                : new EnglishPluralizationService().Pluralize(allClassificationSystems.First().ClassificationSystemName);
-
             Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => (decimal) x.PartnerOrganizationFitnessScoreNumber, 5);
             Add(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), x => x.Project.GetDisplayNameAsUrl(), 20, DhtmlxGridColumnFilterType.Html);
             Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 15, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.MatchmakerKeyword].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.AreaOfInterest].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.TaxonomySystem].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add(panelTitle, x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(MultiTenantHelpers.GetTenantNameForClassificationFieldDefinition(false), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.Classification].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType.PerformanceMeasure].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Map", x => GetMapButtonForProject(x.Project), 10, DhtmlxGridColumnFilterType.None);
         }
