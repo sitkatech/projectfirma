@@ -449,8 +449,7 @@ namespace ProjectFirma.Web.Common
         /// Tenants that have more than one classification system will return the field definition for Classification.
         /// Otherwise we will return the first classification system name.
         /// </summary>
-        /// <returns></returns>
-        public static string GetTenantNameForClassificationFieldDefinition(bool pluralize)
+        public static string GetTenantNameForClassificationForMatchmaker(bool pluralize)
         {
             var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
             var tenantHasMultipleClassificationSystems = allClassificationSystems.Count > 1;
@@ -468,6 +467,11 @@ namespace ProjectFirma.Web.Common
                     .ClassificationSystemName);
         }
 
+        /// <summary>
+        /// In order to display the appropriate field definition on the matchmaker pages, this
+        /// checks the current tenant's taxonomy level and returns an appropriate enum for display.
+        /// </summary>
+        /// <returns></returns>
         public static FieldDefinitionEnum GetTenantFieldDefinitionEnumForMatchmakerTaxonomy()
         {
             var tenantTaxonomyLevelEnum = GetTenantAttributeFromCache().TaxonomyLevel.ToEnum;
