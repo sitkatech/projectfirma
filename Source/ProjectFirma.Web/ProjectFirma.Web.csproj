@@ -113,6 +113,7 @@
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="Models\TenantSimple.cs" />
     <Compile Include="PartnerFinder\MatchMakerScoreSubScoreInsight.cs" />
+    <Compile Include="PartnerFinder\PartnerOrganizationMatchMakerScore.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectExpectedPerformanceMeasureModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectReportedPerformanceMeasureModel.cs" />

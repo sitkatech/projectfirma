@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views.Organization
         public bool ShowMatchmakerProfileTab { get; }
         public bool ShowMatchmakerProfileTabDetails { get; }
         public string ProjectFinderPageUrl { get; }
-        public Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> MatchmakerProfileCompletionDictionary { get; }
+        public Dictionary<MatchmakerSubScoreTypeEnum, bool> MatchmakerProfileCompletionDictionary { get; }
         public bool MatchmakerProjectFinderButtonDisabled { get; set; }
 
         public readonly MapInitJson AreaOfInterestMapInitJson;

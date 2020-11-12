@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
+﻿using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.PartnerFinder;
-using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Organization;
-using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.ProjectFinder;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
-using static ProjectFirmaModels.Models.Organization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {
 
     public class ProjectFinderController : FirmaBaseController
     {
-        [OrganizationViewFeature]
+        [AnonymousUnclassifiedFeature]
         [HttpGet]
         public ViewResult Organization(OrganizationPrimaryKey organizationPrimaryKey)
         {
@@ -84,7 +79,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void DisplayMatchMakerToastMessagesIfAny(Organization organization,
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
-            Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> profileCompletionDictionary,
+            Dictionary<MatchmakerSubScoreTypeEnum, bool> profileCompletionDictionary,
             bool organizationHasOptedIn)
         {
 
@@ -130,7 +125,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         // All projects that match with the organization
-        [OrganizationViewFeature]
+        [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
