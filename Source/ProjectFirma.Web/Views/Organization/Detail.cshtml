@@ -745,7 +745,7 @@
                 <div class="col-md-2">
                     @if (ViewDataTyped.MatchmakerProjectFinderButtonDisabled)
                     {
-                        <button onclick="ProjectFirma.Views.Methods.addTooltipPopup(this, 'Your profile is empty, so it\'s not possible to identify @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() matches. Please fill out your profile as completely as possible before using the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Finder.')" class="btn btn-firma btn-sm disabled"><span class="glyphicon glyphicon-search"></span> Project Finder</button>
+                        <button onclick="ProjectFirma.Views.Methods.addTooltipPopup(this, '@ViewDataTyped.MatchmakerProjectFinderButtonContent')" class="btn btn-firma btn-sm disabled"><span class="glyphicon glyphicon-search"></span> Project Finder</button>
                     }
                     else
                     {
@@ -905,8 +905,8 @@
                             <div class="col-lg-12">
                                 <div class="panel panelFirma">
                                     <div class="panel-heading panelTitle">
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit {0}", FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
-                                        @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabelPluralized()
+                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProfileTaxonomyUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
+                                        @MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized()
                                     </div>
                                     <div class="panel-body">
                                         <div>
@@ -1050,12 +1050,9 @@
                                     <div class="panel-heading panelTitle">
                                         @{
                                             var tenantHasMultipleClassificationSystems = ViewDataTyped.AllClassificationSystems.Count > 1;
-                                            var panelTitle = tenantHasMultipleClassificationSystems
-                                                ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
-                                                : new EnglishPluralizationService().Pluralize(ViewDataTyped.AllClassificationSystems.First().ClassificationSystemName);
                                         }
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgClassificationsUrl, string.Format("Edit {0}", panelTitle), ViewDataTyped.UserHasViewEditProfilePermission)
-                                        @panelTitle
+                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgClassificationsUrl, string.Format("Edit {0}", MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true)), ViewDataTyped.UserHasViewEditProfilePermission)
+                                        @MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true)
                                     </div>
                                     <div class="panel-body">
                                         @if (!ViewDataTyped.MatchmakerClassificationsGroupedByClassificationSystem.Any())

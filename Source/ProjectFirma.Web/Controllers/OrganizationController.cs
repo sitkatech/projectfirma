@@ -1010,7 +1010,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [OrganizationManageFeature]
+        [OrganizationBackgroundEditFeature]
         public PartialViewResult EditDescriptionInDialog(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
@@ -1019,7 +1019,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [OrganizationManageFeature]
+        [OrganizationBackgroundEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditDescriptionInDialog(OrganizationPrimaryKey organizationPrimaryKey, EditRtfContentViewModel viewModel)
         {

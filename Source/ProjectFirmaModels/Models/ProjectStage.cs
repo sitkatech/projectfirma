@@ -33,6 +33,7 @@ namespace ProjectFirmaModels.Models
         public abstract bool RequiresPerformanceMeasureActuals();
         public abstract bool IsStageIncludedInCostCalculations();
         public abstract bool ShouldShowOnMap();
+        public abstract bool ShouldIncludeInMatchmaker();
 
         public abstract IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo();
 
@@ -81,6 +82,11 @@ namespace ProjectFirmaModels.Models
             return true;
         }
 
+        public override bool ShouldIncludeInMatchmaker()
+        {
+            return true;
+        }
+
         public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
         {
             return new List<ProjectStage>();
@@ -116,6 +122,11 @@ namespace ProjectFirmaModels.Models
         }
 
         public override bool ShouldShowOnMap()
+        {
+            return true;
+        }
+
+        public override bool ShouldIncludeInMatchmaker()
         {
             return true;
         }
@@ -161,6 +172,11 @@ namespace ProjectFirmaModels.Models
             return true;
         }
 
+        public override bool ShouldIncludeInMatchmaker()
+        {
+            return true;
+        }
+
         public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
         {
             return All.Except(new ProjectStage[] {PlanningDesign, Proposal});
@@ -199,6 +215,11 @@ namespace ProjectFirmaModels.Models
             return true;
         }
 
+        public override bool ShouldIncludeInMatchmaker()
+        {
+            return false;
+        }
+
         public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
         {
             return new[] { Completed };
@@ -234,6 +255,11 @@ namespace ProjectFirmaModels.Models
         }
 
         public override bool ShouldShowOnMap()
+        {
+            return false;
+        }
+
+        public override bool ShouldIncludeInMatchmaker()
         {
             return false;
         }
@@ -276,6 +302,11 @@ namespace ProjectFirmaModels.Models
             return false;
         }
 
+        public override bool ShouldIncludeInMatchmaker()
+        {
+            return false;
+        }
+
         public override IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo()
         {
             return new[] { Deferred };
@@ -310,6 +341,11 @@ namespace ProjectFirmaModels.Models
         }
 
         public override bool ShouldShowOnMap()
+        {
+            return true;
+        }
+
+        public override bool ShouldIncludeInMatchmaker()
         {
             return true;
         }

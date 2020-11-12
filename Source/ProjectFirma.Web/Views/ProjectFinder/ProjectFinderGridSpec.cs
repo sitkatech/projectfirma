@@ -19,21 +19,16 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             SkinRowHeight = 30;
             InitWidthsByPercentage = true;
 
-            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
-            var tenantHasMultipleClassificationSystems = allClassificationSystems.Count > 1;
-            var panelTitle = tenantHasMultipleClassificationSystems
-                ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
-                : new EnglishPluralizationService().Pluralize(allClassificationSystems.First().ClassificationSystemName);
-
             Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => x.GetMatchMakerScoreWithPopover(), 7);
-            Add(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), x => x.Project.GetDisplayNameAsUrl(), 20, DhtmlxGridColumnFilterType.Html);
-            Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 15, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add(FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.MatchmakerKeyword].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), x => x.Project.GetDisplayNameAsUrl(), 15, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.Project.ProjectStage.ProjectStageDisplayName, 10, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.MatchmakerKeyword].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.AreaOfInterest].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add(FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.TaxonomySystem].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add(panelTitle, x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.Classification].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.PerformanceMeasure].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Map", x => GetMapButtonForProject(x.Project), 8, DhtmlxGridColumnFilterType.None);
+            Add(MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.TaxonomySystem].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.Classification].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.PerformanceMeasure].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Map", x => GetMapButtonForProject(x.Project), 10, DhtmlxGridColumnFilterType.None);
         }
 
         public static HtmlString GetMapButtonForProject(ProjectFirmaModels.Models.Project project)
