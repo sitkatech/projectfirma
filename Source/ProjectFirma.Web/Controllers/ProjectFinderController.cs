@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectFinderGridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = organizationHasOptedIn ? new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization) : new List<PartnerOrganizationMatchMakerScore>();
-            var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldIncludeInMatchmaker()).ToList();
 
 
             var filterValues = ResultsController.GetDefaultFilterValuesForFilterType(ProjectMapCustomization.DefaultLocationFilterType.ToEnum, true);
@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
             var organizationHasOptedIn = organization.MatchmakerOptIn ?? false;
             var gridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = organizationHasOptedIn ? new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization) : new List<PartnerOrganizationMatchMakerScore>();
-            var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldShowOnMap()).ToList();
+            var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldIncludeInMatchmaker()).ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresExcludingInvalidStages, gridSpec, x => x.Project.PrimaryKey);
             return gridJsonNetJObjectResult;
