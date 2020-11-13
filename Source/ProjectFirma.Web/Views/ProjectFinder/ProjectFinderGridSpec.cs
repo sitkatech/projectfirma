@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             Add(MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.TaxonomySystem].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.Classification].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.PerformanceMeasure].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Map", x => GetMapButtonForProject(x.Project), 10, DhtmlxGridColumnFilterType.None);
+            Add("Map", x => GetMapButtonForProject(x.Project), 8, DhtmlxGridColumnFilterType.None);
         }
 
         public static HtmlString GetMapButtonForProject(ProjectFirmaModels.Models.Project project)
