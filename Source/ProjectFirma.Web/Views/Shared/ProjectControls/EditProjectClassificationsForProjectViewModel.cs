@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
                 if (projectClassificationSimple.Selected && !alreadySelected)
                 {
-                    var projectClassification = new ProjectClassification(project.ProjectID,
+                    var projectClassification = new ProjectFirmaModels.Models.ProjectClassification(project.ProjectID,
                         projectClassificationSimple.ClassificationID)
                     {
                         ProjectClassificationNotes = projectClassificationSimple.ProjectClassificationNotes
