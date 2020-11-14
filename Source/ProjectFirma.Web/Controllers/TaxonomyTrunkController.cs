@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(TaxonomyTrunkPrimaryKey taxonomyTrunkPrimaryKey)
         {
             var taxonomyTrunk = taxonomyTrunkPrimaryKey.EntityObject;
-            var taxonomyTrunkProjects = taxonomyTrunk.GetAssociatedProjects(CurrentPerson).ToList();
+            var taxonomyTrunkProjects = taxonomyTrunk.GetAssociatedProjects(CurrentFirmaSession).ToList();
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTrunk,
                 new List<int> {taxonomyTrunk.TaxonomyTrunkID}, ProjectColorByType.ProjectStage);
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
                 ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
-                CurrentPerson.CanViewProposals());
+                CurrentFirmaSession.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =
                 MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
