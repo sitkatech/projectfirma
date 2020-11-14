@@ -63,6 +63,9 @@ namespace ProjectFirma.Web.Models
             return matchingFirmaSessions;
         }
 
+
+        public static bool CanViewProposals(this FirmaSession firmaSession) => firmaSession != null && MultiTenantHelpers.ShowProposalsToThePublic() || !firmaSession.IsAnonymousOrUnassigned();
+
         //public static FirmaSession (this IQueryable<FirmaSession> firmaSessions, int personID)
         //{
         //    return GetPersonByPersonGuid(people, personGuid, false);
