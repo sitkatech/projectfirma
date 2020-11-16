@@ -208,7 +208,7 @@ namespace ProjectFirma.Web.Views.Organization
             CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByFirmaSession(currentFirmaSession) &&
                                         (currentFirmaSession.Person.RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
                                          currentFirmaSession.Person.OrganizationID == organization.OrganizationID);
-            ShowProposals = currentFirmaSession.Person.CanViewProposals();
+            ShowProposals = currentFirmaSession.CanViewProposals();
             ProposalsPanelHeader = MultiTenantHelpers.ShowProposalsToThePublic()
                 ? FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()
                 : $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} (Not Visible to the Public)";

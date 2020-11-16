@@ -512,11 +512,11 @@ namespace ProjectFirma.Web.Controllers
             var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(organization);
             var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(organization, CurrentFirmaSession);
 
-            var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
-            var projectLocationsLayerGeoJson = GetProjectLocationsLayerGeoJson(organization, CurrentPerson);
+            var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentFirmaSession);
+            var projectLocationsLayerGeoJson = GetProjectLocationsLayerGeoJson(organization, CurrentFirmaSession);
             hasSpatialData = hasSpatialData || projectLocationsLayerGeoJson != null;
 
-            var performanceMeasures = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList()
+            var performanceMeasures = organization.GetAllActiveProjectsAndProposals(CurrentFirmaSession).ToList()
                 .SelectMany(x => x.PerformanceMeasureActuals)
                 .Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
@@ -547,9 +547,9 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Detail, OrganizationDetailViewData>(viewData);
         }
 
-        private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, Person person)
+        private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, FirmaSession firmaSession)
         {
-            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(person).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(firmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
             var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
             var projectSimpleLocationsFeatureCollection = new FeatureCollection();
@@ -565,7 +565,7 @@ namespace ProjectFirma.Web.Controllers
             return new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show);
         }
 
-        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, Person person)
+        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, FirmaSession firmaSession)
         {
             hasSpatialData = false;
             
@@ -583,7 +583,7 @@ namespace ProjectFirma.Web.Controllers
 
             layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers());
 
-            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(person).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(firmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
             var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
 
@@ -659,7 +659,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
-            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentFirmaSession.Person).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentFirmaSession).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization);
             
             var chartTitle = $"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} By {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}";
@@ -835,7 +835,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             
             // received
-            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(CurrentPerson).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(CurrentFirmaSession).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).ToList();
 
             // provided

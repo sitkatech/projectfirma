@@ -188,9 +188,9 @@ namespace ProjectFirma.Web.Models
             return projectFundingSourceExpenditures;
         }
 
-        public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, Person person)
+        public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, FirmaSession firmaSession)
         {
-            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
         }
 
         public static List<Project> GetAllActiveProjects(this Organization organization
@@ -226,9 +226,9 @@ namespace ProjectFirma.Web.Models
             return organization.GetAllAssociatedProjects().GetPendingProjects(person.CanViewPendingProjects());
         }
 
-        public static List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(this Organization organization, Person person)
+        public static List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(this Organization organization, FirmaSession firmaSession)
         {
-            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals());
+            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
@@ -273,7 +273,7 @@ namespace ProjectFirma.Web.Models
                                                                                          PerformanceMeasure performanceMeasure, 
                                                                                          FirmaSession firmaSession)
         {
-            var projects = organization.GetAllActiveProjectsAndProposals(firmaSession.Person).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposals(firmaSession).ToList();
             return new PerformanceMeasureChartViewData(performanceMeasure, firmaSession, false, projects);
         }
 

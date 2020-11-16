@@ -36,9 +36,9 @@ namespace ProjectFirma.Web.Models
             return taxonomyBranch == null;
         }
 
-        public static List<Project> GetAssociatedProjects(this TaxonomyBranch taxonomyBranch, Person person)
+        public static List<Project> GetAssociatedProjects(this TaxonomyBranch taxonomyBranch, FirmaSession firmaSession)
         {
-            return taxonomyBranch.TaxonomyLeafs.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return taxonomyBranch.TaxonomyLeafs.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
         }
 
 
