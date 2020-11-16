@@ -28,19 +28,19 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<FundingSourceController>.BuildUrlFromExpression(x => x.Detail(fundingSource.FundingSourceID));
         }
 
-        public static List<Project> GetAssociatedProjects(this FundingSource fundingSource, Person person)
+        public static List<Project> GetAssociatedProjects(this FundingSource fundingSource, FirmaSession firmaSession)
         {
-            return GetAssociatedProjects(fundingSource, person, fundingSource.ProjectFundingSourceExpenditures.ToList());
+            return GetAssociatedProjects(fundingSource, firmaSession, fundingSource.ProjectFundingSourceExpenditures.ToList());
         }
 
-        public static List<Project> GetAssociatedProjects(this FundingSource fundingSource, Person person, List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
+        public static List<Project> GetAssociatedProjects(this FundingSource fundingSource, FirmaSession firmaSession, List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
-            return projectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return projectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
         }
 
-        public static List<Project> GetAssociatedProjectsWithSecuredFunding(this FundingSource fundingSource, Person person, List<ProjectFundingSourceBudget> projectFundingSourceBudgets, Dictionary<int,Project> projectDictionary)
+        public static List<Project> GetAssociatedProjectsWithSecuredFunding(this FundingSource fundingSource, FirmaSession firmasession, List<ProjectFundingSourceBudget> projectFundingSourceBudgets, Dictionary<int,Project> projectDictionary)
         {
-            return projectFundingSourceBudgets.Where(x => x.SecuredAmount > 0).Select(x => projectDictionary[x.ProjectID]).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return projectFundingSourceBudgets.Where(x => x.SecuredAmount > 0).Select(x => projectDictionary[x.ProjectID]).ToList().GetActiveProjectsAndProposals(firmasession.CanViewProposals());
         }
 
         public static string GetDisplayName(this FundingSource fundingSource) =>

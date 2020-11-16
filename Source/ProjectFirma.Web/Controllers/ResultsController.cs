@@ -152,7 +152,7 @@ namespace ProjectFirma.Web.Controllers
                 MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
-                projects = organization.GetAllActiveProjectsAndProposals(CurrentPerson);
+                projects = organization.GetAllActiveProjectsAndProposals(CurrentFirmaSession);
             }
             else
             {
@@ -235,7 +235,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectLocationFilterType projectLocationFilterType;
             ProjectColorByType colorByValue;
 
-            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
+            var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter]))
             {
                 projectLocationFilterType = ProjectLocationFilterType.ToType(Request
@@ -390,7 +390,7 @@ namespace ProjectFirma.Web.Controllers
             var filterFunction =
                 projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
                     .FilterPropertyValues);
-            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(CurrentPerson.CanViewProposals());
+            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(CurrentFirmaSession.CanViewProposals());
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 

@@ -18,4 +18,5 @@ values
 (15, 'AttachmentsAndNotes', 'Attachments and Notes', 130, 0, 5),
 (16, 'CustomAttributes', 'Custom Attributes', 25, 1, 1),
 (17, 'BulkSetSpatialInformation', 'Bulk Set Spatial Information',60, 0, 2),
-(18, 'PartnerFinder', 'Partner Finder', 140, 0, 6)
+(18, 'PartnerFinder', 'Partner Finder', 140, 0, 6),
+(19, 'Classifications', 'Classifications', 109, 1, 5)

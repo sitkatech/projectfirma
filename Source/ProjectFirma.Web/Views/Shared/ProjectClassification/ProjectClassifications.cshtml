@@ -1,0 +1,63 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EntityNotes.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views
+@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Views
+@using MoreLinq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Shared.ProjectClassification.ProjectClassifications
+
+@foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
+            {
+               <h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
+               <div class="panel panelFirma">
+                  <div class="panel-heading panelTitle">
+                     <h2 class="project-detail-heading">
+                        @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)
+                     </h2>
+                  </div>
+                  <div class="panel-body">
+                     @{ var classifications = ViewDataTyped.Classifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
+                     @if (classifications.Count > 0)
+                     {
+                        // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
+                        foreach (var classificationBatch in classifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x => x.Classification.GetDisplayName()).Batch(3))
+                        {
+                           <div class="row" style="padding-top: 10px;">
+                              @foreach (var classification in classificationBatch)
+                              {
+                                 <div class="col-md-4">
+                                    <label>@classification.Classification.GetDisplayNameAsUrl()</label>
+
+                                    <div>@classification.ClassificationNote</div>
+                                 </div>
+                              }
+                           </div>
+                        }
+                     }
+                  </div>
+               </div>
+
+            }

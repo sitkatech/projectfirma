@@ -24,7 +24,6 @@ namespace ProjectFirmaModels.Models
 {
     public class ProjectClassificationSimple
     {
-        public int ProjectClassificationID { get; set; }
         public int ProjectID { get; set; }
         public int ClassificationID { get; set; }
         public int ClassificationSystemID { get; set; }
@@ -50,7 +49,6 @@ namespace ProjectFirmaModels.Models
         public ProjectClassificationSimple(int projectClassificationID, int projectID, int classificationSystemID, int classificationID, string projectClassificationNotes)
             : this()
         {
-            ProjectClassificationID = projectClassificationID;
             ProjectID = projectID;
             ClassificationID = classificationID;
             ClassificationSystemID = classificationSystemID;
@@ -63,10 +61,20 @@ namespace ProjectFirmaModels.Models
         public ProjectClassificationSimple(ProjectClassification projectClassification)
             : this()
         {
-            ProjectClassificationID = projectClassification.ProjectClassificationID;
             ProjectID = projectClassification.ProjectID;
             ClassificationID = projectClassification.ClassificationID;
             ClassificationSystemID = projectClassification.Classification.ClassificationSystemID;
+        }
+
+        /// <summary>
+        /// Constructor for building a new simple object with the POCO class
+        /// </summary>
+        public ProjectClassificationSimple(ProjectClassificationUpdate projectClassificationUpdate)
+            : this()
+        {
+            ProjectID = projectClassificationUpdate.ProjectUpdateBatch.ProjectID;
+            ClassificationID = projectClassificationUpdate.ClassificationID;
+            ClassificationSystemID = projectClassificationUpdate.Classification.ClassificationSystemID;
         }
 
         /// <summary>
@@ -75,7 +83,6 @@ namespace ProjectFirmaModels.Models
         public ProjectClassificationSimple(int projectClassificationID, int projectID, int classificationSystemID, int classificationID, string projectClassificationNotes, bool selected)
             : this()
         {
-            ProjectClassificationID = projectClassificationID;
             ProjectID = projectID;
             ClassificationID = classificationID;
             ClassificationSystemID = classificationSystemID;

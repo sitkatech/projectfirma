@@ -41,9 +41,9 @@ namespace ProjectFirma.Web.Models
             return ProjectMapCustomization.BuildCustomizedUrl(ProjectLocationFilterType.TaxonomyTrunk, taxonomyTrunk.TaxonomyTrunkID.ToString(), ProjectColorByType.ProjectStage);
         }
 
-        public static List<Project> GetAssociatedProjects(this TaxonomyTrunk taxonomyTrunk, Person currentPerson)
+        public static List<Project> GetAssociatedProjects(this TaxonomyTrunk taxonomyTrunk, FirmaSession firmaSession)
         {
-            return taxonomyTrunk.TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
+            return taxonomyTrunk.TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
         }
 
         public static FancyTreeNode ToFancyTreeNode(this TaxonomyTrunk taxonomyTrunk, FirmaSession currentFirmaSession)

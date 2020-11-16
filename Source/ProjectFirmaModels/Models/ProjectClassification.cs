@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectClassification : IEntityClassification, IAuditableEntity
+    public partial class ProjectClassification : IEntityClassification, IAuditableEntity, IProjectClassification
     {
         public string GetAuditDescriptionString()
         {
@@ -33,6 +33,12 @@ namespace ProjectFirmaModels.Models
         {                        
             ProjectClassificationNotes = projectClassificationNotes;
         }
-        
+
+
+        public string ClassificationNote
+        {
+            get { return ProjectClassificationNotes; }
+        }
+
     }
 }
