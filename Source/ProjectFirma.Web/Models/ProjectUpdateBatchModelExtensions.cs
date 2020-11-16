@@ -129,6 +129,9 @@ namespace ProjectFirma.Web.Models
             // Custom attributes
             ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
+            //Classifications
+            ProjectClassificationsUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+
             // Technical Assistance Requests - for Idaho
             TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
@@ -287,6 +290,15 @@ namespace ProjectFirma.Web.Models
             foreach (var projectOrganizationUpdate in projectOrganizationUpdates)
             {
                 projectOrganizationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
+        public static void DeleteProjectClassificationUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectClassificationUpdates = projectUpdateBatch.ProjectClassificationUpdates.ToList();
+            foreach (var projectClassificationUpdate in projectClassificationUpdates)
+            {
+                projectClassificationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
         public static void DeleteProjectContactUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -566,6 +578,12 @@ namespace ProjectFirma.Web.Models
         public static ContactsValidationResult ValidateContacts(this ProjectUpdateBatch projectUpdateBatch)
         {
             return new ContactsValidationResult(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactSimple(x))
+                .ToList());
+        }
+
+        public static ClassificationsValidationResult ValidateClassifications(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return new ClassificationsValidationResult(projectUpdateBatch.ProjectClassificationUpdates.Select(x => new ProjectClassificationSimple(x))
                 .ToList());
         }
 
