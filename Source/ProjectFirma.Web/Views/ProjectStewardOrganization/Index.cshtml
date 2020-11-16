@@ -71,7 +71,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-xs-7">
                         <h4 class="list-group-item-heading">@organization.OrganizationName</h4>
                         @{
-                            var projectCount = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(ViewDataTyped.CurrentFirmaSession.Person).Count;
+                            var projectCount = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(ViewDataTyped.CurrentFirmaSession).Count;
                             var projectCountLabel = projectCount.Equals(1) ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized();
                         }
                         <p class="list-group-item-text">
