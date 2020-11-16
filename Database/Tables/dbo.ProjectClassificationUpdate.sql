@@ -20,6 +20,11 @@ REFERENCES [dbo].[Classification] ([ClassificationID])
 GO
 ALTER TABLE [dbo].[ProjectClassificationUpdate] CHECK CONSTRAINT [FK_ProjectClassificationUpdate_Classification_ClassificationID]
 GO
+ALTER TABLE [dbo].[ProjectClassificationUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectClassificationUpdate_Classification_ClassificationID_TenantID] FOREIGN KEY([ClassificationID], [TenantID])
+REFERENCES [dbo].[Classification] ([ClassificationID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectClassificationUpdate] CHECK CONSTRAINT [FK_ProjectClassificationUpdate_Classification_ClassificationID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectClassificationUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectClassificationUpdate_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
