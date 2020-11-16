@@ -78,6 +78,6 @@ namespace ProjectFirma.Web.Models
         //    return person;
         //}
 
-        public static bool CanViewProposals(this FirmaSession firmaSession) => firmaSession != null && MultiTenantHelpers.ShowProposalsToThePublic() || !firmaSession.IsAnonymousOrUnassigned();
+        public static bool CanViewProposals(this FirmaSession firmaSession) => firmaSession != null && (MultiTenantHelpers.ShowProposalsToThePublic() || !firmaSession.IsAnonymousOrUnassigned());
     }
 }
