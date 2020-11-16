@@ -35,8 +35,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForClassification { get; }
         public string ConfigureClassificationSystemsUrl { get; }
-        public bool ShowCommentsSection { get; }
-        public bool CanEditComments { get; }
         public string DiffUrl { get; }
         public string RefreshUrl { get; }
 
@@ -60,9 +58,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             DiffUrl = diffUrl;
             RefreshUrl = refreshUrl;
-            //ShowCommentsSection = project.IsPendingApproval() || (project.ProposalClassificationsComment != null &&
-            //                                                      project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
-            //CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
+          
         }
     }
 }
