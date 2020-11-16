@@ -39,6 +39,8 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[IsSimpleLocationUpdated] [bit] NULL,
 	[IsDetailedLocationUpdated] [bit] NULL,
 	[IsSpatialInformationUpdated] [bit] NULL,
+	[ProjectClassificationsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ProjectClassificationsDiffLog] [dbo].[html] NULL,
  CONSTRAINT [PK_ProjectUpdateBatch_ProjectUpdateBatchID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC

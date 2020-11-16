@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public List<ProjectClassificationSimple> ProjectClassificationSimples { get; set; }
         
-        [DisplayName("Reviewer Comments")]
+        [DisplayName("Comments")]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProposalClassificationsComment)]
         public string Comments { get; set; }
 
@@ -46,10 +46,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public EditProposalClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples)
+        public EditProposalClassificationsViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, List<ProjectClassificationSimple> projectClassificationSimples)
         {
             ProjectClassificationSimples = projectClassificationSimples;
-            //Comments = project.ProposalClassificationsComment;
+            Comments = projectUpdateBatch.ProjectClassificationsComment;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, List<ProjectClassificationSimple> projectClassificationSimples)
@@ -81,10 +81,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
             }
 
-            //if (projectUpdateBatch.ProjectUpdateState == ProjectUpdateState.Approved)
-            //{
-            //    project.ProposalClassificationsComment = Comments;
-            //}
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ProjectClassificationsComment = Comments;
+            }
+
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

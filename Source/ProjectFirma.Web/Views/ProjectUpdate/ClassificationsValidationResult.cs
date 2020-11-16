@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -14,29 +16,27 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         }
 
 
-        public ClassificationsValidationResult(List<ProjectClassificationSimple> projectClassificationSimple)
+        public ClassificationsValidationResult(List<ProjectClassificationSimple> projectClassificationSimple, string classificationFieldDefinitionLabel, string classificationSystemFieldDefinitionLabel)
         {
             _warningMessages = new List<string>();
 
-            //if (projectClassificationSimple.GroupBy(x => new { ClassificationID = x.ContactRelationshipTypeID, x.ContactID }).Any(x => x.Count() > 1))
-            //{
-            //    _warningMessages.Add($"Cannot have the same contact relationship type listed for the same Contact multiple times.");
-            //}
 
-            //var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
+            if (!projectClassificationSimple.Any())
+            {
+                _warningMessages.Add($"You must select at least one {classificationFieldDefinitionLabel} per {classificationSystemFieldDefinitionLabel}");
+            }
 
-            //var projectContactsGroupedByContactRelationshipTypeID =
-            //    projectClassificationSimple.GroupBy(x => x.ContactRelationshipTypeID).ToList();
-
-            //_warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
-            //    .Where(rt => projectContactsGroupedByContactRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) > 1)
-            //    .Select(relationshipType =>
-            //        $"Cannot have more than one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\"."));
-
-            //_warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
-            //    .Where(rt => projectContactsGroupedByContactRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
-            //    .Select(relationshipType =>
-            //        $"Must have one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\"."));
+            projectClassificationSimple.Select(x => x.ClassificationSystemID).Distinct().ForEach(s =>
+            {
+                var classificationSystem =
+                    HttpRequestStorage.DatabaseEntities.ClassificationSystems.GetClassificationSystem(s);
+                var selectedClassifications = projectClassificationSimple.Where(x => x.ClassificationSystemID == s && x.Selected);
+                if (!selectedClassifications.Any())
+                {
+                    _warningMessages.Add(
+                        $"You must select at least one {classificationSystem.ClassificationSystemName}");
+                }
+            });
         }
 
         public List<string> GetWarningMessages()

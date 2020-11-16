@@ -1699,7 +1699,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var projectClassificationSimples = GetProjectClassificationSimples(projectUpdateBatch);
-            var viewModel = new EditProposalClassificationsViewModel(projectClassificationSimples);
+            var viewModel = new EditProposalClassificationsViewModel(projectUpdateBatch, projectClassificationSimples);
 
             return ViewClassifications(projectUpdateBatch, viewModel);
         }
@@ -2332,6 +2332,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 var customAttributesDiffHelper = new HtmlDiff.HtmlDiff(customAttributesDiffContainer.OriginalHtml, customAttributesDiffContainer.UpdatedHtml);
                 projectUpdateBatch.CustomAttributesDiffLogHtmlString = new HtmlString(customAttributesDiffHelper.Build());
+            }
+
+            // add custom attributes to the diff log
+            var projectClassificationsDiffContainer = DiffClassificationsImpl(projectPrimaryKey);
+            if (projectClassificationsDiffContainer.HasChanged)
+            {
+                var customAttributesDiffHelper = new HtmlDiff.HtmlDiff(projectClassificationsDiffContainer.OriginalHtml, projectClassificationsDiffContainer.UpdatedHtml);
+                projectUpdateBatch.ProjectClassificationsDiffLogHtmlString = new HtmlString(customAttributesDiffHelper.Build());
             }
 
             // add booleans for location information that may be updated
