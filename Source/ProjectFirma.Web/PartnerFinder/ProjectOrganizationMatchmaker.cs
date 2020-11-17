@@ -141,14 +141,15 @@ namespace ProjectFirma.Web.PartnerFinder
             List<string> localMatchInsights = new List<string>();
             double classificationMatchScore = 0.0;
 
-            var organizationClassificationIDs = organization.MatchmakerOrganizationClassifications.Select(x => x.ClassificationID).ToList();
+            var organizationClassifications = organization.MatchmakerOrganizationClassifications.Select(x => x.Classification).ToList();
             var projectClassificationIDs = project.ProjectClassifications.Select(x => x.ClassificationID).ToList();
-
-            if (organizationClassificationIDs.Any(x => projectClassificationIDs.Contains(x)))
+            var matches = organizationClassifications.Where(x => projectClassificationIDs.Contains(x.ClassificationID));
+            if (matches.Any())
             {
                 classificationMatchScore = 1.0;
                 //localMatchInsights.Insert(0, $"Classification SubScore = {classificationMatchScore:0.0}: ");
-                localMatchInsights.Add($"Classification match");
+                var classificationNames = matches.Select(x => x.DisplayName);
+                localMatchInsights.Add($"{string.Join(", ", classificationNames)}");
             }
 
             
