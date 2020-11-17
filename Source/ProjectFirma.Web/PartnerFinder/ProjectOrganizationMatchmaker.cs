@@ -244,6 +244,7 @@ namespace ProjectFirma.Web.PartnerFinder
 
             // Geospatial area sub-sub-score
             double projectGeospatialAreaSubSubScore = 0.0;
+            if(MultiTenantHelpers.GetTenantAttributeFromCache().MatchmakerAlgorithmIncludesProjectGeospatialAreas)
             {
                 var projectGeospatialAreas = project.GetProjectGeospatialAreas().ToList();
                 foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
