@@ -95,25 +95,18 @@
     }
     </div>
 
-    if (@ViewDataTyped.ShowCommentsSection)
+    if (ViewDataTyped.ShowApproveAndReturnButton)
     {
-        <div class="row form-group">
-            <div class="col-xs-12 col-sm-4 control-label">
-                @Html.LabelFor(m => m.Comments)
-            </div>
-            <div class="col-xs-12 col-sm-8">
-                @if (ViewDataTyped.CanEditComments)
-                {
-                    @Html.TextAreaFor(m => m.Comments, new { style = "width: 100%", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Comments)
-                }
-                else
-                {
-                    @Html.Raw(ViewDataTyped.Project.ProposalClassificationsComment.HtmlEncodeWithBreaks())
-                }
+        <div id="commentsSection">
+            <hr />
+            <div class="row form-group">
+                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> {{"style", "width: 100%"}, {"class", "form-control"}})
+                </div>
             </div>
         </div>
-        <hr />
+        <hr/>
     }
 
 

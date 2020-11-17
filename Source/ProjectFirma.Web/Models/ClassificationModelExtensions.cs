@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjects(this Classification classification, FirmaSession currentFirmaSession)
         {
-            return classification.ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
+            return classification.ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals()).ToList();
         }
 
         public static string GetKeyImageUrlLarge(this Classification classification) => classification.KeyImageFileResourceInfo != null

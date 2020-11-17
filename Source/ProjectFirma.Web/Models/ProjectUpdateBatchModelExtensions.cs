@@ -5,6 +5,7 @@ using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirmaModels.Models;
 
@@ -583,8 +584,10 @@ namespace ProjectFirma.Web.Models
 
         public static ClassificationsValidationResult ValidateClassifications(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return new ClassificationsValidationResult(projectUpdateBatch.ProjectClassificationUpdates.Select(x => new ProjectClassificationSimple(x))
-                .ToList());
+            var projectClassificationSimples = ProjectUpdateController.GetProjectClassificationSimples(projectUpdateBatch);
+            var classificationLabel = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
+            var classificationSystemsLabel = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
+            return new ClassificationsValidationResult(projectClassificationSimples, classificationLabel, classificationSystemsLabel);
         }
 
         public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)
@@ -702,6 +705,9 @@ namespace ProjectFirma.Web.Models
 
             // Technical Assistance Requests - for Idaho
             TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            //Project Classifications
+            ProjectClassificationsUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
 
         }
 

@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectUpdateSectionEnum.PartnerFinder:
                     return true;
                 case ProjectUpdateSectionEnum.Classifications:
-                    return true;
+                    return projectUpdateBatch.ValidateClassifications().IsValid;
                 default:
                     throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled Project Update Section Enum: {projectUpdateSection.ToEnum}");
             }

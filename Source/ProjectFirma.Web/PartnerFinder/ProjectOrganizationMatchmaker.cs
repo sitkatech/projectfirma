@@ -244,6 +244,7 @@ namespace ProjectFirma.Web.PartnerFinder
 
             // Geospatial area sub-sub-score
             double projectGeospatialAreaSubSubScore = 0.0;
+            if(MultiTenantHelpers.GetTenantAttributeFromCache().MatchmakerAlgorithmIncludesProjectGeospatialAreas)
             {
                 var projectGeospatialAreas = project.GetProjectGeospatialAreas().ToList();
                 foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
@@ -372,7 +373,7 @@ namespace ProjectFirma.Web.PartnerFinder
         /// <returns></returns>
         public List<PartnerOrganizationMatchMakerScore> GetPartnerOrganizationMatchMakerScoresForParticularOrganization(FirmaSession currentFirmaSession, Organization organization)
         {
-            var allAppropriateProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
+            var allAppropriateProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals()).ToList();
             return GetPartnerOrganizationMatchMakerScores(new List<Organization> {organization}, allAppropriateProjects);
         }
 
