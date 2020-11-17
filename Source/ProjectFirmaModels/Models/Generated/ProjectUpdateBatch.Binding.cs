@@ -52,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string reportedPerformanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string expendituresNote, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string contactsComment, string expectedFundingUpdateNote, string contactsDiffLog, string customAttributesComment, string customAttributesDiffLog, string expectedPerformanceMeasureDiffLog, bool? isSimpleLocationUpdated, bool? isDetailedLocationUpdated, bool? isSpatialInformationUpdated, string projectClassificationsComment, string projectClassificationsDiffLog) : this()
+        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string reportedPerformanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string expendituresNote, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string contactsComment, string expectedFundingUpdateNote, string contactsDiffLog, string customAttributesComment, string customAttributesDiffLog, string expectedPerformanceMeasureDiffLog, bool? isSimpleLocationUpdated, bool? isDetailedLocationUpdated, bool? isSpatialInformationUpdated, string projectClassificationsDiffLog, string projectClassificationsComment) : this()
         {
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
@@ -89,8 +89,8 @@ namespace ProjectFirmaModels.Models
             this.IsSimpleLocationUpdated = isSimpleLocationUpdated;
             this.IsDetailedLocationUpdated = isDetailedLocationUpdated;
             this.IsSpatialInformationUpdated = isSpatialInformationUpdated;
-            this.ProjectClassificationsComment = projectClassificationsComment;
             this.ProjectClassificationsDiffLog = projectClassificationsDiffLog;
+            this.ProjectClassificationsComment = projectClassificationsComment;
         }
 
         /// <summary>
@@ -498,7 +498,6 @@ namespace ProjectFirmaModels.Models
         public bool? IsSimpleLocationUpdated { get; set; }
         public bool? IsDetailedLocationUpdated { get; set; }
         public bool? IsSpatialInformationUpdated { get; set; }
-        public string ProjectClassificationsComment { get; set; }
         public string ProjectClassificationsDiffLog { get; set; }
         [NotMapped]
         public HtmlString ProjectClassificationsDiffLogHtmlString
@@ -506,6 +505,7 @@ namespace ProjectFirmaModels.Models
             get { return ProjectClassificationsDiffLog == null ? null : new HtmlString(ProjectClassificationsDiffLog); }
             set { ProjectClassificationsDiffLog = value?.ToString(); }
         }
+        public string ProjectClassificationsComment { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 
