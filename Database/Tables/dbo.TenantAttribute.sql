@@ -40,6 +40,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[EnableReports] [bit] NOT NULL,
 	[TenantFactSheetLogoFileResourceInfoID] [int] NULL,
 	[EnableMatchmaker] [bit] NOT NULL,
+	[MatchmakerAlgorithmIncludesProjectGeospatialAreas] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -56,6 +57,8 @@ CREATE TABLE [dbo].[TenantAttribute](
 
 GO
 ALTER TABLE [dbo].[TenantAttribute] ADD  DEFAULT ((0)) FOR [EnableProjectCategories]
+GO
+ALTER TABLE [dbo].[TenantAttribute] ADD  DEFAULT ((0)) FOR [MatchmakerAlgorithmIncludesProjectGeospatialAreas]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_AccomplishmentsDashboardFundingDisplayType_AccomplishmentsDashboardFundingDisplayTypeID] FOREIGN KEY([AccomplishmentsDashboardFundingDisplayTypeID])
 REFERENCES [dbo].[AccomplishmentsDashboardFundingDisplayType] ([AccomplishmentsDashboardFundingDisplayTypeID])
