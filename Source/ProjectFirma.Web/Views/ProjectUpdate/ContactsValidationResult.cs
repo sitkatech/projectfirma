@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         }
 
 
-        public ContactsValidationResult(List<ProjectContactSimple> projectContactSimples)
+        public ContactsValidationResult(ProjectFirmaModels.Models.Project project, List<ProjectContactSimple> projectContactSimples)
         {
             _warningMessages = new List<string>();
 
@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectContactsGroupedByContactRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
                 .Select(relationshipType => 
-                    $"Must have one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\"."));
+                    $"Must have one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {Shared.ProjectContact.EditContactsViewModel.GetRequiredRelationshipTypeErrorStringSuffix(project.ProjectStage, relationshipType)}"));
         }
 
         public List<string> GetWarningMessages()

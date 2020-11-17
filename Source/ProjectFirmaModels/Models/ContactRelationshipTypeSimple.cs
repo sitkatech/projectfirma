@@ -2,6 +2,12 @@
 {
     public class ContactRelationshipTypeSimple
     {
+        public int ContactRelationshipTypeID { get; set; }
+        public string ContactRelationshipTypeName { get; set; }
+        public bool ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject { get; set; }
+        public bool ContactRelationshipIsCurrentlyRequired { get; set; }
+        public string ContactRelationshipTypeDescription { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -22,18 +28,16 @@
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public ContactRelationshipTypeSimple(ContactRelationshipType contactRelationshipType)
+        public ContactRelationshipTypeSimple(Project currentProject,
+                                             ContactRelationshipType contactRelationshipType)
             : this()
         {
             ContactRelationshipTypeID = contactRelationshipType.ContactRelationshipTypeID;
             ContactRelationshipTypeName = contactRelationshipType.ContactRelationshipTypeName;
             ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject = contactRelationshipType.IsContactRelationshipTypeRequired;
+            ContactRelationshipIsCurrentlyRequired = contactRelationshipType.IsContactCurrentlyRequiredAtGivenProjectStage(currentProject.ProjectStage);
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
         }
 
-        public int ContactRelationshipTypeID { get; set; }
-        public string ContactRelationshipTypeName { get; set; }
-        public bool ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject { get; set; }
-        public string ContactRelationshipTypeDescription { get; set; }
     }
 }

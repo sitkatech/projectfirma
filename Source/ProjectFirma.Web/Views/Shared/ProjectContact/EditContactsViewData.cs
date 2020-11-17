@@ -31,10 +31,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         public List<PersonSimple> AllContacts { get; }
         public List<ContactRelationshipTypeSimple> AllContactRelationshipTypes { get; }
 
-        public EditContactsViewData(IEnumerable<Person> allContacts, List<ProjectFirmaModels.Models.ContactRelationshipType> allContactRelationshipTypes)
+        public EditContactsViewData(ProjectFirmaModels.Models.Project currentProject,
+                                    IEnumerable<Person> allContacts,
+                                    List<ProjectFirmaModels.Models.ContactRelationshipType> allContactRelationshipTypes)
         {
             AllContacts = allContacts.Select(x => new PersonSimple(x)).ToList();
-            AllContactRelationshipTypes = allContactRelationshipTypes.Select(x => new ContactRelationshipTypeSimple(x)).ToList();
+            AllContactRelationshipTypes = allContactRelationshipTypes.Select(x => new ContactRelationshipTypeSimple(currentProject, x)).ToList();
         }
     }
 }

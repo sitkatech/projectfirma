@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using DocumentFormat.OpenXml.Wordprocessing;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -75,7 +74,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             return GetValidationResults();
         }
 
-        public string GetRequiredRelationshipTypeErrorStringSuffix(ProjectStage currentProjectStage, ProjectFirmaModels.Models.ContactRelationshipType contactRelationshipType)
+        public static string GetRequiredRelationshipTypeErrorStringSuffix(ProjectStage currentProjectStage, ProjectFirmaModels.Models.ContactRelationshipType contactRelationshipType)
         {
             bool hasMinimumProjectStageSet = contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage != null;
             if (hasMinimumProjectStageSet && currentProjectStage.SortOrder >= contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.SortOrder)

@@ -98,7 +98,7 @@
             <hr />
             <div class="row">
                 @*Relationship type and description*@
-                <div class="col-md-12"><label ng-bind="relationshipType.ContactRelationshipTypeName"></label><sup ng-show="relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
+                <div class="col-md-12"><label ng-bind="relationshipType.ContactRelationshipTypeName"></label><sup ng-show="relationshipType.ContactRelationshipIsCurrentlyRequired">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
             </div>
             <div class="row">
                 <div class="col-md-12">

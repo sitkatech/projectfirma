@@ -577,7 +577,7 @@ namespace ProjectFirma.Web.Models
 
         public static ContactsValidationResult ValidateContacts(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return new ContactsValidationResult(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactSimple(x))
+            return new ContactsValidationResult(projectUpdateBatch.Project, projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactSimple(x))
                 .ToList());
         }
 
