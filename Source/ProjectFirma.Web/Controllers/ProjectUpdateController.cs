@@ -2348,7 +2348,6 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.IsSpatialInformationUpdated = IsSpatialInformationUpdated(projectPrimaryKey);
         }
 
-
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult Submit(ProjectPrimaryKey projectPrimaryKey)

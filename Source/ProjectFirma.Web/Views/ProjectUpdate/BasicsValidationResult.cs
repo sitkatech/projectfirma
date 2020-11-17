@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 _warningMessages.Add(ImplementationStartYearIsRequired);
             }
-                        
+
             if ((projectUpdate.ProjectStage == ProjectStage.Completed || projectUpdate.ProjectStage == ProjectStage.PostImplementation) && projectUpdate.CompletionYear == null)
             {
                 _warningMessages.Add(CompletionYearIsRequired);
