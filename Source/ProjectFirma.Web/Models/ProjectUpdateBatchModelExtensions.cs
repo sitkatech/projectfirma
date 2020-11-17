@@ -13,7 +13,14 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectUpdateBatchModelExtensions
     {
-        public static bool IsReadyToSubmit(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.InEditableState() && projectUpdateBatch.IsPassingAllValidationRules() && ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
+        public static bool IsReadyToSubmit(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            bool inEditableState = projectUpdateBatch.InEditableState();
+            bool isPassingAllValidationRules = projectUpdateBatch.IsPassingAllValidationRules();
+            bool projectUpdateBatchHasAlreadyBeenSaved = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
+
+            return inEditableState && isPassingAllValidationRules && projectUpdateBatchHasAlreadyBeenSaved;
+        }
 
         public static bool IsReadyToApprove(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.IsPassingAllValidationRules();
 
@@ -761,6 +768,7 @@ namespace ProjectFirma.Web.Models
             bool areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
 
             return projectUpdateBatch.AreProjectBasicsValid() && 
+                   projectUpdateBatch.AreContactsValid() && 
                    projectUpdateBatch.AreExpendituresValid() && 
                    projectUpdateBatch.AreReportedPerformanceMeasuresValid() &&
                    projectUpdateBatch.IsProjectLocationSimpleValid() &&
