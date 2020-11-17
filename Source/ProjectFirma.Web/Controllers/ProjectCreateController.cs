@@ -51,6 +51,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.ProjectExternalLink;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotes;
 using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotesViewData;
@@ -78,6 +79,8 @@ using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.Expe
 using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
+using ExternalLinks = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinks;
+using ExternalLinksViewData = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinksViewData;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
 using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
@@ -365,6 +368,51 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} successfully saved.");
 
             return GoToNextSection(viewModel, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName);
+        }
+
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel =
+                new EditProjectExternalLinksViewModel(
+                    project.ProjectExternalLinks.Select(
+                        x => new ProjectExternalLinkSimple(x.ProjectExternalLinkID, x.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList());
+            return ViewExternalLinks(project, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey, EditProjectExternalLinksViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewExternalLinks(project, viewModel);
+            }
+            var currentProjectExternalLinks = project.ProjectExternalLinks.ToList();
+            HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
+            var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinks.Local;
+            viewModel.UpdateModel(currentProjectExternalLinks, allProjectExternalLinks);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} External Links successfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ExternalLinks.ProjectCreateSectionDisplayName);
+        }
+
+        private ViewResult ViewExternalLinks(Project project, EditProjectExternalLinksViewModel viewModel)
+        {
+          
+            var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
+            var proposalSectionsStatus = GetProposalSectionsStatus(project);
+            var viewDataForAngularClass = new Views.ProjectCreate.ExternalLinksViewData.ViewDataForAngularClass(project.ProjectID);
+            var viewData = new Views.ProjectCreate.ExternalLinksViewData(CurrentFirmaSession,
+                project,
+                proposalSectionsStatus,
+                viewDataForAngularClass,
+                entityExternalLinksViewData);
+            return RazorView<Views.ProjectCreate.ExternalLinks, Views.ProjectCreate.ExternalLinksViewData, EditProjectExternalLinksViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
