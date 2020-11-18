@@ -14,9 +14,4 @@ namespace ProjectFirmaModels.Models
             return $"MatchmakerKeywordID:{MatchmakerKeywordID} MatchmakerKeywordName: {MatchmakerKeywordName}";
         }
     }
-
-
-    
-
-
 }
