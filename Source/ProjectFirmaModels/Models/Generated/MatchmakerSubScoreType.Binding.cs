@@ -131,13 +131,13 @@ namespace ProjectFirmaModels.Models
     public partial class MatchmakerSubScoreTypeMatchmakerKeyword : MatchmakerSubScoreType
     {
         private MatchmakerSubScoreTypeMatchmakerKeyword(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
-        public static readonly MatchmakerSubScoreTypeMatchmakerKeyword Instance = new MatchmakerSubScoreTypeMatchmakerKeyword(1, @"MatchmakerKeyword", @"Matchmaker Keyword");
+        public static readonly MatchmakerSubScoreTypeMatchmakerKeyword Instance = new MatchmakerSubScoreTypeMatchmakerKeyword(1, @"MatchmakerKeyword", @"Matchmaker Keywords");
     }
 
     public partial class MatchmakerSubScoreTypeAreaOfInterest : MatchmakerSubScoreType
     {
         private MatchmakerSubScoreTypeAreaOfInterest(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
-        public static readonly MatchmakerSubScoreTypeAreaOfInterest Instance = new MatchmakerSubScoreTypeAreaOfInterest(2, @"AreaOfInterest", @"Area Of Interest");
+        public static readonly MatchmakerSubScoreTypeAreaOfInterest Instance = new MatchmakerSubScoreTypeAreaOfInterest(2, @"AreaOfInterest", @"Areas Of Interest");
     }
 
     public partial class MatchmakerSubScoreTypeTaxonomySystem : MatchmakerSubScoreType
@@ -155,6 +155,6 @@ namespace ProjectFirmaModels.Models
     public partial class MatchmakerSubScoreTypePerformanceMeasure : MatchmakerSubScoreType
     {
         private MatchmakerSubScoreTypePerformanceMeasure(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
-        public static readonly MatchmakerSubScoreTypePerformanceMeasure Instance = new MatchmakerSubScoreTypePerformanceMeasure(5, @"PerformanceMeasure", @"Performance Measure");
+        public static readonly MatchmakerSubScoreTypePerformanceMeasure Instance = new MatchmakerSubScoreTypePerformanceMeasure(5, @"PerformanceMeasure", @"Performance Measures");
     }
 }

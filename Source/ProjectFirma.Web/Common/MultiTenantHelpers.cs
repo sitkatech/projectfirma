@@ -495,9 +495,9 @@ namespace ProjectFirma.Web.Common
             switch (enumType)
             {
                 case MatchmakerSubScoreTypeEnum.Classification:
-                    return MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(false);
+                    return MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true);
                 case MatchmakerSubScoreTypeEnum.TaxonomySystem:
-                    return MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabel();
+                    return MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized();
                 default:
                     return MatchmakerSubScoreType.ToType(enumType).MatchmakerSubScoreTypeDisplayName;
             }
