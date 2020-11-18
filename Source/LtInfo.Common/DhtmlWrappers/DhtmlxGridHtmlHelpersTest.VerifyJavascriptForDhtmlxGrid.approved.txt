@@ -1,6 +1,6 @@
 ﻿
-<div id ="testGridNameContainerDivID">
-    <div id="testGridNameLoadingBar" style="display:none"></div>
+<div id ="testGridNameContainerDivID" style="position:relative;">
+    <div id="testGridNameLoadingBar" class="project-firma-loading-bar" style="display:none"></div>
     <div id="testGridNameMetaDivID" class="DhtmlxGridMeta"></div>
     <div id="testGridNameDivID" style="height:250px;"></div>
     <script type="text/javascript">
