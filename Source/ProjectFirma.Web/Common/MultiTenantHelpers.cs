@@ -256,6 +256,8 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
         }
 
+        public static bool HasSingleClassificationSystem => (GetClassificationSystems().Count == 1);
+
         public static List<CustomPage> GetCustomPages()
         {
             return HttpRequestStorage.DatabaseEntities.CustomPages.ToList();
@@ -485,6 +487,19 @@ namespace ProjectFirma.Web.Common
                     return FieldDefinitionEnum.TaxonomyTrunk;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static string GetTenantDisplayNameForMatchmakerSubScoreTypeEnum(MatchmakerSubScoreTypeEnum enumType)
+        {
+            switch (enumType)
+            {
+                case MatchmakerSubScoreTypeEnum.Classification:
+                    return MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true);
+                case MatchmakerSubScoreTypeEnum.TaxonomySystem:
+                    return MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized();
+                default:
+                    return MatchmakerSubScoreType.ToType(enumType).MatchmakerSubScoreTypeDisplayName;
             }
         }
     }

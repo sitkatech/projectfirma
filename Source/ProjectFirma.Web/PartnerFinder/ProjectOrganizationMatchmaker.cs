@@ -141,18 +141,21 @@ namespace ProjectFirma.Web.PartnerFinder
             List<string> localMatchInsights = new List<string>();
             double classificationMatchScore = 0.0;
 
-            var organizationClassificationIDs = organization.MatchmakerOrganizationClassifications.Select(x => x.ClassificationID).ToList();
+            var organizationClassifications = organization.MatchmakerOrganizationClassifications.Select(x => x.Classification).ToList();
             var projectClassificationIDs = project.ProjectClassifications.Select(x => x.ClassificationID).ToList();
-
-            if (organizationClassificationIDs.Any(x => projectClassificationIDs.Contains(x)))
+            var matches = organizationClassifications.Where(x => projectClassificationIDs.Contains(x.ClassificationID)).ToList();
+            if (matches.Any())
             {
                 classificationMatchScore = 1.0;
                 //localMatchInsights.Insert(0, $"Classification SubScore = {classificationMatchScore:0.0}: ");
-                localMatchInsights.Add($"Classification match");
+
+                var classificationNames = MultiTenantHelpers.HasSingleClassificationSystem ? matches.Select(x => x.DisplayName) : matches.Select(x => $"{x.DisplayName}({x.ClassificationSystem.ClassificationSystemName})");
+                localMatchInsights.Add($"{string.Join(", ", classificationNames)}");
             }
 
             
             matchInsightStrings.AddRange(localMatchInsights);
+            //var classification
             scoreInsightDictionary.Add(MatchmakerSubScoreTypeEnum.Classification, new MatchMakerScoreSubScoreInsight(classificationMatchScore, localMatchInsights));
             
             CheckEnsureScoreInValidRange(classificationMatchScore);
@@ -170,18 +173,20 @@ namespace ProjectFirma.Web.PartnerFinder
             List<string> localMatchInsights = new List<string>();
             double performanceMeasureMatchScore = 0.0;
 
-            var organizationPerformanceMeasureIDs = organization.MatchmakerOrganizationPerformanceMeasures.Select(x => x.PerformanceMeasureID).ToList();
+            var organizationPerformanceMeasures = organization.MatchmakerOrganizationPerformanceMeasures.Select(x => x.PerformanceMeasure).ToList();
             var projectPerformanceMeasureActualIDs = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureID).ToList();
             var projectPerformanceMeasureExpectedIDs = project.PerformanceMeasureExpecteds.Select(x => x.PerformanceMeasureID).ToList();
 
             var performanceMeasureIDs = new HashSet<int>(projectPerformanceMeasureActualIDs);
             performanceMeasureIDs.UnionWith(projectPerformanceMeasureExpectedIDs);
 
-            if (organizationPerformanceMeasureIDs.Any(x => performanceMeasureIDs.Contains(x)))
+            var matches = organizationPerformanceMeasures.Where(x => performanceMeasureIDs.Contains(x.PerformanceMeasureID)).ToList();
+            if (matches.Any())
             {
                 performanceMeasureMatchScore = 1.0;
                 //localMatchInsights.Insert(0, $"Performance Measure SubScore = {performanceMeasureMatchScore:0.0}: ");
-                localMatchInsights.Add("Performance Measure match");
+                var matchNames = matches.Select(x => x.PerformanceMeasureDisplayName);
+                localMatchInsights.Add($"{string.Join(", ", matchNames)}");
             }
 
             matchInsightStrings.AddRange(localMatchInsights);
