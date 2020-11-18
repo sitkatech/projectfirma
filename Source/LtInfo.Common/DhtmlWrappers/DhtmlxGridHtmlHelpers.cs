@@ -74,8 +74,8 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             const string template =
                 @"
-<div id =""{0}ContainerDivID"">
-    <div id=""{0}LoadingBar"" style=""display:none"">{1}</div>
+<div id =""{0}ContainerDivID"" style=""position:relative;"">
+    <div id=""{0}LoadingBar"" class=""project-firma-loading-bar"" style=""display:none"">{1}</div>
     <div id=""{0}MetaDivID"" class=""DhtmlxGridMeta"">{2}</div>
     <div id=""{0}DivID"" style=""{3}""></div>
     <script type=""text/javascript"">
