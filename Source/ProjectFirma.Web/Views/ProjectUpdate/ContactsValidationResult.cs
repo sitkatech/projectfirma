@@ -25,17 +25,19 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 _warningMessages.Add($"Cannot have the same contact relationship type listed for the same Contact multiple times.");
             }
 
-            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
+            var relationshipTypesThatMustBeRelatedOnlyOnceToAProject = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => !x.ContactRelationshipTypeAcceptsMultipleValues).ToList();
 
             var projectContactsGroupedByContactRelationshipTypeID =
                 projectContactSimples.GroupBy(x => x.ContactRelationshipTypeID).ToList();
 
-            _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+            _warningMessages.AddRange(relationshipTypesThatMustBeRelatedOnlyOnceToAProject
                 .Where(rt => projectContactsGroupedByContactRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) > 1)
                 .Select(relationshipType => 
                     $"Cannot have more than one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\"."));
 
-            _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+            var relationshipTypesThatAreRequired = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
+
+            _warningMessages.AddRange(relationshipTypesThatAreRequired
                 .Where(rt => projectContactsGroupedByContactRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
                 .Select(relationshipType => 
                     $"Must have one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {Shared.ProjectContact.EditContactsViewModel.GetRequiredRelationshipTypeErrorStringSuffix(project.ProjectStage, relationshipType)}"));
