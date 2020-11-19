@@ -82,12 +82,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewContactRelationshipType(viewModel);
             }
-            var relationshipType = new ContactRelationshipType(viewModel.ContactRelationshipTypeName, false);
+            var relationshipType = new ContactRelationshipType(viewModel.ContactRelationshipTypeName, false, false);
             HttpRequestStorage.DatabaseEntities.AllContactRelationshipTypes.Add(relationshipType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             viewModel.UpdateModel(relationshipType);
-            
+
             SetMessageForDisplay(
                 $"New {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} {relationshipType.ContactRelationshipTypeName} successfully created!");
             return new ModalDialogFormJsonResult();

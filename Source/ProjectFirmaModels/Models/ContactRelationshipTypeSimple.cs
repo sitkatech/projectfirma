@@ -34,7 +34,7 @@
         {
             ContactRelationshipTypeID = contactRelationshipType.ContactRelationshipTypeID;
             ContactRelationshipTypeName = contactRelationshipType.ContactRelationshipTypeName;
-            ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject = contactRelationshipType.IsContactRelationshipTypeRequired;
+            ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject = !contactRelationshipType.ContactRelationshipTypeAcceptsMultipleValues;
             ContactRelationshipIsCurrentlyRequired = contactRelationshipType.IsContactCurrentlyRequiredAtGivenProjectStage(currentProject.ProjectStage);
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
         }
