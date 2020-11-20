@@ -148,8 +148,8 @@ namespace ProjectFirma.Web.PartnerFinder
             {
                 classificationMatchScore = 1.0;
                 //localMatchInsights.Insert(0, $"Classification SubScore = {classificationMatchScore:0.0}: ");
-
-                var classificationNames = MultiTenantHelpers.HasSingleClassificationSystem ? matches.Select(x => x.DisplayName) : matches.Select(x => $"{x.DisplayName}({x.ClassificationSystem.ClassificationSystemName})");
+                var matchesOrdered = matches.OrderBy(x => x.ClassificationSystemID);
+                var classificationNames = MultiTenantHelpers.HasSingleClassificationSystem ? matchesOrdered.Select(x => x.DisplayName) : matchesOrdered.Select(x => $"{x.DisplayName}({x.ClassificationSystem.ClassificationSystemName})");
                 localMatchInsights.Add($"{string.Join(", ", classificationNames)}");
             }
 
