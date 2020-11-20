@@ -1,0 +1,1 @@
+﻿TABLE_SCHEMA	TABLE_NAME	COLUMN_NAME	SqlQueryToTroubleshoot	AllFeatureCount	WrongSridFeatureCount	HasProcessed

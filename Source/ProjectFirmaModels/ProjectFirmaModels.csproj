@@ -915,7 +915,7 @@
     <Compile Include="UnitTestCommon\TestPerformanceMeasureReportingPeriod.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategory.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategoryOption.cs" />
-    <Compile Include="Models\ProjectLocationTest.cs" />
+    <Compile Include="Models\GeometryTest.cs" />
     <Compile Include="UnitTestCommon\TestTenant.cs" />
     <Compile Include="UnitTestCommon\TestPerson.cs" />
     <Compile Include="UnitTestCommon\TestProject.cs" />
