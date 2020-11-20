@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.PartnerFinder
             //</div>
             var itemsMatched = this.ScoreInsightDictionary.Where(x => x.Value.Matched);
             var countOfMatches = itemsMatched.Count();
-            var itemsNotMatched = this.ScoreInsightDictionary.Where(x => !x.Value.Matched).Select(x => MultiTenantHelpers.GetTenantDisplayNameForMatchmakerSubScoreTypeEnum(x.Key));
+            var itemsNotMatched = this.ScoreInsightDictionary.Where(x => !x.Value.Matched).Select(x => MultiTenantHelpers.GetTenantDisplayNameForMatchmakerSubScoreTypeEnum(x.Key)).ToList();
             var countOfTotalPossibleItemsToMatchOn = Enum.GetNames(typeof(MatchmakerSubScoreTypeEnum)).Length;
 
             var sb = new StringBuilder();
@@ -79,13 +79,19 @@ namespace ProjectFirma.Web.PartnerFinder
             foreach (var match in itemsMatched)
             {
                 string keyDisplayName = MultiTenantHelpers.GetTenantDisplayNameForMatchmakerSubScoreTypeEnum(match.Key);
-                sb.Append($"<li><strong>{keyDisplayName}:</strong> {string.Join(", ", match.Value.ScoreInsights)}</li>");
+                sb.Append(
+                    $"<li><strong>{keyDisplayName}:</strong> {string.Join(", ", match.Value.ScoreInsights)}</li>");
             }
             sb.Append("</ul>");
-            sb.Append($"<p>It did not match on <strong>{string.Join("</strong>, <strong>", itemsNotMatched)}</strong></p>");
+
+            if (itemsNotMatched.Any())
+            {
+                sb.Append($"<p>It did not match on <strong>{string.Join("</strong>, <strong>", itemsNotMatched)}</strong></p>");
+            }
+
             sb.Append("</div>");
 
-            var scoreWithPopover = new HtmlString($"<a tabindex=\"0\" role=\"button\" onclick=\"jQuery(this).popover('show')\" data-container=\"body\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"true\" data-content=\"{sb}\">{this.PartnerOrganizationFitnessScoreNumber}</a>");
+            var scoreWithPopover = new HtmlString($"<a tabindex=\"0\" role=\"button\" onclick=\"jQuery(this).popover('show')\" data-container=\"body\" data-toggle=\"popover\" data-trigger=\"focus\" data-placement=\"right\" data-html=\"true\" title=\"Match Score: {this.PartnerOrganizationFitnessScoreNumber}\" data-content=\"{sb}\">{this.PartnerOrganizationFitnessScoreNumber}</a>");
 
             return scoreWithPopover;
 
