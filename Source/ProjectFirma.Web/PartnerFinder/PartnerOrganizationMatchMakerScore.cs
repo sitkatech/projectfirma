@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.PartnerFinder
@@ -56,7 +57,12 @@ namespace ProjectFirma.Web.PartnerFinder
             return string.Join("", this.ScoreInsightMessages);
         }
 
-        public HtmlString GetMatchMakerScoreWithPopover()
+        /// <summary>
+        /// Returns an HtmlString with a link wrapping the ProjectOrganizationFitnessScoreNumber. The link opens a bootstrap popover when clicked. The popover is triggered by the onclick event on the link itself(meaning no need to initialize the popover yourself). 
+        /// </summary>
+        /// <param name="sourceObjectFieldDefinitionEnum">Used in the intro of the popover eg. "This 'Organization'...". Most likely Project or Organization are what you want to pass</param>
+        /// <returns></returns>
+        public HtmlString GetMatchMakerScoreWithPopover(FieldDefinitionEnum sourceObjectFieldDefinitionEnum)
         {
             //<div>
             //<p>This organization matches on 4 of 5 elements:</p>
@@ -74,7 +80,7 @@ namespace ProjectFirma.Web.PartnerFinder
             var countOfTotalPossibleItemsToMatchOn = Enum.GetNames(typeof(MatchmakerSubScoreTypeEnum)).Length;
 
             var sb = new StringBuilder();
-            sb.AppendLine($"<div><p>This organization matches on {countOfMatches} of {countOfTotalPossibleItemsToMatchOn} elements:</p>");
+            sb.AppendLine($"<div><p>This {sourceObjectFieldDefinitionEnum.ToType().GetFieldDefinitionLabel()} matches on {countOfMatches} of {countOfTotalPossibleItemsToMatchOn} elements:</p>");
             sb.Append("<ul>");
             foreach (var match in itemsMatched)
             {

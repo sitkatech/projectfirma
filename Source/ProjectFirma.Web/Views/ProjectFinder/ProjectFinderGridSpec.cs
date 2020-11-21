@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             SkinRowHeight = 30;
             InitWidthsByPercentage = true;
 
-            Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => x.GetMatchMakerScoreWithPopover(), 7, DhtmlxGridColumnFilterType.Numeric);
+            Add(FieldDefinitionEnum.MatchScore.ToType().GetFieldDefinitionLabel(), x => x.GetMatchMakerScoreWithPopover(FieldDefinitionEnum.Project), 7, DhtmlxGridColumnFilterType.Numeric);
             Add(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), x => x.Project.GetDisplayNameAsUrl(), 15, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.Project.ProjectStage.ProjectStageDisplayName, 10, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
