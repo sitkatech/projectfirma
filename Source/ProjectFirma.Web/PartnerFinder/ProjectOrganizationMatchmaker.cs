@@ -148,8 +148,8 @@ namespace ProjectFirma.Web.PartnerFinder
             {
                 classificationMatchScore = 1.0;
                 //localMatchInsights.Insert(0, $"Classification SubScore = {classificationMatchScore:0.0}: ");
-
-                var classificationNames = MultiTenantHelpers.HasSingleClassificationSystem ? matches.Select(x => x.DisplayName) : matches.Select(x => $"{x.DisplayName}({x.ClassificationSystem.ClassificationSystemName})");
+                var matchesOrdered = matches.OrderBy(x => x.ClassificationSystemID);
+                var classificationNames = MultiTenantHelpers.HasSingleClassificationSystem ? matchesOrdered.Select(x => x.DisplayName) : matchesOrdered.Select(x => $"{x.DisplayName}({x.ClassificationSystem.ClassificationSystemName})");
                 localMatchInsights.Add($"{string.Join(", ", classificationNames)}");
             }
 
@@ -303,19 +303,16 @@ namespace ProjectFirma.Web.PartnerFinder
             foreach (var currentMatchmakerKeyword in keywordsForOrganization)
             {
                 string currentOrgKeyword = currentMatchmakerKeyword.MatchmakerKeywordName.ToLower();
-                if (currentProjectName.Contains(currentOrgKeyword))
+                if (currentProjectName.Contains(currentOrgKeyword) || currentProjectDescription.Contains(currentOrgKeyword))
                 {
                     keywordProjectNameKeywordScore = 1.0;
                     //localMatchInsights.Add($"Keyword Project Name SubScore = {keywordProjectNameKeywordScore:0.0}: ");
-                    localMatchInsights.Add($"'{currentOrgKeyword}'");
+                    if (!localMatchInsights.Contains($"'{currentOrgKeyword}'"))
+                    {
+                        localMatchInsights.Add($"'{currentOrgKeyword}'");
+                    }
                 }
 
-                if (currentProjectDescription.Contains(currentOrgKeyword))
-                {
-                    keywordProjectDescriptionKeywordScore = 1.0;
-                    //localMatchInsights.Add($"Keyword Project Description SubScore = {keywordProjectNameKeywordScore:0.0}: ");
-                    localMatchInsights.Add($"'{currentOrgKeyword}'");
-                }
             }
 
             // If any of the sub-sub scores are 1.0, the Keyword sub score returns 1.0. This could be refined if needed.
