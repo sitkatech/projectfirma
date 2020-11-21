@@ -1860,3 +1860,6 @@ button.grid-map-marker.grid-map-marker-disabled {
     transform: rotate(360deg);
   }
 }
+.popover {
+  max-width: 350px;
+}
