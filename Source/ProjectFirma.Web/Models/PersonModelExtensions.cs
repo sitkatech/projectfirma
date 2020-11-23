@@ -262,6 +262,11 @@ namespace ProjectFirma.Web.Models
             return new HtmlString($"{person.GetFullNameFirstLast()} <span class=\"small\">({string.Join(", ", personContactTypesList)})</span>");
         }
 
+        public static string GetPersonInformationStringForLogging(this Person person)
+        {
+            return $"PersonID {person.PersonID} {person.FirstName} {person.LastName} - {person.Organization.GetDisplayName()} ({person.Email})";
+        }
+
         public static List<string> GetListOfContactTypeStringsForProject(this Person person, Project project)
         {
             var personContactTypesList = new List<string>();
