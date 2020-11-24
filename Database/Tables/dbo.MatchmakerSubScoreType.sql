@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[MatchmakerSubScoreType](
 	[MatchmakerSubScoreTypeID] [int] NOT NULL,
 	[MatchmakerSubScoreTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[MatchmakerSubScoreTypeDisplayName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[SortOrder] [int] NOT NULL,
  CONSTRAINT [PK_MatchmakerSubScoreType_MatchmakerSubScoreTypeID] PRIMARY KEY CLUSTERED 
 (
 	[MatchmakerSubScoreTypeID] ASC

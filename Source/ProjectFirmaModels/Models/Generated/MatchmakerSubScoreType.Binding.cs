@@ -40,17 +40,19 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        protected MatchmakerSubScoreType(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName)
+        protected MatchmakerSubScoreType(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName, int sortOrder)
         {
             MatchmakerSubScoreTypeID = matchmakerSubScoreTypeID;
             MatchmakerSubScoreTypeName = matchmakerSubScoreTypeName;
             MatchmakerSubScoreTypeDisplayName = matchmakerSubScoreTypeDisplayName;
+            SortOrder = sortOrder;
         }
 
         [Key]
         public int MatchmakerSubScoreTypeID { get; private set; }
         public string MatchmakerSubScoreTypeName { get; private set; }
         public string MatchmakerSubScoreTypeDisplayName { get; private set; }
+        public int SortOrder { get; private set; }
         [NotMapped]
         public int PrimaryKey { get { return MatchmakerSubScoreTypeID; } }
 
@@ -130,31 +132,31 @@ namespace ProjectFirmaModels.Models
 
     public partial class MatchmakerSubScoreTypeMatchmakerKeyword : MatchmakerSubScoreType
     {
-        private MatchmakerSubScoreTypeMatchmakerKeyword(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
-        public static readonly MatchmakerSubScoreTypeMatchmakerKeyword Instance = new MatchmakerSubScoreTypeMatchmakerKeyword(1, @"MatchmakerKeyword", @"Keywords");
+        private MatchmakerSubScoreTypeMatchmakerKeyword(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName, int sortOrder) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName, sortOrder) {}
+        public static readonly MatchmakerSubScoreTypeMatchmakerKeyword Instance = new MatchmakerSubScoreTypeMatchmakerKeyword(1, @"MatchmakerKeyword", @"Keywords", 20);
     }
 
     public partial class MatchmakerSubScoreTypeAreaOfInterest : MatchmakerSubScoreType
     {
-        private MatchmakerSubScoreTypeAreaOfInterest(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
-        public static readonly MatchmakerSubScoreTypeAreaOfInterest Instance = new MatchmakerSubScoreTypeAreaOfInterest(2, @"AreaOfInterest", @"Area Of Interest");
+        private MatchmakerSubScoreTypeAreaOfInterest(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName, int sortOrder) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName, sortOrder) {}
+        public static readonly MatchmakerSubScoreTypeAreaOfInterest Instance = new MatchmakerSubScoreTypeAreaOfInterest(2, @"AreaOfInterest", @"Area Of Interest", 10);
     }
 
     public partial class MatchmakerSubScoreTypeTaxonomySystem : MatchmakerSubScoreType
     {
-        private MatchmakerSubScoreTypeTaxonomySystem(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
-        public static readonly MatchmakerSubScoreTypeTaxonomySystem Instance = new MatchmakerSubScoreTypeTaxonomySystem(3, @"TaxonomySystem", @"Taxonomy System");
+        private MatchmakerSubScoreTypeTaxonomySystem(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName, int sortOrder) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName, sortOrder) {}
+        public static readonly MatchmakerSubScoreTypeTaxonomySystem Instance = new MatchmakerSubScoreTypeTaxonomySystem(3, @"TaxonomySystem", @"Taxonomy System", 30);
     }
 
     public partial class MatchmakerSubScoreTypeClassification : MatchmakerSubScoreType
     {
-        private MatchmakerSubScoreTypeClassification(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
-        public static readonly MatchmakerSubScoreTypeClassification Instance = new MatchmakerSubScoreTypeClassification(4, @"Classification", @"Classification");
+        private MatchmakerSubScoreTypeClassification(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName, int sortOrder) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName, sortOrder) {}
+        public static readonly MatchmakerSubScoreTypeClassification Instance = new MatchmakerSubScoreTypeClassification(4, @"Classification", @"Classification", 40);
     }
 
     public partial class MatchmakerSubScoreTypePerformanceMeasure : MatchmakerSubScoreType
     {
-        private MatchmakerSubScoreTypePerformanceMeasure(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName) {}
-        public static readonly MatchmakerSubScoreTypePerformanceMeasure Instance = new MatchmakerSubScoreTypePerformanceMeasure(5, @"PerformanceMeasure", @"Performance Measures");
+        private MatchmakerSubScoreTypePerformanceMeasure(int matchmakerSubScoreTypeID, string matchmakerSubScoreTypeName, string matchmakerSubScoreTypeDisplayName, int sortOrder) : base(matchmakerSubScoreTypeID, matchmakerSubScoreTypeName, matchmakerSubScoreTypeDisplayName, sortOrder) {}
+        public static readonly MatchmakerSubScoreTypePerformanceMeasure Instance = new MatchmakerSubScoreTypePerformanceMeasure(5, @"PerformanceMeasure", @"Performance Measures", 50);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using ApprovalUtilities.Utilities;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -39,7 +40,12 @@ namespace ProjectFirma.Web.PartnerFinder
             this.Organization = organization;
             this.PartnerOrganizationFitnessScoreNumber = partnerOrganizationFitnessScoreNumber;
             this.ScoreInsightMessages = scoreInsightMessages;
-            this.ScoreInsightDictionary = scoreInsightDictionary;
+            var sortedScoreInsightDictionary = new Dictionary<MatchmakerSubScoreTypeEnum, MatchMakerScoreSubScoreInsight>();
+            foreach (var keyItem in scoreInsightDictionary.Keys.OrderBy(x => MatchmakerSubScoreType.ToType(x).SortOrder))
+            {
+                sortedScoreInsightDictionary.Add(keyItem, scoreInsightDictionary.GetValueOrDefault(keyItem));
+            }
+            this.ScoreInsightDictionary = sortedScoreInsightDictionary;
         }
 
         public string GetProjectOrganizationMatchString()
@@ -74,6 +80,7 @@ namespace ProjectFirma.Web.PartnerFinder
             //    </ul>
             //<p>It did not match on Performance Measures.</p>
             //</div>
+
             var itemsMatched = this.ScoreInsightDictionary.Where(x => x.Value.Matched);
             var countOfMatches = itemsMatched.Count();
             var itemsNotMatched = this.ScoreInsightDictionary.Where(x => !x.Value.Matched).Select(x => MultiTenantHelpers.GetTenantDisplayNameForMatchmakerSubScoreTypeEnum(x.Key)).ToList();
