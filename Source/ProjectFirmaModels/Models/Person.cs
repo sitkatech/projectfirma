@@ -71,5 +71,10 @@ namespace ProjectFirmaModels.Models
         {
             // intentionally left blank
         }
+
+        public string GetPersonInformationStringForLogging()
+        {
+            return GetFullNameFirstLast();
+        }
     }
 }

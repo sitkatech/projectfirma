@@ -95,6 +95,12 @@
     <trace enabled="${template-trace-enabled}" pageOutput="false" mostRecent="true" requestLimit="100" localOnly="true"/>
   </system.web>
   <system.webServer>
+    <httpCompression>
+      <dynamicTypes>
+        <add mimeType="application/json" enabled="true" />
+        <add mimeType="application/json; charset=utf-8" enabled="true" />
+      </dynamicTypes>
+    </httpCompression>
     <validation validateIntegratedModeConfiguration="true"/>
     <!-- runAllManagedModulesForAllRequests forces all requests, even static content handlers to go through ASP.NET MVC which allows us to set caching headers and handle 404 errors -->
     <modules runAllManagedModulesForAllRequests="true">

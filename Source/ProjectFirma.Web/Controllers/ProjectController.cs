@@ -37,7 +37,6 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using ProjectFirma.Web.Views.Tag;
 using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System;
@@ -46,6 +45,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using log4net;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
@@ -58,6 +58,8 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ProjectController : FirmaBaseController
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(ProjectController));
+
         /// <summary>
         /// This enum was initially used to separate GoogleCharts scripts on Fact Sheet pages because wkhtmltopdf
         /// uses a version of QT Browser that doesn't support modern javascript. It can also be used to differ
@@ -90,6 +92,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.GetDisplayName(), project.TotalExpenditures);
             }
             viewModel.UpdateModel(project, CurrentFirmaSession);
+            _logger.Info($"Project {project.ProjectID} - {project.GetDisplayName()} edited by {CurrentFirmaSession.Person.GetPersonInformationStringForLogging()}");
             return new ModalDialogFormJsonResult();
         }
 
@@ -540,7 +543,6 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-
         [PendingProjectsViewListFeature]
         public ViewResult Pending()
         {
@@ -606,7 +608,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 wsProjects
             };
-
 
             var projectsDescriptionSpec = new ProjectDescriptionExcelSpec();
             var wsProjectDescriptions = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabelPluralized()}", projectsDescriptionSpec, projects);
@@ -757,6 +758,7 @@ namespace ProjectFirma.Web.Controllers
             var message = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{project.GetDisplayName()}\" successfully deleted.";
             project.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
+            _logger.Info($"Project {project.ProjectID} - {project.GetDisplayName()} deleted by {CurrentFirmaSession.Person.GetPersonInformationStringForLogging()}: {message}");
             return new ModalDialogFormJsonResult();
         }
 
@@ -785,7 +787,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsFound = HttpRequestStorage.DatabaseEntities.Projects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
-                    .ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals());
+                    .ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals());
             return projectsFound;
         }
 
@@ -804,6 +806,12 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public JsonResult Find(string term)
         {
+            // Assuming for now that a null search is really a search for everything, but that
+            // may not be a good assumption. -- SLG
+            if (term == null)
+            {
+                term = string.Empty;
+            }
             var projectFindResults = GetViewableProjectsFromSearchCriteria(term.Trim());
             var results = projectFindResults.Take(ProjectsCountLimit).Select(p => new ListItem(p.GetDisplayName().ToEllipsifiedString(100), p.GetDetailUrl())).ToList();
             if (projectFindResults.Count > ProjectsCountLimit)
@@ -849,8 +857,13 @@ namespace ProjectFirma.Web.Controllers
             currentFeaturedProjects.ForEach(x => x.IsFeatured = false);
             if (viewModel.ProjectIDList != null)
             {
-                var newlyFearturedProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
-                newlyFearturedProjects.ForEach(x => x.IsFeatured = true);
+                var newlyFeaturedProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
+                newlyFeaturedProjects.ForEach(proj =>
+                {
+                    proj.IsFeatured = true;
+                    _logger.Info($"Making {proj.ProjectID} - {proj.GetDisplayName()} Featured - done by user {CurrentFirmaSession.Person.GetPersonInformationStringForLogging()}");
+                });
+                
             }
             return new ModalDialogFormJsonResult();
         }

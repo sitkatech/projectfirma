@@ -18,8 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
@@ -43,7 +46,11 @@ namespace LtInfo.Common.MvcResults
             get { return _modelList; }
         }
 
-        public GridJsonNetJObjectResult(List<T> modelList, GridSpec<T> gridSpec) : this(modelList, gridSpec, null)
+        public GridJsonNetJObjectResult(List<T> modelList, GridSpec<T> gridSpec) : this(modelList, gridSpec, null, null)
+        {
+        }
+
+        public GridJsonNetJObjectResult(List<T> modelList, GridSpec<T> gridSpec, Expression<Func<T, int>> uniqueIDFunc) : this(modelList, gridSpec, null, uniqueIDFunc)
         {
         }
 
@@ -60,12 +67,19 @@ namespace LtInfo.Common.MvcResults
         /// <param name="modelList"></param>
         /// <param name="gridSpec"></param>
         /// <param name="rowLimit"></param>
-        public GridJsonNetJObjectResult(List<T> modelList, GridSpec<T> gridSpec, int? rowLimit)
+        /// <param name="uniqueIDFunc"></param>
+        public GridJsonNetJObjectResult(List<T> modelList, GridSpec<T> gridSpec, int? rowLimit, Expression<Func<T, int>> uniqueIDFunc)
         {
             _gridSpec = gridSpec;
             _modelList = modelList;
             var list = rowLimit.HasValue ? modelList.Take(rowLimit.Value) : modelList;
-            _data = JObject.FromObject(new { rows = list.Select((t, i) => t.ToDhtmlxGridJsonRow(i + 1, _gridSpec)).ToList() });
+
+            var anonymousObject = new
+            {
+                rows = list.Select((t, i) => t.ToDhtmlxGridJsonRow(uniqueIDFunc?.Compile()(t) ?? i + 1, _gridSpec)).ToList()
+            };
+
+            _data = JObject.FromObject(anonymousObject);
         }
 
         public override void ExecuteResult(ControllerContext context)

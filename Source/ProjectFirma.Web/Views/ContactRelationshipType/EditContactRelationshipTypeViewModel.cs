@@ -43,8 +43,15 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         public string ContactRelationshipTypeName { get; set; }
 
         [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ContactRelationshipTypeAcceptsMultipleValues)]
+        public bool ContactRelationshipTypeAcceptsMultipleValues { get; set; }
+
+        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsContactRelationshipTypeRequired)]
         public bool? IsContactRelationshipTypeRequired { get; set; }
+
+        [DisplayName("If Required, minimum Project Stage Contact must be set by")]
+        public int? IsContactRelationshipRequiredMinimumProjectStageID { get; set; }
 
         [Required]
         [DisplayName("Relationship Type Description")]
@@ -62,15 +69,19 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         {
             RelationshipTypeID = contactRelationshipType.ContactRelationshipTypeID;
             ContactRelationshipTypeName = contactRelationshipType.ContactRelationshipTypeName;
+            ContactRelationshipTypeAcceptsMultipleValues = contactRelationshipType.ContactRelationshipTypeAcceptsMultipleValues;
             IsContactRelationshipTypeRequired = contactRelationshipType.IsContactRelationshipTypeRequired;
+            IsContactRelationshipRequiredMinimumProjectStageID = contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStageID;
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ContactRelationshipType contactRelationshipType)
         {
             contactRelationshipType.ContactRelationshipTypeName = ContactRelationshipTypeName;
+            contactRelationshipType.ContactRelationshipTypeAcceptsMultipleValues = ContactRelationshipTypeAcceptsMultipleValues;
 
             contactRelationshipType.IsContactRelationshipTypeRequired = IsContactRelationshipTypeRequired ?? false;
+            contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStageID = IsContactRelationshipRequiredMinimumProjectStageID;
             contactRelationshipType.ContactRelationshipTypeDescription = ContactRelationshipTypeDescription;
         }
 
@@ -83,8 +94,8 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
                     x => x.ContactRelationshipTypeName);
             }
 
-            // if contact relationship type is required we need to verify that there is only one on each project selected.
-            if (IsContactRelationshipTypeRequired.HasValue && IsContactRelationshipTypeRequired.Value == true)
+            // If we are trying to switch to single-valued, we need to make sure there are no pre-existing multiple values
+            if (!ContactRelationshipTypeAcceptsMultipleValues)
             {
                 var contactRelationshipType =
                     HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.SingleOrDefault(x =>
@@ -95,9 +106,9 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
                     if (projectUpdateContactsWithThisRelationshipType.Count >
                         projectUpdateContactsWithThisRelationshipType.Distinct().Count())
                     {
-                        yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool?>(
-                            $"There are {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates that have more than one contact selected with this Contact Type. Please fix those {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates before setting '{FieldDefinitionEnum.IsContactRelationshipTypeRequired.ToType().FieldDefinitionDisplayName}' to true.", 
-                            x => x.IsContactRelationshipTypeRequired);
+                        yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool>(
+                            $"There are {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates that have more than one contact selected with this Contact Type. Please fix those {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates before setting '{FieldDefinitionEnum.ContactRelationshipTypeAcceptsMultipleValues.ToType().FieldDefinitionDisplayName}' to true.", 
+                            x => x.ContactRelationshipTypeAcceptsMultipleValues);
                     }
 
                     var projectContactsWithThisRelationshipType =
@@ -112,9 +123,9 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
                             group by ProjectID
                             order by count(*) desc
                          */
-                        yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool?>(
-                            $"There are {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} that have more than one contact selected with this Contact Type. Please fix those {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} before setting '{FieldDefinitionEnum.IsContactRelationshipTypeRequired.ToType().FieldDefinitionDisplayName}' to true.",
-                            x => x.IsContactRelationshipTypeRequired);
+                        yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool>(
+                            $"There are {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} that have more than one contact selected with this Contact Type. Please fix those {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} before setting '{FieldDefinitionEnum.ContactRelationshipTypeAcceptsMultipleValues.ToType().FieldDefinitionDisplayName}' to true.",
+                            x => x.ContactRelationshipTypeAcceptsMultipleValues);
                     }
                 }
             }

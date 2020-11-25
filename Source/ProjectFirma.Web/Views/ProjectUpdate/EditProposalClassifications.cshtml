@@ -1,0 +1,201 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditProposalClassifications.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ProjectUpdate.EditProposalClassifications
+
+<style>
+    .charactersRemainingText {
+        font-size: 10px;
+    }
+
+    .help-block {
+        font-size: 11px;
+    }
+</style>
+
+@if (!ViewDataTyped.ClassificationSystems.Any())
+{
+    <div class="alert alert-danger" role="alert">
+        <p>
+            <strong>Warning!</strong>
+            There are no @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() configured and you will not be able to continue until they are configured.
+            @if (!string.IsNullOrEmpty(ViewDataTyped.ConfigureClassificationSystemsUrl))
+            {
+                <span>You may configure @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() <a title="Configure @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()" href="@ViewDataTyped.ConfigureClassificationSystemsUrl" target="_blank">here</a>.</span>
+            }
+            else
+            {
+                <span><a href="mailto:@Html.Raw(FirmaWebConfiguration.SitkaSupportEmail)?subject=Project Classifications are not setup">Contact support</a> to get @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() setup.</span>
+            }
+        </p>
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+    <div>
+        Click the checkboxes below to associate this
+        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForClassification, ViewDataTyped.FieldDefinitionForClassification.GetFieldDefinitionLabelPluralized())).
+    </div>
+    <div>
+
+        @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
+        {
+            <h4>
+                @Html.LabelWithSugarFor(classificationSystem)
+            <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
+        </h4>
+        foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
+        {
+            var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
+            var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
+            <div class="row" style="padding-top: 20px">
+                <div class="col-xs-12 col-sm-4">
+                    <label>
+                        @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
+                        <span style="font-weight: bold">@classification.DisplayName</span>
+                    </label>
+                    <div class="help-block">
+                        @classification.ClassificationDescription
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    <div>
+                        @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> { "form-control" })
+                    </div>
+                    @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
+                    @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
+                </div>
+            </div>
+        }
+        <hr />
+    }
+    </div>
+
+    if (ViewDataTyped.ShowApproveAndReturnButton)
+    {
+        <div id="commentsSection">
+            <hr />
+            <div class="row form-group">
+                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
+                <div class="col-sm-8">
+                    @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> {{"style", "width: 100%"}, {"class", "form-control"}})
+                </div>
+            </div>
+        </div>
+        <hr/>
+    }
+
+
+    <div>
+        <table class="summaryLayout" style="width: 100%">
+            <tr>
+                <td>
+                    @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null, null, "Undo all changes on this page")
+                    @if (ViewDataTyped.ProjectUpdateStatus.IsClassificationsUpdated)
+                    {
+                        @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Classifications", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> {"btn btn-xs btn-firma"}, null, null, null)
+                    }
+                </td>
+                <td style="text-align: right; white-space: nowrap">
+                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" onclick="saveForm(false)">Save</button>
+                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+}
+
+<script type="text/javascript">
+    // <![CDATA[
+
+    jQuery(document).ready(function () {
+        // This is fragile- depends on the ViewData ClassificationSystems and Classifications being ordered in the same way
+        @for (var i = 0; i < ViewDataTyped.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications.OrderBy(y => y.DisplayName)).ToList().Count; i++)
+        {
+            <text>
+        var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");
+        var notesTextArea = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+        var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+
+        //Set default display
+        if (checkBox.prop("checked")) {
+            notesTextArea.css("background-color", "");
+            notesTextArea.attr("disabled", false);
+            notesTextArea.attr("disabled", false);
+            charactersRemaining.css("display", "");
+        }
+        else {
+            notesTextArea.css("background-color", "#EEEEEE");
+            notesTextArea.attr("disabled", "disabled");
+            charactersRemaining.css("display", "none");
+        }
+
+        //Create on-change event
+        jQuery(checkBox).change(function () {
+            var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+            var charactersRemainingFunction =
+                jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+
+            if (this.checked) {
+                notesTextAreaForCheckboxFunction.css("background-color", "");
+                notesTextAreaForCheckboxFunction.attr("disabled", false);
+                charactersRemainingFunction.css("display", "");
+            }
+            else {
+                notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
+                notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
+                charactersRemainingFunction.css("display", "none");
+            }
+        });
+        </text>
+        }
+
+        HookupCheckIfFormIsDirty(undefined, ".submitProject");
+
+        var hasClassificationSetupData = @ViewDataTyped.ClassificationSystems.Any().ToString().ToLower();
+        if (!hasClassificationSetupData) {
+            jQuery('form button[type="button"]').attr('disabled','disabled');
+        }
+
+    });
+
+    function saveForm(autoAdvance) {
+        var form = jQuery("form");
+        // Do not submit if the form
+        // does not pass client side validation
+
+        if (!form.valid()) {
+            return false;
+        }
+
+        jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);
+        form.submit();
+    }
+
+    // ]]>
+</script>

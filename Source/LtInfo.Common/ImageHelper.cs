@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -327,6 +328,8 @@ namespace LtInfo.Common
 
         public static Image ScaleImage(Image image, int maxWidth, int maxHeight)
         {
+            RotateImageByExifOrientationData(image, false);
+
             var ratioX = (double)maxWidth / image.Width;
             var ratioY = (double)maxHeight / image.Height;
             var ratio = Math.Min(ratioX, ratioY);
@@ -337,6 +340,60 @@ namespace LtInfo.Common
             var newImage = new Bitmap(newWidth, newHeight);
             Graphics.FromImage(newImage).DrawImage(image, 0, 0, newWidth, newHeight);
             return newImage;
+        }
+
+        /// <summary>
+        /// Rotate the given bitmap according to Exif Orientation data
+        /// </summary>
+        /// <param name="img">source image</param>
+        /// <param name="updateExifData">set it to TRUE to update image Exif data after rotation (default is TRUE)</param>
+        /// <returns>The RotateFlipType value corresponding to the applied rotation. If no rotation occurred, RotateFlipType.RotateNoneFlipNone will be returned.</returns>
+        public static RotateFlipType RotateImageByExifOrientationData(Image img, bool updateExifData = true)
+        {
+            int orientationId = 0x0112;
+            var fType = RotateFlipType.RotateNoneFlipNone;
+            var propertyList = new List<int>(img.PropertyIdList);
+            if (propertyList.Contains(orientationId))
+            {
+                var pItem = img.GetPropertyItem(orientationId);
+                fType = GetRotateFlipTypeByExifOrientationData(pItem.Value[0]);
+                if (fType != RotateFlipType.RotateNoneFlipNone)
+                {
+                    img.RotateFlip(fType);
+                    // Remove Exif orientation tag (if requested)
+                    if (updateExifData) img.RemovePropertyItem(orientationId);
+                }
+            }
+            return fType;
+        }
+
+        /// <summary>
+        /// Return the proper System.Drawing.RotateFlipType according to given orientation EXIF metadata
+        /// </summary>
+        /// <param name="orientation">Exif "Orientation"</param>
+        /// <returns>the corresponding System.Drawing.RotateFlipType enum value</returns>
+        public static RotateFlipType GetRotateFlipTypeByExifOrientationData(int orientation)
+        {
+            switch (orientation)
+            {
+                case 1:
+                default:
+                    return RotateFlipType.RotateNoneFlipNone;
+                case 2:
+                    return RotateFlipType.RotateNoneFlipX;
+                case 3:
+                    return RotateFlipType.Rotate180FlipNone;
+                case 4:
+                    return RotateFlipType.Rotate180FlipX;
+                case 5:
+                    return RotateFlipType.Rotate90FlipX;
+                case 6:
+                    return RotateFlipType.Rotate90FlipNone;
+                case 7:
+                    return RotateFlipType.Rotate270FlipX;
+                case 8:
+                    return RotateFlipType.Rotate270FlipNone;
+            }
         }
     }
 }

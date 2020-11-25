@@ -87,6 +87,8 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project);
                 case ProjectCreateSectionEnum.PartnerFinder:
                     return true;
+                case ProjectCreateSectionEnum.ExternalLinks:
+                    return ProjectCreateSection.Basics.IsComplete(project);
                 default:
                     throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled ProjectCreateSection Enum: {projectCreateSection.ToEnum}");
             }
@@ -140,6 +142,8 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.BulkSetSpatialInformation(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.PartnerFinder:
                     return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PartnerFinder(project));
+                case ProjectCreateSectionEnum.ExternalLinks:
+                    return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExternalLinks(project));
 
                 default:
                     throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled ProjectCreateSection Enum: {projectCreateSection.ToEnum}");

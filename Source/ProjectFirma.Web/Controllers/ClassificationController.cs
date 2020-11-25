@@ -169,7 +169,7 @@ namespace ProjectFirma.Web.Controllers
             var classification = classificationPrimaryKey.EntityObject;
             var mapDivID = $"classification_{classification.ClassificationID}_Map";
             var associatedProjects = classification.GetAssociatedProjects(CurrentFirmaSession);
-            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
+            var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(associatedProjects, currentPersonCanViewProposals);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()}", associatedProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1, LayerInitialVisibility.Show);

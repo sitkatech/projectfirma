@@ -32,24 +32,27 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ContactRelationshipType(int contactRelationshipTypeID, string contactRelationshipTypeName, bool isContactRelationshipTypeRequired, string contactRelationshipTypeDescription) : this()
+        public ContactRelationshipType(int contactRelationshipTypeID, string contactRelationshipTypeName, bool isContactRelationshipTypeRequired, int? isContactRelationshipRequiredMinimumProjectStageID, bool contactRelationshipTypeAcceptsMultipleValues, string contactRelationshipTypeDescription) : this()
         {
             this.ContactRelationshipTypeID = contactRelationshipTypeID;
             this.ContactRelationshipTypeName = contactRelationshipTypeName;
             this.IsContactRelationshipTypeRequired = isContactRelationshipTypeRequired;
+            this.IsContactRelationshipRequiredMinimumProjectStageID = isContactRelationshipRequiredMinimumProjectStageID;
+            this.ContactRelationshipTypeAcceptsMultipleValues = contactRelationshipTypeAcceptsMultipleValues;
             this.ContactRelationshipTypeDescription = contactRelationshipTypeDescription;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ContactRelationshipType(string contactRelationshipTypeName, bool isContactRelationshipTypeRequired) : this()
+        public ContactRelationshipType(string contactRelationshipTypeName, bool isContactRelationshipTypeRequired, bool contactRelationshipTypeAcceptsMultipleValues) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ContactRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ContactRelationshipTypeName = contactRelationshipTypeName;
             this.IsContactRelationshipTypeRequired = isContactRelationshipTypeRequired;
+            this.ContactRelationshipTypeAcceptsMultipleValues = contactRelationshipTypeAcceptsMultipleValues;
         }
 
 
@@ -58,7 +61,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ContactRelationshipType CreateNewBlank()
         {
-            return new ContactRelationshipType(default(string), default(bool));
+            return new ContactRelationshipType(default(string), default(bool), default(bool));
         }
 
         /// <summary>
@@ -133,6 +136,8 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public string ContactRelationshipTypeName { get; set; }
         public bool IsContactRelationshipTypeRequired { get; set; }
+        public int? IsContactRelationshipRequiredMinimumProjectStageID { get; set; }
+        public bool ContactRelationshipTypeAcceptsMultipleValues { get; set; }
         public string ContactRelationshipTypeDescription { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ContactRelationshipTypeID; } set { ContactRelationshipTypeID = value; } }
@@ -140,6 +145,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectContact> ProjectContacts { get; set; }
         public virtual ICollection<ProjectContactUpdate> ProjectContactUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public ProjectStage IsContactRelationshipRequiredMinimumProjectStage { get { return IsContactRelationshipRequiredMinimumProjectStageID.HasValue ? ProjectStage.AllLookupDictionary[IsContactRelationshipRequiredMinimumProjectStageID.Value] : null; } }
 
         public static class FieldLengths
         {

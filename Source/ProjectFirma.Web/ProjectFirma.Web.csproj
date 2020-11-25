@@ -68,6 +68,7 @@
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
+    <Compile Include="Controllers\ProjectFinderController.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
     <Compile Include="Models\GridColumn.cs" />
@@ -109,8 +110,11 @@
     <Compile Include="Models\MatchmakerKeywordModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
+    <Compile Include="Models\ProjectClassificationsUpdateModelExtensions.cs" />
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="Models\TenantSimple.cs" />
+    <Compile Include="PartnerFinder\MatchMakerScoreSubScoreInsight.cs" />
+    <Compile Include="PartnerFinder\PartnerOrganizationMatchMakerScore.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectExpectedPerformanceMeasureModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectReportedPerformanceMeasureModel.cs" />
@@ -256,6 +260,7 @@
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
+    <Compile Include="Security\OrganizationBackgroundEditFeature.cs" />
     <Compile Include="Security\OrganizationPrimaryContactManageFeature.cs" />
     <Compile Include="Security\OfferProjectFactSheetLinkFeature.cs" />
     <Compile Include="Security\MatchMakerViewPotentialPartnersFeature.cs" />
@@ -268,6 +273,7 @@
     <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
     <Compile Include="Security\ProjectTimelineFeature.cs" />
     <Compile Include="Security\OrganizationProfileEditFeature.cs" />
+    <Compile Include="Security\ReportTemplateGenerateReportsFeature.cs" />
     <Compile Include="Security\ReportTemplateManageFeature.cs" />
     <Compile Include="Security\ReportTemplateViewListFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
@@ -352,6 +358,8 @@
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewData.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationClassificationsViewModel.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\ExternalLinks.cs" />
+    <Compile Include="Views\ProjectCreate\ExternalLinksViewData.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewData.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewModel.cs" />
@@ -365,6 +373,13 @@
     <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectFinder\ProjectFinderOrganization.cs" />
+    <Compile Include="Views\ProjectFinder\ProjectFinderOrganizationViewData.cs" />
+    <Compile Include="Views\ProjectFinder\ProjectFinderGridSpec.cs" />
+    <Compile Include="Views\ProjectUpdate\ClassificationsValidationResult.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProposalClassifications.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProposalClassificationsViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProposalClassificationsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
@@ -500,6 +515,8 @@
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cs" />
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywordsViewData.cs" />
     <Compile Include="Views\Shared\MatchmakerOrganizationControls\MatchmakerKeywordHelper.cs" />
+    <Compile Include="Views\Shared\ProjectClassification\ProjectClassifications.cs" />
+    <Compile Include="Views\Shared\ProjectClassification\ProjectClassificationsViewData.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContacts.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewData.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewModel.cs" />
@@ -731,6 +748,7 @@
     <Content Include="Views\Organization\MatchmakerOrganizationClassifications.cshtml" />
     <Content Include="Views\Keyword\MatchmakerKeywordsModal.cshtml" />
     <Content Include="Views\Organization\MatchmakerOrganizationPerformanceMeasures.cshtml" />
+    <Content Include="Views\ProjectCreate\ExternalLinks.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -868,6 +886,8 @@
     <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
     <Content Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cshtml" />
     <Content Include="Views\ProjectCreate\PartnerFinderProjectCreate.cshtml" />
+    <Content Include="Views\ProjectFinder\ProjectFinderOrganization.cshtml" />
+    <Content Include="Views\ProjectUpdate\EditProposalClassifications.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -1846,6 +1866,7 @@
     <Content Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetail.cshtml" />
     <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SitkaLeftRightListbox.cshtml" />
+    <Content Include="Views\Shared\ProjectClassification\ProjectClassifications.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

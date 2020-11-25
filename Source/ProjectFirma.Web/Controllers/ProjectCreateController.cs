@@ -51,6 +51,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.ProjectExternalLink;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotes;
 using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotesViewData;
@@ -63,6 +64,9 @@ using BulkSetSpatialInformationViewModel = ProjectFirma.Web.Views.ProjectCreate.
 using Contacts = ProjectFirma.Web.Views.ProjectCreate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectCreate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectCreate.ContactsViewModel;
+using EditProposalClassificationsViewData = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassificationsViewData;
+using EditProposalClassificationsViewModel = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassificationsViewModel;
+using EditProposalClassifications = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding;
 using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostType;
 using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostTypeViewData;
@@ -75,6 +79,8 @@ using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.Expe
 using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
+using ExternalLinks = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinks;
+using ExternalLinksViewData = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinksViewData;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
 using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
@@ -362,6 +368,51 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} successfully saved.");
 
             return GoToNextSection(viewModel, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName);
+        }
+
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel =
+                new EditProjectExternalLinksViewModel(
+                    project.ProjectExternalLinks.Select(
+                        x => new ProjectExternalLinkSimple(x.ProjectExternalLinkID, x.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList());
+            return ViewExternalLinks(project, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey, EditProjectExternalLinksViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewExternalLinks(project, viewModel);
+            }
+            var currentProjectExternalLinks = project.ProjectExternalLinks.ToList();
+            HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
+            var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinks.Local;
+            viewModel.UpdateModel(currentProjectExternalLinks, allProjectExternalLinks);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} External Links successfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ExternalLinks.ProjectCreateSectionDisplayName);
+        }
+
+        private ViewResult ViewExternalLinks(Project project, EditProjectExternalLinksViewModel viewModel)
+        {
+          
+            var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
+            var proposalSectionsStatus = GetProposalSectionsStatus(project);
+            var viewDataForAngularClass = new Views.ProjectCreate.ExternalLinksViewData.ViewDataForAngularClass(project.ProjectID);
+            var viewData = new Views.ProjectCreate.ExternalLinksViewData(CurrentFirmaSession,
+                project,
+                proposalSectionsStatus,
+                viewDataForAngularClass,
+                entityExternalLinksViewData);
+            return RazorView<Views.ProjectCreate.ExternalLinks, Views.ProjectCreate.ExternalLinksViewData, EditProjectExternalLinksViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -1170,6 +1221,7 @@ namespace ProjectFirma.Web.Controllers
 
         // Partner Finder section of Project Update
         [HttpGet]
+        [ProjectCreateFeature]
         public ActionResult PartnerFinder(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1741,7 +1793,7 @@ namespace ProjectFirma.Web.Controllers
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
             //var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Contact.PrimaryContactPerson;
 
-            var editContactsViewData = new EditContactsViewData(allPeople, allRelationshipTypes);
+            var editContactsViewData = new EditContactsViewData(project, allPeople, allRelationshipTypes);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectContactsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectContactsSectionComplete;

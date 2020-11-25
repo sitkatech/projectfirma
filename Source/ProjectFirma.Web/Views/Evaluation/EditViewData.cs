@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Views.Evaluation
 {
     public class EditViewData : FirmaViewData
     {
-
         public List<SelectListItem> EvaluationStatuses { get; }
         public List<SelectListItem> EvaluationVisibilities { get; }
 

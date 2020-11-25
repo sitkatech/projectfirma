@@ -31,8 +31,8 @@ namespace ProjectFirma.Web.Views.MatchMaker
 
         public ProjectPotentialPartnersViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project) : base(currentFirmaSession, project)
         {
-            PageTitle = $"Potential Partners for Project {project.GetDisplayName()}";
-            BreadCrumbTitle = "Project Potential Partners";
+            PageTitle = $"Partner Finder for Project {project.GetDisplayName()}";
+            BreadCrumbTitle = "Project Partner Finder";
 
             PotentialPartnerDetailViewData = new ProjectPotentialPartnerDetailViewData(currentFirmaSession, project, ProjectPotentialPartnerListDisplayMode.StandAloneFullList);
         }
@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.Views.MatchMaker
 
         public OrganizationPotentialPartnersViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization) :base(currentFirmaSession)
         {
-            PageTitle = $"Potential Partners for Organization {organization.GetDisplayName()}";
-            BreadCrumbTitle = "Organization Potential Partners";
+            PageTitle = $"Partner Finder for Organization {organization.GetDisplayName()}";
+            BreadCrumbTitle = "Organization Partner Finder";
 
             PotentialPartnerDetailViewData = new ProjectPotentialPartnerDetailViewData(currentFirmaSession, project, ProjectPotentialPartnerListDisplayMode.StandAloneFullList);
         }

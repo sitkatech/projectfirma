@@ -54,6 +54,7 @@ using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
+using ProjectFirma.Web.Views.Shared.ProjectClassification;
 using ProjectFirmaModels.Models;
 using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotes;
 using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotesViewData;
@@ -105,6 +106,7 @@ namespace ProjectFirma.Web.Controllers
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
+        public const string ProjectClassificationsPartialViewPath = "~/Views/Shared/ProjectClassification/ProjectClassifications.cshtml";
         public const string ProjectOrganizationsPartialViewPath = "~/Views/Shared/ProjectOrganization/ProjectOrganizationsDetail.cshtml";
         public const string ProjectContactsPartialViewPath = "~/Views/Shared/ProjectContact/ProjectContactsDetail.cshtml";
         public const string PerformanceMeasureExpectedSummaryPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/PerformanceMeasureExpectedValuesSummary.cshtml";
@@ -1575,6 +1577,7 @@ namespace ProjectFirma.Web.Controllers
 
         // Partner Finder section of Project Update
         [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult PartnerFinder(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -1682,6 +1685,185 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
+
+        #region "Classifications"
+
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult Classifications(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            var projectClassificationSimples = GetProjectClassificationSimples(projectUpdateBatch);
+            var viewModel = new EditProposalClassificationsViewModel(projectUpdateBatch, projectClassificationSimples);
+
+            return ViewClassifications(projectUpdateBatch, viewModel);
+        }
+
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Classifications(ProjectPrimaryKey projectPrimaryKey, EditProposalClassificationsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewClassifications(projectUpdateBatch, viewModel);
+            }
+
+
+            var currentProjectClassifications = viewModel.ProjectClassificationSimples;
+            HttpRequestStorage.DatabaseEntities.ProjectClassificationUpdates.Load();
+            viewModel.UpdateModel(projectUpdateBatch, currentProjectClassifications);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ContactsComment = viewModel.Comments;
+            }
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()} successfully saved.");
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Classifications.ProjectUpdateSectionDisplayName);
+        }
+
+
+        public static List<ProjectClassificationSimple> GetProjectClassificationSimples(ProjectUpdateBatch projectUpdateBatch)
+        {
+            var selectedProjectClassifications = projectUpdateBatch.ProjectClassificationUpdates;
+
+            var projectClassificationSimples =
+                HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications).OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple
+                {
+                    ClassificationID = x.ClassificationID,
+                    ClassificationSystemID = x.ClassificationSystemID,
+                    ProjectID = projectUpdateBatch.ProjectID
+                }).ToList();
+
+            foreach (var selectedClassification in selectedProjectClassifications)
+            {
+                var selectedSimple = projectClassificationSimples.Single(x => x.ClassificationID == selectedClassification.ClassificationID);
+                selectedSimple.Selected = true;
+                selectedSimple.ProjectClassificationNotes = selectedClassification.ProjectClassificationUpdateNotes;
+            }
+
+            return projectClassificationSimples;
+        }
+
+
+        private ActionResult ViewClassifications(ProjectUpdateBatch projectUpdateBatch, EditProposalClassificationsViewModel viewModel)
+        {
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
+            var classificationValidationResult = projectUpdateBatch.ValidateClassifications();
+            var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+            var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffClassifications(projectUpdateBatch.Project.ProjectID));
+            var refreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshClassifications(projectUpdateBatch.Project.ProjectID));
+            var viewData = new EditProposalClassificationsViewData(CurrentFirmaSession, projectUpdateBatch, classificationSystems, classificationValidationResult, updateStatus, diffUrl, refreshUrl);
+            return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
+        }
+
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffClassifications(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffClassificationsImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+
+        private HtmlDiffContainer DiffClassificationsImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+            var projectClassificationsOriginal = project.ProjectClassifications.ToList();
+            var projectClassificationsUpdate = projectUpdateBatch.ProjectClassificationUpdates.ToList();
+
+            var originalHtmlNotes = GeneratePartialViewForOriginalClassifications(projectClassificationsOriginal, projectClassificationsUpdate);
+            var updatedHtmlNotes = GeneratePartialViewForModifiedClassifications(projectClassificationsOriginal, projectClassificationsUpdate);
+         
+            var originalHtml = originalHtmlNotes;
+            var updatedHtml = updatedHtmlNotes;
+
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForModifiedClassifications(List<ProjectClassification> projectClassificationOriginal, List<ProjectClassificationUpdate> projectClassificationUpdate)
+        {
+            var classificationIDsInOriginal = projectClassificationOriginal.Select(x => x.ClassificationID).Distinct().ToList();
+            var classificationIDsInUpdated = projectClassificationUpdate.Select(x => x.ClassificationID).Distinct().ToList();
+            var classificationIDsOnlyInOriginal = classificationIDsInOriginal.Where(x => !classificationIDsInUpdated.Contains(x)).ToList();
+            var classificationIDsOnlyInUpdated = classificationIDsInUpdated.Where(x => !classificationIDsInOriginal.Contains(x)).ToList();
+            var interfaceList = projectClassificationUpdate.Select(x => (IProjectClassification)x).ToList();
+            return GeneratePartialViewForClassifications(interfaceList);
+        }
+
+
+        private string GeneratePartialViewForOriginalClassifications(List<ProjectClassification> projectClassificationOriginal, List<ProjectClassificationUpdate> projectClassificationUpdate)
+        {
+            var classificationIDsInOriginal = projectClassificationOriginal.Select(x => x.ClassificationID).Distinct().ToList();
+            var classificationIDsInUpdated = projectClassificationUpdate.Select(x => x.ClassificationID).Distinct().ToList();
+            var classificationIDsOnlyInOriginal = classificationIDsInOriginal.Where(x => !classificationIDsInUpdated.Contains(x)).ToList();
+            var classificationIDsOnlyInUpdated = classificationIDsInUpdated.Where(x => !classificationIDsInOriginal.Contains(x)).ToList();
+            // find the ones only in original and mark them as "deleted"
+            var interfaceList = projectClassificationOriginal.Select(x => (IProjectClassification) x).ToList();
+            return GeneratePartialViewForClassifications(interfaceList);
+        }
+
+        private string GeneratePartialViewForClassifications(List<IProjectClassification> projectClassifications)
+        {
+            var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+            var viewData = new ProjectClassificationsViewData(classificationSystems, projectClassifications, $"{FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()}");
+            var partialViewToString = RenderPartialViewToString(ProjectClassificationsPartialViewPath, viewData);
+            return partialViewToString;
+        }
+
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult RefreshClassifications(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshClassifications(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshClassifications(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectClassificationUpdates();
+            // refresh data
+            ProjectClassificationsUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()} successfully reverted.");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshClassifications(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        #endregion "Classifications"
 
 
         #region "Attachments And Notes"
@@ -2152,12 +2334,19 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.CustomAttributesDiffLogHtmlString = new HtmlString(customAttributesDiffHelper.Build());
             }
 
+            // add custom attributes to the diff log
+            var projectClassificationsDiffContainer = DiffClassificationsImpl(projectPrimaryKey);
+            if (projectClassificationsDiffContainer.HasChanged)
+            {
+                var customAttributesDiffHelper = new HtmlDiff.HtmlDiff(projectClassificationsDiffContainer.OriginalHtml, projectClassificationsDiffContainer.UpdatedHtml);
+                projectUpdateBatch.ProjectClassificationsDiffLogHtmlString = new HtmlString(customAttributesDiffHelper.Build());
+            }
+
             // add booleans for location information that may be updated
             projectUpdateBatch.IsSimpleLocationUpdated = IsLocationSimpleUpdated(projectPrimaryKey);
             projectUpdateBatch.IsDetailedLocationUpdated = IsLocationDetailedUpdated(projectPrimaryKey);
             projectUpdateBatch.IsSpatialInformationUpdated = IsSpatialInformationUpdated(projectPrimaryKey);
         }
-
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
@@ -3329,7 +3518,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
-                return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+                return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
             }
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; 
@@ -3339,6 +3528,7 @@ namespace ProjectFirma.Web.Controllers
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isNotesUpdated = DiffNotesAndAttachmentsImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isCustomAttributesUpdated = DiffProjectCustomAttributesImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isClassificationsUpdated = DiffClassificationsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -3365,7 +3555,8 @@ namespace ProjectFirma.Web.Controllers
                 isExpectedPerformanceMeasuresUpdated,
                 isTechnicalAssistanceRequestsUpdated,
                 isContactsUpdated,
-                isCustomAttributesUpdated);
+                isCustomAttributesUpdated,
+                isClassificationsUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)
@@ -3578,7 +3769,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var allContactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
 
-            var editContactsViewData = new EditContactsViewData(allPeople, allContactRelationshipTypes);
+            var editContactsViewData = new EditContactsViewData(projectUpdateBatch.Project, allPeople, allContactRelationshipTypes);
 
             var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), CurrentFirmaSession);
             var viewData = new ContactsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, editContactsViewData, contactsValidationResult, projectContactsDetailViewData);

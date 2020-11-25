@@ -256,6 +256,8 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
         }
 
+        public static bool HasSingleClassificationSystem => (GetClassificationSystems().Count == 1);
+
         public static List<CustomPage> GetCustomPages()
         {
             return HttpRequestStorage.DatabaseEntities.CustomPages.ToList();
@@ -412,6 +414,20 @@ namespace ProjectFirma.Web.Common
 
         public static List<TenantSimple> GetAllTenantSimples()
         {
+            // ReSharper disable twice InconsistentlySynchronizedField
+            if (TenantSimples.Any())
+            {
+                // This CAN return an incomplete set when the app is first booting up. But
+                // this tiny window of vulnerability is traded off against never needing a
+                // lock in the read-only case, which is 99.9999% of the time this function is called.
+                //
+                // Since this gets called on every page for every user of every tenant, it seemed
+                // wise to optimize the lock away if we could in the majority case.
+                //
+                // -- SLG 11/03/2020
+                return TenantSimples;
+            }
+
             lock (TenantSimples)
             {
                 if (!TenantSimples.Any())
@@ -431,6 +447,60 @@ namespace ProjectFirma.Web.Common
             }
         }
 
-        
+        /// <summary>
+        /// Tenants that have more than one classification system will return the field definition for Classification.
+        /// Otherwise we will return the first classification system name.
+        /// </summary>
+        public static string GetTenantNameForClassificationForMatchmaker(bool pluralize)
+        {
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+            var tenantHasMultipleClassificationSystems = allClassificationSystems.Count > 1;
+
+            if (pluralize)
+            {
+                return tenantHasMultipleClassificationSystems
+                    ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()
+                    : new EnglishPluralizationService().Pluralize(allClassificationSystems.First().ClassificationSystemName);
+            }
+
+            return tenantHasMultipleClassificationSystems
+                ? FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()
+                : new EnglishPluralizationService().Singularize(allClassificationSystems.First()
+                    .ClassificationSystemName);
+        }
+
+        /// <summary>
+        /// In order to display the appropriate field definition on the matchmaker pages, this
+        /// checks the current tenant's taxonomy level and returns an appropriate enum for display.
+        /// </summary>
+        /// <returns></returns>
+        public static FieldDefinitionEnum GetTenantFieldDefinitionEnumForMatchmakerTaxonomy()
+        {
+            var tenantTaxonomyLevelEnum = GetTenantAttributeFromCache().TaxonomyLevel.ToEnum;
+            switch (tenantTaxonomyLevelEnum)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    return FieldDefinitionEnum.TaxonomyLeaf;
+                case TaxonomyLevelEnum.Branch:
+                    return FieldDefinitionEnum.TaxonomyBranch;
+                case TaxonomyLevelEnum.Trunk:
+                    return FieldDefinitionEnum.TaxonomyTrunk;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static string GetTenantDisplayNameForMatchmakerSubScoreTypeEnum(MatchmakerSubScoreTypeEnum enumType)
+        {
+            switch (enumType)
+            {
+                case MatchmakerSubScoreTypeEnum.Classification:
+                    return MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true);
+                case MatchmakerSubScoreTypeEnum.TaxonomySystem:
+                    return MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized();
+                default:
+                    return MatchmakerSubScoreType.ToType(enumType).MatchmakerSubScoreTypeDisplayName;
+            }
+        }
     }
 }

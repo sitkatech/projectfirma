@@ -659,7 +659,7 @@ Sitka.Grid.Class.Grid.prototype.setColumnNumberFormats = function (columnFormatT
     }
 };
 
-Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, groupingHeader, filterHeader, dataUrl, useSmartRendering, splitAtColumn) {
+Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, groupingHeader, filterHeader, dataUrl, useSmartRendering, splitAtColumn, initWidthByPercentage) {
     this.dataUrl = dataUrl;
     if (dataUrl == null) {
         this.grid.startFastOperations();
@@ -678,7 +678,12 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         this.grid.attachHeader(filterHeader);
     }
 
-    this.grid.setInitWidths(this._columns.pluck("width").join());
+    if (initWidthByPercentage) {
+        this.grid.setInitWidthsP(this._columns.pluck("width").join());
+    } else {
+        this.grid.setInitWidths(this._columns.pluck("width").join());
+    }
+
     this.grid.setColAlign(this._columns.pluck("align").join());
     var columnTypes = this._columns.pluck("type");
     this.grid.setColTypes(columnTypes.join());

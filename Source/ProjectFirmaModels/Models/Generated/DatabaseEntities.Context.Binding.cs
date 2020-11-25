@@ -133,6 +133,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectAttachmentConfiguration());
             modelBuilder.Configurations.Add(new ProjectAttachmentUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectClassificationConfiguration());
+            modelBuilder.Configurations.Add(new ProjectClassificationUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectContactConfiguration());
             modelBuilder.Configurations.Add(new ProjectContactUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeConfiguration());
@@ -384,6 +385,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectAttachmentUpdate> ProjectAttachmentUpdates { get { return AllProjectAttachmentUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectClassification> AllProjectClassifications { get; set; }
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectClassificationUpdate> AllProjectClassificationUpdates { get; set; }
+        public virtual IQueryable<ProjectClassificationUpdate> ProjectClassificationUpdates { get { return AllProjectClassificationUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectContact> AllProjectContacts { get; set; }
         public virtual IQueryable<ProjectContact> ProjectContacts { get { return AllProjectContacts.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectContactUpdate> AllProjectContactUpdates { get; set; }
@@ -772,6 +775,11 @@ namespace ProjectFirmaModels.Models
                 case "MatchmakerOrganizationTaxonomyTrunk":
                     return MatchmakerOrganizationTaxonomyTrunks.GetMatchmakerOrganizationTaxonomyTrunk(primaryKey);
 
+                case "MatchmakerSubScoreType":
+                    var matchmakerSubScoreType = MatchmakerSubScoreType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(matchmakerSubScoreType, "MatchmakerSubScoreType", primaryKey);
+                    return matchmakerSubScoreType;
+
                 case "MeasurementUnitType":
                     var measurementUnitType = MeasurementUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(measurementUnitType, "MeasurementUnitType", primaryKey);
@@ -917,6 +925,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectClassification":
                     return ProjectClassifications.GetProjectClassification(primaryKey);
+
+                case "ProjectClassificationUpdate":
+                    return ProjectClassificationUpdates.GetProjectClassificationUpdate(primaryKey);
 
                 case "ProjectColorByType":
                     var projectColorByType = ProjectColorByType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

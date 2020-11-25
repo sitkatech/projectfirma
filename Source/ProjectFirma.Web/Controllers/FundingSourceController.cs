@@ -191,7 +191,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteFundingSource(FundingSource fundingSource, ConfirmDialogFormViewModel viewModel)
         {
-            var numberOfProjectsAssociated = fundingSource.GetAssociatedProjects(CurrentPerson).Count;
+            var numberOfProjectsAssociated = fundingSource.GetAssociatedProjects(CurrentFirmaSession).Count;
             var confirmMessage = numberOfProjectsAssociated > 0 ?
                 $"This {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} is associated with {numberOfProjectsAssociated} Projects. Deleting the Funding Source will delete all associated expenditure records. Are you sure you wish to delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?" :
                 $"Are you sure you wish to delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?";

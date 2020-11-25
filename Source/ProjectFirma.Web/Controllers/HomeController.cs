@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Controllers
 {
     public class HomeController : FirmaBaseController
     {
+        // Yes, this is in fact a POST. 
+        [HttpPost]
         [AnonymousUnclassifiedFeature]
         public FileResult ExportGridToExcel(string gridName)
         {
@@ -54,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
-            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
+            var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
             var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow, currentPersonCanViewProposals);

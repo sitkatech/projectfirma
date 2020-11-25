@@ -41,6 +41,7 @@ namespace ProjectFirma.Web.Views
         public string ProjectSearchUrl { get; }
         public string ProjectFindUrl { get; }
         public string PageTitle { get; set; }
+        public string PageSubTitle { get; set; }
         public string HtmlPageTitle { get; set; }
         public string BreadCrumbTitle { get; set; }
         public string EntityName { get; set; }
@@ -74,6 +75,7 @@ namespace ProjectFirma.Web.Views
         public bool ShowTenantDropdown { get; }
         public bool ShowEnvironmentLabel { get; }
         public bool ShowEnvironmentDropdown { get; }
+        public bool ContainerFluid { get; set; }
 
         /// <summary>
         /// Call for page without associated FirmaPage
@@ -345,12 +347,17 @@ namespace ProjectFirma.Web.Views
         {
             var projectsMenu = new LtInfoMenuItem(FirmaMenuItem.Projects.GetFirmaMenuItemDisplayName());
 
-            // Group 1 - Project map
+            // Group 1 - Project map & full project list
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map", "Group1"));
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Index()), currentFirmaSession, $"Full {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} List", "Group1"));
 
-            // Group 2 - Project list and organization's projects
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Index()), currentFirmaSession, $"Full {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} List", "Group2"));            
+            // Group 2 - My Organization's Projects & Organizations Project Finder Page
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.MyOrganizationsProjects()), currentFirmaSession, $"My {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}'s {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
+
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker && currentFirmaSession.Person?.Organization != null)
+            {
+                projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectFinderController>(c => c.Organization(currentFirmaSession.Person.OrganizationID)), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder", "Group2"));
+            }
 
             // Group 3 - Proposals and pending projects
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Proposed()), currentFirmaSession, $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));

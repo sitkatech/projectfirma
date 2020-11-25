@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var allContactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
 
-            var viewData = new EditContactsViewData(allPeople, allContactRelationshipTypes);
+            var viewData = new EditContactsViewData(project, allPeople, allContactRelationshipTypes);
             return RazorPartialView<EditContacts, EditContactsViewData, EditContactsViewModel>(viewData, viewModel);
         }
     }

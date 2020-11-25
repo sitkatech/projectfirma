@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Shared
         {
             FirmaPageContentHtmlString = organization.GetFirmaPageContentHtmlString();
             FirmaPageDisplayName = organization.GetFirmaPageDisplayName();
-            ShowEditButton = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            ShowEditButton = new OrganizationBackgroundEditFeature().HasPermission(currentFirmaSession, organization).HasPermission;
             HasPageContent = organization.HasPageContent();
             EditPageContentUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.EditDescriptionInDialog(organization));
         }

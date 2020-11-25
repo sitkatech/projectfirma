@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Controllers
 
         [CrossAreaRoute]
         [HttpGet]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public ViewResult Projects()
         {
             var firmaPage = FirmaPageTypeEnum.ReportProjects.GetFirmaPage();
@@ -209,14 +209,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public PartialViewResult SelectReportToGenerateFromSelectedProjects()
         {
             return new PartialViewResult();
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public PartialViewResult SelectReportToGenerateFromSelectedProjects(GenerateReportsViewModel viewModel)
         {
             // Get the list of projects and then order them by the order they were received from the post request
@@ -230,14 +230,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public ActionResult GenerateReportsFromSelectedProjects()
         {
             return new PartialViewResult();
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [ReportTemplateGenerateReportsFeature]
         public ActionResult GenerateReportsFromSelectedProjects(GenerateReportsViewModel viewModel)
         {
             var reportTemplatePrimaryKey = (ReportTemplatePrimaryKey) viewModel.ReportTemplateID;

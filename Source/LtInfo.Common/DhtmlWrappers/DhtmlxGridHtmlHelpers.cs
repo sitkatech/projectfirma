@@ -74,8 +74,8 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             const string template =
                 @"
-<div id =""{0}ContainerDivID"">
-    <div id=""{0}LoadingBar"" style=""display:none"">{1}</div>
+<div id =""{0}ContainerDivID"" style=""position:relative;"">
+    <div id=""{0}LoadingBar"" class=""project-firma-loading-bar"" style=""display:none"">{1}</div>
     <div id=""{0}MetaDivID"" class=""DhtmlxGridMeta"">{2}</div>
     <div id=""{0}DivID"" style=""{3}""></div>
     <script type=""text/javascript"">
@@ -107,7 +107,7 @@ namespace LtInfo.Common.DhtmlWrappers
         var columnFilterList = ""{4}"";
         {5}
         
-        Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9});
+        Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9}, {15});
 
         // Show loading bar
         jQuery(""#{0}LoadingBar"").show();
@@ -181,7 +181,7 @@ namespace LtInfo.Common.DhtmlWrappers
             var result = String.Format(GridJavascriptDocumentReady,
                 gridName,
                 Skin,
-                SkinRowHeight,
+                gridSpec.SkinRowHeight,
                 gridColumnsJavascriptFunctions,
                 gridSpec.ColumnFilterListForJavascript,
                 gridSpec.GetColumnTotals(gridName),
@@ -193,7 +193,8 @@ namespace LtInfo.Common.DhtmlWrappers
                 gridSpec.GridInstructionsWhenEmpty,
                 verticalResizeFunction,
                 resizeGridFunction, 
-                saveGridSettingsUrl);
+                saveGridSettingsUrl,
+                gridSpec.InitWidthsByPercentage.ToString().ToLower());
 
             return result;
         }

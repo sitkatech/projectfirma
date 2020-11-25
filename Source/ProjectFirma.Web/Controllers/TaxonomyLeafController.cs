@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey)
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
-            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
+            var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
 
             var primaryTaxonomyLeafProjects = taxonomyLeaf.Projects.ToList()
                 .GetActiveProjectsAndProposals(currentPersonCanViewProposals)
@@ -114,10 +114,10 @@ namespace ProjectFirma.Web.Controllers
                 secondaryProjectMapCustomization, "SecondaryTaxonomyLeafProjectMap", false);
             var primaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(primaryProjectLocationsMapInitJson.MapDivID,
                 ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
-                CurrentPerson.CanViewProposals());
+                CurrentFirmaSession.CanViewProposals());
             var secondaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(secondaryProjectLocationsMapInitJson.MapDivID,
                 ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
-                CurrentPerson.CanViewProposals());
+                CurrentFirmaSession.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =
                 MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();

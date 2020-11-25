@@ -60,6 +60,10 @@
 @disabled-color: LightGray;
 
 @firma-workflow-background: #efefef;
+
+@firma-loadSpinner-primary-color: #337ab7;
+@firma-loadSpinner-secondary-color: #dbdbdb;
+
 // Global
 
 html, body {
@@ -2174,4 +2178,81 @@ nav#wizardNav ul {
             }
         }
     }
+}
+
+button.grid-map-marker {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+
+
+    &.grid-map-marker-enabled {
+        color: @link-color;
+
+        &:hover {
+            color: @link-hover-color;
+        }
+    }
+
+    &.grid-map-marker-disabled {
+        color: @gray;
+    }
+}
+
+.project-finder-grid .gridbox {
+    width:100%!important;
+}
+
+.project-firma-loading-bar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    background: #ffffffd1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // box-sizing and border is to help match the box-sizing of grids, which is also set
+    // to content-box. The content-box on the grid makes it so that the border extends 
+    // outside of the div's area. -- SMG 11/18/2020
+    box-sizing: content-box;
+    border: 1px solid transparent;
+
+    &:before {
+        content: 'Loading data...';
+        color: #000;
+        font-size: 22px;
+        margin-right: 10px;
+    }
+
+    &:after {
+        content: '';
+        border: 5px solid @firma-loadSpinner-secondary-color;
+        border-top: 5px solid @firma-loadSpinner-primary-color;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+.popover{
+    max-width:370px;
 }

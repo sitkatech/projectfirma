@@ -51,6 +51,8 @@ namespace ProjectFirma.Web.Models
                     return true;
                 case ProjectUpdateSectionEnum.PartnerFinder:
                     return true;
+                case ProjectUpdateSectionEnum.Classifications:
+                    return projectUpdateBatch.ValidateClassifications().IsValid;
                 default:
                     throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled Project Update Section Enum: {projectUpdateSection.ToEnum}");
             }
@@ -101,6 +103,8 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.BulkSetSpatialInformation(project));
                 case ProjectUpdateSectionEnum.PartnerFinder:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PartnerFinder(project));
+                case ProjectUpdateSectionEnum.Classifications:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Classifications(project));
 
                 default:
                     throw new ArgumentOutOfRangeException($"Unhandled Project Update Section Enum: {projectUpdateSection.ToEnum}");

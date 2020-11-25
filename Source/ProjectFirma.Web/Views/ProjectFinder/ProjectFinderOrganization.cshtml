@@ -1,0 +1,327 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+
+@using LtInfo.Common.DhtmlWrappers
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ProjectFinder.ProjectFinderOrganization
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+
+    <script type="text/javascript">
+        ProjectFirmaMaps.Map.prototype.initializeProjectLocations = function(projectLocationsMapInitJson) {
+            if (Sitka.Methods.isUndefinedNullOrEmpty(projectLocationsMapInitJson.ProjectMapCustomization)) {
+                throw new Error("No map customization object defined!");
+            }
+
+            this.legendColorsToUse =
+                @Html.Raw(JObject.FromObject(ViewDataTyped.LegendFormats).ToString(Formatting.None));
+
+            // default to not clustering
+            this.areLocationsClustered = false;
+            // set the project locations
+            this.projectLocations = projectLocationsMapInitJson.ProjectLocationsLayerGeoJson;
+
+            // initialize to no filters
+            this.mapCustomizationObject = projectLocationsMapInitJson.ProjectMapCustomization;
+            // draw the project locations
+            this.addLocationLayers();
+
+            // prevent standard popup for lat/long when clicking on general map area (not features)
+            this.removeClickEventHandler();
+        };
+
+        ProjectFirmaMaps.Map.prototype.changeFilter = function(filterPropertyNameSelected, actualFilter) {
+            this.mapCustomizationObject.FilterPropertyName = filterPropertyNameSelected;
+            this.mapCustomizationObject.FilterPropertyValues = actualFilter;
+            this.addLocationLayers();
+        };
+
+        ProjectFirmaMaps.Map.prototype.changePropertyToColorProjectLocationsBy = function(colorByPropertyName) {
+            this.mapCustomizationObject.ColorByPropertyName = colorByPropertyName;
+            this.addLocationLayers();
+        };
+
+        ProjectFirmaMaps.Map.prototype.changeClustering = function(areLocationsClustered) {
+            this.areLocationsClustered = areLocationsClustered;
+            this.addLocationLayers();
+        };
+
+        ProjectFirmaMaps.Map.prototype.addLocationLayers = function() {
+            this.projectLocationsLayer = this.addProjectLocationsToMap(this.projectLocations,
+                this.projectLocationsLayer,
+                "Mapped @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())",
+                true);
+        }
+
+        var defaultIcon = L.MakiMarkers.icon({ icon: "marker", color: "#7EB1FF", size: "s" });
+        var clickedMarkerIcon = L.MakiMarkers.icon({ icon: "marker", color: "#1774FE", size: "m" });
+
+        // this is an override for the function in ProjectFirmaMaps.js
+        ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function(layer, feature) {
+            var self = this;
+            if (!Sitka.Methods.isUndefinedNullOrEmpty(feature.properties.PopupUrl)) {
+                layer.bindPopup("Loading...");
+                layer.on("click",
+                    function(e) {
+                        jQuery.get(feature.properties.PopupUrl).done(function(data) {
+                            layer.bindPopup(data).openPopup(null, null, { keepInView: true });
+                        });
+                    });
+
+                // If the layer has an 'id' attribute, we want to listen to any submit events on any forms with the 'data-id' attribute.
+                // On submission of this form it will behave similarly as if you clicked on the map marker itself. I ended up having
+                // to do this on form submit because dhtmlx is a pain in the butt and overrides all click events... - SMG [PF-2243]
+                if (layer.id) {
+                    jQuery(document).on('submit',
+                        'form[data-id="' + layer.id + '"]',
+                        function(e) {
+                            e.preventDefault();
+                            // maybe we can check for the current zoom level and not zoom OUT if they are already more zoomed in? - SMG 11/5/2020
+                            self.map.setView(layer.getLatLng(), 8);
+                            self.resetMapIconsToDefault();
+                            layer.setIcon(clickedMarkerIcon);
+                        });
+                }
+            }
+        };
+
+        ProjectFirmaMaps.Map.prototype.resetMapIconsToDefault = function() {
+            var self = this;
+            _.each(self.projectLocationsLayer._layers,
+                function(marker, key) {
+                    marker.setIcon(defaultIcon);
+                    marker.setZIndexOffset(1);
+                });
+        }
+
+        ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault) {
+            var self = this;
+            if (layer != null) {
+                this.map.removeLayer(layer);
+                this.layerControl.removeLayer(layer);
+            }
+
+            var markerClusterGroup = L.markerClusterGroup({ maxClusterRadius: 40 });
+            var newLayer = L.geoJson(points.GeoJsonFeatureCollection,
+                {
+                    pointToLayer: function(feature, latlng) {
+
+                        var marker = L.marker(latlng, { icon: defaultIcon });
+                        marker.id = feature.properties.ProjectID;
+
+                        self.bindPopupToFeature(marker, feature);
+                        return marker;
+                    },
+                    filter: function(feature) {
+                        var b =
+                            !!Sitka.Methods.isUndefinedNullOrEmpty(self.mapCustomizationObject.FilterPropertyName) ||
+                                _.intersection(
+                                    _.map(feature.properties[self.mapCustomizationObject.FilterPropertyName].split(","),
+                                        Number),
+                                    _.map(self.mapCustomizationObject.FilterPropertyValues, Number))
+                                .length >
+                                0;
+                        return b;
+                    }
+                });
+
+            if (this.areLocationsClustered) {
+                newLayer.addTo(markerClusterGroup);
+                layer = markerClusterGroup;
+            } else {
+                layer = newLayer;
+            }
+
+            if (showByDefault) {
+                layer.addTo(this.map);
+            }
+
+            this.layerControl.addOverlay(layer, layerName);
+
+            jQuery("#projectLocationsMapContainer_" + this.MapDivId)
+                .find(".mapLegend")
+                .html(this.getLegend());
+
+            return layer;
+        };
+
+        ProjectFirmaMaps.Map.prototype.getLegend = function() {
+            var markerColorTable = this.legendColorsToUse[this.mapCustomizationObject.ColorByPropertyName];
+            var allLegendsHtml = "";
+            for (var i = 0; i < markerColorTable.length; ++i) {
+                var currentLegendIcon =
+                        L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "s" }),
+                    currentLegendAsHtml = currentLegendIcon.options.iconUrl;
+                allLegendsHtml += "<div class=\"mapLegendElement\">" +
+                    "<img class='mapLegendIcon' src= '" +
+                    currentLegendAsHtml +
+                    "'></img>" +
+                    markerColorTable[i].LegendText +
+                    "</div>";
+            }
+            return allLegendsHtml;
+        };
+
+        jQuery(document).ready(function() {
+            // Same height calculation as the grid height
+            var setMapDivHeight = function() {
+                var mapDiv = jQuery("#@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID");
+                var top = mapDiv.offset().top;
+                var heightOffset = top + 50;
+                var windowHeight = jQuery(window).height();
+                var mapHeight = windowHeight - heightOffset;
+                mapHeight = Math.max(mapHeight, 300); //Enforce minimum height
+                mapDiv.height(mapHeight);
+            }
+
+            setMapDivHeight(); // set the map div height before initializing map
+            $(window).resize(function() {
+                setMapDivHeight();
+            });
+
+
+            var matchMakerAreaOfInterestGeoJson = @(ViewDataTyped.MatchMakerAreaOfInterestGeoJson != null
+                ? @Html.Raw(JObject.FromObject(ViewDataTyped.MatchMakerAreaOfInterestGeoJson).ToString(Formatting.None))
+                : new HtmlString("{}"));
+
+
+            var projectLocationsMapInitJson =
+                @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
+            projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+            projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);
+
+            
+            projectFirmaMap.areaOfInterestFeatureGroup = new L.FeatureGroup();
+
+            var layerGroup = L.geoJson(matchMakerAreaOfInterestGeoJson.GeoJsonFeatureCollection, {
+                onEachFeature: function (feature, layer) {
+                    if (layer.getLayers)
+                    {
+                        layer.getLayers().forEach(function (l) { projectFirmaMap.areaOfInterestFeatureGroup.addLayer(l); });
+                    }
+                    else
+                    {
+                        projectFirmaMap.areaOfInterestFeatureGroup.addLayer(layer);
+                        projectFirmaMap.areaOfInterestFeatureGroup.setStyle({ color: '@Organization.OrganizationAreaOfInterestMapLayerColor'});
+                    }
+                    projectFirmaMap.bindHoverToFeature(layer, feature);
+                }
+            });
+
+            if (matchMakerAreaOfInterestGeoJson.LayerInitialVisibility)
+            {
+                projectFirmaMap.map.addLayer(projectFirmaMap.areaOfInterestFeatureGroup);
+            }
+
+            projectFirmaMap.addLayerToLayerControl(projectFirmaMap.areaOfInterestFeatureGroup, "@FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()");
+
+
+            // clone the markers so we can keep them in memory after we remove/add
+            var allMarkers = _.map(projectFirmaMap.projectLocationsLayer._layers,
+                function(x) {
+                    return x;
+                });
+
+            // hold a reference to the grid
+            var grid;
+
+            var filterEndEvent = function() {
+                var activeRows = grid.rowsBuffer;
+                // get all the ids here for the active rows
+                var activeRowIDs = _.map(activeRows,
+                    function(row, index) {
+                        return row.idd;
+                    });
+
+                // foreach marker that was initially loaded. Hide and display them based on the active rows in the grid
+                _.each(allMarkers,
+                    function(marker, index) {
+                        if (activeRowIDs.indexOf(marker.id) > -1) {
+                            projectFirmaMap.projectLocationsLayer.addLayer(marker);
+                        } else {
+                            projectFirmaMap.projectLocationsLayer.removeLayer(marker);
+                        }
+                    });
+            }
+
+            // Select the map marker, but don't zoom to it
+            var rowSelectEvent = function(rowId) {
+                _.each(allMarkers,
+                    function (marker, index) {
+                        if (rowId == marker.id) {
+                            projectFirmaMap.resetMapIconsToDefault();
+                            marker.setIcon(clickedMarkerIcon);
+                            marker.setZIndexOffset(1000);
+                        } 
+                    });
+            }
+
+            // wait for grid to be initialized. Kind of hacky, but I think it's relatively appropriate
+            var waitForGridAndInitBinding = function() {
+                if (Sitka.@(ViewDataTyped.ProjectFinderGridName) !== undefined) {
+                    grid = Sitka.@(ViewDataTyped.ProjectFinderGridName).grid;
+                    grid.attachEvent("onFilterEnd",
+                        function() {
+                            filterEndEvent();
+                        });
+                    grid.attachEvent("onRowSelect",
+                        function(id, ind) {
+                            rowSelectEvent(id);
+                        });
+                } else {
+
+                    setTimeout(waitForGridAndInitBinding, 250);
+                }
+            }
+            waitForGridAndInitBinding();
+        });
+
+    </script>
+}
+
+@section RightOfPageTitle
+{
+
+}
+
+<div style="padding-top: 10px;">
+    <p>The <a href="https://www.sitkatech.com/documents/78/ProjectFirmaServiceOverview_MatchmakerService.pdf" title="ProjectFirma Overview PDF - Matchmaker Service" target="_blank">Matchmaker Service <small><span class="glyphicon glyphicon-download-alt"></span></small></a> has matched the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() listed below with the profile for @ViewDataTyped.Organization.GetDisplayNameWithoutAbbreviationAsUrl() based on one or all of the following: @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), @FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized(), @MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized(), @MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true), or @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized(). This list does not show @ProjectStage.Completed.ProjectStageDisplayName, @ProjectStage.Terminated.ProjectStageDisplayName, or @ProjectStage.Deferred.ProjectStageDisplayName @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized().</p>
+    <p>Use the filters to search for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), or click a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s name to see more details. Selecting a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from the grid will display its location in the map.</p>
+</div>
+<div class="row">
+    <div class="col-lg-7 col-md-8 project-finder-grid">
+        @Html.DhtmlxGrid(ViewDataTyped.ProjectFinderGridSpec, ViewDataTyped.ProjectFinderGridName, ViewDataTyped.ProjectFinderGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    </div>
+    <div class="col-lg-5 col-md-4">
+        <div id="@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID" style="margin: 20px 0 5px 0"></div>
+        <p>To zoom hold down shift and drag a rectangle</p>
+    </div>
+</div>

@@ -46,9 +46,9 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
             }
 
             Add($"{FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.ContactRelationshipTypeName, 240);
-            Add(FieldDefinitionEnum.IsContactRelationshipTypeRequired.ToType().ToGridHeaderString(), a => a.IsContactRelationshipTypeRequired.ToCheckboxImageOrEmptyForGrid(), 90);
-
-
+            Add(FieldDefinitionEnum.ContactRelationshipTypeAcceptsMultipleValues.ToType().ToGridHeaderString(), a => a.ContactRelationshipTypeAcceptsMultipleValues.ToCheckboxImageOrEmptyForGrid(), 120);
+            Add(FieldDefinitionEnum.IsContactRelationshipTypeRequired.ToType().ToGridHeaderString(), a => a.IsContactRelationshipTypeRequired.ToCheckboxImageOrEmptyForGrid(), 120);
+            Add("If Contact Relationship Type is required, Minimum Project Stage to require by", a => a.IsContactRelationshipRequiredMinimumProjectStage != null ? a.IsContactRelationshipRequiredMinimumProjectStage.ProjectStageDisplayName : string.Empty, 300);
         }
     }
 }

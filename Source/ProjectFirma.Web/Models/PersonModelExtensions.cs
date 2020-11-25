@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Models
             {
                 return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
             }
-            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
+            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals()).ToList();
         }
 
         /// <summary>
@@ -176,7 +176,6 @@ namespace ProjectFirma.Web.Models
             return Role.ProjectSteward.RoleID == person.RoleID;
         }
 
-        public static bool CanViewProposals(this Person person) => person != null && MultiTenantHelpers.ShowProposalsToThePublic() || !person.IsUnassigned();
 
         public static List<HtmlString> GetProjectStewardshipAreaHtmlStringList(this Person person)
         {
@@ -261,6 +260,11 @@ namespace ProjectFirma.Web.Models
             }
 
             return new HtmlString($"{person.GetFullNameFirstLast()} <span class=\"small\">({string.Join(", ", personContactTypesList)})</span>");
+        }
+
+        public static string GetPersonInformationStringForLogging(this Person person)
+        {
+            return $"PersonID {person.PersonID} {person.FirstName} {person.LastName} - {person.Organization.GetDisplayName()} ({person.Email})";
         }
 
         public static List<string> GetListOfContactTypeStringsForProject(this Person person, Project project)

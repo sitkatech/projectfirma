@@ -34,6 +34,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.PartnerFinder;
 using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
@@ -187,9 +188,9 @@ namespace ProjectFirma.Web.Models
             return projectFundingSourceExpenditures;
         }
 
-        public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, Person person)
+        public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, FirmaSession firmaSession)
         {
-            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
         }
 
         public static List<Project> GetAllActiveProjects(this Organization organization
@@ -225,9 +226,9 @@ namespace ProjectFirma.Web.Models
             return organization.GetAllAssociatedProjects().GetPendingProjects(person.CanViewPendingProjects());
         }
 
-        public static List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(this Organization organization, Person person)
+        public static List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(this Organization organization, FirmaSession firmaSession)
         {
-            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals());
+            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
@@ -272,7 +273,7 @@ namespace ProjectFirma.Web.Models
                                                                                          PerformanceMeasure performanceMeasure, 
                                                                                          FirmaSession firmaSession)
         {
-            var projects = organization.GetAllActiveProjectsAndProposals(firmaSession.Person).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposals(firmaSession).ToList();
             return new PerformanceMeasureChartViewData(performanceMeasure, firmaSession, false, projects);
         }
 
@@ -438,5 +439,43 @@ namespace ProjectFirma.Web.Models
 
             return null;
         }
+
+        public static Dictionary<MatchmakerSubScoreTypeEnum, bool>
+            GetMatchmakerOrganizationProfileCompletionDictionary(this Organization organization)
+        {
+            var allSubScoreTypes = Enum.GetValues(typeof(MatchmakerSubScoreTypeEnum)).OfType<MatchmakerSubScoreTypeEnum>();
+
+            var returnDict = new Dictionary<MatchmakerSubScoreTypeEnum, bool>();
+
+            foreach (var subScoreType in allSubScoreTypes)
+            {
+                switch (subScoreType)
+                {
+                    case MatchmakerSubScoreTypeEnum.MatchmakerKeyword:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.MatchmakerKeyword, organization.HasMatchmakerKeywordContent());
+                        break;
+                    case MatchmakerSubScoreTypeEnum.AreaOfInterest:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.AreaOfInterest, organization.HasMatchmakerAreaOfInterestContent());
+                        break;
+                    case MatchmakerSubScoreTypeEnum.TaxonomySystem:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.TaxonomySystem, organization.HasMatchmakerTaxonomyContent());
+                        
+                        break;
+                    case MatchmakerSubScoreTypeEnum.Classification:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.Classification, organization.HasMatchmakerClassificationsContent());
+                        break;
+                    case MatchmakerSubScoreTypeEnum.PerformanceMeasure:
+                        returnDict.Add(MatchmakerSubScoreTypeEnum.PerformanceMeasure, organization.HasMatchmakerPerformanceMeasureContent());
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                       
+                }
+            }
+
+            return returnDict;
+
+        }
+
     }
 }
