@@ -2,6 +2,7 @@
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -35,12 +36,23 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 .Select(relationshipType => 
                     $"Cannot have more than one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\"."));
 
-            var relationshipTypesThatAreRequired = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
+            var currentProjectStage = project.ProjectStage;
 
-            _warningMessages.AddRange(relationshipTypesThatAreRequired
+            var relationshipTypesThatAreRequired = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.IsContactRelationshipTypeRequired).ToList();
+            // Only required if current ProjectStage is at or beyond the minimum level required for this ContactRelationshipType, if set. For example, not required until Implementation.
+            // Note that we rely on *SORT ORDER* here to determine the temporal order of the ProjectStages.
+            var relationshipTypeThatIsRequiredFiltered = relationshipTypesThatAreRequired.Where(rt => rt.IsContactRelationshipRequiredMinimumProjectStage == null ||
+                                                                                                      currentProjectStage.SortOrder >= rt.IsContactRelationshipRequiredMinimumProjectStage.SortOrder).ToList();
+
+            _warningMessages.AddRange(relationshipTypeThatIsRequiredFiltered
+                .Where(rt => projectContactsGroupedByContactRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) > 1)
+                .Select(relationshipType => 
+                    $"Cannot have more than one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {EditContactsViewModel.GetRequiredRelationshipTypeErrorStringSuffix(currentProjectStage, relationshipType)}"));
+
+            _warningMessages.AddRange(relationshipTypeThatIsRequiredFiltered
                 .Where(rt => projectContactsGroupedByContactRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
                 .Select(relationshipType => 
-                    $"Must have one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {Shared.ProjectContact.EditContactsViewModel.GetRequiredRelationshipTypeErrorStringSuffix(project.ProjectStage, relationshipType)}"));
+                    $"Must have one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {EditContactsViewModel.GetRequiredRelationshipTypeErrorStringSuffix(currentProjectStage, relationshipType)}"));
         }
 
         public List<string> GetWarningMessages()

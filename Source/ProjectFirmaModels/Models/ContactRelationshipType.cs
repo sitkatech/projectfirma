@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using LtInfo.Common;
 
 namespace ProjectFirmaModels.Models
 {
