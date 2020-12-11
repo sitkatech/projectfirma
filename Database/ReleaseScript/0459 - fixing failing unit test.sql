@@ -1,0 +1,1 @@
+alter table dbo.ProjectClassificationUpdate add constraint FK_ProjectClassificationUpdate_Classification_ClassificationID_TenantID foreign key (ClassificationID, TenantID) references dbo.Classification(ClassificationID, TenantID)
