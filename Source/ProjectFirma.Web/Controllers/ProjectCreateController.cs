@@ -491,24 +491,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                var yearRange = project.GetProjectUpdateImplementationStartToCompletionYearRange();
-                var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
-                foreach (var calendarYear in yearRange)
-                {
-                    var reportingPeriod = reportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
-                    if (reportingPeriod == null)
-                    {
-                        var newPerformanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod(calendarYear, calendarYear.ToString());
-                        HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
-                            newPerformanceMeasureReportingPeriod);
-                        HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
-                    }
-                    if (reportingPeriod != null)
-                    {
-                        var onesToAdd = expectedPerformanceMeasures.Select(x => new PerformanceMeasureActualSimple(x, calendarYear));
-                        performanceMeasureActualSimples.AddRange(onesToAdd);
-                    }
-                }
+                PrePopulateReportedPerformanceMeasures(project, expectedPerformanceMeasures, performanceMeasureActualSimples);
             }
 
              
@@ -524,6 +507,29 @@ namespace ProjectFirma.Web.Controllers
                 projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList(), project)
             {ProjectID = projectPrimaryKey.PrimaryKeyValue};
             return ViewPerformanceMeasures(project, viewModel);
+        }
+
+        private void PrePopulateReportedPerformanceMeasures(Project project, ICollection<PerformanceMeasureExpected> expectedPerformanceMeasures,
+            List<PerformanceMeasureActualSimple> performanceMeasureActualSimples)
+        {
+            var yearRange = project.GetProjectUpdateImplementationStartToCompletionYearRange();
+            var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
+            foreach (var calendarYear in yearRange)
+            {
+                var reportingPeriod =
+                    reportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
+                if (reportingPeriod == null)
+                {
+                    var newPerformanceMeasureReportingPeriod =
+                        new PerformanceMeasureReportingPeriod(calendarYear, calendarYear.ToString());
+                    HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
+                        newPerformanceMeasureReportingPeriod);
+                    HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
+                }
+
+                var onesToAdd = expectedPerformanceMeasures.Select(x => new PerformanceMeasureActualSimple(x, calendarYear));
+                performanceMeasureActualSimples.AddRange(onesToAdd);
+            }
         }
 
         [HttpPost]

@@ -390,6 +390,30 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
+        private void PrePopulateReportedPerformanceMeasures(ProjectUpdate projectUpdate, ICollection<PerformanceMeasureExpectedUpdate> expectedPerformanceMeasureUpdates,
+            List<PerformanceMeasureActualUpdateSimple> performanceMeasureActualUpdateSimples)
+        {
+            var yearRange = projectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
+            var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
+            foreach (var calendarYear in yearRange)
+            {
+                var reportingPeriod =
+                    reportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
+                if (reportingPeriod == null)
+                {
+                    var newPerformanceMeasureReportingPeriod =
+                        new PerformanceMeasureReportingPeriod(calendarYear, calendarYear.ToString());
+                    HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
+                        newPerformanceMeasureReportingPeriod);
+                    HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
+                }
+
+                var onesToAdd = expectedPerformanceMeasureUpdates.Select(x => new PerformanceMeasureActualUpdateSimple(x, calendarYear));
+                performanceMeasureActualUpdateSimples.AddRange(onesToAdd);
+            }
+        }
+
+
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult ReportedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
@@ -400,11 +424,22 @@ namespace ProjectFirma.Web.Controllers
             {
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
-            var performanceMeasureActualUpdateSimples =
-                projectUpdateBatch.PerformanceMeasureActualUpdates.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(pam=>pam.PerformanceMeasure.GetDisplayName())
-                    .ThenByDescending(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                    .Select(x => new PerformanceMeasureActualUpdateSimple(x))
-                    .ToList();
+            var expectedPerformanceMeasureUpdates = projectUpdateBatch.PerformanceMeasureExpectedUpdates;
+            var reportedPerformanceMeasures = projectUpdateBatch.PerformanceMeasureActualUpdates;
+            var performanceMeasureActualUpdateSimples = new List<PerformanceMeasureActualUpdateSimple>();
+            if (reportedPerformanceMeasures.Any())
+            {
+                performanceMeasureActualUpdateSimples =
+                    projectUpdateBatch.PerformanceMeasureActualUpdates.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(pam => pam.PerformanceMeasure.GetDisplayName())
+                        .ThenByDescending(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                        .Select(x => new PerformanceMeasureActualUpdateSimple(x))
+                        .ToList();
+            }
+            else
+            {
+                PrePopulateReportedPerformanceMeasures(projectUpdateBatch.ProjectUpdate, expectedPerformanceMeasureUpdates, performanceMeasureActualUpdateSimples);
+            }
+
             var projectExemptReportingYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
             var possibleYearsToExempt = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
