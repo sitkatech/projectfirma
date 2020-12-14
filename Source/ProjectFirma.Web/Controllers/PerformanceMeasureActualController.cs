@@ -35,12 +35,56 @@ namespace ProjectFirma.Web.Controllers
 {
     public class PerformanceMeasureActualController : FirmaBaseController
     {
+
+        private void PrePopulateReportedPerformanceMeasures(Project project, ICollection<PerformanceMeasureExpected> expectedPerformanceMeasures,
+            List<PerformanceMeasureActualSimple> performanceMeasureActualSimples)
+        {
+            var yearRange = project.GetProjectUpdateImplementationStartToCompletionYearRange();
+            var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
+            foreach (var calendarYear in yearRange)
+            {
+                var reportingPeriod =
+                    reportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
+                if (reportingPeriod == null)
+                {
+                    var newPerformanceMeasureReportingPeriod =
+                        new PerformanceMeasureReportingPeriod(calendarYear, calendarYear.ToString());
+                    HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
+                        newPerformanceMeasureReportingPeriod);
+                    HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
+                }
+
+                var onesToAdd = expectedPerformanceMeasures.Select(x => new PerformanceMeasureActualSimple(x, calendarYear));
+                performanceMeasureActualSimples.AddRange(onesToAdd);
+            }
+        }
+
         [HttpGet]
         [PerformanceMeasureActualFromProjectManageFeature]
         public PartialViewResult EditPerformanceMeasureActualsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var performanceMeasureActualSimples = project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.GetSortOrder()).ThenBy(pam=>pam.PerformanceMeasure.GetDisplayName()).Select(x => new PerformanceMeasureActualSimple(x)).ToList();
+
+            var expectedPerformanceMeasures = project.PerformanceMeasureExpecteds;
+
+            var reportedPerformanceMeasures = project.PerformanceMeasureActuals;
+
+            var performanceMeasureActualSimples = new List<PerformanceMeasureActualSimple>();
+
+            if (reportedPerformanceMeasures.Any())
+            {
+                performanceMeasureActualSimples =
+                    project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x => x.PerformanceMeasure.GetDisplayName())
+                        .ThenByDescending(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                        .Select(x => new PerformanceMeasureActualSimple(x))
+                        .ToList();
+            }
+            else
+            {
+                PrePopulateReportedPerformanceMeasures(project, expectedPerformanceMeasures, performanceMeasureActualSimples);
+            }
+
+
             var projectExemptReportingYears = project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var endYear = DateTime.Now.Year;
