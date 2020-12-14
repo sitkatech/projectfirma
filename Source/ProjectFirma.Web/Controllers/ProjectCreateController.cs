@@ -475,12 +475,43 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
 
+            var expectedPerformanceMeasures = project.PerformanceMeasureExpecteds;
 
-            var performanceMeasureActualSimples =
-                project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.GetDisplayName())
-                    .ThenByDescending(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                    .Select(x => new PerformanceMeasureActualSimple(x))
-                    .ToList();
+            var reportedPerformanceMeasures = project.PerformanceMeasureActuals;
+
+            var performanceMeasureActualSimples = new List<PerformanceMeasureActualSimple>();
+
+            if (reportedPerformanceMeasures.Any())
+            {
+                performanceMeasureActualSimples =
+                    project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x => x.PerformanceMeasure.GetDisplayName())
+                        .ThenByDescending(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                        .Select(x => new PerformanceMeasureActualSimple(x))
+                        .ToList();
+            }
+            else
+            {
+                var yearRange = project.GetProjectUpdateImplementationStartToCompletionYearRange();
+                var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
+                foreach (var calendarYear in yearRange)
+                {
+                    var reportingPeriod = reportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
+                    if (reportingPeriod == null)
+                    {
+                        var newPerformanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod(calendarYear, calendarYear.ToString());
+                        HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
+                            newPerformanceMeasureReportingPeriod);
+                        HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
+                    }
+                    if (reportingPeriod != null)
+                    {
+                        var onesToAdd = expectedPerformanceMeasures.Select(x => new PerformanceMeasureActualSimple(x, calendarYear));
+                        performanceMeasureActualSimples.AddRange(onesToAdd);
+                    }
+                }
+            }
+
+             
             var projectExemptReportingYears = project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var possibleYearsToExempt = project.GetProjectUpdateImplementationStartToCompletionYearRange();

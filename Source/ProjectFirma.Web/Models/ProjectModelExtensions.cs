@@ -157,6 +157,7 @@ namespace ProjectFirma.Web.Models
             return GetYearRangesImpl(projectUpdate, startYear);
         }
 
+
         public static List<int> GetProjectUpdatePlanningDesignStartToCompletionYearRange(this IProject projectUpdate)
         {
             var startYear = projectUpdate?.PlanningDesignStartYear;

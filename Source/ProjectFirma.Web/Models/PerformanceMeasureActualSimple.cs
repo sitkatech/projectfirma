@@ -22,6 +22,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -75,6 +77,23 @@ namespace ProjectFirma.Web.Models
             ActualValue = performanceMeasureActual.ActualValue;
             PerformanceMeasureActualSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureActual);
             PerformanceMeasureReportingPeriodID = performanceMeasureActual.PerformanceMeasureReportingPeriodID;
-        }        
+        }
+
+
+        public PerformanceMeasureActualSimple(PerformanceMeasureExpected performanceMeasureExpected, int calendarYear)
+            : this()
+        {
+            var reportingPeriods =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Where(x =>
+                    x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear).ToList();
+            var reportingPeriod = reportingPeriods.Single();
+            PerformanceMeasureActualID = -1;
+            ProjectID = performanceMeasureExpected.ProjectID;
+            PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
+            CalendarYear = calendarYear;
+            ActualValue = null;
+            PerformanceMeasureActualSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptionsToActual(performanceMeasureExpected);
+            PerformanceMeasureReportingPeriodID = reportingPeriod.PerformanceMeasureReportingPeriodID;
+        }
     }
 }
