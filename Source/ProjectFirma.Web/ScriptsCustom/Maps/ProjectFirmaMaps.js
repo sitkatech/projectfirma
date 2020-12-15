@@ -547,7 +547,7 @@ ProjectFirmaMaps.Map.prototype.removeDuplicatesFromArray = function (originalArr
         var vectorLayerInfoHtmlForPopup = null;
         if (json.features.length > 0) {
 
-            var atag = "<a title='' href='/GeospatialArea/Detail/" + json.features[0].properties.GeospatialAreaID + "'>" + json.features[0].properties.GeospatialAreaName + "</a>";
+            var atag = "<a title='' href='/GeospatialArea/Detail/" + json.features[0].properties.GeospatialAreaID + "'>" + json.features[0].properties.GeospatialAreaShortName + "</a>";
             vectorLayerInfoHtmlForPopup = {
                 label: json.features[0].properties.GeospatialAreaTypeName,
                 link: atag
