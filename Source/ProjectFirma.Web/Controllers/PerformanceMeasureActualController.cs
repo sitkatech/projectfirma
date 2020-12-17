@@ -39,6 +39,8 @@ namespace ProjectFirma.Web.Controllers
         private void PrePopulateReportedPerformanceMeasures(Project project, ICollection<PerformanceMeasureExpected> expectedPerformanceMeasures,
             List<PerformanceMeasureActualSimple> performanceMeasureActualSimples)
         {
+            var sortedExpectedPerformanceMeasures =  expectedPerformanceMeasures.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder)
+                .ThenBy(x => x.PerformanceMeasure.GetDisplayName()).ToList();
             var yearRange = project.GetProjectUpdateImplementationStartToCompletionYearRange();
             var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
             foreach (var calendarYear in yearRange)
@@ -54,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
                     HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
                 }
 
-                var onesToAdd = expectedPerformanceMeasures.Select(x => new PerformanceMeasureActualSimple(x, calendarYear));
+                var onesToAdd = sortedExpectedPerformanceMeasures.Select(x => new PerformanceMeasureActualSimple(x, calendarYear));
                 performanceMeasureActualSimples.AddRange(onesToAdd);
             }
         }
