@@ -230,12 +230,22 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjectsWithReportedValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
-            return performanceMeasure.PerformanceMeasureActuals.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals());
+            return performanceMeasure.PerformanceMeasureActuals.Select(ptc => ptc.Project).Distinct().ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals());
         }
 
         public static int ReportedProjectsCount(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             return performanceMeasure.GetAssociatedProjectsWithReportedValues(currentFirmaSession).Count;
+        }
+
+        public static List<Project> GetAssociatedProjectsWithExpectedValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
+        {
+            return performanceMeasure.PerformanceMeasureExpecteds.Select(pme => pme.Project).Distinct().ToList();
+        }
+
+        public static int ExpectedProjectsCount(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
+        {
+            return performanceMeasure.GetAssociatedProjectsWithExpectedValues(currentFirmaSession).Count;
         }
 
         public static List<PerformanceMeasureSubcategory> GetPerformanceMeasureSubcategories(this PerformanceMeasure performanceMeasure)

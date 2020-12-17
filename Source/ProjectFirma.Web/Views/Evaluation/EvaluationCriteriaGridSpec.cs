@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Views.Evaluation
 
             Add("Name", a => a.EvaluationCriteriaName, 170, DhtmlxGridColumnFilterType.Text);
             Add("Definition", a => a.EvaluationCriteriaDefinition, 170, DhtmlxGridColumnFilterType.Text);
-            Add("Number of Criteria Values", a => a.GetNumberOfEvaluationCriteriaValues().ToString(), 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("# of Criteria Values", a => a.GetNumberOfEvaluationCriteriaValues().ToString(), 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
         }
 
