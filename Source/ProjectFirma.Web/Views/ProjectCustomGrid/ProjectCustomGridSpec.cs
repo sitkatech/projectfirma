@@ -21,12 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -38,7 +36,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
 {
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-        
+
         public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project
             , FirmaSession currentFirmaSession
             , vProjectDetail projectDetail
@@ -92,7 +90,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfReportedPerformanceMeasures:
-                    Add($"Number Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureActualCount, 100);
+                    Add($"# Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureActualCount, 100);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectsStewardOrganizationRelationshipToProject:
                     if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
