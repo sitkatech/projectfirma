@@ -89,6 +89,9 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectStage:
                     Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     break;
+                case ProjectCustomGridColumnEnum.NumberOfExpectedPerformanceMeasureRecords:
+                    Add($"# Of Expected {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureExpectedCount, 100);
+                    break;
                 case ProjectCustomGridColumnEnum.NumberOfReportedPerformanceMeasures:
                     Add($"# Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureActualCount, 100);
                     break;
@@ -136,7 +139,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfReportedExpenditures:
-                    Add($"Number Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => projectDetailsDictionary[x.ProjectID].ProjectFundingSourceExpenditureCount, 100);
+                    Add($"# Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => projectDetailsDictionary[x.ProjectID].ProjectFundingSourceExpenditureCount, 100);
                     break;
                 case ProjectCustomGridColumnEnum.FundingType:
                     Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType != null ? x.FundingType.FundingTypeDisplayName : "", 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -244,10 +247,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             Dictionary<int, vProjectDetail> projectDetailsDictionary,
             ProjectFirmaModels.Models.Tenant tenant)
         {
-            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            var userHasReportDownloadPermissions = new ReportTemplateGenerateReportsFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            bool userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            bool userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            bool userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            bool userHasReportDownloadPermissions = new ReportTemplateGenerateReportsFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var geospatialAreas = HttpRequestStorage.DatabaseEntities.vGeospatialAreas.Where(x => x.TenantID == tenant.TenantID).ToDictionary(x => x.GeospatialAreaID);
             var projectCustomAttributes = HttpRequestStorage.DatabaseEntities.vProjectCustomAttributeValues.Where(x => x.TenantID == tenant.TenantID)
                 .GroupBy(x => x.ProjectID)
@@ -257,7 +260,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 .GroupBy(x => x.ProjectID).ToDictionary(grp => grp.Key, y => y.ToList());
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToDictionary(x => x.TaxonomyLeafID);
             var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
-            var hasProjectApprovalPermissionBySession =
+            bool hasProjectApprovalPermissionBySession =
                 new ProjectApproveFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var statusUpdateLabel = FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel();
             var sitkaAdminPersonIDs =
@@ -283,7 +286,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
 
             // Mandatory fields appearing AFTER configurable fields
             AddMandatoryFieldsAfter(userHasTagManagePermissions);
-            
         }
 
         private void AddConfiguredFields(FirmaSession currentFirmaSession
@@ -299,7 +301,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             , string statusUpdateLabel
             , List<int> sitkaAdminPersonIDs)
         {
-            
             foreach (var projectCustomGridConfiguration in projectCustomGridConfigurations.OrderBy(x => x.SortOrder))
             {
                 if (projectCustomGridConfiguration.ProjectCustomAttributeType != null)

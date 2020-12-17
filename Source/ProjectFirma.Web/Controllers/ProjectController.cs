@@ -525,7 +525,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-
         [ProjectsInProposalStageViewListFeature]
         public ViewResult Proposed()
         {

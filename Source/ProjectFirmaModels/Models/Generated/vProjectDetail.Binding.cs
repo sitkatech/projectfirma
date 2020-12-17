@@ -26,7 +26,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int projectStageID, int projectApprovalStatusID, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount, int? proposingOrganizationID) : this()
+        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int projectStageID, int projectApprovalStatusID, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? performanceMeasureExpectedCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount, int? proposingOrganizationID) : this()
         {
             this.ProjectID = projectID;
             this.PrimaryKey = primaryKey;
@@ -40,6 +40,7 @@ namespace ProjectFirmaModels.Models
             this.PrimaryContactPersonFullNameFirstLast = primaryContactPersonFullNameFirstLast;
             this.PrimaryContactPersonEmail = primaryContactPersonEmail;
             this.PerformanceMeasureActualCount = performanceMeasureActualCount;
+            this.PerformanceMeasureExpectedCount = performanceMeasureExpectedCount;
             this.ProjectImageCount = projectImageCount;
             this.CanStewardProjectsOrganizationID = canStewardProjectsOrganizationID;
             this.CanStewardProjectsOrganizationDisplayName = canStewardProjectsOrganizationDisplayName;
@@ -67,6 +68,7 @@ namespace ProjectFirmaModels.Models
             this.PrimaryContactPersonFullNameFirstLast = vProjectDetail.PrimaryContactPersonFullNameFirstLast;
             this.PrimaryContactPersonEmail = vProjectDetail.PrimaryContactPersonEmail;
             this.PerformanceMeasureActualCount = vProjectDetail.PerformanceMeasureActualCount;
+            this.PerformanceMeasureExpectedCount = vProjectDetail.PerformanceMeasureExpectedCount;
             this.ProjectImageCount = vProjectDetail.ProjectImageCount;
             this.CanStewardProjectsOrganizationID = vProjectDetail.CanStewardProjectsOrganizationID;
             this.CanStewardProjectsOrganizationDisplayName = vProjectDetail.CanStewardProjectsOrganizationDisplayName;
@@ -92,6 +94,7 @@ namespace ProjectFirmaModels.Models
         public string PrimaryContactPersonFullNameFirstLast { get; set; }
         public string PrimaryContactPersonEmail { get; set; }
         public int? PerformanceMeasureActualCount { get; set; }
+        public int? PerformanceMeasureExpectedCount { get; set; }
         public int? ProjectImageCount { get; set; }
         public int? CanStewardProjectsOrganizationID { get; set; }
         public string CanStewardProjectsOrganizationDisplayName { get; set; }

@@ -46,6 +46,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnProjectStatus ProjectStatus = ProjectCustomGridColumnProjectStatus.Instance;
         public static readonly ProjectCustomGridColumnFinalStatusUpdateStatus FinalStatusUpdateStatus = ProjectCustomGridColumnFinalStatusUpdateStatus.Instance;
         public static readonly ProjectCustomGridColumnProjectCategory ProjectCategory = ProjectCustomGridColumnProjectCategory.Instance;
+        public static readonly ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords NumberOfExpectedPerformanceMeasureRecords = ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords.Instance;
 
         public static readonly List<ProjectCustomGridColumn> All;
         public static readonly ReadOnlyDictionary<int, ProjectCustomGridColumn> AllLookupDictionary;
@@ -55,7 +56,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridColumn()
         {
-            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory };
+            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory, NumberOfExpectedPerformanceMeasureRecords };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridColumn>(All.ToDictionary(x => x.ProjectCustomGridColumnID));
         }
 
@@ -143,6 +144,8 @@ namespace ProjectFirmaModels.Models
                     return ImplementationStartYear;
                 case ProjectCustomGridColumnEnum.NoFundingSourceIdentified:
                     return NoFundingSourceIdentified;
+                case ProjectCustomGridColumnEnum.NumberOfExpectedPerformanceMeasureRecords:
+                    return NumberOfExpectedPerformanceMeasureRecords;
                 case ProjectCustomGridColumnEnum.NumberOfPhotos:
                     return NumberOfPhotos;
                 case ProjectCustomGridColumnEnum.NumberOfReportedExpenditures:
@@ -215,7 +218,8 @@ namespace ProjectFirmaModels.Models
         ProjectLastUpdated = 24,
         ProjectStatus = 25,
         FinalStatusUpdateStatus = 26,
-        ProjectCategory = 27
+        ProjectCategory = 27,
+        NumberOfExpectedPerformanceMeasureRecords = 28
     }
 
     public partial class ProjectCustomGridColumnProjectName : ProjectCustomGridColumn
@@ -239,7 +243,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCustomGridColumnNumberOfReportedPerformanceMeasures : ProjectCustomGridColumn
     {
         private ProjectCustomGridColumnNumberOfReportedPerformanceMeasures(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
-        public static readonly ProjectCustomGridColumnNumberOfReportedPerformanceMeasures Instance = new ProjectCustomGridColumnNumberOfReportedPerformanceMeasures(4, @"NumberOfReportedPerformanceMeasures", @"Number of Reported Performance Measures", true);
+        public static readonly ProjectCustomGridColumnNumberOfReportedPerformanceMeasures Instance = new ProjectCustomGridColumnNumberOfReportedPerformanceMeasures(4, @"NumberOfReportedPerformanceMeasures", @"# of Reported Performance Measure Records", true);
     }
 
     public partial class ProjectCustomGridColumnProjectsStewardOrganizationRelationshipToProject : ProjectCustomGridColumn
@@ -293,7 +297,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCustomGridColumnNumberOfReportedExpenditures : ProjectCustomGridColumn
     {
         private ProjectCustomGridColumnNumberOfReportedExpenditures(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
-        public static readonly ProjectCustomGridColumnNumberOfReportedExpenditures Instance = new ProjectCustomGridColumnNumberOfReportedExpenditures(13, @"NumberOfReportedExpenditures", @"Number of Reported Expenditures", true);
+        public static readonly ProjectCustomGridColumnNumberOfReportedExpenditures Instance = new ProjectCustomGridColumnNumberOfReportedExpenditures(13, @"NumberOfReportedExpenditures", @"# of Reported Expenditures", true);
     }
 
     public partial class ProjectCustomGridColumnFundingType : ProjectCustomGridColumn
@@ -335,7 +339,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCustomGridColumnNumberOfPhotos : ProjectCustomGridColumn
     {
         private ProjectCustomGridColumnNumberOfPhotos(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
-        public static readonly ProjectCustomGridColumnNumberOfPhotos Instance = new ProjectCustomGridColumnNumberOfPhotos(20, @"NumberOfPhotos", @"Number of Photos", true);
+        public static readonly ProjectCustomGridColumnNumberOfPhotos Instance = new ProjectCustomGridColumnNumberOfPhotos(20, @"NumberOfPhotos", @"# of Photos", true);
     }
 
     public partial class ProjectCustomGridColumnGeospatialAreaName : ProjectCustomGridColumn
@@ -378,5 +382,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCustomGridColumnProjectCategory(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
         public static readonly ProjectCustomGridColumnProjectCategory Instance = new ProjectCustomGridColumnProjectCategory(27, @"ProjectCategory", @"Project Category", true);
+    }
+
+    public partial class ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords : ProjectCustomGridColumn
+    {
+        private ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords Instance = new ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords(28, @"NumberOfExpectedPerformanceMeasureRecords", @"# of Expected Performance Measures Records", true);
     }
 }
