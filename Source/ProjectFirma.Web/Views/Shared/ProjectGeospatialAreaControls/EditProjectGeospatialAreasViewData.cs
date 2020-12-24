@@ -72,6 +72,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public readonly string GeospatialAreaMapServiceLayerName;
         public readonly string MapServiceUrl;
         public readonly string GeospatialAreaTypeName;
+        public readonly string GeospatialAreaTypeNamePluralized;
         public readonly List<int> GeospatialAreaIDsContainingProjectSimpleLocation;
         public readonly bool HasProjectLocationPoint;
 
@@ -88,6 +89,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;
             MapServiceUrl = geospatialAreaType.MapServiceUrl();
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
+            GeospatialAreaTypeNamePluralized = geospatialAreaType.GeospatialAreaTypeNamePluralized;
 
             GeospatialAreaNameByID =
                 geospatialAreasInViewModel.ToDictionary(x => x.GeospatialAreaID, x => x.GeospatialAreaShortName);

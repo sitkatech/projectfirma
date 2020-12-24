@@ -18,35 +18,42 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-// Track the ID of open modal to prevent double-opening modals and double-submitting
-var sitkaOpenModalDialogFormID = null;
+
 
 function modalDialogLink(anchorTag, javascriptReadyFunction, postData) {
-    if (!sitkaOpenModalDialogFormID) {
-        jQuery('.qtip.ui-tooltip-help').qtip('hide'); // hide any qtips
-        var element = jQuery(anchorTag);
-        var randomNumber = Math.floor(Math.random() * 10000000);
-        var dialogDivId = "SitkajQueryModalDialogUniqueID" + randomNumber;
-        var dialogContentDivId = "SitkajQueryModalDialogContentUniqueID" + randomNumber;
 
-        var postDataAsJson;
-        if (typeof (postData) == "function") {
-            postDataAsJson = postData();
-        }
-        else {
-            postDataAsJson = postData;
-        }
-        // Load the form into the dialog div
-        var config = { type: "GET", url: anchorTag.href };
-        if (postDataAsJson != null) {
-            config = { type: "POST", url: anchorTag.href, data: JSON.stringify(postDataAsJson), contentType: "application/json" };
-        }
-        SitkaAjax.ajax(config, function (htmlContentsOfDialogBox) {
+    jQuery('.qtip.ui-tooltip-help').qtip('hide'); // hide any qtips
+    var element = jQuery(anchorTag);
+    element.attr('disabled', true);
+    var randomNumber = Math.floor(Math.random() * 10000000);
+    var dialogDivId = "SitkajQueryModalDialogUniqueID" + randomNumber;
+    var dialogContentDivId = "SitkajQueryModalDialogContentUniqueID" + randomNumber;
+
+    var postDataAsJson;
+    if (typeof (postData) == "function") {
+        postDataAsJson = postData();
+    }
+    else {
+        postDataAsJson = postData;
+    }
+    // Load the form into the dialog div
+    var config = { type: "GET", url: anchorTag.href };
+    if (postDataAsJson != null) {
+        config = { type: "POST", url: anchorTag.href, data: JSON.stringify(postDataAsJson), contentType: "application/json" };
+    }
+    SitkaAjax.ajax(config,
+        // success callback
+        function (htmlContentsOfDialogBox) {
             // defer loading of the contents so that the dialog is in place first by passing along the html string
             createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, javascriptReadyFunction, htmlContentsOfDialogBox);
-        });
-        sitkaOpenModalDialogFormID = dialogDivId;
-    }
+            element.attr('disabled', false);
+        },
+        // error callback
+        function() {
+            element.attr('disabled', false);
+        }
+    );
+
     return false;
 }
 function findBootstrapDialogForm(optionalDialogFormId, dialogDiv) {
@@ -87,20 +94,18 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
 
     var saveButton = jQuery("#" + saveButtonId);
     saveButton.click(function () {
-        if (sitkaOpenModalDialogFormID == dialogDivId) {
-            // clearing sitkaOpenModalDialogFormID will block any subsequent submits
-            sitkaOpenModalDialogFormID = null;
-            // Manually submit the form
-            var form = findBootstrapDialogForm(optionalDialogFormId, dialogDiv);
-            // Do not submit if the form
-            // does not pass client side validation
-            if (!form.valid()) {
-                // reset sitkaOpenModalDialogFormID so form can be submitted again
-                sitkaOpenModalDialogFormID = dialogDivId;
-                return false;
-            }
-            form.submit();
+        saveButton.attr('disabled', true);
+        // Manually submit the form
+        var form = findBootstrapDialogForm(optionalDialogFormId, dialogDiv);
+        // Do not submit if the form
+        // does not pass client side validation
+        if (!form.valid()) {
+            // reset sitkaOpenModalDialogFormID so form can be submitted again
+            saveButton.attr('disabled', false);
+            return false;
         }
+        form.submit();
+        
         return true;
     });
 
@@ -110,7 +115,6 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
 
             // Remove all qTip tooltips
             jQuery("*", dialogDiv).qtip("hide");
-            sitkaOpenModalDialogFormID = null;
         }
     });
 
@@ -124,10 +128,10 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
     });
 
     // Setup the ajax submit logic, has to be done after the contents are loaded
-    wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId, skipAjax);
+    wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId, skipAjax, saveButton);
 }
 
-function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId, skipAjax) {
+function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId, skipAjax, saveButtonElement) {
     // Enable client side validation
     jQuery.validator.unobtrusive.parse(dialogDiv);
     convertJQueryValidationErrorsToQtip();
@@ -154,11 +158,13 @@ function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialo
         beforeSubmit: function () {
             jQuery(".progress-bar").html("Saving");
             jQuery(".progress").show();
+            jQuery(saveButtonElement).attr('disabled', true);
         },
         success: function (result, textStatus, jqXhr) {
             // Piggy back off the centralized login required detection in Ajax handling in SitkaAjax
             SitkaAjax.handleLoginRedirect(result, textStatus, jqXhr, function () {
                 jQuery(".progress").hide();
+                jQuery(saveButtonElement).attr('disabled', false);
                 // Check whether the post was successful
                 if (!Sitka.Methods.isUndefinedNullOrEmpty(result) &&
                     !Sitka.Methods.isUndefinedNullOrEmpty(result.Success) &&
@@ -173,14 +179,10 @@ function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialo
                         // if none provided, just reload the current page
                         window.location.reload();
                     }
-                    sitkaOpenModalDialogFormID = null;
                 }
                 else {
                     // Reload the dialog to show model errors
                     dialogDiv.find('.modal-body').html(result);
-
-                    // Allow save after server-side validation
-                    sitkaOpenModalDialogFormID = dialogDiv.attr("id");
 
                     // Setup the ajax submit logic
                     wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId);
@@ -189,6 +191,7 @@ function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialo
         },
         error: function (xhr, statusText) {
             jQuery(".progress").hide();
+            jQuery(saveButtonElement).attr('disabled', false);
             dialogDiv.modal("hide");
             // Piggy back off the centralized error Ajax handling in SitkaAjax
             SitkaAjax.errorHandler(xhr, statusText);
