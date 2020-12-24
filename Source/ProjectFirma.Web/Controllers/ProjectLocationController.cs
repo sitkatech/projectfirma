@@ -119,7 +119,24 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditProjectLocationDetailed(project, viewModel);
             }
-            SaveProjectDetailedLocations(viewModel, project);
+
+            SaveProjectDetailedLocations(viewModel, project, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected);
+            if (hadToMakeValid && !atLeastOneCouldNotBeCorrected)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the detailed location to verify.");
+            }
+            if (atLeastOneCouldNotBeCorrected && !hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
+
+            if (atLeastOneCouldNotBeCorrected && hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
+                                     " Additionally, one or more of your hand drawn shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
+
+
             return new ModalDialogFormJsonResult();
         }
 
@@ -202,12 +219,6 @@ namespace ProjectFirma.Web.Controllers
                             1,
                             LayerInitialVisibility.Show)).ToList();
 
-            layerGeoJsons = ProjectUpdateController.MakeValidLayerGeoJsons(layerGeoJsons, out var invalidWarningMessage);
-
-            if (!string.IsNullOrEmpty(invalidWarningMessage))
-            {
-                SetWarningForDisplay(invalidWarningMessage);
-            }
             var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
@@ -230,22 +241,45 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewApproveGisUpload(project, viewModel);
             }
-            SaveProjectDetailedLocations(viewModel, project);
+            SaveProjectDetailedLocations(viewModel, project, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected);
+            if (hadToMakeValid && !atLeastOneCouldNotBeCorrected)
+            {
+                SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the detailed location to verify.");
+            }
+            if (atLeastOneCouldNotBeCorrected && !hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
+
+            if (atLeastOneCouldNotBeCorrected && hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
+                                     " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
             DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
             return EditProjectLocationDetailed(projectPrimaryKey);
         }
 
-        private static void SaveProjectDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project)
+        private static void SaveProjectDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected)
         {
             foreach (var projectLocation in project.ProjectLocations.ToList())
             {
                 projectLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
+
+            hadToMakeValid = false;
+            atLeastOneCouldNotBeCorrected = false;
+
+            
+
             if (viewModel.WktAndAnnotations != null)
             {
-                foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)
+                var dbGeomsToAdd =
+                    ProjectCreateController.MakeValidDbGeometriesFromWellKnownTextAndAnnotations(
+                        viewModel.WktAndAnnotations, out hadToMakeValid, out atLeastOneCouldNotBeCorrected);
+                foreach (var dbGeomTuple in dbGeomsToAdd)
                 {
-                    project.ProjectLocations.Add(new ProjectLocation(project, DbGeometry.FromText(wktAndAnnotation.Wkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId), wktAndAnnotation.Annotation));
+                    project.ProjectLocations.Add(new ProjectLocation(project, dbGeomTuple.Item1, dbGeomTuple.Item2));
                 }
             }
         }
