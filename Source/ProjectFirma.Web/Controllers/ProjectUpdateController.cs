@@ -1238,7 +1238,22 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewLocationDetailed(projectUpdateBatch, viewModel);
             }
-            SaveProjectLocationUpdates(viewModel, projectUpdateBatch);
+            SaveProjectLocationUpdates(viewModel, projectUpdateBatch, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected);
+
+            if (hadToMakeValid && !atLeastOneCouldNotBeCorrected)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the detailed location to verify.");
+            }
+            if (atLeastOneCouldNotBeCorrected && !hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
+
+            if (atLeastOneCouldNotBeCorrected && hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
+                                     " Additionally, one or more of your hand drawn shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
 
             if (projectUpdateBatch.IsSubmitted())
             {
@@ -1405,15 +1420,6 @@ namespace ProjectFirma.Web.Controllers
                             1,
                             LayerInitialVisibility.Show)).ToList();
 
-            layerGeoJsons = MakeValidLayerGeoJsons(layerGeoJsons,  out var invalidWarningMessage);
-
-            if(!string.IsNullOrEmpty(invalidWarningMessage))
-            {
-                SetWarningForDisplay(invalidWarningMessage);
-            }
-
-
-           
             var showFeatureClassColumn = projectLocationStagingUpdates.Any(x => x.FeatureClassName.Length > 0);
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
@@ -1425,63 +1431,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ApproveGisUpload, ApproveGisUploadViewData, ProjectLocationDetailViewModel>(viewData, viewModel);
         }
 
-        public static List<LayerGeoJson> MakeValidLayerGeoJsons(List<LayerGeoJson> layerGeoJsons, out string invalidWarningMessage)
-        {
-            var validLayerGeoJsons = new List<LayerGeoJson>();
-            var totalCount = 0;
-            var invalidCount = 0;
-            var colorIndex = 0;
-
-            foreach (var layerGeoJson in layerGeoJsons)
-            {
-                var geoJsonFeatureCollection = layerGeoJson.GeoJsonFeatureCollection;
-                var validFeatureList = new List<Feature>();
-                var invalidFeatureList = new List<Feature>();
-                var features = geoJsonFeatureCollection.Features;
-                for (int i = 0; i < features.Count; i++)
-                {
-                    totalCount += 1;
-                    var geoJson = features[i];
-                    var geometry = GeoJsonToSqlGeometryHelper.ToSqlGeometry(geoJson);
-                    var isValid = geometry.STIsValid();
-                    if (isValid)
-                    {
-                        validFeatureList.Add(geoJson);
-                    }
-                    else
-                    {
-                        invalidCount += 1;
-                        invalidFeatureList.Add(geoJson);
-                    }
-                }
-
-                var validGeoJsonFeatureCollection = new FeatureCollection(validFeatureList);
-                var validLayerGeoJson = new LayerGeoJson(layerGeoJson.LayerName, validGeoJsonFeatureCollection,
-                    FirmaHelpers.DefaultColorRange[colorIndex], 1, LayerInitialVisibility.Show);
-                validLayerGeoJsons.Add(validLayerGeoJson);
-                colorIndex += 1;
-
-                if (invalidFeatureList.Any())
-                {
-                    var invalidGeoJsonFeatureCollection = new FeatureCollection(invalidFeatureList);
-                    var invalidLayerGeoJson = new LayerGeoJson(layerGeoJson.LayerName+ "_invalid", invalidGeoJsonFeatureCollection,
-                        FirmaHelpers.DefaultColorRange[colorIndex], 1, LayerInitialVisibility.Hide);
-                    validLayerGeoJsons.Add(invalidLayerGeoJson);
-                    colorIndex += 1;
-                }
-            }
-
-            invalidWarningMessage = string.Empty;
-            if (invalidCount > 0)
-            {
-                invalidWarningMessage = $"{invalidCount} out of your {totalCount} features were not valid and will not be uploaded. You can view the invalid features by selecting the layer names with the _invalid suffix." +
-                                        $" If you wish to upload all features in this file please make them valid and try again." +
-                                        " Otherwise, if you'd like to upload only the displayed features you may proceed by hitting the approve button";
-            }
-               
-
-            return validLayerGeoJsons;
-        }
+       
 
         [HttpPost]
         [ProjectUpdateCreateEditSubmitFeature]
@@ -1494,19 +1444,39 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewApproveGisUpload(projectUpdateBatch, viewModel);
             }
-            SaveProjectLocationUpdates(viewModel, projectUpdateBatch);
+            SaveProjectLocationUpdates(viewModel, projectUpdateBatch, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected);
+            if (hadToMakeValid && !atLeastOneCouldNotBeCorrected)
+            {
+                SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the detailed location to verify.");
+            }
+            if (atLeastOneCouldNotBeCorrected && !hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
+
+            if (atLeastOneCouldNotBeCorrected && hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
+                                     " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
             DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
             return new ModalDialogFormJsonResult();
         }
 
-        private static void SaveProjectLocationUpdates(ProjectLocationDetailViewModel viewModel, ProjectUpdateBatch projectUpdateBatch)
+        private static void SaveProjectLocationUpdates(ProjectLocationDetailViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected)
         {
             projectUpdateBatch.DeleteProjectLocationUpdates();
+            hadToMakeValid = false;
+            atLeastOneCouldNotBeCorrected = false;
+
             if (viewModel.WktAndAnnotations != null)
             {
-                foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)
+                var dbGeomsToAdd =
+                    ProjectCreateController.MakeValidDbGeometriesFromWellKnownTextAndAnnotations(
+                        viewModel.WktAndAnnotations, out hadToMakeValid, out atLeastOneCouldNotBeCorrected);
+                foreach (var dbGeomTuple in dbGeomsToAdd)
                 {
-                    projectUpdateBatch.ProjectLocationUpdates.Add(new ProjectLocationUpdate(projectUpdateBatch, DbGeometry.FromText(wktAndAnnotation.Wkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId), wktAndAnnotation.Annotation));
+                    projectUpdateBatch.ProjectLocationUpdates.Add(new ProjectLocationUpdate(projectUpdateBatch, dbGeomTuple.Item1, dbGeomTuple.Item2));
                 }
             }
         }
