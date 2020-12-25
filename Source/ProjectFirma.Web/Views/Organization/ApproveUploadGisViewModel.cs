@@ -14,9 +14,20 @@ namespace ProjectFirma.Web.Views.Organization
         [DisplayName("Organization Boundary"), Required]
         public string OrganizationBoundaryWkt { get; set; }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Organization organization)
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization, out bool oneHadToBeCorrected)
         {
-            organization.OrganizationBoundary = DbGeometry.FromText(OrganizationBoundaryWkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+            oneHadToBeCorrected = false;
+            var dbGeom = DbGeometry.FromText(OrganizationBoundaryWkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+
+            if (!dbGeom.IsValid)
+            {
+                var sqlInvalid = dbGeom.ToSqlGeometry();
+                var sqlValid = sqlInvalid.MakeValid();
+                dbGeom = sqlValid.ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                oneHadToBeCorrected = true;
+            }
+
+            organization.OrganizationBoundary = dbGeom;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

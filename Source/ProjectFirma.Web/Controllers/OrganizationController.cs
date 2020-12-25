@@ -999,7 +999,11 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveUploadGis(viewModel, organization);
             }
 
-            viewModel.UpdateModel(organization);
+            viewModel.UpdateModel(organization, out bool oneHadToBeCorrected);
+            if (oneHadToBeCorrected)
+            {
+                SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the organization boundary to verify.");
+            }
             HttpRequestStorage.DatabaseEntities.AllOrganizationBoundaryStagings.RemoveRange(organization
                 .OrganizationBoundaryStagings);
 
