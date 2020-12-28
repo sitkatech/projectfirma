@@ -39,9 +39,24 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+
+
+           
+
             var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
             var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
+            
+
+
+            if (!projectFundingSourceExpenditures.Any() && projectFundingSourceBudgets.Any())
+            {
+                calendarYearRangeForExpenditures = project.GetProjectUpdateImplementationStartToCompletionYearRange();
+                projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceBudgets, calendarYearRangeForExpenditures);
+            }
+
             var viewModel = new EditProjectFundingSourceExpendituresViewModel(project, projectFundingSourceExpenditureBulks);
+
             return ViewEditProjectFundingSourceExpenditures(project, viewModel);
         }
 
