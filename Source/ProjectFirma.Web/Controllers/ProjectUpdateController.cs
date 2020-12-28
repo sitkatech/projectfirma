@@ -677,8 +677,20 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
             var calendarYearRangeForExpenditures = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
             var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearRangeForExpenditures);
+
+            if (!projectFundingSourceExpenditureUpdates.Any() && projectFundingSourceBudgetUpdates.Any())
+            {
+                calendarYearRangeForExpenditures = projectUpdateBatch.ProjectUpdate
+                    .GetProjectUpdatePlanningDesignStartToCompletionYearRange();
+                if (calendarYearRangeForExpenditures.Any())
+                {
+                    projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceBudgetUpdates, calendarYearRangeForExpenditures);
+                }
+            }
+
 
             var viewModel = new ExpendituresViewModel(projectUpdateBatch, projectFundingSourceExpenditureBulks);
             return ViewExpenditures(projectUpdateBatch, viewModel);

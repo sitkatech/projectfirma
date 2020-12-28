@@ -51,8 +51,11 @@ namespace ProjectFirma.Web.Controllers
 
             if (!projectFundingSourceExpenditures.Any() && projectFundingSourceBudgets.Any())
             {
-                calendarYearRangeForExpenditures = project.GetProjectUpdateImplementationStartToCompletionYearRange();
-                projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceBudgets, calendarYearRangeForExpenditures);
+                calendarYearRangeForExpenditures = project.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
+                if (calendarYearRangeForExpenditures.Any())
+                {
+                    projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceBudgets, calendarYearRangeForExpenditures);
+                }
             }
 
             var viewModel = new EditProjectFundingSourceExpendituresViewModel(project, projectFundingSourceExpenditureBulks);
