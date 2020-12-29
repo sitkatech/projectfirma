@@ -24,6 +24,15 @@ function modalDialogLink(anchorTag, javascriptReadyFunction, postData) {
 
     jQuery('.qtip.ui-tooltip-help').qtip('hide'); // hide any qtips
     var element = jQuery(anchorTag);
+
+    // Topic for discussion: We should probably start using real buttons to open up modal dialogs. Using anchor tags
+    // is an accessibility issue, as well as not having the ability to "disable" them normally.
+    // Since we can't rely on disabled="disabled" to truly disable the anchor tags, we can 
+    // check to see if the anchor tag has the property anyways and just return false early.
+    if (element.attr('disabled') == 'disabled') {
+        return false;
+    }
+
     element.attr('disabled', true);
     var randomNumber = Math.floor(Math.random() * 10000000);
     var dialogDivId = "SitkajQueryModalDialogUniqueID" + randomNumber;

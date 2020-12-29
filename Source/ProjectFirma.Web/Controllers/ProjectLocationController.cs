@@ -257,7 +257,7 @@ namespace ProjectFirma.Web.Controllers
                                      " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
             }
             DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
-            return EditProjectLocationDetailed(projectPrimaryKey);
+            return new ModalDialogFormJsonResult();
         }
 
         private static void SaveProjectDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected)
