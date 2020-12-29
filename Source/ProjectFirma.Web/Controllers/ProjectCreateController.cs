@@ -1163,9 +1163,26 @@ namespace ProjectFirma.Web.Controllers
                     {
                         var sqlInvalid = dbGeom.ToSqlGeometry();
                         var sqlValid = sqlInvalid.MakeValid();
+
                         var dbGeomValid =
                             sqlValid.ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
-                        returnList.Add(new Tuple<DbGeometry, string>(dbGeomValid, wktAndAnnotation.Annotation));
+
+                        if ( sqlValid.STNumGeometries() > 1)
+                        {
+                            for (var index = 1; index < (sqlValid.STNumGeometries()+1); index++)
+                            {
+                                var singleGeom = sqlValid.STGeometryN(index);
+                                var singleDbGeom =
+                                    singleGeom.ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                                returnList.Add(new Tuple<DbGeometry, string>(singleDbGeom, wktAndAnnotation.Annotation));
+                            }
+                            
+                        }
+                        else
+                        {
+                            returnList.Add(new Tuple<DbGeometry, string>(dbGeomValid, wktAndAnnotation.Annotation));
+                        }
+                        
                         hadToMakeValid = true;
                     }
                     else
