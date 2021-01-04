@@ -144,7 +144,7 @@
                             @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.SaveConfigurationUrl))
                             {
                                 <li>
-                                    <a href="#" onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl')">
+                                    <a href="#" onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl', this)">
                                         <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
                                     </a>
                                 </li>
