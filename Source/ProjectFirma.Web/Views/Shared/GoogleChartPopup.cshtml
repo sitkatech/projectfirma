@@ -37,15 +37,15 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="firmaChartControls">
         @if (ViewDataTyped.GoogleChartJson.CanConfigureChart)
         {
-            <a onclick="GoogleCharts.configureChart('@ViewDataTyped.GoogleChartJson.ChartContainerID')" href="#">
+            <button class="btn btn-firma" onclick="GoogleCharts.configureChart('@ViewDataTyped.GoogleChartJson.ChartContainerID', null, this)">
                 <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>
                 Customize
-            </a>
+            </button>
         }
-        <a onclick="GoogleCharts.downloadChartPNG('@ViewDataTyped.GoogleChartJson.ChartContainerID');" href="#">
+        <button class="btn btn-firma" onclick="GoogleCharts.downloadChartPNG('@ViewDataTyped.GoogleChartJson.ChartContainerID');" href="#">
             <span class="glyphicon glyphicon-save" style="margin-right: 5px"></span>
             Save
-        </a>
+        </button>
     </div>
     
     <div class="googleChart" id="@(ViewDataTyped.GoogleChartJson.ChartContainerID)" style="height: 100%"></div>
