@@ -102,7 +102,13 @@ var GoogleCharts =
         download(pngDownloadURI, fileName);
     },
 
-    configureChart: function (chartName, postUrl) {
+    configureChart: function (chartName, postUrl, e) {
+        var button = jQuery(e);
+        if (button.attr('disabled') == 'disabled') {
+            return false;
+        }
+        button.attr('disabled', true);
+
         var self = this;
         var editor = new google.visualization.ChartEditor();
         var chartWrapper = this.chartWrappers[chartName];
@@ -115,6 +121,11 @@ var GoogleCharts =
         {
             self.redrawChart(editor.getChartWrapper(), chartName, originalHeight, originalWidth);
             self.postChartConfiguration(editor.getChartWrapper(), postUrl);
+            button.attr('disabled', false);
+        });
+
+        google.visualization.events.addListener(editor, 'cancel', function () {
+            button.attr('disabled', false);
         });
 
         //Modify legend to use "string" format expected by Google Chart (instead of "object" format needed for maxLines)
