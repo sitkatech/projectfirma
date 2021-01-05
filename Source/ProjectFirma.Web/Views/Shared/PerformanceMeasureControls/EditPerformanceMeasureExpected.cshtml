@@ -87,7 +87,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div id="EditPerformanceMeasureExpectedsApp" ng-controller="PerformanceMeasureExpectedController">
             <div class="form-group">
                 <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
-                <div class="input-group">                    
+                <div class="input-group">
                     <select ng-model="PerformanceMeasureToAdd"
                             class="selectpicker"
                             data-live-search="true"
@@ -187,7 +187,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <tr>
                             <th colspan="{{numberOfSubcategoryOptions(performanceMeasureGroup) + 3}}">
                                 <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
-                                      ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">                                            
+                                      ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">
                                 </span>
                                 <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)" style="font-weight: bold"></span>
                             </th>
@@ -232,8 +232,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     </tbody>
                 </table>
             }
-                        
-            <hr/>           
+
+            <hr/>
             <div id="@ViewDataTyped.PerformanceMeasureExpectedFormID">
                 @using (Html.BeginForm())
                 {
