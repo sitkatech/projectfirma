@@ -62,7 +62,17 @@ left join (select
 
 
 left join (select pma.ProjectID, count(*) as PerformanceMeasureActualCount from dbo.PerformanceMeasureActual pma group by pma.ProjectID) pma on pma.ProjectID = p.ProjectID
-left join (select pme.ProjectID, count(*) as PerformanceMeasureExpectedCount from dbo.PerformanceMeasureExpected pme group by pme.ProjectID) pme on pme.ProjectID = p.ProjectID
+--left join (select pme.ProjectID, count(*) as PerformanceMeasureExpectedCount from dbo.PerformanceMeasureExpected pme group by pme.ProjectID) pme on pme.ProjectID = p.ProjectID
+left join 
+(
+    select suby.ProjectID, count(*) as PerformanceMeasureExpectedCount
+    from
+    (
+        select distinct pme1.ProjectID, pme1.PerformanceMeasureID
+        from dbo.PerformanceMeasureExpected as pme1
+    ) as suby
+    group by suby.ProjectID
+) pme on pme.ProjectID = p.ProjectID
 left join (select pim.ProjectID, count(*) as ProjectImageCount from dbo.ProjectImage pim group by pim.ProjectID) pim on pim.ProjectID = p.ProjectID
 left join (select pps.ProjectID, count(*) as FinalStatusUpdateCount from dbo.ProjectProjectStatus pps where pps.IsFinalStatusUpdate = 1 group by pps.ProjectID) pps on pps.ProjectID = p.ProjectID
 left join (select pfse.ProjectID, count(*) as ProjectFundingSourceExpenditureCount from dbo.ProjectFundingSourceExpenditure pfse group by pfse.ProjectID) pfse on pfse.ProjectID = p.ProjectID
