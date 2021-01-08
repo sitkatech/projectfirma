@@ -47,8 +47,7 @@ namespace ProjectFirma.Web.Models
 
             try
             {
-                var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p =>
-                    baseFeatureType.IsAssignableFrom(p) && p.Name != baseFeatureType.Name && !p.IsAbstract);
+                var types = Assembly.GetExecutingAssembly().GetTypes().Where(p => baseFeatureType.IsAssignableFrom(p) && p.Name != baseFeatureType.Name && !p.IsAbstract);
                 foreach (var type in types)
                 {
                     string featureDisplayName = FirmaBaseFeatureHelpers.GetDisplayName(type);

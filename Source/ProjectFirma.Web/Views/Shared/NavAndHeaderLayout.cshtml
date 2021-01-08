@@ -186,15 +186,13 @@ Source code is available upon request via <support@sitkatech.com>.
             }
 
             jQuery(document).ready(function () {
-                // Disables double click across the site.
+                
                 jQuery(".btn-firma").each(function () {
-                    this.addEventListener('click', disableDoubleClick);
+                    this.addEventListener('click', autoAdvance);
                 });
 
-                function disableDoubleClick() {
+                function autoAdvance() {
                     var element = jQuery(this);
-                    element.attr('disabled', true);
-                    setTimeout(function () { element.removeAttr('disabled') }, 300);
                     if (element.attr('type') == 'submit') {
                         jQuery(window).off("beforeunload");
                         var autoAdvanceValue = element.attr('value') || "true";

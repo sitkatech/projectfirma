@@ -60,6 +60,17 @@ namespace ProjectFirma.Web.Models
         {
         }
 
+        public PerformanceMeasureActualSubcategoryOptionUpdateSimple(PerformanceMeasureValueSubcategoryOption performanceMeasureActualSubcategoryOption,
+            PerformanceMeasureExpectedUpdate performanceMeasureExpectedUpdate)
+            : this(
+                performanceMeasureActualSubcategoryOption.PrimaryKey,
+                -1,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasure.PerformanceMeasureID,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID)
+        {
+        }
+
         public int PerformanceMeasureActualSubcategoryOptionUpdateID { get; set; }
         public int PerformanceMeasureActualUpdateID { get; set; }
         [DisplayName("PerformanceMeasureSubcategory Option")]

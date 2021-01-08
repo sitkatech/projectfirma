@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.AttachmentType
                     a => a.AttachmentTypeTaxonomyTrunks.GetTaxonomyTrunkNamesAsCommaDelimitedList(), 240);
             }
 
-            Add("Number of Allowed Attachments", a => a.NumberOfAllowedAttachments, 80);
+            Add("# of Allowed Attachments", a => a.NumberOfAllowedAttachments, 80);
             Add("Maximum File Size", a => a.MaxFileSizeForDisplay, 140);
 
 

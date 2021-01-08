@@ -38,6 +38,7 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GeoJson;
 using MoreLinq;
 using ProjectFirma.Web.Views.Shared.SortOrder;
@@ -313,12 +314,29 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
             }
             organization.UseOrganizationBoundaryForMatchmaker = viewModel.UseOrganizationBoundaryForMatchmaker;
-            SaveOrganizationAreaOfInterestDetailedLocations(viewModel, organization);
+            SaveOrganizationAreaOfInterestDetailedLocations(viewModel, organization, out bool hadToMakeValid, out bool oneWasBad);
+            SetMessageForDisplay("Area of Interest successfully updated.");
+            if (hadToMakeValid && !oneWasBad)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the area of interest to verify.");
+            }
+            if (oneWasBad && !hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the area of interest to verify.");
+            }
+
+            if (oneWasBad && hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
+                                     " Additionally, one or more of your hand drawn shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the area of interest to verify.");
+            }
             return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
 
-        private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization)
+        private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected)
         {
+            hadToMakeValid = false;
+            atLeastOneCouldNotBeCorrected = false;
             // It's only appropriate to delete the hand drawn boundary if they are actually currently using it.
             // Otherwise, just keep the last-known value around in case they change their mind and toggle back to it.
             if (!viewModel.UseOrganizationBoundaryForMatchmaker)
@@ -336,7 +354,33 @@ namespace ProjectFirma.Web.Controllers
                     // We only save user-drawn layer info for now. Everything else (Organizational boundary) originates elsewhere.
                     if (wktAndOtherInfo.LayerSource == MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn)
                     {
-                        organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, DbGeometry.FromText(wktAndOtherInfo.Wkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId)));
+                        DbGeometry dbGeom = null;
+                        try
+                        {
+                            dbGeom = DbGeometry.FromText(wktAndOtherInfo.Wkt,
+                                LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                        }
+                        catch
+                        {
+                            atLeastOneCouldNotBeCorrected = true;
+                        }
+
+                        if (dbGeom != null)
+                        {
+                            if (!dbGeom.IsValid)
+                            {
+                                var sqlInvalid = dbGeom.ToSqlGeometry();
+                                var sqlValid = sqlInvalid.MakeValid();
+                                var dbGeomValid =
+                                    sqlValid.ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                                organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, dbGeomValid));
+                                hadToMakeValid = true;
+                            }
+                            else
+                            {
+                                organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, dbGeom));
+                            }
+                        }
                     }
                 }
             }
@@ -955,7 +999,11 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveUploadGis(viewModel, organization);
             }
 
-            viewModel.UpdateModel(organization);
+            viewModel.UpdateModel(organization, out bool oneHadToBeCorrected);
+            if (oneHadToBeCorrected)
+            {
+                SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the organization boundary to verify.");
+            }
             HttpRequestStorage.DatabaseEntities.AllOrganizationBoundaryStagings.RemoveRange(organization
                 .OrganizationBoundaryStagings);
 

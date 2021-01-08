@@ -157,6 +157,9 @@ namespace ProjectFirma.Web.Models
             return GetYearRangesImpl(projectUpdate, startYear);
         }
 
+
+
+
         public static List<int> GetProjectUpdatePlanningDesignStartToCompletionYearRange(this IProject projectUpdate)
         {
             var startYear = projectUpdate?.PlanningDesignStartYear;
@@ -669,14 +672,13 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NaString);
         }
 
-
-
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this Project project)
         {
-            var performanceMeasureReportedValues = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure)
-                .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
+            var performanceMeasures = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).ToList();
+            var performanceMeasureReportedValues = performanceMeasures.Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
                 .SelectMany(x => x.GetReportedPerformanceMeasureValues(project)).ToList();
-            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+            var orderedPerformanceMeasureValues = performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+            return orderedPerformanceMeasureValues;
         }
 
         public static Feature MakePointFeatureWithRelevantProperties(this Project project, DbGeometry projectLocationPoint, bool addProjectProperties, bool useDetailedCustomPopup)

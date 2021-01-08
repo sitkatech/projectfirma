@@ -28,6 +28,7 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
             Add("Hours Provided", x => x.HoursProvided.ToString(), 75, DhtmlxGridColumnFilterType.Text);
             Add("Value of Technical Assistance Provided", x => x.GetValueProvided(technicalAssistanceParameters).ToStringCurrency(), 95, DhtmlxGridColumnFilterType.Text);
             Add("Notes", x => x.Notes, 300, DhtmlxGridColumnFilterType.Text);
+            Add("Project Last Updated Date", x => x.Project.LastUpdatedDate, 140);
         }
     }
 }

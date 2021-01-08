@@ -63,5 +63,15 @@ namespace ProjectFirma.Web.Models
                 performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID)
         {
         }
+
+        public PerformanceMeasureActualSubcategoryOptionSimple(PerformanceMeasureValueSubcategoryOption performanceMeasureActualSubcategoryOption, PerformanceMeasureExpected performanceMeasureExpected)
+            : this(
+                performanceMeasureActualSubcategoryOption.PrimaryKey,
+                -1,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasure.PerformanceMeasureID,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID)
+        {
+        }
     }
 }

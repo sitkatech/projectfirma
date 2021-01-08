@@ -116,7 +116,7 @@ begin
 
     exec sp_executesql @sqlQuery, N'@allFeatureCountOutput int OUTPUT, @wrongSridFeatureCountOutput int OUTPUT', @allFeatureCountOutput = @allFeatureCount OUTPUT, @wrongSridFeatureCountOutput = @wrongSridFeatureCount OUTPUT;
 
-    set @sqlQueryToTroubleshoot = 'select *, COLUMN_NAME.STAsText() as COLUMN_NAMEAsText, COLUMN_NAME.MakeValid().STAsText() as COLUMN_NAMEMakeValidAsText from TABLE_SCHEMA.TABLE_NAME where COLUMN_NAME.STIsValid() = 0';
+    set @sqlQueryToTroubleshoot = 'select *, COLUMN_NAME.STAsText() as COLUMN_NAMEAsText, ActualSrID COLUMN_NAME.STSrid, {LtInfoGeometryConfiguration.DefaultCoordinateSystemId} as ExpectedSrID from TABLE_SCHEMA.TABLE_NAME where COLUMN_NAME.STSrid != {LtInfoGeometryConfiguration.DefaultCoordinateSystemId}';
     set @sqlQueryToTroubleshoot = REPLACE(@sqlQueryToTroubleshoot, 'TABLE_SCHEMA', @tableSchema);
     set @sqlQueryToTroubleshoot = REPLACE(@sqlQueryToTroubleshoot, 'TABLE_NAME', @tableName);
     set @sqlQueryToTroubleshoot = REPLACE(@sqlQueryToTroubleshoot, 'COLUMN_NAME', @columnName);

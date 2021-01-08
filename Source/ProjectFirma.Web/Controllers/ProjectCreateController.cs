@@ -475,12 +475,26 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
 
+            var expectedPerformanceMeasures = project.PerformanceMeasureExpecteds;
 
-            var performanceMeasureActualSimples =
-                project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.GetDisplayName())
-                    .ThenByDescending(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                    .Select(x => new PerformanceMeasureActualSimple(x))
-                    .ToList();
+            var reportedPerformanceMeasures = project.PerformanceMeasureActuals;
+
+            var performanceMeasureActualSimples = new List<PerformanceMeasureActualSimple>();
+
+            if (reportedPerformanceMeasures.Any())
+            {
+                performanceMeasureActualSimples =
+                    project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x => x.PerformanceMeasure.GetDisplayName())
+                        .ThenByDescending(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                        .Select(x => new PerformanceMeasureActualSimple(x))
+                        .ToList();
+            }
+            else
+            {
+                PrePopulateReportedPerformanceMeasures(project, expectedPerformanceMeasures, performanceMeasureActualSimples);
+            }
+
+             
             var projectExemptReportingYears = project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var possibleYearsToExempt = project.GetProjectUpdateImplementationStartToCompletionYearRange();
@@ -493,6 +507,31 @@ namespace ProjectFirma.Web.Controllers
                 projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList(), project)
             {ProjectID = projectPrimaryKey.PrimaryKeyValue};
             return ViewPerformanceMeasures(project, viewModel);
+        }
+
+        private void PrePopulateReportedPerformanceMeasures(Project project, ICollection<PerformanceMeasureExpected> expectedPerformanceMeasures,
+            List<PerformanceMeasureActualSimple> performanceMeasureActualSimples)
+        {
+            var sortedExpectedPerformanceMeasures = expectedPerformanceMeasures.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder)
+                .ThenBy(x => x.PerformanceMeasure.GetDisplayName()).ToList();
+            var yearRange = project.GetProjectUpdateImplementationStartToCompletionYearRange();
+            var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
+            foreach (var calendarYear in yearRange)
+            {
+                var reportingPeriod =
+                    reportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
+                if (reportingPeriod == null)
+                {
+                    var newPerformanceMeasureReportingPeriod =
+                        new PerformanceMeasureReportingPeriod(calendarYear, calendarYear.ToString());
+                    HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
+                        newPerformanceMeasureReportingPeriod);
+                    HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
+                }
+
+                var onesToAdd = sortedExpectedPerformanceMeasures.Select(x => new PerformanceMeasureActualSimple(x, calendarYear));
+                performanceMeasureActualSimples.AddRange(onesToAdd);
+            }
         }
 
         [HttpPost]
@@ -648,9 +687,19 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
 
             var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
             var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
+
+            if (!projectFundingSourceExpenditures.Any() && projectFundingSourceBudgets.Any())
+            {
+                calendarYearRangeForExpenditures = project.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
+                if (calendarYearRangeForExpenditures.Any())
+                {
+                    projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceBudgets, calendarYearRangeForExpenditures);
+                }
+            }
 
             var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditureBulks, project) {ProjectID = project.ProjectID};
             return ViewExpenditures(project, viewModel);
@@ -937,7 +986,22 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditLocationDetailed(project, viewModel);
             }
             viewModel.UpdateModel(project);
-            SaveDetailedLocations(viewModel, project);
+            SaveDetailedLocations(viewModel, project, out bool hadToMakeValid, out bool oneWasBad);
+
+            if (hadToMakeValid && !oneWasBad)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the detailed location to verify.");
+            }
+            if (oneWasBad && !hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
+
+            if (oneWasBad && hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your hand drawn shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
+                                     " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detailed Location successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.LocationDetailed.ProjectCreateSectionDisplayName);
         }
@@ -1022,12 +1086,7 @@ namespace ProjectFirma.Web.Controllers
                             FirmaHelpers.DefaultColorRange[i],
                             1,
                             LayerInitialVisibility.Show)).ToList();
-            layerGeoJsons = ProjectUpdateController.MakeValidLayerGeoJsons(layerGeoJsons, out var invalidWarningMessage);
 
-            if (!string.IsNullOrEmpty(invalidWarningMessage))
-            {
-                SetWarningForDisplay(invalidWarningMessage);
-            }
             var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
@@ -1050,7 +1109,23 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewApproveGisUpload(project, viewModel);
             }
-            SaveDetailedLocations(viewModel, project);
+            SaveDetailedLocations(viewModel, project, out bool hadToMakeValid, out bool oneWasBad);
+
+            if (hadToMakeValid && !oneWasBad)
+            {
+                SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes, but please review the detailed location to verify.");
+            }
+            if (oneWasBad && !hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
+
+            if (oneWasBad && hadToMakeValid)
+            {
+                SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
+                                     " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
+            }
+
             var iHaveSqlGeometries = new List<IHaveSqlGeometry>(project.ProjectLocations.ToList());
             if (!iHaveSqlGeometries.Any())
             {
@@ -1063,18 +1138,82 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private static void SaveDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project)
+        public static List<Tuple<DbGeometry, string>> MakeValidDbGeometriesFromWellKnownTextAndAnnotations(
+            List<WktAndAnnotation> wktAndAnnotations, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected)
+        {
+            var returnList = new List<Tuple<DbGeometry, string>>();
+            hadToMakeValid = false;
+            atLeastOneCouldNotBeCorrected = false;
+            foreach (var wktAndAnnotation in wktAndAnnotations)
+            {
+                DbGeometry dbGeom = null;
+                try
+                {
+                    dbGeom = DbGeometry.FromText(wktAndAnnotation.Wkt,
+                        LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                }
+                catch
+                {
+                    atLeastOneCouldNotBeCorrected = true;
+                }
+
+                if (dbGeom != null)
+                {
+                    if (!dbGeom.IsValid)
+                    {
+                        var sqlInvalid = dbGeom.ToSqlGeometry();
+                        var sqlValid = sqlInvalid.MakeValid();
+
+                        var dbGeomValid =
+                            sqlValid.ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+
+                        if ( sqlValid.STNumGeometries() > 1)
+                        {
+                            for (var index = 1; index < (sqlValid.STNumGeometries()+1); index++)
+                            {
+                                var singleGeom = sqlValid.STGeometryN(index);
+                                var singleDbGeom =
+                                    singleGeom.ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                                returnList.Add(new Tuple<DbGeometry, string>(singleDbGeom, wktAndAnnotation.Annotation));
+                            }
+                            
+                        }
+                        else
+                        {
+                            returnList.Add(new Tuple<DbGeometry, string>(dbGeomValid, wktAndAnnotation.Annotation));
+                        }
+                        
+                        hadToMakeValid = true;
+                    }
+                    else
+                    {
+                        returnList.Add(new Tuple<DbGeometry, string>(dbGeom, wktAndAnnotation.Annotation));
+                    }
+                }
+            }
+
+            return returnList;
+
+        }
+
+        private static void SaveDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected)
         {
             var projectLocations = project.ProjectLocations.ToList();
             foreach (var projectLocation in projectLocations)
             {
                 projectLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
+
+            hadToMakeValid = false;
+            atLeastOneCouldNotBeCorrected = false;
+
             if (viewModel.WktAndAnnotations != null)
             {
-                foreach (var wktAndAnnotation in viewModel.WktAndAnnotations)
+                var dbGeometries = MakeValidDbGeometriesFromWellKnownTextAndAnnotations(viewModel.WktAndAnnotations, out hadToMakeValid,
+                    out atLeastOneCouldNotBeCorrected);
+                foreach (var dbGeometry in dbGeometries)
                 {
-                    project.ProjectLocations.Add(new ProjectLocation(project, DbGeometry.FromText(wktAndAnnotation.Wkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId), wktAndAnnotation.Annotation));
+                    project.ProjectLocations.Add(new ProjectLocation(project, dbGeometry.Item1, dbGeometry.Item2));
                 }
             }
         }

@@ -113,32 +113,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             errors.AddRange(relationshipTypeThatIsRequiredFiltered
                 .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
-                    $"Cannot have more than one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {GetRequiredRelationshipTypeErrorStringSuffix(currentProjectStage, relationshipType)}")));
+                    $"Cannot have more than one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {GetRequiredRelationshipTypeErrorStringSuffix(currentProjectStage, relationshipType)}")));
 
             errors.AddRange(relationshipTypeThatIsRequiredFiltered
                 .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
                 .Select(relationshipType => new ValidationResult(
-                    $"Must have one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {GetRequiredRelationshipTypeErrorStringSuffix(currentProjectStage, relationshipType)}")));
-
-            //var allValidRelationshipTypes = ProjectContactSimples.All(x =>
-            //{
-            //    var contact = HttpRequestStorage.DatabaseEntities.People.FirstOrDefault(people => people.PersonID == x.ContactID);
-            //    var contactType = contact.ContactType;
-
-            //    if (contactType != null)
-            //    {
-            //        var contactTypeContactRelationshipTypeIDs =
-            //            contactType.ContactTypeContactRelationshipTypes.Select(y => y.ContactRelationshipTypeID);
-
-            //        return contactTypeContactRelationshipTypeIDs.Contains(x.ContactRelationshipTypeID);
-            //    }
-            //    return false;
-            //});
-
-            //if (!allValidRelationshipTypes)
-            //{
-            //    errors.Add(new ValidationResult("One or more relationship types are invalid."));
-            //}
+                    $"Must have one Contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\". {GetRequiredRelationshipTypeErrorStringSuffix(currentProjectStage, relationshipType)}")));
 
             return errors;
         }
