@@ -273,13 +273,13 @@ namespace ProjectFirma.Web.Controllers
             var organizationBoundaryFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
             FeatureCollection editableLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "SomePropertyOrOther", "SomeValueOrOther");
 
-            LayerInitialVisibility initialVisibilityForOrgBoundary = viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide;
-            LayerInitialVisibility initialVisibilityForUserEditedBoundary = !viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide;
+            LayerInitialVisibility.LayerInitialVisibilityEnum initialVisibilityForOrgBoundary = viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.LayerInitialVisibilityEnum.Show : LayerInitialVisibility.LayerInitialVisibilityEnum.Hide;
+            LayerInitialVisibility.LayerInitialVisibilityEnum initialVisibilityForUserEditedBoundary = !viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.LayerInitialVisibilityEnum.Show : LayerInitialVisibility.LayerInitialVisibilityEnum.Hide;
 
             var orgBoundaryLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Boundary Geometry", organizationBoundaryFeatureCollection, "red", 1, initialVisibilityForOrgBoundary);
             LayerGeoJson editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", editableLayerGeoJsonFeatureCollection, "red", 1, initialVisibilityForUserEditedBoundary);
 
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             // Maybe show all Org project layers here? Consider doing later.
             //layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             //BoundingBox boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
@@ -568,7 +568,7 @@ namespace ProjectFirma.Web.Controllers
 
             var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
             var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
-            var matchMakerAreaOfInterestInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
+            var matchMakerAreaOfInterestMapInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
             var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
             var matchmakerOrganizationClassificationsOrdered = HttpRequestStorage.DatabaseEntities
                 .MatchmakerOrganizationClassifications.Where(x => x.OrganizationID == organization.OrganizationID).OrderBy(x => x.Classification.ClassificationSortOrder).ToList();
@@ -585,7 +585,7 @@ namespace ProjectFirma.Web.Controllers
                                               topLevelMatchmakerTaxonomyTier,
                                               maximumTaxonomyLeaves,
                                               activeTab,
-                                              matchMakerAreaOfInterestInitJson,
+                                              matchMakerAreaOfInterestMapInitJson,
                                               matchmakerClassificationsGroupedByClassificationSystem,
                                               allClassificationSystems);
             return RazorView<Detail, OrganizationDetailViewData>(viewData);
@@ -606,7 +606,7 @@ namespace ProjectFirma.Web.Controllers
 
             // Always return the feature collection - even if empty.
             // SLG - 8/28/2020
-            return new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show);
+            return new LayerGeoJson($"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
         }
 
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, FirmaSession firmaSession)
@@ -621,26 +621,17 @@ namespace ProjectFirma.Web.Controllers
                 hasSpatialData = true;
                 layers.Add(new LayerGeoJson("Organization Boundary",
                     organization.OrganizationBoundaryToFeatureCollection(), organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
-                    LayerInitialVisibility.Show));
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
                 dbGeometries.Add(organization.OrganizationBoundary);
             }
 
-            layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers());
+            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayers());
 
             var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(firmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
             var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
 
             dbGeometries.AddRange(projectsAsSimpleLocations.Select(p => p.ProjectLocationPoint));
-
-
-            var projectDetailLocationsFeatureCollection = allActiveProjectsAndProposals.SelectMany(x => x.ProjectLocations).ToGeoJsonFeatureCollection();
-            if (projectDetailLocationsFeatureCollection.Features.Any())
-            {
-                hasSpatialData = true;
-                layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detailed Mapping", projectDetailLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
-                dbGeometries.AddRange(allActiveProjectsAndProposals.SelectMany(p => p.ProjectLocations.Select(pl => pl.ProjectLocationGeometry)));
-            }
 
             var boundingBox = new BoundingBox(dbGeometries);
 
@@ -649,7 +640,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static MapInitJson GetOrganizationAreaOfInterestMapInitJson(Organization organization)
         {
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+            var layers = new List<LayerGeoJson>();
 
             var dbGeometries = new List<DbGeometry>();
 
@@ -658,16 +649,18 @@ namespace ProjectFirma.Web.Controllers
             {
                 layers.Add(new LayerGeoJson("Organization Boundary",
                     organization.OrganizationBoundaryToFeatureCollection(), Organization.OrganizationAreaOfInterestMapLayerColor, 1,
-                    LayerInitialVisibility.Show));
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
                 dbGeometries.Add(organization.OrganizationBoundary);
             }
+
+            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayers());
 
             // custom areas of interest
             if (!organization.UseOrganizationBoundaryForMatchmaker &&
                 organization.MatchMakerAreaOfInterestLocations.Any())
             {
                 var areaOfInterestLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "Area Of Interest", "User Set");
-                var areaOfInterestLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.Show);
+                var areaOfInterestLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
                 layers.Add(areaOfInterestLayerGeoJson);
                 dbGeometries.AddRange(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry));
             }
@@ -1015,7 +1008,7 @@ namespace ProjectFirma.Web.Controllers
             var layers = organization.OrganizationBoundaryStagings.Select((x, index) => new LayerGeoJson(
                 x.FeatureClassName, x.ToGeoJsonFeatureCollection(),
                 FirmaHelpers.DefaultColorRange[index], 0.8m,
-                index == 0 ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide)).ToList();
+                index == 0 ? LayerInitialVisibility.LayerInitialVisibilityEnum.Show : LayerInitialVisibility.LayerInitialVisibilityEnum.Hide)).ToList();
             var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
 
             var viewData = new ApproveUploadGisViewData(CurrentFirmaSession, organization, mapInitJson);

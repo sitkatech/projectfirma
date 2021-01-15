@@ -57,8 +57,8 @@ namespace ProjectFirma.Web.Controllers
                 new FeatureCollection(new List<TenantAttribute> {tenantAttribute}.Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
-                LayerInitialVisibility.Show);
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+                LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             layers.Add(boundingBoxLayer);
             var mapInitJson = new MapInitJson("TenantDetailBoundingBoxMap",
                 10,
@@ -308,8 +308,8 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => DbGeometryToGeoJsonHelper.FromDbGeometry(x.DefaultBoundingBox)).ToList()),
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
-                LayerInitialVisibility.Show);
-            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetAllGeospatialAreaMapLayers(), MapInitJson.GetExternalMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+                LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetConfiguredGeospatialAreaMapLayers(), MapInitJson.GetExternalMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
 
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);

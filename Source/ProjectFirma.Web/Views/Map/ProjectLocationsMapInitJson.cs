@@ -28,11 +28,13 @@ namespace ProjectFirma.Web.Views.Map
     public class ProjectLocationsMapInitJson : MapInitJson
     {
         private const int DefaultZoomLevel = 10;
-        public readonly ProjectMapCustomization ProjectMapCustomization;
-        public readonly LayerGeoJson ProjectLocationsLayerGeoJson;
+        public ProjectMapCustomization ProjectMapCustomization { get; }
+        public LayerGeoJson ProjectLocationsLayerGeoJson { get; }
 
         public ProjectLocationsMapInitJson(LayerGeoJson projectLocationsLayerGeoJson, ProjectMapCustomization customization, string mapDivID, bool isFullProjectMap)
-            : base(mapDivID, DefaultZoomLevel, isFullProjectMap? GetAllGeospatialAreaMapLayersForFullProjectMap() : GetAllGeospatialAreaMapLayers(), isFullProjectMap ? GetExternalMapLayersForFullProjectMap() : GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox())
+            : base(mapDivID, DefaultZoomLevel, 
+                isFullProjectMap? GetAllGeospatialAreaMapLayersForFullProjectMap() : GetConfiguredGeospatialAreaMapLayers(), 
+                isFullProjectMap ? GetExternalMapLayersForFullProjectMap() : GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox())
         {
             ProjectMapCustomization = customization;
             ProjectLocationsLayerGeoJson = projectLocationsLayerGeoJson;
