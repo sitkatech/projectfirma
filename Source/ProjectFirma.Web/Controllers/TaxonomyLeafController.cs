@@ -94,24 +94,30 @@ namespace ProjectFirma.Web.Controllers
                         .Where(x => x.ProjectStage.ShouldShowOnMap()))
                 .ToList();
 
+            // This page supports two maps for cases where secondary taxonomy leafs are supported
             var primaryProjectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
                 new List<int> {taxonomyLeaf.TaxonomyLeafID}, ProjectColorByType.ProjectStage);
             var secondaryProjectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
                 secondaryTaxonomyLeafProjects.Select(x => x.TaxonomyLeafID).Union(new List<int> {taxonomyLeaf.TaxonomyLeafID}).ToList(),
                 ProjectColorByType.ProjectStage);
-
             var primaryProjectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     primaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
-                    LayerInitialVisibility.Show);
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var secondaryProjectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     secondaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
-                    LayerInitialVisibility.Show);
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            var configuredOrganizationBoundariesMapInitJson = HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson();
+
             var primaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(primaryProjectLocationsLayerGeoJson,
                 primaryProjectMapCustomization, "TaxonomyLeafProjectMap", false);
+            primaryProjectLocationsMapInitJson.Layers.AddRange(configuredOrganizationBoundariesMapInitJson);
+
             var secondaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(secondaryProjectLocationsLayerGeoJson,
                 secondaryProjectMapCustomization, "SecondaryTaxonomyLeafProjectMap", false);
+            secondaryProjectLocationsMapInitJson.Layers.AddRange(configuredOrganizationBoundariesMapInitJson);
+
             var primaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(primaryProjectLocationsMapInitJson.MapDivID,
                 ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentFirmaSession.CanViewProposals());

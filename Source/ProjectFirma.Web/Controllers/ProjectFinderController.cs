@@ -37,10 +37,10 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "blue", 1,
-                    LayerInitialVisibility.Show);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap", true);
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap", false);
 
-            projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
+            projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson());
 
             var profileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
             DisplayMatchMakerToastMessagesIfAny(organization, projectMatchmakerScoresForOrganization, profileCompletionDictionary, organizationHasOptedIn);
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
                 organizationBoundaryToFeatureCollection.Features.ForEach(x => x.Properties.Add("Hover Name", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()));
                 layer = new LayerGeoJson("Organization Boundary",
                     organizationBoundaryToFeatureCollection, ProjectFirmaModels.Models.Organization.OrganizationAreaOfInterestMapLayerColor, 1,
-                    LayerInitialVisibility.Show);
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             }
 
             // custom areas of interest
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var areaOfInterestLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "Area Of Interest", "User Set");
                 areaOfInterestLayerGeoJsonFeatureCollection.Features.ForEach(x => x.Properties.Add("Hover Name", FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()));
-                layer = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, ProjectFirmaModels.Models.Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.Show);
+                layer = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, ProjectFirmaModels.Models.Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             }
 
             return layer;

@@ -24,6 +24,7 @@ using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirmaModels.Models
 {
@@ -32,22 +33,22 @@ namespace ProjectFirmaModels.Models
     /// </summary>
     public class LayerGeoJson
     {
-        public readonly string LayerName;
-        public readonly FeatureCollection GeoJsonFeatureCollection;
-        public readonly string MapServerUrl;
-        public readonly string MapServerLayerName;
-        public readonly string TooltipUrlTemplate;
-        public readonly string LayerColor;
-        public readonly decimal LayerOpacity;
-        public readonly LayerInitialVisibility LayerInitialVisibility;
+        public string LayerName { get; }
+        public FeatureCollection GeoJsonFeatureCollection { get; }
+        public string MapServerUrl { get; }
+        public string MapServerLayerName { get; }
+        public string TooltipUrlTemplate { get; }
+        public string LayerColor { get; }
+        public decimal LayerOpacity { get; }
+        public LayerInitialVisibility.LayerInitialVisibilityEnum LayerInitialVisibility { get; }
         [JsonConverter(typeof(StringEnumConverter))]
-        public readonly LayerGeoJsonType LayerType;
-        public readonly bool HasCustomPopups;
+        public LayerGeoJsonType LayerType { get; }
+        public bool HasCustomPopups { get; }
 
         /// <summary>
         /// Constructor for LayerGeoJson with Vector Type
         /// </summary>
-        public LayerGeoJson(string layerName, FeatureCollection geoJsonFeatureCollection, string layerColor, decimal layerOpacity, LayerInitialVisibility layerInitialVisibility)
+        public LayerGeoJson(string layerName, FeatureCollection geoJsonFeatureCollection, string layerColor, decimal layerOpacity, LayerInitialVisibility.LayerInitialVisibilityEnum layerInitialVisibility)
         {
             LayerName = layerName;
             GeoJsonFeatureCollection = geoJsonFeatureCollection;
@@ -60,7 +61,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for LayerGeoJson with WMS Type
         /// </summary>
-        public LayerGeoJson(string layerName, string mapServerUrl, string mapServerLayerName, string tooltipUrlTemplate, string layerColor, decimal layerOpacity, LayerInitialVisibility layerInitialVisibility)
+        public LayerGeoJson(string layerName, string mapServerUrl, string mapServerLayerName, string tooltipUrlTemplate, string layerColor, decimal layerOpacity, LayerInitialVisibility.LayerInitialVisibilityEnum layerInitialVisibility)
         {
             LayerName = layerName;
             MapServerUrl = mapServerUrl;

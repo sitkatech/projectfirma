@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, ProjectLocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetAllGeospatialAreaMapLayers();
+            var layerGeoJsons = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true};
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
@@ -88,9 +88,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var mapDivID = $"project_{project.GetEntityID()}_EditDetailedMap";
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
-            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
 
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox)
@@ -217,7 +217,7 @@ namespace ProjectFirma.Web.Controllers
                             projectLocationStaging.ToGeoJsonFeatureCollection(),
                             FirmaHelpers.DefaultColorRange[i],
                             1,
-                            LayerInitialVisibility.Show)).ToList();
+                            LayerInitialVisibility.LayerInitialVisibilityEnum.Show)).ToList();
 
             var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
@@ -321,11 +321,11 @@ namespace ProjectFirma.Web.Controllers
                 {
                     project.HasProjectLocationPoint
                         ? new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(true),
-                            FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
+                            FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
                         : null,
                     project.HasProjectLocationDetail
                         ? new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(),
-                            FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
+                            FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
                         : null
                 }
                 .Where(x => x != null)
@@ -333,7 +333,7 @@ namespace ProjectFirma.Web.Controllers
 
             foreach (var geospatialAreaType in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().OrderBy(x => x.GeospatialAreaTypeName).ToList())
             {
-                layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.Hide));
+                layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.LayerInitialVisibilityEnum.Hide));
             }
             var boundingBox = BoundingBox.MakeBoundingBoxFromProject(project);
             var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), boundingBox)

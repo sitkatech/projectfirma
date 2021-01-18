@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     taxonomyTrunkProjects.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
-                    LayerInitialVisibility.Show);
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "TaxonomyTrunkProjectMap", false);
 

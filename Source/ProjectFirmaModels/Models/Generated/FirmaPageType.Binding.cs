@@ -197,6 +197,7 @@ namespace ProjectFirmaModels.Models
         ReleaseNotes = 80,
         ManageProjectFactSheet = 81,
         ManageContactTypes = 82,
-        ManageOrganizationTypes = 83
+        ManageOrganizationTypes = 83,
+        InternalMapLayers = 84
     }
 }

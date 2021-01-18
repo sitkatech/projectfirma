@@ -18,11 +18,20 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
-    public enum LayerInitialVisibility
+    public static class LayerInitialVisibility
     {
-        Show = 1,
-        Hide = 0
+        public enum LayerInitialVisibilityEnum
+        {
+            Show = 1,
+            Hide = 0
+        }
+
+        public static LayerInitialVisibilityEnum GetInitialVisibility(bool onByDefault)
+        {
+            return onByDefault ? LayerInitialVisibilityEnum.Show : LayerInitialVisibilityEnum.Hide;
+        }
     }
+
 }

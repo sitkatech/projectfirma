@@ -39,12 +39,14 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Index()
         {
-            var firmaPage = FirmaPageTypeEnum.ExternalMapLayers.GetFirmaPage();
+            var externalMapLayersFirmaPage = FirmaPageTypeEnum.ExternalMapLayers.GetFirmaPage();
             var externalMapLayerGridDataUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.ExternalMapLayerGridJsonData());
+            var internalMapLayersFirmaPage = FirmaPageTypeEnum.InternalMapLayers.GetFirmaPage();
             var geospatialAreaMapLayerGridDataUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.GeospatialAreaMapLayerGridJsonData());
             var userCanManage = new FirmaAdminFeature().HasPermission(CurrentFirmaSession).HasPermission;
 
-            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, externalMapLayerGridDataUrl, geospatialAreaMapLayerGridDataUrl, userCanManage);
+            var viewData = new IndexViewData(CurrentFirmaSession, externalMapLayersFirmaPage, externalMapLayerGridDataUrl, 
+                internalMapLayersFirmaPage, geospatialAreaMapLayerGridDataUrl, userCanManage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
