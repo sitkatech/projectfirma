@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Models
 
         public static LayerGeoJson GetGeospatialAreaWmsLayerGeoJson(this GeospatialAreaType geospatialAreaType,
             string layerColor, decimal layerOpacity,
-            LayerInitialVisibility layerInitialVisibility)
+            LayerInitialVisibility.LayerInitialVisibilityEnum layerInitialVisibility)
         {
             return new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeNamePluralized,
                 geospatialAreaType.MapServiceUrl(),
@@ -99,18 +99,18 @@ namespace ProjectFirma.Web.Models
             List<Project> projects, out LayerGeoJson projectLayerGeoJson)
         {
             projectLayerGeoJson = new LayerGeoJson(
-                $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple",
+                $"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 projects.MappedPointsToGeoJsonFeatureCollection(true, false),
-                "#ffff00", 1, LayerInitialVisibility.Show);
+                "#ffff00", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.GeospatialAreaShortName,
                 new List<GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
-                LayerInitialVisibility.Show);
+                LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
 
             var layerGeoJsons = new List<LayerGeoJson>
             {
                 geospatialAreaLayerGeoJson,
                 geospatialArea.GeospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.6m,
-                    LayerInitialVisibility.Show)
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
             };
 
             return layerGeoJsons;

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls.Expressions;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
@@ -119,11 +120,11 @@ namespace ProjectFirma.Web.Models
             return organization.IsUnknown() ? "Unknown or Unassigned" : organization.OrganizationName;
         }
 
-        public static List<LayerGeoJson> GetBoundaryLayerGeoJson(this IEnumerable<Organization> organizations)
+        public static List<LayerGeoJson> GetConfiguredBoundaryLayersGeoJson(this IEnumerable<Organization> organizations)
         {
             var organizationsToShow =
-                organizations?.Where(x => x.OrganizationBoundary != null && x.OrganizationType != null)
-                    .ToList();
+                organizations?.Where(x => x.OrganizationBoundary != null && x.OrganizationType != null && x.OrganizationType.ShowOnProjectMaps).
+                    OrderBy(x => x.OrganizationName).ToList();
             if (organizationsToShow == null || !organizationsToShow.Any())
             {
                 return new List<LayerGeoJson>();
@@ -142,7 +143,8 @@ namespace ProjectFirma.Web.Models
                         return feature;
                     }).ToList()),
                     organizationType.LegendColor, 1,
-                    organizationType.ShowOnProjectMaps ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide);
+                    LayerInitialVisibility.GetInitialVisibility(organizationType.ShowOnProjectMaps)
+                    );
             }).ToList();
         }
 
