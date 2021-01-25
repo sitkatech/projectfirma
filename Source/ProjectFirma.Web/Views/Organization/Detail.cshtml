@@ -394,7 +394,7 @@
                                                         this.addLocationLayers();
 
                                                         // prevent standard popup for lat/long when clicking on general map area (not features)
-                                                        this.removeClickEventHandler();
+//                                                        this.removeClickEventHandler();
                                                     };
 
 
@@ -414,7 +414,7 @@
 
                                                 ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap =
                                                     function(points, layer, layerName, showByDefault) {
-                                                        var self = this;
+                                                        var firmaMap = this;
                                                         if (layer != null) {
                                                             this.map.removeLayer(layer);
                                                             this.layerControl.removeLayer(layer);
@@ -437,7 +437,7 @@
                                                                                 size: "s"
                                                                             })
                                                                         });
-                                                                    self.bindPopupToFeature(marker, feature);
+                                                                    firmaMap.bindPopupToFeature(marker, feature);
                                                                     return marker;
                                                                 }
                                                             });
@@ -461,17 +461,17 @@
                                                 jQuery(document).ready(function() {
                                                     var mapInitJson =
                                                         @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
-                                                    var map = new ProjectFirmaMaps.Map(mapInitJson);
-                                                    map.initializeProjectLocations(mapInitJson);
+                                                    var firmaMap = new ProjectFirmaMaps.Map(mapInitJson);
+                                                    firmaMap.initializeProjectLocations(mapInitJson);
 
                                                     var clusterLocationsCheckbox = jQuery("#ClusterLocations");
                                                     clusterLocationsCheckbox.change(function() {
-                                                        map.changeClustering(clusterLocationsCheckbox.is(":checked"));
+                                                        firmaMap.changeClustering(clusterLocationsCheckbox.is(":checked"));
                                                     });
 
                                                     jQuery("#overviewTab").on("shown.bs.tab",
                                                         function() {
-                                                            map.map.invalidateSize();
+                                                            firmaMap.map.invalidateSize();
                                                         });
 
                                                 });
