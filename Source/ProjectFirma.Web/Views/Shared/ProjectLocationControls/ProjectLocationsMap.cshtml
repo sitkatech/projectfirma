@@ -155,7 +155,7 @@ Source code is available upon request via <support@sitkatech.com>.
         this.addLocationLayers();
 
         // prevent standard popup for lat/long when clicking on general map area (not features)
-        this.removeClickEventHandler();
+//        this.removeClickEventHandler();
     };
 
     ProjectFirmaMaps.Map.prototype.changeFilter = function(filterPropertyNameSelected, actualFilter)
@@ -184,7 +184,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     ProjectFirmaMaps.Map.prototype.addProjectLocationsToMap = function(points, layer, layerName, showByDefault)
     {
-        var self = this;
+        var firmaMap = this;
         if (layer != null)
         {
             this.map.removeLayer(layer);
@@ -196,17 +196,17 @@ Source code is available upon request via <support@sitkatech.com>.
         var newLayer = L.geoJson(points.GeoJsonFeatureCollection, {
             pointToLayer: function(feature, latlng)
             {
-                var legendColor = _.result(_.find(markerColorTable, function(legendItem) { return legendItem.LegendID == feature.properties[self.mapCustomizationObject.ColorByPropertyName]; }), 'LegendColor');
+                var legendColor = _.result(_.find(markerColorTable, function(legendItem) { return legendItem.LegendID == feature.properties[firmaMap.mapCustomizationObject.ColorByPropertyName]; }), 'LegendColor');
                 var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: legendColor, size: "s" }) });
-                self.bindPopupToFeature(marker, feature);
+                firmaMap.bindPopupToFeature(marker, feature);
                 return marker;
             },
             filter: function(feature)
             {
-                var b = !!Sitka.Methods.isUndefinedNullOrEmpty(self.mapCustomizationObject.FilterPropertyName) ||
+                var b = !!Sitka.Methods.isUndefinedNullOrEmpty(firmaMap.mapCustomizationObject.FilterPropertyName) ||
                     _.intersection(
-                        _.map(feature.properties[self.mapCustomizationObject.FilterPropertyName].split(","), Number),
-                        _.map(self.mapCustomizationObject.FilterPropertyValues, Number))
+                        _.map(feature.properties[firmaMap.mapCustomizationObject.FilterPropertyName].split(","), Number),
+                        _.map(firmaMap.mapCustomizationObject.FilterPropertyValues, Number))
                         .length > 0;
                 return b;
             }
