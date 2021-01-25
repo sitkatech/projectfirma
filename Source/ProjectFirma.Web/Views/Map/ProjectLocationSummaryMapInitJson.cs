@@ -38,8 +38,11 @@ namespace ProjectFirma.Web.Views.Map
         public bool HasGeospatialAreas { get; }
         /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool alwaysHideGeospatialAreaLayers = false) 
-            : base(mapDivID, DefaultZoomLevel, GetConfiguredGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), callGetExternalMapLayers ? MapInitJson.GetExternalMapLayers() : new List<ProjectFirmaModels.Models.ExternalMapLayer>(), GetProjectBoundingBox(project))
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, 
+            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, 
+            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool alwaysHideGeospatialAreaLayers = false) 
+            : base(mapDivID, DefaultZoomLevel, GetConfiguredGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), 
+                callGetExternalMapLayers ? MapInitJson.GetExternalMapLayers() : new List<ProjectFirmaModels.Models.ExternalMapLayer>(), GetProjectBoundingBox(project))
         {
             HasSimpleLocation = simpleLocationToGeoJsonFeatureCollection.Features.Any();
             if (HasSimpleLocation)
@@ -50,7 +53,7 @@ namespace ProjectFirma.Web.Views.Map
                     new LayerGeoJson(
                         $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple", 
                         simpleLocationToGeoJsonFeatureCollection, "#ffff00", 1, 
-                        LayerInitialVisibility.GetInitialVisibility(HasDetailedLocation))
+                        LayerInitialVisibility.GetInitialVisibility(!detailedLocationAsGeoJsonFeatureCollection.Features.Any()))
                     );
             }
 
