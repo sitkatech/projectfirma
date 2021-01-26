@@ -660,6 +660,7 @@
     <Content Include="Content\Training\ProjectFirma-Reports-Example-Report.docx" />
     <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide_2020.pdf" />
     <Content Include="Content\Training\ProjectFirma_CustomizationGuide_2020.pdf" />
+    <Content Include="Content\Training\ProjectFirma-Example.gdb.zip" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
