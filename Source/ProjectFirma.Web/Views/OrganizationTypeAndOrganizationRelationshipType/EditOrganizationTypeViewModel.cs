@@ -50,16 +50,20 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
         public string LegendColor { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ShowOnProjectMaps)]
-        public bool? ShowOnProjectMaps { get; set; }
-
-        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsDefaultOrganizationType)]
         public bool? IsDefaultOrganizationType { get; set; }
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsFundingType)]
         public bool? IsFundingType { get; set; }
+
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ShowOnProjectMaps)]
+        public bool? ShowOnProjectMaps { get; set; }
+        
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationTypeLayerOnByDefault)]
+        public bool? LayerOnByDefault { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -74,9 +78,10 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
             OrganizationTypeName = organizationType.OrganizationTypeName;
             OrganizationTypeAbbreviation = organizationType.OrganizationTypeAbbreviation;
             LegendColor = organizationType.LegendColor;
-            ShowOnProjectMaps = organizationType.ShowOnProjectMaps;
             IsDefaultOrganizationType = organizationType.IsDefaultOrganizationType;
             IsFundingType = organizationType.IsFundingType;
+            ShowOnProjectMaps = organizationType.ShowOnProjectMaps;
+            LayerOnByDefault = organizationType.LayerOnByDefault;
         }
 
         public void UpdateModel(OrganizationType organizationType, FirmaSession currentFirmaSession)
@@ -84,9 +89,10 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
             organizationType.OrganizationTypeName = OrganizationTypeName;
             organizationType.OrganizationTypeAbbreviation = OrganizationTypeAbbreviation; 
             organizationType.LegendColor = LegendColor;
-            organizationType.ShowOnProjectMaps = ShowOnProjectMaps ?? false;
             organizationType.IsDefaultOrganizationType = IsDefaultOrganizationType ?? false;
             organizationType.IsFundingType = IsFundingType ?? false;
+            organizationType.ShowOnProjectMaps = ShowOnProjectMaps ?? false;
+            organizationType.LayerOnByDefault = LayerOnByDefault ?? false;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

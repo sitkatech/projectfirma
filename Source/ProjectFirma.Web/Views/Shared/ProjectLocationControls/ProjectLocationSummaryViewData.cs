@@ -19,10 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -36,7 +35,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public Dictionary<int, string> DictionaryGeoNotes { get; }
 
 
-        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas)
+        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, 
+            Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;

@@ -52,12 +52,13 @@ namespace ProjectFirma.Web.Controllers
             var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
             var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
             var projectLocationsLayerGeoJson =
-                new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
+                new LayerGeoJson($"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "#80b2ff", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             layerGeoJsons.Add(projectLocationsLayerGeoJson);
 
-            var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox());
+            var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), 
+                BoundingBox.MakeNewDefaultBoundingBox());
 
             var viewData = new IndexViewData(CurrentFirmaSession, geospatialAreaType, mapInitJson);
             return RazorView<Index, IndexViewData>(viewData);

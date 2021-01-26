@@ -108,6 +108,7 @@ namespace ProjectFirma.Web.Controllers
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     secondaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            // Add Organization Type boundaries according to configuration
             var configuredOrganizationBoundariesMapInitJson = HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson();
 
             var primaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(primaryProjectLocationsLayerGeoJson,
