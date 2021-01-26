@@ -19,11 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
@@ -32,6 +27,11 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
 
 namespace ProjectFirma.Web.Models
 {
@@ -84,6 +84,7 @@ namespace ProjectFirma.Web.Models
                 SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(
                     t => t.MapTooltip(UrlTemplate.Parameter1Int)));
 
+        // This is called for editor maps where layer initial visibility may be different from what's configured on the GeospatialAreaType
         public static LayerGeoJson GetGeospatialAreaWmsLayerGeoJson(this GeospatialAreaType geospatialAreaType,
             string layerColor, decimal layerOpacity,
             LayerInitialVisibility.LayerInitialVisibilityEnum layerInitialVisibility)

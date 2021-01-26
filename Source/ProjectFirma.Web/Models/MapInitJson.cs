@@ -19,14 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
 using GeoJSON.Net.Feature;
-using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirma.Web.Models
 {
@@ -78,7 +77,7 @@ namespace ProjectFirma.Web.Models
             foreach (var geospatialAreaType in geospatialAreaTypes.Where(x => x.DisplayOnAllProjectMaps))
             {
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
-                    alwaysHideLayers || !geospatialAreaType.LayerIsOnByDefault ? LayerInitialVisibility.LayerInitialVisibilityEnum.Hide : LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
+                    alwaysHideLayers || !geospatialAreaType.OnByDefaultOnOtherMaps ? LayerInitialVisibility.LayerInitialVisibilityEnum.Hide : LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
 
             return layerGeoJsons;
@@ -92,18 +91,19 @@ namespace ProjectFirma.Web.Models
             foreach (var geospatialAreaType in geospatialAreaTypes)
             {
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
-                    LayerInitialVisibility.GetInitialVisibility(geospatialAreaType.LayerIsOnByDefault)));
+                    LayerInitialVisibility.GetInitialVisibility(geospatialAreaType.OnByDefaultOnProjectMap)));
             }
 
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetGeospatialAreaMapLayersForGeospatialAreaType(GeospatialAreaType geospatialAreaType, LayerInitialVisibility.LayerInitialVisibilityEnum layerInitialVisibility)
+        // This is used when viewing a single geospatial area type so it should always by on by default, regardless of GeospatialAreaType map settings
+        public static List<LayerGeoJson> GetGeospatialAreaMapLayersForGeospatialAreaType(GeospatialAreaType geospatialAreaType)
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
                 geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
-                    layerInitialVisibility)
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
             };
 
             return layerGeoJsons;
