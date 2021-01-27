@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.MapLayer
             }
             Add("Display Name", x => x.GeospatialAreaTypeNamePluralized, 250);
             Add(FieldDefinitionEnum.GeospatialAreaMapLayerDisplayAsReferenceLayer.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 175);
-            Add(FieldDefinitionEnum.MapLayerLayerIsOnByDefault.ToType().ToGridHeaderString(), x => x.LayerIsOnByDefault ? "Yes" : "No", 175);
+            Add(FieldDefinitionEnum.GeospatialAreaTypeOnByDefaultOnProjectMap.ToType().ToGridHeaderString(), x => x.OnByDefaultOnProjectMap ? "Yes" : "No", 175);
         }
     }
 }

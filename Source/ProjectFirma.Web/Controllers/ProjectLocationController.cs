@@ -18,21 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Linq;
-using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectControls;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {

@@ -19,17 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType;
-using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -91,7 +90,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewOrganizationType(viewModel);
             }
-            var organizationType = new OrganizationType(viewModel.OrganizationTypeName, viewModel.OrganizationTypeAbbreviation, viewModel.LegendColor, viewModel.ShowOnProjectMaps ?? false, viewModel.IsDefaultOrganizationType ?? false, viewModel.IsFundingType ?? false);
+            var organizationType = new OrganizationType(viewModel.OrganizationTypeName, viewModel.OrganizationTypeAbbreviation, 
+                viewModel.LegendColor, viewModel.ShowOnProjectMaps ?? false, viewModel.IsDefaultOrganizationType ?? false, 
+                viewModel.IsFundingType ?? false, viewModel.LayerOnByDefault ?? false);
             viewModel.UpdateModel(organizationType, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllOrganizationTypes.Add(organizationType);
 

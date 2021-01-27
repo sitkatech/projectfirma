@@ -266,7 +266,7 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayerDescription = 316,
         ExternalMapLayerFeatureNameField = 317,
         ExternalMapLayerDisplayOnAllMaps = 318,
-        MapLayerLayerIsOnByDefault = 319,
+        GeospatialAreaTypeOnByDefaultOnProjectMap = 319,
         ExternalMapLayerIsActive = 320,
         ExternalMapLayerIsATiledMapService = 321,
         FinalStatusUpdateStatus = 322,
@@ -314,6 +314,8 @@ namespace ProjectFirmaModels.Models
         AreaOfInterest = 364,
         MatchmakerKeyword = 365,
         OrganizationKeystoneGuid = 366,
-        ContactRelationshipTypeAcceptsMultipleValues = 367
+        ContactRelationshipTypeAcceptsMultipleValues = 367,
+        OrganizationTypeLayerOnByDefault = 368,
+        GeospatialAreaTypeOnByDefaultOnOtherMaps = 369
     }
 }

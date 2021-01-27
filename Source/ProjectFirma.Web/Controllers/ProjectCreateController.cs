@@ -30,6 +30,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirma.Web.Views.ProjectExternalLink;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
@@ -51,8 +52,6 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using ProjectFirma.Web.Views.ProjectExternalLink;
-using ProjectFirma.Web.Views.ProjectUpdate;
 using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotes;
 using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
@@ -64,9 +63,9 @@ using BulkSetSpatialInformationViewModel = ProjectFirma.Web.Views.ProjectCreate.
 using Contacts = ProjectFirma.Web.Views.ProjectCreate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectCreate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectCreate.ContactsViewModel;
+using EditProposalClassifications = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications;
 using EditProposalClassificationsViewData = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassificationsViewData;
 using EditProposalClassificationsViewModel = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassificationsViewModel;
-using EditProposalClassifications = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding;
 using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostType;
 using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostTypeViewData;
@@ -79,8 +78,6 @@ using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.Expe
 using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
-using ExternalLinks = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinks;
-using ExternalLinksViewData = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinksViewData;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
 using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
@@ -1241,7 +1238,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewEditGeospatialArea(Project project, GeospatialAreaViewModel viewModel, GeospatialAreaType geospatialAreaType)
         {
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
-            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();

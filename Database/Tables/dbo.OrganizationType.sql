@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[OrganizationType](
 	[ShowOnProjectMaps] [bit] NOT NULL,
 	[IsDefaultOrganizationType] [bit] NOT NULL,
 	[IsFundingType] [bit] NOT NULL,
+	[LayerOnByDefault] [bit] NOT NULL,
  CONSTRAINT [PK_OrganizationType_OrganizationTypeID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationTypeID] ASC
