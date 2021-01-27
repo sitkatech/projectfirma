@@ -35,7 +35,8 @@ namespace ProjectFirma.Web.Models
             return new FeatureCollection(projectLocations.Where(x => DbGeometryToGeoJsonHelper.CanParseGeometry(x.GetProjectLocationGeometry())).Select(x =>
             {
                 var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(x.GetProjectLocationGeometry());
-                feature.Properties.Add("Info", x.Annotation);
+                var annotation = !string.IsNullOrWhiteSpace(x.Annotation) ? x.Annotation : "No feature info available";
+                feature.Properties.Add("Detailed Location Info", annotation);
                 return feature;
             }).ToList());
         }
