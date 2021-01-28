@@ -178,6 +178,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 AllowFullScreen = true,
             };
+            // Add Organization Type boundaries according to configuration
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson().
                 Where(x => x.LayerInitialVisibility == LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             var filteredProjectList = associatedProjects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();

@@ -18,22 +18,21 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.Mvc;
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Map;
-using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common.Mvc;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.PerformanceMeasure;
-using ProjectFirma.Web.Views.Shared.SortOrder;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyBranch.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyBranch.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyBranch.EditViewData;
@@ -88,6 +87,7 @@ namespace ProjectFirma.Web.Controllers
                 "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, 
                 "TaxonomyBranchProjectMap", false);
+            // Add Organization Type boundaries according to configuration
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson());
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentFirmaSession.CanViewProposals());

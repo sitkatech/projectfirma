@@ -23,6 +23,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ShowOnProjectMaps).HasColumnName(@"ShowOnProjectMaps").HasColumnType("bit").IsRequired();
             Property(x => x.IsDefaultOrganizationType).HasColumnName(@"IsDefaultOrganizationType").HasColumnType("bit").IsRequired();
             Property(x => x.IsFundingType).HasColumnName(@"IsFundingType").HasColumnType("bit").IsRequired();
+            Property(x => x.LayerOnByDefault).HasColumnName(@"LayerOnByDefault").HasColumnType("bit").IsRequired();
 
             // Foreign keys
 

@@ -19,15 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.UI.WebControls.Expressions;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
-using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
@@ -35,10 +28,14 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.PartnerFinder;
 using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
 
 namespace ProjectFirma.Web.Models
 {
@@ -143,7 +140,7 @@ namespace ProjectFirma.Web.Models
                         return feature;
                     }).ToList()),
                     organizationType.LegendColor, 1,
-                    LayerInitialVisibility.GetInitialVisibility(organizationType.ShowOnProjectMaps)
+                    LayerInitialVisibility.GetInitialVisibility(organizationType.LayerOnByDefault)
                     );
             }).ToList();
         }

@@ -140,7 +140,7 @@ VALUES
 (316, N'ExternalMapLayerDescription', 'Internal Layer Description'),
 (317, N'ExternalMapLayerFeatureNameField', 'Field to use as source for feature names'),
 (318, N'ExternalMapLayerDisplayOnAllMaps', 'Display on all maps?'),
-(319, N'MapLayerLayerIsOnByDefault', 'Layer is on by default?'),
+(319, N'GeospatialAreaTypeOnByDefaultOnProjectMap', 'Layer is on by default on Project map?'),
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
 (322, N'FinalStatusUpdateStatus', N'Final Status Update'),
@@ -188,5 +188,7 @@ VALUES
 (364, N'AreaOfInterest', N'Area of Interest'),
 (365, N'MatchmakerKeyword', N'Keyword'),
 (366, N'OrganizationKeystoneGuid', N'Keystone Organization GUID'),
-(367, N'ContactRelationshipTypeAcceptsMultipleValues', N'Accepts Multiple Values')
+(367, N'ContactRelationshipTypeAcceptsMultipleValues', N'Accepts Multiple Values'),
+(368, 'OrganizationTypeLayerOnByDefault', 'Layer on by Default?'),
+(369, 'GeospatialAreaTypeOnByDefaultOnOtherMaps', 'Layer on by default on all maps other than the Project Map?')
 

@@ -24,6 +24,10 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.MapLayer.EditExternalMapLayer
 @using (Html.BeginForm())
 {
+<div>
+    Use this editor to configure an external map layer, including whether it is displayed by default on maps throughout the site. 
+    Please note, Fact Sheet maps and the home page map do not support external map layers.
+</div>
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
@@ -72,7 +76,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(@FieldDefinitionEnum.MapLayerLayerIsOnByDefault.ToType())
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.GeospatialAreaTypeOnByDefaultOnProjectMap.ToType())
             </div>
             <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.LayerIsOnByDefault)

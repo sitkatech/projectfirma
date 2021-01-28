@@ -1171,7 +1171,7 @@ namespace ProjectFirma.Web.Controllers
 
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", true, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true), false);
+                $"project_{project.ProjectID}_EditMap", geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true), false);
 
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
@@ -1572,14 +1572,14 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
-            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
            
             var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType);
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", false, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false), false);
+                $"project_{project.ProjectID}_EditMap", geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false), false);
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));

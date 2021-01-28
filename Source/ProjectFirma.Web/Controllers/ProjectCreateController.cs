@@ -1256,7 +1256,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewEditGeospatialArea(Project project, GeospatialAreaViewModel viewModel, GeospatialAreaType geospatialAreaType)
         {
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
-            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();

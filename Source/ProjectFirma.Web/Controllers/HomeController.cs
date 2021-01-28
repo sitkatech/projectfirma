@@ -68,6 +68,7 @@ namespace ProjectFirma.Web.Controllers
                 projectMapCustomization, "ProjectLocationsMap", false)
                 {
                     AllowFullScreen = false,
+                    // Add Organization Type boundaries according to configuration
                     Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson().
                         Where(x => x.LayerInitialVisibility == LayerInitialVisibility.LayerInitialVisibilityEnum.Show).ToList()
                 };

@@ -23,7 +23,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GeospatialAreaTypeDefinition).HasColumnName(@"GeospatialAreaTypeDefinition").HasColumnType("varchar").IsOptional();
             Property(x => x.GeospatialAreaLayerName).HasColumnName(@"GeospatialAreaLayerName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
             Property(x => x.DisplayOnAllProjectMaps).HasColumnName(@"DisplayOnAllProjectMaps").HasColumnType("bit").IsRequired();
-            Property(x => x.LayerIsOnByDefault).HasColumnName(@"LayerIsOnByDefault").HasColumnType("bit").IsRequired();
+            Property(x => x.OnByDefaultOnProjectMap).HasColumnName(@"OnByDefaultOnProjectMap").HasColumnType("bit").IsRequired();
+            Property(x => x.OnByDefaultOnOtherMaps).HasColumnName(@"OnByDefaultOnOtherMaps").HasColumnType("bit").IsRequired();
 
             // Foreign keys
 

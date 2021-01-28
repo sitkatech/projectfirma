@@ -19,15 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using LtInfo.Common.Models;
 using ProjectFirmaModels.Models;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.MapLayer
 {
@@ -40,8 +35,11 @@ namespace ProjectFirma.Web.Views.MapLayer
         public bool DisplayOnAllMaps { get; set; }
 
         [Required]
-        [DisplayName("Layer is on by default?")]
-        public bool LayerIsOnByDefault { get; set; }
+        [DisplayName("Layer is on by default on Project Map?")]
+        public bool LayerIsOnByDefaultOnProjectMap { get; set; }     
+        [Required]
+        [DisplayName("Layer is on by default on all maps other than the Project Map?")]
+        public bool LayerIsOnByDefaultOnOtherMaps { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -50,17 +48,20 @@ namespace ProjectFirma.Web.Views.MapLayer
         {
         }
 
-        public EditGeospatialAreaMapLayerViewModel(ProjectFirmaModels.Models.GeospatialAreaType geospatialAreaType)
+        public EditGeospatialAreaMapLayerViewModel(GeospatialAreaType geospatialAreaType)
         {
             GeospatialAreaTypeID = geospatialAreaType.GeospatialAreaTypeID;
             DisplayOnAllMaps = geospatialAreaType.DisplayOnAllProjectMaps;
-            LayerIsOnByDefault = geospatialAreaType.LayerIsOnByDefault;
+            LayerIsOnByDefaultOnProjectMap = geospatialAreaType.OnByDefaultOnProjectMap;
+            LayerIsOnByDefaultOnOtherMaps = geospatialAreaType.OnByDefaultOnOtherMaps;
+
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.GeospatialAreaType geospatialAreaType)
+        public void UpdateModel(GeospatialAreaType geospatialAreaType)
         {
             geospatialAreaType.DisplayOnAllProjectMaps = DisplayOnAllMaps;
-            geospatialAreaType.LayerIsOnByDefault = LayerIsOnByDefault;
+            geospatialAreaType.OnByDefaultOnProjectMap = LayerIsOnByDefaultOnProjectMap;
+            geospatialAreaType.OnByDefaultOnOtherMaps = LayerIsOnByDefaultOnOtherMaps;
         }
 
     }

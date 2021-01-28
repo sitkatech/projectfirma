@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "blue", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap", false);
-
+            // Add Organization Type boundaries according to configuration
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson());
 
             var profileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
