@@ -10,11 +10,6 @@ update dbo.OrganizationType
 set LayerOnByDefault = 1
 go
 
--- Turn off initial visibility of Watersheds for RCD on Project Map
-update dbo.GeospatialAreaType
-set OnByDefaultOnProjectMap = 0
-where GeospatialAreaTypeID = 3
-
 -- Make non-nullable
 alter table dbo.OrganizationType
 alter column LayerOnByDefault bit not null 
