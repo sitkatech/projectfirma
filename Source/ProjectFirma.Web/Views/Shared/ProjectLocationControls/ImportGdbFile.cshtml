@@ -29,7 +29,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <tr>
         <td style="width: 350px">
             <p>
-                You may provide an existing map of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s detailed location by uploading an @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForArcGISFileGeodatabase, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<strong>@ViewDataTyped.FieldDefinitionForArcGISFileGeodatabase.GetFieldDefinitionLabel()</strong>,
+                You may provide an existing map of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s detailed location by uploading an @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForArcGISFileGeodatabase, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<strong>@ViewDataTyped.FieldDefinitionForArcGISFileGeodatabase.GetFieldDefinitionLabel()</strong> (<a href="/Content/Training/ProjectFirma-Example.gdb.zip">Download Example GDB</a>),
                 @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForKMLFile, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<strong>@ViewDataTyped.FieldDefinitionForKMLFile.GetFieldDefinitionLabel()</strong> or a @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForKMZFile, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<strong>@ViewDataTyped.FieldDefinitionForKMZFile.GetFieldDefinitionLabel()</strong>. Please upload a single file containing only features associated with the current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().
 
             </p>
@@ -82,7 +82,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     //SitkaAjax.errorHandler(xhr, statusText);
                     jQuery(".progress").hide();
                     saveButton.prop("disabled", true);
-                    gisUploadResults.html("<div class='alert alert-danger' style='position: fixed; top: 50%; width:500px'>There was a problem uploading your file geodatabase. Verify it meets the requirements and is not corrupt.</div>");
+                    gisUploadResults.html("<div class='alert alert-danger' style='position: fixed; top: 50%; width:500px'>There was a problem uploading your file geodatabase. Please verify it meets the requirements for the file type you uploaded and is not corrupt.</div>");
                 }
             });
             form.submit();

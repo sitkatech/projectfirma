@@ -1386,30 +1386,43 @@ namespace ProjectFirma.Web.Controllers
                 var disposableTempFileFileInfo = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(disposableTempFileFileInfo.FullName);
                 projectUpdateBatch.DeleteProjectLocationStagingUpdates();
-                if (isKml)
+                try
                 {
-                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
+                    if (isKml)
+                    {
+                        ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKml(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch,
+                            CurrentFirmaSession.Person);
+                    }
+                    else if (isKmz)
+                    {
+                        ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKmz(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch,
+                            CurrentFirmaSession);
+                    }
+                    else
+                    {
+                        ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch,
+                            CurrentFirmaSession.Person);
+                    }
+
+                    // Run a quick test to see if the uploaded geometries are going to be reducible later.
+                    // If they aren't, we can throw the SitkaGeometryDisplayErrorException to capture a record of the uploaded file.
+                    var mockGeometries = projectUpdateBatch.ProjectLocationStagingUpdates.SelectMany(x =>
+                        x.ToGeoJsonFeatureCollection().Features.Select(y => y.ToSqlGeometry())).ToList();
+                    Check.Assert(DbSpatialHelper.CanReduce(mockGeometries), new SitkaGeometryDisplayErrorException("Could not reduce the uploaded geometries."));
                 }
-                else if (isKmz)
+                catch (SitkaGeometryDisplayErrorException exception)
                 {
-                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession);
-                }
-                else
-                {
-                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
+                    ProjectLocationStagingModelExtensions.PreserveFailedLocationImportFile(httpPostedFileBase);
+                    throw exception;
                 }
             }
 
             return ApproveGisUpload(project);
         }
 
-
-
-
-       
-
-
-      
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey)
@@ -1471,7 +1484,16 @@ namespace ProjectFirma.Web.Controllers
                 SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
                                      " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
             }
-            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
+
+            try
+            {
+                DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
+            }
+            catch (Exception exception)
+            {
+                throw new SitkaDisplayErrorException(exception?.InnerException?.Message, exception.InnerException);
+            }
+            
             return new ModalDialogFormJsonResult();
         }
 
