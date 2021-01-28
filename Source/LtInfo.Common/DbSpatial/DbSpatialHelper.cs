@@ -121,5 +121,37 @@ namespace LtInfo.Common.DbSpatial
                 x.SetDbGeometry(newValidDbGeometry);
             });
         }
+
+        /// <summary>
+        /// As part of the GIS upload workflow we eventually Reduce the geometries, but this only happens after the import has been completed.
+        /// In some scenarios, you can provide invalid geometries that make it past the upload step only to fail due to not being able
+        /// to reduce them later in the workflow. At that point in the workflow we don't have access to the HttpPostedFileBase anymore to be able
+        /// to save it off an investigate later. I'm certain that try-catching this isn't the most efficient way to test if the upload
+        /// will be reducible in further steps, but for now it will let us prevent users from successfully getting to a step that they will
+        /// be doomed to fail. -- 1/28/2021 SMG [PF-1219]
+        /// </summary>
+        /// <param name="geometries"></param>
+        /// <returns></returns>
+        public static bool CanReduce(List<SqlGeometry> geometries)
+        {
+            try
+            {
+                const int thresholdInFeet = 1;
+                var thresholdInDegrees = FeetToAverageLatLonDegree(
+                    geometries.First().ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId),
+                    thresholdInFeet);
+                geometries.ForEach(x =>
+                {
+                    SqlGeometry validSqlGeometry = x.MakeValid().Reduce(thresholdInDegrees);
+                    validSqlGeometry.ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                });
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

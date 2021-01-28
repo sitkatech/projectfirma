@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -1048,23 +1049,39 @@ namespace ProjectFirma.Web.Controllers
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
 
-                if (isKml)
+                try
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    if (isKml)
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    else if (isKmz)
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    else
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+
+                    // Run a quick test to see if the uploaded geometries are going to be reducible later.
+                    // If they aren't, we can throw the SitkaGeometryDisplayErrorException to capture a record of the uploaded file.
+                    var mockGeometries = project.ProjectLocationStagings.SelectMany(x =>
+                        x.ToGeoJsonFeatureCollection().Features.Select(y => y.ToSqlGeometry())).ToList();
+                    Check.Assert(DbSpatialHelper.CanReduce(mockGeometries), new SitkaGeometryDisplayErrorException("Could not reduce the uploaded geometries."));
                 }
-                else if (isKmz)
+                catch (SitkaGeometryDisplayErrorException exception)
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.PreserveFailedLocationImportFile(httpPostedFileBase);
+                    throw exception;
                 }
-                else
-                {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
-                }
-                
             }
             return ApproveGisUpload(project);
         }
-
+        
         [HttpGet]
         [ProjectCreateFeature]
         public PartialViewResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey)
@@ -1108,6 +1125,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewApproveGisUpload(project, viewModel);
             }
+
             SaveDetailedLocations(viewModel, project, out bool hadToMakeValid, out bool oneWasBad);
 
             if (hadToMakeValid && !oneWasBad)
