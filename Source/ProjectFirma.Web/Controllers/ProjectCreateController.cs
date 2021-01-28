@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -30,6 +31,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirma.Web.Views.ProjectExternalLink;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
@@ -51,8 +53,6 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using ProjectFirma.Web.Views.ProjectExternalLink;
-using ProjectFirma.Web.Views.ProjectUpdate;
 using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotes;
 using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
@@ -64,9 +64,9 @@ using BulkSetSpatialInformationViewModel = ProjectFirma.Web.Views.ProjectCreate.
 using Contacts = ProjectFirma.Web.Views.ProjectCreate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectCreate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectCreate.ContactsViewModel;
+using EditProposalClassifications = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications;
 using EditProposalClassificationsViewData = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassificationsViewData;
 using EditProposalClassificationsViewModel = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassificationsViewModel;
-using EditProposalClassifications = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding;
 using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostType;
 using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostTypeViewData;
@@ -79,8 +79,6 @@ using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.Expe
 using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
-using ExternalLinks = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinks;
-using ExternalLinksViewData = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinksViewData;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
 using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
@@ -1051,23 +1049,39 @@ namespace ProjectFirma.Web.Controllers
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
 
-                if (isKml)
+                try
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    if (isKml)
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    else if (isKmz)
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    else
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+
+                    // Run a quick test to see if the uploaded geometries are going to be reducible later.
+                    // If they aren't, we can throw the SitkaGeometryDisplayErrorException to capture a record of the uploaded file.
+                    var mockGeometries = project.ProjectLocationStagings.SelectMany(x =>
+                        x.ToGeoJsonFeatureCollection().Features.Select(y => y.ToSqlGeometry())).ToList();
+                    Check.Assert(DbSpatialHelper.CanReduce(mockGeometries), new SitkaGeometryDisplayErrorException("Could not reduce the uploaded geometries."));
                 }
-                else if (isKmz)
+                catch (SitkaGeometryDisplayErrorException exception)
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.PreserveFailedLocationImportFile(httpPostedFileBase);
+                    throw exception;
                 }
-                else
-                {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
-                }
-                
             }
             return ApproveGisUpload(project);
         }
-
+        
         [HttpGet]
         [ProjectCreateFeature]
         public PartialViewResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey)
@@ -1111,6 +1125,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewApproveGisUpload(project, viewModel);
             }
+
             SaveDetailedLocations(viewModel, project, out bool hadToMakeValid, out bool oneWasBad);
 
             if (hadToMakeValid && !oneWasBad)

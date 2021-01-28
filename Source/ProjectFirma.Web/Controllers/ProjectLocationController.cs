@@ -18,21 +18,20 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Linq;
-using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectControls;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
-using LtInfo.Common.Mvc;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -182,17 +181,33 @@ namespace ProjectFirma.Web.Controllers
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
 
-                if (isKml)
+                try
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    if (isKml)
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    else if (isKmz)
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    else
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    // Run a quick test to see if the uploaded geometries are going to be reducible later.
+                    // If they aren't, we can throw the SitkaGeometryDisplayErrorException to capture a record of the uploaded file.
+                    var mockGeometries = project.ProjectLocationStagings.SelectMany(x =>
+                        x.ToGeoJsonFeatureCollection().Features.Select(y => y.ToSqlGeometry())).ToList();
+                    Check.Assert(DbSpatialHelper.CanReduce(mockGeometries), new SitkaGeometryDisplayErrorException("Could not reduce the uploaded geometries."));
                 }
-                else if (isKmz)
+                catch (SitkaGeometryDisplayErrorException exception)
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
-                }
-                else
-                {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    ProjectLocationStagingModelExtensions.PreserveFailedLocationImportFile(httpPostedFileBase);
+                    throw exception;
                 }
             }
             return ApproveGisUpload(project);
