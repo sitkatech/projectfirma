@@ -70,7 +70,12 @@ namespace ProjectFirmaModels.Models
             return projectLocationStagings;
         }
 
-        public static void PreserveFailedLocationImportFile(HttpPostedFileBase httpPostedFileBase)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="httpPostedFileBase"></param>
+        /// <returns>Full path to preserved file</returns>
+        public static string PreserveFailedLocationImportFile(HttpPostedFileBase httpPostedFileBase)
         {
             var baseTempPath = new DirectoryInfo(SitkaConfiguration.GetRequiredAppSetting("TempFolder"));
             var ogr2OgrTempPath = new DirectoryInfo(Path.Combine(baseTempPath.ToString(), FailedGeospatialImportFolderName));
@@ -80,8 +85,10 @@ namespace ProjectFirmaModels.Models
                 baseTempPath.CreateSubdirectory(FailedGeospatialImportFolderName);
             }
 
-            httpPostedFileBase.SaveAs(Path.Combine(ogr2OgrTempPath.ToString(), $"{DateTime.Now.ToString("yyyyMMddhhmmss")}-{httpPostedFileBase.FileName}"));
+            var preservedFilename = Path.Combine(ogr2OgrTempPath.ToString(), $"{DateTime.Now.ToString("yyyyMMddhhmmss")}-{httpPostedFileBase.FileName}");
+            httpPostedFileBase.SaveAs(preservedFilename);
 
+            return preservedFilename;
         }
     }
 }

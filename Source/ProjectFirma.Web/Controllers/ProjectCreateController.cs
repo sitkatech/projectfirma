@@ -1075,8 +1075,8 @@ namespace ProjectFirma.Web.Controllers
                 }
                 catch (SitkaGeometryDisplayErrorException exception)
                 {
-                    ProjectLocationStagingModelExtensions.PreserveFailedLocationImportFile(httpPostedFileBase);
-                    throw exception;
+                    string preservedFilenameFullPath = ProjectLocationStagingModelExtensions.PreserveFailedLocationImportFile(httpPostedFileBase);
+                    throw new SitkaGeometryDisplayErrorException(exception.Message, preservedFilenameFullPath);
                 }
             }
             return ApproveGisUpload(project);
