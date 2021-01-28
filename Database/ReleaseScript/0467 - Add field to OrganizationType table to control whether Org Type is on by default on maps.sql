@@ -10,11 +10,6 @@ update dbo.OrganizationType
 set LayerOnByDefault = 1
 go
 
--- Change setting for RCD layer to preserve current behavior for them
-update dbo.OrganizationType
-set LayerOnByDefault = 0
-where OrganizationTypeID = 13
-
 -- Make non-nullable
 alter table dbo.OrganizationType
 alter column LayerOnByDefault bit not null 
