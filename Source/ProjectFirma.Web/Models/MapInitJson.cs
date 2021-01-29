@@ -19,14 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
 using GeoJSON.Net.Feature;
-using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirma.Web.Models
 {
@@ -70,15 +69,15 @@ namespace ProjectFirma.Web.Models
             return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive).ToList();
         }
 
-        public static List<LayerGeoJson> GetAllGeospatialAreaMapLayers(bool alwaysHideLayers = false)
+        public static List<LayerGeoJson> GetConfiguredGeospatialAreaMapLayers(bool alwaysHideLayers = false)
         {
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => x.DisplayOnAllProjectMaps).OrderBy(x => x.GeospatialAreaTypeName)
                 .ToList();
             var layerGeoJsons = new List<LayerGeoJson>();
-            foreach (var geospatialAreaType in geospatialAreaTypes)
+            foreach (var geospatialAreaType in geospatialAreaTypes.Where(x => x.DisplayOnAllProjectMaps))
             {
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
-                    alwaysHideLayers || !geospatialAreaType.LayerIsOnByDefault ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+                    alwaysHideLayers || !geospatialAreaType.OnByDefaultOnOtherMaps ? LayerInitialVisibility.LayerInitialVisibilityEnum.Hide : LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
 
             return layerGeoJsons;
@@ -92,18 +91,19 @@ namespace ProjectFirma.Web.Models
             foreach (var geospatialAreaType in geospatialAreaTypes)
             {
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
-                    LayerInitialVisibility.Hide));
+                    LayerInitialVisibility.GetInitialVisibility(geospatialAreaType.OnByDefaultOnProjectMap)));
             }
 
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetGeospatialAreaMapLayersForGeospatialAreaType(GeospatialAreaType geospatialAreaType, LayerInitialVisibility layerInitialVisibility)
+        // This is used when viewing a single geospatial area type so it should always by on by default, regardless of GeospatialAreaType map settings
+        public static List<LayerGeoJson> GetGeospatialAreaMapLayersForGeospatialAreaType(GeospatialAreaType geospatialAreaType)
         {
             var layerGeoJsons = new List<LayerGeoJson>
             {
                 geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
-                    layerInitialVisibility)
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
             };
 
             return layerGeoJsons;
@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Models
                     {
                         DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint)
                     }),
-                    "#838383", 1, LayerInitialVisibility.Show));
+                    "#838383", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
             return layerGeoJsons;
         }
@@ -134,7 +134,7 @@ namespace ProjectFirma.Web.Models
             var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection();
             if (detailedLocationGeoJsonFeatureCollection.Features.Any())
             {
-                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.Show));
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
             return layerGeoJsons;
         }
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Models
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
             if (detailedLocationGeoJsonFeatureCollection.Features.Any())
             {
-                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.Show));
+                layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
             return layerGeoJsons;
         }

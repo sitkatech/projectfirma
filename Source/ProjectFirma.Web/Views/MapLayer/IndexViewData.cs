@@ -22,6 +22,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.MapLayer
@@ -32,14 +34,17 @@ namespace ProjectFirma.Web.Views.MapLayer
         public string ExternalMapLayerGridName { get; }
         public string ExternalMapLayerGridDataUrl { get; }
         public string NewUrl { get; }
+        public ViewPageContentViewData InternalMapLayersViewPageContentViewData { get; }
         public GeospatialAreaMapLayerGridSpec GeospatialAreaMapLayerGridSpec { get; }
         public string GeospatialAreaMapLayerGridName { get; }
         public string GeospatialAreaMapLayerGridDataUrl { get; }
         public bool UserCanManage { get; }
 
 
-        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string externalMapLayerGridDataUrl, string geospatialAreaMapLayerGridDataUrl, bool userCanManage)
-            : base(currentFirmaSession, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, 
+            ProjectFirmaModels.Models.FirmaPage externalMapLayersFirmaPage, string externalMapLayerGridDataUrl,
+            ProjectFirmaModels.Models.FirmaPage internalMapLayersFirmaPage, string geospatialAreaMapLayerGridDataUrl, bool userCanManage)
+            : base(currentFirmaSession, externalMapLayersFirmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}";
             ExternalMapLayerGridSpec = new ExternalMapLayerGridSpec(userCanManage)
@@ -51,6 +56,9 @@ namespace ProjectFirma.Web.Views.MapLayer
             ExternalMapLayerGridName = "externalMapLayersGrid";
             ExternalMapLayerGridDataUrl = externalMapLayerGridDataUrl;
             NewUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.New());
+
+            var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, internalMapLayersFirmaPage).HasPermission;
+            InternalMapLayersViewPageContentViewData = new ViewPageContentViewData(internalMapLayersFirmaPage, currentPersonCanManage);
 
             GeospatialAreaMapLayerGridSpec = new GeospatialAreaMapLayerGridSpec(userCanManage)
             {

@@ -172,17 +172,20 @@ namespace ProjectFirma.Web.Controllers
             var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(associatedProjects, currentPersonCanViewProposals);
-            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()}", associatedProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()}", associatedProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, mapDivID, false)
             {
                 AllowFullScreen = true,
-                Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson().Where(x => x.LayerInitialVisibility == LayerInitialVisibility.Show).ToList()
             };
+            // Add Organization Type boundaries according to configuration
+            projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson().
+                Where(x => x.LayerInitialVisibility == LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             var filteredProjectList = associatedProjects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
             projectLocationsMapInitJson.BoundingBox =
                 new BoundingBox(filteredProjectList.Select(x => x.ProjectLocationPoint).ToList());
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, 
+                ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
 
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();

@@ -32,7 +32,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationType(int organizationTypeID, string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType, bool isFundingType) : this()
+        public OrganizationType(int organizationTypeID, string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType, bool isFundingType, bool layerOnByDefault) : this()
         {
             this.OrganizationTypeID = organizationTypeID;
             this.OrganizationTypeName = organizationTypeName;
@@ -41,12 +41,13 @@ namespace ProjectFirmaModels.Models
             this.ShowOnProjectMaps = showOnProjectMaps;
             this.IsDefaultOrganizationType = isDefaultOrganizationType;
             this.IsFundingType = isFundingType;
+            this.LayerOnByDefault = layerOnByDefault;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationType(string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType, bool isFundingType) : this()
+        public OrganizationType(string organizationTypeName, string organizationTypeAbbreviation, string legendColor, bool showOnProjectMaps, bool isDefaultOrganizationType, bool isFundingType, bool layerOnByDefault) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -57,6 +58,7 @@ namespace ProjectFirmaModels.Models
             this.ShowOnProjectMaps = showOnProjectMaps;
             this.IsDefaultOrganizationType = isDefaultOrganizationType;
             this.IsFundingType = isFundingType;
+            this.LayerOnByDefault = layerOnByDefault;
         }
 
 
@@ -65,7 +67,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static OrganizationType CreateNewBlank()
         {
-            return new OrganizationType(default(string), default(string), default(string), default(bool), default(bool), default(bool));
+            return new OrganizationType(default(string), default(string), default(string), default(bool), default(bool), default(bool), default(bool));
         }
 
         /// <summary>
@@ -144,6 +146,7 @@ namespace ProjectFirmaModels.Models
         public bool ShowOnProjectMaps { get; set; }
         public bool IsDefaultOrganizationType { get; set; }
         public bool IsFundingType { get; set; }
+        public bool LayerOnByDefault { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationTypeID; } set { OrganizationTypeID = value; } }
 

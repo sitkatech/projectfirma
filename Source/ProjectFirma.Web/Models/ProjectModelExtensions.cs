@@ -280,7 +280,7 @@ namespace ProjectFirma.Web.Models
         {
             var featureCollection = new FeatureCollection();
             var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
-            featureCollection.Features.AddRange(filteredProjectList.Select<Project, Feature>(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, useDetailedCustomPopup)).ToList());
+            featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, useDetailedCustomPopup)).ToList());
             return featureCollection;
         }
 

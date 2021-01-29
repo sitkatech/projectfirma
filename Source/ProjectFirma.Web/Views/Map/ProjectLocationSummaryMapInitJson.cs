@@ -38,21 +38,32 @@ namespace ProjectFirma.Web.Views.Map
         public bool HasGeospatialAreas { get; }
         /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool alwaysHideGeospatialAreaLayers = false) 
-            : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), callGetExternalMapLayers ? MapInitJson.GetExternalMapLayers() : new List<ProjectFirmaModels.Models.ExternalMapLayer>(), GetProjectBoundingBox(project))
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, 
+            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, 
+            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool alwaysHideGeospatialAreaLayers = false) 
+            : base(mapDivID, DefaultZoomLevel, GetConfiguredGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), 
+                callGetExternalMapLayers ? GetExternalMapLayers() : new List<ExternalMapLayer>(), GetProjectBoundingBox(project))
         {
             HasSimpleLocation = simpleLocationToGeoJsonFeatureCollection.Features.Any();
             if (HasSimpleLocation)
             {
                 ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
                 ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
-                Layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple", simpleLocationToGeoJsonFeatureCollection, "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+                Layers.Add(
+                    new LayerGeoJson(
+                        $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple", 
+                        simpleLocationToGeoJsonFeatureCollection, "#ffff00", 1, 
+                        LayerInitialVisibility.GetInitialVisibility(!detailedLocationAsGeoJsonFeatureCollection.Features.Any()))
+                    );
             }
 
             HasDetailedLocation = detailedLocationAsGeoJsonFeatureCollection.Features.Any();
             if (HasDetailedLocation)
             {
-                Layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationAsGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
+                Layers.Add(
+                    new LayerGeoJson(
+                        $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", 
+                        detailedLocationAsGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
 
             HasGeospatialAreas = geospatialAreas.Any();
@@ -60,16 +71,19 @@ namespace ProjectFirma.Web.Views.Map
             {
                foreach(var geospatialAreaTypeGroup in geospatialAreas.GroupBy(x => x.GeospatialAreaType).OrderBy(x => x.Key.GeospatialAreaTypeName))
                {
-                   Layers.Add(new LayerGeoJson($"Selected {geospatialAreaTypeGroup.Key.GeospatialAreaTypeNamePluralized}", geospatialAreaTypeGroup.ToGeoJsonFeatureCollection(), "#2dc3a1", 1, LayerInitialVisibility.Hide));
+                   Layers.Add(
+                       new LayerGeoJson(
+                           $"Selected {geospatialAreaTypeGroup.Key.GeospatialAreaTypeNamePluralized}", 
+                           geospatialAreaTypeGroup.ToGeoJsonFeatureCollection(), "#2dc3a1", 1, 
+                           LayerInitialVisibility.LayerInitialVisibilityEnum.Hide));
                }
             }
         }
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties,
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas,
             FeatureCollection detailedLocationAsGeoJsonFeatureCollection,
-            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool alwaysHideGeospatialAreaLayers) : this(project, mapDivID, addProjectProperties,
-            geospatialAreas, detailedLocationAsGeoJsonFeatureCollection, simpleLocationToGeoJsonFeatureCollection, true, alwaysHideGeospatialAreaLayers)
+            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool alwaysHideGeospatialAreaLayers) : this(project, mapDivID, geospatialAreas, detailedLocationAsGeoJsonFeatureCollection, simpleLocationToGeoJsonFeatureCollection, true, alwaysHideGeospatialAreaLayers)
         {
         }
 

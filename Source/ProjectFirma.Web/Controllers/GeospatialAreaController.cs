@@ -30,6 +30,7 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using Detail = ProjectFirma.Web.Views.GeospatialArea.Detail;
 using DetailViewData = ProjectFirma.Web.Views.GeospatialArea.DetailViewData;
 using Index = ProjectFirma.Web.Views.GeospatialArea.Index;
@@ -44,13 +45,20 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
-            var layerGeoJsons = new List<LayerGeoJson>();
-            layerGeoJsons = new List<LayerGeoJson>
+            var layerGeoJsons = new List<LayerGeoJson>
             {
-                geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)
+                geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
             };
+            var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
+            var projectLocationsLayerGeoJson =
+                new LayerGeoJson($"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
+                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "#80b2ff", 1,
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            layerGeoJsons.Add(projectLocationsLayerGeoJson);
 
-            var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox());
+            var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), 
+                BoundingBox.MakeNewDefaultBoundingBox());
 
             var viewData = new IndexViewData(CurrentFirmaSession, geospatialAreaType, mapInitJson);
             return RazorView<Index, IndexViewData>(viewData);

@@ -44,7 +44,7 @@ namespace LtInfo.Common.GdalOgr
             var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoExecutableFileInfo.DirectoryName, ogrInfoExecutableFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
             if (processUtilityResult.ReturnCode != 0)
             {
-                throw new SitkaDisplayErrorException($"{ogrInfoExecutableFileInfo.FullName} unable to open GDB file {gdbFileInfo.FullName} - original filename {originalFilename}.");
+                throw new SitkaGeometryDisplayErrorException($"{ogrInfoExecutableFileInfo.FullName} unable to open GDB file {gdbFileInfo.FullName} - original filename {originalFilename}.");
             }
 
             var featureClassesFromFileGdb = processUtilityResult.StdOut.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -67,7 +67,7 @@ namespace LtInfo.Common.GdalOgr
             var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoExecutableFileInfo.DirectoryName, ogrInfoExecutableFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
             if (processUtilityResult.ReturnCode != 0)
             {
-                throw new SitkaDisplayErrorException($"{ogrInfoExecutableFileInfo.FullName} unable to open KML file {kmlFileInfo.FullName} - original filename {originalFilename}.");
+                throw new SitkaGeometryDisplayErrorException($"{ogrInfoExecutableFileInfo.FullName} unable to open KML file {kmlFileInfo.FullName} - original filename {originalFilename}.");
             }
 
             var featureClassesFromFileKml = processUtilityResult.StdOut.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -175,7 +175,7 @@ namespace LtInfo.Common.GdalOgr
             var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoExecutableFileInfo.DirectoryName, ogrInfoExecutableFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
             if (processUtilityResult.ReturnCode != 0)
             {
-                throw new SitkaDisplayErrorException($"{ogrInfoExecutableFileInfo.FullName} unable to open KMZ file {kmzFileInfo.FullName} - original filename {originalFilename}.");
+                throw new SitkaGeometryDisplayErrorException($"{ogrInfoExecutableFileInfo.FullName} unable to open KMZ file {kmzFileInfo.FullName} - original filename {originalFilename}.");
             }
 
             var featureClassesFromFileKmz = processUtilityResult.StdOut.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();

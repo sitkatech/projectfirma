@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using LtInfo.Common;
-using LtInfo.Common.DbSpatial;
+﻿using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using ProjectFirma.Web.Common;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
 
 namespace ProjectFirmaModels.Models
 {
     public static class ProjectLocationStagingModelExtensions
     {
+        public const string FailedGeospatialImportFolderName = "FailedGeospatialImports";
+
         /// <summary>
         /// 
         /// </summary>
@@ -31,6 +35,7 @@ namespace ProjectFirmaModels.Models
 
             var projectLocationStagings =
                 featureClassNames.Select(x => new ProjectLocationStaging(project, currentFirmaSession.Person, x, ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFile, x, true), true)).ToList();
+            Check.Require(!projectLocationStagings.All(x => x.ToGeoJsonFeatureCollection().Features.All(y => y.Geometry == null)), new SitkaGeometryDisplayErrorException($"Cannot create stagings for a location when all features don't have a geometry."));
             return projectLocationStagings;
         }
 
@@ -47,6 +52,7 @@ namespace ProjectFirmaModels.Models
 
             var projectLocationStagings =
                 featureClassNames.Select(x => new ProjectLocationStaging(project, currentFirmaSession.Person, "", ogr2OgrCommandLineRunner.ImportFileKmlToGeoJson(kmlFile, true), true)).ToList();
+            Check.Require(!projectLocationStagings.All(x => x.ToGeoJsonFeatureCollection().Features.All(y => y.Geometry == null)), new SitkaGeometryDisplayErrorException($"Cannot create stagings for a location when all features don't have a geometry."));
             return projectLocationStagings;
         }
 
@@ -60,7 +66,29 @@ namespace ProjectFirmaModels.Models
 
             var projectLocationStagings =
                 featureClassNames.Select(x => new ProjectLocationStaging(project, currentFirmaSession.Person, "", ogr2OgrCommandLineRunner.ImportFileKmzToGeoJson(disposableTempFileFileInfo, true), true)).ToList();
+            Check.Require(!projectLocationStagings.All(x => x.ToGeoJsonFeatureCollection().Features.All(y => y.Geometry == null)), new SitkaGeometryDisplayErrorException($"Cannot create stagings for a location when all features don't have a geometry."));
             return projectLocationStagings;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="httpPostedFileBase"></param>
+        /// <returns>Full path to preserved file</returns>
+        public static string PreserveFailedLocationImportFile(HttpPostedFileBase httpPostedFileBase)
+        {
+            var baseTempPath = new DirectoryInfo(SitkaConfiguration.GetRequiredAppSetting("TempFolder"));
+            var ogr2OgrTempPath = new DirectoryInfo(Path.Combine(baseTempPath.ToString(), FailedGeospatialImportFolderName));
+
+            if (!ogr2OgrTempPath.Exists)
+            {
+                baseTempPath.CreateSubdirectory(FailedGeospatialImportFolderName);
+            }
+
+            var preservedFilename = Path.Combine(ogr2OgrTempPath.ToString(), $"{DateTime.Now.ToString("yyyyMMddhhmmss")}-{httpPostedFileBase.FileName}");
+            httpPostedFileBase.SaveAs(preservedFilename);
+
+            return preservedFilename;
         }
     }
 }

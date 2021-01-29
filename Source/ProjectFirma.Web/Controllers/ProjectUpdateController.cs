@@ -18,16 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Spatial;
-using System.Globalization;
-using System.Linq;
-using System.Net.Mail;
-using System.Web;
-using System.Web.Mvc;
-using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
@@ -46,6 +36,7 @@ using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectClassification;
 using ProjectFirma.Web.Views.Shared.ProjectContact;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
@@ -54,8 +45,15 @@ using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using ProjectFirma.Web.Views.Shared.ProjectClassification;
 using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Globalization;
+using System.Linq;
+using System.Net.Mail;
+using System.Web;
+using System.Web.Mvc;
 using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotes;
 using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
@@ -85,11 +83,11 @@ using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationD
 using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
 using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
-using ProjectCustomAttributes = ProjectFirma.Web.Views.ProjectUpdate.ProjectCustomAttributes;
 using Organizations = ProjectFirma.Web.Views.ProjectUpdate.Organizations;
 using OrganizationsViewData = ProjectFirma.Web.Views.ProjectUpdate.OrganizationsViewData;
 using OrganizationsViewModel = ProjectFirma.Web.Views.ProjectUpdate.OrganizationsViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
+using ProjectCustomAttributes = ProjectFirma.Web.Views.ProjectUpdate.ProjectCustomAttributes;
 using ReportedPerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.ReportedPerformanceMeasures;
 
 namespace ProjectFirma.Web.Controllers
@@ -1165,7 +1163,7 @@ namespace ProjectFirma.Web.Controllers
 
             var mapInitJsonForEdit = new MapInitJson($"project_{project.ProjectID}_EditMap",
                 10,
-                MapInitJson.GetAllGeospatialAreaMapLayers(),
+                MapInitJson.GetConfiguredGeospatialAreaMapLayers(),
                 MapInitJson.GetExternalMapLayers(),
                 BoundingBox.MakeNewDefaultBoundingBox(),
                 false) {DisablePopups = true};
@@ -1173,7 +1171,7 @@ namespace ProjectFirma.Web.Controllers
 
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", true, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true), false);
+                $"project_{project.ProjectID}_EditMap", geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true), false);
 
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
@@ -1282,10 +1280,12 @@ namespace ProjectFirma.Web.Controllers
 
             var mapDivID = $"project_{project.ProjectID}_EditDetailedMap";
             var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection();
-            var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            var editableLayerGeoJson = new LayerGeoJson(
+                $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", 
+                detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
 
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(projectUpdate));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox) {AllowFullScreen = false, DisablePopups = true};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
@@ -1386,30 +1386,43 @@ namespace ProjectFirma.Web.Controllers
                 var disposableTempFileFileInfo = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(disposableTempFileFileInfo.FullName);
                 projectUpdateBatch.DeleteProjectLocationStagingUpdates();
-                if (isKml)
+                try
                 {
-                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
+                    if (isKml)
+                    {
+                        ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKml(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch,
+                            CurrentFirmaSession.Person);
+                    }
+                    else if (isKmz)
+                    {
+                        ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKmz(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch,
+                            CurrentFirmaSession);
+                    }
+                    else
+                    {
+                        ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch,
+                            CurrentFirmaSession.Person);
+                    }
+
+                    // Run a quick test to see if the uploaded geometries are going to be reducible later.
+                    // If they aren't, we can throw the SitkaGeometryDisplayErrorException to capture a record of the uploaded file.
+                    var mockGeometries = projectUpdateBatch.ProjectLocationStagingUpdates.SelectMany(x =>
+                        x.ToGeoJsonFeatureCollection().Features.Select(y => y.ToSqlGeometry())).ToList();
+                    Check.Assert(DbSpatialHelper.CanReduce(mockGeometries), new SitkaGeometryDisplayErrorException("Could not reduce the uploaded geometries."));
                 }
-                else if (isKmz)
+                catch (SitkaGeometryDisplayErrorException exception)
                 {
-                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession);
-                }
-                else
-                {
-                    ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
+                    string preservedFilenameFullPath = ProjectLocationStagingModelExtensions.PreserveFailedLocationImportFile(httpPostedFileBase);
+                    throw new SitkaGeometryDisplayErrorException(exception.Message, preservedFilenameFullPath);
                 }
             }
 
             return ApproveGisUpload(project);
         }
 
-
-
-
-       
-
-
-      
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey)
@@ -1430,7 +1443,7 @@ namespace ProjectFirma.Web.Controllers
                             projectLocationStaging.ToGeoJsonFeatureCollection(),
                             FirmaHelpers.DefaultColorRange[i],
                             1,
-                            LayerInitialVisibility.Show)).ToList();
+                            LayerInitialVisibility.LayerInitialVisibilityEnum.Show)).ToList();
 
             var showFeatureClassColumn = projectLocationStagingUpdates.Any(x => x.FeatureClassName.Length > 0);
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
@@ -1471,7 +1484,16 @@ namespace ProjectFirma.Web.Controllers
                 SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
                                      " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
             }
-            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
+
+            try
+            {
+                DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
+            }
+            catch (Exception exception)
+            {
+                throw new SitkaDisplayErrorException(exception?.InnerException?.Message, exception.InnerException);
+            }
+            
             return new ModalDialogFormJsonResult();
         }
 
@@ -1550,14 +1572,14 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
-            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
            
             var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType);
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", false, geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false), false);
+                $"project_{project.ProjectID}_EditMap", geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false), false);
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));

@@ -19,18 +19,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -85,7 +84,7 @@ namespace ProjectFirma.Web.Controllers
             Project project, GeospatialAreaType geospatialAreaType)
         {
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
-            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();

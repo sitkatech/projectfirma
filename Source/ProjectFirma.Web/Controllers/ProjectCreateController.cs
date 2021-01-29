@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -30,6 +31,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirma.Web.Views.ProjectExternalLink;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
@@ -51,8 +53,6 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using ProjectFirma.Web.Views.ProjectExternalLink;
-using ProjectFirma.Web.Views.ProjectUpdate;
 using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotes;
 using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
@@ -64,9 +64,9 @@ using BulkSetSpatialInformationViewModel = ProjectFirma.Web.Views.ProjectCreate.
 using Contacts = ProjectFirma.Web.Views.ProjectCreate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectCreate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectCreate.ContactsViewModel;
+using EditProposalClassifications = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications;
 using EditProposalClassificationsViewData = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassificationsViewData;
 using EditProposalClassificationsViewModel = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassificationsViewModel;
-using EditProposalClassifications = ProjectFirma.Web.Views.ProjectCreate.EditProposalClassifications;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding;
 using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostType;
 using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostTypeViewData;
@@ -79,8 +79,6 @@ using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.Expe
 using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
-using ExternalLinks = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinks;
-using ExternalLinksViewData = ProjectFirma.Web.Views.ProjectUpdate.ExternalLinksViewData;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
 using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
@@ -910,7 +908,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditLocationSimple(Project project, LocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetAllGeospatialAreaMapLayers();
+            var layerGeoJsons = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true };
             var mapPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationSimpleFormID(project);
@@ -959,9 +957,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var mapDivID = $"project_{project.GetEntityID()}_EditDetailedMap";
             var detailedLocationGeoJsonFeatureCollection = ProjectModelExtensions.DetailedLocationToGeoJsonFeatureCollection(project);
-            var editableLayerGeoJson = new LayerGeoJson($"Proposed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}- Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
+            var editableLayerGeoJson = new LayerGeoJson(
+                $"Proposed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}- Detail", 
+                detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
@@ -1049,23 +1049,39 @@ namespace ProjectFirma.Web.Controllers
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
 
-                if (isKml)
+                try
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    if (isKml)
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    else if (isKmz)
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+                    else
+                    {
+                        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(
+                            disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    }
+
+                    // Run a quick test to see if the uploaded geometries are going to be reducible later.
+                    // If they aren't, we can throw the SitkaGeometryDisplayErrorException to capture a record of the uploaded file.
+                    var mockGeometries = project.ProjectLocationStagings.SelectMany(x =>
+                        x.ToGeoJsonFeatureCollection().Features.Select(y => y.ToSqlGeometry())).ToList();
+                    Check.Assert(DbSpatialHelper.CanReduce(mockGeometries), new SitkaGeometryDisplayErrorException("Could not reduce the uploaded geometries."));
                 }
-                else if (isKmz)
+                catch (SitkaGeometryDisplayErrorException exception)
                 {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKmz(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                    string preservedFilenameFullPath = ProjectLocationStagingModelExtensions.PreserveFailedLocationImportFile(httpPostedFileBase);
+                    throw new SitkaGeometryDisplayErrorException(exception.Message, preservedFilenameFullPath);
                 }
-                else
-                {
-                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(disposableTempFileFileInfo, httpPostedFileBase.FileName, project, CurrentFirmaSession);
-                }
-                
             }
             return ApproveGisUpload(project);
         }
-
+        
         [HttpGet]
         [ProjectCreateFeature]
         public PartialViewResult ApproveGisUpload(ProjectPrimaryKey projectPrimaryKey)
@@ -1085,7 +1101,7 @@ namespace ProjectFirma.Web.Controllers
                             projectLocationStaging.ToGeoJsonFeatureCollection(),
                             FirmaHelpers.DefaultColorRange[i],
                             1,
-                            LayerInitialVisibility.Show)).ToList();
+                            LayerInitialVisibility.LayerInitialVisibilityEnum.Show)).ToList();
 
             var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
@@ -1109,6 +1125,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewApproveGisUpload(project, viewModel);
             }
+
             SaveDetailedLocations(viewModel, project, out bool hadToMakeValid, out bool oneWasBad);
 
             if (hadToMakeValid && !oneWasBad)
@@ -1239,7 +1256,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewEditGeospatialArea(Project project, GeospatialAreaViewModel viewModel, GeospatialAreaType geospatialAreaType)
         {
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
-            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
+            var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();

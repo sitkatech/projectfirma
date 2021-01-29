@@ -27,6 +27,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @using (Html.BeginForm())
 {
+<div>
+    Use this editor to control the attributes of this organization type and configure whether site maps should display a map layer 
+    of organization boundaries belonging to this type. 
+    Note that organization type map layers are different and independent from geospatial area map layers
+</div>
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.OrganizationTypeName)</div>
@@ -52,22 +57,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     <span class="input-group-addon"><i></i></span>
                     @Html.ValidationMessageFor(x => x.LegendColor)
                 </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.ShowOnProjectMaps)</div>
-            <div class="col-sm-9">
-                <div class="radio-inline">
-                    <label>
-                        @Html.RadioButtonFor(m => m.ShowOnProjectMaps, true) Yes
-                    </label>
-                </div>
-                <div class="radio-inline">
-                    <label>
-                        @Html.RadioButtonFor(m => m.ShowOnProjectMaps, false) No
-                    </label>
-                </div>
-                @Html.ValidationMessageFor(m => m.ShowOnProjectMaps)
             </div>
         </div>
         <div class="form-group">
@@ -100,6 +89,42 @@ Source code is available upon request via <support@sitkatech.com>.
                     </label>
                 </div>
                 @Html.ValidationMessageFor(m => m.IsFundingType)
+            </div>
+        </div>
+        
+        <hr/>
+
+        <div class="form-group">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.ShowOnProjectMaps)</div>
+            <div class="col-sm-9">
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.ShowOnProjectMaps, true) Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.ShowOnProjectMaps, false) No
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(m => m.ShowOnProjectMaps)
+            </div>
+        </div>      
+        
+        <div class="form-group">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.LayerOnByDefault)</div>
+            <div class="col-sm-9">
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.LayerOnByDefault, true) Yes
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        @Html.RadioButtonFor(m => m.LayerOnByDefault, false) No
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(m => m.LayerOnByDefault)
             </div>
         </div>
     </div>

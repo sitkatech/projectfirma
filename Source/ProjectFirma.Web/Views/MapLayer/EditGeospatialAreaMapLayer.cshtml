@@ -24,10 +24,14 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.MapLayer.EditGeospatialAreaMapLayer
 @using (Html.BeginForm())
 {
+    <div>
+        While geospatial area map layers are always available on the Project Map, you can control whether this layer is displayed by default. 
+        This editor also lets you control the display of this layer on other maps throughout the site, 
+        with the exception of the small map on the home since it doesn’t support geospatial area layers.
+    </div>
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @* @Html.LabelWithSugarFor(FieldDefinitionEnum.GeospatialAreaLayerName.ToType()) *@
                 @Html.Label("Display Name")
             </div>
             <div class="col-sm-9">
@@ -45,11 +49,20 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(@FieldDefinitionEnum.MapLayerLayerIsOnByDefault.ToType())
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.GeospatialAreaTypeOnByDefaultOnProjectMap.ToType())
             </div>
             <div class="col-sm-9">
-                @Html.CheckBoxFor(m => m.LayerIsOnByDefault)
-                @Html.ValidationMessageFor(m => m.LayerIsOnByDefault)
+                @Html.CheckBoxFor(m => m.LayerIsOnByDefaultOnProjectMap)
+                @Html.ValidationMessageFor(m => m.LayerIsOnByDefaultOnProjectMap)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.GeospatialAreaTypeOnByDefaultOnOtherMaps.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.LayerIsOnByDefaultOnOtherMaps)
+                @Html.ValidationMessageFor(m => m.LayerIsOnByDefaultOnOtherMaps)
             </div>
         </div>
     </div>

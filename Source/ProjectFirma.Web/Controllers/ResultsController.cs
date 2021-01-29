@@ -278,11 +278,11 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
-                    LayerInitialVisibility.Show);
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 initialCustomization, "ProjectLocationsMap", true);
-
-            projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
+            // Add Organization Type boundaries according to configuration
+            projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson());
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, null, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals, true);
 
