@@ -30,11 +30,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationDetailedViewData : ProjectUpdateViewData
     {
-        public readonly string RefreshUrl;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
+        public string RefreshUrl { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+        public ProjectLocationDetailViewData ProjectLocationDetailViewData { get; }
+        public string UploadGisFileUrl { get; }
 
-        public readonly ProjectLocationDetailViewData ProjectLocationDetailViewData;
-        public readonly string UploadGisFileUrl;
 
 
         public LocationDetailedViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectLocationDetailViewData projectLocationDetailViewData, string uploadGisFileUrl, ProjectUpdateStatus projectUpdateStatus)

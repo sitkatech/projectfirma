@@ -45,6 +45,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProjectLocationNotes)]
         public string ProjectLocationNotes { get; set; }
 
+        public bool LocationIsPrivate { get; set; }
+
         /// <summary>
         /// Needed by model binder
         /// </summary>
@@ -52,7 +54,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
         }
 
-        public ProjectLocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes)
+        public ProjectLocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, 
+            string projectLocationNotes, bool locationIsPrivate)
         {
             ProjectLocationSimpleType = projectLocationSimpleType;
             if (projectLocationPoint != null)
@@ -66,6 +69,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                 ProjectLocationPointY = null;
             }
             ProjectLocationNotes = projectLocationNotes;
+            LocationIsPrivate = locationIsPrivate;
         }
 
         public virtual void UpdateModel(IProject project)
@@ -84,6 +88,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                     throw new ArgumentOutOfRangeException();
             }
             project.ProjectLocationNotes = ProjectLocationNotes;
+            project.LocationIsPrivate = LocationIsPrivate;
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

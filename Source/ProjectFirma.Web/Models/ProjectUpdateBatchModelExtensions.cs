@@ -648,7 +648,7 @@ namespace ProjectFirma.Web.Models
         private static void CommitChangesToProject(this ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             // basics
-            projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
+            projectUpdateBatch.ProjectUpdate.CommitBasicsChangesToProject(projectUpdateBatch.Project);
 
             // expenditures
             ProjectFundingSourceExpenditureUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);

@@ -56,5 +56,6 @@ namespace ProjectFirmaModels.Models
 
         bool IsProject { get; }
         bool IsProjectUpdate { get; }
+        bool LocationIsPrivate { get; set; }
     }
 }

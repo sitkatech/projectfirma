@@ -174,7 +174,8 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var dictionaryGeoNotes = project.ProjectGeospatialAreaTypeNotes.ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson, dictionaryGeoNotes, geospatialAreaTypes, geospatialAreas);
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson, dictionaryGeoNotes, 
+                geospatialAreaTypes, geospatialAreas, project.LocationIsPrivate);
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();

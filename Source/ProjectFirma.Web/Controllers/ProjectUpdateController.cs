@@ -1128,7 +1128,8 @@ namespace ProjectFirma.Web.Controllers
             var viewModel = new LocationSimpleViewModel(projectUpdate.ProjectLocationPoint,
                 projectUpdate.ProjectLocationSimpleType.ToEnum,
                 projectUpdate.ProjectLocationNotes,
-                projectUpdateBatch.LocationSimpleComment);
+                projectUpdateBatch.LocationSimpleComment,
+                projectUpdate.LocationIsPrivate);
             return ViewLocationSimple(project, projectUpdateBatch, viewModel);
         }
 
@@ -1177,7 +1178,8 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentFirmaSession, mapInitJsonForEdit, geospatialAreaTypes, null, mapPostUrl, mapFormID);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, new Dictionary<int, string>(), new List<GeospatialAreaType>(), new List<GeospatialArea>());
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, new Dictionary<int, string>(), 
+                new List<GeospatialAreaType>(), new List<GeospatialArea>(), projectUpdate.LocationIsPrivate);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new LocationSimpleViewData(CurrentFirmaSession, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, locationSimpleValidationResult, updateStatus);
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
@@ -1295,13 +1297,8 @@ namespace ProjectFirma.Web.Controllers
             var hasSimpleLocationPoint = projectUpdate.ProjectLocationPoint != null;
 
             var projectLocationDetailViewData = new ProjectLocationDetailViewData(projectUpdateBatch.ProjectID,
-                mapInitJson,
-                editableLayerGeoJson,
-                uploadGisFileUrl,
-                mapFormID,
-                saveFeatureCollectionUrl,
-                ProjectLocationUpdate.FieldLengths.Annotation,
-                hasSimpleLocationPoint);
+                mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocationUpdate.FieldLengths.Annotation, 
+                hasSimpleLocationPoint, projectUpdate.LocationIsPrivate);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new LocationDetailedViewData(CurrentFirmaSession, projectUpdateBatch, projectLocationDetailViewData, uploadGisFileUrl, updateStatus);
             return RazorView<LocationDetailed, LocationDetailedViewData, LocationDetailedViewModel>(viewData, viewModel);
@@ -1596,7 +1593,8 @@ namespace ProjectFirma.Web.Controllers
             var dictionaryGeoNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates
                 .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)
                 .ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, dictionaryGeoNotes, new List<GeospatialAreaType> {geospatialAreaType}, geospatialAreas);
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, dictionaryGeoNotes, 
+                new List<GeospatialAreaType> {geospatialAreaType}, geospatialAreas, projectUpdate.LocationIsPrivate);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new GeospatialAreaViewData(CurrentFirmaSession, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus, geospatialAreaType);
             return RazorView<Views.ProjectUpdate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
@@ -2690,7 +2688,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var originalHtml = GeneratePartialViewForProjectBasics(project);
-            projectUpdate.CommitChangesToProject(project);
+            projectUpdate.CommitBasicsChangesToProject(project);
             var updatedHtml = GeneratePartialViewForProjectBasics(project);
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);

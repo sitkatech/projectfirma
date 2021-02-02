@@ -65,7 +65,8 @@ namespace ProjectFirmaModels.Models
         }
 
 
-        public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch) : this(projectUpdateBatch, projectUpdateBatch.Project.ProjectStage, projectUpdateBatch.Project.ProjectDescription, projectUpdateBatch.Project.ProjectLocationSimpleType)
+        public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch) : this(projectUpdateBatch, projectUpdateBatch.Project.ProjectStage, 
+            projectUpdateBatch.Project.ProjectDescription, projectUpdateBatch.Project.ProjectLocationSimpleType, projectUpdateBatch.Project.LocationIsPrivate)
         {
             var project = projectUpdateBatch.Project;
             LoadUpdateFromProject(project);
@@ -87,9 +88,10 @@ namespace ProjectFirmaModels.Models
             ProjectLocationPoint = project.ProjectLocationPoint;
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleTypeID;
+            LocationIsPrivate = project.LocationIsPrivate;
         }
 
-        public void CommitChangesToProject(Project project)
+        public void CommitBasicsChangesToProject(Project project)
         {
             project.ProjectDescription = ProjectDescription;
             project.ProjectStageID = ProjectStageID;
@@ -104,6 +106,7 @@ namespace ProjectFirmaModels.Models
             project.ProjectLocationPoint = ProjectLocationPoint;
             project.ProjectLocationNotes = ProjectLocationNotes;
             project.ProjectLocationSimpleTypeID = ProjectLocationSimpleTypeID;
+            project.LocationIsPrivate = LocationIsPrivate;
         }
 
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;

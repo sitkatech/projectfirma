@@ -250,7 +250,8 @@ namespace ProjectFirma.Web.Controllers
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
                 now, 
-                ProjectCategory.Normal.ProjectCategoryID)
+                ProjectCategory.Normal.ProjectCategoryID,
+                false)
             {
 
                 ProposingPerson = CurrentFirmaSession.Person,
@@ -969,7 +970,8 @@ namespace ProjectFirma.Web.Controllers
             var saveFeatureCollectionUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project, null));
             var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
-            var projectLocationDetailViewData = new ProjectLocationDetailViewData(project.ProjectID, mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint);
+            var projectLocationDetailViewData = new ProjectLocationDetailViewData(project.ProjectID, mapInitJson, editableLayerGeoJson, uploadGisFileUrl, 
+                mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint, project.LocationIsPrivate);
 
             var viewData = new LocationDetailedViewData(CurrentFirmaSession, project, proposalSectionsStatus, projectLocationDetailViewData);
             return RazorView<LocationDetailed, LocationDetailedViewData, LocationDetailedViewModel>(viewData, viewModel);

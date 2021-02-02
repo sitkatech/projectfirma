@@ -44,7 +44,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ProjectLocationSimpleViewModel(project.ProjectLocationPoint, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes);
+            var viewModel = new ProjectLocationSimpleViewModel(project.ProjectLocationPoint, project.ProjectLocationSimpleType.ToEnum, 
+                project.ProjectLocationNotes, project.LocationIsPrivate);
             return ViewEditProjectLocationSummaryPoint(project, viewModel);
         }
 
@@ -104,7 +105,8 @@ namespace ProjectFirma.Web.Controllers
 
             var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
 
-            var viewData = new ProjectLocationDetailViewData(project.GetEntityID(), mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint);
+            var viewData = new ProjectLocationDetailViewData(project.GetEntityID(), mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, 
+                saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint, project.LocationIsPrivate);
             return RazorPartialView<ProjectLocationDetail, ProjectLocationDetailViewData, ProjectLocationDetailViewModel>(viewData, viewModel);
         }
 
