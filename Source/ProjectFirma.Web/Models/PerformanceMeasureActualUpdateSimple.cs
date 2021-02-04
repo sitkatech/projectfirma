@@ -64,14 +64,14 @@ namespace ProjectFirma.Web.Models
         public List<PerformanceMeasureActualSubcategoryOptionUpdateSimple> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
 
 
-        public PerformanceMeasureActualUpdateSimple(PerformanceMeasureExpectedUpdate performanceMeasureExpectedUpdate, int calendarYear)
+        public PerformanceMeasureActualUpdateSimple(PerformanceMeasureExpectedUpdate performanceMeasureExpectedUpdate, int calendarYear, int performanceMeasureActualIdToUse)
             : this()
         {
             var reportingPeriods =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Where(x =>
                     x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear).ToList();
             var reportingPeriod = reportingPeriods.Single();
-            PerformanceMeasureActualUpdateID = -1;
+            PerformanceMeasureActualUpdateID = performanceMeasureActualIdToUse;
             ProjectUpdateBatchID = performanceMeasureExpectedUpdate.ProjectUpdateBatchID;
             PerformanceMeasureID = performanceMeasureExpectedUpdate.PerformanceMeasureID;
             CalendarYear = calendarYear;
