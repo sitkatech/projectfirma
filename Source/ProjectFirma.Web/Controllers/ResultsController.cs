@@ -277,7 +277,7 @@ namespace ProjectFirma.Web.Controllers
                 new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
-                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
+                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(CurrentFirmaSession, true, true), "red", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 initialCustomization, "ProjectLocationsMap", true);
@@ -394,7 +394,7 @@ namespace ProjectFirma.Web.Controllers
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 
-            var filteredProjectsWithLocationAreas = filteredProjects.Where(x => !x.HasProjectLocationPoint).ToList();
+            var filteredProjectsWithLocationAreas = filteredProjects.Where(x => !x.HasProjectLocationPointViewableByUser(CurrentFirmaSession)).ToList();
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var taxonomyTiersAsFancyTreeNodes = taxonomyLevel

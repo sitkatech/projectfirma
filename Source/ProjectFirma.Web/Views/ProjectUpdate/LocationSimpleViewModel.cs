@@ -57,11 +57,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
                 case ProjectLocationSimpleTypeEnum.LatLngInput:
+                    // Using ProjectLocationPoint here because the location is being updated
                     projectUpdate.ProjectLocationPoint = ProjectLocationPointX.HasValue && ProjectLocationPointY.HasValue
                         ? DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
                         : null;
                     break;
                 case ProjectLocationSimpleTypeEnum.None:
+                    // Using ProjectLocationPoint here because the location is being updated
                     projectUpdate.ProjectLocationPoint = null;
                     break;
                 default:

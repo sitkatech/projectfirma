@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyBranch, new List<int> {taxonomyBranch.TaxonomyBranchID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson(
                 $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}", 
-                taxonomyBranchProjects.MappedPointsToGeoJsonFeatureCollection(true, true), 
+                taxonomyBranchProjects.MappedPointsToGeoJsonFeatureCollection(CurrentFirmaSession, true, true), 
                 "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, 
                 "TaxonomyBranchProjectMap", false);

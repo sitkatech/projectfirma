@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         }
 
         public LocationSimpleViewModel(ProjectFirmaModels.Models.Project project) : 
-            base(project.ProjectLocationPoint, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes, project.LocationIsPrivate)
+            base(project.GetProjectLocationPoint(true), project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes, project.LocationIsPrivate)
         {
             Comments = project.LocationSimpleComment;
         }

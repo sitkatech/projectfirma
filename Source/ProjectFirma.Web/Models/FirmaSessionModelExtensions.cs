@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -78,6 +79,20 @@ namespace ProjectFirma.Web.Models
         //    return person;
         //}
 
-        public static bool CanViewProposals(this FirmaSession firmaSession) => firmaSession != null && (MultiTenantHelpers.ShowProposalsToThePublic() || !firmaSession.IsAnonymousOrUnassigned());
+        public static bool CanViewProposals(this FirmaSession firmaSession)
+        {
+            return firmaSession != null &&
+                   (MultiTenantHelpers.ShowProposalsToThePublic() || !firmaSession.IsAnonymousOrUnassigned());
+        }
+
+        public static bool UserCanViewPrivateLocations(this FirmaSession currentFirmaSession, Project project)
+        {
+            return new ProjectUpdateCreateEditSubmitFeature().HasPermission(currentFirmaSession, project).HasPermission;
+        }
+
+        public static bool UserCanViewPrivateLocations(this FirmaSession currentFirmaSession, ProjectUpdate projectUpdate)
+        {
+            return currentFirmaSession.UserCanViewPrivateLocations(projectUpdate.ProjectUpdateBatch.Project);
+        }
     }
 }

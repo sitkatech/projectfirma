@@ -276,11 +276,13 @@ namespace ProjectFirma.Web.Models
             return geospatialAreaType.ValidateProjectGeospatialArea(project).IsValid;
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(this List<Project> projects, bool addProjectProperties, bool useDetailedCustomPopup)
+        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(this List<Project> projects, FirmaSession currentFirmaSession,
+            bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var featureCollection = new FeatureCollection();
-            var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
-            featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, useDetailedCustomPopup)).ToList());
+            var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPointViewableByUser(currentFirmaSession)).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.GetProjectLocationPoint(true),
+                addProjectProperties, useDetailedCustomPopup)).ToList());
             return featureCollection;
         }
 
@@ -336,9 +338,10 @@ namespace ProjectFirma.Web.Models
 
         public static string GetProjectLocationStateProvince(this Project project)
         {
-            if (project.HasProjectLocationPoint)
+            if (project.HasProjectLocationPoint(true))  // User doesn't need permission to view location point here since it's only being used to get the state
             {
-                var stateProvince = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList().FirstOrDefault(x => x.StateProvinceFeatureForAnalysis.Intersects(project.ProjectLocationPoint));
+                var stateProvince = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList().
+                    FirstOrDefault(x => x.StateProvinceFeatureForAnalysis.Intersects(project.GetProjectLocationPoint(true)));
                 return stateProvince != null ? stateProvince.StateProvinceAbbreviation : ViewUtilities.NaString;
             }
 
@@ -812,22 +815,32 @@ namespace ProjectFirma.Web.Models
         public static bool IsUpdatableViaProjectUpdateProcess(this Project project) => !project.IsPendingProject() &&
                                                             (project.ProjectStage.RequiresReportedExpenditures() ||
                                                              project.ProjectStage.RequiresPerformanceMeasureActuals());
-
-        public static FeatureCollection DetailedLocationToGeoJsonFeatureCollection(this Project project)
-        {
-            return project.ProjectLocations.ToGeoJsonFeatureCollection();
-        }
-
-        public static FeatureCollection SimpleLocationToGeoJsonFeatureCollection(this Project project, bool addProjectProperties)
+        
+        public static FeatureCollection SimpleLocationToGeoJsonFeatureCollection(this Project project, FirmaSession currentFirmaSession, bool addProjectProperties)
         {
             var featureCollection = new FeatureCollection();
-
-            if ((project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || project.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && project.HasProjectLocationPoint)
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(project);
+            if ((project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || project.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) &&
+                project.HasProjectLocationPoint(userCanViewPrivateLocations))
             {
-                featureCollection.Features.Add(project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, true));
+                featureCollection.Features.Add(project.MakePointFeatureWithRelevantProperties(project.GetProjectLocationPoint(userCanViewPrivateLocations),
+                    addProjectProperties, true));
             }
             return featureCollection;
         }
+
+
+        public static FeatureCollection DetailedLocationToGeoJsonFeatureCollection(this Project project, FirmaSession currentFirmaSession)
+        {
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(project);
+            if (!userCanViewPrivateLocations)
+            {
+                return new FeatureCollection();
+            }
+            return project.GetProjectLocationDetailedAsProjectLocations(true).ToGeoJsonFeatureCollection();
+        }
+
+
 
         public static List<Person> GetProjectStewardPeople(this Project project)
         {
@@ -1037,6 +1050,18 @@ namespace ProjectFirma.Web.Models
         public static bool HasEditableCustomAttributes(this Project project, FirmaSession currentFirmaSession)
         {
             return project.GetCustomAttributeTypes().Any(x => x.HasEditPermission(currentFirmaSession));
+        }
+
+        public static bool HasProjectLocationPointViewableByUser(this Project project, FirmaSession currentFirmaSession)
+        {
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(project);
+            return project.HasProjectLocationPoint(userCanViewPrivateLocations);
+        }
+
+        public static DbGeometry GetProjectLocationPointIfViewableByUser(this Project project, FirmaSession currentFirmaSession)
+        {
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(project);
+            return project.GetProjectLocationPoint(userCanViewPrivateLocations);
         }
     }
 }

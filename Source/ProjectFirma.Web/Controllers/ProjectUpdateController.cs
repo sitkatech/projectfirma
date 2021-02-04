@@ -1125,7 +1125,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
-            var viewModel = new LocationSimpleViewModel(projectUpdate.ProjectLocationPoint,
+            var viewModel = new LocationSimpleViewModel(projectUpdate.GetProjectLocationPoint(true),
                 projectUpdate.ProjectLocationSimpleType.ToEnum,
                 projectUpdate.ProjectLocationNotes,
                 projectUpdateBatch.LocationSimpleComment,
@@ -1171,8 +1171,11 @@ namespace ProjectFirma.Web.Controllers
             var locationSimpleValidationResult = projectUpdateBatch.ValidateProjectLocationSimple();
 
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(true), false);
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(projectUpdate);
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate, CurrentFirmaSession,
+                $"project_{project.ProjectID}_EditMap", geospatialAreas, 
+                projectUpdate.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations), 
+                projectUpdate.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession), false);
 
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
@@ -1281,20 +1284,21 @@ namespace ProjectFirma.Web.Controllers
             var project = projectUpdateBatch.Project;
 
             var mapDivID = $"project_{project.ProjectID}_EditDetailedMap";
-            var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection();
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(projectUpdate);
+            var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations);
             var editableLayerGeoJson = new LayerGeoJson(
                 $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", 
                 detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
 
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate, userCanViewPrivateLocations);
             var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(projectUpdate));
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(projectUpdate, userCanViewPrivateLocations));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox) {AllowFullScreen = false, DisablePopups = true};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
             var uploadGisFileUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.ProjectID));
             var saveFeatureCollectionUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project.ProjectID, null));
 
-            var hasSimpleLocationPoint = projectUpdate.ProjectLocationPoint != null;
+            var hasSimpleLocationPoint = projectUpdate.HasProjectLocationPoint(userCanViewPrivateLocations);
 
             var projectLocationDetailViewData = new ProjectLocationDetailViewData(projectUpdateBatch.ProjectID,
                 mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocationUpdate.FieldLengths.Annotation, 
@@ -1484,7 +1488,7 @@ namespace ProjectFirma.Web.Controllers
 
             try
             {
-                DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
+                DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectUpdate.GetProjectLocationDetailed(true).ToList()));
             }
             catch (Exception exception)
             {
@@ -1570,13 +1574,16 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType);
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate, CurrentFirmaSession));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
            
             var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType);
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate,
-                $"project_{project.ProjectID}_EditMap", geospatialAreas, projectUpdate.DetailedLocationToGeoJsonFeatureCollection(), projectUpdate.SimpleLocationToGeoJsonFeatureCollection(false), false);
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate, CurrentFirmaSession,
+                $"project_{project.ProjectID}_EditMap", geospatialAreas, 
+                projectUpdate.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations), 
+                projectUpdate.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession), false);
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
@@ -1587,7 +1594,7 @@ namespace ProjectFirma.Web.Controllers
 
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
-                projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreaType,
+                projectUpdate.HasProjectLocationPoint(userCanViewPrivateLocations), projectUpdate.HasProjectLocationDetailed(userCanViewPrivateLocations), geospatialAreaType,
                 geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
 
             var dictionaryGeoNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates
@@ -1636,7 +1643,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewBulkSetSpatialInformation(Project project, ProjectUpdateBatch projectUpdateBatch, BulkSetSpatialInformationViewModel viewModel)
         {
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
-            var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdateBatch.ProjectUpdate);
+            var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdateBatch.ProjectUpdate, CurrentFirmaSession);
 
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true };
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
@@ -1650,8 +1657,8 @@ namespace ProjectFirma.Web.Controllers
                           new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, projectUpdateBatch.ProjectUpdate, projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
-                geospatialAreasContainingProjectSimpleLocation, projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint,
-                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail, editSimpleLocationUrl, canEdit);
+                geospatialAreasContainingProjectSimpleLocation, projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint(true),
+                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetailed(true), editSimpleLocationUrl, canEdit);
 
 
             var viewData = new BulkSetSpatialInformationViewData(CurrentFirmaSession, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch), quickSetProjectSpatialInformationViewData);
@@ -3351,12 +3358,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
                 case ProjectLocationSimpleTypeEnum.LatLngInput:
-                    if (project.ProjectLocationPoint == null || projectUpdateBatch.ProjectUpdate.ProjectLocationPoint == null)
+                    if (!project.HasProjectLocationPoint(true) || !projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint(true))
                     {
                         SitkaLogger.Instance.LogDetailedErrorMessage($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectID} appears to have inconsistent simple location configuration.");
                         return true;
                     }
-                    return project.ProjectLocationPoint.ToSqlGeometry().STEquals(projectUpdateBatch.ProjectUpdate.ProjectLocationPoint.ToSqlGeometry()).IsFalse;
+                    return project.GetProjectLocationPoint(true).ToSqlGeometry().STEquals(projectUpdateBatch.ProjectUpdate.GetProjectLocationPoint(true).ToSqlGeometry()).IsFalse;
             }
 
             return false;
@@ -3368,7 +3375,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
             var originalLocationDetailed = project.ProjectLocations;
-            var updatedLocationDetailed = projectUpdateBatch.ProjectLocationUpdates;
+            var updatedLocationDetailed = projectUpdateBatch.ProjectUpdate.GetProjectLocationDetailedAsProjectLocationUpdate(true).ToList();
 
             if (!originalLocationDetailed.Any() && !updatedLocationDetailed.Any())
                 return false;
@@ -3545,7 +3552,8 @@ namespace ProjectFirma.Web.Controllers
             var allOrganizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
             var defaultPrimaryContact = projectUpdateBatch.Project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             
-            var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, allOrganizations, allPeople, allOrganizationRelationshipTypes, defaultPrimaryContact);
+            var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, CurrentFirmaSession, 
+                allOrganizations, allPeople, allOrganizationRelationshipTypes);
 
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.OrganizationRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
             var viewData = new OrganizationsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);

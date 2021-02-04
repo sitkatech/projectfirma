@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
             var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "#80b2ff", 1,
+                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(CurrentFirmaSession, true, true), "#80b2ff", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             layerGeoJsons.Add(projectLocationsLayerGeoJson);
 
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
 
             var associatedProjects = geospatialArea.GetAssociatedProjects(CurrentFirmaSession);
             LayerGeoJson projectLayerGeoJson;
-            var layers = geospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(associatedProjects, out projectLayerGeoJson);
+            var layers = geospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(CurrentFirmaSession, associatedProjects, out projectLayerGeoJson);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), new BoundingBox(geospatialArea.GeospatialAreaFeature));
 
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);

@@ -102,11 +102,11 @@ namespace ProjectFirma.Web.Controllers
                 ProjectColorByType.ProjectStage);
             var primaryProjectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
-                    primaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
+                    primaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(CurrentFirmaSession, true, false), "red", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var secondaryProjectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
-                    secondaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
+                    secondaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(CurrentFirmaSession, true, false), "red", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             // Add Organization Type boundaries according to configuration
             var configuredOrganizationBoundariesMapInitJson = HttpRequestStorage.DatabaseEntities.Organizations.GetConfiguredBoundaryLayersGeoJson();

@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Controllers
 
             var organizationHasOptedIn = organization.MatchmakerOptIn ?? false;
 
-            var projectFinderGridSpec = new ProjectFinderGridSpec();
+            var projectFinderGridSpec = new ProjectFinderGridSpec(CurrentFirmaSession);
             var projectMatchmakerScoresForOrganization = organizationHasOptedIn ? new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization) : new List<PartnerOrganizationMatchMakerScore>();
             var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldIncludeInMatchmaker()).ToList();
 
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
             var initialCustomization = new ProjectMapCustomization(ProjectMapCustomization.DefaultLocationFilterType, filterValues, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
-                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "blue", 1,
+                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(CurrentFirmaSession, true, true), "blue", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap", false);
             // Add Organization Type boundaries according to configuration
@@ -130,7 +130,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var organizationHasOptedIn = organization.MatchmakerOptIn ?? false;
-            var gridSpec = new ProjectFinderGridSpec();
+            var gridSpec = new ProjectFinderGridSpec(CurrentFirmaSession);
             var projectMatchmakerScoresForOrganization = organizationHasOptedIn ? new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization) : new List<PartnerOrganizationMatchMakerScore>();
             var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldIncludeInMatchmaker()).ToList();
 

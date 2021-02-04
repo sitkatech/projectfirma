@@ -42,9 +42,11 @@ namespace ProjectFirma.Web.Models
             return new FeatureCollection(geospatialAreas.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
 
-        public static List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GetGeospatialAreasContainingProjectLocation( IProject project,int? geoSpatialAreaTypeID)
+        public static List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GetGeospatialAreasContainingProjectLocation( IProject project,
+            int? geoSpatialAreaTypeID)
         {
-            return project?.ProjectLocationPoint == null
+            // Always use project location point here, even if it's private, since it isn't being exposed directly to user
+            return project.GetProjectLocationPoint(true) == null
                 ? new List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result>()
                 : HttpRequestStorage.DatabaseEntities.GetfGeoServerGeospatialAreaAreasContainingProjectLocations(project.ProjectOrProjectUpdateID
                     , project.IsProject
@@ -96,12 +98,12 @@ namespace ProjectFirma.Web.Models
                 layerInitialVisibility);
         }
 
-        public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(this GeospatialArea geospatialArea,
+        public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(this GeospatialArea geospatialArea, FirmaSession currentFirmaSession,
             List<Project> projects, out LayerGeoJson projectLayerGeoJson)
         {
             projectLayerGeoJson = new LayerGeoJson(
                 $"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                projects.MappedPointsToGeoJsonFeatureCollection(true, false),
+                projects.MappedPointsToGeoJsonFeatureCollection(currentFirmaSession, true, false),
                 "#ffff00", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.GeospatialAreaShortName,
                 new List<GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,

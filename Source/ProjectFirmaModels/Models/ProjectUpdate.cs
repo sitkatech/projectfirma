@@ -27,8 +27,8 @@ namespace ProjectFirmaModels.Models
 {
     public partial class ProjectUpdate : IProject
     {
-
         public int GetEntityID() => ProjectUpdateID;
+        public Project GetProject() => ProjectUpdateBatch.Project;
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
         public int ProjectCategoryID => ProjectUpdateBatch.Project.ProjectCategoryID;
 
@@ -85,7 +85,7 @@ namespace ProjectFirmaModels.Models
 
         public void LoadSimpleLocationFromProject(Project project)
         {
-            ProjectLocationPoint = project.ProjectLocationPoint;
+            ProjectLocationPoint = project.GetProjectLocationPoint(true);
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSimpleTypeID = project.ProjectLocationSimpleTypeID;
             LocationIsPrivate = project.LocationIsPrivate;
@@ -103,26 +103,20 @@ namespace ProjectFirmaModels.Models
         
         public void CommitSimpleLocationToProject(Project project)
         {
+            // Using ProjectLocationPoint here because location is being updated
             project.ProjectLocationPoint = ProjectLocationPoint;
             project.ProjectLocationNotes = ProjectLocationNotes;
             project.ProjectLocationSimpleTypeID = ProjectLocationSimpleTypeID;
             project.LocationIsPrivate = LocationIsPrivate;
         }
 
-        public bool HasProjectLocationPoint => ProjectLocationPoint != null;
 
-        public bool HasProjectLocationDetail => ProjectUpdateBatch.ProjectLocationUpdates.Any();
 
         public IEnumerable<IProjectCustomAttribute> GetProjectCustomAttributes() => ProjectUpdateBatch.ProjectCustomAttributeUpdates;
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
             return null;
-        }
-
-        public IEnumerable<IProjectLocation> GetProjectLocationDetails()
-        {
-            return ProjectUpdateBatch.ProjectLocationUpdates.ToList();
         }
 
         public DbGeometry GetDefaultBoundingBox()
@@ -148,5 +142,50 @@ namespace ProjectFirmaModels.Models
         }
         public bool IsProject { get { return false; } }
         public bool IsProjectUpdate { get { return true; } }
+
+        public bool HasProjectLocationPoint(bool includePrivateLocation)
+        {
+            if (LocationIsPrivate && !includePrivateLocation)
+            {
+                return false;
+            }
+            return ProjectLocationPoint != null;
+        }
+
+        public DbGeometry GetProjectLocationPoint(bool showLocationIfPrivate)
+        {
+            if (LocationIsPrivate && !showLocationIfPrivate)
+            {
+                return null;
+            }
+            return ProjectLocationPoint;
+        }
+
+        public bool HasProjectLocationDetailed(bool includePrivateLocation)
+        {
+            if (LocationIsPrivate && !includePrivateLocation)
+            {
+                return false;
+            }
+            return ProjectUpdateBatch.ProjectLocationUpdates.Any();
+        }
+
+        public IEnumerable<IProjectLocation> GetProjectLocationDetailed(bool showLocationIfPrivate)
+        {
+            if (LocationIsPrivate && !showLocationIfPrivate)
+            {
+                return new List<IProjectLocation>();
+            }
+            return ProjectUpdateBatch.ProjectLocationUpdates;
+        }    
+        
+        public List<ProjectLocationUpdate> GetProjectLocationDetailedAsProjectLocationUpdate(bool showLocationIfPrivate)
+        {
+            if (LocationIsPrivate && !showLocationIfPrivate)
+            {
+                return new List<ProjectLocationUpdate>();
+            }
+            return ProjectUpdateBatch.ProjectLocationUpdates.ToList();
+        }
     }
 }
