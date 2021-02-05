@@ -59,6 +59,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.AttachmentsNotesComment).HasColumnName(@"AttachmentsNotesComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.PhotosComment).HasColumnName(@"PhotosComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.SubmittedByPersonID).HasColumnName(@"SubmittedByPersonID").HasColumnType("int").IsOptional();
+            Property(x => x.LocationIsPrivate).HasColumnName(@"LocationIsPrivate").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.Projects).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_TaxonomyLeafID

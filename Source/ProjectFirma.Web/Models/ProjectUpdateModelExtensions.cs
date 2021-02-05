@@ -1,6 +1,10 @@
-﻿using GeoJSON.Net.Feature;
+﻿using System.Collections.Generic;
+using System.Data.Entity.Spatial;
+using System.Linq;
+using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -18,18 +22,19 @@ namespace ProjectFirma.Web.Models
             return projectUpdate.PlanningDesignStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(projectUpdate.PlanningDesignStartYear.Value) : null;
         }
 
-        public static FeatureCollection DetailedLocationToGeoJsonFeatureCollection(this ProjectUpdate projectUpdate)
+        public static FeatureCollection DetailedLocationToGeoJsonFeatureCollection(this ProjectUpdate projectUpdate, bool userCanViewPrivateLocations)
         {
-            return projectUpdate.ProjectUpdateBatch.ProjectLocationUpdates.ToGeoJsonFeatureCollection();
+            return projectUpdate.GetProjectLocationDetailedAsProjectLocationUpdate(userCanViewPrivateLocations).ToGeoJsonFeatureCollection();
         }
 
-        public static FeatureCollection SimpleLocationToGeoJsonFeatureCollection(this ProjectUpdate projectUpdate, bool addProjectProperties)
+        public static FeatureCollection SimpleLocationToGeoJsonFeatureCollection(this ProjectUpdate projectUpdate, FirmaSession firmaSession)
         {
             var featureCollection = new FeatureCollection();
-
-            if ((projectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || projectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && projectUpdate.ProjectLocationPoint != null)
+            var userCanViewPrivateLocations = firmaSession.UserCanViewPrivateLocations(projectUpdate);
+            if ((projectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || projectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && 
+                projectUpdate.HasProjectLocationPoint(userCanViewPrivateLocations))
             {
-                featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(projectUpdate.ProjectLocationPoint));
+                featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(projectUpdate.GetProjectLocationPoint(userCanViewPrivateLocations)));
             }
             return featureCollection;
         }

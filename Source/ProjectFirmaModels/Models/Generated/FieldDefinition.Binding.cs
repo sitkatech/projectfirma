@@ -316,6 +316,7 @@ namespace ProjectFirmaModels.Models
         OrganizationKeystoneGuid = 366,
         ContactRelationshipTypeAcceptsMultipleValues = 367,
         OrganizationTypeLayerOnByDefault = 368,
-        GeospatialAreaTypeOnByDefaultOnOtherMaps = 369
+        GeospatialAreaTypeOnByDefaultOnOtherMaps = 369,
+        ProjectLocationIsPrivate = 370
     }
 }

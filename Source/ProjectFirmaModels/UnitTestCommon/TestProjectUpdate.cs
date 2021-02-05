@@ -35,7 +35,8 @@ namespace ProjectFirmaModels.UnitTestCommon
 
             public static ProjectUpdate Create(ProjectUpdateBatch projectUpdateBatch)
             {
-                var projectUpdate = new ProjectUpdate(projectUpdateBatch, ProjectStage.PlanningDesign, MakeTestName("Project Description"), ProjectLocationSimpleType.None);
+                var projectUpdate = new ProjectUpdate(projectUpdateBatch, ProjectStage.PlanningDesign, 
+                    MakeTestName("Project Description"), ProjectLocationSimpleType.None, false);
                 projectUpdateBatch.ProjectUpdate = projectUpdate;
                 return projectUpdate;
             }

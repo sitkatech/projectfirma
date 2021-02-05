@@ -47,8 +47,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
             EndDate = project.CompletionYear;
             Stage = project.ProjectStage.ProjectStageDisplayName;
 
-            Latitude = project.ProjectLocationPoint?.YCoordinate;
-            Longitude = project.ProjectLocationPoint?.XCoordinate;
+            var projectLocationPoint = project.GetProjectLocationPoint(false);
+            Latitude = projectLocationPoint?.YCoordinate;
+            Longitude = projectLocationPoint?.XCoordinate;
 
             Datum = "WGS84";
             

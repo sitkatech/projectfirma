@@ -33,7 +33,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string MapFormID { get; }
         public string MapPostUrl { get; }
 
-        public ProjectLocationSimpleViewData(FirmaSession currentFirmaSession, MapInitJson mapInitJson, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature, string mapPostUrl, string mapFormID)
+        public ProjectLocationSimpleViewData(FirmaSession currentFirmaSession, MapInitJson mapInitJson, List<GeospatialAreaType> geospatialAreaTypes, 
+            Feature currentFeature, string mapPostUrl, string mapFormID)
             : base(currentFirmaSession)
         {
             ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, geospatialAreaTypes, currentFeature);
@@ -41,10 +42,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             MapFormID = mapFormID;
             FieldDefinitionForProjectLocation = FieldDefinitionEnum.ProjectLocation.ToType();
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForLocationIsPrivate = FieldDefinitionEnum.ProjectLocationIsPrivate.ToType();
         }
 
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProjectLocation { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForLocationIsPrivate { get; }
     }
 
     public class ProjectLocationSimpleViewDataForAngular

@@ -46,9 +46,9 @@ namespace ProjectFirma.Api.Models
             TargetedFunding = project.GetTargetedFunding();
             NoFundingSourceIdentifiedFunding = project.GetNoFundingSourceIdentifiedAmount();
             TotalExpenditures = project.TotalExpenditures;
-            if (project.ProjectLocationPoint != null)
+            if (project.HasProjectLocationPoint(false)) // Don't include private locations in API results
             {
-                LocationPointAsGeoJsonFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint);
+                LocationPointAsGeoJsonFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(project.GetProjectLocationPoint(false));
             }
             LastUpdatedDate = project.LastUpdatedDate;
 

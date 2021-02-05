@@ -190,5 +190,5 @@ VALUES
 (366, N'OrganizationKeystoneGuid', N'Keystone Organization GUID'),
 (367, N'ContactRelationshipTypeAcceptsMultipleValues', N'Accepts Multiple Values'),
 (368, 'OrganizationTypeLayerOnByDefault', 'Layer on by Default?'),
-(369, 'GeospatialAreaTypeOnByDefaultOnOtherMaps', 'Layer on by default on all maps other than the Project Map?')
-
+(369, 'GeospatialAreaTypeOnByDefaultOnOtherMaps', 'Layer on by default on all maps other than the Project Map?'),
+(370, 'ProjectLocationIsPrivate', 'Location Privacy')

@@ -111,8 +111,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public static List<ProjectFirmaModels.Models.Project> ProjectsForMap(bool showProposals)
         {
-            return new List<ProjectFirmaModels.Models.Project>(HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(showProposals)).Where(x => x.ProjectStage.ShouldShowOnMap())
+            return new List<ProjectFirmaModels.Models.Project>(HttpRequestStorage.DatabaseEntities.Projects.Where(x => !x.LocationIsPrivate).ToList().
+                    GetActiveProjectsAndProposals(showProposals)).Where(x => x.ProjectStage.ShouldShowOnMap())
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
+        }
+
+        public static List<ProjectFirmaModels.Models.Project> GetProjectsWithPrivateLocations()
+        {
+            // This is being used to create FancyTree JSON data that does not include location data
+            return HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.LocationIsPrivate).ToList();
         }
     }
 }
