@@ -87,7 +87,13 @@ namespace ProjectFirma.Web.Models
 
         public static bool UserCanViewPrivateLocations(this FirmaSession currentFirmaSession, Project project)
         {
-            return new ProjectUpdateCreateEditSubmitFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.Draft)
+            {
+                return new ProjectCreateFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            }
+
+            return new ProjectUpdateCreateEditSubmitFeature().HasPermission(currentFirmaSession, project).HasPermission ||
+                   new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
         }
 
         public static bool UserCanViewPrivateLocations(this FirmaSession currentFirmaSession, ProjectUpdate projectUpdate)

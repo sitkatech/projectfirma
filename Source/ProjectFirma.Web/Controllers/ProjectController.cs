@@ -168,9 +168,10 @@ namespace ProjectFirma.Web.Controllers
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession, $"project_{project.ProjectID}_Map", geospatialAreas, 
-                project.DetailedLocationToGeoJsonFeatureCollection(CurrentFirmaSession), 
-                project.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession, false), true);
+                project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations), 
+                project.SimpleLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations, false), true);
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var dictionaryGeoNotes = project.ProjectGeospatialAreaTypeNotes.ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
@@ -450,7 +451,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.");
-            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf) : ViewForwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf);
+            return project.IsBackwardLookingFactSheetRelevant() ? 
+                ViewBackwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf) : 
+                ViewForwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf);
         }
 
         private ViewResult ViewBackwardLookingFactSheet(Project project, bool withCustomAttributes, FactSheetPdfEnum factSheetPdfEnum)
@@ -460,8 +463,8 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             // do not include external map layers
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession, mapDivID, geospatialAreas, 
-                project.DetailedLocationToGeoJsonFeatureCollection(CurrentFirmaSession), 
-                project.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession, false), 
+                project.DetailedLocationToGeoJsonFeatureCollection(false), 
+                project.SimpleLocationToGeoJsonFeatureCollection(false, false), 
                 false, true);
             var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
             var expenditureGooglePieChartSlices = ProjectModelExtensions.GetExpenditureGooglePieChartSlices(project);
@@ -487,8 +490,8 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             // do not include external map layers
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession, mapDivID, geospatialAreas, 
-                project.DetailedLocationToGeoJsonFeatureCollection(CurrentFirmaSession), 
-                project.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession, false), false, true);
+                project.DetailedLocationToGeoJsonFeatureCollection(false), 
+                project.SimpleLocationToGeoJsonFeatureCollection(false, false), false, true);
             var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
             var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
             var googleChartDataTable =

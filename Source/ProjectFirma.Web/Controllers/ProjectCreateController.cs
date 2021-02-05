@@ -957,11 +957,11 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewEditLocationDetailed(Project project, LocationDetailedViewModel viewModel)
         {
             var mapDivID = $"project_{project.GetEntityID()}_EditDetailedMap";
-            var detailedLocationGeoJsonFeatureCollection = ProjectModelExtensions.DetailedLocationToGeoJsonFeatureCollection(project, CurrentFirmaSession);
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations);
             var editableLayerGeoJson = new LayerGeoJson(
                 $"Proposed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}- Detail", 
                 detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
-            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project, userCanViewPrivateLocations);
             var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project, userCanViewPrivateLocations));

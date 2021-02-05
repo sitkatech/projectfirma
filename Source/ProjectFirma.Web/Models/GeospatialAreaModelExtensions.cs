@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Models
         {
             projectLayerGeoJson = new LayerGeoJson(
                 $"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                projects.MappedPointsToGeoJsonFeatureCollection(currentFirmaSession, true, false),
+                projects.MappedPointsToGeoJsonFeatureCollection(false, true, false),
                 "#ffff00", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.GeospatialAreaShortName,
                 new List<GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,

@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Models
         public static List<LayerGeoJson> GetProjectLocationSimpleMapLayer(IProject project, bool userCanViewPrivateLocations)
         {
             var layerGeoJsons = new List<LayerGeoJson>();
-            if (project.GetProjectLocationPoint(userCanViewPrivateLocations) != null)
+            if (project.HasProjectLocationPoint(userCanViewPrivateLocations))
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple",
                     new FeatureCollection(new List<Feature>
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Models
             {
                 layerGeoJsons.AddRange(GetProjectLocationSimpleMapLayer(project, userCanViewPrivateLocations));                
             }
-            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(currentFirmaSession);
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations);
             if (detailedLocationGeoJsonFeatureCollection.Features.Any())
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));

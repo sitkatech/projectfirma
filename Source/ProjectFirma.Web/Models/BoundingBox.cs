@@ -215,7 +215,7 @@ namespace ProjectFirma.Web.Models
                 return new BoundingBox(project.GetDefaultBoundingBox());
             }
 
-            if (project.GetProjectLocationDetailed(userCanViewPrivateLocations).Any())
+            if (project.HasProjectLocationDetailed(userCanViewPrivateLocations))
             {
                 var pointList = new List<Point>();
                 

@@ -276,11 +276,11 @@ namespace ProjectFirma.Web.Models
             return geospatialAreaType.ValidateProjectGeospatialArea(project).IsValid;
         }
 
-        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(this List<Project> projects, FirmaSession currentFirmaSession,
+        public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(this List<Project> projects, bool includePrivateLocations,
             bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var featureCollection = new FeatureCollection();
-            var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPointViewableByUser(currentFirmaSession)).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint(includePrivateLocations)).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
             featureCollection.Features.AddRange(filteredProjectList.Select(project => project.MakePointFeatureWithRelevantProperties(project.GetProjectLocationPoint(true),
                 addProjectProperties, useDetailedCustomPopup)).ToList());
             return featureCollection;
@@ -816,10 +816,9 @@ namespace ProjectFirma.Web.Models
                                                             (project.ProjectStage.RequiresReportedExpenditures() ||
                                                              project.ProjectStage.RequiresPerformanceMeasureActuals());
         
-        public static FeatureCollection SimpleLocationToGeoJsonFeatureCollection(this Project project, FirmaSession currentFirmaSession, bool addProjectProperties)
+        public static FeatureCollection SimpleLocationToGeoJsonFeatureCollection(this Project project, bool userCanViewPrivateLocations, bool addProjectProperties)
         {
             var featureCollection = new FeatureCollection();
-            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(project);
             if ((project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || project.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) &&
                 project.HasProjectLocationPoint(userCanViewPrivateLocations))
             {
@@ -830,9 +829,8 @@ namespace ProjectFirma.Web.Models
         }
 
 
-        public static FeatureCollection DetailedLocationToGeoJsonFeatureCollection(this Project project, FirmaSession currentFirmaSession)
+        public static FeatureCollection DetailedLocationToGeoJsonFeatureCollection(this Project project, bool userCanViewPrivateLocations)
         {
-            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(project);
             if (!userCanViewPrivateLocations)
             {
                 return new FeatureCollection();

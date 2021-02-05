@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectLocationDetailed(Project project, ProjectLocationDetailViewModel viewModel)
         {
             var mapDivID = $"project_{project.GetEntityID()}_EditDetailedMap";
-            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(CurrentFirmaSession);
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(true);
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
 
             var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
@@ -338,11 +338,11 @@ namespace ProjectFirma.Web.Controllers
             var layerGeoJsons = new List<LayerGeoJson>
                 {
                     project.HasProjectLocationPoint(userCanViewPrivateLocations)
-                        ? new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession, true),
+                        ? new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations, true),
                             FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
                         : null,
                     project.HasProjectLocationDetailed(userCanViewPrivateLocations)
-                        ? new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(CurrentFirmaSession),
+                        ? new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations),
                             FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
                         : null
                 }

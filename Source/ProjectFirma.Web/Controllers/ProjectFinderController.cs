@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
             var initialCustomization = new ProjectMapCustomization(ProjectMapCustomization.DefaultLocationFilterType, filterValues, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
-                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(CurrentFirmaSession, true, true), "blue", 1,
+                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(false, true, true), "blue", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap", false);
             // Add Organization Type boundaries according to configuration

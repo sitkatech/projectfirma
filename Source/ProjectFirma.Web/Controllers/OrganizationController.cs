@@ -595,7 +595,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(currentFirmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
-            var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
+            var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => !x.LocationIsPrivate).
+                Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
             var projectSimpleLocationsFeatureCollection = new FeatureCollection();
             projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Where(currentFirmaSession.UserCanViewPrivateLocations).Select(x =>
             {

@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
             var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(CurrentFirmaSession, true, true), "#80b2ff", 1,
+                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(false, true, true), "#80b2ff", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             layerGeoJsons.Add(projectLocationsLayerGeoJson);
 
