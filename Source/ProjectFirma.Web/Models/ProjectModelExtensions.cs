@@ -831,7 +831,7 @@ namespace ProjectFirma.Web.Models
 
         public static FeatureCollection DetailedLocationToGeoJsonFeatureCollection(this Project project, bool userCanViewPrivateLocations)
         {
-            if (!userCanViewPrivateLocations)
+            if (project.LocationIsPrivate && !userCanViewPrivateLocations)
             {
                 return new FeatureCollection();
             }
