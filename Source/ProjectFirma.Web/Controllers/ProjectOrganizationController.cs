@@ -71,9 +71,8 @@ namespace ProjectFirma.Web.Controllers
                 allPeople.Add(CurrentPerson);
             }
             var allOrganizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
-            var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
 
-            var viewData = new EditOrganizationsViewData(project, allOrganizations, allPeople, allOrganizationRelationshipTypes, defaultPrimaryContact);
+            var viewData = new EditOrganizationsViewData(project, CurrentFirmaSession, allOrganizations, allPeople, allOrganizationRelationshipTypes);
             return RazorPartialView<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(viewData, viewModel);
         }
     }

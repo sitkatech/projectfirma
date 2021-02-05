@@ -18,15 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common;
+using LtInfo.Common.DbSpatial;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirmaModels.Models;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
-using LtInfo.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using LtInfo.Common.DbSpatial;
-using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -43,31 +42,35 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public LocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes, string comments)
-            : base(projectLocationPoint, projectLocationSimpleType, projectLocationNotes)
+        public LocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, 
+            string projectLocationNotes, string comments, bool locationIsPrivate)
+            : base(projectLocationPoint, projectLocationSimpleType, projectLocationNotes, locationIsPrivate)
         {
             Comments = comments;
         }
 
         public void UpdateModelBatch(ProjectUpdateBatch projectUpdateBatch)
         {
-            var project = projectUpdateBatch.ProjectUpdate;
-            project.ProjectLocationSimpleTypeID = ProjectFirmaModels.Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+            projectUpdate.ProjectLocationSimpleTypeID = ProjectFirmaModels.Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
             switch (ProjectLocationSimpleType)
             {
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
                 case ProjectLocationSimpleTypeEnum.LatLngInput:
-                    project.ProjectLocationPoint = ProjectLocationPointX.HasValue && ProjectLocationPointY.HasValue
+                    // Using ProjectLocationPoint here because the location is being updated
+                    projectUpdate.ProjectLocationPoint = ProjectLocationPointX.HasValue && ProjectLocationPointY.HasValue
                         ? DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, LtInfoGeometryConfiguration.DefaultCoordinateSystemId)
                         : null;
                     break;
                 case ProjectLocationSimpleTypeEnum.None:
-                    project.ProjectLocationPoint = null;
+                    // Using ProjectLocationPoint here because the location is being updated
+                    projectUpdate.ProjectLocationPoint = null;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            project.ProjectLocationNotes = ProjectLocationNotes;
+            projectUpdate.ProjectLocationNotes = ProjectLocationNotes;
+            projectUpdate.LocationIsPrivate = LocationIsPrivate;
         }
     }
 }

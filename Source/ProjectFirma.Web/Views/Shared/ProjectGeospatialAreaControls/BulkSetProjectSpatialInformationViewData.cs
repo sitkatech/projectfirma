@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public string EditSimpleLocationUrl { get; }
 
         public BulkSetProjectSpatialInformationViewData(FirmaSession currentFirmaSession, 
-                                                         IProject project, 
+                                                         IProject iProject, 
                                                          List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasOnProject, 
                                                          List<GeospatialAreaType> geospatialAreaTypes, 
                                                          MapInitJson mapInitJson, 
@@ -31,7 +31,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                                                          bool hasProjectLocationDetail,
                                                          string editSimpleLocationUrl, bool canEdit) : base(currentFirmaSession)
         {
-            ProjectSimpleLocation = project.ProjectLocationPoint;
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(iProject.GetProject());
+            ProjectSimpleLocation = iProject.GetProjectLocationPoint(userCanViewPrivateLocations);
             GeospatialAreaTypes = geospatialAreaTypes;
             EditProjectGeospatialAreasUrl = editProjectGeospatialAreasUrl;
             EditProjectGeospatialAreasFormID = editProjectGeospatialAreasFormID;

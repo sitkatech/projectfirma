@@ -591,15 +591,16 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Detail, OrganizationDetailViewData>(viewData);
         }
 
-        private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, FirmaSession firmaSession)
+        private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, FirmaSession currentFirmaSession)
         {
-            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(firmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(currentFirmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
-            var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
+            var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => !x.LocationIsPrivate).
+                Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
             var projectSimpleLocationsFeatureCollection = new FeatureCollection();
-            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Select(x =>
+            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Where(currentFirmaSession.UserCanViewPrivateLocations).Select(x =>
             {
-                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true, true);
+                var feature = x.MakePointFeatureWithRelevantProperties(x.GetProjectLocationPoint(true), true, true);
                 feature.Properties["FeatureColor"] = "#99b3ff";
                 return feature;
             }).ToList());
@@ -609,7 +610,7 @@ namespace ProjectFirma.Web.Controllers
             return new LayerGeoJson($"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
         }
 
-        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, FirmaSession firmaSession)
+        private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, FirmaSession currentFirmaSession)
         {
             hasSpatialData = false;
             
@@ -627,11 +628,11 @@ namespace ProjectFirma.Web.Controllers
 
             layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayers());
 
-            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(firmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(currentFirmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
-            var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
+            var filteredProjects = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
 
-            dbGeometries.AddRange(projectsAsSimpleLocations.Select(p => p.ProjectLocationPoint));
+            dbGeometries.AddRange(filteredProjects.Where(currentFirmaSession.UserCanViewPrivateLocations).Select(p => p.GetProjectLocationPoint(true)));
 
             var boundingBox = new BoundingBox(dbGeometries);
 

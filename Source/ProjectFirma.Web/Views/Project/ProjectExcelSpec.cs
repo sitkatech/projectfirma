@@ -32,7 +32,8 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class ProjectExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.Project>
     {
-        public ProjectExcelSpec(IEnumerable<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+        public ProjectExcelSpec(FirmaSession currentFirmaSession, IEnumerable<GeospatialAreaType> geospatialAreaTypes, 
+            List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
         {
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.ProjectID);
             AddColumn(FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel(), x => x.ProjectName);
@@ -74,8 +75,8 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), x => x.GetNoFundingSourceIdentifiedAmount());
             AddColumn("State", a => a.GetProjectLocationStateProvince());
             AddColumn($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
-            AddColumn("Latitude", x => x.ProjectLocationPoint?.YCoordinate);
-            AddColumn("Longitude", x => x.ProjectLocationPoint?.XCoordinate);
+            AddColumn("Latitude", x => x.GetProjectLocationPoint(false)?.YCoordinate);
+            AddColumn("Longitude", x => x.GetProjectLocationPoint(false)?.XCoordinate);
         }
     }
 

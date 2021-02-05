@@ -58,7 +58,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment, int? submittedByPersonID) : this()
+        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment, int? submittedByPersonID, bool locationIsPrivate) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyLeafID = taxonomyLeafID;
@@ -103,12 +103,13 @@ namespace ProjectFirmaModels.Models
             this.AttachmentsNotesComment = attachmentsNotesComment;
             this.PhotosComment = photosComment;
             this.SubmittedByPersonID = submittedByPersonID;
+            this.LocationIsPrivate = locationIsPrivate;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int projectApprovalStatusID, DateTime lastUpdatedDate, int projectCategoryID) : this()
+        public Project(int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, bool isFeatured, int projectLocationSimpleTypeID, int projectApprovalStatusID, DateTime lastUpdatedDate, int projectCategoryID, bool locationIsPrivate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -122,12 +123,13 @@ namespace ProjectFirmaModels.Models
             this.ProjectApprovalStatusID = projectApprovalStatusID;
             this.LastUpdatedDate = lastUpdatedDate;
             this.ProjectCategoryID = projectCategoryID;
+            this.LocationIsPrivate = locationIsPrivate;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Project(TaxonomyLeaf taxonomyLeaf, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, ProjectApprovalStatus projectApprovalStatus, DateTime lastUpdatedDate, ProjectCategory projectCategory) : this()
+        public Project(TaxonomyLeaf taxonomyLeaf, ProjectStage projectStage, string projectName, string projectDescription, bool isFeatured, ProjectLocationSimpleType projectLocationSimpleType, ProjectApprovalStatus projectApprovalStatus, DateTime lastUpdatedDate, ProjectCategory projectCategory, bool locationIsPrivate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -142,6 +144,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectApprovalStatusID = projectApprovalStatus.ProjectApprovalStatusID;
             this.LastUpdatedDate = lastUpdatedDate;
             this.ProjectCategoryID = projectCategory.ProjectCategoryID;
+            this.LocationIsPrivate = locationIsPrivate;
         }
 
         /// <summary>
@@ -149,7 +152,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static Project CreateNewBlank(TaxonomyLeaf taxonomyLeaf, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType, ProjectApprovalStatus projectApprovalStatus, ProjectCategory projectCategory)
         {
-            return new Project(taxonomyLeaf, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, projectApprovalStatus, default(DateTime), projectCategory);
+            return new Project(taxonomyLeaf, projectStage, default(string), default(string), default(bool), projectLocationSimpleType, projectApprovalStatus, default(DateTime), projectCategory, default(bool));
         }
 
         /// <summary>
@@ -524,6 +527,7 @@ namespace ProjectFirmaModels.Models
         public string AttachmentsNotesComment { get; set; }
         public string PhotosComment { get; set; }
         public int? SubmittedByPersonID { get; set; }
+        public bool LocationIsPrivate { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 

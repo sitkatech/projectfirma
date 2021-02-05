@@ -45,6 +45,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProjectLocationNotes)]
         public string ProjectLocationNotes { get; set; }
 
+        public bool LocationIsPrivate { get; set; }
+
         /// <summary>
         /// Needed by model binder
         /// </summary>
@@ -52,7 +54,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
         }
 
-        public ProjectLocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, string projectLocationNotes)
+        public ProjectLocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, 
+            string projectLocationNotes, bool locationIsPrivate)
         {
             ProjectLocationSimpleType = projectLocationSimpleType;
             if (projectLocationPoint != null)
@@ -66,24 +69,28 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                 ProjectLocationPointY = null;
             }
             ProjectLocationNotes = projectLocationNotes;
+            LocationIsPrivate = locationIsPrivate;
         }
 
-        public virtual void UpdateModel(IProject project)
+        public virtual void UpdateModel(IProject iProject)
         {
-            project.ProjectLocationSimpleTypeID = ProjectFirmaModels.Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
+            iProject.ProjectLocationSimpleTypeID = ProjectFirmaModels.Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
             switch (ProjectLocationSimpleType)
             {                
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
                 case ProjectLocationSimpleTypeEnum.LatLngInput:
-                    project.ProjectLocationPoint = DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
+                    // Using ProjectLocationPoint here because location is being updated
+                    iProject.ProjectLocationPoint = DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
                     break;
                 case ProjectLocationSimpleTypeEnum.None:
-                    project.ProjectLocationPoint = null;
+                    // Using ProjectLocationPoint here because location is being updated
+                    iProject.ProjectLocationPoint = null;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            project.ProjectLocationNotes = ProjectLocationNotes;
+            iProject.ProjectLocationNotes = ProjectLocationNotes;
+            iProject.LocationIsPrivate = LocationIsPrivate;
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -19,14 +19,14 @@ namespace ProjectFirmaModels.Models
                 x.OrganizationType.Organizations.Any(y => y.OrganizationBoundary != null));            
         }
 
-        public Organization GetOrganizationContainingProjectSimpleLocation(IProject project)
+        public Organization GetOrganizationContainingProjectSimpleLocation(IProject project, bool userCanViewPrivateLocations)
         {
             if (!(HasOrganizationsWithSpatialBoundary() && IsOrganizationRelationshipTypeRequired))
             {
                 return null;
             }
 
-            if (project.ProjectLocationPoint == null)
+            if (project.HasProjectLocationPoint(userCanViewPrivateLocations))
             {
                 return null;
             }
@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.Models
             {
                 try
                 {
-                    var projectLocationPoint = project.ProjectLocationPoint;
+                    var projectLocationPoint = project.GetProjectLocationPoint(userCanViewPrivateLocations);
                     var contains = x.OrganizationBoundary.Contains(projectLocationPoint);
                     return contains;
                 }

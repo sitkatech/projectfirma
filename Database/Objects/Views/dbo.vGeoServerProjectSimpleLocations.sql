@@ -15,4 +15,4 @@ select
 from
 	dbo.Project p
 	join dbo.Tenant t on p.TenantID = t.TenantID
-    where ProjectLocationPoint is not null
+    where LocationIsPrivate = 0 and ProjectLocationPoint is not null
