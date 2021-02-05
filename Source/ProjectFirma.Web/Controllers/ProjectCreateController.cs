@@ -514,6 +514,7 @@ namespace ProjectFirma.Web.Controllers
                 .ThenBy(x => x.PerformanceMeasure.GetDisplayName()).ToList();
             var yearRange = project.GetProjectUpdateImplementationStartToCompletionYearRange();
             var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
+            var performanceMeasureActualIdToUse = -1;
             foreach (var calendarYear in yearRange)
             {
                 var reportingPeriod =
@@ -526,9 +527,13 @@ namespace ProjectFirma.Web.Controllers
                         newPerformanceMeasureReportingPeriod);
                     HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
                 }
-
-                var onesToAdd = sortedExpectedPerformanceMeasures.Select(x => new PerformanceMeasureActualSimple(x, calendarYear));
-                performanceMeasureActualSimples.AddRange(onesToAdd);
+                foreach (var sortedExpectedPerformanceMeasure in sortedExpectedPerformanceMeasures)
+                {
+                    var performanceMeasureActual = new PerformanceMeasureActualSimple(sortedExpectedPerformanceMeasure,
+                        calendarYear, performanceMeasureActualIdToUse);
+                    performanceMeasureActualSimples.Add(performanceMeasureActual);
+                    performanceMeasureActualIdToUse--;
+                }
             }
         }
 

@@ -80,14 +80,14 @@ namespace ProjectFirma.Web.Models
         }
 
 
-        public PerformanceMeasureActualSimple(PerformanceMeasureExpected performanceMeasureExpected, int calendarYear)
+        public PerformanceMeasureActualSimple(PerformanceMeasureExpected performanceMeasureExpected, int calendarYear, int decrementingPerformanceMeasureActual)
             : this()
         {
             var reportingPeriods =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Where(x =>
                     x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear).ToList();
             var reportingPeriod = reportingPeriods.Single();
-            PerformanceMeasureActualID = -1;
+            PerformanceMeasureActualID = decrementingPerformanceMeasureActual;
             ProjectID = performanceMeasureExpected.ProjectID;
             PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
             CalendarYear = calendarYear;
