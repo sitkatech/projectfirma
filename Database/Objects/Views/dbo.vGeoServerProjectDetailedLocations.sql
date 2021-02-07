@@ -17,3 +17,4 @@ select
 from dbo.ProjectLocation pl
 join dbo.Project p on pl.ProjectID = p.ProjectID 
 join dbo.Tenant t on pl.TenantID = t.TenantID
+where p.LocationIsPrivate = 0

@@ -168,13 +168,16 @@ namespace ProjectFirma.Web.Controllers
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, $"project_{project.ProjectID}_Map", geospatialAreas, 
-                project.DetailedLocationToGeoJsonFeatureCollection(), 
-                project.SimpleLocationToGeoJsonFeatureCollection(false), true);
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession,
+                $"project_{project.ProjectID}_Map", geospatialAreas, 
+                project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations), 
+                project.SimpleLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations, false), true);
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var dictionaryGeoNotes = project.ProjectGeospatialAreaTypeNotes.ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson, dictionaryGeoNotes, geospatialAreaTypes, geospatialAreas);
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson, dictionaryGeoNotes, 
+                geospatialAreaTypes, geospatialAreas, project.LocationIsPrivate);
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
@@ -449,7 +452,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.");
-            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf) : ViewForwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf);
+            return project.IsBackwardLookingFactSheetRelevant() ? 
+                ViewBackwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf) : 
+                ViewForwardLookingFactSheet(project, true, FactSheetPdfEnum.Pdf);
         }
 
         private ViewResult ViewBackwardLookingFactSheet(Project project, bool withCustomAttributes, FactSheetPdfEnum factSheetPdfEnum)
@@ -458,8 +463,9 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             // do not include external map layers
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, geospatialAreas, 
-                project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), 
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession, mapDivID, geospatialAreas, 
+                project.DetailedLocationToGeoJsonFeatureCollection(false), 
+                project.SimpleLocationToGeoJsonFeatureCollection(false, false), 
                 false, true);
             var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
             var expenditureGooglePieChartSlices = ProjectModelExtensions.GetExpenditureGooglePieChartSlices(project);
@@ -484,7 +490,9 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             // do not include external map layers
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), false, true);
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession, mapDivID, geospatialAreas, 
+                project.DetailedLocationToGeoJsonFeatureCollection(false), 
+                project.SimpleLocationToGeoJsonFeatureCollection(false, false), false, true);
             var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
             var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
             var googleChartDataTable =
@@ -604,7 +612,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var projectsSpec = new ProjectExcelSpec(geospatialAreaTypes, projectCustomAttributeTypes);
+            var projectsSpec = new ProjectExcelSpec(CurrentFirmaSession, geospatialAreaTypes, projectCustomAttributeTypes);
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
 
             var workSheets = new List<IExcelWorkbookSheetDescriptor>

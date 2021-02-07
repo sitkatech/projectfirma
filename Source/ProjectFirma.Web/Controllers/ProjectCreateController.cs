@@ -250,7 +250,8 @@ namespace ProjectFirma.Web.Controllers
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
                 now, 
-                ProjectCategory.Normal.ProjectCategoryID)
+                ProjectCategory.Normal.ProjectCategoryID,
+                false)
             {
 
                 ProposingPerson = CurrentFirmaSession.Person,
@@ -961,20 +962,22 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewEditLocationDetailed(Project project, LocationDetailedViewModel viewModel)
         {
             var mapDivID = $"project_{project.GetEntityID()}_EditDetailedMap";
-            var detailedLocationGeoJsonFeatureCollection = ProjectModelExtensions.DetailedLocationToGeoJsonFeatureCollection(project);
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations);
             var editableLayerGeoJson = new LayerGeoJson(
                 $"Proposed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}- Detail", 
                 detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project, userCanViewPrivateLocations);
             var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project, userCanViewPrivateLocations));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
             var uploadGisFileUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.GetEntityID()));
             var saveFeatureCollectionUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project, null));
-            var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
+            var hasSimpleLocationPoint = project.HasProjectLocationPoint(userCanViewPrivateLocations);
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
-            var projectLocationDetailViewData = new ProjectLocationDetailViewData(project.ProjectID, mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint);
+            var projectLocationDetailViewData = new ProjectLocationDetailViewData(project.ProjectID, mapInitJson, editableLayerGeoJson, uploadGisFileUrl, 
+                mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint, project.LocationIsPrivate);
 
             var viewData = new LocationDetailedViewData(CurrentFirmaSession, project, proposalSectionsStatus, projectLocationDetailViewData);
             return RazorView<LocationDetailed, LocationDetailedViewData, LocationDetailedViewModel>(viewData, viewModel);
@@ -1148,7 +1151,7 @@ namespace ProjectFirma.Web.Controllers
                                      " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
             }
 
-            var iHaveSqlGeometries = new List<IHaveSqlGeometry>(project.ProjectLocations.ToList());
+            var iHaveSqlGeometries = new List<IHaveSqlGeometry>(project.GetProjectLocationDetailed(true).ToList());
             if (!iHaveSqlGeometries.Any())
             {
                 SetWarningForDisplay("No valid geometries found in upload");
@@ -1220,7 +1223,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static void SaveDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected)
         {
-            var projectLocations = project.ProjectLocations.ToList();
+            var projectLocations = project.GetProjectLocationDetailedAsProjectLocations(true).ToList();
             foreach (var projectLocation in projectLocations)
             {
                 projectLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
@@ -1262,7 +1265,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType);
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project, CurrentFirmaSession));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
@@ -1272,9 +1275,11 @@ namespace ProjectFirma.Web.Controllers
 
             var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, geospatialAreaType.GeospatialAreaTypeID).ToList();
 
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
-                project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
+                project.HasProjectLocationPoint(userCanViewPrivateLocations), project.HasProjectLocationDetailed(userCanViewPrivateLocations), 
+                geospatialAreaType, geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
@@ -1334,7 +1339,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewBulkSetSpatialInformation(Project project, BulkSetSpatialInformationViewModel viewModel)
         {
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
-            var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project);
+            var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project, CurrentFirmaSession);
 
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true };
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
@@ -1342,12 +1347,13 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
             var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project,null).ToList();
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, null).ToList();
 
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
-                geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint,
-                project.HasProjectLocationDetail, editSimpleLocationUrl, true);
+                geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint(userCanViewPrivateLocations),
+                project.HasProjectLocationDetailed(userCanViewPrivateLocations), editSimpleLocationUrl, true);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
@@ -1900,9 +1906,8 @@ namespace ProjectFirma.Web.Controllers
                 allPeople.Add(CurrentPerson);
             }
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
-            var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             
-            var editOrganizationsViewData = new EditOrganizationsViewData(project, allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
+            var editOrganizationsViewData = new EditOrganizationsViewData(project, CurrentFirmaSession, allOrganizations, allPeople, allRelationshipTypes);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectOrganizationsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectOrganizationsSectionComplete;

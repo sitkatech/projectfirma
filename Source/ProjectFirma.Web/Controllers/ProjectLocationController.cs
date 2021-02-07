@@ -44,7 +44,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditProjectLocationSimple(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ProjectLocationSimpleViewModel(project.ProjectLocationPoint, project.ProjectLocationSimpleType.ToEnum, project.ProjectLocationNotes);
+            var viewModel = new ProjectLocationSimpleViewModel(project.GetProjectLocationPoint(true), project.ProjectLocationSimpleType.ToEnum, 
+                project.ProjectLocationNotes, project.LocationIsPrivate);
             return ViewEditProjectLocationSummaryPoint(project, viewModel);
         }
 
@@ -52,7 +53,6 @@ namespace ProjectFirma.Web.Controllers
         {
             var layerGeoJsons = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true};
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
@@ -86,12 +86,13 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectLocationDetailed(Project project, ProjectLocationDetailViewModel viewModel)
         {
             var mapDivID = $"project_{project.GetEntityID()}_EditDetailedMap";
-            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(true);
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
 
             var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project, userCanViewPrivateLocations));
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project, userCanViewPrivateLocations);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox)
             {
                 AllowFullScreen = false,
@@ -102,9 +103,10 @@ namespace ProjectFirma.Web.Controllers
             var uploadGisFileUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.GetEntityID()));
             var saveFeatureCollectionUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.EditProjectLocationDetailed(project.GetEntityID(), null));
 
-            var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
+            var hasSimpleLocationPoint = project.HasProjectLocationPoint(userCanViewPrivateLocations);
 
-            var viewData = new ProjectLocationDetailViewData(project.GetEntityID(), mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint);
+            var viewData = new ProjectLocationDetailViewData(project.GetEntityID(), mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, 
+                saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint, project.LocationIsPrivate);
             return RazorPartialView<ProjectLocationDetail, ProjectLocationDetailViewData, ProjectLocationDetailViewModel>(viewData, viewModel);
         }
 
@@ -271,13 +273,13 @@ namespace ProjectFirma.Web.Controllers
                 SetWarningForDisplay("One or more of your imported shapes had to be corrected in order to make it a valid geometry. Most likely this resulted in no noticeable changes." +
                                      " Additionally, one or more of your imported shapes could not be made into a valid geometry and was not saved. All other shapes were saved. Please review the detailed location to verify.");
             }
-            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
+            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.GetProjectLocationDetailed(true).ToList()));
             return new ModalDialogFormJsonResult();
         }
 
         private static void SaveProjectDetailedLocations(ProjectLocationDetailViewModel viewModel, Project project, out bool hadToMakeValid, out bool atLeastOneCouldNotBeCorrected)
         {
-            foreach (var projectLocation in project.ProjectLocations.ToList())
+            foreach (var projectLocation in project.GetProjectLocationDetailedAsProjectLocations(true).ToList())
             {
                 projectLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -332,14 +334,15 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectBoundingBox(Project project, EditProjectBoundingBoxViewModel viewModel)
         {
+            var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
             var layerGeoJsons = new List<LayerGeoJson>
                 {
-                    project.HasProjectLocationPoint
-                        ? new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(true),
+                    project.HasProjectLocationPoint(userCanViewPrivateLocations)
+                        ? new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations, true),
                             FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
                         : null,
-                    project.HasProjectLocationDetail
-                        ? new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(),
+                    project.HasProjectLocationDetailed(userCanViewPrivateLocations)
+                        ? new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations),
                             FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
                         : null
                 }
@@ -350,7 +353,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.LayerInitialVisibilityEnum.Hide));
             }
-            var boundingBox = BoundingBox.MakeBoundingBoxFromProject(project);
+            var boundingBox = BoundingBox.MakeBoundingBoxFromProject(project, userCanViewPrivateLocations);
             var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), boundingBox)
             {
                 AllowFullScreen = false,

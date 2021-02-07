@@ -44,6 +44,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div>
+    @if (ViewDataTyped.LocationIsPrivate)
+    {
+        <div class="alert alert-warning" role="alert">
+            This @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel())'s Simple and Detailed location is considered private and is hidden from most users. To unhide it, edit its Simple location.
+        </div>
+    }
     @if (ViewDataTyped.HasLocationNotes)
     {
         <div style="margin-bottom: 5px">
@@ -64,9 +70,9 @@ Source code is available upon request via <support@sitkatech.com>.
             <div id="projectLocationInformationContainer" style="padding-left: 20px"></div>
         </div>
     }
-    @foreach(var geospatialAreaType in ViewDataTyped.GeospatialAreaTypes)
+    @foreach (var geospatialAreaType in ViewDataTyped.GeospatialAreaTypes)
     {
-        <hr />
+        <hr/>
         <div style="margin-bottom: 5px">
             <label>
                 @geospatialAreaType.GeospatialAreaTypeNamePluralized

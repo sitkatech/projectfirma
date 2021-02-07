@@ -41,7 +41,16 @@ Source code is available upon request via <support@sitkatech.com>.
         <li>After adding a feature, click it to provide a brief description of the feature.</li>
     </ul>
 </p>
+
 <hr/>
+
+@if (ViewDataTyped.LocationIsPrivate)
+{
+    <div class="alert alert-warning" role="alert">
+        This @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel())'s Simple and Detailed location is considered private and is hidden from most users. To unhide it, edit its Simple location.
+    </div>
+}
+
 <p>
     <span style="margin-right:10px">Instead of drawing your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() details by hand, you may alternately upload a GIS file.</span>
     @ModalDialogFormHelper.ModalDialogFormLink(null,

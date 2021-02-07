@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
@@ -30,7 +29,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public bool ShowCommentsSection { get; }
         public bool CanEditComments { get; }
-
         public ProjectLocationDetailViewData ProjectLocationDetailViewData { get; }
 
         public LocationDetailedViewData(FirmaSession currentFirmaSession,

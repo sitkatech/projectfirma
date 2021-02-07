@@ -33,22 +33,25 @@ namespace ProjectFirma.Web.Views.Map
         /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
         public double? ProjectLocationXCoord { get; }
         public double? ProjectLocationYCoord { get; }
-        public bool HasSimpleLocation { get; }
+        public bool HasViewableSimpleLocation { get; }
         public bool HasDetailedLocation { get; }
         public bool HasGeospatialAreas { get; }
         /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, 
+        public ProjectLocationSummaryMapInitJson(IProject iProject, FirmaSession currentFirmaSession, string mapDivID, 
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, 
             FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool alwaysHideGeospatialAreaLayers = false) 
             : base(mapDivID, DefaultZoomLevel, GetConfiguredGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), 
-                callGetExternalMapLayers ? GetExternalMapLayers() : new List<ExternalMapLayer>(), GetProjectBoundingBox(project))
+                callGetExternalMapLayers ? GetExternalMapLayers() : new List<ExternalMapLayer>(), 
+                GetProjectBoundingBox(iProject, currentFirmaSession.UserCanViewPrivateLocations(iProject.GetProject())))
         {
-            HasSimpleLocation = simpleLocationToGeoJsonFeatureCollection.Features.Any();
-            if (HasSimpleLocation)
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(iProject.GetProject());
+            HasViewableSimpleLocation = iProject.HasProjectLocationPoint(userCanViewPrivateLocations);
+            if (HasViewableSimpleLocation)
             {
-                ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
-                ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
+                var projectLocationPoint = iProject.GetProjectLocationPoint(userCanViewPrivateLocations);
+                ProjectLocationYCoord = projectLocationPoint.YCoordinate;
+                ProjectLocationXCoord = projectLocationPoint.XCoordinate;
                 Layers.Add(
                     new LayerGeoJson(
                         $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple", 
@@ -57,7 +60,7 @@ namespace ProjectFirma.Web.Views.Map
                     );
             }
 
-            HasDetailedLocation = detailedLocationAsGeoJsonFeatureCollection.Features.Any();
+            HasDetailedLocation = iProject.HasProjectLocationDetailed(userCanViewPrivateLocations);
             if (HasDetailedLocation)
             {
                 Layers.Add(
@@ -80,16 +83,18 @@ namespace ProjectFirma.Web.Views.Map
             }
         }
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID,
+        public ProjectLocationSummaryMapInitJson(IProject iProject, FirmaSession currentFirmaSession, string mapDivID,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas,
             FeatureCollection detailedLocationAsGeoJsonFeatureCollection,
-            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool alwaysHideGeospatialAreaLayers) : this(project, mapDivID, geospatialAreas, detailedLocationAsGeoJsonFeatureCollection, simpleLocationToGeoJsonFeatureCollection, true, alwaysHideGeospatialAreaLayers)
+            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool alwaysHideGeospatialAreaLayers) : 
+            this(iProject, currentFirmaSession, mapDivID, geospatialAreas, detailedLocationAsGeoJsonFeatureCollection, simpleLocationToGeoJsonFeatureCollection,
+                true, alwaysHideGeospatialAreaLayers)
         {
         }
 
-        public static BoundingBox GetProjectBoundingBox(IProject project)
+        public static BoundingBox GetProjectBoundingBox(IProject project, bool userCanViewPrivateLocations)
         {
-            return BoundingBox.MakeBoundingBoxFromProject(project);
+            return BoundingBox.MakeBoundingBoxFromProject(project, userCanViewPrivateLocations);
         }
     }
 }
