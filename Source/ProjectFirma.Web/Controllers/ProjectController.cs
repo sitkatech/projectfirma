@@ -169,7 +169,8 @@ namespace ProjectFirma.Web.Controllers
 
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession, $"project_{project.ProjectID}_Map", geospatialAreas, 
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession,
+                $"project_{project.ProjectID}_Map", geospatialAreas, 
                 project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations), 
                 project.SimpleLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations, false), true);
             var mapFormID = GenerateEditProjectLocationFormID(project);

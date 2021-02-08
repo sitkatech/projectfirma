@@ -599,8 +599,8 @@ namespace ProjectFirma.Web.Models
 
         public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)
         {           
-            var incomplete = projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint(true) &&
-                             String.IsNullOrWhiteSpace(projectUpdateBatch.ProjectUpdate.ProjectLocationNotes);
+            var incomplete = !projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint(true) &&
+                             string.IsNullOrWhiteSpace(projectUpdateBatch.ProjectUpdate.ProjectLocationNotes);
 
             var locationSimpleValidationResult = new LocationSimpleValidationResult(incomplete);
 

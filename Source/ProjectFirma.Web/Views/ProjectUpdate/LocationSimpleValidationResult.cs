@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationSimpleValidationResult
     {
-        public static readonly string MissingLocationSimpleOrNotesMessage = $"Please specify a point on the map. If a location point or general {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} area is not available, explanatory information in the Notes section is required.";
+        public readonly string MissingLocationSimpleOrNotesMessage = $"Please specify a point on the map. If a location point or general {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} area is not available, explanatory information in the Notes section is required.";
 
         private readonly List<string> _warningMessages;
 
