@@ -172,12 +172,12 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession,
                 $"project_{project.ProjectID}_Map", geospatialAreas, 
                 project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations), 
-                project.SimpleLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations, false), true);
+                project.SimpleLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations, false), true, userCanViewPrivateLocations, true);
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var dictionaryGeoNotes = project.ProjectGeospatialAreaTypeNotes.ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson, dictionaryGeoNotes, 
-                geospatialAreaTypes, geospatialAreas, project.LocationIsPrivate);
+                geospatialAreaTypes, geospatialAreas, project.LocationIsPrivate, userHasEditProjectPermissions);
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
@@ -430,7 +430,9 @@ namespace ProjectFirma.Web.Controllers
                 SetErrorForDisplay(noFactSheetError);
                 return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(project)));
             }
-            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, false, FactSheetPdfEnum.NoPdf) : ViewForwardLookingFactSheet(project, false, FactSheetPdfEnum.NoPdf);
+            return project.IsBackwardLookingFactSheetRelevant() ? 
+                ViewBackwardLookingFactSheet(project, false, FactSheetPdfEnum.NoPdf) : 
+                ViewForwardLookingFactSheet(project, false, FactSheetPdfEnum.NoPdf);
         }
 
         [ProjectsViewFullListFeature]
@@ -466,7 +468,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession, mapDivID, geospatialAreas, 
                 project.DetailedLocationToGeoJsonFeatureCollection(false), 
                 project.SimpleLocationToGeoJsonFeatureCollection(false, false), 
-                false, true);
+                false, false, true);
             var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
             var expenditureGooglePieChartSlices = ProjectModelExtensions.GetExpenditureGooglePieChartSlices(project);
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
@@ -492,7 +494,7 @@ namespace ProjectFirma.Web.Controllers
             // do not include external map layers
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, CurrentFirmaSession, mapDivID, geospatialAreas, 
                 project.DetailedLocationToGeoJsonFeatureCollection(false), 
-                project.SimpleLocationToGeoJsonFeatureCollection(false, false), false, true);
+                project.SimpleLocationToGeoJsonFeatureCollection(false, false), false, false, true);
             var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
             var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
             var googleChartDataTable =

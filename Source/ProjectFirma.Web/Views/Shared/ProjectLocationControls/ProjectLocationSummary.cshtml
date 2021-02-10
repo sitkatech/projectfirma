@@ -47,7 +47,8 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (ViewDataTyped.LocationIsPrivate)
     {
         <div class="alert alert-warning" role="alert">
-            This @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel())'s Simple and Detailed location is considered private and is hidden from most users. To unhide it, edit its Simple location.
+            This @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel())'s Simple and Detailed location is considered private and is hidden from most users.
+            @(ViewDataTyped.UserHasEditProjectPermissions ?  "To unhide it, edit its Simple location." : string.Empty)
         </div>
     }
     @if (ViewDataTyped.HasLocationNotes)
