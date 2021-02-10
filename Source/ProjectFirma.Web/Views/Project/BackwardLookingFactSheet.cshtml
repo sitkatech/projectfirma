@@ -60,7 +60,7 @@
             border-left: 3px solid @ViewDataTyped.TaxonomyColor;
         }
 
-        .privateLocationAlert {
+        .locationNotDisplayedAlert {
             position: absolute;
             z-index: 999;
             bottom: 0;
@@ -383,10 +383,16 @@
              <h4>Location</h4>
              <div>
                  <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
-
-                 @if (ViewDataTyped.Project.LocationIsPrivate)
+                 
+                 @if (!ViewDataTyped.ProjectLocationIsProvided)
                  {
-                     <div class="privateLocationAlert alert alert-warning" role="alert">
+                     <div class="locationNotDisplayedAlert alert alert-warning text-center" role="alert">
+                         Location Not Specified
+                     </div>
+                 }
+                 else if (ViewDataTyped.Project.LocationIsPrivate)
+                 {
+                     <div class="locationNotDisplayedAlert alert alert-warning" role="alert">
                          This @(ViewDataTyped.EntityName)’s location has been marked private.
                      </div>
                  }

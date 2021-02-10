@@ -40,12 +40,11 @@ namespace ProjectFirma.Web.Views.Map
 
         public ProjectLocationSummaryMapInitJson(IProject iProject, FirmaSession currentFirmaSession, string mapDivID, 
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, 
-            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool alwaysHideGeospatialAreaLayers = false) 
+            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool userCanViewPrivateLocations, bool alwaysHideGeospatialAreaLayers = false) 
             : base(mapDivID, DefaultZoomLevel, GetConfiguredGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), 
                 callGetExternalMapLayers ? GetExternalMapLayers() : new List<ExternalMapLayer>(), 
-                GetProjectBoundingBox(iProject, currentFirmaSession.UserCanViewPrivateLocations(iProject.GetProject())))
+                GetProjectBoundingBox(iProject, userCanViewPrivateLocations))
         {
-            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(iProject.GetProject());
             HasViewableSimpleLocation = iProject.HasProjectLocationPoint(userCanViewPrivateLocations);
             if (HasViewableSimpleLocation)
             {
@@ -86,9 +85,9 @@ namespace ProjectFirma.Web.Views.Map
         public ProjectLocationSummaryMapInitJson(IProject iProject, FirmaSession currentFirmaSession, string mapDivID,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas,
             FeatureCollection detailedLocationAsGeoJsonFeatureCollection,
-            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool alwaysHideGeospatialAreaLayers) : 
+            FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool alwaysHideGeospatialAreaLayers, bool userCanViewPrivateLocations) : 
             this(iProject, currentFirmaSession, mapDivID, geospatialAreas, detailedLocationAsGeoJsonFeatureCollection, simpleLocationToGeoJsonFeatureCollection,
-                true, alwaysHideGeospatialAreaLayers)
+                true, userCanViewPrivateLocations, alwaysHideGeospatialAreaLayers)
         {
         }
 

@@ -68,6 +68,7 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
         public DateTime LastUpdated { get; }
         public ProjectController.FactSheetPdfEnum FactSheetPdfEnum { get; }
+        public bool ProjectLocationIsProvided { get; }
 
         public string FakeImageWithDelayUrl { get; }
 
@@ -158,6 +159,8 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             FakeImageWithDelayUrl = new SitkaRoute<FakeImageController>(c => c.ReturnEmptyImageAfterDelayInMilliseconds(fakeImageDelayInMilliseconds)).BuildAbsoluteUrlHttpsFromExpression();
+
+            ProjectLocationIsProvided = project.ProjectLocationPoint != null || project.ProjectLocations.Any();
         }
     }
 }

@@ -35,13 +35,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public bool HasLocationInformation { get; }
         public Dictionary<int, string> DictionaryGeoNotes { get; }
         public bool LocationIsPrivate { get; }
+        public bool UserHasEditProjectPermissions { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
 
 
 
         public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, 
             Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, 
-            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, bool locationIsPrivate)
+            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, bool locationIsPrivate, bool userHasEditProjectPermissions)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
@@ -51,6 +52,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             DictionaryGeoNotes = dictionaryGeoNotes;
             GeospatialAreaTypes = geospatialAreaTypes;
             LocationIsPrivate = locationIsPrivate;
+            UserHasEditProjectPermissions = userHasEditProjectPermissions;  
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
 
         }

@@ -90,6 +90,12 @@ namespace ProjectFirma.Web.Models
             if (project.ProjectApprovalStatus == ProjectApprovalStatus.Draft)
             {
                 return new ProjectCreateFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            }      
+            
+            // A user should be able to see the location of a project they are the Primary Contact on while it is pending approval (a submitted draft)
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval && currentFirmaSession.PersonID == project.PrimaryContactPersonID)
+            {
+                return true;
             }
 
             return new ProjectUpdateCreateEditSubmitFeature().HasPermission(currentFirmaSession, project).HasPermission ||
