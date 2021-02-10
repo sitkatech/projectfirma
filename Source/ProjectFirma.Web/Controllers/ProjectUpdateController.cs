@@ -1182,14 +1182,14 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate, CurrentFirmaSession,
                 $"project_{project.ProjectID}_EditMap", geospatialAreas, 
                 projectUpdate.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations), 
-                projectUpdate.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession), false);
+                projectUpdate.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession), false, userCanViewPrivateLocations);
 
             var mapPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.LocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentFirmaSession, mapInitJsonForEdit, geospatialAreaTypes, null, mapPostUrl, mapFormID);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, new Dictionary<int, string>(), 
-                new List<GeospatialAreaType>(), new List<GeospatialArea>(), projectUpdate.LocationIsPrivate);
+                new List<GeospatialAreaType>(), new List<GeospatialArea>(), projectUpdate.LocationIsPrivate, userCanViewPrivateLocations);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new LocationSimpleViewData(CurrentFirmaSession, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, locationSimpleValidationResult, updateStatus);
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
@@ -1590,7 +1590,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(projectUpdate, CurrentFirmaSession,
                 $"project_{project.ProjectID}_EditMap", geospatialAreas, 
                 projectUpdate.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations), 
-                projectUpdate.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession), false);
+                projectUpdate.SimpleLocationToGeoJsonFeatureCollection(CurrentFirmaSession), false, userCanViewPrivateLocations);
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
@@ -1608,7 +1608,7 @@ namespace ProjectFirma.Web.Controllers
                 .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)
                 .ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, dictionaryGeoNotes, 
-                new List<GeospatialAreaType> {geospatialAreaType}, geospatialAreas, projectUpdate.LocationIsPrivate);
+                new List<GeospatialAreaType> {geospatialAreaType}, geospatialAreas, projectUpdate.LocationIsPrivate, userCanViewPrivateLocations);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new GeospatialAreaViewData(CurrentFirmaSession, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus, geospatialAreaType);
             return RazorView<Views.ProjectUpdate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);

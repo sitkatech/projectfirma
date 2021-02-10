@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
 
         public static HtmlString GetMapButtonForProject(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
-            if (project.HasProjectLocationPointViewableByUser(currentFirmaSession))
+            if (project.HasProjectLocationPoint(false))
             {
                 return new HtmlString($"<form onsubmit=\"return false;\"data-id=\"{project.ProjectID}\"><button title=\"Zoom to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} on the map\" class=\"grid-map-marker grid-map-marker-enabled\" type=\"submit\"><span class=\"glyphicon glyphicon-map-marker\"></span></button></form>");
 

@@ -81,6 +81,8 @@ namespace ProjectFirma.Web.Views.Project
 
         public string FakeImageWithDelayUrl { get; }
 
+        public bool ProjectLocationIsProvided { get; }
+
         public ForwardLookingFactSheetViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
@@ -177,6 +179,9 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             FakeImageWithDelayUrl = new SitkaRoute<FakeImageController>(c => c.ReturnEmptyImageAfterDelayInMilliseconds(fakeImageDelayInMilliseconds)).BuildAbsoluteUrlHttpsFromExpression();
+
+            ProjectLocationIsProvided = project.ProjectLocationPoint != null || project.ProjectLocations.Any();
+
         }
 
         public HtmlString LegendHtml

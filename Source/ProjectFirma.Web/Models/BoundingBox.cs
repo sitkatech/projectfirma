@@ -210,6 +210,12 @@ namespace ProjectFirma.Web.Models
 
         public static BoundingBox MakeBoundingBoxFromProject(IProject project, bool userCanViewPrivateLocations)
         {
+            // Show full tenant extent if user can't view private locations, don't want to show the approximate location either
+            if (!userCanViewPrivateLocations)
+            {
+                return new BoundingBox(MultiTenantHelpers.GetDefaultBoundingBox());
+            }
+
             if (project.GetDefaultBoundingBox() != null)
             {
                 return new BoundingBox(project.GetDefaultBoundingBox());
