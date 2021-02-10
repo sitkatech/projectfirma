@@ -477,13 +477,15 @@ namespace ProjectFirma.Web.Controllers
                 return ViewReportedPerformanceMeasures(projectUpdateBatch, viewModel);
             }
             var currentPerformanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
+
+
+
+
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Load();
             var allPerformanceMeasureActualUpdates = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualUpdates.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptionUpdates.Load();
             var allPerformanceMeasureActualSubcategoryOptionUpdates = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptionUpdates.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
-            var allPerformanceMeasureReportingPeriods = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
-            viewModel.UpdateModel(currentPerformanceMeasureActualUpdates, allPerformanceMeasureActualUpdates, allPerformanceMeasureActualSubcategoryOptionUpdates, projectUpdateBatch, allPerformanceMeasureReportingPeriods);
+            viewModel.UpdateModel(projectUpdateBatch);
             if (projectUpdateBatch.IsSubmitted())
             {
                 projectUpdateBatch.ReportedPerformanceMeasuresComment = viewModel.Comments;
