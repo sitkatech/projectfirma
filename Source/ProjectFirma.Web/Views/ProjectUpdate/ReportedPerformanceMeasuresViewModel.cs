@@ -62,70 +62,99 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Comments = comments;
         }
 
-        public void UpdateModel(List<PerformanceMeasureActualUpdate> currentPerformanceMeasureActualUpdates,
-            IList<PerformanceMeasureActualUpdate> allPerformanceMeasureActualUpdates,
-            IList<PerformanceMeasureActualSubcategoryOptionUpdate> allPerformanceMeasureActualSubcategoryOptionUpdates,
-            ProjectUpdateBatch projectUpdateBatch,
-            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
+        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch)
         {
-            var currentPerformanceMeasureActualSubcategoryOptionUpdates =
-                currentPerformanceMeasureActualUpdates.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList();
-            var performanceMeasureActualUpdatesUpdated = new List<PerformanceMeasureActualUpdate>();
+
+            var allPerformanceMeasureReportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
+            var performanceMeasureReportingPeriodsToAdd = new List<PerformanceMeasureReportingPeriod>();
 
             if (PerformanceMeasureActualUpdates != null)
             {
-                // Completely rebuild the list
-                performanceMeasureActualUpdatesUpdated = PerformanceMeasureActualUpdates.Select(pmaus =>
+                foreach (var performanceMeasureActualUpdateSimple in PerformanceMeasureActualUpdates)
                 {
-                    var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == pmaus.CalendarYear);
+                    var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x =>
+                        x.PerformanceMeasureReportingPeriodCalendarYear ==
+                        performanceMeasureActualUpdateSimple.CalendarYear);
+
                     if (performanceMeasureReportingPeriod == null)
                     {
-                        Check.EnsureNotNull(pmaus.PerformanceMeasureID, "We need to have a performance measure.");
-                        performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod((int)pmaus.PerformanceMeasureID, pmaus.CalendarYear, pmaus.CalendarYear.ToString());
-                        allPerformanceMeasureReportingPeriods.Add(performanceMeasureReportingPeriod);
-                        HttpRequestStorage.DatabaseEntities.SaveChanges();
+                        Check.EnsureNotNull(performanceMeasureActualUpdateSimple.PerformanceMeasureID, "We need to have a performance measure.");
+                        performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod((int)performanceMeasureActualUpdateSimple.PerformanceMeasureID, performanceMeasureActualUpdateSimple.CalendarYear, performanceMeasureActualUpdateSimple.CalendarYear.ToString());
+                        performanceMeasureReportingPeriodsToAdd.Add(performanceMeasureReportingPeriod);
                     }
 
-                    var performanceMeasureActual = new PerformanceMeasureActualUpdate(pmaus.PerformanceMeasureActualUpdateID,
-                        pmaus.ProjectUpdateBatchID,
-                        pmaus.PerformanceMeasureID,
-                        pmaus.ActualValue,
-                        performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);
-                    if (pmaus.PerformanceMeasureActualSubcategoryOptionUpdates != null)
-                    {
-                        performanceMeasureActual.PerformanceMeasureActualSubcategoryOptionUpdates =
-                            pmaus.PerformanceMeasureActualSubcategoryOptionUpdates.Where(pmavsou =>
-                                ModelObjectHelpers.IsRealPrimaryKeyValue(pmavsou.PerformanceMeasureSubcategoryOptionID))
-                            .Select(
-                                y =>
-                                    new PerformanceMeasureActualSubcategoryOptionUpdate(
-                                        performanceMeasureActual.PerformanceMeasureActualUpdateID,
-                                        y.PerformanceMeasureSubcategoryOptionID.Value,
-                                        y.PerformanceMeasureID,
-                                        y.PerformanceMeasureSubcategoryID))
-                            .ToList();
-                    }
-
-                    return performanceMeasureActual;
-                }).ToList();
+                }
             }
 
-            var databaseEntities = HttpRequestStorage.DatabaseEntities;
-            currentPerformanceMeasureActualUpdates.Merge(performanceMeasureActualUpdatesUpdated,
-                allPerformanceMeasureActualUpdates,
-                (x, y) => x.PerformanceMeasureActualUpdateID == y.PerformanceMeasureActualUpdateID,
-                (x, y) =>
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.AddRange(performanceMeasureReportingPeriodsToAdd);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+
+            var allPerformanceMeasureReportingPeriodsReloaded = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
+            var performanceMeasureActualUpdatesUpdated = new List<PerformanceMeasureActualUpdate>();
+            if (PerformanceMeasureActualUpdates != null)
+            {
+                foreach (var performanceMeasureActualUpdateSimple in PerformanceMeasureActualUpdates)
                 {
-                    x.PerformanceMeasureReportingPeriodID = y.PerformanceMeasureReportingPeriodID;
-                    x.ActualValue = y.ActualValue;
-                }, databaseEntities);
+                    var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriodsReloaded.Single(x =>
+                        x.PerformanceMeasureReportingPeriodCalendarYear ==
+                        performanceMeasureActualUpdateSimple.CalendarYear);
+                    var performanceMeasureActual = new PerformanceMeasureActualUpdate(
+                        performanceMeasureActualUpdateSimple.PerformanceMeasureActualUpdateID,
+                        performanceMeasureActualUpdateSimple.ProjectUpdateBatchID,
+                        performanceMeasureActualUpdateSimple.PerformanceMeasureID,
+                        performanceMeasureActualUpdateSimple.ActualValue,
+                        performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);
+                    if (performanceMeasureActualUpdateSimple.PerformanceMeasureActualSubcategoryOptionUpdates != null)
+                    {
+                        AddPerformanceMeasureActualSubcategoryOptionUpdates(performanceMeasureActual, performanceMeasureActualUpdateSimple);
+                    }
 
-            currentPerformanceMeasureActualSubcategoryOptionUpdates.Merge(
-                performanceMeasureActualUpdatesUpdated.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList(),
-                allPerformanceMeasureActualSubcategoryOptionUpdates,
-                (x, y) => x.PerformanceMeasureActualUpdateID == y.PerformanceMeasureActualUpdateID && x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID && x.PerformanceMeasureID == y.PerformanceMeasureID,
-                (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID, databaseEntities);
+                    performanceMeasureActualUpdatesUpdated.Add(performanceMeasureActual);
+                }
+            }
 
+
+
+
+            var listOfPerformanceMeasureActualUpdateIDsToMergeWith = performanceMeasureActualUpdatesUpdated
+                .Select(x => x.PerformanceMeasureActualUpdateID).ToList();
+
+            var updateList = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Where(x =>
+                listOfPerformanceMeasureActualUpdateIDsToMergeWith.Contains(x.PerformanceMeasureActualUpdateID)).ToList();
+
+            var deleteList = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x =>
+                    !listOfPerformanceMeasureActualUpdateIDsToMergeWith.Contains(x.PerformanceMeasureActualUpdateID))
+                .ToList();
+
+            var addList = performanceMeasureActualUpdatesUpdated
+                .Where(x => !ModelObjectHelpers.IsRealPrimaryKeyValue(x.PerformanceMeasureActualUpdateID)).ToList();
+
+            foreach (var performanceMeasureActualUpdate in updateList)
+            {
+                var update = performanceMeasureActualUpdatesUpdated.Single(x => x.PerformanceMeasureActualUpdateID == performanceMeasureActualUpdate.PerformanceMeasureActualUpdateID);
+                performanceMeasureActualUpdate.PerformanceMeasureReportingPeriodID = update.PerformanceMeasureReportingPeriodID;
+                performanceMeasureActualUpdate.ActualValue = update.ActualValue;
+            }
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+
+
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualUpdates.AddRange(addList);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            
+            deleteList.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
+
+
+            var listOfOptionsToAdd = performanceMeasureActualUpdatesUpdated.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList();
+            var listOfOptionsToDelete = projectUpdateBatch.PerformanceMeasureActualUpdates
+                .SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList();
+            listOfOptionsToDelete.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptionUpdates.AddRange(listOfOptionsToAdd);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
             var currentProjectExemptYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears();
             databaseEntities.ProjectExemptReportingYearUpdates.Load();
             var allProjectExemptYearUpdates = databaseEntities.AllProjectExemptReportingYearUpdates.Local;
@@ -142,6 +171,33 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 allProjectExemptYearUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
             projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
+        }
+
+        private static void AddPerformanceMeasureActualSubcategoryOptionUpdates(
+            PerformanceMeasureActualUpdate performanceMeasureActual,
+            PerformanceMeasureActualUpdateSimple performanceMeasureActualUpdateSimple)
+        {
+
+            var performanceMeasureActualSubcategoryOptionUpdates = new List<PerformanceMeasureActualSubcategoryOptionUpdate>();
+            var optionUpdates = performanceMeasureActualUpdateSimple.PerformanceMeasureActualSubcategoryOptionUpdates;
+            foreach (var optionUpdate in optionUpdates)
+            {
+                if (ModelObjectHelpers.IsRealPrimaryKeyValue(optionUpdate
+                    .PerformanceMeasureSubcategoryOptionID) && optionUpdate
+                    .PerformanceMeasureSubcategoryOptionID.HasValue)
+                {
+                    var performanceMeasureActualSubcategoryOptionUpdate =
+                        new PerformanceMeasureActualSubcategoryOptionUpdate(
+                            performanceMeasureActual.PerformanceMeasureActualUpdateID
+                            , optionUpdate.PerformanceMeasureSubcategoryOptionID.Value
+                            , optionUpdate.PerformanceMeasureID
+                            , optionUpdate.PerformanceMeasureSubcategoryID);
+                    performanceMeasureActualSubcategoryOptionUpdates.Add(performanceMeasureActualSubcategoryOptionUpdate);
+                }
+            }
+
+            performanceMeasureActual.PerformanceMeasureActualSubcategoryOptionUpdates = performanceMeasureActualSubcategoryOptionUpdates;
+
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
