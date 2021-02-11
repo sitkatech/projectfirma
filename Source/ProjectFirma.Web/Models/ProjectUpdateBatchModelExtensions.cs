@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -62,12 +63,19 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch;
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, FirmaSession currentFirmaSession)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, FirmaSession currentFirmaSession, ILog logger)
         {
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentFirmaSession);
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
-                HttpRequestStorage.DatabaseEntities.SaveChanges();
+                try
+                {
+                    HttpRequestStorage.DatabaseEntities.SaveChanges();
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException e)
+                {
+                    logger.Warn(e.Message);
+                }
             }
             return projectUpdateBatch;
         }

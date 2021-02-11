@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
+using System.Transactions;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
@@ -87,7 +88,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
 
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.AddRange(performanceMeasureReportingPeriodsToAdd);
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
 
 
             var allPerformanceMeasureReportingPeriodsReloaded = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
@@ -139,23 +140,26 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 performanceMeasureActualUpdate.PerformanceMeasureReportingPeriodID = update.PerformanceMeasureReportingPeriodID;
                 performanceMeasureActualUpdate.ActualValue = update.ActualValue;
             }
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
 
+            deleteList.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
 
 
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualUpdates.AddRange(addList);
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
 
             
-            deleteList.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
+            
 
 
             var listOfOptionsToAdd = performanceMeasureActualUpdatesUpdated.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList();
             var listOfOptionsToDelete = projectUpdateBatch.PerformanceMeasureActualUpdates
                 .SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList();
             listOfOptionsToDelete.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptionUpdates.AddRange(listOfOptionsToAdd);
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
 
             var databaseEntities = HttpRequestStorage.DatabaseEntities;
             var currentProjectExemptYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears();
