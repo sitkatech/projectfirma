@@ -54,8 +54,8 @@ namespace ProjectFirma.Web.Views.Map
                 Layers.Add(
                     new LayerGeoJson(
                         $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple", 
-                        simpleLocationToGeoJsonFeatureCollection, "#ffff00", 1, 
-                        LayerInitialVisibility.GetInitialVisibility(!detailedLocationAsGeoJsonFeatureCollection.Features.Any()))
+                        simpleLocationToGeoJsonFeatureCollection, "#ffff00", 1,
+                        LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
                     );
             }
 
