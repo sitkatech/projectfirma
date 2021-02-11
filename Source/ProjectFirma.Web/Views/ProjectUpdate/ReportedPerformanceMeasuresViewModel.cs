@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
 
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.AddRange(performanceMeasureReportingPeriodsToAdd);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.ReadUncommitted);
 
 
             var allPerformanceMeasureReportingPeriodsReloaded = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
@@ -143,11 +143,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
 
             deleteList.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.ReadUncommitted);
 
 
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualUpdates.AddRange(addList);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.ReadUncommitted);
 
             
             
@@ -157,9 +157,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             var listOfOptionsToDelete = projectUpdateBatch.PerformanceMeasureActualUpdates
                 .SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList();
             listOfOptionsToDelete.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.ReadUncommitted);
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptionUpdates.AddRange(listOfOptionsToAdd);
-            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.ReadUncommitted);
 
             var databaseEntities = HttpRequestStorage.DatabaseEntities;
             var currentProjectExemptYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears();

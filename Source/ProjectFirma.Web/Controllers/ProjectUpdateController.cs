@@ -434,8 +434,8 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var expectedPerformanceMeasureUpdates = projectUpdateBatch.PerformanceMeasureExpectedUpdates;
-            var reportedPerformanceMeasures = projectUpdateBatch.PerformanceMeasureActualUpdates;
             var performanceMeasureActualUpdateSimples = new List<PerformanceMeasureActualUpdateSimple>();
+            var reportedPerformanceMeasures = projectUpdateBatch.PerformanceMeasureActualUpdates;
             if (reportedPerformanceMeasures.Any())
             {
                 performanceMeasureActualUpdateSimples =
