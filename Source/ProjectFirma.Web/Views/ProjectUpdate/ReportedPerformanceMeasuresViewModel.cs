@@ -122,13 +122,16 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             var updateList = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Where(x =>
                 listOfPerformanceMeasureActualUpdateIDsToMergeWith.Contains(x.PerformanceMeasureActualUpdateID)).ToList();
+            var updateListOfIds = updateList.Select(x => x.PerformanceMeasureActualUpdateID).ToList();
 
             var deleteList = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x =>
                     !listOfPerformanceMeasureActualUpdateIDsToMergeWith.Contains(x.PerformanceMeasureActualUpdateID))
                 .ToList();
+            var deleteListOfIds = deleteList.Select(x => x.PerformanceMeasureActualUpdateID).ToList();
+            updateListOfIds.AddRange(deleteListOfIds);
 
             var addList = performanceMeasureActualUpdatesUpdated
-                .Where(x => !ModelObjectHelpers.IsRealPrimaryKeyValue(x.PerformanceMeasureActualUpdateID)).ToList();
+                .Where(x => !ModelObjectHelpers.IsRealPrimaryKeyValue(x.PerformanceMeasureActualUpdateID) || !updateListOfIds.Contains(x.PerformanceMeasureActualUpdateID)).ToList();
 
             foreach (var performanceMeasureActualUpdate in updateList)
             {
