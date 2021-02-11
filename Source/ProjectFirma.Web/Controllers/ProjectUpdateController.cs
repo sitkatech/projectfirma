@@ -54,6 +54,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using WebGrease;
 using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotes;
 using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
@@ -83,6 +84,7 @@ using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationD
 using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
 using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
+using LogManager = log4net.LogManager;
 using Organizations = ProjectFirma.Web.Views.ProjectUpdate.Organizations;
 using OrganizationsViewData = ProjectFirma.Web.Views.ProjectUpdate.OrganizationsViewData;
 using OrganizationsViewModel = ProjectFirma.Web.Views.ProjectUpdate.OrganizationsViewModel;
@@ -288,7 +290,7 @@ namespace ProjectFirma.Web.Controllers
         public RedirectResult Instructions(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentFirmaSession);
+            ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentFirmaSession, LogManager.GetLogger(GetType()));
             return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
         }
 
@@ -432,8 +434,8 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var expectedPerformanceMeasureUpdates = projectUpdateBatch.PerformanceMeasureExpectedUpdates;
-            var reportedPerformanceMeasures = projectUpdateBatch.PerformanceMeasureActualUpdates;
             var performanceMeasureActualUpdateSimples = new List<PerformanceMeasureActualUpdateSimple>();
+            var reportedPerformanceMeasures = projectUpdateBatch.PerformanceMeasureActualUpdates;
             if (reportedPerformanceMeasures.Any())
             {
                 performanceMeasureActualUpdateSimples =
@@ -476,14 +478,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewReportedPerformanceMeasures(projectUpdateBatch, viewModel);
             }
-            var currentPerformanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Load();
-            var allPerformanceMeasureActualUpdates = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualUpdates.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptionUpdates.Load();
-            var allPerformanceMeasureActualSubcategoryOptionUpdates = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptionUpdates.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
-            var allPerformanceMeasureReportingPeriods = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
-            viewModel.UpdateModel(currentPerformanceMeasureActualUpdates, allPerformanceMeasureActualUpdates, allPerformanceMeasureActualSubcategoryOptionUpdates, projectUpdateBatch, allPerformanceMeasureReportingPeriods);
+            viewModel.UpdateModel(projectUpdateBatch);
             if (projectUpdateBatch.IsSubmitted())
             {
                 projectUpdateBatch.ReportedPerformanceMeasuresComment = viewModel.Comments;

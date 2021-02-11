@@ -49,9 +49,22 @@ namespace ProjectFirmaModels.Models
             }
         }
 
+        public int SaveChanges(Person userPerson, IsolationLevel isolationLevel)
+        {
+            using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = isolationLevel }))
+            {
+                return SaveChangesImpl(userPerson, userPerson.Tenant, scope);
+            }
+        }
+
         public override int SaveChanges()
         {
             return SaveChanges(Person);
+        }
+
+        public int SaveChanges(IsolationLevel isolationLevel)
+        {
+            return SaveChanges(Person, isolationLevel);
         }
 
         public int SaveChangesWithNoAuditing(int tenantId)
