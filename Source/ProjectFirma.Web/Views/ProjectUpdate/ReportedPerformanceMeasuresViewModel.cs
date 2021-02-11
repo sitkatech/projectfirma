@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 performanceMeasureActualUpdate.PerformanceMeasureReportingPeriodID = update.PerformanceMeasureReportingPeriodID;
                 performanceMeasureActualUpdate.ActualValue = update.ActualValue;
             }
-            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.Chaos);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.ReadUncommitted);
 
             deleteList.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.SaveChanges(IsolationLevel.ReadUncommitted);
