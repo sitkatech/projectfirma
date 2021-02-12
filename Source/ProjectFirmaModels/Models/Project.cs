@@ -29,6 +29,7 @@ namespace ProjectFirmaModels.Models
     {
         public int GetEntityID() => ProjectID;
 
+        public Project GetProject() => this;
         public string GetAuditDescriptionString() => ProjectName;
 
         public string GetDisplayName() => ProjectName;
@@ -97,9 +98,6 @@ namespace ProjectFirmaModels.Models
             get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount) : (decimal?)null; }
         }
 
-        public bool HasProjectLocationPoint => ProjectLocationPoint != null;
-        public bool HasProjectLocationDetail => ProjectLocations.Any();
-
         private bool _hasCheckedProjectUpdateHistories;
         private List<ProjectUpdateHistory> _projectUpdateHistories;
 
@@ -133,11 +131,6 @@ namespace ProjectFirmaModels.Models
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
             return ProjectAssessmentQuestions;
-        }
-
-        public IEnumerable<IProjectLocation> GetProjectLocationDetails()
-        {
-            return ProjectLocations.ToList();
         }
 
         public DbGeometry GetDefaultBoundingBox()
@@ -258,5 +251,51 @@ namespace ProjectFirmaModels.Models
             return ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
         }
 
+        public bool HasProjectLocationPoint(bool includePrivateLocation)
+        {
+            if (LocationIsPrivate && !includePrivateLocation)
+            {
+                return false;
+            }
+            return ProjectLocationPoint != null;
+        }     
+
+        // Per PF-1181, project locations that have been marked as private are only shown to users with permission to edit the project
+        // pass showLocationIfPrivate = true if the point is needed regardless of privacy e.g. to select intersecting geospatial areas
+        public DbGeometry GetProjectLocationPoint(bool showLocationIfPrivate)
+        {
+            if (LocationIsPrivate && !showLocationIfPrivate)
+            {
+                return null;
+            }
+            return ProjectLocationPoint;
+        }
+
+        public bool HasProjectLocationDetailed(bool includePrivateLocation)
+        {
+            if (LocationIsPrivate && !includePrivateLocation)
+            {
+                return false;
+            }
+            return ProjectLocations.Any();
+        }
+
+        public IEnumerable<IProjectLocation> GetProjectLocationDetailed(bool showLocationIfPrivate)
+        {
+            if (LocationIsPrivate && !showLocationIfPrivate)
+            {
+                return new List<IProjectLocation>();
+            }
+            return ProjectLocations;
+        }
+        
+        public List<ProjectLocation> GetProjectLocationDetailedAsProjectLocations(bool showLocationIfPrivate)
+        {
+            if (LocationIsPrivate && !showLocationIfPrivate)
+            {
+                return new List<ProjectLocation>();
+            }
+            return ProjectLocations.ToList();
+        }
     }
 }

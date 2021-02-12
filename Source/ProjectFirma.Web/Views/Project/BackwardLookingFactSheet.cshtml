@@ -59,6 +59,15 @@
         {
             border-left: 3px solid @ViewDataTyped.TaxonomyColor;
         }
+
+        .locationNotDisplayedAlert {
+            position: absolute;
+            z-index: 999;
+            bottom: 0;
+            margin-bottom: 2px;
+            width: 446px;
+            margin-left: 54px;
+        }
    </style>
 
    @{ MapJavascriptIncludes.RenderPartialView(Html); }
@@ -371,8 +380,23 @@
    <div class="row section">
       <div class="col-sm-12 col-md-6">
          <div style="margin-left: auto; margin-right: auto;">
-            <h4>Location</h4>
-            <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
+             <h4>Location</h4>
+             <div>
+                 <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
+                 
+                 @if (!ViewDataTyped.ProjectLocationIsProvided)
+                 {
+                     <div class="locationNotDisplayedAlert alert alert-warning text-center" role="alert">
+                         Location Not Specified
+                     </div>
+                 }
+                 else if (ViewDataTyped.Project.LocationIsPrivate)
+                 {
+                     <div class="locationNotDisplayedAlert alert alert-warning" role="alert">
+                         This @(ViewDataTyped.EntityName)’s location has been marked private.
+                     </div>
+                 }
+             </div>
             <script type="text/javascript">
                     jQuery(document).ready(function()
                     {

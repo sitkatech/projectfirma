@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -78,6 +79,32 @@ namespace ProjectFirma.Web.Models
         //    return person;
         //}
 
-        public static bool CanViewProposals(this FirmaSession firmaSession) => firmaSession != null && (MultiTenantHelpers.ShowProposalsToThePublic() || !firmaSession.IsAnonymousOrUnassigned());
+        public static bool CanViewProposals(this FirmaSession firmaSession)
+        {
+            return firmaSession != null &&
+                   (MultiTenantHelpers.ShowProposalsToThePublic() || !firmaSession.IsAnonymousOrUnassigned());
+        }
+
+        public static bool UserCanViewPrivateLocations(this FirmaSession currentFirmaSession, Project project)
+        {
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.Draft)
+            {
+                return new ProjectCreateFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            }      
+            
+            // A user should be able to see the location of a project they are the Primary Contact on while it is pending approval (a submitted draft)
+            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval && currentFirmaSession.PersonID == project.PrimaryContactPersonID)
+            {
+                return true;
+            }
+
+            return new ProjectUpdateCreateEditSubmitFeature().HasPermission(currentFirmaSession, project).HasPermission ||
+                   new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
+        }
+
+        public static bool UserCanViewPrivateLocations(this FirmaSession currentFirmaSession, ProjectUpdate projectUpdate)
+        {
+            return currentFirmaSession.UserCanViewPrivateLocations(projectUpdate.ProjectUpdateBatch.Project);
+        }
     }
 }

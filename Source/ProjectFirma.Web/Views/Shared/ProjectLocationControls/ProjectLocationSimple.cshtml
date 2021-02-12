@@ -149,6 +149,20 @@ Source code is available upon request via <support@sitkatech.com>.
                     </tr>
                 </table>
             </div>
+            
+            <hr/>
+            <div class="form-group">
+                <label class="control-label">
+                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForLocationIsPrivate)
+                </label>
+                <br/>    
+                <input type="checkbox" ng-model="AngularModel.LocationIsPrivate" name="@Html.NameFor(m => m.LocationIsPrivate)" value="true" />
+                Hide the @fieldDefinitionForProject.GetFieldDefinitionLabel()’s location from most users.
+                @* When hand-coding a checkbox input, 'value="true"' is a necessary idiom so that ModelBinder can correctly bind the value of this checkbox.
+                Otherwise, the form will attempt to pass the value "on", which ModelBinder is unable to parse.
+                Setting value=true does not affect whether or not the checkbox is checked.*@
+
+            </div>
         </form>
     </div>
     <div class="col-xs-12 col-md-7 col-lg-8" id="mapContainer">

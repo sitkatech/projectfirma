@@ -208,25 +208,31 @@ namespace ProjectFirma.Web.Models
             return boundingBox;
         }
 
-        public static BoundingBox MakeBoundingBoxFromProject(IProject project)
+        public static BoundingBox MakeBoundingBoxFromProject(IProject project, bool userCanViewPrivateLocations)
         {
+            // Show full tenant extent if user can't view private locations, don't want to show the approximate location either
+            if (project.LocationIsPrivate && !userCanViewPrivateLocations)
+            {
+                return new BoundingBox(MultiTenantHelpers.GetDefaultBoundingBox());
+            }
+
             if (project.GetDefaultBoundingBox() != null)
             {
                 return new BoundingBox(project.GetDefaultBoundingBox());
             }
 
-            if (project.GetProjectLocationDetails().Any())
+            if (project.HasProjectLocationDetailed(userCanViewPrivateLocations))
             {
                 var pointList = new List<Point>();
                 
                 // If there is a Project point (lat/lng), include it
-                if (project.ProjectLocationPoint != null)
+                if (project.HasProjectLocationPoint(userCanViewPrivateLocations))
                 {
-                    pointList.Add(new Point(project.ProjectLocationPoint));
+                    pointList.Add(new Point(project.GetProjectLocationPoint(userCanViewPrivateLocations)));
                 }
 
                 // Always include Project Location details
-                foreach (DbGeometry geometry in project.GetProjectLocationDetails().Select(x => x.GetProjectLocationGeometry()))
+                foreach (DbGeometry geometry in project.GetProjectLocationDetailed(userCanViewPrivateLocations).Select(x => x.GetProjectLocationGeometry()))
                 {
                     pointList.AddRange(GetPointsFromDbGeometry(geometry));
                 }
@@ -234,9 +240,9 @@ namespace ProjectFirma.Web.Models
                 return new BoundingBox(pointList);
             }
 
-            if (project.ProjectLocationPoint != null)
+            if (project.HasProjectLocationPoint(userCanViewPrivateLocations))
             {
-                return new BoundingBox(new Point(project.ProjectLocationPoint), 0.001m);
+                return new BoundingBox(new Point(project.GetProjectLocationPoint(userCanViewPrivateLocations)), 0.001m);
             }
 
             if (project.GetProjectGeospatialAreas().Any())

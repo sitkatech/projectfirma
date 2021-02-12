@@ -22,7 +22,7 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
     projectLocationInformationContainer) {
     ProjectFirmaMaps.Map.call(this, projectLocationSummaryMapInitJson);
    
-    if (projectLocationSummaryMapInitJson.HasSimpleLocation) //ProjectLocationTypeEnum.PointOnMap
+    if (projectLocationSummaryMapInitJson.HasViewableSimpleLocation) //ProjectLocationTypeEnum.PointOnMap
     {
         var infoContainerPointHtml = "<table class=\"summaryLayout\">";
         var latLng = new L.LatLng(projectLocationSummaryMapInitJson.ProjectLocationYCoord,
@@ -37,7 +37,7 @@ ProjectFirmaMaps.ProjectLocationSummary = function(projectLocationSummaryMapInit
     }
 
     if (!projectLocationSummaryMapInitJson.HasDetailedLocation &&
-        !projectLocationSummaryMapInitJson.HasSimpleLocation &&
+        !projectLocationSummaryMapInitJson.HasViewableSimpleLocation &&
         !projectLocationSummaryMapInitJson.HasGeospatialAreas) {
         this.blockMap();
     }

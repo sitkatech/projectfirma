@@ -35,8 +35,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
-            Latitude = project.ProjectLocationPoint?.YCoordinate;
-            Longitude = project.ProjectLocationPoint?.XCoordinate;
+            var projectLocationPoint = project.GetProjectLocationPoint(false);
+            Latitude = projectLocationPoint?.YCoordinate;
+            Longitude = projectLocationPoint?.XCoordinate;
         }
 
         [DataMember] public int ProjectID { get; set; }

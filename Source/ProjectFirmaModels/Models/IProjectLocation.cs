@@ -19,10 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Data.Entity.Spatial;
+using LtInfo.Common.DbSpatial;
 
 namespace ProjectFirmaModels.Models
 {
-    public interface IProjectLocation
+    public interface IProjectLocation : IHaveSqlGeometry
     {
         DbGeometry GetProjectLocationGeometry();
         string Annotation { get; set; }
