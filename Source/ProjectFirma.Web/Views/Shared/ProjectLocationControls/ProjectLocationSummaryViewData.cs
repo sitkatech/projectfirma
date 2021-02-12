@@ -38,11 +38,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public bool UserHasEditProjectPermissions { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
 
-
-
-        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, 
-            Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, 
-            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, bool locationIsPrivate, bool userHasEditProjectPermissions)
+        public ProjectLocationSummaryViewData(IProject project,
+                                              ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
+                                              Dictionary<int, string> dictionaryGeoNotes,
+                                              List<GeospatialAreaType> geospatialAreaTypes,
+                                              List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas,
+                                              bool locationIsPrivate,
+                                              bool userHasEditProjectPermissions)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
