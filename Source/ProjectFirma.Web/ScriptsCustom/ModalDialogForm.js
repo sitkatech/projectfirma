@@ -194,7 +194,7 @@ function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialo
                     dialogDiv.find('.modal-body').html(result);
 
                     // Setup the ajax submit logic
-                    wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId);
+                    wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialogFormId, skipAjax, saveButtonElement);
                 }
             });
         },

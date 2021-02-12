@@ -213,7 +213,7 @@ namespace ProjectFirma.Web.PartnerFinder
             // Simple Location sub-sub-score
             double simpleLocationSubSubScore = 0.0;
             {
-                var projectSimpleLocation = project.ProjectLocationPoint;
+                var projectSimpleLocation = project.GetProjectLocationPoint(false);
                 foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
                 {
                     if (projectSimpleLocation != null && 
@@ -230,7 +230,7 @@ namespace ProjectFirma.Web.PartnerFinder
             // Detailed location sub-sub-score
             double detailedLocationSubSubScore = 0.0;
             {
-                var projectDetailedLocations = project.GetProjectLocationDetails().ToList();
+                var projectDetailedLocations = project.GetProjectLocationDetailed(false).ToList();
                 foreach (var currentOrgDbGeometry in organizationDbGeometriesToUseInMatching)
                 {
                     foreach (var currentDetailedLocation in projectDetailedLocations)

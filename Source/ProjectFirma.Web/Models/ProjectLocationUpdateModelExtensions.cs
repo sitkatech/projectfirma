@@ -8,8 +8,9 @@ namespace ProjectFirma.Web.Models
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
             var project = projectUpdateBatch.Project;
+            // Using ProjectLocationUpdates here because locations are being updated
             projectUpdateBatch.ProjectLocationUpdates =
-                project.ProjectLocations.Select(
+                project.GetProjectLocationDetailedAsProjectLocations(true).Select(
                     projectLocationToClone => new ProjectLocationUpdate(projectUpdateBatch,
                         projectLocationToClone.ProjectLocationGeometry, projectLocationToClone.Annotation)).ToList();
         }
@@ -18,14 +19,13 @@ namespace ProjectFirma.Web.Models
             DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
-            var currentProjectLocations = project.ProjectLocations.ToList();
+            var currentProjectLocations = project.GetProjectLocationDetailedAsProjectLocations(true).ToList();
             currentProjectLocations.ForEach(x => x.DeleteFull(databaseEntities));
             currentProjectLocations.Clear();
 
-            if (projectUpdateBatch.ProjectLocationUpdates.Any())
-            {
+            if (projectUpdateBatch.ProjectUpdate.HasProjectLocationDetailed(true)){
                 // Completely rebuild the list
-                projectUpdateBatch.ProjectLocationUpdates.ToList().ForEach(x =>
+                projectUpdateBatch.ProjectUpdate.GetProjectLocationDetailedAsProjectLocationUpdate(true).ForEach(x =>
                 {
                     var projectLocation = new ProjectLocation(project, x.ProjectLocationUpdateGeometry, x.Annotation);
                     databaseEntities.AllProjectLocations.Add(projectLocation);

@@ -40,15 +40,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public string RequestSupportLink { get; }
 
 
-        public EditOrganizationsViewData(IProject project, IEnumerable<ProjectFirmaModels.Models.Organization> organizations, IEnumerable<Person> allPeople, List<OrganizationRelationshipType> allOrganizationRelationshipTypes, Person defaultPrimaryContactPerson)
+        public EditOrganizationsViewData(IProject iProject, FirmaSession currentFirmaSession, IEnumerable<ProjectFirmaModels.Models.Organization> organizations, 
+            IEnumerable<Person> allPeople, List<OrganizationRelationshipType> allOrganizationRelationshipTypes)
         {            
             AllPeople = allPeople.Select(x => new PersonSimple(x)).ToList();
             AllOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeOrganizationRelationshipTypes.Any()).Select(x => new OrganizationSimple(x)).ToList();
 
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(iProject.GetProject());
             OrganizationContainingProjectSimpleLocation = allOrganizationRelationshipTypes.ToDictionary(
                 x => x.OrganizationRelationshipTypeID, x =>
                 {
-                    var organization = x.GetOrganizationContainingProjectSimpleLocation(project);
+                    var organization = x.GetOrganizationContainingProjectSimpleLocation(iProject, userCanViewPrivateLocations);
                     return organization == null ? null : new OrganizationSimple(organization);
                 });
 

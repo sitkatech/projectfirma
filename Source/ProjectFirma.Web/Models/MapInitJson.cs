@@ -109,29 +109,30 @@ namespace ProjectFirma.Web.Models
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetProjectLocationSimpleMapLayer(IProject project)
+        public static List<LayerGeoJson> GetProjectLocationSimpleMapLayer(IProject project, bool userCanViewPrivateLocations)
         {
             var layerGeoJsons = new List<LayerGeoJson>();
-            if (project.ProjectLocationPoint != null)
+            if (project.HasProjectLocationPoint(userCanViewPrivateLocations))
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple",
                     new FeatureCollection(new List<Feature>
                     {
-                        DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint)
+                        DbGeometryToGeoJsonHelper.FromDbGeometry(project.GetProjectLocationPoint(userCanViewPrivateLocations))
                     }),
                     "#838383", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(ProjectUpdate projectUpdate)
+        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(ProjectUpdate projectUpdate, FirmaSession currentFirmaSession)
         {
             var layerGeoJsons = new List<LayerGeoJson>();
-            if (projectUpdate.ProjectLocationPoint != null)
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(projectUpdate);
+            if (projectUpdate.HasProjectLocationPoint(userCanViewPrivateLocations) )
             {
-                layerGeoJsons.AddRange(GetProjectLocationSimpleMapLayer(projectUpdate));                
+                layerGeoJsons.AddRange(GetProjectLocationSimpleMapLayer(projectUpdate, currentFirmaSession.UserCanViewPrivateLocations(projectUpdate)));                
             }
-            var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection();
+            var detailedLocationGeoJsonFeatureCollection = projectUpdate.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations);
             if (detailedLocationGeoJsonFeatureCollection.Features.Any())
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
@@ -139,14 +140,16 @@ namespace ProjectFirma.Web.Models
             return layerGeoJsons;
         }
 
-        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(Project project)
+        public static List<LayerGeoJson> GetProjectLocationSimpleAndDetailedMapLayers(Project project, FirmaSession currentFirmaSession)
         {
             var layerGeoJsons = new List<LayerGeoJson>();
-            if (project.ProjectLocationPoint != null)
+            var userCanViewPrivateLocations = currentFirmaSession.UserCanViewPrivateLocations(project);
+
+            if (project.HasProjectLocationPoint(userCanViewPrivateLocations))
             {
-                layerGeoJsons.AddRange(GetProjectLocationSimpleMapLayer(project));                
+                layerGeoJsons.AddRange(GetProjectLocationSimpleMapLayer(project, userCanViewPrivateLocations));                
             }
-            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
+            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(userCanViewPrivateLocations);
             if (detailedLocationGeoJsonFeatureCollection.Features.Any())
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));

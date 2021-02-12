@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
 {
     public class ProjectFinderGridSpec : GridSpec<PartnerOrganizationMatchMakerScore>
     {
-        public ProjectFinderGridSpec()
+        public ProjectFinderGridSpec(FirmaSession currentFirmaSession)
         {
             SkinRowHeight = 30;
             InitWidthsByPercentage = true;
@@ -28,12 +28,12 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             Add(MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.TaxonomySystem].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.Classification].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.PerformanceMeasure].Matched.ToCheckboxImageOrEmptyForGrid(), 10, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Map", x => GetMapButtonForProject(x.Project), 8, DhtmlxGridColumnFilterType.None);
+            Add("Map", x => GetMapButtonForProject(x.Project, currentFirmaSession), 8, DhtmlxGridColumnFilterType.None);
         }
 
-        public static HtmlString GetMapButtonForProject(ProjectFirmaModels.Models.Project project)
+        public static HtmlString GetMapButtonForProject(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
-            if (project.HasProjectLocationPoint)
+            if (project.HasProjectLocationPoint(false))
             {
                 return new HtmlString($"<form onsubmit=\"return false;\"data-id=\"{project.ProjectID}\"><button title=\"Zoom to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} on the map\" class=\"grid-map-marker grid-map-marker-enabled\" type=\"submit\"><span class=\"glyphicon glyphicon-map-marker\"></span></button></form>");
 

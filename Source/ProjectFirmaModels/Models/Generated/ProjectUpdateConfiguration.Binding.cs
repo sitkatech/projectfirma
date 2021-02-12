@@ -30,6 +30,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.EstimatedAnnualOperatingCostDeprecated).HasColumnName(@"EstimatedAnnualOperatingCostDeprecated").HasColumnType("decimal").IsOptional();
             Property(x => x.PrimaryContactPersonID).HasColumnName(@"PrimaryContactPersonID").HasColumnType("int").IsOptional();
             Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsOptional();
+            Property(x => x.LocationIsPrivate).HasColumnName(@"LocationIsPrivate").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.ProjectUpdateBatch).WithMany(b => b.ProjectUpdates).HasForeignKey(c => c.ProjectUpdateBatchID).WillCascadeOnDelete(false); // FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID

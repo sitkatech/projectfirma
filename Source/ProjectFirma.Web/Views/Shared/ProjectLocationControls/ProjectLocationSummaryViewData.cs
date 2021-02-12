@@ -22,21 +22,27 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Views.Map;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ProjectLocationSummaryViewData : FirmaUserControlViewData
     {
-        public readonly string ProjectLocationNotes;
-        public readonly ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson;
-        public readonly List<ProjectFirmaModels.Models.GeospatialArea> GeospatialAreas;
-        public readonly bool HasLocationNotes;
-        public readonly bool HasLocationInformation;
+        public string ProjectLocationNotes { get; }
+        public ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson { get; }
+        public List<ProjectFirmaModels.Models.GeospatialArea> GeospatialAreas { get; }
+        public bool HasLocationNotes { get; }
+        public bool HasLocationInformation { get; }
         public Dictionary<int, string> DictionaryGeoNotes { get; }
+        public bool LocationIsPrivate { get; }
+        public bool UserHasEditProjectPermissions { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+
 
 
         public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, 
-            Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas)
+            Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, 
+            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, bool locationIsPrivate, bool userHasEditProjectPermissions)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
@@ -45,6 +51,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
             DictionaryGeoNotes = dictionaryGeoNotes;
             GeospatialAreaTypes = geospatialAreaTypes;
+            LocationIsPrivate = locationIsPrivate;
+            UserHasEditProjectPermissions = userHasEditProjectPermissions;  
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+
         }
 
         public List<GeospatialAreaType> GeospatialAreaTypes { get; }

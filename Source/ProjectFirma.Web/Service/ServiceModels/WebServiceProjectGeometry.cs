@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
         public static List<WebServiceProjectGeometry> GetProjectGeometries(int projectID)
         {
             var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
-            return project.ProjectLocations.Select(x => new WebServiceProjectGeometry(x)).ToList();
+            return project.GetProjectLocationDetailedAsProjectLocations(false).Select(x => new WebServiceProjectGeometry(x)).ToList();
         }
     }
 

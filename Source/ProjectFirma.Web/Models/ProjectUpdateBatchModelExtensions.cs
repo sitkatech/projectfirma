@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -62,12 +63,19 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch;
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, FirmaSession currentFirmaSession)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, FirmaSession currentFirmaSession, ILog logger)
         {
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentFirmaSession);
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
-                HttpRequestStorage.DatabaseEntities.SaveChanges();
+                try
+                {
+                    HttpRequestStorage.DatabaseEntities.SaveChanges();
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException e)
+                {
+                    logger.Warn(e.Message);
+                }
             }
             return projectUpdateBatch;
         }
@@ -267,7 +275,7 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectLocationUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var projectLocationUpdates = projectUpdateBatch.ProjectLocationUpdates.ToList();
+            var projectLocationUpdates = projectUpdateBatch.ProjectUpdate.GetProjectLocationDetailedAsProjectLocationUpdate(true).ToList();
             foreach (var projectLocationUpdate in projectLocationUpdates)
             {
                 projectLocationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
@@ -599,8 +607,8 @@ namespace ProjectFirma.Web.Models
 
         public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)
         {           
-            var incomplete = projectUpdateBatch.ProjectUpdate.ProjectLocationPoint == null &&
-                             String.IsNullOrWhiteSpace(projectUpdateBatch.ProjectUpdate.ProjectLocationNotes);
+            var incomplete = !projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint(true) &&
+                             string.IsNullOrWhiteSpace(projectUpdateBatch.ProjectUpdate.ProjectLocationNotes);
 
             var locationSimpleValidationResult = new LocationSimpleValidationResult(incomplete);
 
@@ -648,7 +656,7 @@ namespace ProjectFirma.Web.Models
         private static void CommitChangesToProject(this ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             // basics
-            projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
+            projectUpdateBatch.ProjectUpdate.CommitBasicsChangesToProject(projectUpdateBatch.Project);
 
             // expenditures
             ProjectFundingSourceExpenditureUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
