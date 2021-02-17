@@ -102,7 +102,7 @@ namespace LtInfo.Common.GdalOgr
 
         private ProcessUtilityResult ExecuteOgr2OgrCommand(List<string> commandLineArguments)
         {
-            var processUtilityResult = ProcessUtility.ShellAndWaitImpl(_ogr2OgrExecutable.DirectoryName, _ogr2OgrExecutable.FullName, commandLineArguments, true, Convert.ToInt32(_totalMilliseconds));
+            ProcessUtilityResult processUtilityResult = ProcessUtility.ShellAndWaitImpl(_ogr2OgrExecutable.DirectoryName, _ogr2OgrExecutable.FullName, commandLineArguments, true, Convert.ToInt32(_totalMilliseconds));
             if (processUtilityResult.ReturnCode != 0)
             {
                 var argumentsAsString = String.Join(" ", commandLineArguments.Select(ProcessUtility.EncodeArgumentForCommandLine).ToList());
@@ -232,5 +232,17 @@ namespace LtInfo.Common.GdalOgr
         {
             return $"EPSG:{coordinateSystemId}";
         }
+
+        public static string RunOgr2OgrAndGetVersionNumber(string pathToOgr2OgrExecutable, double totalMilliseconds)
+        {
+            var ogr2OgrCommandLineArguments = new List<string> { "--version" };
+            var ogr2orgRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, LtInfoGeometryConfiguration.DefaultCoordinateSystemId, totalMilliseconds);
+            string stdErrorAndStdOutAsString = ogr2orgRunner.ExecuteOgr2OgrCommand(ogr2OgrCommandLineArguments).StdOutAndStdErr;
+            // Parse out the version number such as "GDAL 1.11.22.0" version number string
+            const string gdalVersionNumberRegex = "GDAL ([0-9]+.[0-9]+.[0-9]+)";
+            var result = Regex.Match(stdErrorAndStdOutAsString, gdalVersionNumberRegex);
+            return result.Success ? result.Groups[1].Value : $"Could not find ogr2ogr version number from stdout output: {stdErrorAndStdOutAsString}";
+        }
+
     }
 }

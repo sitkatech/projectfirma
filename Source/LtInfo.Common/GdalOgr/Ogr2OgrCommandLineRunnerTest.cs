@@ -80,7 +80,7 @@ namespace LtInfo.Common.GdalOgr
             // Arrange
             // -------
 
-        var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
+            var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
             const string sourceLayerName = "MySampleFeatureClass";
 
             // Act
