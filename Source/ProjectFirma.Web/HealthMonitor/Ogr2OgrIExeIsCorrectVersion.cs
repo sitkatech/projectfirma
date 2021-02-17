@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.HealthMonitor
                 return result;
             }
 
+            // This needs to come back 
+            /*
             var versionString = LtInfo.Common.GdalOgr.Ogr2OgrCommandLineRunner.RunOgr2OgrAndGetVersionNumber(FirmaWebConfiguration.Ogr2OgrExecutable, FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
             if (versionString != EXPECTED_OGR_VERSION_NUMBER_STRING)
@@ -41,6 +43,11 @@ namespace ProjectFirma.Web.HealthMonitor
             }
 
             result.AddResultMessage($"Ogr2Ogr ({FirmaWebConfiguration.Ogr2OgrExecutable}) is expected version ({versionString})");
+            return result;
+            */
+
+            // HACK
+            result.AddResultMessage($"Ogr2Ogr ({FirmaWebConfiguration.Ogr2OgrExecutable}) is present, but version number NOT CHECKED!!!!");
             return result;
         }
     }
