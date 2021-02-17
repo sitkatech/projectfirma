@@ -29,11 +29,11 @@ namespace ProjectFirma.Web.HealthMonitor
             if (versionString != EXPECTED_OGR_VERSION_NUMBER_STRING)
             {
                 result.HealthCheckStatus = HealthCheckStatus.Critical;
-                result.AddResultMessage($"Ogr2Ogr is version {versionString}; expected {EXPECTED_OGR_VERSION_NUMBER_STRING}");
+                result.AddResultMessage($"Ogr2Ogr ({FirmaWebConfiguration.Ogr2OgrExecutable}) is version {versionString}; expected {EXPECTED_OGR_VERSION_NUMBER_STRING}");
                 return result;
             }
 
-            result.AddResultMessage($"Ogr2Ogr is expected version ({versionString})");
+            result.AddResultMessage($"Ogr2Ogr ({FirmaWebConfiguration.Ogr2OgrExecutable}) is expected version ({versionString})");
             return result;
         }
     }
