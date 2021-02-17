@@ -1,5 +1,5 @@
-﻿using System.Web;
-using LtInfo.Common;
+﻿using System.IO;
+using System.Web;
 using LtInfo.Common.HealthMonitor;
 using ProjectFirma.Web.Common;
 
@@ -21,6 +21,13 @@ namespace ProjectFirma.Web.HealthMonitor
             {
                 result.HealthCheckStatus = HealthCheckStatus.Critical;
                 result.AddResultMessage("Could not run check because missing HTTP context");
+                return result;
+            }
+
+            if (!File.Exists(FirmaWebConfiguration.Ogr2OgrExecutable))
+            {
+                result.HealthCheckStatus = HealthCheckStatus.Critical;
+                result.AddResultMessage($"Could not find Ogr2Ogr executable file at \"{FirmaWebConfiguration.Ogr2OgrExecutable}\"");
                 return result;
             }
 
