@@ -69,6 +69,7 @@
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
+    <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
     <Compile Include="Models\GridColumn.cs" />
