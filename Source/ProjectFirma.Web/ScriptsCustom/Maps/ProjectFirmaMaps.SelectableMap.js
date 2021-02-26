@@ -3,9 +3,9 @@
 
     var self = this;
     
-    _.each(this.vectorLayers, function (vectorLayer) {
-        vectorLayer.removeEventListener("click");
-        vectorLayer.on("click", function(event) {
+    _.each(this.mapLayers, function (mapLayer) {
+        mapLayer.removeEventListener("click");
+        mapLayer.on("click", function(event) {
             self.setLayerSelected(event.layer);
             self.onSelectLayer(event);
         });
