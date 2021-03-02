@@ -391,11 +391,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         private void PrePopulateReportedPerformanceMeasures(ProjectUpdate projectUpdate, ICollection<PerformanceMeasureExpectedUpdate> expectedPerformanceMeasureUpdates,
-            List<PerformanceMeasureActualUpdateSimple> performanceMeasureActualUpdateSimples)
+            List<PerformanceMeasureActualUpdateSimple> performanceMeasureActualUpdateSimples, List<int> currentExemptYears)
         {
             var sortedExpectedPerformanceMeasures = expectedPerformanceMeasureUpdates.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder)
                 .ThenBy(x => x.PerformanceMeasure.GetDisplayName()).ToList();
-            var yearRange = projectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
+            var yearRange = projectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Except(currentExemptYears);
             var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
             var performanceMeasureActualIdToUse = -1;
             foreach (var calendarYear in yearRange)
@@ -436,6 +436,14 @@ namespace ProjectFirma.Web.Controllers
             var expectedPerformanceMeasureUpdates = projectUpdateBatch.PerformanceMeasureExpectedUpdates;
             var performanceMeasureActualUpdateSimples = new List<PerformanceMeasureActualUpdateSimple>();
             var reportedPerformanceMeasures = projectUpdateBatch.PerformanceMeasureActualUpdates;
+
+            var projectExemptReportingYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
+            var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
+            var possibleYearsToExempt = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
+            projectExemptReportingYearUpdates.AddRange(
+                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
+                    .Select((x, index) => new ProjectExemptReportingYearUpdateSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));
+
             if (reportedPerformanceMeasures.Any())
             {
                 performanceMeasureActualUpdateSimples =
@@ -446,15 +454,9 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                PrePopulateReportedPerformanceMeasures(projectUpdateBatch.ProjectUpdate, expectedPerformanceMeasureUpdates, performanceMeasureActualUpdateSimples);
+                PrePopulateReportedPerformanceMeasures(projectUpdateBatch.ProjectUpdate, expectedPerformanceMeasureUpdates, performanceMeasureActualUpdateSimples, currentExemptedYears);
             }
 
-            var projectExemptReportingYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
-            var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
-            var possibleYearsToExempt = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
-            projectExemptReportingYearUpdates.AddRange(
-                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
-                    .Select((x, index) => new ProjectExemptReportingYearUpdateSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));
 
             var viewModel = new ReportedPerformanceMeasuresViewModel(performanceMeasureActualUpdateSimples,
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
