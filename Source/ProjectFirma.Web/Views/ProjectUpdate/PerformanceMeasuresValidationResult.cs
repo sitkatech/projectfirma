@@ -31,9 +31,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public static readonly string FoundIncompletePerformanceMeasureRowsMessage =
             $"has incomplete {MultiTenantHelpers.GetPerformanceMeasureName()} rows. You must either delete irrelevant rows, or provide complete information for each row.";
 
-        public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"found duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
+        public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"has duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
 
-        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
+        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"has reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
 
         private readonly int _performanceMeasureID;
 
