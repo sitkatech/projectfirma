@@ -20,9 +20,9 @@ namespace ProjectFirma.Web.ScheduledJobs
 
         private const string ReminderMessageTemplate = @"Hello {0},<br/><br/>
 {1}
-<div style=""font-weight:bold"">Your <a href=""{2}"">projects that require an update</a> are:</div>
+<div style=""font-weight:bold"">Your <a href=""{2}"">{3} that require an update</a> are:</div>
 <div style=""margin-left: 15px"">
-    {3}
+    {4}
 </div>";
 
 
@@ -84,6 +84,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 fullNameFirstLast,
                 IntroContent,
                 projectsRequiringAnUpdateUrl,
+                FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized().ToLower(),
                 projectListConcatenated);
             var emailContent = $"{body}<br/>{signature}";
             return emailContent;
@@ -104,7 +105,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             return GetEmailContent(
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate()),
                 $"<em>Organization {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}</em>",
-                "<p><em>A list of the recipient’s projects that require an update and do not have an update submitted yet will appear here.&nbsp;</em></p>",
+                $"<p><em>A list of the recipient’s {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized().ToLower()} that require an update and do not have an update submitted yet will appear here.&nbsp;</em></p>",
                 signature
             );
         }
@@ -132,7 +133,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 Thank you,<br />
 {ToolName} team<br/><br/><img src=""{logoUrl}"" width=""160"" />
 <p>
-P.S. - You received this email because you are listed as the {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()} for these projects. If you feel that you should not be the {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more of these projects, please <a href=""mailto:{ContactSupportEmail}"">contact support</a>.
+P.S. - You received this email because you are listed as the {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()} for these {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized().ToLower()}. If you feel that you should not be the {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more of these {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized().ToLower()}, please <a href=""mailto:{ContactSupportEmail}"">contact support</a>.
 </p>";
         }
     }

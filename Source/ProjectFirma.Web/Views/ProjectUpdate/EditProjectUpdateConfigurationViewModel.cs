@@ -34,17 +34,17 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class EditProjectUpdateConfigurationViewModel : FormViewModel, IValidatableObject
     {
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectUpdateKickOffDate)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportingPeriodKickOffDate)]
         public DateTime? ProjectUpdateKickOffDate { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectUpdateCloseOutDate)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportingPeriodCloseOutDate)]
         public DateTime? ProjectUpdateCloseOutDate { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectUpdateReminderInterval)]
         public int? ProjectUpdateReminderInterval { get; set; }
 
         [Required]
-        [DisplayName("Enable Project Update Reminders?")]
+        [DisplayName("Send Reporting Period Kick-off Reminder?")]
         public bool? EnableProjectUpdateReminders { get; set; }
 
         [Required]
@@ -52,17 +52,20 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public bool? SendPeriodicReminders { get; set; }
 
         [Required]
-        [DisplayName("Send Close-Out Notification?")]
+        [DisplayName("Send Close-out Reminder?")]
         public bool? SendCloseOutNotification { get; set; }
 
-        [DisplayName("Project Update Kick-Off Email Content")]
+        [DisplayName("Kick-off Email Intro Content")]
         public HtmlString ProjectUpdateKickOffIntroContent { get; set; }
 
-        [DisplayName("Project Update Reminder Email Content")]
+        [DisplayName("Reminder Email Intro Content")]
         public HtmlString ProjectUpdateReminderIntroContent { get; set; }
 
-        [DisplayName("Project Update Close-Out Email Content")]
+        [DisplayName("Close-out Email Intro Content")]
         public HtmlString ProjectUpdateCloseOutIntroContent { get; set; }
+
+        [DisplayName("Days before end date to send Close-out Reminder (days)")]
+        public int? DaysBeforeEndDateToSendCloseOutReminder { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -107,18 +110,18 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 if (string.IsNullOrWhiteSpace(ProjectUpdateKickOffIntroContent?.ToString()))
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
-                        $"You must provide {fieldDefinitionLabelProject} Update Kick-Off Email Content if {fieldDefinitionLabelProject} Update Reminders are enabled.",
+                        $"You must provide {fieldDefinitionLabelProject} Update Kick-off Email Content if {fieldDefinitionLabelProject} Update Reminders are enabled.",
                         m => m.ProjectUpdateKickOffIntroContent);
                 if (!ProjectUpdateKickOffDate.HasValue)
                 {
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
-                        $"You must provide a {fieldDefinitionLabelProject} Update Kick-Off Date if {fieldDefinitionLabelProject} Update Reminders are enabled.",
+                        $"You must provide a {fieldDefinitionLabelProject} Update Kick-off Date if {fieldDefinitionLabelProject} Update Kick-off Reminders are enabled.",
                         m => m.ProjectUpdateKickOffDate);
                 }
                 else if (ProjectUpdateKickOffDate.Value < DateTime.Today)
                 {
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
-                        $"{fieldDefinitionLabelProject} Update Kick-Off Date cannot be in the past.", m => m.ProjectUpdateKickOffDate);
+                        $"{fieldDefinitionLabelProject} Update Kick-off Date cannot be in the past.", m => m.ProjectUpdateKickOffDate);
                 }
             }
 
@@ -153,31 +156,31 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 if (string.IsNullOrWhiteSpace(ProjectUpdateCloseOutIntroContent?.ToString()))
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
-                        $"You must provide {fieldDefinitionLabelProject} Update Close-Out Email Content if {fieldDefinitionLabelProject} Update Close-Out Notifications are enabled.",
+                        $"You must provide {fieldDefinitionLabelProject} Update Close-out Email Content if {fieldDefinitionLabelProject} Update Close-out Reminders are enabled.",
                         m => m.ProjectUpdateCloseOutIntroContent);
                 if (!ProjectUpdateCloseOutDate.HasValue)
                 {
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
-                        $"You must provide a {fieldDefinitionLabelProject} Update Close-Out Date if {fieldDefinitionLabelProject} Update Close-Out Notifications are enabled.",
+                        $"You must provide a {fieldDefinitionLabelProject} Update Close-out Date if {fieldDefinitionLabelProject} Update Close-out Reminders are enabled.",
                         m => m.ProjectUpdateCloseOutDate);
                 }
                 else if (ProjectUpdateKickOffDate.HasValue)
                 {
                     if (!EnableProjectUpdateReminders ?? false)
                         yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
-                            $"You cannot set a {fieldDefinitionLabelProject} Update Close-Out Date without also setting a {fieldDefinitionLabelProject} Update Kick-Off Date",
+                            $"You cannot set a {fieldDefinitionLabelProject} Update Close-out Date without also setting a {fieldDefinitionLabelProject} Update Kick-off Date",
                             m => m.ProjectUpdateCloseOutDate);
                     if (ProjectUpdateKickOffDate.Value.AddYears(1) < ProjectUpdateCloseOutDate.Value)
                         yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
-                            $"{fieldDefinitionLabelProject} Update Close-Out Date cannot be more than 1 year later than {fieldDefinitionLabelProject} Update Kick-Off Date.",
+                            $"{fieldDefinitionLabelProject} Update Close-out Date cannot be more than 1 year later than {fieldDefinitionLabelProject} Update Kick-off Date.",
                             m => m.ProjectUpdateCloseOutDate);
                     if (ProjectUpdateKickOffDate.Value >= ProjectUpdateCloseOutDate.Value)
                         yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
-                            $"{fieldDefinitionLabelProject} Update Close-Out Date must be later than {fieldDefinitionLabelProject} Update Kick-Off Date.",
+                            $"{fieldDefinitionLabelProject} Update Close-out Date must be later than {fieldDefinitionLabelProject} Update Kick-off Date.",
                             m => m.ProjectUpdateCloseOutDate);
                     if (ProjectUpdateCloseOutDate.Value < DateTime.Today)
                         yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, DateTime?>(
-                            $"{fieldDefinitionLabelProject} Update Close-Out Date cannot be in the past.", m => m.ProjectUpdateKickOffDate);
+                            $"{fieldDefinitionLabelProject} Update Close-out Date cannot be in the past.", m => m.ProjectUpdateKickOffDate);
                 }
             }
         }
