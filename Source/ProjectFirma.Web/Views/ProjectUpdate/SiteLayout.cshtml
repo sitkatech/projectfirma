@@ -141,7 +141,7 @@
             @foreach (string warning in ViewDataTyped.ValidationWarnings)
             {
                 <li>
-                    <span>@warning</span>
+                    <span>@Html.Raw(warning)</span>
                 </li>
             }
         </ul>
