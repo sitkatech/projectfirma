@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -53,21 +54,21 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public MyProjectsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentFirmaSession, firmaPage)
         {
             ProjectUpdateStatusFilterType = projectUpdateStatusFilterType;
-            var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
-            var fieldDefinitionReportingYear = FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel();
+            var startDayOfReportingYearAsString = MultiTenantHelpers.GetStartDayOfReportingYear().ToStringDateMonthDay();
+            var endDayOfReportingYearAsString = MultiTenantHelpers.GetEndDayOfReportingYear().ToStringDateMonthDay();
             switch (projectUpdateStatusFilterType)
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
                     PageTitle =
-                        $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Requiring an Update for {fieldDefinitionReportingYear}: {currentYearToUseForReporting}";
+                        $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Requiring an Update: Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
                     PageTitle =
-                        $"Recently Submitted {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} for {fieldDefinitionReportingYear}: {currentYearToUseForReporting}";
+                        $"Recently Submitted {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
                     PageTitle =
-                        $"All My {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} for {fieldDefinitionReportingYear}: {currentYearToUseForReporting}";
+                        $"All My {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects:
                     PageTitle = $"All {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";

@@ -1869,6 +1869,7 @@
     <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SitkaLeftRightListbox.cshtml" />
     <Content Include="Views\Shared\ProjectClassification\ProjectClassifications.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTimeNoYear.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateSetting(int projectUpdateSettingID, DateTime? projectUpdateKickOffDate, DateTime? projectUpdateCloseOutDate, int? projectUpdateReminderInterval, bool enableProjectUpdateReminders, bool sendPeriodicReminders, bool sendCloseOutNotification, string projectUpdateKickOffIntroContent, string projectUpdateReminderIntroContent, string projectUpdateCloseOutIntroContent) : this()
+        public ProjectUpdateSetting(int projectUpdateSettingID, DateTime? projectUpdateKickOffDate, DateTime? projectUpdateCloseOutDate, int? projectUpdateReminderInterval, bool enableProjectUpdateReminders, bool sendPeriodicReminders, bool sendCloseOutNotification, string projectUpdateKickOffIntroContent, string projectUpdateReminderIntroContent, string projectUpdateCloseOutIntroContent, int? daysBeforeCloseOutDateForReminder) : this()
         {
             this.ProjectUpdateSettingID = projectUpdateSettingID;
             this.ProjectUpdateKickOffDate = projectUpdateKickOffDate;
@@ -43,6 +43,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectUpdateKickOffIntroContent = projectUpdateKickOffIntroContent;
             this.ProjectUpdateReminderIntroContent = projectUpdateReminderIntroContent;
             this.ProjectUpdateCloseOutIntroContent = projectUpdateCloseOutIntroContent;
+            this.DaysBeforeCloseOutDateForReminder = daysBeforeCloseOutDateForReminder;
         }
 
         /// <summary>
@@ -139,6 +140,7 @@ namespace ProjectFirmaModels.Models
             get { return ProjectUpdateCloseOutIntroContent == null ? null : new HtmlString(ProjectUpdateCloseOutIntroContent); }
             set { ProjectUpdateCloseOutIntroContent = value?.ToString(); }
         }
+        public int? DaysBeforeCloseOutDateForReminder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateSettingID; } set { ProjectUpdateSettingID = value; } }
 
