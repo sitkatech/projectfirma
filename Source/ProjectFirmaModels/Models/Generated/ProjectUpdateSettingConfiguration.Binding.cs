@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectUpdateKickOffIntroContent).HasColumnName(@"ProjectUpdateKickOffIntroContent").HasColumnType("varchar").IsOptional();
             Property(x => x.ProjectUpdateReminderIntroContent).HasColumnName(@"ProjectUpdateReminderIntroContent").HasColumnType("varchar").IsOptional();
             Property(x => x.ProjectUpdateCloseOutIntroContent).HasColumnName(@"ProjectUpdateCloseOutIntroContent").HasColumnType("varchar").IsOptional();
+            Property(x => x.DaysBeforeCloseOutDateForReminder).HasColumnName(@"DaysBeforeCloseOutDateForReminder").HasColumnType("int").IsOptional();
 
             // Foreign keys
 

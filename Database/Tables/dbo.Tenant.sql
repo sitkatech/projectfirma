@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[Tenant](
 	[CanonicalHostNameLocal] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CanonicalHostNameQa] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CanonicalHostNameProd] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[ReportingYearStartDate] [datetime] NOT NULL,
+	[FiscalYearStartDate] [datetime] NOT NULL,
 	[UseFiscalYears] [bit] NOT NULL,
 	[UsesTechnicalAssistanceParameters] [bit] NOT NULL,
 	[ArePerformanceMeasuresExternallySourced] [bit] NOT NULL,

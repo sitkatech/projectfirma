@@ -72,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="panel-heading panelTitle">
         <h2>
             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUpdateConfigurationUrl, string.Format("Edit {0} Update Configuration", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, true)
-            Configure Reminders
+            Configure Reporting Period and Reminders
         </h2>
     </div>
     <div class="panel-body">
@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label>@FieldDefinitionEnum.ReportingPeriodKickOffDate.ToType().GetFieldDefinitionLabel()</label>
                     </div>
                     <div class="col-xs-7">
-                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.Value.ToShortDateString() : "Not Set")
+                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.Value.ToStringDateMonthDay() : "Not Set")
                     </div>
                 </div>
                 <br />
@@ -92,7 +92,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label>@FieldDefinitionEnum.ReportingPeriodCloseOutDate.ToType().GetFieldDefinitionLabel()</label>
                     </div>
                     <div class="col-xs-7">
-                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.Value.ToShortDateString() : "Not Set")
+                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.Value.ToStringDateMonthDay() : "Not Set")
                     </div>
                 </div>
                 <br />
@@ -144,6 +144,14 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.ProjectUpdateSetting.SendCloseOutNotification.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label class="left_indent">Days before end date to send Close-out Reminder (days)</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @(ViewDataTyped.ProjectUpdateSetting.DaysBeforeCloseOutDateForReminder.HasValue ? ViewDataTyped.ProjectUpdateSetting.DaysBeforeCloseOutDateForReminder.ToString() + " days" : "Not Set")
                     </div>
                 </div>
                 <div class="row">
