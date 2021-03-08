@@ -51,21 +51,54 @@ Source code is available upon request via <support@sitkatech.com>.
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update Status</h2>
+    </div>
+    <div class="panel-body">
+        @Html.DhtmlxGrid(ViewDataTyped.ProjectsRequiringUpdateGridSpec, ViewDataTyped.ProjectsRequiringUpdateGridName, ViewDataTyped.ProjectsRequiringUpdateGridDataUrl, "height:450px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    </div>
+</div>
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>@FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabelPluralized() Receiving Reminder</h2>
+    </div>
+    <div class="panel-body">
+        @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, "height:350px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    </div>
+</div>
 @if(ViewDataTyped.CurrentFirmaSession.Person.IsAdministrator()){
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>
             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUpdateConfigurationUrl, string.Format("Edit {0} Update Configuration", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, true)
-            Configure Notifications
+            Configure Reporting Period and Reminders
         </h2>
     </div>
     <div class="panel-body">
-
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-xs-5">
-                        <label>Enable @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update Reminders?</label>
+                        <label>@FieldDefinitionEnum.ReportingPeriodKickOffDate.ToType().GetFieldDefinitionLabel()</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.Value.ToStringDateMonthDay() : "Not Set")
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>@FieldDefinitionEnum.ReportingPeriodCloseOutDate.ToType().GetFieldDefinitionLabel()</label>
+                    </div>
+                    <div class="col-xs-7">
+                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.Value.ToStringDateMonthDay() : "Not Set")
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-5">
+                        <label>Send Reporting Period Kick-off Reminder?</label>
                     </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.ProjectUpdateSetting.EnableProjectUpdateReminders.ToYesNo()
@@ -73,18 +106,10 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">@FieldDefinitionEnum.ProjectUpdateKickOffDate.ToType().GetFieldDefinitionLabel()</label>
-                    </div>
-                    <div class="col-xs-7">
-                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateKickOffDate.Value.ToShortDateString() : "Not Set")
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5">
                         <label class="left_indent">Kick-off Email Intro Content</label>
                     </div>
                     <div class="col-xs-7">
-                        @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.KickOffIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", string.Format("Preview Email {0}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")), new List<string>(), null)
+                        @(ViewDataTyped.ProjectUpdateSetting.EnableProjectUpdateReminders ? BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.KickOffIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", "Preview Email", new List<string>(), null) : new HtmlString("Not Set"))
                     </div>
                 </div>
                 <br />
@@ -109,14 +134,13 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label class="left_indent">Reminder Email Intro Content</label>
                     </div>
                     <div class="col-xs-7">
-                        @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ReminderIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", string.Format("Preview Email {0}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")), new List<string>(), null)
-
+                        @(ViewDataTyped.ProjectUpdateSetting.SendPeriodicReminders ? BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ReminderIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", "Preview Email", new List<string>(), null) : new HtmlString("Not Set"))
                     </div>
                 </div>
                 <br />
                 <div class="row">
                     <div class="col-xs-5">
-                        <label>Send Close-out Notification?</label>
+                        <label>Send Close-out Reminder?</label>
                     </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.ProjectUpdateSetting.SendCloseOutNotification.ToYesNo()
@@ -124,18 +148,18 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">@FieldDefinitionEnum.ProjectUpdateCloseOutDate.ToType().GetFieldDefinitionLabel()</label>
+                        <label class="left_indent">Days before end date to send Close-out Reminder (days)</label>
                     </div>
                     <div class="col-xs-7">
-                        @(ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.HasValue ? ViewDataTyped.ProjectUpdateSetting.ProjectUpdateCloseOutDate.Value.ToShortDateString() : "Not Set")
+                        @(ViewDataTyped.ProjectUpdateSetting.DaysBeforeCloseOutDateForReminder.HasValue ? ViewDataTyped.ProjectUpdateSetting.DaysBeforeCloseOutDateForReminder.ToString() + " days" : "Not Set")
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5">
-                        <label class="left_indent">Close-out Email Notification Intro Content</label>
+                        <label class="left_indent">Close-out Email Reminder Intro Content</label>
                     </div>
                     <div class="col-xs-7">
-                        @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.CloseOutIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", string.Format("Preview Email {0}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window")), new List<string>(), null)
+                        @(ViewDataTyped.ProjectUpdateSetting.SendCloseOutNotification ? BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.CloseOutIntroPreviewUrl, "Preview Kick-Off Email Content", "Close", "Preview Email", new List<string>(), null) : new HtmlString("Not Set"))
                     </div>
                 </div>
             </div>
@@ -143,20 +167,6 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
 }
-<div class="panel panelFirma">
-    <div class="panel-heading panelTitle">
-        <h2>@FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabelPluralized() Receiving Notification</h2>
-    </div>
-    <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, "height:350px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-    </div>
-</div>
 
-<div class="panel panelFirma">
-    <div class="panel-heading panelTitle">
-        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update Status</h2>
-    </div>
-    <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.ProjectsRequiringUpdateGridSpec, ViewDataTyped.ProjectsRequiringUpdateGridName, ViewDataTyped.ProjectsRequiringUpdateGridDataUrl, "height:450px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-    </div>
-</div>
+
+

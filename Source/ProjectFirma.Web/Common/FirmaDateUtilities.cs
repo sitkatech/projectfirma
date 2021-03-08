@@ -177,22 +177,20 @@ namespace ProjectFirma.Web.Common
 
         public static int CalculateQuarterForTenant(DateTime date)
         {
-            var usesFiscalYears = MultiTenantHelpers.UseFiscalYears();
             if (MultiTenantHelpers.UseFiscalYears())
             {
-                var startMonthOfFiscalYear = (DateUtilities.Month) MultiTenantHelpers.GetStartDayOfReportingYear().Month;
-                return (int) FirmaDateUtilities.CalculateFiscalQuarterFromStartMonth(date, startMonthOfFiscalYear);
+                var startMonthOfFiscalYear = (DateUtilities.Month) MultiTenantHelpers.GetStartDayOfFiscalYear().Month;
+                return (int) CalculateFiscalQuarterFromStartMonth(date, startMonthOfFiscalYear);
             }
 
-            return (int) FirmaDateUtilities.CalculateCalendarQuarter(date);
+            return (int) CalculateCalendarQuarter(date);
         }
 
         public static int? CalculateFiscalYearForTenant(DateTime date)
         {
-            var usesFiscalYears = MultiTenantHelpers.UseFiscalYears();
             if (MultiTenantHelpers.UseFiscalYears())
             {
-                var startMonthOfFiscalYear = (DateUtilities.Month)MultiTenantHelpers.GetStartDayOfReportingYear().Month;
+                var startMonthOfFiscalYear = (DateUtilities.Month) MultiTenantHelpers.GetStartDayOfFiscalYear().Month;
                 return date.GetFiscalYearFromStartMonth(startMonthOfFiscalYear);
             }
 

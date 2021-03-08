@@ -255,6 +255,16 @@ namespace LtInfo.Common
         {
             return (dateTime.HasValue) ? dateTime.Value.ToStringDateYearMonthDay() : String.Empty;
         }
+
+        public static string ToStringDateMonthDay(this DateTime dateTime)
+        {
+            return dateTime.ToString("MMM dd");
+        }
+        public static string ToStringDateMonthDay(this DateTime? dateTime)
+        {
+            return (dateTime.HasValue) ? dateTime.Value.ToStringDateMonthDay() : String.Empty;
+        }
+
         public static string ToStringTime(this DateTime? dateTime)
         {
             return (dateTime.HasValue) ? dateTime.Value.ToString("hh:mm tt") : String.Empty;

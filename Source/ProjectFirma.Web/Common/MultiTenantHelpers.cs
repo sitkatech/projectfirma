@@ -295,7 +295,19 @@ namespace ProjectFirma.Web.Common
 
         public static DateTime GetStartDayOfReportingYear()
         {
-            return HttpRequestStorage.Tenant.ReportingYearStartDate;
+            var projectUpdateConfiguration = GetProjectUpdateConfiguration();
+            return projectUpdateConfiguration.ProjectUpdateKickOffDate ?? HttpRequestStorage.Tenant.FiscalYearStartDate;
+        }
+
+        public static DateTime GetEndDayOfReportingYear()
+        {
+            var projectUpdateConfiguration = GetProjectUpdateConfiguration();
+            return projectUpdateConfiguration.ProjectUpdateCloseOutDate.GetValueOrDefault();
+        }
+
+        public static DateTime GetStartDayOfFiscalYear()
+        {
+            return HttpRequestStorage.Tenant.FiscalYearStartDate;
         }
 
         public static bool UseFiscalYears()

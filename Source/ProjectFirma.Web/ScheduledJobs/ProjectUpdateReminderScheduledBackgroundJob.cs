@@ -3,6 +3,7 @@ using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
@@ -60,8 +61,12 @@ namespace ProjectFirma.Web.ScheduledJobs
 
                 if (projectUpdateSetting.SendCloseOutNotification)
                 {
-                    var projectUpdateCloseOutDate = projectUpdateSetting.ProjectUpdateCloseOutDate;
-                    if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
+                    var closeOutReminderDate = projectUpdateSetting.ProjectUpdateCloseOutDate;
+                    if (projectUpdateSetting.DaysBeforeCloseOutDateForReminder.HasValue)
+                    {
+                        closeOutReminderDate = closeOutReminderDate?.AddDays(-projectUpdateSetting.DaysBeforeCloseOutDateForReminder.Value);
+                    }
+                    if (DateTime.Today == closeOutReminderDate.GetValueOrDefault().Date)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
                             projectUpdateSetting.ProjectUpdateCloseOutIntroContent, false, tenantAttribute));
