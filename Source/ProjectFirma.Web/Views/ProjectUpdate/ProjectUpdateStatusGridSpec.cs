@@ -49,8 +49,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 x =>
                 {
                     var projectUpdateState = x.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
+                    var latestApprovedUpdateBatch = x.GetLatestApprovedUpdateBatch();
                     if (projectUpdateState == null ||
-                        (projectUpdateState == ProjectUpdateState.Approved && x.GetLatestApprovedUpdateBatch().LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate()))
+                        (projectUpdateState == ProjectUpdateState.Approved && latestApprovedUpdateBatch != null && !(FirmaDateUtilities.LastReportingPeriodStartDate() < latestApprovedUpdateBatch.LastUpdateDate && latestApprovedUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodEndDate())))
                         return "Not Started";
 
                     return projectUpdateState.ToEnum.ToString();
@@ -179,21 +180,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 x =>
                 {
                     var latestUpdateState = x.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
-
-                    if (!x.IsUpdateMandatory() && (latestUpdateState == null || latestUpdateState == ProjectUpdateState.Approved))
-                    {
-                        return
-                            ModalDialogFormHelper.ModalDialogFormLink("Begin",
-                                SitkaRoute<ProjectController>.BuildUrlFromExpression(y => y.ConfirmNonMandatoryUpdate(x.PrimaryKey)),
-                                $"Update this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?",
-                                400,
-                                "Continue",
-                                "Cancel",
-                                new List<string> { "btn", "btn-xs", "btn-firma" },
-                                null,
-                                null);
-                    }
-
                     var linkText = "Begin";
                     if (latestUpdateState == ProjectUpdateState.Created)
                     {

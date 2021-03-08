@@ -54,13 +54,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public MyProjectsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentFirmaSession, firmaPage)
         {
             ProjectUpdateStatusFilterType = projectUpdateStatusFilterType;
-            var startDayOfReportingYearAsString = MultiTenantHelpers.GetStartDayOfReportingYear().ToStringDateMonthDay();
-            var endDayOfReportingYearAsString = MultiTenantHelpers.GetEndDayOfReportingYear().ToStringDateMonthDay();
+            var startDayOfReportingYearAsString = MultiTenantHelpers.GetStartDayOfReportingPeriod().ToStringDateMonthDay();
+            var endDayOfReportingYearAsString = MultiTenantHelpers.GetEndDayOfReportingPeriod().ToStringDateMonthDay();
             switch (projectUpdateStatusFilterType)
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
                     PageTitle =
-                        $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Requiring an Update: Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
+                        $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Updates for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
                     PageTitle =

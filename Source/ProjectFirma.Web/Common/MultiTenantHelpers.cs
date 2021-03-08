@@ -293,13 +293,13 @@ namespace ProjectFirma.Web.Common
             return projectUpdateConfiguration;
         }
 
-        public static DateTime GetStartDayOfReportingYear()
+        public static DateTime GetStartDayOfReportingPeriod()
         {
             var projectUpdateConfiguration = GetProjectUpdateConfiguration();
             return projectUpdateConfiguration.ProjectUpdateKickOffDate ?? HttpRequestStorage.Tenant.FiscalYearStartDate;
         }
 
-        public static DateTime GetEndDayOfReportingYear()
+        public static DateTime GetEndDayOfReportingPeriod()
         {
             var projectUpdateConfiguration = GetProjectUpdateConfiguration();
             return projectUpdateConfiguration.ProjectUpdateCloseOutDate.GetValueOrDefault();
