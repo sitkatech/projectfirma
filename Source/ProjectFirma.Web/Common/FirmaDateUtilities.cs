@@ -63,20 +63,39 @@ namespace ProjectFirma.Web.Common
 
         public static DateTime LastReportingPeriodStartDate()
         {
-            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
-            return new DateTime(CalculateCurrentYearToUseForRequiredReporting(), startDayOfReportingYear.Month, startDayOfReportingYear.Day);
+            var startDayOfReportingPeriod = MultiTenantHelpers.GetStartDayOfReportingPeriod();
+            return new DateTime(CalculateCurrentYearToUseForRequiredReporting(), startDayOfReportingPeriod.Month, startDayOfReportingPeriod.Day);
+        }
+
+        public static DateTime LastReportingPeriodEndDate()
+        {
+            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingPeriod();
+            var startDate = new DateTime(CalculateCurrentYearToUseForRequiredReporting(), startDayOfReportingYear.Month, startDayOfReportingYear.Day);
+            var endDateOfReportingPeriod = MultiTenantHelpers.GetEndDayOfReportingPeriod();
+            if (startDayOfReportingYear.Month < endDateOfReportingPeriod.Month ||
+                startDayOfReportingYear.Month == endDateOfReportingPeriod.Month &&
+                startDayOfReportingYear.Day < endDateOfReportingPeriod.Day)
+            {
+                // end day of reporting is in the same calendar year as start day
+                return new DateTime(startDate.Year, endDateOfReportingPeriod.Month, endDateOfReportingPeriod.Day);
+            }
+            else
+            {
+                // end day is in the next calendar year
+                return new DateTime(startDate.Year + 1, endDateOfReportingPeriod.Month, endDateOfReportingPeriod.Day);
+            }
         }
 
         public static int CalculateCurrentYearToUseForRequiredReporting()
         {
-            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
-            return CalculateCurrentYearToUseForReportingImpl(DateTime.Today, startDayOfReportingYear.Month, startDayOfReportingYear.Day);
+            var startDayOfReportingPeriod = MultiTenantHelpers.GetStartDayOfReportingPeriod();
+            return CalculateCurrentYearToUseForReportingImpl(DateTime.Today, startDayOfReportingPeriod.Month, startDayOfReportingPeriod.Day);
         }
 
         //Only public for unit testing
         public static int CalculateCurrentYearToUseForReportingImpl(DateTime currentDateTime, int reportingStartMonth, int reportingStartDay)
         {
-            var dateToCheckAgainst = new DateTime(currentDateTime.Year, reportingStartMonth, reportingStartDay);
+            var dateToCheckAgainst = new DateTime(currentDateTime.Year, reportingStartMonth, reportingStartDay);//
             return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year - 1 : currentDateTime.Year;
         }
 
@@ -97,7 +116,7 @@ namespace ProjectFirma.Web.Common
 
         public static int CalculateCurrentYearToUseForUpToAllowableInputInReporting()
         {
-            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
+            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingPeriod();
             var currentDateTime = DateTime.Today;
             var dateToCheckAgainst = new DateTime(currentDateTime.Year, startDayOfReportingYear.Month, startDayOfReportingYear.Day);
             if (MultiTenantHelpers.UseFiscalYears())
