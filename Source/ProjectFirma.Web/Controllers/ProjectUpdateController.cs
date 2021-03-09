@@ -189,7 +189,7 @@ namespace ProjectFirma.Web.Controllers
                     projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession) && p.IsUpdateMandatory() && p.GetLatestUpdateState() != ProjectUpdateState.Submitted);
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
-                    projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession) && (!p.IsUpdateMandatory() || p.GetLatestUpdateState() == ProjectUpdateState.Submitted));
+                    projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession) && p.GetLatestUpdateState() == ProjectUpdateState.Submitted && p.IsUpdateForReportingPeriod());
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects:
                     projects = projects.Where(p =>
@@ -3976,7 +3976,8 @@ namespace ProjectFirma.Web.Controllers
             var emailContentPreview = new ProjectUpdateNotificationHelper(
                 tenantAttribute.PrimaryContactPerson.Email, introContent, "",
                 tenantAttribute.TenantSquareLogoFileResourceInfo ?? tenantAttribute.TenantBannerLogoFileResourceInfo,
-                MultiTenantHelpers.GetToolDisplayName()).GetEmailContentPreview();
+                MultiTenantHelpers.GetToolDisplayName(),
+                tenantAttribute.TenantID).GetEmailContentPreview();
 
             return emailContentPreview;
         }

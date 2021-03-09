@@ -53,6 +53,8 @@
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
+        <p>Use this form to configure a reporting period for project updates and set up reminders to be sent to all project primary contacts with projects requiring an update. Project updates can be made throughout the year regardless of whether there is an active reporting period.</p>
+        <p>A reporting period is required and can be any length of time within a year. You can change the reporting period throughout the year to support multiple reporting periods in one year. However if you change the period during an active reporting period, the reporting status of each project will be updated, which could be confusing to users.</p>
         @Html.ValidationSummary()
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateKickOffDate)</div>
@@ -107,7 +109,7 @@
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateReminderInterval)</div>
             <div class="col-xs-8">
-                @Html.TextBoxFor(m => m.ProjectUpdateReminderInterval, new { @class = "form-control", style = "width:185px;" })
+                @Html.TextBoxFor(m => m.ProjectUpdateReminderInterval, new {@class = "form-control", style = "width:185px;"})
             </div>
         </div>
         <div class="form-group">
@@ -134,7 +136,7 @@
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.DaysBeforeCloseOutDateForReminder)</div>
             <div class="col-xs-8">
-                @Html.TextBoxFor(m => m.DaysBeforeCloseOutDateForReminder, new { @class = "form-control", style = "width:185px;" })
+                @Html.TextBoxFor(m => m.DaysBeforeCloseOutDateForReminder, new {@class = "form-control", style = "width:185px;"})
             </div>
         </div>
         <div class="form-group">

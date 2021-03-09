@@ -804,7 +804,23 @@ namespace ProjectFirma.Web.Models
                 return true;
             }
 
-            if (!latestUpdateBatch.IsApproved())
+            if (!latestUpdateBatch.IsApproved() || !(FirmaDateUtilities.LastReportingPeriodStartDate() < latestUpdateBatch.LastUpdateDate && latestUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodEndDate()))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsUpdateForReportingPeriod(this Project project)
+        {
+            var latestUpdateBatch = project.GetLatestUpdateBatch();
+            if (latestUpdateBatch == null)
+            {
+                return false;
+            }
+
+            if (FirmaDateUtilities.LastReportingPeriodStartDate() < latestUpdateBatch.LastUpdateDate && latestUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodEndDate())
             {
                 return true;
             }
