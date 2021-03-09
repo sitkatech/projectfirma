@@ -230,7 +230,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(MultiTenantHelpers.GetProjectUpdateConfiguration());
-            SetMessageForDisplay("Notifications configured successfully.");
+            SetMessageForDisplay("Reporting period configuration and reminders successfully saved.");
 
             return new ModalDialogFormJsonResult();
         }
