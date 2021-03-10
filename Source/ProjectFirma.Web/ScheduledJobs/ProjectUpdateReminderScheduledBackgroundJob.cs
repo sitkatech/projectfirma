@@ -31,16 +31,18 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             // we're "tenant-agnostic" right now
             var projectUpdateSettings = DbContext.AllProjectUpdateSettings.ToList();
-            var reminderSubject = "Time to update your Projects";
+            
 
             foreach (var projectUpdateSetting in projectUpdateSettings)
             {
+                
                 var notifications = new List<Notification>();
                 var tenantID = projectUpdateSetting.TenantID;
                 var databaseEntities = new DatabaseEntities(tenantID);
                 var projects = databaseEntities.Projects.ToList();
 
                 var tenantAttribute = databaseEntities.TenantAttributes.Single();
+                var reminderSubject = $"Time to update your {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralizedForBackgroundJob(tenantAttribute.TenantID)}";
                 if (projectUpdateSetting.EnableProjectUpdateReminders)
                 {
                     var projectUpdateKickOffDate = projectUpdateSetting.ProjectUpdateKickOffDate;

@@ -22,6 +22,7 @@
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
+@using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.EditProposalClassifications
@@ -53,82 +54,122 @@
         </p>
     </div>
 }
-
-@using (Html.BeginForm())
+@if (!ViewDataTyped.IsEditable)
 {
-    <div>
-        Click the checkboxes below to associate this
-        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForClassification, ViewDataTyped.FieldDefinitionForClassification.GetFieldDefinitionLabelPluralized())).
-    </div>
-    <div>
-
+    <div class="row" style="margin-bottom: 5px">
         @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
         {
             <h4>
-                @Html.LabelWithSugarFor(classificationSystem)
-            <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
-        </h4>
-        foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
-        {
-            var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
-            var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
-            <div class="row" style="padding-top: 20px">
-                <div class="col-xs-12 col-sm-4">
-                    <label>
-                        @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
-                        <span style="font-weight: bold">@classification.DisplayName</span>
-                    </label>
-                    <div class="help-block">
-                        @classification.ClassificationDescription
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-8">
-                    <div>
-                        @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> { "form-control" })
-                    </div>
-                    @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
-                    @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
-                </div>
+                @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)
+            </h4>
+            <div class="">
+                @{ var projectClassifications = ViewDataTyped.ProjectUpdateBatch.ProjectClassificationUpdates.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
+                @if (projectClassifications.Count > 0)
+                {
+                    // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
+                    foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x => x.Classification.GetDisplayName()).Batch(3))
+                    {
+                        <div class="row" style="padding-top: 10px;">
+                            @foreach (var projectClassification in projectClassificationBatch)
+                            {
+                                <div class="col-md-4">
+                                    <label>@projectClassification.Classification.GetDisplayNameAsUrl()</label>
+
+                                    <div>@projectClassification.ProjectClassificationUpdateNotes</div>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                }
             </div>
         }
-        <hr />
-    }
-    </div>
-
-    if (ViewDataTyped.ShowApproveAndReturnButton)
-    {
-        <div id="commentsSection">
-            <hr />
-            <div class="row form-group">
-                <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
-                <div class="col-sm-8">
-                    @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> {{"style", "width: 100%"}, {"class", "form-control"}})
-                </div>
-            </div>
-        </div>
-        <hr/>
-    }
-
-
-    <div>
-        <table class="summaryLayout" style="width: 100%">
-            <tr>
-                <td>
-                    @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null, null, "Undo all changes on this page")
-                    @if (ViewDataTyped.ProjectUpdateStatus.IsClassificationsUpdated)
-                    {
-                        @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Classifications", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> {"btn btn-xs btn-firma"}, null, null, null)
-                    }
-                </td>
-                <td style="text-align: right; white-space: nowrap">
-                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" onclick="saveForm(false)">Save</button>
-                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
-                </td>
-            </tr>
-        </table>
     </div>
 
 }
+else
+{
+    using (Html.BeginForm())
+    {
+        <div>
+            Click the checkboxes below to associate this
+            @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForClassification, ViewDataTyped.FieldDefinitionForClassification.GetFieldDefinitionLabelPluralized())).
+        </div>
+        <div>
+
+            @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
+            {
+                <h4>
+                    @Html.LabelWithSugarFor(classificationSystem)
+                    <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
+                </h4>
+                foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
+                {
+                    var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
+                    var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
+                    <div class="row" style="padding-top: 20px">
+                        <div class="col-xs-12 col-sm-4">
+                            <label>
+                                @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
+                                <span style="font-weight: bold">@classification.DisplayName</span>
+                            </label>
+                            <div class="help-block">
+                                @classification.ClassificationDescription
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-8">
+                            <div>
+                                @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> { "form-control" })
+                            </div>
+                            @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
+                            @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
+                        </div>
+                    </div>
+                }
+                <hr />
+            }
+        </div>
+
+        if (ViewDataTyped.ShowApproveAndReturnButton)
+        {
+            <div id="commentsSection">
+                <hr />
+                <div class="row form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> { { "style", "width: 100%" }, { "class", "form-control" } })
+                    </div>
+                </div>
+            </div>
+            <hr />
+        }
+
+
+        <div>
+            <table class="summaryLayout" style="width: 100%">
+                <tr>
+                    <td>
+                        @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
+                        @if (ViewDataTyped.ProjectUpdateStatus.IsClassificationsUpdated)
+                        {
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Classifications", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
+                        }
+                    </td>
+                    <td style="text-align: right; white-space: nowrap">
+                        <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" onclick="saveForm(false)">Save</button>
+                        <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    }
+
+}
+
 
 <script type="text/javascript">
     // <![CDATA[
