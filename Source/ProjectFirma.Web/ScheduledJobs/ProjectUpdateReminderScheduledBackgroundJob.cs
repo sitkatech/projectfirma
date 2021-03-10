@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var reminderSubject = $"Time to update your {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralizedForBackgroundJob(tenantAttribute.TenantID)}";
                 if (projectUpdateSetting.EnableProjectUpdateReminders)
                 {
-                    var projectUpdateKickOffDate = projectUpdateSetting.ProjectUpdateKickOffDate;
-                    if (DateTime.Today == projectUpdateKickOffDate.GetValueOrDefault().Date)
+                    var projectUpdateKickOffDate = FirmaDateUtilities.LastReportingPeriodStartDateForBackgroundJob(projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault());
+                    if (DateTime.Today == projectUpdateKickOffDate)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
                                                         projectUpdateSetting.ProjectUpdateKickOffIntroContent, true, tenantAttribute));
@@ -64,12 +64,12 @@ namespace ProjectFirma.Web.ScheduledJobs
 
                 if (projectUpdateSetting.SendCloseOutNotification)
                 {
-                    var closeOutReminderDate = projectUpdateSetting.ProjectUpdateCloseOutDate;
+                    var closeOutReminderDate = FirmaDateUtilities.LastReportingPeriodEndDateForBackgroundJob(projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault(), projectUpdateSetting.ProjectUpdateCloseOutDate.GetValueOrDefault());
                     if (projectUpdateSetting.DaysBeforeCloseOutDateForReminder.HasValue)
                     {
-                        closeOutReminderDate = closeOutReminderDate?.AddDays(-projectUpdateSetting.DaysBeforeCloseOutDateForReminder.Value);
+                        closeOutReminderDate = closeOutReminderDate.AddDays(-projectUpdateSetting.DaysBeforeCloseOutDateForReminder.Value);
                     }
-                    if (DateTime.Today == closeOutReminderDate.GetValueOrDefault().Date)
+                    if (DateTime.Today == closeOutReminderDate)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
                             projectUpdateSetting.ProjectUpdateCloseOutIntroContent, false, tenantAttribute));
@@ -84,9 +84,10 @@ namespace ProjectFirma.Web.ScheduledJobs
         private static bool TodayIsReminderDayForProjectUpdateConfiguration(
             ProjectUpdateSetting projectUpdateSetting)
         {
-            var isReminderDay = (DateTime.Today - projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
-                                                                  .Days % projectUpdateSetting.ProjectUpdateReminderInterval == 0;
-            var isAfterCloseOut = (DateTime.Today >= projectUpdateSetting.ProjectUpdateCloseOutDate);
+            var projectUpdateKickOffDate = FirmaDateUtilities.LastReportingPeriodStartDateForBackgroundJob(projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault());
+            var projectUpdateCloseOutDate = FirmaDateUtilities.LastReportingPeriodEndDateForBackgroundJob(projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault(), projectUpdateSetting.ProjectUpdateCloseOutDate.GetValueOrDefault());
+            var isReminderDay = DateTime.Today != projectUpdateKickOffDate && (DateTime.Today - projectUpdateKickOffDate).Days % projectUpdateSetting.ProjectUpdateReminderInterval == 0;
+            var isAfterCloseOut = DateTime.Today.IsDateAfter(projectUpdateCloseOutDate);
             return isReminderDay && !isAfterCloseOut;
         }
 
