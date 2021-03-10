@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Email", a => a.Email, 170);
             Add($"Total Updateable {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 x => x.GetPrimaryContactUpdatableProjects(currentFirmaSession).Count,
-                70, DhtmlxGridColumnAggregationType.Total);
+                75, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Not Started",
                 x =>
                 {
