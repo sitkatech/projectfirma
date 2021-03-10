@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
                     PageTitle =
-                        $"Submitted {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
+                        $"Submitted {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Updates for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
                     PageTitle =

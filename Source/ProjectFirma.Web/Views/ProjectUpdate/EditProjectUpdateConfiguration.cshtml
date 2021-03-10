@@ -53,8 +53,8 @@
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
-        <p>Use this form to configure a reporting period for project updates and set up reminders to be sent to all project primary contacts with projects requiring an update. Project updates can be made throughout the year regardless of whether there is an active reporting period.</p>
-        <p>A reporting period is required and can be any length of time within a year. You can change the reporting period throughout the year to support multiple reporting periods in one year. However if you change the period during an active reporting period, the reporting status of each project will be updated, which could be confusing to users.</p>
+        <p>Use this form to configure a reporting period for @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().ToLower() updates and set up reminders to be sent to all @FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabelPluralized() with @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized().ToLower() requiring an update. @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() updates can be made throughout the year regardless of whether there is an active reporting period.</p>
+        <p>A reporting period is required and can be any length of time within a year. You can change the reporting period throughout the year to support multiple reporting periods in one year. However if you change the period during an active reporting period, the reporting status of each @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().ToLower() will be updated, which could be confusing to users.</p>
         @Html.ValidationSummary()
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateKickOffDate)</div>

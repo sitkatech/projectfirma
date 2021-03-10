@@ -10,14 +10,14 @@ namespace ProjectFirma.Web.Models
 {
     public static class NotificationModelExtensions
     {
-        public static MailAddress DoNotReplyMailAddress()
+        public static MailAddress DoNotReplyMailAddress(string toolDisplayName)
         {
-            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, MultiTenantHelpers.GetToolDisplayName());
+            return new MailAddress(FirmaWebConfiguration.DoNotReplyEmail, toolDisplayName);
         }
 
-        public static List<Notification> SendMessageAndLogNotification(MailMessage mailMessage, IEnumerable<string> emailsToSendTo, IEnumerable<string> emailsToReplyTo, IEnumerable<string> emailsToCc, List<Person> notificationPeople, DateTime notificationDate, List<Project> notificationProjects, NotificationType notificationType)
+        public static List<Notification> SendMessageAndLogNotification(MailMessage mailMessage, IEnumerable<string> emailsToSendTo, IEnumerable<string> emailsToReplyTo, IEnumerable<string> emailsToCc, List<Person> notificationPeople, DateTime notificationDate, List<Project> notificationProjects, NotificationType notificationType, string toolDisplayName)
         {
-            SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc);
+            SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, toolDisplayName);
             var notifications = new List<Notification>();
             foreach (var notificationPerson in notificationPeople)
             {
@@ -28,9 +28,9 @@ namespace ProjectFirma.Web.Models
             return notifications;
         }
 
-        public static void SendMessage(MailMessage mailMessage, IEnumerable<string> emailsToSendTo, IEnumerable<string> emailsToReplyTo, IEnumerable<string> emailsToCc)
+        public static void SendMessage(MailMessage mailMessage, IEnumerable<string> emailsToSendTo, IEnumerable<string> emailsToReplyTo, IEnumerable<string> emailsToCc, string toolDisplayName)
         {
-            mailMessage.From = DoNotReplyMailAddress();
+            mailMessage.From = DoNotReplyMailAddress(toolDisplayName);
             foreach (var email in emailsToSendTo)
             {
                 mailMessage.To.Add(email);
