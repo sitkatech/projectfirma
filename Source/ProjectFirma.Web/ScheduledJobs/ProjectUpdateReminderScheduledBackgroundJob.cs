@@ -2,6 +2,7 @@
 using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure.Pluralization;
 using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Models;
@@ -30,16 +31,18 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             // we're "tenant-agnostic" right now
             var projectUpdateSettings = DbContext.AllProjectUpdateSettings.ToList();
-            var reminderSubject = "Time to update your Projects";
+            
 
             foreach (var projectUpdateSetting in projectUpdateSettings)
             {
+                
                 var notifications = new List<Notification>();
                 var tenantID = projectUpdateSetting.TenantID;
                 var databaseEntities = new DatabaseEntities(tenantID);
                 var projects = databaseEntities.Projects.ToList();
 
                 var tenantAttribute = databaseEntities.TenantAttributes.Single();
+                var reminderSubject = $"Time to update your {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralizedForBackgroundJob(tenantAttribute.TenantID)}";
                 if (projectUpdateSetting.EnableProjectUpdateReminders)
                 {
                     var projectUpdateKickOffDate = projectUpdateSetting.ProjectUpdateKickOffDate;
@@ -100,12 +103,11 @@ namespace ProjectFirma.Web.ScheduledJobs
         {
             // Constrain to tenant boundaries.
             var toolDisplayName = attribute.ToolDisplayName;
-
             var contactSupportEmail = attribute.PrimaryContactPerson.Email;
-
             var toolLogo = attribute.TenantSquareLogoFileResourceInfo;
-
-            var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail, introContent, reminderSubject, toolLogo, toolDisplayName);
+            var tenantID = attribute.TenantID;
+            
+            var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail, introContent, reminderSubject, toolLogo, toolDisplayName, tenantID);
 
             var projectsToNotifyOn = notifyOnAll
                 ? projectsForTenant.AsQueryable().GetUpdatableProjects()
@@ -114,7 +116,12 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectsGroupedByPrimaryContact =
                 projectsToNotifyOn.Where(x => x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact())
                     .ToList();
-
+            foreach (var test in projectsGroupedByPrimaryContact)
+            {
+                
+                Logger.Info($"PrimaryContact: {test.Key.LastName}; projects {string.Join(", ",test.ToList().Select(x => x.ProjectName))}");
+            }
+            
             var notifications = projectsGroupedByPrimaryContact
                 .SelectMany(x => projectUpdateNotificationHelper.SendProjectUpdateReminderMessage(x)).ToList();
 

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             CurrentPerson = currentFirmaSession.Person;
             SendPreviewEmailUrl = sendPreviewEmailUrl;
             PersonLabel = peopleToNotify.Count > 1 ? "People" : "Person";
-            SupportEmail = NotificationModelExtensions.DoNotReplyMailAddress().Address;
+            SupportEmail = NotificationModelExtensions.DoNotReplyMailAddress(MultiTenantHelpers.GetToolDisplayName()).Address;
         }
     }
 }

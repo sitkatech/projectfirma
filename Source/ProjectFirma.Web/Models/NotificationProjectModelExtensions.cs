@@ -35,7 +35,8 @@ namespace ProjectFirma.Web.Models
                 notificationPeople,
                 DateTime.Now,
                 new List<Project> {projectUpdateBatch.Project},
-                notificationType);
+                notificationType,
+                MultiTenantHelpers.GetToolDisplayName());
         }
 
         public static void SendSubmittedMessage(List<Person> peopleToNotify, ProjectUpdateBatch projectUpdateBatch)
@@ -263,7 +264,7 @@ Thank you,<br />
                 notificationPeople.Add(primaryContactPerson);
             }
 
-            NotificationModelExtensions.SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc);
+            NotificationModelExtensions.SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, MultiTenantHelpers.GetToolDisplayName());
             var notifications = new List<Notification>();
             foreach (var notificationPerson in notificationPeople)
             {

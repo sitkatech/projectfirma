@@ -60,11 +60,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
                     PageTitle =
-                        $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Updates for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
+                        $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Requiring an Update for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
                     PageTitle =
-                        $"Recently Submitted {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
+                        $"Submitted {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Updates for Reporting Period: {startDayOfReportingYearAsString} - {endDayOfReportingYearAsString}";
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
                     PageTitle =
