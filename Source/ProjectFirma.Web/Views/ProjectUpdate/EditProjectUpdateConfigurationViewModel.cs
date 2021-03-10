@@ -152,6 +152,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, HtmlString>(
                         $"You must provide {fieldDefinitionLabelProject} Update Close-out Email Content if {fieldDefinitionLabelProject} Update Close-out Reminders are enabled.",
                         m => m.ProjectUpdateCloseOutIntroContent);
+                if (!DaysBeforeCloseOutDateForReminder.HasValue)
+                {
+                    yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, int?>(
+                        $"You must provide the Days before end date to send Close-out Reminder if {fieldDefinitionLabelProject} Update Close-out Reminders are enabled.",
+                        m => m.ProjectUpdateReminderInterval);
+                }
                 if (DaysBeforeCloseOutDateForReminder.HasValue && DaysBeforeCloseOutDateForReminder > 365)
                 {
                     yield return new SitkaValidationResult<EditProjectUpdateConfigurationViewModel, int?>(
