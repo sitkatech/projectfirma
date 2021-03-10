@@ -799,14 +799,13 @@ namespace ProjectFirma.Web.Models
 
             var latestUpdateBatch = project.GetLatestUpdateBatch();
 
-            // no update and the reporting period is active
-            if (latestUpdateBatch == null && FirmaDateUtilities.LastReportingPeriodStartDate() <= DateTime.Today && DateTime.Today <= FirmaDateUtilities.LastReportingPeriodEndDate())
+            if (latestUpdateBatch == null)
             {
                 return true;
             }
 
-            // last update was not approved, or was approved outside the reporting period
-            if (latestUpdateBatch != null && (!latestUpdateBatch.IsApproved() || !(FirmaDateUtilities.LastReportingPeriodStartDate() <= latestUpdateBatch.LastUpdateDate && latestUpdateBatch.LastUpdateDate <= FirmaDateUtilities.LastReportingPeriodEndDate())))
+            // last update was not approved, or was approved before the reporting period start
+            if (!latestUpdateBatch.IsApproved() || latestUpdateBatch.LastUpdateDate.IsDateBefore(FirmaDateUtilities.LastReportingPeriodStartDate()))
             {
                 return true;
             }
