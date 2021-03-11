@@ -31,13 +31,13 @@ namespace ProjectFirma.Web.Views.Shared
         public DisplayPageContentViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, bool showEditButton) : base(currentFirmaSession)
         {
             PageTitle = firmaPage.GetFirmaPageDisplayName();
-            ViewWholePageContentViewData = new ViewPageContentViewData(firmaPage, showEditButton);
+            ViewWholePageContentViewData = new ViewPageContentViewData(firmaPage, showEditButton, currentFirmaSession);
         }
 
         public DisplayPageContentViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.CustomPage customPage, bool showEditButton) : base(currentFirmaSession)
         {
             PageTitle = customPage.GetFirmaPageDisplayName();
-            ViewWholePageContentViewData = new ViewPageContentViewData(customPage, showEditButton);
+            ViewWholePageContentViewData = new ViewPageContentViewData(customPage, showEditButton, currentFirmaSession);
             DisplayDocumentLibraryViewData = new DisplayDocumentLibraryViewData(customPage, currentFirmaSession);
 
         }

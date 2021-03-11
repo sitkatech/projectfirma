@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.MapLayer
             NewUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.New());
 
             var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, internalMapLayersFirmaPage).HasPermission;
-            InternalMapLayersViewPageContentViewData = new ViewPageContentViewData(internalMapLayersFirmaPage, currentPersonCanManage);
+            InternalMapLayersViewPageContentViewData = new ViewPageContentViewData(internalMapLayersFirmaPage, currentPersonCanManage, currentFirmaSession);
 
             GeospatialAreaMapLayerGridSpec = new GeospatialAreaMapLayerGridSpec(userCanManage)
             {

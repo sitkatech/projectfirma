@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Controllers
                         return firmaSessionForRealPerson.Last();
                     }
                     // Otherwise, we could not find a FirmaSession for this person. Create one.
-                    var firmaSessionFromClaimsIdentity = new FirmaSession(personFromClaimsIdentity);
+                    var firmaSessionFromClaimsIdentity = new FirmaSession(HttpRequestStorage.DatabaseEntities, personFromClaimsIdentity);
 
                     // Only save if the Session if it being newly created
                     HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(firmaSessionFromClaimsIdentity);
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
                     return firmaSessionFromClaimsIdentity;
                 }
                 // Otherwise, anonymous user. We make a new session each time, which seems flawed - but not sure how else to handle yet. -- SLG
-                var firmaSessionForAnonymousPerson = FirmaSession.MakeEmptyFirmaSession(HttpRequestStorage.Tenant);
+                var firmaSessionForAnonymousPerson = FirmaSession.MakeEmptyFirmaSession(HttpRequestStorage.DatabaseEntities, HttpRequestStorage.Tenant);
                 return firmaSessionForAnonymousPerson;
             }
             catch (Exception ex)
