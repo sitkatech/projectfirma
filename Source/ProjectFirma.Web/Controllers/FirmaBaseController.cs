@@ -64,6 +64,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaSessionFromClaimsIdentity = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
 
+            // We also need to wedge this in in certain contexts
+            firmaSessionFromClaimsIdentity.SetDatabaseEntities(HttpRequestStorage.DatabaseEntities);
+
+            // Use this session
             HttpRequestStorage.FirmaSession = firmaSessionFromClaimsIdentity;
             // we need to set this so that the save will know who the Person is
             HttpRequestStorage.DatabaseEntities.Person = firmaSessionFromClaimsIdentity.Person;

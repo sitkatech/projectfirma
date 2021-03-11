@@ -61,9 +61,9 @@ namespace ProjectFirma.Web.Views.Home
             Check.EnsureNotNull(firmaPageMapInfo, "firmaPageMapInfo not found; is one defined?");
             bool hasPermissionToManagePageMapInfo = new FirmaPageManageFeature().HasPermission(firmaSession, firmaPageMapInfo).HasPermission;
 
-            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, hasPermissionToManageHomePage);
-            CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, hasPermissionToManageAdditionalInfo);
-            CustomHomePageMapTextViewData = new ViewPageContentViewData(firmaPageMapInfo, hasPermissionToManagePageMapInfo);
+            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, hasPermissionToManageHomePage, this.CurrentFirmaSession);
+            CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, hasPermissionToManageAdditionalInfo, this.CurrentFirmaSession);
+            CustomHomePageMapTextViewData = new ViewPageContentViewData(firmaPageMapInfo, hasPermissionToManagePageMapInfo, this.CurrentFirmaSession);
             FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;

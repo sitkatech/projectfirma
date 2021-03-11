@@ -295,7 +295,7 @@ namespace ProjectFirma.Web
             else
             {
                 // Otherwise, we could not find a FirmaSession for this person. Create one.
-                var newFirmaSession = new FirmaSession(person);
+                var newFirmaSession = new FirmaSession(HttpRequestStorage.DatabaseEntities, person);
                 HttpRequestStorage.FirmaSession = newFirmaSession;
                 // Only save if session is being newly created
                 HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(newFirmaSession);
