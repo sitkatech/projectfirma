@@ -88,6 +88,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
+            modelBuilder.Configurations.Add(new LastSQLServerDatabaseBackupConfiguration());
             modelBuilder.Configurations.Add(new MatchMakerAreaOfInterestLocationConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerKeywordConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationClassificationConfiguration());
@@ -297,6 +298,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<LastSQLServerDatabaseBackup> LastSQLServerDatabaseBackups { get; set; }
         public virtual DbSet<MatchMakerAreaOfInterestLocation> AllMatchMakerAreaOfInterestLocations { get; set; }
         public virtual IQueryable<MatchMakerAreaOfInterestLocation> MatchMakerAreaOfInterestLocations { get { return AllMatchMakerAreaOfInterestLocations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerKeyword> AllMatchmakerKeywords { get; set; }
@@ -753,6 +755,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
+
+                case "LastSQLServerDatabaseBackup":
+                    return LastSQLServerDatabaseBackups.GetLastSQLServerDatabaseBackup(primaryKey);
 
                 case "MatchMakerAreaOfInterestLocation":
                     return MatchMakerAreaOfInterestLocations.GetMatchMakerAreaOfInterestLocation(primaryKey);

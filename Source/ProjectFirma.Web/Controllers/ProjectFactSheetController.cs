@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.ManageProjectFactSheet.GetFirmaPage();
             var factSheetCustomTextFirmaPage = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
-            var factSheetCustomTextViewData = new ViewPageContentViewData(factSheetCustomTextFirmaPage, false);
+            var factSheetCustomTextViewData = new ViewPageContentViewData(factSheetCustomTextFirmaPage, false, this.CurrentFirmaSession);
             var editCustomFactSheetTextUrl =  SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(factSheetCustomTextFirmaPage));
             var deleteFactSheetLogoFileResourceUrl = new SitkaRoute<ProjectFactSheetController>(c => c.DeleteTenantFactSheetLogoFileResource()).BuildUrlFromExpression();
             var editFactSheetLogoUrl = new SitkaRoute<ProjectFactSheetController>(c => c.EditFactSheetLogo()).BuildUrlFromExpression();

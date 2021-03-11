@@ -11,13 +11,13 @@ namespace ProjectFirmaModels.UnitTestCommon
                 var tenant = TestTenant.Get();
                 var person = TestPerson.Create(tenant);
 
-                var firmaSession = new FirmaSession(person);
+                var firmaSession = new FirmaSession(null, person);
                 return firmaSession;
             }
 
             public static FirmaSession Create(Person person)
             {
-                var firmaSession = new FirmaSession(person);
+                var firmaSession = new FirmaSession(null, person);
                 return firmaSession;
             }
         }

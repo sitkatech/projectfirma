@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(currentFirmaSession), 220);
             Add("Email", a => a.Email, 170);
-            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Requiring Update",
+            Add($"Total Updateable {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 x => x.GetPrimaryContactUpdatableProjects(currentFirmaSession).Count,
-                70, DhtmlxGridColumnAggregationType.Total);
+                75, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Not Started",
                 x =>
                 {

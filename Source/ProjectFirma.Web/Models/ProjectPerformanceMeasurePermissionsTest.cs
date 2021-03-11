@@ -370,7 +370,7 @@ namespace ProjectFirmaModels.Models
             }
 
             // Temp fake Session
-            var tempFirmaSession = new FirmaSession(user);
+            var tempFirmaSession = new FirmaSession(HttpRequestStorage.DatabaseEntities, user);
             Assert.That(projectCheckingFeature.HasPermission(tempFirmaSession, project).HasPermission == expectedPermission);
             project.ProjectOrganizations.Clear();
             user.Organization = originalUserOrg;
@@ -399,7 +399,7 @@ namespace ProjectFirmaModels.Models
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPersonID = user.PersonID;
 
             // Temp fake Session
-            var tempFirmaSession = new FirmaSession(user);
+            var tempFirmaSession = new FirmaSession(HttpRequestStorage.DatabaseEntities, user);
             Assert.That(projectCheckingFeature.HasPermission(tempFirmaSession, project).HasPermission == expectedPermission);
 
             user.Organization = originalUserOrg;

@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     var projectUpdateState = x.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
                     var latestApprovedUpdateBatch = x.GetLatestApprovedUpdateBatch();
                     if (projectUpdateState == null ||
-                        (projectUpdateState == ProjectUpdateState.Approved && latestApprovedUpdateBatch != null && !(FirmaDateUtilities.LastReportingPeriodStartDate() < latestApprovedUpdateBatch.LastUpdateDate && latestApprovedUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodEndDate())))
+                        (projectUpdateState == ProjectUpdateState.Approved && latestApprovedUpdateBatch != null && !latestApprovedUpdateBatch.LastUpdateDate.IsDateInRange(FirmaDateUtilities.LastReportingPeriodStartDate(), FirmaDateUtilities.LastReportingPeriodEndDate())))
                         return "Not Started";
 
                     return projectUpdateState.ToEnum.ToString();

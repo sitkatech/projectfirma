@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using System.Diagnostics
 @inherits ProjectFirma.Web.Views.SiteMonitor.SiteMonitorNagios
 
 <div class="panel panelFirma">
@@ -52,6 +53,9 @@
         </ul>
         } 
     } 
+<div style="font-weight: bold">
+   Web Process PID: @Process.GetCurrentProcess().Id
+</div>
 </div>
 
 <div id="MachineReadableNagiosOutput">

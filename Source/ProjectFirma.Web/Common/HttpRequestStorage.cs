@@ -60,20 +60,9 @@ namespace ProjectFirma.Web.Common
             set => SetValue(FirmaSessionKey, value);
         }
 
-        // Old way - accessed directly
-
-        //public static Person Person
-        //{
-        //    get => GetValueOrDefault(PersonKey, PersonModelExtensions.GetAnonymousSitkaUser);
-        //    set => SetValue(PersonKey, value);
-        //}
-
-        // New way - Accessed via current Session. Ultimately this may be able to be inlined
-
         public static Person Person
         {
             get => FirmaSession.Person;
-            //set => SetValue(PersonKey, value);
         }
 
         public static Tenant Tenant

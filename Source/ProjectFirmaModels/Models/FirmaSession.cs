@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 
@@ -6,6 +7,8 @@ namespace ProjectFirmaModels.Models
 {
     public partial class FirmaSession : IAuditableEntity
     {
+        private DatabaseEntities DatabaseEntities;
+
         public Role Role
         {
             get
@@ -25,9 +28,10 @@ namespace ProjectFirmaModels.Models
         /// Static constructor
         /// </summary>
         /// <returns></returns>
-        public static FirmaSession MakeEmptyFirmaSession(Tenant tenant)
+        public static FirmaSession MakeEmptyFirmaSession(DatabaseEntities databaseEntities, Tenant tenant)
         {
             Check.EnsureNotNull(tenant, "Tenant must not be null. Should be current Tenant.");
+            Check.EnsureNotNull(tenant, "DatabaseEntities must be provided.");
 
             // I'd prefer just to write this as a real constructor, but it's already in EF generated code, so we resort to this.
             var newFirmaSession = new FirmaSession();
@@ -36,6 +40,7 @@ namespace ProjectFirmaModels.Models
             newFirmaSession.CreateDate = currentDateTime;
             newFirmaSession.LastActivityDate = currentDateTime;
             newFirmaSession.TenantID = tenant.TenantID;
+            newFirmaSession.SetDatabaseEntities(databaseEntities);
 
             return newFirmaSession;
         }
@@ -43,8 +48,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for a new FirmaSession for a given Person
         /// </summary>
+        /// <param name="databaseEntities"></param>
         /// <param name="person"></param>
-        public FirmaSession(Person person)
+        public FirmaSession(DatabaseEntities databaseEntities, Person person)
         {
             Check.EnsureNotNull(person, "Do not call this if Person is null");
             Check.Ensure(person.TenantID > 0, $"Person does not have a TenantID set (TenantID = {person.TenantID})");
@@ -57,6 +63,16 @@ namespace ProjectFirmaModels.Models
             Person = person;
 
             TenantID = person.Tenant.TenantID;
+            SetDatabaseEntities(databaseEntities);
+        }
+
+        /// <summary>
+        /// Call with caution!
+        /// </summary>
+        /// <param name="databaseEntities"></param>
+        public void SetDatabaseEntities(DatabaseEntities databaseEntities)
+        {
+            this.DatabaseEntities = databaseEntities;
         }
 
         public string GetAuditDescriptionString()
@@ -214,5 +230,22 @@ namespace ProjectFirmaModels.Models
                     Person.GetFullNameFirstLast();
             }
         }
+
+        private LastSQLServerDatabaseBackup _lastSqlServerDatabaseBackup;
+        public LastSQLServerDatabaseBackup LastSqlServerDatabaseBackupInfo
+        {
+            get
+            {
+                if (_lastSqlServerDatabaseBackup == null)
+                {
+                    // We are expecting only one entry in this table, so this should be safe/correct.
+                    _lastSqlServerDatabaseBackup = this.DatabaseEntities?.LastSQLServerDatabaseBackups.Single();
+                }
+
+                return _lastSqlServerDatabaseBackup;
+            }
+        }
+
+
     }
 }
