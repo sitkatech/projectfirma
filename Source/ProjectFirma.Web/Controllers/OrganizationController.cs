@@ -537,11 +537,12 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditPrimaryContact(EditPrimaryContactViewModel viewModel, Person currentPrimaryContactPerson)
         {
             var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
+            var activePeopleWithAssignedRoles = activePeople.Where(ap => ap.Role != Role.Unassigned).ToList();
+            if (currentPrimaryContactPerson != null && !activePeopleWithAssignedRoles.Contains(currentPrimaryContactPerson))
             {
-                activePeople.Add(currentPrimaryContactPerson);
+                activePeopleWithAssignedRoles.Add(currentPrimaryContactPerson);
             }
-            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
+            var people = activePeopleWithAssignedRoles.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
                 x => x.GetFullNameFirstLastAndOrg());
 
             var viewData = new EditPrimaryContactViewData(people);

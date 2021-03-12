@@ -1959,7 +1959,7 @@ namespace ProjectFirma.Web.Controllers
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
             //var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Contact.PrimaryContactPerson;
 
-            var editContactsViewData = new EditContactsViewData(project, allPeople, allRelationshipTypes);
+            var editContactsViewData = new EditContactsViewData(project, allPeople, allRelationshipTypes, CurrentFirmaSession);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectContactsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectContactsSectionComplete;

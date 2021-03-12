@@ -34,7 +34,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public ContactsViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus, EditContactsViewData editContactsViewData) : base(currentFirmaSession, project, ProjectCreateSection.Contacts.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ProposalSectionsStatus proposalSectionsStatus, 
+            EditContactsViewData editContactsViewData) : base(currentFirmaSession, project, ProjectCreateSection.Contacts.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditContactsViewData = editContactsViewData;
             ShowCommentsSection = project.IsPendingApproval() || (project.ContactsComment != null &&
