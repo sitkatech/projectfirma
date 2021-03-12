@@ -28,14 +28,21 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
 {
     public class EditContactsViewData
     {
+        public readonly bool UserDoingEditingHasAdminPermissions;
         public List<PersonSimple> AllContacts { get; }
+        public List<PersonSimple> AllActiveContactsAndPrimaryContactPerson { get; }
         public List<ContactRelationshipTypeSimple> AllContactRelationshipTypes { get; }
 
         public EditContactsViewData(ProjectFirmaModels.Models.Project currentProject,
-                                    IEnumerable<Person> allContacts,
-                                    List<ProjectFirmaModels.Models.ContactRelationshipType> allContactRelationshipTypes)
+                                    List<Person> allContacts,
+                                    List<ProjectFirmaModels.Models.ContactRelationshipType> allContactRelationshipTypes,
+                                    FirmaSession currentFirmaSession)
         {
+            UserDoingEditingHasAdminPermissions = currentFirmaSession.IsAdministrator();
             AllContacts = allContacts.Select(x => new PersonSimple(x)).ToList();
+            // Everyone not inactive or unassigned, OR is current Primary Contact Person
+            var currentPrimaryContactPersonID = currentProject.PrimaryContactPerson?.PersonID;
+            AllActiveContactsAndPrimaryContactPerson = allContacts.Where(c => (c.IsActive && c.Role != ProjectFirmaModels.Models.Role.Unassigned) || c.PersonID == currentPrimaryContactPersonID).Select(x => new PersonSimple(x)).ToList();
             AllContactRelationshipTypes = allContactRelationshipTypes.Select(x => new ContactRelationshipTypeSimple(currentProject, x)).ToList();
         }
     }

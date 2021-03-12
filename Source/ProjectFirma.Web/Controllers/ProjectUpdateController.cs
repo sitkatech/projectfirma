@@ -3820,7 +3820,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var allContactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
 
-            var editContactsViewData = new EditContactsViewData(projectUpdateBatch.Project, allPeople, allContactRelationshipTypes);
+            var editContactsViewData = new EditContactsViewData(projectUpdateBatch.Project, allPeople, allContactRelationshipTypes, CurrentFirmaSession);
 
             var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), CurrentFirmaSession);
             var viewData = new ContactsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, editContactsViewData, contactsValidationResult, projectContactsDetailViewData);

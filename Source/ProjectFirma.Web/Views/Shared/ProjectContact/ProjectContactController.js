@@ -206,7 +206,7 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
     $scope.getContactsForPrimaryContactDropdown = function ()
     {
         //debugger;
-        return $scope.AngularViewData.AllContacts;
+       return $scope.AngularViewData.AllActiveContactsAndPrimaryContactPerson;
     }
 
     $scope.primaryContactPersonChange = function (personID)
