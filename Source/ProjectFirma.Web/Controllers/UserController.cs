@@ -245,18 +245,24 @@ namespace ProjectFirma.Web.Controllers
             string confirmMessage;
             if (person.IsActive)
             {
-                var isPrimaryContactForAnyOrganization = person.OrganizationsWhereYouAreThePrimaryContactPerson.Any();
+                // Now allowed : PF-2308 - https://sitkatech.atlassian.net/secure/RapidBoard.jspa?rapidView=39&projectKey=PF&modal=detail&selectedIssue=PF-2308
+
+                const bool confirmDialogCanProceed = true;
+                /*
+                bool isPrimaryContactForAnyOrganization = person.OrganizationsWhereYouAreThePrimaryContactPerson.Any();
+                confirmDialogCanProceed = !isPrimaryContactForAnyOrganization;
                 if (isPrimaryContactForAnyOrganization)
                 {
                     confirmMessage =
                         $@"You cannot inactivate user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x => $"<li>{x.OrganizationName}</li>"))}</ul>";
                 }
                 else
+                */
                 {
                     confirmMessage = $"Are you sure you want to inactivate user '{person.GetFullNameFirstLast()}'?";
                 }
 
-                var viewData = new ConfirmDialogFormViewData(confirmMessage, !isPrimaryContactForAnyOrganization);
+                var viewData = new ConfirmDialogFormViewData(confirmMessage, confirmDialogCanProceed);
                 return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(
                     viewData, viewModel);
             }
@@ -278,10 +284,19 @@ namespace ProjectFirma.Web.Controllers
             var person = personPrimaryKey.EntityObject;
             if (person.IsActive)
             {
+                // Now allowed : PF-2308 - https://sitkatech.atlassian.net/secure/RapidBoard.jspa?rapidView=39&projectKey=PF&modal=detail&selectedIssue=PF-2308
+                /*
                 Check.Require(!person.OrganizationsWhereYouAreThePrimaryContactPerson.Any(),
                     $@"You cannot inactivate user '{person.GetFullNameFirstLast()}' because {
                             person.FirstName
                         } is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}!");
+                */
+                bool inactivatingPersonWhoIsOrganizationPrimaryContact = person.OrganizationsWhereYouAreThePrimaryContactPerson.Any();
+                if (inactivatingPersonWhoIsOrganizationPrimaryContact)
+                {
+                    SetWarningForDisplay($"{person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}. {person.GetFullNameFirstLast()} has been inactivated, but the {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()} {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}(s) need to be changed.");
+                }
+
             }
 
             if (!ModelState.IsValid)
