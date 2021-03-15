@@ -249,7 +249,7 @@ namespace ProjectFirma.Web.Controllers
                 if (isPrimaryContactForAnyOrganization)
                 {
                     confirmMessage =
-                        $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x => $"<li>{x.OrganizationName}</li>"))}</ul>";
+                        $@"You cannot inactivate user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x => $"<li>{x.OrganizationName}</li>"))}</ul>";
                 }
                 else
                 {
@@ -279,7 +279,7 @@ namespace ProjectFirma.Web.Controllers
             if (person.IsActive)
             {
                 Check.Require(!person.OrganizationsWhereYouAreThePrimaryContactPerson.Any(),
-                    $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {
+                    $@"You cannot inactivate user '{person.GetFullNameFirstLast()}' because {
                             person.FirstName
                         } is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}!");
             }
