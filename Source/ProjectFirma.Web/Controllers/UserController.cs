@@ -179,9 +179,20 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        private void ShowWarningAboutInactivatedUserForOrganizationPrimaryContact(Person person)
+        {
+            bool inactivePersonWhoIsOrgPrimaryContact =  !person.IsActive && person.OrganizationsWhereYouAreThePrimaryContactPerson.Any();
+            if (inactivePersonWhoIsOrgPrimaryContact)
+            {
+                SetWarningForDisplay($"{person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}. {person.GetFullNameFirstLast()} has been inactivated, but the {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()} {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}(s) need to be changed.");
+            }
+        }
+
         [UserViewFeature]
         public ViewResult Detail(PersonPrimaryKey personPrimaryKey)
         {
+            ShowWarningAboutInactivatedUserForOrganizationPrimaryContact(personPrimaryKey.EntityObject);
+
             var person = personPrimaryKey.EntityObject;
             var userNotificationGridSpec = new UserNotificationGridSpec();
             var userNotificationGridDataUrl =
@@ -282,22 +293,6 @@ namespace ProjectFirma.Web.Controllers
             ConfirmDialogFormViewModel viewModel)
         {
             var person = personPrimaryKey.EntityObject;
-            if (person.IsActive)
-            {
-                // Now allowed : PF-2308 - https://sitkatech.atlassian.net/secure/RapidBoard.jspa?rapidView=39&projectKey=PF&modal=detail&selectedIssue=PF-2308
-                /*
-                Check.Require(!person.OrganizationsWhereYouAreThePrimaryContactPerson.Any(),
-                    $@"You cannot inactivate user '{person.GetFullNameFirstLast()}' because {
-                            person.FirstName
-                        } is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}!");
-                */
-                bool inactivatingPersonWhoIsOrganizationPrimaryContact = person.OrganizationsWhereYouAreThePrimaryContactPerson.Any();
-                if (inactivatingPersonWhoIsOrganizationPrimaryContact)
-                {
-                    SetWarningForDisplay($"{person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}. {person.GetFullNameFirstLast()} has been inactivated, but the {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()} {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}(s) need to be changed.");
-                }
-
-            }
 
             if (!ModelState.IsValid)
             {
@@ -311,6 +306,10 @@ namespace ProjectFirma.Web.Controllers
             }
 
             person.IsActive = !person.IsActive;
+
+            // Now allowed : PF-2308 - https://sitkatech.atlassian.net/secure/RapidBoard.jspa?rapidView=39&projectKey=PF&modal=detail&selectedIssue=PF-2308
+            ShowWarningAboutInactivatedUserForOrganizationPrimaryContact(person);
+
             return new ModalDialogFormJsonResult();
         }
 
