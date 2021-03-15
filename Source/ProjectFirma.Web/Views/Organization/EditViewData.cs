@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.Organization
     public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> OrganizationTypes;
-        public readonly IEnumerable<SelectListItem> People;
+        public readonly IEnumerable<SelectListItem> PossiblePrimaryContactPeople;
         public readonly bool IsInKeystone;
         public readonly string RequestOrganizationChangeUrl;
         public readonly bool IsSitkaAdmin;
@@ -39,10 +39,10 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly Guid? OrganizationGuid;
         public readonly string SyncWithKeystoneUrl;
 
-        public EditViewData(IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin, bool userHasAdminPermissions, Guid? organizationGuid)
+        public EditViewData(IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> possiblePrimaryContactPeople, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin, bool userHasAdminPermissions, Guid? organizationGuid)
         {
             OrganizationTypes = organizationTypes;
-            People = people;
+            PossiblePrimaryContactPeople = possiblePrimaryContactPeople;
             IsInKeystone = isInKeystone;
             RequestOrganizationChangeUrl = requestOrganizationChangeUrl;
             IsSitkaAdmin = isSitkaAdmin;
