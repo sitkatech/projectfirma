@@ -256,22 +256,17 @@ namespace ProjectFirma.Web.Controllers
             string confirmMessage;
             if (person.IsActive)
             {
-                // Now allowed : PF-2308 - https://sitkatech.atlassian.net/secure/RapidBoard.jspa?rapidView=39&projectKey=PF&modal=detail&selectedIssue=PF-2308
-
+                // Now allowed, but we warn the user : PF-2308 - https://sitkatech.atlassian.net/secure/RapidBoard.jspa?rapidView=39&projectKey=PF&modal=detail&selectedIssue=PF-2308
                 const bool confirmDialogCanProceed = true;
-                /*
+                string optionalOrganizationPrimaryContactWarnings = string.Empty;
                 bool isPrimaryContactForAnyOrganization = person.OrganizationsWhereYouAreThePrimaryContactPerson.Any();
-                confirmDialogCanProceed = !isPrimaryContactForAnyOrganization;
                 if (isPrimaryContactForAnyOrganization)
                 {
-                    confirmMessage =
-                        $@"You cannot inactivate user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x => $"<li>{x.OrganizationName}</li>"))}</ul>";
+                    optionalOrganizationPrimaryContactWarnings =
+                        $@"{person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x => $"<li>{x.OrganizationName}</li>"))}</ul>";
                 }
-                else
-                */
-                {
-                    confirmMessage = $"Are you sure you want to inactivate user '{person.GetFullNameFirstLast()}'?";
-                }
+
+                confirmMessage = $"{optionalOrganizationPrimaryContactWarnings}Are you sure you want to inactivate user '{person.GetFullNameFirstLast()}'?";
 
                 var viewData = new ConfirmDialogFormViewData(confirmMessage, confirmDialogCanProceed);
                 return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(
