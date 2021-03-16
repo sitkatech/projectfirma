@@ -149,16 +149,17 @@ namespace ProjectFirma.Web.Controllers
                 .ToSelectListWithEmptyFirstRow(x => x.OrganizationTypeID.ToString(CultureInfo.InvariantCulture),
                     x => x.OrganizationTypeName);
             var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
+            var activePeopleWithAssignedRoles = activePeople.Where(ap => ap.Role != Role.Unassigned).ToList();
+            if (currentPrimaryContactPerson != null && !activePeopleWithAssignedRoles.Contains(currentPrimaryContactPerson))
             {
-                activePeople.Add(currentPrimaryContactPerson);
+                activePeopleWithAssignedRoles.Add(currentPrimaryContactPerson);
             }
-            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
+            var possiblePrimaryContactPeople = activePeopleWithAssignedRoles.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
                 x => x.GetFullNameFirstLastAndOrg());
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             string requestOrganizationChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange());
-            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, requestOrganizationChangeUrl, isSitkaAdmin, userHasAdminPermissions, viewModel.KeystoneOrganizationGuid);
+            var viewData = new EditViewData(organizationTypesAsSelectListItems, possiblePrimaryContactPeople, isInKeystone, requestOrganizationChangeUrl, isSitkaAdmin, userHasAdminPermissions, viewModel.KeystoneOrganizationGuid);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
