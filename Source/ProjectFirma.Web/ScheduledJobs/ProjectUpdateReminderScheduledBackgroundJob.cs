@@ -111,8 +111,8 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail, introContent, reminderSubject, toolLogo, toolDisplayName, tenantID);
 
             var projectsToNotifyOn = notifyOnAll
-                ? projectsForTenant.AsQueryable().GetUpdatableProjects()
-                : projectsForTenant.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
+                ? projectsForTenant.AsQueryable().GetUpdatableProjectsForBackgroundJob(tenantID)
+                : projectsForTenant.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmittedForBackgroundJob(tenantID);
 
             var projectsGroupedByPrimaryContact =
                 projectsToNotifyOn.Where(x => x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact())

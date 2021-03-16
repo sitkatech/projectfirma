@@ -282,13 +282,23 @@ namespace ProjectFirma.Web.Common
 
         public static ProjectUpdateSetting GetProjectUpdateConfiguration()
         {
-            var projectUpdateConfiguration = HttpRequestStorage.DatabaseEntities.ProjectUpdateSettings.SingleOrDefault(x =>
-                x.TenantID == HttpRequestStorage.Tenant.TenantID);
+            return GetProjectUpdateConfiguration(HttpRequestStorage.Tenant.TenantID);
+        }
+
+        public static ProjectUpdateSetting GetProjectUpdateConfigurationForBackgroundJob(int tenantID)
+        {
+            return GetProjectUpdateConfiguration(tenantID);
+        }
+
+        private static ProjectUpdateSetting GetProjectUpdateConfiguration(int tenantID)
+        {
+            var projectUpdateConfiguration = HttpRequestStorage.DatabaseEntities.AllProjectUpdateSettings.SingleOrDefault(x =>
+                x.TenantID == tenantID);
             if (projectUpdateConfiguration == null)
             {
                 // 3/27/2020 TK - You need to create an entry for your tenant in dbo.ProjectUpdateSetting
                 throw new SitkaDisplayErrorException(
-                    $"{GetTenantAttributeFromCache().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
+                    $"backgroundJob tenant id {tenantID} {GetTenantAttributeFromCache().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
             }
             return projectUpdateConfiguration;
         }
@@ -297,6 +307,12 @@ namespace ProjectFirma.Web.Common
         {
             var projectUpdateConfiguration = GetProjectUpdateConfiguration();
             return projectUpdateConfiguration.ProjectUpdateKickOffDate ?? HttpRequestStorage.Tenant.FiscalYearStartDate;
+        }
+
+        public static DateTime GetStartDayOfReportingPeriodForBackgroundJob(int tenantID)
+        {
+            var projectUpdateConfiguration = GetProjectUpdateConfigurationForBackgroundJob(tenantID);
+            return projectUpdateConfiguration.ProjectUpdateKickOffDate.GetValueOrDefault();
         }
 
         public static DateTime GetEndDayOfReportingPeriod()
