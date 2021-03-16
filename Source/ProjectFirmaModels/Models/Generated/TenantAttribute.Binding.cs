@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceInfoID, int? tenantBannerLogoFileResourceInfoID, int? tenantStyleSheetFileResourceInfoID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode, bool useProjectTimeline, string geoServerNamespace, bool enableEvaluations, bool enableProjectCategories, bool enableReports, int? tenantFactSheetLogoFileResourceInfoID, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceInfoID, int? tenantBannerLogoFileResourceInfoID, int? tenantStyleSheetFileResourceInfoID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode, bool useProjectTimeline, string geoServerNamespace, bool enableEvaluations, bool enableProjectCategories, bool enableReports, int? tenantFactSheetLogoFileResourceInfoID, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, int firmaSystemAuthenticationTypeID) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -70,12 +70,13 @@ namespace ProjectFirmaModels.Models
             this.TenantFactSheetLogoFileResourceInfoID = tenantFactSheetLogoFileResourceInfoID;
             this.EnableMatchmaker = enableMatchmaker;
             this.MatchmakerAlgorithmIncludesProjectGeospatialAreas = matchmakerAlgorithmIncludesProjectGeospatialAreas;
+            this.FirmaSystemAuthenticationTypeID = firmaSystemAuthenticationTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, bool useProjectTimeline, bool enableEvaluations, bool enableProjectCategories, bool enableReports, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, bool useProjectTimeline, bool enableEvaluations, bool enableProjectCategories, bool enableReports, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, int firmaSystemAuthenticationTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -105,12 +106,13 @@ namespace ProjectFirmaModels.Models
             this.EnableReports = enableReports;
             this.EnableMatchmaker = enableMatchmaker;
             this.MatchmakerAlgorithmIncludesProjectGeospatialAreas = matchmakerAlgorithmIncludesProjectGeospatialAreas;
+            this.FirmaSystemAuthenticationTypeID = firmaSystemAuthenticationTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, bool isActive, bool projectExternalDataSourceEnabled, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, BudgetType budgetType, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, bool useProjectTimeline, bool enableEvaluations, bool enableProjectCategories, bool enableReports, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, bool isActive, bool projectExternalDataSourceEnabled, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, BudgetType budgetType, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, bool useProjectTimeline, bool enableEvaluations, bool enableProjectCategories, bool enableReports, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, FirmaSystemAuthenticationType firmaSystemAuthenticationType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -139,14 +141,17 @@ namespace ProjectFirmaModels.Models
             this.EnableReports = enableReports;
             this.EnableMatchmaker = enableMatchmaker;
             this.MatchmakerAlgorithmIncludesProjectGeospatialAreas = matchmakerAlgorithmIncludesProjectGeospatialAreas;
+            this.FirmaSystemAuthenticationTypeID = firmaSystemAuthenticationType.FirmaSystemAuthenticationTypeID;
+            this.FirmaSystemAuthenticationType = firmaSystemAuthenticationType;
+            firmaSystemAuthenticationType.TenantAttributes.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static TenantAttribute CreateNewBlank(TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, BudgetType budgetType)
+        public static TenantAttribute CreateNewBlank(TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, BudgetType budgetType, FirmaSystemAuthenticationType firmaSystemAuthenticationType)
         {
-            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel, associatePerfomanceMeasureTaxonomyLevel, default(bool), default(bool), accomplishmentsDashboardFundingDisplayType, default(bool), default(bool), default(bool), default(bool), default(string), default(string), budgetType, default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool));
+            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel, associatePerfomanceMeasureTaxonomyLevel, default(bool), default(bool), accomplishmentsDashboardFundingDisplayType, default(bool), default(bool), default(bool), default(bool), default(string), default(string), budgetType, default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), firmaSystemAuthenticationType);
         }
 
         /// <summary>
@@ -248,6 +253,7 @@ namespace ProjectFirmaModels.Models
         public int? TenantFactSheetLogoFileResourceInfoID { get; set; }
         public bool EnableMatchmaker { get; set; }
         public bool MatchmakerAlgorithmIncludesProjectGeospatialAreas { get; set; }
+        public int FirmaSystemAuthenticationTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
@@ -262,6 +268,7 @@ namespace ProjectFirmaModels.Models
         public AccomplishmentsDashboardFundingDisplayType AccomplishmentsDashboardFundingDisplayType { get { return AccomplishmentsDashboardFundingDisplayType.AllLookupDictionary[AccomplishmentsDashboardFundingDisplayTypeID]; } }
         public ProjectStewardshipAreaType ProjectStewardshipAreaType { get { return ProjectStewardshipAreaTypeID.HasValue ? ProjectStewardshipAreaType.AllLookupDictionary[ProjectStewardshipAreaTypeID.Value] : null; } }
         public BudgetType BudgetType { get { return BudgetType.AllLookupDictionary[BudgetTypeID]; } }
+        public virtual FirmaSystemAuthenticationType FirmaSystemAuthenticationType { get; set; }
 
         public static class FieldLengths
         {

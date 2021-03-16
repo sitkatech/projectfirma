@@ -53,6 +53,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantFactSheetLogoFileResourceInfoID).HasColumnName(@"TenantFactSheetLogoFileResourceInfoID").HasColumnType("int").IsOptional();
             Property(x => x.EnableMatchmaker).HasColumnName(@"EnableMatchmaker").HasColumnType("bit").IsRequired();
             Property(x => x.MatchmakerAlgorithmIncludesProjectGeospatialAreas).HasColumnName(@"MatchmakerAlgorithmIncludesProjectGeospatialAreas").HasColumnType("bit").IsRequired();
+            Property(x => x.FirmaSystemAuthenticationTypeID).HasColumnName(@"FirmaSystemAuthenticationTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID
@@ -60,6 +61,7 @@ namespace ProjectFirmaModels.Models
             HasOptional(a => a.TenantBannerLogoFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantBannerLogoFileResourceInfo).HasForeignKey(c => c.TenantBannerLogoFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantBannerLogoFileResourceInfoID_FileResourceInfoID
             HasOptional(a => a.TenantStyleSheetFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantStyleSheetFileResourceInfo).HasForeignKey(c => c.TenantStyleSheetFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantStyleSheetFileResourceInfoID_FileResourceInfoID
             HasOptional(a => a.TenantFactSheetLogoFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResourceInfo).HasForeignKey(c => c.TenantFactSheetLogoFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantFactSheetLogoFileResourceInfoID_FileResourceInfoID
+            HasRequired(a => a.FirmaSystemAuthenticationType).WithMany(b => b.TenantAttributes).HasForeignKey(c => c.FirmaSystemAuthenticationTypeID).WillCascadeOnDelete(false); // FK_TenantAttribute_FirmaSystemAuthenticationType_FirmaSystemAuthenticationTypeID
         }
     }
 }
