@@ -67,6 +67,7 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\LocalAuthenticationController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
@@ -325,6 +326,9 @@
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\GeospatialAreaPerformanceMeasureTargetGridSpec.cs" />
+    <Compile Include="Views\LocalAuthentication\LocalAuthLogonViewData.cs" />
+    <Compile Include="Views\LocalAuthentication\LocalAuthLogonViewModel.cs" />
+    <Compile Include="Views\LocalAuthentication\LocalAuthLogon.cs" />
     <Compile Include="Views\MapLayer\EditGeospatialAreaMapLayer.cs" />
     <Compile Include="Views\MapLayer\EditExternalMapLayer.cs" />
     <Compile Include="Views\MapLayer\EditGeospatialAreaMapLayerViewData.cs" />
@@ -751,6 +755,7 @@
     <Content Include="Views\Keyword\MatchmakerKeywordsModal.cshtml" />
     <Content Include="Views\Organization\MatchmakerOrganizationPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ExternalLinks.cshtml" />
+    <Content Include="Views\LocalAuthentication\LocalAuthLogon.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
