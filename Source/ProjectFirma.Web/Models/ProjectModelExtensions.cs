@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Drawing;
+using System.EnterpriseServices.Internal;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -553,14 +554,14 @@ namespace ProjectFirma.Web.Models
             return showPendingProjects ? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.GetDisplayName()).ToList() : new List<Project>();
         }
 
-        public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmitted(this IQueryable<Project> projects)
+        public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForBackgroundJob(this IQueryable<Project> projects, int tenantID)
         {
-            return projects.GetUpdatableProjects().Where(x => x.GetLatestUpdateState() != ProjectUpdateState.Submitted).ToList();
+            return projects.GetUpdatableProjectsForBackgroundJob(tenantID).Where(x => x.GetLatestUpdateState() != ProjectUpdateState.Submitted).ToList();
         }
 
-        public static List<Project> GetUpdatableProjects(this IQueryable<Project> projects)
+        public static List<Project> GetUpdatableProjectsForBackgroundJob(this IQueryable<Project> projects, int tenantID)
         {
-            return projects.Where(x => x.IsUpdateMandatory()).ToList();
+            return projects.Where(x => x.IsUpdateMandatoryForBackgroundJob(tenantID)).ToList();
         }
 
         public static bool IsForwardLookingFactSheetRelevant(this Project project)
@@ -787,6 +788,19 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsUpdateMandatory(this Project project)
         {
+            return IsUpdateMandatory(project, FirmaDateUtilities.LastReportingPeriodStartDate());
+        }
+
+        public static bool IsUpdateMandatoryForBackgroundJob(this Project project, int tenantID)
+        {
+            var lastReportingPeriodStartDate =
+                FirmaDateUtilities.LastReportingPeriodStartDateForBackgroundJob(
+                    MultiTenantHelpers.GetStartDayOfReportingPeriodForBackgroundJob(tenantID));
+            return IsUpdateMandatory(project, lastReportingPeriodStartDate);
+        }
+
+        private static bool IsUpdateMandatory(this Project project, DateTime lastReportingPeriodStartDate)
+        {
             if (project.IsPendingProject())
             {
                 return false;
@@ -805,7 +819,7 @@ namespace ProjectFirma.Web.Models
             }
 
             // last update was not approved, or was approved before the reporting period start
-            if (!latestUpdateBatch.IsApproved() || latestUpdateBatch.LastUpdateDate.IsDateBefore(FirmaDateUtilities.LastReportingPeriodStartDate()))
+            if (!latestUpdateBatch.IsApproved() || latestUpdateBatch.LastUpdateDate.IsDateBefore(lastReportingPeriodStartDate))
             {
                 return true;
             }
