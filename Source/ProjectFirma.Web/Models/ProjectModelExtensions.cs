@@ -137,19 +137,25 @@ namespace ProjectFirma.Web.Models
             }
 
             bool isPersonThePrimaryContact = project.IsPersonThePrimaryContact(currentFirmaSession.Person);
+            bool isPersonContactThatCanManageProject = project.IsPersonContactThatCanManageProject(currentFirmaSession.Person);
             bool isProjectInPersonsOrganization = currentFirmaSession.Person.Organization.IsMyProject(project);
             bool userHasProjectStewardPermissionsForProject = currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project));
 
-            bool isUsersProject = isPersonThePrimaryContact || isProjectInPersonsOrganization || userHasProjectStewardPermissionsForProject;
+            bool isUsersProject = isPersonThePrimaryContact || isPersonContactThatCanManageProject || isProjectInPersonsOrganization || userHasProjectStewardPermissionsForProject;
 
             return isUsersProject;
         }
 
+        // Keep this function 100% aligned with IsMyProject(Project project) for consistency!!!
         public static bool IsMyProject(this vProjectDetail projectDetail, FirmaSession currentFirmaSession)
         {
             var personID = currentFirmaSession.PersonID;
             var isPrimaryContact = projectDetail.PrimaryContactPersonID == personID;
-            return !currentFirmaSession.IsAnonymousUser() && (isPrimaryContact || currentFirmaSession.Person.Organization.IsMyProject(projectDetail) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(projectDetail)));
+
+            var contactsWhoCanManageProject = projectDetail.ProjectContactsWhoCanManageProjectConcatenated?.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x.Trim())).ToList();
+            var isPersonContactThatCanManageProject = personID.HasValue && contactsWhoCanManageProject != null && contactsWhoCanManageProject.Contains(personID.Value);
+
+            return !currentFirmaSession.IsAnonymousUser() && (isPrimaryContact || isPersonContactThatCanManageProject || currentFirmaSession.Person.Organization.IsMyProject(projectDetail) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(projectDetail)));
         }
 
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)

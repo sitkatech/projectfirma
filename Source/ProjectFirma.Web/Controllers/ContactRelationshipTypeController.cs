@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewContactRelationshipType(viewModel);
             }
-            var relationshipType = new ContactRelationshipType(viewModel.ContactRelationshipTypeName, false, false);
+            var relationshipType = new ContactRelationshipType(viewModel.ContactRelationshipTypeName, false, false, false);
             HttpRequestStorage.DatabaseEntities.AllContactRelationshipTypes.Add(relationshipType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
