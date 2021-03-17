@@ -117,12 +117,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectsGroupedByPrimaryContact =
                 projectsToNotifyOn.Where(x => x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact())
                     .ToList();
-            foreach (var test in projectsGroupedByPrimaryContact)
-            {
-                
-                Logger.Info($"PrimaryContact: {test.Key.LastName}; projects {string.Join(", ",test.ToList().Select(x => x.ProjectName))}");
-            }
-            
+
             var notifications = projectsGroupedByPrimaryContact
                 .SelectMany(x => projectUpdateNotificationHelper.SendProjectUpdateReminderMessage(x)).ToList();
 
