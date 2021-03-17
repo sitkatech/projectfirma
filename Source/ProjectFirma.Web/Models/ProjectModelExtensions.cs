@@ -137,10 +137,11 @@ namespace ProjectFirma.Web.Models
             }
 
             bool isPersonThePrimaryContact = project.IsPersonThePrimaryContact(currentFirmaSession.Person);
+            bool isPersonContactThatCanManageProject = project.IsPersonContactThatCanManageProject(currentFirmaSession.Person);
             bool isProjectInPersonsOrganization = currentFirmaSession.Person.Organization.IsMyProject(project);
             bool userHasProjectStewardPermissionsForProject = currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project));
 
-            bool isUsersProject = isPersonThePrimaryContact || isProjectInPersonsOrganization || userHasProjectStewardPermissionsForProject;
+            bool isUsersProject = isPersonThePrimaryContact || isPersonContactThatCanManageProject || isProjectInPersonsOrganization || userHasProjectStewardPermissionsForProject;
 
             return isUsersProject;
         }

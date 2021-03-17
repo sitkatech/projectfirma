@@ -128,6 +128,17 @@ namespace ProjectFirmaModels.Models
             return person.PersonID == primaryContactPerson?.PersonID;
         }
 
+        public bool IsPersonContactThatCanManageProject(Person person)
+        {
+            if (person == null)
+            {
+                return false;
+            }
+
+            var projectContacts = ProjectContacts.ToList().Where(x => x.ContactRelationshipType.CanManageProject);
+            return projectContacts.Any(x => x.ContactID == person.PersonID);
+        }
+
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
         {
             return ProjectAssessmentQuestions;

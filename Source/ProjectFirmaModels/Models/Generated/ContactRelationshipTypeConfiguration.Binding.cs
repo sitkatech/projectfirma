@@ -22,6 +22,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.IsContactRelationshipRequiredMinimumProjectStageID).HasColumnName(@"IsContactRelationshipRequiredMinimumProjectStageID").HasColumnType("int").IsOptional();
             Property(x => x.ContactRelationshipTypeAcceptsMultipleValues).HasColumnName(@"ContactRelationshipTypeAcceptsMultipleValues").HasColumnType("bit").IsRequired();
             Property(x => x.ContactRelationshipTypeDescription).HasColumnName(@"ContactRelationshipTypeDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(360);
+            Property(x => x.CanManageProject).HasColumnName(@"CanManageProject").HasColumnType("bit").IsRequired();
 
             // Foreign keys
 

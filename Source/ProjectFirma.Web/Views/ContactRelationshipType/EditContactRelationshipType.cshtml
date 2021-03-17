@@ -55,24 +55,41 @@
          </div>
       </div>
 
-      <div class="form-group">
-         <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.IsContactRelationshipTypeRequired)</div>
-         <div class="col-sm-8">
-            <div class="radio-inline">
-               <label>
-                  @Html.RadioButtonFor(m => m.IsContactRelationshipTypeRequired, true) Yes
-               </label>
-            </div>
-            <div class="radio-inline">
-               <label>
-                  @Html.RadioButtonFor(m => m.IsContactRelationshipTypeRequired, false) No
-               </label>
-            </div>
-            @Html.ValidationMessageFor(m => m.IsContactRelationshipTypeRequired)
-         </div>
-      </div>
+       <div class="form-group">
+           <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.IsContactRelationshipTypeRequired)</div>
+           <div class="col-sm-8">
+               <div class="radio-inline">
+                   <label>
+                       @Html.RadioButtonFor(m => m.IsContactRelationshipTypeRequired, true) Yes
+                   </label>
+               </div>
+               <div class="radio-inline">
+                   <label>
+                       @Html.RadioButtonFor(m => m.IsContactRelationshipTypeRequired, false) No
+                   </label>
+               </div>
+               @Html.ValidationMessageFor(m => m.IsContactRelationshipTypeRequired)
+           </div>
+       </div>
+       
+       <div class="form-group">
+           <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.CanManageProject)</div>
+           <div class="col-sm-8">
+               <div class="radio-inline">
+                   <label>
+                       @Html.RadioButtonFor(m => m.CanManageProject, true) Yes
+                   </label>
+               </div>
+               <div class="radio-inline">
+                   <label>
+                       @Html.RadioButtonFor(m => m.CanManageProject, false) No
+                   </label>
+               </div>
+               @Html.ValidationMessageFor(m => m.CanManageProject)
+           </div>
+       </div>
 
-      <div class="form-group">
+       <div class="form-group">
          <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.IsContactRelationshipRequiredMinimumProjectStageID)</div>
          <div class="col-sm-8">
             @Html.DropDownListFor(m => m.IsContactRelationshipRequiredMinimumProjectStageID, ViewDataTyped.ProjectStageSelectListItems, new Dictionary<string, object> { { "class", "form-control" } })
