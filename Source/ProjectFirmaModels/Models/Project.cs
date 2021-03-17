@@ -47,6 +47,11 @@ namespace ProjectFirmaModels.Models
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
+        public List<Person> GetContactsWhoCanManageProject()
+        {
+            return ProjectContacts.ToList().Where(x => x.ContactRelationshipType.CanManageProject).Select(x => x.Contact).ToList();
+        }
+
         public decimal GetSecuredFunding()
         {
             return ProjectFundingSourceBudgets.Any() ? ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
@@ -135,8 +140,8 @@ namespace ProjectFirmaModels.Models
                 return false;
             }
 
-            var projectContacts = ProjectContacts.ToList().Where(x => x.ContactRelationshipType.CanManageProject);
-            return projectContacts.Any(x => x.ContactID == person.PersonID);
+            var contacts = GetContactsWhoCanManageProject();
+            return contacts.Any(x => x.PersonID == person.PersonID);
         }
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()
