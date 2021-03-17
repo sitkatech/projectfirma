@@ -30,6 +30,7 @@ p.ProjectID
        else 'n/a' end as FinalStatusReportStatusDescription
 , coalesce(pfse.ProjectFundingSourceExpenditureCount,0) as ProjectFundingSourceExpenditureCount
 , proposer.OrganizationID as ProposingOrganizationID
+, pcwcmp.ProjectContactsWhoCanManageProjectConcatenated as ProjectContactsWhoCanManageProjectConcatenated
 
  from dbo.Project p
  join dbo.TaxonomyLeaf tl on p.TaxonomyLeafID = tl.TaxonomyLeafID
@@ -76,6 +77,26 @@ left join
 left join (select pim.ProjectID, count(*) as ProjectImageCount from dbo.ProjectImage pim group by pim.ProjectID) pim on pim.ProjectID = p.ProjectID
 left join (select pps.ProjectID, count(*) as FinalStatusUpdateCount from dbo.ProjectProjectStatus pps where pps.IsFinalStatusUpdate = 1 group by pps.ProjectID) pps on pps.ProjectID = p.ProjectID
 left join (select pfse.ProjectID, count(*) as ProjectFundingSourceExpenditureCount from dbo.ProjectFundingSourceExpenditure pfse group by pfse.ProjectID) pfse on pfse.ProjectID = p.ProjectID
+
+left join
+(
+    SELECT pc.ProjectID, LEFT(pc.ProjectContacts,Len(pc.ProjectContacts)-1) As ProjectContactsWhoCanManageProjectConcatenated
+    FROM
+        (
+            SELECT DISTINCT pc2.ProjectID, 
+                (
+                    SELECT  cast(pc1.ContactID as VARCHAR(1000)) + ','
+                    FROM dbo.ProjectContact pc1
+                    join dbo.ContactRelationshipType crt on crt.ContactRelationshipTypeID = pc1.ContactRelationshipTypeID
+                    where crt.CanManageProject = 1
+                    and pc1.ProjectID = pc2.ProjectID
+                    ORDER BY pc1.ProjectID
+                    FOR XML PATH ('')
+                ) as ProjectContacts
+            FROM dbo.ProjectContact pc2
+        ) pc
+)  pcwcmp on pcwcmp.ProjectID = p.ProjectID
+
 
 go
 
