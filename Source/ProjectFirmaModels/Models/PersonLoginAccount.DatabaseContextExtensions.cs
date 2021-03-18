@@ -26,14 +26,16 @@ using System.Linq;
 namespace ProjectFirmaModels.Models
 {
 
-
     public static partial class DatabaseContextExtensions
     {
-        public static List<Organization> GetActiveOrganizations(this IQueryable<Organization> organizations)
+        public static PersonLoginAccount GetPersonLoginAccountByName(this IQueryable<PersonLoginAccount> personLoginAccounts, string personLoginAccountName)
         {
-            return organizations.Where(x => x.IsActive).ToList().OrderBy(x => x.GetDisplayName()).ToList();
+            var loginAccounts = personLoginAccounts.ToList();
+            var personLoginAccount = loginAccounts.SingleOrDefault(x => x.PersonLoginAccountName == personLoginAccountName);
+            return personLoginAccount;
         }
 
+        /*
         public static List<Organization> GetMatchmakerOrganizations(this IQueryable<Organization> organizations)
         {
             return organizations.Where(x => x.IsActive && (x.MatchmakerOptIn ?? false)).ToList().OrderBy(x => x.GetDisplayName()).ToList();
@@ -57,5 +59,6 @@ namespace ProjectFirmaModels.Models
             Check.Ensure(unknownOrg != null, "No Unknown Organization found for current TenantID; please add to Organizations table");
             return unknownOrg;
         }
+        */
     }
 }

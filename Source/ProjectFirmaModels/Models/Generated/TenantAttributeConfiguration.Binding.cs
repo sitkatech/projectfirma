@@ -61,7 +61,6 @@ namespace ProjectFirmaModels.Models
             HasOptional(a => a.TenantBannerLogoFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantBannerLogoFileResourceInfo).HasForeignKey(c => c.TenantBannerLogoFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantBannerLogoFileResourceInfoID_FileResourceInfoID
             HasOptional(a => a.TenantStyleSheetFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantStyleSheetFileResourceInfo).HasForeignKey(c => c.TenantStyleSheetFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantStyleSheetFileResourceInfoID_FileResourceInfoID
             HasOptional(a => a.TenantFactSheetLogoFileResourceInfo).WithMany(b => b.TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResourceInfo).HasForeignKey(c => c.TenantFactSheetLogoFileResourceInfoID).WillCascadeOnDelete(false); // FK_TenantAttribute_FileResourceInfo_TenantFactSheetLogoFileResourceInfoID_FileResourceInfoID
-            HasRequired(a => a.FirmaSystemAuthenticationType).WithMany(b => b.TenantAttributes).HasForeignKey(c => c.FirmaSystemAuthenticationTypeID).WillCascadeOnDelete(false); // FK_TenantAttribute_FirmaSystemAuthenticationType_FirmaSystemAuthenticationTypeID
         }
     }
 }

@@ -3,10 +3,11 @@
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[FirmaSystemAuthenticationType]
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
+using System.Data;
 using System.Linq;
 using System.Web;
 using CodeFirstStoreFunctions;
@@ -16,119 +17,114 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[FirmaSystemAuthenticationType] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[FirmaSystemAuthenticationType]")]
-    public partial class FirmaSystemAuthenticationType : IHavePrimaryKey, ICanDeleteFull
+    public abstract partial class FirmaSystemAuthenticationType : IHavePrimaryKey
     {
+        public static readonly FirmaSystemAuthenticationTypeKeystone Keystone = FirmaSystemAuthenticationTypeKeystone.Instance;
+        public static readonly FirmaSystemAuthenticationTypeFirmaSelfAuth FirmaSelfAuth = FirmaSystemAuthenticationTypeFirmaSelfAuth.Instance;
+
+        public static readonly List<FirmaSystemAuthenticationType> All;
+        public static readonly ReadOnlyDictionary<int, FirmaSystemAuthenticationType> AllLookupDictionary;
+
         /// <summary>
-        /// Default Constructor; only used by EF
+        /// Static type constructor to coordinate static initialization order
         /// </summary>
-        protected FirmaSystemAuthenticationType()
+        static FirmaSystemAuthenticationType()
         {
-            this.TenantAttributes = new HashSet<TenantAttribute>();
+            All = new List<FirmaSystemAuthenticationType> { Keystone, FirmaSelfAuth };
+            AllLookupDictionary = new ReadOnlyDictionary<int, FirmaSystemAuthenticationType>(All.ToDictionary(x => x.FirmaSystemAuthenticationTypeID));
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        public FirmaSystemAuthenticationType(int firmaSystemAuthenticationTypeID, string firmaSystemAuthenticationTypeName, string firmaSystemAuthenticationTypeDisplayName) : this()
+        protected FirmaSystemAuthenticationType(int firmaSystemAuthenticationTypeID, string firmaSystemAuthenticationTypeName, string firmaSystemAuthenticationTypeDisplayName)
         {
-            this.FirmaSystemAuthenticationTypeID = firmaSystemAuthenticationTypeID;
-            this.FirmaSystemAuthenticationTypeName = firmaSystemAuthenticationTypeName;
-            this.FirmaSystemAuthenticationTypeDisplayName = firmaSystemAuthenticationTypeDisplayName;
-        }
-
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public FirmaSystemAuthenticationType(string firmaSystemAuthenticationTypeName, string firmaSystemAuthenticationTypeDisplayName) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.FirmaSystemAuthenticationTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            
-            this.FirmaSystemAuthenticationTypeName = firmaSystemAuthenticationTypeName;
-            this.FirmaSystemAuthenticationTypeDisplayName = firmaSystemAuthenticationTypeDisplayName;
-        }
-
-
-        /// <summary>
-        /// Creates a "blank" object of this type and populates primitives with defaults
-        /// </summary>
-        public static FirmaSystemAuthenticationType CreateNewBlank()
-        {
-            return new FirmaSystemAuthenticationType(default(string), default(string));
-        }
-
-        /// <summary>
-        /// Does this object have any dependent objects? (If it does have dependent objects, these would need to be deleted before this object could be deleted.)
-        /// </summary>
-        /// <returns></returns>
-        public bool HasDependentObjects()
-        {
-            return TenantAttributes.Any();
-        }
-
-        /// <summary>
-        /// Active Dependent type names of this object
-        /// </summary>
-        public List<string> DependentObjectNames() 
-        {
-            var dependentObjects = new List<string>();
-            
-            if(TenantAttributes.Any())
-            {
-                dependentObjects.Add(typeof(TenantAttribute).Name);
-            }
-            return dependentObjects.Distinct().ToList();
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FirmaSystemAuthenticationType).Name, typeof(TenantAttribute).Name};
-
-
-        /// <summary>
-        /// Delete just the entity 
-        /// </summary>
-        public void Delete(DatabaseEntities dbContext)
-        {
-            dbContext.FirmaSystemAuthenticationTypes.Remove(this);
-        }
-        
-        /// <summary>
-        /// Delete entity plus all children
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
-            DeleteChildren(dbContext);
-            Delete(dbContext);
-        }
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteChildren(DatabaseEntities dbContext)
-        {
-
-            foreach(var x in TenantAttributes.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
+            FirmaSystemAuthenticationTypeID = firmaSystemAuthenticationTypeID;
+            FirmaSystemAuthenticationTypeName = firmaSystemAuthenticationTypeName;
+            FirmaSystemAuthenticationTypeDisplayName = firmaSystemAuthenticationTypeDisplayName;
         }
 
         [Key]
-        public int FirmaSystemAuthenticationTypeID { get; set; }
-        public string FirmaSystemAuthenticationTypeName { get; set; }
-        public string FirmaSystemAuthenticationTypeDisplayName { get; set; }
+        public int FirmaSystemAuthenticationTypeID { get; private set; }
+        public string FirmaSystemAuthenticationTypeName { get; private set; }
+        public string FirmaSystemAuthenticationTypeDisplayName { get; private set; }
         [NotMapped]
-        public int PrimaryKey { get { return FirmaSystemAuthenticationTypeID; } set { FirmaSystemAuthenticationTypeID = value; } }
+        public int PrimaryKey { get { return FirmaSystemAuthenticationTypeID; } }
 
-        public virtual ICollection<TenantAttribute> TenantAttributes { get; set; }
-
-        public static class FieldLengths
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public bool Equals(FirmaSystemAuthenticationType other)
         {
-            public const int FirmaSystemAuthenticationTypeName = 100;
-            public const int FirmaSystemAuthenticationTypeDisplayName = 100;
+            if (other == null)
+            {
+                return false;
+            }
+            return other.FirmaSystemAuthenticationTypeID == FirmaSystemAuthenticationTypeID;
         }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as FirmaSystemAuthenticationType);
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return FirmaSystemAuthenticationTypeID;
+        }
+
+        public static bool operator ==(FirmaSystemAuthenticationType left, FirmaSystemAuthenticationType right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(FirmaSystemAuthenticationType left, FirmaSystemAuthenticationType right)
+        {
+            return !Equals(left, right);
+        }
+
+        public FirmaSystemAuthenticationTypeEnum ToEnum { get { return (FirmaSystemAuthenticationTypeEnum)GetHashCode(); } }
+
+        public static FirmaSystemAuthenticationType ToType(int enumValue)
+        {
+            return ToType((FirmaSystemAuthenticationTypeEnum)enumValue);
+        }
+
+        public static FirmaSystemAuthenticationType ToType(FirmaSystemAuthenticationTypeEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case FirmaSystemAuthenticationTypeEnum.FirmaSelfAuth:
+                    return FirmaSelfAuth;
+                case FirmaSystemAuthenticationTypeEnum.Keystone:
+                    return Keystone;
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
+        }
+    }
+
+    public enum FirmaSystemAuthenticationTypeEnum
+    {
+        Keystone = 1,
+        FirmaSelfAuth = 2
+    }
+
+    public partial class FirmaSystemAuthenticationTypeKeystone : FirmaSystemAuthenticationType
+    {
+        private FirmaSystemAuthenticationTypeKeystone(int firmaSystemAuthenticationTypeID, string firmaSystemAuthenticationTypeName, string firmaSystemAuthenticationTypeDisplayName) : base(firmaSystemAuthenticationTypeID, firmaSystemAuthenticationTypeName, firmaSystemAuthenticationTypeDisplayName) {}
+        public static readonly FirmaSystemAuthenticationTypeKeystone Instance = new FirmaSystemAuthenticationTypeKeystone(1, @"Keystone", @"Keystone");
+    }
+
+    public partial class FirmaSystemAuthenticationTypeFirmaSelfAuth : FirmaSystemAuthenticationType
+    {
+        private FirmaSystemAuthenticationTypeFirmaSelfAuth(int firmaSystemAuthenticationTypeID, string firmaSystemAuthenticationTypeName, string firmaSystemAuthenticationTypeDisplayName) : base(firmaSystemAuthenticationTypeID, firmaSystemAuthenticationTypeName, firmaSystemAuthenticationTypeDisplayName) {}
+        public static readonly FirmaSystemAuthenticationTypeFirmaSelfAuth Instance = new FirmaSystemAuthenticationTypeFirmaSelfAuth(2, @"FirmaSelfAuth", @"Firma Self Authentication");
     }
 }

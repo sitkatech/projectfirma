@@ -16,9 +16,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PersonLoginAccount] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[PersonLoginAccount] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PersonLoginAccount]")]
-    public partial class PersonLoginAccount : IHavePrimaryKey, ICanDeleteFull
+    public partial class PersonLoginAccount : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -31,14 +31,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonLoginAccount(int personLoginAccountID, int personID, string personLoginAccountName, DateTime createDate, DateTime? updateDate, string password, string passwordSalt, bool loginActive, DateTime? lastLoginDate, DateTime? lastLogoutDate, int loginCount, int failedLoginCount) : this()
+        public PersonLoginAccount(int personLoginAccountID, int personID, string personLoginAccountName, DateTime createDate, DateTime? updateDate, string passwordHash, string passwordSalt, bool loginActive, DateTime? lastLoginDate, DateTime? lastLogoutDate, int loginCount, int failedLoginCount) : this()
         {
             this.PersonLoginAccountID = personLoginAccountID;
             this.PersonID = personID;
             this.PersonLoginAccountName = personLoginAccountName;
             this.CreateDate = createDate;
             this.UpdateDate = updateDate;
-            this.Password = password;
+            this.PasswordHash = passwordHash;
             this.PasswordSalt = passwordSalt;
             this.LoginActive = loginActive;
             this.LastLoginDate = lastLoginDate;
@@ -50,7 +50,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PersonLoginAccount(int personID, string personLoginAccountName, DateTime createDate, string password, string passwordSalt, bool loginActive, int loginCount, int failedLoginCount) : this()
+        public PersonLoginAccount(int personID, string personLoginAccountName, DateTime createDate, string passwordHash, string passwordSalt, bool loginActive, int loginCount, int failedLoginCount) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonLoginAccountID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -58,20 +58,38 @@ namespace ProjectFirmaModels.Models
             this.PersonID = personID;
             this.PersonLoginAccountName = personLoginAccountName;
             this.CreateDate = createDate;
-            this.Password = password;
+            this.PasswordHash = passwordHash;
             this.PasswordSalt = passwordSalt;
             this.LoginActive = loginActive;
             this.LoginCount = loginCount;
             this.FailedLoginCount = failedLoginCount;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public PersonLoginAccount(Person person, string personLoginAccountName, DateTime createDate, string passwordHash, string passwordSalt, bool loginActive, int loginCount, int failedLoginCount) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.PersonLoginAccountID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PersonID = person.PersonID;
+            this.Person = person;
+            person.PersonLoginAccounts.Add(this);
+            this.PersonLoginAccountName = personLoginAccountName;
+            this.CreateDate = createDate;
+            this.PasswordHash = passwordHash;
+            this.PasswordSalt = passwordSalt;
+            this.LoginActive = loginActive;
+            this.LoginCount = loginCount;
+            this.FailedLoginCount = failedLoginCount;
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PersonLoginAccount CreateNewBlank()
+        public static PersonLoginAccount CreateNewBlank(Person person)
         {
-            return new PersonLoginAccount(default(int), default(string), default(DateTime), default(string), default(string), default(bool), default(int), default(int));
+            return new PersonLoginAccount(person, default(string), default(DateTime), default(string), default(string), default(bool), default(int), default(int));
         }
 
         /// <summary>
@@ -104,7 +122,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.PersonLoginAccounts.Remove(this);
+            dbContext.AllPersonLoginAccounts.Remove(this);
         }
         
         /// <summary>
@@ -119,10 +137,11 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int PersonLoginAccountID { get; set; }
         public int PersonID { get; set; }
+        public int TenantID { get; set; }
         public string PersonLoginAccountName { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
         public bool LoginActive { get; set; }
         public DateTime? LastLoginDate { get; set; }
@@ -132,12 +151,13 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return PersonLoginAccountID; } set { PersonLoginAccountID = value; } }
 
-
+        public virtual Person Person { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {
             public const int PersonLoginAccountName = 128;
-            public const int Password = 128;
+            public const int PasswordHash = 128;
             public const int PasswordSalt = 128;
         }
     }

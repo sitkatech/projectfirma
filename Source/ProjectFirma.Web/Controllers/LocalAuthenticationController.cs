@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using LtInfo.Common;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
@@ -40,10 +41,21 @@ namespace ProjectFirma.Web.Controllers
 {
     public class LocalAuthenticationController : FirmaBaseController
     {
+        private const string NotSitkaAuthErrorMessage = "Can't use Firma Self Auth in Keystone mode";
+
         [HttpGet]
         [AnonymousUnclassifiedFeature]
         public ActionResult LocalAuthLogon()
         {
+            // Make sure we are in the right mode to support Local Authentication
+            var currentTenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
+            if (currentTenantAttributes.FirmaSystemAuthenticationType != FirmaSystemAuthenticationType.FirmaSelfAuth)
+            {
+                // Throw up error message, go to home page
+                SetErrorForDisplay(NotSitkaAuthErrorMessage);
+                return new RedirectResult(SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index()));
+            }
+
             return LoginChallengeImpl(null);
         }
 
@@ -51,6 +63,20 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult LocalAuthLogon(LocalAuthLogonViewModel viewModel)
         {
+            ThrowErrorIfNotInSitkaAuthMode();
+
+            var personLoginAccount = ProjectFirmaModels.SecurityUtil.UserAuthentication.Validate(HttpRequestStorage.DatabaseEntities, viewModel.UserName, viewModel.Password);
+            if (personLoginAccount == null)
+            {
+                string invalidLoginGenericMessage = $"Bad login or password";
+                SetErrorForDisplay(invalidLoginGenericMessage);
+                return new RedirectResult(SitkaRoute<LocalAuthenticationController>.BuildUrlFromExpression(c => c.LocalAuthLogon()));
+            }
+
+            // PersonLoginAccount may have changed (for example, login count may have incremented)
+            //HttpRequestStorage.DatabaseEntities.SaveChanges();
+            HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
+
             /*
             var urlIsRedirectable = !String.IsNullOrWhiteSpace(viewModel.RedirectUrl);
             try
@@ -148,6 +174,16 @@ namespace ProjectFirma.Web.Controllers
 
             // Just show home page for now..
             return new RedirectResult(SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index()));
+        }
+
+        private static void ThrowErrorIfNotInSitkaAuthMode()
+        {
+            // Make sure we are in the right mode to support Local Authentication
+            var currentTenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
+            if (currentTenantAttributes.FirmaSystemAuthenticationType != FirmaSystemAuthenticationType.FirmaSelfAuth)
+            {
+                throw new SitkaDisplayErrorException(NotSitkaAuthErrorMessage);
+            }
         }
 
 

@@ -142,8 +142,6 @@ namespace ProjectFirmaModels.Models
             this.EnableMatchmaker = enableMatchmaker;
             this.MatchmakerAlgorithmIncludesProjectGeospatialAreas = matchmakerAlgorithmIncludesProjectGeospatialAreas;
             this.FirmaSystemAuthenticationTypeID = firmaSystemAuthenticationType.FirmaSystemAuthenticationTypeID;
-            this.FirmaSystemAuthenticationType = firmaSystemAuthenticationType;
-            firmaSystemAuthenticationType.TenantAttributes.Add(this);
         }
 
         /// <summary>
@@ -268,7 +266,7 @@ namespace ProjectFirmaModels.Models
         public AccomplishmentsDashboardFundingDisplayType AccomplishmentsDashboardFundingDisplayType { get { return AccomplishmentsDashboardFundingDisplayType.AllLookupDictionary[AccomplishmentsDashboardFundingDisplayTypeID]; } }
         public ProjectStewardshipAreaType ProjectStewardshipAreaType { get { return ProjectStewardshipAreaTypeID.HasValue ? ProjectStewardshipAreaType.AllLookupDictionary[ProjectStewardshipAreaTypeID.Value] : null; } }
         public BudgetType BudgetType { get { return BudgetType.AllLookupDictionary[BudgetTypeID]; } }
-        public virtual FirmaSystemAuthenticationType FirmaSystemAuthenticationType { get; set; }
+        public FirmaSystemAuthenticationType FirmaSystemAuthenticationType { get { return FirmaSystemAuthenticationType.AllLookupDictionary[FirmaSystemAuthenticationTypeID]; } }
 
         public static class FieldLengths
         {

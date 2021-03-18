@@ -17,10 +17,11 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.PersonLoginAccountID);
             Property(x => x.PersonLoginAccountID).HasColumnName(@"PersonLoginAccountID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsRequired();
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.PersonLoginAccountName).HasColumnName(@"PersonLoginAccountName").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
             Property(x => x.CreateDate).HasColumnName(@"CreateDate").HasColumnType("datetime").IsRequired();
             Property(x => x.UpdateDate).HasColumnName(@"UpdateDate").HasColumnType("datetime").IsOptional();
-            Property(x => x.Password).HasColumnName(@"Password").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
+            Property(x => x.PasswordHash).HasColumnName(@"PasswordHash").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
             Property(x => x.PasswordSalt).HasColumnName(@"PasswordSalt").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
             Property(x => x.LoginActive).HasColumnName(@"LoginActive").HasColumnType("bit").IsRequired();
             Property(x => x.LastLoginDate).HasColumnName(@"LastLoginDate").HasColumnType("datetime").IsOptional();
@@ -28,6 +29,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.LoginCount).HasColumnName(@"LoginCount").HasColumnType("int").IsRequired();
             Property(x => x.FailedLoginCount).HasColumnName(@"FailedLoginCount").HasColumnType("int").IsRequired();
 
+            // Foreign keys
+            HasRequired(a => a.Person).WithMany(b => b.PersonLoginAccounts).HasForeignKey(c => c.PersonID).WillCascadeOnDelete(false); // FK_PersonLoginAccount_Person_PersonID
         }
     }
 }

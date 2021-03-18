@@ -76,7 +76,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageTypeConfiguration());
             modelBuilder.Configurations.Add(new FirmaSessionConfiguration());
-            modelBuilder.Configurations.Add(new FirmaSystemAuthenticationTypeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeConfiguration());
@@ -276,7 +275,6 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<FirmaPageType> FirmaPageTypes { get; set; }
         public virtual DbSet<FirmaSession> AllFirmaSessions { get; set; }
         public virtual IQueryable<FirmaSession> FirmaSessions { get { return AllFirmaSessions.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<FirmaSystemAuthenticationType> FirmaSystemAuthenticationTypes { get; set; }
         public virtual DbSet<FundingSourceCustomAttribute> AllFundingSourceCustomAttributes { get; set; }
         public virtual IQueryable<FundingSourceCustomAttribute> FundingSourceCustomAttributes { get { return AllFundingSourceCustomAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSourceCustomAttributeTypeRole> AllFundingSourceCustomAttributeTypeRoles { get; set; }
@@ -368,7 +366,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<PersonLoginAccount> PersonLoginAccounts { get; set; }
+        public virtual DbSet<PersonLoginAccount> AllPersonLoginAccounts { get; set; }
+        public virtual IQueryable<PersonLoginAccount> PersonLoginAccounts { get { return AllPersonLoginAccounts.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonSettingGridColumn> AllPersonSettingGridColumns { get; set; }
         public virtual IQueryable<PersonSettingGridColumn> PersonSettingGridColumns { get { return AllPersonSettingGridColumns.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonSettingGridColumnSettingFilter> AllPersonSettingGridColumnSettingFilters { get; set; }
@@ -705,7 +704,9 @@ namespace ProjectFirmaModels.Models
                     return FirmaSessions.GetFirmaSession(primaryKey);
 
                 case "FirmaSystemAuthenticationType":
-                    return FirmaSystemAuthenticationTypes.GetFirmaSystemAuthenticationType(primaryKey);
+                    var firmaSystemAuthenticationType = FirmaSystemAuthenticationType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(firmaSystemAuthenticationType, "FirmaSystemAuthenticationType", primaryKey);
+                    return firmaSystemAuthenticationType;
 
                 case "FundingSourceCustomAttributeDataType":
                     var fundingSourceCustomAttributeDataType = FundingSourceCustomAttributeDataType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

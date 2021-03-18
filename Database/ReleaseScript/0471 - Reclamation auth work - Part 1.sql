@@ -66,10 +66,11 @@ CREATE TABLE dbo.PersonLoginAccount
 (
     PersonLoginAccountID [int] IDENTITY(1,1) NOT NULL,
     PersonID int not null,
+    TenantID int not null,
     [PersonLoginAccountName] [nvarchar](128) NOT NULL,
     [CreateDate] [datetime] NOT NULL,
     [UpdateDate] [datetime] NULL,
-    [Password] [nvarchar](128) NOT NULL,
+    [PasswordHash] [nvarchar](128) NOT NULL,
     [PasswordSalt] [nvarchar](128) NOT NULL,
     [LoginActive] bit NOT NULL,
     [LastLoginDate] [datetime] NULL,
@@ -79,9 +80,40 @@ CREATE TABLE dbo.PersonLoginAccount
 )
 GO
 
-/****** Object:  Index [PK_Person_PersonID]    Script Date: 3/16/2021 11:17:09 AM ******/
+-- Primary Key
 ALTER TABLE [dbo].PersonLoginAccount ADD  CONSTRAINT [PK_PersonLoginAccount_PersonLoginAccountID] PRIMARY KEY CLUSTERED 
 (
     PersonLoginAccountID ASC
 ) ON [PRIMARY]
 GO
+
+USE [ProjectFirma]
+GO
+
+-- Tenant FK
+ALTER TABLE [dbo].PersonLoginAccount  WITH CHECK ADD  CONSTRAINT [FK_PersonLoginAccount_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+
+-- Person FK
+ALTER TABLE [dbo].PersonLoginAccount  WITH CHECK ADD  CONSTRAINT [FK_PersonLoginAccount_Person_PersonID] FOREIGN KEY([PersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+
+-- FK Person/Tenant
+ALTER TABLE [dbo].PersonLoginAccount  WITH CHECK ADD  CONSTRAINT [FK_PersonLoginAccount_Person_PersonID_TenantID] FOREIGN KEY([PersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+
+-- AK PK/TenantID
+ALTER TABLE [dbo].PersonLoginAccount ADD  CONSTRAINT [AK_PersonLoginAccount_PersonLoginAccountID_TenantID] UNIQUE NONCLUSTERED 
+(
+    PersonLoginAccountID ASC,
+    [TenantID] ASC
+) ON [PRIMARY]
+GO
+
+
+
+
+

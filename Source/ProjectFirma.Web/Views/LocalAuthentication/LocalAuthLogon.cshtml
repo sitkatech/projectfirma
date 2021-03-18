@@ -47,20 +47,28 @@
 
       <div class="form-group">
          <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(x => x.UserName) (optional)
+            @Html.LabelWithSugarFor(x => x.UserName)
          </div>
          <div class="col-sm-9">
-            @Html.TextBoxFor(x => x.UserName, new { style = "width:100%" })
+            @Html.TextBoxFor(x => x.UserName, new { style = "width:40%" })
          </div>
       </div>
       <div class="form-group">
          <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(x => x.Password) (optional)
+            @Html.LabelWithSugarFor(x => x.Password)
          </div>
          <div class="col-sm-9">
-            @Html.TextBoxFor(x => x.Password)
+            @Html.PasswordFor(x => x.Password, new { style = "width:40%" })
          </div>
       </div>
+
+      <div>
+
+      </div>
+      <td class="col0">&nbsp;</td>
+         <td class="col1">
+            <button type="submit" class="keystoneButton" id="btnLogOn">Log In</button>
+         </td>
 
    </div>
 
