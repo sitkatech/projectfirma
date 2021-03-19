@@ -605,7 +605,7 @@ namespace ProjectFirma.Web.Models
         public static Person GetLatestUpdateSubmittalPerson(this Project project)
         {
             var latestSubmittals = project.ProjectUpdateBatches.Select(x => x.GetLatestProjectUpdateHistorySubmitted()).Where(x => x != null).ToList();
-            return latestSubmittals.Any() ? latestSubmittals.OrderBy(x => x.TransitionDate).First().UpdatePerson : null;
+            return latestSubmittals.Any() ? latestSubmittals.OrderByDescending(x => x.TransitionDate).First().UpdatePerson : null;
         }
 
         public static string GetProjectCustomAttributesValue(this Project project, ProjectCustomAttributeType projectCustomAttributeType)
