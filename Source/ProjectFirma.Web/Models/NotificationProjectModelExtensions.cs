@@ -29,8 +29,8 @@ namespace ProjectFirma.Web.Models
                 notificationPeople.Add(primaryContactPerson);
             }
 
-            var contactWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactWhoCanManageProject)
+            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
             {
                 if (contact.PersonID != submitterPerson.PersonID && (primaryContactPerson == null || primaryContactPerson.PersonID != contact.PersonID))
                 {
@@ -60,8 +60,8 @@ namespace ProjectFirma.Web.Models
             {
                 submitterEmails.Add(primaryContactPerson.Email);
             }
-            var contactWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactWhoCanManageProject)
+            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
                 {
@@ -100,8 +100,8 @@ namespace ProjectFirma.Web.Models
                 emailsToSendTo.Add(primaryContactPerson.Email);
                 personNames += $" and {primaryContactPerson.GetFullNameFirstLast()}";
             }
-            var contactWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactWhoCanManageProject)
+            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
                 {
@@ -154,8 +154,8 @@ Thank you for keeping your {FieldDefinitionEnum.Project.ToType().GetFieldDefinit
                 emailsToSendTo.Add(primaryContactPerson.Email);
                 personNames += $" and {primaryContactPerson.GetFullNameFirstLast()}";
             }
-            var contactWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactWhoCanManageProject)
+            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
                 {
@@ -221,12 +221,12 @@ Thank you,<br />
             {
                 emailsToReplyTo.Add(primaryContactPerson.Email);
             }
-            var contactWhoCanManageProject = project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactWhoCanManageProject)
+            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
                 {
-                    emailsToSendTo.Add(contact.Email);
+                    emailsToReplyTo.Add(contact.Email);
                 }
             }
             var emailsToCc = new List<string>();
@@ -257,8 +257,8 @@ Thank you,<br />
             {
                 emailsToSendTo.Add(primaryContactPerson.Email);
             }
-            var contactWhoCanManageProject = project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactWhoCanManageProject)
+            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
                 {
@@ -295,8 +295,8 @@ Thank you,<br />
             {
                 emailsToSendTo.Add(primaryContactPerson.Email);
             }
-            var contactWhoCanManageProject = project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactWhoCanManageProject)
+            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
                 {
@@ -324,8 +324,8 @@ Thank you,<br />
                 notificationPeople.Add(primaryContactPerson);
             }
 
-            var contactWhoCanManageProject = project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactWhoCanManageProject)
+            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
             {
                 if (contact.PersonID != submitterPerson.PersonID && (primaryContactPerson == null || primaryContactPerson.PersonID != contact.PersonID))
                 {
