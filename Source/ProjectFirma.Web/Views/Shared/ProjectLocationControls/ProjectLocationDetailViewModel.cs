@@ -18,19 +18,60 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
-    public class ProjectLocationDetailViewModel : FormViewModel
+    public class ProjectLocationDetailViewModel : FormViewModel, IValidatableObject
     {
         public List<WktAndAnnotation> WktAndAnnotations { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (WktAndAnnotations != null && WktAndAnnotations.Any(x => x.HasCoordinatesOutOfRange()))
+            {
+                errors.Add(
+                    new SitkaValidationResult<ProjectLocationDetailViewModel, List<WktAndAnnotation>>(
+                        $"Feature coordinates are out of bounds.",
+                        x => x.WktAndAnnotations));
+            }
+
+            return errors;
+        }
     }
 
     public class WktAndAnnotation
     {
         public string Wkt { get; set; }
         public string Annotation { get; set; }
+
+        public bool HasCoordinatesOutOfRange()
+        {
+            // Extract as comma-separated coord pairs from Wkt
+            var coords = Regex.Replace(Wkt, "[A-Za-z()]", "");
+            var coordPairs = coords.Split(new string[] {", "}, StringSplitOptions.None);
+            foreach (var coordPair in coordPairs)
+            {
+                // Get lat/lng from coord pair
+                var split = coordPair.Trim().Split(' ');
+                var lngOutOfRange = decimal.Parse(split[0]) < -180 || decimal.Parse(split[0]) > 180;
+                var latOutOfRange = decimal.Parse(split[1]) < -90 || decimal.Parse(split[1]) > 90;
+                if (lngOutOfRange || latOutOfRange)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
+
 }
