@@ -292,13 +292,15 @@ namespace ProjectFirma.Web.Common
 
         private static ProjectUpdateSetting GetProjectUpdateConfiguration(int tenantID)
         {
+            // need to load the ProjectUpdateSettings to ensure that when this static method is called (e.g. from a background job) it gets the up to date settings
+            HttpRequestStorage.DatabaseEntities.AllProjectUpdateSettings.Load();
             var projectUpdateConfiguration = HttpRequestStorage.DatabaseEntities.AllProjectUpdateSettings.SingleOrDefault(x =>
                 x.TenantID == tenantID);
             if (projectUpdateConfiguration == null)
             {
                 // 3/27/2020 TK - You need to create an entry for your tenant in dbo.ProjectUpdateSetting
                 throw new SitkaDisplayErrorException(
-                    $"backgroundJob tenant id {tenantID} {GetTenantAttributeFromCache().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
+                    $"Tenant ID {tenantID} {GetTenantAttributeFromCache().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
             }
             return projectUpdateConfiguration;
         }
