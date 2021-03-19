@@ -63,6 +63,8 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult LocalAuthLogon(LocalAuthLogonViewModel viewModel)
         {
+            DateTime currentDateTime = DateTime.Now;
+
             ThrowErrorIfNotInSitkaAuthMode();
 
             var personLoginAccount = ProjectFirmaModels.SecurityUtil.UserAuthentication.Validate(HttpRequestStorage.DatabaseEntities, viewModel.UserName, viewModel.Password);
@@ -74,8 +76,10 @@ namespace ProjectFirma.Web.Controllers
             }
 
             // PersonLoginAccount may have changed (for example, login count may have incremented)
-            //HttpRequestStorage.DatabaseEntities.SaveChanges();
+            // But since we have no current Person, we need to use the "No Audit" SaveChanges function.
             HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
+
+            FirmaOwinStartup.MakeFirmaSessionForPersonLoggingIn(personLoginAccount.Person, currentDateTime);
 
             /*
             var urlIsRedirectable = !String.IsNullOrWhiteSpace(viewModel.RedirectUrl);

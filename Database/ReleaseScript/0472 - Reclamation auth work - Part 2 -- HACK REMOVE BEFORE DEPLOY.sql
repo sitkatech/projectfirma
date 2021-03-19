@@ -39,6 +39,7 @@ where email = 'stewart@sitkatech.com'
 /*
 
 select * from  dbo.PersonLoginAccount
+select * from  dbo.FirmaSession
 
 select * from dbo.Person
 where FirstName = 'Stewart'

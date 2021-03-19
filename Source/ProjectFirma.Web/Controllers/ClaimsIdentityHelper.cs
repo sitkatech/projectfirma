@@ -21,10 +21,6 @@ namespace ProjectFirma.Web.Controllers
             try
             {
                 // Get the Person from Claims Identity
-                //var personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
-                //    authenticationManager.User, PersonModelExtensions.GetAnonymousSitkaUser(),
-                //    HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
-
                 // Other RPs use an actual "anonymous" user, but we are trying to have CurrentPerson be null, so, we are trying this. -- SLG & SG
                 const Person anonymousSitkaUser = null;
                 var personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(

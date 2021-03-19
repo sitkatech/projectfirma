@@ -278,11 +278,34 @@ namespace ProjectFirma.Web
                 //Assign user to magic Unknown Organization ID
             }
 
+            MakeFirmaSessionForPersonLoggingIn(person, currentDateTime);
+
+            if (sendNewUserNotification)
+            {
+                SendNewUserCreatedMessage(person, keystoneUserClaims.LoginName);
+            }
+
+            if (sendNewOrganizationNotification)
+            {
+                SendNewOrganizationCreatedMessage(person, keystoneUserClaims.LoginName);
+                // Post new Organization to ProjectFirma
+                if (person.Tenant.AreOrganizationsExternallySourced)
+                {
+                    PostOrganizationToExternalSystem(organization).ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+                }
+            }
+
+            return HttpRequestStorage.Person;
+        }
+
+        public static void MakeFirmaSessionForPersonLoggingIn(Person person, DateTime currentDateTime)
+        {
             person.UpdateDate = currentDateTime;
             person.LastActivityDate = currentDateTime;
 
             // Find existing FirmaSession if we can for this user
-            var firmaSessionsForPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(person.PersonID, false);
+            var firmaSessionsForPerson =
+                HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(person.PersonID, false);
             // If we find an existing Session..
             if (firmaSessionsForPerson.Any())
             {
@@ -301,23 +324,6 @@ namespace ProjectFirma.Web
                 HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(newFirmaSession);
                 HttpRequestStorage.DatabaseEntities.SaveChanges(newFirmaSession.Person);
             }
-
-            if (sendNewUserNotification)
-            {
-                SendNewUserCreatedMessage(person, keystoneUserClaims.LoginName);
-            }
-
-            if (sendNewOrganizationNotification)
-            {
-                SendNewOrganizationCreatedMessage(person, keystoneUserClaims.LoginName);
-                // Post new Organization to ProjectFirma
-                if (person.Tenant.AreOrganizationsExternallySourced)
-                {
-                    PostOrganizationToExternalSystem(organization).ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
-                }
-            }
-
-            return HttpRequestStorage.Person;
         }
 
         private static async Task PostOrganizationToExternalSystem(Organization organization)

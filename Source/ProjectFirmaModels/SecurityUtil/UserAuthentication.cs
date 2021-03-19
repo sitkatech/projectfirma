@@ -37,12 +37,6 @@ namespace ProjectFirmaModels.SecurityUtil
                     personLoginAccount.FailedLoginCount++;
                     //personLoginAccount.LastAttemptedLoginDate = DateTime.Now;
                 }
-                //secUser.Save();
-
-                // TEST!!
-                personLoginAccount.FailedLoginCount++;
-                personLoginAccount.FailedLoginCount++;
-                personLoginAccount.FailedLoginCount++;
 
                 Check.Require(isValidLogin, $"Bad login or password for {userAndPersonInfoForLogging}");
                 Check.Require(personLoginAccount.Person.IsActive, $"Person record is inactivated, {userAndPersonInfoForLogging}");
