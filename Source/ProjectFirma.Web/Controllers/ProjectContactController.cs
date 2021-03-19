@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new EditContactsViewModel(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), CurrentFirmaSession);
-            return ViewEditContacts(viewModel, project);
+            return ViewEditContacts(CurrentFirmaSession, viewModel, project);
         }
 
         [HttpPost]
@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditContacts(viewModel, project);
+                return ViewEditContacts(CurrentFirmaSession, viewModel, project);
             }
 
             HttpRequestStorage.DatabaseEntities.ProjectContacts.Load();
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditContacts(EditContactsViewModel viewModel, Project project)
+        private PartialViewResult ViewEditContacts(FirmaSession currentFirmaSession, EditContactsViewModel viewModel, Project project)
         {
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
             if (!allPeople.Contains(CurrentPerson))
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var allContactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
 
-            var viewData = new EditContactsViewData(project, allPeople, allContactRelationshipTypes);
+            var viewData = new EditContactsViewData(project, allPeople, allContactRelationshipTypes, currentFirmaSession);
             return RazorPartialView<EditContacts, EditContactsViewData, EditContactsViewModel>(viewData, viewModel);
         }
     }

@@ -50,6 +50,10 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsContactRelationshipTypeRequired)]
         public bool? IsContactRelationshipTypeRequired { get; set; }
 
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.CanContactTypeManageProject)]
+        public bool? CanManageProject { get; set; }
+
         [DisplayName("If Required, minimum Project Stage Contact must be set by")]
         public int? IsContactRelationshipRequiredMinimumProjectStageID { get; set; }
 
@@ -73,6 +77,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
             IsContactRelationshipTypeRequired = contactRelationshipType.IsContactRelationshipTypeRequired;
             IsContactRelationshipRequiredMinimumProjectStageID = contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStageID;
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
+            CanManageProject = contactRelationshipType.CanManageProject;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ContactRelationshipType contactRelationshipType)
@@ -83,6 +88,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
             contactRelationshipType.IsContactRelationshipTypeRequired = IsContactRelationshipTypeRequired ?? false;
             contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStageID = IsContactRelationshipRequiredMinimumProjectStageID;
             contactRelationshipType.ContactRelationshipTypeDescription = ContactRelationshipTypeDescription;
+            contactRelationshipType.CanManageProject = CanManageProject ?? false;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -23,17 +23,20 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.Organization.EditPrimaryContact
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
+   <div class="form-horizontal">
 
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)
-            </div>
-            <div class="col-sm-9">
-                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People)
-                @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
-            </div>
-        </div>
+      <div class="form-group">
+         <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)
+         </div>
+         <div class="col-sm-9">
+            @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People)
+            @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
+            <p class="smallExplanationText" style="padding-top: 10px;">
+               Not seeing someone? Make sure their user account is active and they have a Role other than Unassigned.
+            </p>
+         </div>
+      </div>
 
     </div>
     @Html.HiddenFor(m => m.OrganizationID)

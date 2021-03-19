@@ -76,22 +76,29 @@
             <div class="col-md-12">
                 <div class="smallExplanationText">@FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionDescription()</div>
             </div>
-            <div class="col-md-12">
-                <div class="row">
-                    @*Selectpicker*@
-                    <div class="col-md-12">
-                        <div class="input-group" style="width: 100%;">
-                            <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="6">
-                                <option value="" ng-selected="isPersonSelected(null)">Select One</option>
-                                <option ng-repeat="person in getContactsForPrimaryContactDropdown()"
-                                        ng-bind="person.FullNameWithOrgShortName"
-                                        ng-value="person.PersonID"
-                                        ng-selected="isPersonSelected(person.PersonID)"></option>
-                            </select>
-                        </div>
+           <div class="col-md-12">
+              <div class="row">
+                 @*Selectpicker*@
+                 <div class="col-md-12">
+                    <div class="input-group" style="width: 100%;">
+                       <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="6">
+                          <option value="" ng-selected="isPersonSelected(null)">Select One</option>
+                          <option ng-repeat="person in getContactsForPrimaryContactDropdown()"
+                                  ng-bind="person.FullNameWithOrgShortName"
+                                  ng-value="person.PersonID"
+                                  ng-selected="isPersonSelected(person.PersonID)"></option>
+                       </select>
                     </div>
-                </div>
-            </div>
+                    @if (ViewDataTyped.UserDoingEditingHasAdminPermissions)
+                    {
+                       <div class="smallExplanationText" style="padding-top: 10px;">
+                          Not seeing someone? Make sure their user account is active and they have a Role other than Unassigned.
+                       </div>
+                    }
+                 </div>
+              </div>
+           </div>
+
         </div>
         @*------------------------------------ All Other Relationship Types ------------------------------------*@
         <div ng-repeat="relationshipType in AngularViewData.AllContactRelationshipTypes | orderBy:['-ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject','ContactRelationshipTypeName']">
@@ -99,6 +106,12 @@
             <div class="row">
                 @*Relationship type and description*@
                 <div class="col-md-12"><label ng-bind="relationshipType.ContactRelationshipTypeName"></label><sup ng-show="relationshipType.ContactRelationshipIsCurrentlyRequired">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
+            </div>
+            <div class="row" ng-if="relationshipType.CanManageProject">
+                @*Relationship type and description*@
+                <div class="col-md-12">
+                    <p class="systemText">Users assigned to this contact type will have the ability to start and submit updates for the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -110,7 +123,7 @@
                         <div class="col-md-12">
                             <div class="input-group" style="width: 100%;">
                                 <select class="selectpicker" id="todo{{relationshipType.ContactRelationshipTypeID}}" ng-model="selectedContactID[relationshipType.ContactRelationshipTypeID]" ng-change="selectionChanged(selectedContactID[relationshipType.ContactRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
-                                    <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
+                                    <option value="" selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
                                     <option ng-repeat="contact in getAvailableContactsForRelationshipType(relationshipType)"
                                             ng-bind="contact.FullNameWithOrgShortName"
                                             ng-value="contact.PersonID"

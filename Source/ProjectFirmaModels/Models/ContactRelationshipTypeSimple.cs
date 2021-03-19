@@ -7,6 +7,7 @@
         public bool ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject { get; set; }
         public bool ContactRelationshipIsCurrentlyRequired { get; set; }
         public string ContactRelationshipTypeDescription { get; set; }
+        public bool CanManageProject { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -37,6 +38,7 @@
             ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject = !contactRelationshipType.ContactRelationshipTypeAcceptsMultipleValues;
             ContactRelationshipIsCurrentlyRequired = contactRelationshipType.IsContactCurrentlyRequiredAtGivenProjectStage(currentProject.ProjectStage);
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
+            CanManageProject = contactRelationshipType.CanManageProject;
         }
 
     }

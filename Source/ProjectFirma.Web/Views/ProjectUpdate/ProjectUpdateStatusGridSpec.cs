@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Last Updated By", x => !x.ProjectUpdateBatches.Any() ? string.Empty : x.ProjectUpdateBatches.OrderByDescending(y => y.LastUpdateDate).First().LastUpdatePerson.GetFullNameFirstLast(), 120);
 
             Add("Last Submitted", x => x.GetLatestUpdateSubmittalDate(), 120);
-            Add("Last SubmittedBy", x => x.GetLatestUpdateSubmittalPerson() != null ? x.GetLatestUpdateSubmittalPerson().GetFullNameFirstLast() : string.Empty, 120);
+            Add("Last Submitted By", x => x.GetLatestUpdateSubmittalPerson() != null ? x.GetLatestUpdateSubmittalPerson().GetFullNameFirstLast() : string.Empty, 120);
 
             Add("Last Approved", x => 
             {

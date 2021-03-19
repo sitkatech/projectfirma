@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
             PersonGuid = personGuid;
             FirstName = firstName;
             LastName = lastName;
-            FullNameWithOrgShortName = $"{FirstName} {LastName} ({organizationShortNameIfAvailable})";
+            FullNameWithOrgShortName = MakeFullNameWithOrgShortName(FirstName, LastName, organizationShortNameIfAvailable, isActive);
             Email = email;
             Phone = phone;
             PasswordPdfK2SaltHash = passwordPdfK2SaltHash;
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Models
             PersonGuid = person.PersonGuid;
             FirstName = person.FirstName;
             LastName = person.LastName;
-            FullNameWithOrgShortName = $"{FirstName} {LastName} ({person.Organization.GetOrganizationShortNameIfAvailable()})";
+            FullNameWithOrgShortName = MakeFullNameWithOrgShortName(FirstName, LastName, person.Organization.GetOrganizationShortNameIfAvailable(), person.IsActive);
             Email = person.Email;
             Phone = person.Phone;
             PasswordPdfK2SaltHash = person.PasswordPdfK2SaltHash;
@@ -77,6 +77,15 @@ namespace ProjectFirma.Web.Models
             IsActive = person.IsActive;
             OrganizationID = person.OrganizationID;
             WebServiceAccessToken = person.WebServiceAccessToken;
+        }
+
+        private string MakeFullNameWithOrgShortName(string firstName, string lastName, string organizationShortNameIfAvailable, bool isActive)
+        {
+            // This is a good idea, but it will take a lot of work to get it to be consistent and uniform, so, wimping out for now. -- SLG 3/11/2021
+            //string inactiveString = isActive ? string.Empty : " [inactive]";
+            string inactiveString = string.Empty;
+            var fullNameWithOrgShortName = $"{firstName} {lastName} ({organizationShortNameIfAvailable}){inactiveString}";
+            return fullNameWithOrgShortName;
         }
 
         public int PersonID { get; set; }

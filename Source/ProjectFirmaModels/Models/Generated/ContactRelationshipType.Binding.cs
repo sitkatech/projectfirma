@@ -32,7 +32,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ContactRelationshipType(int contactRelationshipTypeID, string contactRelationshipTypeName, bool isContactRelationshipTypeRequired, int? isContactRelationshipRequiredMinimumProjectStageID, bool contactRelationshipTypeAcceptsMultipleValues, string contactRelationshipTypeDescription) : this()
+        public ContactRelationshipType(int contactRelationshipTypeID, string contactRelationshipTypeName, bool isContactRelationshipTypeRequired, int? isContactRelationshipRequiredMinimumProjectStageID, bool contactRelationshipTypeAcceptsMultipleValues, string contactRelationshipTypeDescription, bool canManageProject) : this()
         {
             this.ContactRelationshipTypeID = contactRelationshipTypeID;
             this.ContactRelationshipTypeName = contactRelationshipTypeName;
@@ -40,12 +40,13 @@ namespace ProjectFirmaModels.Models
             this.IsContactRelationshipRequiredMinimumProjectStageID = isContactRelationshipRequiredMinimumProjectStageID;
             this.ContactRelationshipTypeAcceptsMultipleValues = contactRelationshipTypeAcceptsMultipleValues;
             this.ContactRelationshipTypeDescription = contactRelationshipTypeDescription;
+            this.CanManageProject = canManageProject;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ContactRelationshipType(string contactRelationshipTypeName, bool isContactRelationshipTypeRequired, bool contactRelationshipTypeAcceptsMultipleValues) : this()
+        public ContactRelationshipType(string contactRelationshipTypeName, bool isContactRelationshipTypeRequired, bool contactRelationshipTypeAcceptsMultipleValues, bool canManageProject) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ContactRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -53,6 +54,7 @@ namespace ProjectFirmaModels.Models
             this.ContactRelationshipTypeName = contactRelationshipTypeName;
             this.IsContactRelationshipTypeRequired = isContactRelationshipTypeRequired;
             this.ContactRelationshipTypeAcceptsMultipleValues = contactRelationshipTypeAcceptsMultipleValues;
+            this.CanManageProject = canManageProject;
         }
 
 
@@ -61,7 +63,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ContactRelationshipType CreateNewBlank()
         {
-            return new ContactRelationshipType(default(string), default(bool), default(bool));
+            return new ContactRelationshipType(default(string), default(bool), default(bool), default(bool));
         }
 
         /// <summary>
@@ -139,6 +141,7 @@ namespace ProjectFirmaModels.Models
         public int? IsContactRelationshipRequiredMinimumProjectStageID { get; set; }
         public bool ContactRelationshipTypeAcceptsMultipleValues { get; set; }
         public string ContactRelationshipTypeDescription { get; set; }
+        public bool CanManageProject { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ContactRelationshipTypeID; } set { ContactRelationshipTypeID = value; } }
 
