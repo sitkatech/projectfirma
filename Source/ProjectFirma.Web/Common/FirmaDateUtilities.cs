@@ -134,9 +134,9 @@ namespace ProjectFirma.Web.Common
 
         public static int CalculateCurrentYearToUseForUpToAllowableInputInReporting()
         {
-            var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingPeriod();
+            var startDayOfYear = MultiTenantHelpers.GetStartDayOfFiscalYear();
             var currentDateTime = DateTime.Today;
-            var dateToCheckAgainst = new DateTime(currentDateTime.Year, startDayOfReportingYear.Month, startDayOfReportingYear.Day);
+            var dateToCheckAgainst = new DateTime(currentDateTime.Year, startDayOfYear.Month, startDayOfYear.Day);
             if (MultiTenantHelpers.UseFiscalYears())
             {
                 return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year : currentDateTime.Year + 1;
