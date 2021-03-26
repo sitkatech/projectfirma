@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[ContactRelationshipType](
 	[IsContactRelationshipRequiredMinimumProjectStageID] [int] NULL,
 	[ContactRelationshipTypeAcceptsMultipleValues] [bit] NOT NULL,
 	[ContactRelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[CanManageProject] [bit] NOT NULL,
  CONSTRAINT [PK_ContactRelationshipType_ContactRelationshipTypeID] PRIMARY KEY CLUSTERED 
 (
 	[ContactRelationshipTypeID] ASC

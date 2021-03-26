@@ -392,18 +392,17 @@ namespace ProjectFirma.Web.Models
             foreach (var performanceMeasureActualUpdateGroup in pmausGrouped)
             {
                 var currentPerformanceMeasureActualUpdate = performanceMeasureActualUpdateGroup.First();
-                int currentPerformanceMeasureActualUpdateID = currentPerformanceMeasureActualUpdate.PerformanceMeasureActualUpdateID;
+                var currentPerformanceMeasureID = currentPerformanceMeasureActualUpdate.PerformanceMeasureID;
 
                 // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
-                var performanceMeasureActualsWithIncompleteWarnings = projectUpdateBatch.ValidateNoIncompletePerformanceMeasureActualUpdateRow(currentPerformanceMeasureActualUpdateID);
+                var performanceMeasureActualsWithIncompleteWarnings = projectUpdateBatch.ValidateNoIncompletePerformanceMeasureActualUpdateRow(currentPerformanceMeasureID);
 
                 // validation 3: duplicate PM row
-                var performanceMeasureActualsWithDuplicateWarnings = projectUpdateBatch.ValidateNoDuplicatePerformanceMeasureActualUpdateRow(currentPerformanceMeasureActualUpdateID);
+                var performanceMeasureActualsWithDuplicateWarnings = projectUpdateBatch.ValidateNoDuplicatePerformanceMeasureActualUpdateRow(currentPerformanceMeasureID);
 
                 // validation 4: data entered for exempt years
-                var performanceMeasureActualsWithExemptYear = projectUpdateBatch.ValidateNoExemptYearsWithReportedPerformanceMeasureRow(currentPerformanceMeasureActualUpdateID);
+                var performanceMeasureActualsWithExemptYear = projectUpdateBatch.ValidateNoExemptYearsWithReportedPerformanceMeasureRow(currentPerformanceMeasureID);
 
-                int currentPerformanceMeasureID = currentPerformanceMeasureActualUpdate.PerformanceMeasureID;
                 string currentPerformanceMeasureDisplayName = currentPerformanceMeasureActualUpdate.PerformanceMeasure.PerformanceMeasureDisplayName;
 
                 var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(
@@ -419,20 +418,17 @@ namespace ProjectFirma.Web.Models
 
             return results;
         }
-
-
-
-
-        private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureActualUpdateID)
+        
+        private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureID)
         {
             var performanceMeasureActualUpdatesWithMissingSubcategoryOptions = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(
                 x => (!x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count) 
-                     && x.PerformanceMeasureActualUpdateID == relevantPerformanceMeasureActualUpdateID
+                     && x.PerformanceMeasureID == relevantPerformanceMeasureID
             ).ToList();
             return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureActualUpdateID)
+        private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureID)
         {
             if (projectUpdateBatch.PerformanceMeasureActualUpdates == null)
             {
@@ -440,8 +436,8 @@ namespace ProjectFirma.Web.Models
             }
 
             var duplicates = projectUpdateBatch.PerformanceMeasureActualUpdates
-                .Where(x => x.PerformanceMeasureActualUpdateID == relevantPerformanceMeasureActualUpdateID)
-                .GroupBy(x => new { x.PerformanceMeasureID, x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear })
+                .Where(x => x.PerformanceMeasureID == relevantPerformanceMeasureID)
+                .GroupBy(x => new { x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear })
                 .Select(x => x.ToList())
                 .ToList()
                 .Select(x => x)
@@ -450,20 +446,13 @@ namespace ProjectFirma.Web.Models
             return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        private static HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow(this ProjectUpdateBatch projectUpdateBatch, int currentPerformanceMeasureActualUpdateID)
+        private static HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureID)
         {
-            var performanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(pma => pma.PerformanceMeasureActualUpdateID == currentPerformanceMeasureActualUpdateID).ToList();
+            var performanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(pma => pma.PerformanceMeasureID == relevantPerformanceMeasureID).ToList();
             var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
             var performanceMeasureActualsWithExemptYear = performanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList();
             return new HashSet<int>(performanceMeasureActualsWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
         }
-
-
-
-
-
-
-
 
         public static bool AreReportedPerformanceMeasuresValid(this ProjectUpdateBatch projectUpdateBatch)
         {

@@ -49,8 +49,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 x =>
                 {
                     var projectUpdateState = x.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
+                    var latestApprovedUpdateBatch = x.GetLatestApprovedUpdateBatch();
                     if (projectUpdateState == null ||
-                        (projectUpdateState == ProjectUpdateState.Approved && x.GetLatestApprovedUpdateBatch().LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate()))
+                        (projectUpdateState == ProjectUpdateState.Approved && latestApprovedUpdateBatch != null && !latestApprovedUpdateBatch.LastUpdateDate.IsDateInRange(FirmaDateUtilities.LastReportingPeriodStartDate(), FirmaDateUtilities.LastReportingPeriodEndDate())))
                         return "Not Started";
 
                     return projectUpdateState.ToEnum.ToString();
@@ -62,6 +63,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(),
                 x => x.GetPrimaryContact() == null ? ViewUtilities.NoneString.ToHTMLFormattedString() : x.GetPrimaryContact().GetFullNameFirstLastAndOrgShortNameAsUrl(currentFirmaSession),
                 95);
+            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(),
+                x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -78,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Last Updated By", x => !x.ProjectUpdateBatches.Any() ? string.Empty : x.ProjectUpdateBatches.OrderByDescending(y => y.LastUpdateDate).First().LastUpdatePerson.GetFullNameFirstLast(), 120);
 
             Add("Last Submitted", x => x.GetLatestUpdateSubmittalDate(), 120);
-            Add("Last SubmittedBy", x => x.GetLatestUpdateSubmittalPerson() != null ? x.GetLatestUpdateSubmittalPerson().GetFullNameFirstLast() : string.Empty, 120);
+            Add("Last Submitted By", x => x.GetLatestUpdateSubmittalPerson() != null ? x.GetLatestUpdateSubmittalPerson().GetFullNameFirstLast() : string.Empty, 120);
 
             Add("Last Approved", x => 
             {
@@ -179,21 +182,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 x =>
                 {
                     var latestUpdateState = x.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
-
-                    if (!x.IsUpdateMandatory() && (latestUpdateState == null || latestUpdateState == ProjectUpdateState.Approved))
-                    {
-                        return
-                            ModalDialogFormHelper.ModalDialogFormLink("Begin",
-                                SitkaRoute<ProjectController>.BuildUrlFromExpression(y => y.ConfirmNonMandatoryUpdate(x.PrimaryKey)),
-                                $"Update this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?",
-                                400,
-                                "Continue",
-                                "Cancel",
-                                new List<string> { "btn", "btn-xs", "btn-firma" },
-                                null,
-                                null);
-                    }
-
                     var linkText = "Begin";
                     if (latestUpdateState == ProjectUpdateState.Created)
                     {

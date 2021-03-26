@@ -208,9 +208,9 @@ namespace ProjectFirmaModels.Models
         ShowLeadImplementerLogoOnFactSheet = 258,
         ProjectCustomAttribute = 259,
         ProjectCustomAttributeDataType = 260,
-        ProjectUpdateKickOffDate = 261,
+        ReportingPeriodKickOffDate = 261,
         ProjectUpdateReminderInterval = 262,
-        ProjectUpdateCloseOutDate = 263,
+        ReportingPeriodCloseOutDate = 263,
         PerformanceMeasureIsSummable = 264,
         FundingSourceAmount = 265,
         NormalUser = 266,
@@ -317,6 +317,7 @@ namespace ProjectFirmaModels.Models
         ContactRelationshipTypeAcceptsMultipleValues = 367,
         OrganizationTypeLayerOnByDefault = 368,
         GeospatialAreaTypeOnByDefaultOnOtherMaps = 369,
-        ProjectLocationIsPrivate = 370
+        ProjectLocationIsPrivate = 370,
+        CanContactTypeManageProject = 371
     }
 }

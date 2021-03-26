@@ -69,6 +69,7 @@
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
+    <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
     <Compile Include="Models\GridColumn.cs" />
@@ -1868,6 +1869,7 @@
     <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SitkaLeftRightListbox.cshtml" />
     <Content Include="Views\Shared\ProjectClassification\ProjectClassifications.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTimeNoYear.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
@@ -1946,8 +1948,8 @@
     <Reference Include="Keystone.Common.OpenID, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.10\lib\net45\Keystone.Common.OpenID.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>

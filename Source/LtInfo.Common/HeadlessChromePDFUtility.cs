@@ -42,6 +42,8 @@ namespace LtInfo.Common
                 args.Add("--no-margins");
                 // As of 6/17/2020, this option is **ONLY** available in Google Canary, a nightly build. It will be ignored on current release builds (but you'll get headers & footers)
                 args.Add("--print-to-pdf-no-header");
+                // This is sometimes needed for test environments like localhost where we may be using a self-signed certificate.
+                args.Add("--ignore-certificate-errors");
                 args.Add($"--print-to-pdf=\"{outputFile.FullName}\"");
                 args.Add(url.ToString());
 

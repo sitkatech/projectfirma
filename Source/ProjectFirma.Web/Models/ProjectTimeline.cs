@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
         // this hopefully return some sort of grouped list for display
         public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
         {
-            var startDate = MultiTenantHelpers.GetStartDayOfReportingYear();
+            var startDate = MultiTenantHelpers.GetStartDayOfFiscalYear();
             var startMonth = startDate.Month;
             var timelineEventsGrouped = TimelineEvents
                 .OrderByDescending(a => a.Date)

@@ -2,7 +2,9 @@
 using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure.Pluralization;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
@@ -29,23 +31,25 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             // we're "tenant-agnostic" right now
             var projectUpdateSettings = DbContext.AllProjectUpdateSettings.ToList();
-            var reminderSubject = "Time to update your Projects";
+            
 
             foreach (var projectUpdateSetting in projectUpdateSettings)
             {
+                
                 var notifications = new List<Notification>();
                 var tenantID = projectUpdateSetting.TenantID;
                 var databaseEntities = new DatabaseEntities(tenantID);
                 var projects = databaseEntities.Projects.ToList();
 
                 var tenantAttribute = databaseEntities.TenantAttributes.Single();
+                var reminderSubject = $"Time to update your {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralizedForBackgroundJob(tenantAttribute.TenantID)}";
                 if (projectUpdateSetting.EnableProjectUpdateReminders)
                 {
-                    var projectUpdateKickOffDate = projectUpdateSetting.ProjectUpdateKickOffDate;
-                    if (DateTime.Today == projectUpdateKickOffDate.GetValueOrDefault().Date)
+                    var projectUpdateKickOffDate = FirmaDateUtilities.LastReportingPeriodStartDateForBackgroundJob(projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault());
+                    if (DateTime.Today == projectUpdateKickOffDate)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                                                        projectUpdateSetting.ProjectUpdateKickOffIntroContent, true, tenantAttribute));
+                                                        projectUpdateSetting.ProjectUpdateKickOffIntroContent, tenantAttribute));
                     }
                 }
 
@@ -53,18 +57,22 @@ namespace ProjectFirma.Web.ScheduledJobs
                 {
                     if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateSetting))
                     {
-                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateSetting.ProjectUpdateReminderIntroContent, false, tenantAttribute));
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateSetting.ProjectUpdateReminderIntroContent, tenantAttribute));
                         // notifyOnAll is false b/c we only send periodic reminders for projects whose updates haven't been submitted yet.
                     }
                 }
 
                 if (projectUpdateSetting.SendCloseOutNotification)
                 {
-                    var projectUpdateCloseOutDate = projectUpdateSetting.ProjectUpdateCloseOutDate;
-                    if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
+                    var closeOutReminderDate = FirmaDateUtilities.LastReportingPeriodEndDateForBackgroundJob(projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault(), projectUpdateSetting.ProjectUpdateCloseOutDate.GetValueOrDefault());
+                    if (projectUpdateSetting.DaysBeforeCloseOutDateForReminder.HasValue)
+                    {
+                        closeOutReminderDate = closeOutReminderDate.AddDays(-projectUpdateSetting.DaysBeforeCloseOutDateForReminder.Value);
+                    }
+                    if (DateTime.Today == closeOutReminderDate)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                            projectUpdateSetting.ProjectUpdateCloseOutIntroContent, false, tenantAttribute));
+                            projectUpdateSetting.ProjectUpdateCloseOutIntroContent, tenantAttribute));
                     }
                 }
 
@@ -76,9 +84,10 @@ namespace ProjectFirma.Web.ScheduledJobs
         private static bool TodayIsReminderDayForProjectUpdateConfiguration(
             ProjectUpdateSetting projectUpdateSetting)
         {
-            var isReminderDay = (DateTime.Today - projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
-                                                                  .Days % projectUpdateSetting.ProjectUpdateReminderInterval == 0;
-            var isAfterCloseOut = (DateTime.Today >= projectUpdateSetting.ProjectUpdateCloseOutDate);
+            var projectUpdateKickOffDate = FirmaDateUtilities.LastReportingPeriodStartDateForBackgroundJob(projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault());
+            var projectUpdateCloseOutDate = FirmaDateUtilities.LastReportingPeriodEndDateForBackgroundJob(projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault(), projectUpdateSetting.ProjectUpdateCloseOutDate.GetValueOrDefault());
+            var isReminderDay = DateTime.Today != projectUpdateKickOffDate && (DateTime.Today - projectUpdateKickOffDate).Days % projectUpdateSetting.ProjectUpdateReminderInterval == 0;
+            var isAfterCloseOut = DateTime.Today.IsDateAfter(projectUpdateCloseOutDate);
             return isReminderDay && !isAfterCloseOut;
         }
 
@@ -91,20 +100,17 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// <param name="notifyOnAll"></param>
         /// <param name="attribute"></param>
         private List<Notification> RunNotifications(IEnumerable<Project> projectsForTenant, string reminderSubject,
-            string introContent, bool notifyOnAll, TenantAttribute attribute)
+            string introContent, TenantAttribute attribute)
         {
             // Constrain to tenant boundaries.
             var toolDisplayName = attribute.ToolDisplayName;
-
             var contactSupportEmail = attribute.PrimaryContactPerson.Email;
-
             var toolLogo = attribute.TenantSquareLogoFileResourceInfo;
+            var tenantID = attribute.TenantID;
+            
+            var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail, introContent, reminderSubject, toolLogo, toolDisplayName, tenantID);
 
-            var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail, introContent, reminderSubject, toolLogo, toolDisplayName);
-
-            var projectsToNotifyOn = notifyOnAll
-                ? projectsForTenant.AsQueryable().GetUpdatableProjects()
-                : projectsForTenant.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
+            var projectsToNotifyOn = projectsForTenant.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmittedForBackgroundJob(tenantID);
 
             var projectsGroupedByPrimaryContact =
                 projectsToNotifyOn.Where(x => x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact())

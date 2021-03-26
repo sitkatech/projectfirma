@@ -189,7 +189,7 @@ namespace ProjectFirma.Web.Controllers
                     projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession) && p.IsUpdateMandatory() && p.GetLatestUpdateState() != ProjectUpdateState.Submitted);
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
-                    projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession) && (!p.IsUpdateMandatory() || p.GetLatestUpdateState() == ProjectUpdateState.Submitted));
+                    projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession) && p.GetLatestUpdateState() == ProjectUpdateState.Submitted);
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects:
                     projects = projects.Where(p =>
@@ -230,7 +230,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(MultiTenantHelpers.GetProjectUpdateConfiguration());
-            SetMessageForDisplay("Notifications configured successfully.");
+            SetMessageForDisplay("Reporting period configuration and reminders successfully saved.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -391,11 +391,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         private void PrePopulateReportedPerformanceMeasures(ProjectUpdate projectUpdate, ICollection<PerformanceMeasureExpectedUpdate> expectedPerformanceMeasureUpdates,
-            List<PerformanceMeasureActualUpdateSimple> performanceMeasureActualUpdateSimples)
+            List<PerformanceMeasureActualUpdateSimple> performanceMeasureActualUpdateSimples, List<int> currentExemptYears)
         {
             var sortedExpectedPerformanceMeasures = expectedPerformanceMeasureUpdates.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder)
                 .ThenBy(x => x.PerformanceMeasure.GetDisplayName()).ToList();
-            var yearRange = projectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
+            var yearRange = projectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Except(currentExemptYears);
             var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
             var performanceMeasureActualIdToUse = -1;
             foreach (var calendarYear in yearRange)
@@ -436,6 +436,14 @@ namespace ProjectFirma.Web.Controllers
             var expectedPerformanceMeasureUpdates = projectUpdateBatch.PerformanceMeasureExpectedUpdates;
             var performanceMeasureActualUpdateSimples = new List<PerformanceMeasureActualUpdateSimple>();
             var reportedPerformanceMeasures = projectUpdateBatch.PerformanceMeasureActualUpdates;
+
+            var projectExemptReportingYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
+            var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
+            var possibleYearsToExempt = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
+            projectExemptReportingYearUpdates.AddRange(
+                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
+                    .Select((x, index) => new ProjectExemptReportingYearUpdateSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));
+
             if (reportedPerformanceMeasures.Any())
             {
                 performanceMeasureActualUpdateSimples =
@@ -446,15 +454,9 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                PrePopulateReportedPerformanceMeasures(projectUpdateBatch.ProjectUpdate, expectedPerformanceMeasureUpdates, performanceMeasureActualUpdateSimples);
+                PrePopulateReportedPerformanceMeasures(projectUpdateBatch.ProjectUpdate, expectedPerformanceMeasureUpdates, performanceMeasureActualUpdateSimples, currentExemptedYears);
             }
 
-            var projectExemptReportingYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
-            var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
-            var possibleYearsToExempt = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
-            projectExemptReportingYearUpdates.AddRange(
-                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
-                    .Select((x, index) => new ProjectExemptReportingYearUpdateSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));
 
             var viewModel = new ReportedPerformanceMeasuresViewModel(performanceMeasureActualUpdateSimples,
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
@@ -2654,7 +2656,7 @@ namespace ProjectFirma.Web.Controllers
 
             var message = new MailMessage {Subject = viewModel.Subject, AlternateViews = {AlternateView.CreateAlternateViewFromString(viewModel.NotificationContent ?? string.Empty, null, "text/html")}};
 
-            NotificationModelExtensions.SendMessageAndLogNotification(message, emailsToSendTo, emailsToReplyTo, new List<string>(), peopleToNotify, DateTime.Now, new List<Project>(), NotificationType.Custom);
+            NotificationModelExtensions.SendMessageAndLogNotification(message, emailsToSendTo, emailsToReplyTo, new List<string>(), peopleToNotify, DateTime.Now, new List<Project>(), NotificationType.Custom, MultiTenantHelpers.GetToolDisplayName());
 
             SetMessageForDisplay($"Custom notification sent to: {string.Join("; ", emailsToSendTo)}");
 
@@ -2678,7 +2680,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var emailsToSendTo = new List<string> {CurrentPerson.Email};
             var message = new MailMessage { Subject = viewModel.Subject, AlternateViews = { AlternateView.CreateAlternateViewFromString(viewModel.NotificationContent, null, "text/html") } };
-            NotificationModelExtensions.SendMessage(message, emailsToSendTo, new List<string>(), new List<string>());
+            NotificationModelExtensions.SendMessage(message, emailsToSendTo, new List<string>(), new List<string>(), MultiTenantHelpers.GetToolDisplayName());
             return CreateCustomNotification(viewModel);
         }
         
@@ -3818,7 +3820,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var allContactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
 
-            var editContactsViewData = new EditContactsViewData(projectUpdateBatch.Project, allPeople, allContactRelationshipTypes);
+            var editContactsViewData = new EditContactsViewData(projectUpdateBatch.Project, allPeople, allContactRelationshipTypes, CurrentFirmaSession);
 
             var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), CurrentFirmaSession);
             var viewData = new ContactsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, editContactsViewData, contactsValidationResult, projectContactsDetailViewData);
@@ -3974,7 +3976,8 @@ namespace ProjectFirma.Web.Controllers
             var emailContentPreview = new ProjectUpdateNotificationHelper(
                 tenantAttribute.PrimaryContactPerson.Email, introContent, "",
                 tenantAttribute.TenantSquareLogoFileResourceInfo ?? tenantAttribute.TenantBannerLogoFileResourceInfo,
-                MultiTenantHelpers.GetToolDisplayName()).GetEmailContentPreview();
+                MultiTenantHelpers.GetToolDisplayName(),
+                tenantAttribute.TenantID).GetEmailContentPreview();
 
             return emailContentPreview;
         }

@@ -29,11 +29,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class PerformanceMeasuresValidationResult
     {
         public static readonly string FoundIncompletePerformanceMeasureRowsMessage =
-            $"found incomplete {MultiTenantHelpers.GetPerformanceMeasureName()} rows. You must either delete irrelevant rows, or provide complete information for each row.";
+            $"has incomplete {MultiTenantHelpers.GetPerformanceMeasureName()} rows. You must either delete irrelevant rows, or provide complete information for each row.";
 
-        public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"found duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
+        public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"has duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
 
-        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
+        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"has reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
 
         private readonly int _performanceMeasureID;
 
@@ -63,19 +63,19 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             _warningMessages = new List<string>();
             if (missingYears.Any())
             {
-                _warningMessages.Add($"{performanceMeasurePrefixString} missing {MultiTenantHelpers.GetPerformanceMeasureName()} data for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
+                _warningMessages.Add($"<strong>{performanceMeasurePrefixString}</strong> missing {MultiTenantHelpers.GetPerformanceMeasureName()} data for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
             }
             if (performanceMeasureActualUpdatesWithIncompleteWarnings.Any())
             {
-                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundIncompletePerformanceMeasureRowsMessage}");
+                _warningMessages.Add($"<strong>{performanceMeasurePrefixString}</strong> {FoundIncompletePerformanceMeasureRowsMessage}");
             }
             if (performanceMeasureActualUpdatesWithDuplicateWarnings.Any())
             {
-                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundDuplicatePerformanceMeasureRowsMessage}");
+                _warningMessages.Add($"<strong>{performanceMeasurePrefixString}</strong> {FoundDuplicatePerformanceMeasureRowsMessage}");
             }
             if (performanceMeasureActualUpdatesWithExemptYear.Any())
             {
-                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundReportedPerformanceMeasureForExemptYearRowsMessage}");
+                _warningMessages.Add($"<strong>{performanceMeasurePrefixString}</strong> {FoundReportedPerformanceMeasureForExemptYearRowsMessage}");
             }
         }
 

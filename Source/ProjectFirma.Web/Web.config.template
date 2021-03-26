@@ -34,7 +34,7 @@
     <add key="PsInfoDataCenterUrl" value="${psinfo-url}DataCenter"/>
     <add key="VitalSignsUrl" value="${vital-signs-url}"/>
     <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
-    <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
+    <add key="PSARDashboardUrl" value="${psar-dashboard-url}"/>
     <add key="PsInfoPostOrganizationUrl" value="${psinfo-post-organization-url}"/>
     <add key="PSInfoApiKey" value="${psinfo-api-key}" />
     <add key="KeystoneWebServiceApplicationGuid" value="CE8E2CB7-7865-42FD-BD44-1458D825860D"/>
@@ -250,6 +250,10 @@
 		    <assemblyIdentity name="DocumentFormat.OpenXml" culture="neutral" publicKeyToken="8fb06cb64d019a17" />
 		    <bindingRedirect oldVersion="0.0.0.0-2.10.0.0" newVersion="2.10.0.0" />
 	    </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="log4net" publicKeyToken="669e0ddf0bb1aa2a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-2.0.12.0" newVersion="2.0.12.0" />
+      </dependentAssembly>
     </assemblyBinding>
   </runtime>
   <entityFramework>

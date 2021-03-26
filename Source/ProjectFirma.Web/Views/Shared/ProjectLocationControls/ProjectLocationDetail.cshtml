@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="ProjectLocationDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="ProjectLocationDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
@@ -42,7 +42,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </ul>
 </p>
 
-<hr/>
+<hr />
 
 @if (ViewDataTyped.LocationIsPrivate)
 {
@@ -50,6 +50,9 @@ Source code is available upon request via <support@sitkatech.com>.
         This @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel())'s Simple and Detailed location is considered private and is hidden from most users. To unhide it, edit its Simple location.
     </div>
 }
+
+@Html.ValidationSummary()
+
 
 <p>
     <span style="margin-right:10px">Instead of drawing your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() details by hand, you may alternately upload a GIS file.</span>
@@ -61,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
         ModalDialogFormHelper.SaveButtonID,
         "Approve Upload",
         "Cancel",
-        new List<string>(){"btn", "btn-sm", "btn-firma"},
+        new List<string>() { "btn", "btn-sm", "btn-firma" },
         null,
         null,
         ViewDataTyped.MapFormID,

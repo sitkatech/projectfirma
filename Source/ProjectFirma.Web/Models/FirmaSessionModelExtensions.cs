@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static FirmaSession GetAnonymousFirmaSession()
         {
-            var anonymousFirmaSession = FirmaSession.MakeEmptyFirmaSession(HttpRequestStorage.Tenant);
+            var anonymousFirmaSession = FirmaSession.MakeEmptyFirmaSession(HttpRequestStorage.DatabaseEntities, HttpRequestStorage.Tenant);
             return anonymousFirmaSession;
         }
 

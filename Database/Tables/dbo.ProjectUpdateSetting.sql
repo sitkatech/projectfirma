@@ -14,6 +14,7 @@ CREATE TABLE [dbo].[ProjectUpdateSetting](
 	[ProjectUpdateKickOffIntroContent] [dbo].[html] NULL,
 	[ProjectUpdateReminderIntroContent] [dbo].[html] NULL,
 	[ProjectUpdateCloseOutIntroContent] [dbo].[html] NULL,
+	[DaysBeforeCloseOutDateForReminder] [int] NULL,
  CONSTRAINT [PK_ProjectUpdateSetting_ProjectUpdateSettingID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateSettingID] ASC

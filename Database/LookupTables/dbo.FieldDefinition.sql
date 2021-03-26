@@ -82,9 +82,9 @@ VALUES
 (258, N'ShowLeadImplementerLogoOnFactSheet', N'Show Lead Implementer Logo on Project Fact Sheet?'),
 (259, N'ProjectCustomAttribute', N'Project Custom Attribute'),
 (260, N'ProjectCustomAttributeDataType', N'Data Type'),
-(261, N'ProjectUpdateKickOffDate', N'Kick-off Date'),
+(261, N'ReportingPeriodKickOffDate', N'Reporting Period Kick-off Date'),
 (262, N'ProjectUpdateReminderInterval', N'Reminder Interval (days)'),
-(263, N'ProjectUpdateCloseOutDate', N'Close-out Date'),
+(263, N'ReportingPeriodCloseOutDate', N'Reporting Period Close-out Date'),
 (264, N'PerformanceMeasureIsSummable', 'Summable?'),
 (265, N'FundingSourceAmount', N'Amount'),
 (266, N'NormalUser', N'Normal User'),
@@ -191,4 +191,5 @@ VALUES
 (367, N'ContactRelationshipTypeAcceptsMultipleValues', N'Accepts Multiple Values'),
 (368, 'OrganizationTypeLayerOnByDefault', 'Layer on by Default?'),
 (369, 'GeospatialAreaTypeOnByDefaultOnOtherMaps', 'Layer on by default on all maps other than the Project Map?'),
-(370, 'ProjectLocationIsPrivate', 'Location Privacy')
+(370, 'ProjectLocationIsPrivate', 'Location Privacy'),
+(371, N'CanContactTypeManageProject', N'Can Manage the Project?')
