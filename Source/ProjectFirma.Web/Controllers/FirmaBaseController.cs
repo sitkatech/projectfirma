@@ -27,7 +27,9 @@ using System.Web.Mvc.Filters;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using log4net;
+using LtInfo.Common;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Session;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -62,15 +64,31 @@ namespace ProjectFirma.Web.Controllers
 
         protected override void OnAuthentication(AuthenticationContext filterContext)
         {
-            var firmaSessionFromClaimsIdentity = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
+            FirmaSession firmaSessionFromAuthentication;
+            var tenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
+            if (tenantAttributes.FirmaSystemAuthenticationType == FirmaSystemAuthenticationType.Keystone)
+            {
+                firmaSessionFromAuthentication = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
+            }
+            else if (tenantAttributes.FirmaSystemAuthenticationType == FirmaSystemAuthenticationType.FirmaSelfAuth)
+            {
+                firmaSessionFromAuthentication = FirmaWebSession.GetSessionFromCookie(filterContext, CurrentTenant);
+            }
+            else
+            {
+                throw new SitkaDisplayErrorException($"Unknown FirmaSystemAuthType == {tenantAttributes.FirmaSystemAuthenticationType}");
+            }
+            
+            
+            
 
             // We also need to wedge this in in certain contexts
-            firmaSessionFromClaimsIdentity.SetDatabaseEntities(HttpRequestStorage.DatabaseEntities);
+            firmaSessionFromAuthentication.SetDatabaseEntities(HttpRequestStorage.DatabaseEntities);
 
             // Use this session
-            HttpRequestStorage.FirmaSession = firmaSessionFromClaimsIdentity;
+            HttpRequestStorage.FirmaSession = firmaSessionFromAuthentication;
             // we need to set this so that the save will know who the Person is
-            HttpRequestStorage.DatabaseEntities.Person = firmaSessionFromClaimsIdentity.Person;
+            HttpRequestStorage.DatabaseEntities.Person = firmaSessionFromAuthentication.Person;
 
             base.OnAuthentication(filterContext);
         }
