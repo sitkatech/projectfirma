@@ -221,6 +221,13 @@ namespace ProjectFirma.Web.Common
             return body;
         }
 
+        public static string ReplaceHostNameForBackgroundJob(string absoluteUrl, string tenantHostName)
+        {
+            // There is no Http Request Context for background jobs, so any urls built using SitkaRoute methods will have the FirmaWebConfiguration.CanonicalHostName (e.g. 'sitka.projectfirma.com') for the host name.
+            // Need to replace this with the host name of the tenant
+            return absoluteUrl.Replace(FirmaWebConfiguration.CanonicalHostName, tenantHostName);
+        }
+
         #region Private Helper Methods
         
         private static string BuildAttributeString(Dictionary<string, string> attributeDict)
