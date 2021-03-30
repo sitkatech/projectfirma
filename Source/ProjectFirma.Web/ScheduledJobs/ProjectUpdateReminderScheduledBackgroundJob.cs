@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     if (DateTime.Today == projectUpdateKickOffDate)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                                                        projectUpdateSetting.ProjectUpdateKickOffIntroContent, true, tenantAttribute));
+                                                        projectUpdateSetting.ProjectUpdateKickOffIntroContent, tenantAttribute));
                     }
                 }
 
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 {
                     if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateSetting))
                     {
-                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateSetting.ProjectUpdateReminderIntroContent, false, tenantAttribute));
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateSetting.ProjectUpdateReminderIntroContent, tenantAttribute));
                         // notifyOnAll is false b/c we only send periodic reminders for projects whose updates haven't been submitted yet.
                     }
                 }
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     if (DateTime.Today == closeOutReminderDate)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                            projectUpdateSetting.ProjectUpdateCloseOutIntroContent, false, tenantAttribute));
+                            projectUpdateSetting.ProjectUpdateCloseOutIntroContent, tenantAttribute));
                     }
                 }
 
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// <param name="notifyOnAll"></param>
         /// <param name="attribute"></param>
         private List<Notification> RunNotifications(IEnumerable<Project> projectsForTenant, string reminderSubject,
-            string introContent, bool notifyOnAll, TenantAttribute attribute)
+            string introContent, TenantAttribute attribute)
         {
             // Constrain to tenant boundaries.
             var toolDisplayName = attribute.ToolDisplayName;
@@ -110,19 +110,12 @@ namespace ProjectFirma.Web.ScheduledJobs
             
             var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail, introContent, reminderSubject, toolLogo, toolDisplayName, tenantID);
 
-            var projectsToNotifyOn = notifyOnAll
-                ? projectsForTenant.AsQueryable().GetUpdatableProjects()
-                : projectsForTenant.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
+            var projectsToNotifyOn = projectsForTenant.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmittedForBackgroundJob(tenantID);
 
             var projectsGroupedByPrimaryContact =
                 projectsToNotifyOn.Where(x => x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact())
                     .ToList();
-            foreach (var test in projectsGroupedByPrimaryContact)
-            {
-                
-                Logger.Info($"PrimaryContact: {test.Key.LastName}; projects {string.Join(", ",test.ToList().Select(x => x.ProjectName))}");
-            }
-            
+
             var notifications = projectsGroupedByPrimaryContact
                 .SelectMany(x => projectUpdateNotificationHelper.SendProjectUpdateReminderMessage(x)).ToList();
 

@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[LastSQLServerDatabaseBackup](
 	[MachineName] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Collation] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[CompressedBackupSize] [bigint] NULL,
- CONSTRAINT [PK_LastSQLServerDatabaseBackup] PRIMARY KEY NONCLUSTERED 
+ CONSTRAINT [PK_LastSQLServerDatabaseBackup_LastSQLServerDatabaseBackupID] PRIMARY KEY NONCLUSTERED 
 (
 	[LastSQLServerDatabaseBackupID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

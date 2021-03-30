@@ -158,6 +158,9 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
                 });
     };
 
+    $scope.formatCalendarYear = function (calendarYear) { return $scope.AngularViewData.UseFiscalYears ? "FY" + calendarYear : calendarYear; };
+
+
     $scope.addRow = function () {
         if ($scope.fundingSourceIDToAdd == null) {
             return;

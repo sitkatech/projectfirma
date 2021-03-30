@@ -18,24 +18,27 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity.Spatial;
-using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.Spatial;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ProjectLocationSimpleViewModel : FormViewModel, IValidatableObject
     {
+        [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180")]
         public double? ProjectLocationPointX { get; set; }
+
+        [Range(-90, 90, ErrorMessage = "Latitude must be between -90 and 90")]
         public double? ProjectLocationPointY { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]

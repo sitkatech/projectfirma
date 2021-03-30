@@ -317,6 +317,7 @@ namespace ProjectFirmaModels.Models
         ContactRelationshipTypeAcceptsMultipleValues = 367,
         OrganizationTypeLayerOnByDefault = 368,
         GeospatialAreaTypeOnByDefaultOnOtherMaps = 369,
-        ProjectLocationIsPrivate = 370
+        ProjectLocationIsPrivate = 370,
+        CanContactTypeManageProject = 371
     }
 }

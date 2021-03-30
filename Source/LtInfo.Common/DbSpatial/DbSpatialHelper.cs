@@ -19,13 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using Microsoft.SqlServer.Types;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Data.SqlTypes;
 using System.Linq;
-using LtInfo.Common.DesignByContract;
-using LtInfo.Common.GdalOgr;
-using Microsoft.SqlServer.Types;
 
 namespace LtInfo.Common.DbSpatial
 {

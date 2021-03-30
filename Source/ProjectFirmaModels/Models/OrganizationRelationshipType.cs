@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
                 try
                 {
                     var projectLocationPoint = project.GetProjectLocationPoint(userCanViewPrivateLocations);
-                    var contains = x.OrganizationBoundary.Contains(projectLocationPoint);
+                    var contains = projectLocationPoint != null && x.OrganizationBoundary.Contains(projectLocationPoint);
                     return contains;
                 }
                 catch (Exception e)

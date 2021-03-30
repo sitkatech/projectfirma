@@ -26,7 +26,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int projectStageID, int projectApprovalStatusID, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? performanceMeasureExpectedCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount, int? proposingOrganizationID) : this()
+        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int projectStageID, int projectApprovalStatusID, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? performanceMeasureExpectedCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount, int? proposingOrganizationID, string projectContactsWhoCanManageProjectConcatenated) : this()
         {
             this.ProjectID = projectID;
             this.PrimaryKey = primaryKey;
@@ -49,6 +49,7 @@ namespace ProjectFirmaModels.Models
             this.FinalStatusReportStatusDescription = finalStatusReportStatusDescription;
             this.ProjectFundingSourceExpenditureCount = projectFundingSourceExpenditureCount;
             this.ProposingOrganizationID = proposingOrganizationID;
+            this.ProjectContactsWhoCanManageProjectConcatenated = projectContactsWhoCanManageProjectConcatenated;
         }
 
         /// <summary>
@@ -77,6 +78,7 @@ namespace ProjectFirmaModels.Models
             this.FinalStatusReportStatusDescription = vProjectDetail.FinalStatusReportStatusDescription;
             this.ProjectFundingSourceExpenditureCount = vProjectDetail.ProjectFundingSourceExpenditureCount;
             this.ProposingOrganizationID = vProjectDetail.ProposingOrganizationID;
+            this.ProjectContactsWhoCanManageProjectConcatenated = vProjectDetail.ProjectContactsWhoCanManageProjectConcatenated;
             CallAfterConstructor(vProjectDetail);
         }
 
@@ -103,5 +105,6 @@ namespace ProjectFirmaModels.Models
         public string FinalStatusReportStatusDescription { get; set; }
         public int? ProjectFundingSourceExpenditureCount { get; set; }
         public int? ProposingOrganizationID { get; set; }
+        public string ProjectContactsWhoCanManageProjectConcatenated { get; set; }
     }
 }

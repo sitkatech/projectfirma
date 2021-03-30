@@ -191,4 +191,5 @@ VALUES
 (367, N'ContactRelationshipTypeAcceptsMultipleValues', N'Accepts Multiple Values'),
 (368, 'OrganizationTypeLayerOnByDefault', 'Layer on by Default?'),
 (369, 'GeospatialAreaTypeOnByDefaultOnOtherMaps', 'Layer on by default on all maps other than the Project Map?'),
-(370, 'ProjectLocationIsPrivate', 'Location Privacy')
+(370, 'ProjectLocationIsPrivate', 'Location Privacy'),
+(371, N'CanContactTypeManageProject', N'Can Manage the Project?')
