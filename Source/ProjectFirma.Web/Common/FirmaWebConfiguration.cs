@@ -102,6 +102,11 @@ namespace ProjectFirma.Web.Common
             return canonicalHost;
         }
 
+        public static string GetCanonicalHostForBackgroundJob(int tenantID)
+        {
+            return Tenant.All.Where(x => x.TenantID == tenantID).Select(x => FirmaEnvironment.GetCanonicalHostNameForEnvironment(x)).SingleOrDefault();
+        }
+
 
 
         private static DirectoryInfo ParseLogFileFolder()

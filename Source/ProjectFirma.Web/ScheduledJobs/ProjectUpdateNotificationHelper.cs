@@ -66,6 +66,10 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectsRequiringAnUpdateUrl =
                 SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x =>
                     x.MyProjectsRequiringAnUpdate());
+            var tenantCanonicalHostUrl = FirmaWebConfiguration.GetCanonicalHostForBackgroundJob(TenantID);
+            projectsRequiringAnUpdateUrl =
+                SitkaRoute<ProjectUpdateController>.ReplaceHostNameForBackgroundJob(projectsRequiringAnUpdateUrl,
+                    tenantCanonicalHostUrl);
 
             var emailContent = GetEmailContentWithGeneratedSignature(projectsRequiringAnUpdateUrl,
                 person.GetFullNameFirstLast(), String.Join("<br/>", projectListAsHtmlStrings));
@@ -113,15 +117,17 @@ namespace ProjectFirma.Web.ScheduledJobs
             );
         }
 
-        private static IEnumerable<string> GenerateProjectListAsHtmlStrings(
+        private IEnumerable<string> GenerateProjectListAsHtmlStrings(
             IReadOnlyCollection<Project> projects)
         {
             var projectsRemaining = projects;
+            var tenantCanonicalHostName = FirmaWebConfiguration.GetCanonicalHostForBackgroundJob(TenantID);
             var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.GetDisplayName()).Select(project =>
             {
                 var projectUrl =
                     SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(controller =>
                         controller.Detail(project));
+                projectUrl = SitkaRoute<ProjectController>.ReplaceHostNameForBackgroundJob(projectUrl, tenantCanonicalHostName);
                 return $@"<div style=""font-size:smaller""><a href=""{projectUrl}"">{project.ProjectName}</a></div>";
             }).ToList();
 
