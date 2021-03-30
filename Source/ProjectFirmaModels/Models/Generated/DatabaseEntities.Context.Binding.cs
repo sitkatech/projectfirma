@@ -700,6 +700,11 @@ namespace ProjectFirmaModels.Models
                 case "FirmaSession":
                     return FirmaSessions.GetFirmaSession(primaryKey);
 
+                case "FirmaSystemAuthenticationType":
+                    var firmaSystemAuthenticationType = FirmaSystemAuthenticationType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(firmaSystemAuthenticationType, "FirmaSystemAuthenticationType", primaryKey);
+                    return firmaSystemAuthenticationType;
+
                 case "FundingSourceCustomAttributeDataType":
                     var fundingSourceCustomAttributeDataType = FundingSourceCustomAttributeDataType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(fundingSourceCustomAttributeDataType, "FundingSourceCustomAttributeDataType", primaryKey);
