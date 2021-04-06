@@ -25,7 +25,7 @@ namespace ProjectFirma.Web
     {
         public static Dictionary<string, string> AreasDictionary = new Dictionary<string, string>
         {
-            {string.Empty, FirmaWebConfiguration.CanonicalHostName}
+            {string.Empty, FirmaWebConfiguration.DefaultTenantCanonicalHostName}
         };
 
         protected void Application_Start()
@@ -130,7 +130,7 @@ namespace ProjectFirma.Web
         }
 
         /// <summary>
-        /// If the URL doesn't match CanonicalHostName do a redirect. Otherwise do nothing. This is especially important for sites using SSL to get certificate to match up
+        /// If the URL doesn't match DefaultTenantCanonicalHostName do a redirect. Otherwise do nothing. This is especially important for sites using SSL to get certificate to match up
         /// </summary>
         private void RedirectToCanonicalHostnameIfNeeded()
         {
@@ -138,6 +138,12 @@ namespace ProjectFirma.Web
             {
                 return;
             }
+
+            if (!FirmaWebConfiguration.RedirectToDefaultTenantCanonicalHostName)
+            {
+                return;
+            }
+
             var canonicalHostName = FirmaWebConfiguration.GetCanonicalHost(Request.Url.Host, true);
 
             Check.RequireNotNullThrowNotFound(canonicalHostName, "Domain", Request.Url.Host);
@@ -166,7 +172,10 @@ namespace ProjectFirma.Web
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             // Require SSL from this point forward
-            filters.Add(new RequireHttpsAttribute());
+            if (FirmaWebConfiguration.RedirectToHttps)
+            {
+                filters.Add(new RequireHttpsAttribute());
+            }
             filters.Add(new OpenIDFirmaAuthorizeAttribute());
         }
 

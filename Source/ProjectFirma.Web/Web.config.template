@@ -14,7 +14,13 @@
     <add key="ClientValidationEnabled" value="true"/>
     <add key="UnobtrusiveJavaScriptEnabled" value="true"/>
     <add key="CacheStaticContentTimeSpan" value="${cache-static-content-timespan}"/>
-    <add key="CanonicalHostName" value="${canonical.host.name}"/>
+    <!-- forcing DefaultTenantID to be the sitka tenant(differs for reclamation which is hosted elsewhere) -->
+    <add key="DefaultTenantID" value="1"/>
+    <!-- should default to true (reclamation will be false in their hosting environment) -->
+    <add key="RedirectToDefaultTenantCanonicalHostName" value="true" />
+    <!-- should default to true (reclamation will be false in their hosting environment) -->
+    <add key="RedirectToHttps" value="true" />
+
     <add key="UseMvcExtensionInUrl" value="false"/>
     <add key="SitkaEmailRedirect" value="${sitka-email-redirect}"/>
     <add key="IsEmailEnabled" value="true"/>
@@ -35,6 +41,7 @@
     <add key="VitalSignsUrl" value="${vital-signs-url}"/>
     <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
     <add key="PSARDashboardUrl" value="${psar-dashboard-url}"/>
+    <add key="SpatialHubUrl" value="${spatial-hub-url}"/>
     <add key="PsInfoPostOrganizationUrl" value="${psinfo-post-organization-url}"/>
     <add key="PSInfoApiKey" value="${psinfo-api-key}" />
     <add key="KeystoneWebServiceApplicationGuid" value="CE8E2CB7-7865-42FD-BD44-1458D825860D"/>

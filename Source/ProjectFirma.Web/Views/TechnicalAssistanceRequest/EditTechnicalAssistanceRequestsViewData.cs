@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
         {
             Check.EnsureNotNull(firmaPage, "The Firma Page for this section is not found; is one defined?");
             bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission;
-            TechnicalAssistanceInstructionsViewData = new ViewPageContentViewData(firmaPage, hasPermissionToManageFirmaPage, currentFirmaSession);
+            TechnicalAssistanceInstructionsViewData = new ViewPageContentViewData(firmaPage, hasPermissionToManageFirmaPage);
             ProjectID = project.ProjectID;
             TechnicalAssistanceTypes = technicalAssistanceTypes;
             FiscalYearStrings = fiscalYearStrings;

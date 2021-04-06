@@ -46,6 +46,7 @@ namespace ProjectFirma.Web.Common
         public static readonly string VitalSignsUrl = SitkaConfiguration.GetRequiredAppSetting("VitalSignsUrl");
         public static readonly string NEPAtlasUrl = SitkaConfiguration.GetRequiredAppSetting("NEPAtlasUrl");
         public static readonly string PSARDashboardUrl = SitkaConfiguration.GetRequiredAppSetting("PSARDashboardUrl");
+        public static readonly string SpatialHubUrl = SitkaConfiguration.GetRequiredAppSetting("SpatialHubUrl");
         public static readonly string PsInfoPostOrganizationUrl = SitkaConfiguration.GetRequiredAppSetting("PsInfoPostOrganizationUrl");
         public static readonly string PsInfoApiKey = SitkaConfiguration.GetRequiredAppSetting("PsInfoApiKey");
 
@@ -66,7 +67,12 @@ namespace ProjectFirma.Web.Common
 
         public static readonly FirmaEnvironment FirmaEnvironment = FirmaEnvironment.MakeFirmaEnvironment(SitkaConfiguration.GetRequiredAppSetting("FirmaEnvironment"));
 
-        public static readonly string CanonicalHostName = CanonicalHostNames.FirstOrDefault();
+        public static readonly int DefaultTenantID = int.Parse(SitkaConfiguration.GetRequiredAppSetting("DefaultTenantID"));
+        public static readonly bool RedirectToDefaultTenantCanonicalHostName = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("RedirectToDefaultTenantCanonicalHostName"));
+        public static readonly bool RedirectToHttps = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("RedirectToHttps"));
+
+        public static readonly Tenant DefaultTenant = Tenant.All.Single(x => x.TenantID == DefaultTenantID);
+        public static readonly string DefaultTenantCanonicalHostName = FirmaEnvironment.GetCanonicalHostNameForEnvironment(DefaultTenant);
 
         public static List<string> CanonicalHostNames => Tenant.All.OrderBy(x => x.TenantID).Select(x => FirmaEnvironment.GetCanonicalHostNameForEnvironment(x)).ToList();
 
