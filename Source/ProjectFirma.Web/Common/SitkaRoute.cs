@@ -108,9 +108,21 @@ namespace ProjectFirma.Web.Common
                    SitkaRouteRandomizer.RandomGenerator.Next();
         }
 
+        /// <summary>
+        /// This will return an absolute URL with https, unless the "RedirectToHttps" config flag is set to false. Then it will return the result with http.
+        /// </summary>
+        /// <param name="routeExpression"></param>
+        /// <returns></returns>
         public static string BuildAbsoluteUrlHttpsFromExpression(Expression<Action<T>> routeExpression)
         {
-            return BuildAbsoluteUrlFromExpressionImpl(routeExpression, "https");
+            if (FirmaWebConfiguration.RedirectToHttps)
+            {
+                return BuildAbsoluteUrlFromExpressionImpl(routeExpression, "https");
+            }
+            else
+            {
+                return BuildAbsoluteUrlFromExpression(routeExpression);
+            }
         }
 
         public static string BuildAbsoluteUrlFromExpression(Expression<Action<T>> routeExpression)

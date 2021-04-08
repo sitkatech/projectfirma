@@ -15,11 +15,11 @@
     <add key="UnobtrusiveJavaScriptEnabled" value="true"/>
     <add key="CacheStaticContentTimeSpan" value="${cache-static-content-timespan}"/>
     <!-- forcing DefaultTenantID to be the sitka tenant(differs for reclamation which is hosted elsewhere) -->
-    <add key="DefaultTenantID" value="1"/>
+    <add key="DefaultTenantID" value="${default-tenant-id}"/>
     <!-- should default to true (reclamation will be false in their hosting environment) -->
-    <add key="RedirectToDefaultTenantCanonicalHostName" value="true" />
+    <add key="RedirectToDefaultTenantCanonicalHostName" value="${redirect-to-default-tenant-canonical-host-name}" />
     <!-- should default to true (reclamation will be false in their hosting environment) -->
-    <add key="RedirectToHttps" value="true" />
+    <add key="RedirectToHttps" value="${redirect-to-https}" />
 
     <add key="UseMvcExtensionInUrl" value="false"/>
     <add key="SitkaEmailRedirect" value="${sitka-email-redirect}"/>
