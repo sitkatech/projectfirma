@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.DisplayOnAllProjectMaps).HasColumnName(@"DisplayOnAllProjectMaps").HasColumnType("bit").IsRequired();
             Property(x => x.OnByDefaultOnProjectMap).HasColumnName(@"OnByDefaultOnProjectMap").HasColumnType("bit").IsRequired();
             Property(x => x.OnByDefaultOnOtherMaps).HasColumnName(@"OnByDefaultOnOtherMaps").HasColumnType("bit").IsRequired();
+            Property(x => x.ServiceUrl).HasColumnName(@"ServiceUrl").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
 
             // Foreign keys
 

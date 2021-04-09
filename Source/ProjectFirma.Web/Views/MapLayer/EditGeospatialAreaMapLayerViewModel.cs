@@ -19,14 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using LtInfo.Common.Models;
 using ProjectFirmaModels.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.Spatial;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.Organization;
 
 namespace ProjectFirma.Web.Views.MapLayer
 {
-    public class EditGeospatialAreaMapLayerViewModel : FormViewModel
+    public class EditGeospatialAreaMapLayerViewModel : FormViewModel, IValidatableObject
     {
         public int GeospatialAreaTypeID { get; set; }
 
@@ -39,7 +44,10 @@ namespace ProjectFirma.Web.Views.MapLayer
         public bool LayerIsOnByDefaultOnProjectMap { get; set; }     
         [Required]
         [DisplayName("Layer is on by default on all maps other than the Project Map?")]
-        public bool LayerIsOnByDefaultOnOtherMaps { get; set; }
+        public bool LayerIsOnByDefaultOnOtherMaps { get; set; }     
+        
+        [DisplayName("Service Url")]
+        [StringLength(GeospatialAreaType.FieldLengths.ServiceUrl)] public string ServiceUrl { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -54,7 +62,7 @@ namespace ProjectFirma.Web.Views.MapLayer
             DisplayOnAllMaps = geospatialAreaType.DisplayOnAllProjectMaps;
             LayerIsOnByDefaultOnProjectMap = geospatialAreaType.OnByDefaultOnProjectMap;
             LayerIsOnByDefaultOnOtherMaps = geospatialAreaType.OnByDefaultOnOtherMaps;
-
+            ServiceUrl = geospatialAreaType.ServiceUrl;
         }
 
         public void UpdateModel(GeospatialAreaType geospatialAreaType)
@@ -62,6 +70,21 @@ namespace ProjectFirma.Web.Views.MapLayer
             geospatialAreaType.DisplayOnAllProjectMaps = DisplayOnAllMaps;
             geospatialAreaType.OnByDefaultOnProjectMap = LayerIsOnByDefaultOnProjectMap;
             geospatialAreaType.OnByDefaultOnOtherMaps = LayerIsOnByDefaultOnOtherMaps;
+            geospatialAreaType.ServiceUrl = ServiceUrl;
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (MultiTenantHelpers.AreGeospatialAreasExternallySourced() && string.IsNullOrWhiteSpace(ServiceUrl))
+            {
+                errors.Add(new SitkaValidationResult<EditGeospatialAreaMapLayerViewModel, string>(
+                    "Service Url is required when externally-sourced geospatial areas is enabled",
+                    x => x.ServiceUrl));
+            }
+
+            return errors;
         }
 
     }

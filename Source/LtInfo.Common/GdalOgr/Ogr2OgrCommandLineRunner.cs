@@ -18,13 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.DesignByContract;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using LtInfo.Common.DbSpatial;
-using LtInfo.Common.DesignByContract;
 
 namespace LtInfo.Common.GdalOgr
 {
@@ -33,7 +32,10 @@ namespace LtInfo.Common.GdalOgr
     /// </summary>
     public class Ogr2OgrCommandLineRunner
     {
+        public const int DefaultCoordinateSystemId = 4326;
         public const int DefaultTimeOut = 110000;
+        public const string OgrGeoJsonTableName = "OGRGeoJSON";
+
 
         private readonly FileInfo _ogr2OgrExecutable;
         private readonly int _coordinateSystemId;
@@ -98,6 +100,54 @@ namespace LtInfo.Common.GdalOgr
             var commandLineArguments = BuildCommandLineArgumentsForFileKmzToGeoJson(inputKmzFile, _gdalDataPath, _coordinateSystemId, explodeCollections);
             var processUtilityResult = ExecuteOgr2OgrCommand(commandLineArguments);
             return processUtilityResult.StdOut;
+        }
+
+        public void ImportGeoJsonToMsSql(string geoJson, string connectionString, string destinationTableName, string selectStatement, bool explodeCollections)
+        {
+            var databaseConnectionString = $"MSSQL:{connectionString}";
+            using (var geoJsonFile = DisposableTempFile.MakeDisposableTempFileEndingIn(".json"))
+            {
+                File.WriteAllText(geoJsonFile.FileInfo.FullName, geoJson);
+                var commandLineArguments = BuildCommandLineArgumentsForGeoJsonToMsSql(geoJsonFile.FileInfo,
+                    destinationTableName,
+                    _gdalDataPath,
+                    databaseConnectionString,
+                    _coordinateSystemId,
+                    selectStatement,
+                    explodeCollections);
+                ExecuteOgr2OgrCommand(commandLineArguments);
+            }
+        }
+
+        internal static List<string> BuildCommandLineArgumentsForGeoJsonToMsSql(FileInfo sourceGeoJsonFile, string destinationTableName, DirectoryInfo gdalDataDirectoryInfo, string databaseConnectionString, int coordinateSystemId, string selectStatement, bool explodeCollections)
+        {
+            //c:\SVN\sitkatech\trunk\Corral\Build>"C:\Program Files\GDAL\ogr2ogr.exe" -preserve_fid --config GDAL_DATA "C:\\Program Files\\GDAL\\gdal-data" -t_srs EPSG:4326 -f MSSQLSpatial "MSSQL:server=localhost;database=tempdb;trusted_connection=yes" "C:\temp\geojson.json" -nln "TestTable"
+
+            var commandLineArguments = new List<string>
+            {
+                "-append",
+                "-sql",
+                $"{selectStatement} FROM {OgrGeoJsonTableName}",
+                "--config",
+                "GDAL_DATA",
+                gdalDataDirectoryInfo.FullName,
+                "-t_srs",
+                GetMapProjection(coordinateSystemId),
+                "-f",
+                "MSSQLSpatial",
+                databaseConnectionString,
+                sourceGeoJsonFile.FullName,
+                "-nln",
+                destinationTableName,
+                "-dim",
+                "2"
+            };
+            if (explodeCollections)
+            {
+                commandLineArguments.Add("-explodecollections");
+            }
+
+            return commandLineArguments;
         }
 
         private ProcessUtilityResult ExecuteOgr2OgrCommand(List<string> commandLineArguments)
