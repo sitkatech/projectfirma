@@ -260,7 +260,7 @@ namespace ProjectFirmaModels.Models
         GeospatialArea = 310,
         ArcGISFileGeodatabase = 311,
         KMLFile = 312,
-        ExternalMapLayer = 313,
+        ExternalReferenceLayer = 313,
         ExternalMapLayerDisplayName = 314,
         ExternalMapLayerUrl = 315,
         ExternalMapLayerDescription = 316,

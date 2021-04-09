@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="GeospatialAreaStaging.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,20 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
+using System.Web;
 
-namespace ProjectFirma.Web.Views.MapLayer
+namespace ProjectFirmaModels.Models
 {
-    public class EditGeospatialAreaMapLayerViewData : FirmaUserControlViewData
+    public partial class GeospatialAreaStaging : IAuditableEntity
     {
-        public GeospatialAreaType GeospatialAreaType { get; }
-        public bool AreGeospatialAreasExternallySourced { get; }
-
-        public EditGeospatialAreaMapLayerViewData(GeospatialAreaType geospatialAreaType)
-        {
-            GeospatialAreaType = geospatialAreaType;
-            AreGeospatialAreasExternallySourced = MultiTenantHelpers.AreGeospatialAreasExternallySourced();
-        }
+        public string GetAuditDescriptionString() => Name;
     }
 }
