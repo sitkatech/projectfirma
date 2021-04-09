@@ -13,7 +13,7 @@ namespace ProjectFirma.Api.Models
         public ProjectDto(Project project)
         {
             ProjectID = project.ProjectID;
-            ProjectName = project.ProjectName;
+            ProjectNameTEST_REVERT_THIS = project.ProjectName;
             PrimaryContact = project.PrimaryContactPerson?.GetFullNameFirstLast();
             OwnerOrganizationID = project.GetPrimaryContactOrganization()?.OrganizationID;
             ProjectStage = project.ProjectStage.ProjectStageDisplayName;
@@ -81,7 +81,7 @@ namespace ProjectFirma.Api.Models
         public int? OwnerOrganizationID { get; set; }
         public string ProjectStage { get; set; }
 
-        public string ProjectName { get; set; }
+        public string ProjectNameTEST_REVERT_THIS { get; set; }
         public List<string> TaxonomyTrunks { get; set; }
         public int? ImplementationStartYear { get; set; }
         public string PrimaryContact { get; set; }
