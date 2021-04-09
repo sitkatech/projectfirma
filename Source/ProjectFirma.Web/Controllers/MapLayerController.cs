@@ -209,8 +209,15 @@ namespace ProjectFirma.Web.Controllers
                 return ViewSyncGeospatialAreaType(geospatialAreaType, viewModel);
             }
 
-            var statusMessage = RestApiClient.SyncGeospatialAreaTypeFromService(geospatialAreaType);
-            SetMessageForDisplay(statusMessage);
+            var syncResult = RestApiClient.SyncGeospatialAreaTypeFromService(geospatialAreaType);
+            if (syncResult.IsSuccess)
+            {
+                SetMessageForDisplay(syncResult.Message);
+            }
+            else
+            {
+                SetErrorForDisplay(syncResult.Message);
+            }
             return new ModalDialogFormJsonResult();
         }
 
