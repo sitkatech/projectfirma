@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
 using System.Security.Claims;
@@ -53,6 +54,10 @@ namespace ProjectFirma.Web
                 {
                     var branch = app.New();
                     JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
+
+                    // Specify TLS 1.2 for Rest API calls
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
                     var tenant = GetTenantFromUrl(ctx.Request);
                     HttpRequestStorage.Tenant = tenant;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -243,6 +243,14 @@
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureReportingPeriodTargetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaRawData.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaRawData.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaRawDataConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaRawDataPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaStaging.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaStaging.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaStagingConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaStagingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaType.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\GeospatialAreaTypeConfiguration.Binding.cs" />
@@ -829,6 +837,7 @@
     <Compile Include="Models\FileResourceOrientation.cs" />
     <Compile Include="Models\FirmaPage.cs" />
     <Compile Include="Models\FundingSource.cs" />
+    <Compile Include="Models\GeospatialAreaStaging.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureNoTarget.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureOverallTarget.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureReportingPeriodTarget.cs" />

@@ -65,6 +65,20 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.LayerIsOnByDefaultOnOtherMaps)
             </div>
         </div>
+        
+        @if (ViewDataTyped.AreGeospatialAreasExternallySourced)
+        {
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    @Html.Label("Service Url")
+                </div>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.ServiceUrl, new { style = "width:100%", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ServiceUrl)
+                </div>
+            </div>
+        }
+
     </div>
     @Html.HiddenFor(m => m.GeospatialAreaTypeID)
 }
