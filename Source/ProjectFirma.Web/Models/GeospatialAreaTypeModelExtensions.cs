@@ -108,8 +108,10 @@ namespace ProjectFirma.Web.Models
             }
 
             // Clear out staging table
+            var tenantID = HttpRequestStorage.Tenant.TenantID;
             var stagingsToDelete = dbContext.GeospatialAreaStagings.ToList();
             dbContext.AllGeospatialAreaStagings.RemoveRange(stagingsToDelete);
+            dbContext.SaveChangesWithNoAuditing(tenantID);
 
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
                 Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
@@ -117,7 +119,7 @@ namespace ProjectFirma.Web.Models
             ogr2OgrCommandLineRunner.ImportGeoJsonToMsSql(responseData,
                 databaseConnectionString,
                 "GeospatialAreaStaging",
-                $"SELECT {HttpRequestStorage.Tenant.TenantID} as TenantID, Name as Name, GlobalID as ExternalID",
+                $"SELECT {tenantID} as TenantID, Name as Name, GlobalID as ExternalID",
                 false);
             return dbContext.GeospatialAreaStagings.ToList();
         }

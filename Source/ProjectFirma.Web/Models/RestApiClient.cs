@@ -31,15 +31,6 @@ namespace ProjectFirma.Web.Models
             {
                 var responseData = MakeApiRequest("Geospatial Area Type", geospatialAreaType.ServiceUrl);
                 var lastSucessfulResponse = HttpRequestStorage.DatabaseEntities.GeospatialAreaRawDatas.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
-                // The sync needs to be re-runnable even if service data has not changed so that entities can be unlinked for deletion then rerun the job
-                // TODO: change this pattern for other sync jobs?
-//                var noChange = lastSucessfulResponse != null && new JTokenEqualityComparer().Equals(JToken.Parse(lastSucessfulResponse.ResultJson), JToken.Parse(responseData));
-//                if (noChange)
-//                {
-//                    statusMessage = $"The data in the service has not changed since the data in Geospatial Area Type {geospatialAreaType.GeospatialAreaTypeName} was last synced.";
-//                    SitkaHttpApplication.Logger.Info(statusMessage);
-//                    return statusMessage;
-//                }
 
                 GeospatialAreaTypeModelExtensions.ProcessApiResponse(geospatialAreaType, responseData, HttpRequestStorage.DatabaseEntities, SitkaWebConfiguration.DatabaseConnectionString);
                 // Record this response as the latest response for next time
