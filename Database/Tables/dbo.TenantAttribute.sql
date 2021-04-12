@@ -41,6 +41,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TenantFactSheetLogoFileResourceInfoID] [int] NULL,
 	[EnableMatchmaker] [bit] NOT NULL,
 	[MatchmakerAlgorithmIncludesProjectGeospatialAreas] [bit] NOT NULL,
+	[AreGeospatialAreasExternallySourced] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

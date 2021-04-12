@@ -42,11 +42,12 @@ namespace ProjectFirma.Web.Controllers
             var externalMapLayersFirmaPage = FirmaPageTypeEnum.ExternalMapLayers.GetFirmaPage();
             var externalMapLayerGridDataUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.ExternalMapLayerGridJsonData());
             var internalMapLayersFirmaPage = FirmaPageTypeEnum.InternalMapLayers.GetFirmaPage();
+            var externallySourcedGeospatialAreasInstructionsFirmaPage = FirmaPageTypeEnum.ExternallySourcedGeospatialAreasInstructions.GetFirmaPage();
             var geospatialAreaMapLayerGridDataUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.GeospatialAreaMapLayerGridJsonData());
             var userCanManage = new FirmaAdminFeature().HasPermission(CurrentFirmaSession).HasPermission;
 
             var viewData = new IndexViewData(CurrentFirmaSession, externalMapLayersFirmaPage, externalMapLayerGridDataUrl, 
-                internalMapLayersFirmaPage, geospatialAreaMapLayerGridDataUrl, userCanManage);
+                internalMapLayersFirmaPage, geospatialAreaMapLayerGridDataUrl, externallySourcedGeospatialAreasInstructionsFirmaPage, userCanManage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -186,6 +187,46 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay(message);
 
             return new ModalDialogFormJsonResult();
+        }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult SyncGeospatialAreaType(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
+        {
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(geospatialAreaType.GeospatialAreaTypeID);
+            return ViewSyncGeospatialAreaType(geospatialAreaType, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult SyncGeospatialAreaType(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewSyncGeospatialAreaType(geospatialAreaType, viewModel);
+            }
+
+            var syncResult = RestApiClient.SyncGeospatialAreaTypeFromService(geospatialAreaType);
+            if (syncResult.IsSuccess)
+            {
+                SetMessageForDisplay(syncResult.Message);
+            }
+            else
+            {
+                SetErrorForDisplay(syncResult.Message);
+            }
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewSyncGeospatialAreaType(GeospatialAreaType geospatialAreaType, ConfirmDialogFormViewModel viewModel)
+        {
+            var confirmMessage =
+                $"Are you sure you want to update the features for map layer: {geospatialAreaType.GeospatialAreaTypeName}? This will update the list of map layers based on the map service.";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
     }

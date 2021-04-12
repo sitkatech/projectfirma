@@ -134,7 +134,7 @@ VALUES
 (310, N'GeospatialArea', 'Geospatial Area'),
 (311, N'ArcGISFileGeodatabase', 'ArcGIS File Geodatabase'),
 (312, N'KMLFile', 'KML File'),
-(313, N'ExternalMapLayer', 'External Map Layer'),
+(313, N'ExternalReferenceLayer', 'External Reference Layer'),
 (314, N'ExternalMapLayerDisplayName', 'Display Name'),
 (315, N'ExternalMapLayerUrl', 'Url'),
 (316, N'ExternalMapLayerDescription', 'Internal Layer Description'),

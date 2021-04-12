@@ -251,6 +251,14 @@
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.GeoServerNamespace
                     </div>
+                </div>     
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        Source Geospatial Areas Externally?
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.AreGeospatialAreasExternallySourced.ToYesNo()
+                    </div>
                 </div>
                 
 

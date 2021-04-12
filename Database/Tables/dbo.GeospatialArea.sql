@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[GeospatialArea](
 	[GeospatialAreaTypeID] [int] NOT NULL,
 	[GeospatialAreaDescriptionContent] [dbo].[html] NULL,
 	[GeospatialAreaShortName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ExternalID] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_GeospatialArea_GeospatialAreaID] PRIMARY KEY CLUSTERED 
 (
 	[GeospatialAreaID] ASC
