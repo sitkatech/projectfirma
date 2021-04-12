@@ -24,6 +24,11 @@ REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
 GO
 ALTER TABLE [dbo].[GeospatialAreaRawData] CHECK CONSTRAINT [FK_GeospatialAreaRawData_GeospatialAreaType_GeospatialAreaTypeID]
 GO
+ALTER TABLE [dbo].[GeospatialAreaRawData]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaRawData_GeospatialAreaType_GeospatialAreaTypeID_TenantID] FOREIGN KEY([GeospatialAreaTypeID], [TenantID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[GeospatialAreaRawData] CHECK CONSTRAINT [FK_GeospatialAreaRawData_GeospatialAreaType_GeospatialAreaTypeID_TenantID]
+GO
 ALTER TABLE [dbo].[GeospatialAreaRawData]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaRawData_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

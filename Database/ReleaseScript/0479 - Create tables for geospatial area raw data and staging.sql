@@ -16,6 +16,7 @@ create table dbo.GeospatialAreaRawData(
 
 alter table dbo.GeospatialAreaRawData
 add constraint AK_GeospatialAreaRawData_GeospatialAreaTypeID_TenantID unique(GeospatialAreaTypeID, TenantID)
+alter table dbo.GeospatialAreaRawData add constraint FK_GeospatialAreaRawData_GeospatialAreaType_GeospatialAreaTypeID_TenantID foreign key (GeospatialAreaTypeID, TenantID) references dbo.GeospatialAreaType(GeospatialAreaTypeID, TenantID)
 
 -- Add geometry columns to geometry_columns table
 insert into dbo.geometry_columns(f_table_catalog, f_table_schema, f_table_name, f_geometry_column, coord_dimension, srid, geometry_type)
