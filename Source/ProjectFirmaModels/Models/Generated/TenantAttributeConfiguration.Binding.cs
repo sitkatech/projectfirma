@@ -53,6 +53,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantFactSheetLogoFileResourceInfoID).HasColumnName(@"TenantFactSheetLogoFileResourceInfoID").HasColumnType("int").IsOptional();
             Property(x => x.EnableMatchmaker).HasColumnName(@"EnableMatchmaker").HasColumnType("bit").IsRequired();
             Property(x => x.MatchmakerAlgorithmIncludesProjectGeospatialAreas).HasColumnName(@"MatchmakerAlgorithmIncludesProjectGeospatialAreas").HasColumnType("bit").IsRequired();
+            Property(x => x.AreGeospatialAreasExternallySourced).HasColumnName(@"AreGeospatialAreasExternallySourced").HasColumnType("bit").IsRequired();
             Property(x => x.FirmaSystemAuthenticationTypeID).HasColumnName(@"FirmaSystemAuthenticationTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys

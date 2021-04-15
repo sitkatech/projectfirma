@@ -86,6 +86,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureFixedTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureNoTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
+            modelBuilder.Configurations.Add(new GeospatialAreaRawDataConfiguration());
+            modelBuilder.Configurations.Add(new GeospatialAreaStagingConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
             modelBuilder.Configurations.Add(new LastSQLServerDatabaseBackupConfiguration());
@@ -293,8 +295,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<GeospatialAreaPerformanceMeasureNoTarget> GeospatialAreaPerformanceMeasureNoTargets { get { return AllGeospatialAreaPerformanceMeasureNoTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaPerformanceMeasureReportingPeriodTarget> AllGeospatialAreaPerformanceMeasureReportingPeriodTargets { get; set; }
         public virtual IQueryable<GeospatialAreaPerformanceMeasureReportingPeriodTarget> GeospatialAreaPerformanceMeasureReportingPeriodTargets { get { return AllGeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<GeospatialAreaRawData> AllGeospatialAreaRawDatas { get; set; }
+        public virtual IQueryable<GeospatialAreaRawData> GeospatialAreaRawDatas { get { return AllGeospatialAreaRawDatas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<GeospatialAreaStaging> AllGeospatialAreaStagings { get; set; }
+        public virtual IQueryable<GeospatialAreaStaging> GeospatialAreaStagings { get { return AllGeospatialAreaStagings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
@@ -750,8 +756,14 @@ namespace ProjectFirmaModels.Models
                 case "GeospatialAreaPerformanceMeasureReportingPeriodTarget":
                     return GeospatialAreaPerformanceMeasureReportingPeriodTargets.GetGeospatialAreaPerformanceMeasureReportingPeriodTarget(primaryKey);
 
+                case "GeospatialAreaRawData":
+                    return GeospatialAreaRawDatas.GetGeospatialAreaRawData(primaryKey);
+
                 case "GeospatialArea":
                     return GeospatialAreas.GetGeospatialArea(primaryKey);
+
+                case "GeospatialAreaStaging":
+                    return GeospatialAreaStagings.GetGeospatialAreaStaging(primaryKey);
 
                 case "GeospatialAreaType":
                     return GeospatialAreaTypes.GetGeospatialAreaType(primaryKey);

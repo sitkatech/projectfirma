@@ -35,6 +35,8 @@ namespace ProjectFirma.Web.Views.MapLayer
         public string ExternalMapLayerGridDataUrl { get; }
         public string NewUrl { get; }
         public ViewPageContentViewData InternalMapLayersViewPageContentViewData { get; }
+        public bool AreGeospatialAreasExternallySourced { get; }
+        public ViewPageContentViewData ExternallySourcedGeospatialAreasInstructionsViewPageContentViewData { get; }
         public GeospatialAreaMapLayerGridSpec GeospatialAreaMapLayerGridSpec { get; }
         public string GeospatialAreaMapLayerGridName { get; }
         public string GeospatialAreaMapLayerGridDataUrl { get; }
@@ -43,14 +45,15 @@ namespace ProjectFirma.Web.Views.MapLayer
 
         public IndexViewData(FirmaSession currentFirmaSession, 
             ProjectFirmaModels.Models.FirmaPage externalMapLayersFirmaPage, string externalMapLayerGridDataUrl,
-            ProjectFirmaModels.Models.FirmaPage internalMapLayersFirmaPage, string geospatialAreaMapLayerGridDataUrl, bool userCanManage)
+            ProjectFirmaModels.Models.FirmaPage internalMapLayersFirmaPage, string geospatialAreaMapLayerGridDataUrl, 
+            ProjectFirmaModels.Models.FirmaPage externallySourcedGeospatialAreasInstructionsFirmaPage, bool userCanManage)
             : base(currentFirmaSession, externalMapLayersFirmaPage)
         {
-            PageTitle = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized()}";
             ExternalMapLayerGridSpec = new ExternalMapLayerGridSpec(userCanManage)
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.ExternalReferenceLayer.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.ExternalReferenceLayer.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
             ExternalMapLayerGridName = "externalMapLayersGrid";
@@ -58,7 +61,10 @@ namespace ProjectFirma.Web.Views.MapLayer
             NewUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.New());
 
             var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, internalMapLayersFirmaPage).HasPermission;
-            InternalMapLayersViewPageContentViewData = new ViewPageContentViewData(internalMapLayersFirmaPage, currentPersonCanManage, currentFirmaSession);
+            InternalMapLayersViewPageContentViewData = new ViewPageContentViewData(internalMapLayersFirmaPage, currentPersonCanManage);
+
+            AreGeospatialAreasExternallySourced = MultiTenantHelpers.AreGeospatialAreasExternallySourced();
+            ExternallySourcedGeospatialAreasInstructionsViewPageContentViewData = new ViewPageContentViewData(externallySourcedGeospatialAreasInstructionsFirmaPage, currentPersonCanManage);
 
             GeospatialAreaMapLayerGridSpec = new GeospatialAreaMapLayerGridSpec(userCanManage)
             {

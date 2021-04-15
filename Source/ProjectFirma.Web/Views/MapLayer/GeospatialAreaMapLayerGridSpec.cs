@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -31,13 +32,26 @@ namespace ProjectFirma.Web.Views.MapLayer
     {
         public GeospatialAreaMapLayerGridSpec(bool userCanManage)
         {
+            var areGeospatialAreasExternallySourced = MultiTenantHelpers.AreGeospatialAreasExternallySourced();
             if (userCanManage)
             {
+                if (areGeospatialAreasExternallySourced)
+                {
+                    var cssClasses = new List<string> { "btn", "btn-xs", "btn-firma" };
+                    Add(string.Empty,
+                        x => DhtmlxGridHtmlHelpers.MakeModalDialogLink("Sync", x.GetSyncUrl(), 400, "Sync Data",
+                            true, "Sync", "Cancel", cssClasses, null, null),
+                        60, DhtmlxGridColumnFilterType.None);
+                }
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditMapLayerUrl(), "Edit Geospatial Area Map Layer"), 30, DhtmlxGridColumnFilterType.None);
             }
             Add("Display Name", x => x.GeospatialAreaTypeNamePluralized, 250);
             Add(FieldDefinitionEnum.GeospatialAreaMapLayerDisplayAsReferenceLayer.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 175);
             Add(FieldDefinitionEnum.GeospatialAreaTypeOnByDefaultOnProjectMap.ToType().ToGridHeaderString(), x => x.OnByDefaultOnProjectMap ? "Yes" : "No", 175);
+            if (areGeospatialAreasExternallySourced)
+            {
+                Add("Service Url", x => x.ServiceUrl, 450);
+            }
         }
     }
 }
