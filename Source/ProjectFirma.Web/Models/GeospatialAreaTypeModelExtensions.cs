@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Models
             return SyncUrlTemplate.ParameterReplace(geospatialAreaType.GeospatialAreaTypeID);
         }
 
-        public static void ProcessApiResponse(GeospatialAreaType geospatialAreaType,
+        public static string ProcessApiResponse(GeospatialAreaType geospatialAreaType,
             string responseData, DatabaseEntities dbContext, string databaseConnectionString)
         {
             var geospatialAreaTypeID = geospatialAreaType.GeospatialAreaTypeID;
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Models
                 .Select(x => new GeospatialArea(x.Name, geospatialAreaTypeID, x.Name) { ExternalID = x.ExternalID, GeospatialAreaFeature = x.Geometry }).ToList();
             dbContext.AllGeospatialAreas.AddRange(newGeospatialAreas);
             // Find entities with matching names in DB and Service
-            var geospatialAreasToUpdate = dbContext.GeospatialAreas.Where(x => stagedExternalIDs.Contains(x.ExternalID));
+            var geospatialAreasToUpdate = dbContext.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == geospatialAreaTypeID && stagedExternalIDs.Contains(x.ExternalID));
             if (geospatialAreasToUpdate.Any())
             {
                 foreach (var geospatialArea in geospatialAreasToUpdate)
@@ -85,17 +85,37 @@ namespace ProjectFirma.Web.Models
             }
 
             var geospatialAreasToPotentiallyDelete =
-                dbContext.GeospatialAreas.Where(x => !stagedExternalIDs.Contains(x.ExternalID)).ToList();
+                dbContext.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == geospatialAreaTypeID && !stagedExternalIDs.Contains(x.ExternalID)).ToList();
             if (geospatialAreasToPotentiallyDelete.Any())
             {
+                var skippedDeletions = new List<string>();
+
                 foreach (var geospatialArea in geospatialAreasToPotentiallyDelete)
                 {
                     if (!geospatialArea.HasDependentObjects())
                     {
                         geospatialArea.Delete(dbContext);
                     }
+                    else
+                    {
+                        skippedDeletions.Add($"<li>{geospatialArea.GeospatialAreaName}</li>");
+                    }
+                }
+
+                if (skippedDeletions.Any())
+                {
+                    var geospatialAreaTypeName = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes
+                        .Single(x => x.GeospatialAreaTypeID == geospatialAreaTypeID).GeospatialAreaTypeNamePluralized;
+                    var skippedDeletionWarning = $"The following {geospatialAreaTypeName} were not found in the service but could not be deleted because they are still associated with other entities: " +
+                                                 "<ul>" +
+                                                 string.Join("", skippedDeletions.OrderBy(x => x)) +
+                                                 "</ul>" +
+                                                 "To delete them, remove their associations and re-run the sync.";
+                    return skippedDeletionWarning;
                 }
             }
+
+            return null;
         }
 
         private static List<GeospatialAreaStaging> ConvertToGeospatialStagings(string responseData, DatabaseEntities dbContext, string databaseConnectionString)

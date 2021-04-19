@@ -210,13 +210,18 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var syncResult = RestApiClient.SyncGeospatialAreaTypeFromService(geospatialAreaType);
-            if (syncResult.IsSuccess)
+            if (syncResult.IsError)
             {
-                SetMessageForDisplay(syncResult.Message);
+                SetErrorForDisplay(syncResult.Message);
+
+            }
+            else if(syncResult.IsWarning)
+            {
+                SetWarningForDisplay(syncResult.Message);
             }
             else
             {
-                SetErrorForDisplay(syncResult.Message);
+                SetMessageForDisplay(syncResult.Message);
             }
             return new ModalDialogFormJsonResult();
         }
