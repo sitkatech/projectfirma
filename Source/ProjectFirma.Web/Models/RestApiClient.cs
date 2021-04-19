@@ -13,12 +13,14 @@ namespace ProjectFirma.Web.Models
     public class SyncResult
     {
         public string Message { get; }
-        public bool IsSuccess { get; }
+        public bool IsError { get; }
+        public bool IsWarning { get; }
 
-        public SyncResult(string message, bool isSuccess)
+        public SyncResult(string message, bool isError, bool isWarning)
         {
             Message = message;
-            IsSuccess = isSuccess;
+            IsError = isError;
+            IsWarning = isWarning;
         }
     }
     public class RestApiClient
@@ -32,7 +34,7 @@ namespace ProjectFirma.Web.Models
                 var responseData = MakeApiRequest("Geospatial Area Type", geospatialAreaType.ServiceUrl);
                 var lastSucessfulResponse = HttpRequestStorage.DatabaseEntities.GeospatialAreaRawDatas.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
 
-                GeospatialAreaTypeModelExtensions.ProcessApiResponse(geospatialAreaType, responseData, HttpRequestStorage.DatabaseEntities, SitkaWebConfiguration.DatabaseConnectionString);
+                var optionalSkippedDeletionWarning = GeospatialAreaTypeModelExtensions.ProcessApiResponse(geospatialAreaType, responseData, HttpRequestStorage.DatabaseEntities, SitkaWebConfiguration.DatabaseConnectionString);
                 // Record this response as the latest response for next time
                 if (lastSucessfulResponse == null)
                 {
@@ -40,15 +42,20 @@ namespace ProjectFirma.Web.Models
                     HttpRequestStorage.DatabaseEntities.AllGeospatialAreaRawDatas.Add(lastSucessfulResponse);
                 }
                 lastSucessfulResponse.ResultJson = responseData;
+
+                if (optionalSkippedDeletionWarning != null)
+                {
+                    return new SyncResult(optionalSkippedDeletionWarning, false, true);
+                }
                 statusMessage = $"Geospatial area sync for {geospatialAreaType.GeospatialAreaTypeName} successful";
-                return new SyncResult(statusMessage, true);
+                return new SyncResult(statusMessage, false, false);
 
             }
             catch (Exception e)
             {
                 statusMessage = $"Geospatial area sync for {geospatialAreaType.GeospatialAreaTypeName} failed";
                 SitkaLogger.Instance.LogDetailedErrorMessage(statusMessage + " with an exception", e);
-                return new SyncResult(statusMessage, false);
+                return new SyncResult(statusMessage, true, false);
             }
         }
 
