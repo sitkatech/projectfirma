@@ -4,6 +4,7 @@
 //  Source Table: [dbo].[PersonLoginAccount]
 using System.Collections.Generic;
 using System.Linq;
+using Z.EntityFramework.Plus;
 using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
@@ -20,5 +21,33 @@ namespace ProjectFirmaModels.Models
             return personLoginAccount;
         }
 
+        // Delete using an IDList (Firma style)
+        public static void DeletePersonLoginAccount(this IQueryable<PersonLoginAccount> personLoginAccounts, List<int> personLoginAccountIDList)
+        {
+            if(personLoginAccountIDList.Any())
+            {
+                personLoginAccounts.Where(x => personLoginAccountIDList.Contains(x.PersonLoginAccountID)).Delete();
+            }
+        }
+
+        // Delete using an object list (Firma style)
+        public static void DeletePersonLoginAccount(this IQueryable<PersonLoginAccount> personLoginAccounts, ICollection<PersonLoginAccount> personLoginAccountsToDelete)
+        {
+            if(personLoginAccountsToDelete.Any())
+            {
+                var personLoginAccountIDList = personLoginAccountsToDelete.Select(x => x.PersonLoginAccountID).ToList();
+                personLoginAccounts.Where(x => personLoginAccountIDList.Contains(x.PersonLoginAccountID)).Delete();
+            }
+        }
+
+        public static void DeletePersonLoginAccount(this IQueryable<PersonLoginAccount> personLoginAccounts, int personLoginAccountID)
+        {
+            DeletePersonLoginAccount(personLoginAccounts, new List<int> { personLoginAccountID });
+        }
+
+        public static void DeletePersonLoginAccount(this IQueryable<PersonLoginAccount> personLoginAccounts, PersonLoginAccount personLoginAccountToDelete)
+        {
+            DeletePersonLoginAccount(personLoginAccounts, new List<PersonLoginAccount> { personLoginAccountToDelete });
+        }
     }
 }

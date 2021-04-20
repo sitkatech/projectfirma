@@ -48,6 +48,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Common\AuthenticationType.cs" />
     <Compile Include="Common\FieldDefinitionHelpers.cs" />
     <Compile Include="Common\FirmaDateUtilities.cs" />
     <Compile Include="Common\FirmaDateUtilitiesTest.cs" />

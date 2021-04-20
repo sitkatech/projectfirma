@@ -25,6 +25,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
@@ -47,15 +48,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult LocalAuthLogon()
         {
-            // Make sure we are in the right mode to support Local Authentication
-            var currentTenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
-            if (currentTenantAttributes.FirmaSystemAuthenticationType != FirmaSystemAuthenticationType.FirmaSelfAuth)
-            {
-                // Throw up error message, go to home page
-                SetErrorForDisplay(NotSitkaAuthErrorMessage);
-                return new RedirectResult(SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index()));
-            }
-
+            RequireLocalAuthMode();
             return LoginChallengeImpl(null);
         }
 
@@ -63,9 +56,8 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult LocalAuthLogon(LocalAuthLogonViewModel viewModel)
         {
+            RequireLocalAuthMode();
             DateTime currentDateTime = DateTime.Now;
-
-            ThrowErrorIfNotInSitkaAuthMode();
 
             var personLoginAccount = ProjectFirmaModels.SecurityUtil.UserAuthentication.Validate(HttpRequestStorage.DatabaseEntities, viewModel.UserName, viewModel.Password);
             if (personLoginAccount == null)
@@ -180,14 +172,10 @@ namespace ProjectFirma.Web.Controllers
             return new RedirectResult(SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index()));
         }
 
-        private static void ThrowErrorIfNotInSitkaAuthMode()
+        private static void RequireLocalAuthMode()
         {
             // Make sure we are in the right mode to support Local Authentication
-            var currentTenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
-            if (currentTenantAttributes.FirmaSystemAuthenticationType != FirmaSystemAuthenticationType.FirmaSelfAuth)
-            {
-                throw new SitkaDisplayErrorException(NotSitkaAuthErrorMessage);
-            }
+            Check.Require(FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth, "Authentication Type is not configured correctly for this page.");
         }
 
 

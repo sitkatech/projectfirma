@@ -74,6 +74,8 @@ namespace ProjectFirma.Web.Common
         public static readonly Tenant DefaultTenant = Tenant.All.Single(x => x.TenantID == DefaultTenantID);
         public static readonly string DefaultTenantCanonicalHostName = FirmaEnvironment.GetCanonicalHostNameForEnvironment(DefaultTenant);
 
+        public static readonly AuthenticationType AuthenticationType = SitkaConfiguration.GetRequiredAppSetting("AuthenticationType").ParseAsEnum<AuthenticationType>();
+
         public static List<string> CanonicalHostNames => Tenant.All.OrderBy(x => x.TenantID).Select(x => FirmaEnvironment.GetCanonicalHostNameForEnvironment(x)).ToList();
 
         public static string GeoServerUrl = SitkaConfiguration.GetRequiredAppSetting("GeoServerUrl");

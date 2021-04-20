@@ -42,7 +42,6 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[EnableMatchmaker] [bit] NOT NULL,
 	[MatchmakerAlgorithmIncludesProjectGeospatialAreas] [bit] NOT NULL,
 	[AreGeospatialAreasExternallySourced] [bit] NOT NULL,
-	[FirmaSystemAuthenticationTypeID] [int] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -111,11 +110,6 @@ ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttrib
 REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FileResourceInfo_TenantStyleSheetFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
-GO
-ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FirmaSystemAuthenticationType_FirmaSystemAuthenticationTypeID] FOREIGN KEY([FirmaSystemAuthenticationTypeID])
-REFERENCES [dbo].[FirmaSystemAuthenticationType] ([FirmaSystemAuthenticationTypeID])
-GO
-ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_FirmaSystemAuthenticationType_FirmaSystemAuthenticationTypeID]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID] FOREIGN KEY([PrimaryContactPersonID])
 REFERENCES [dbo].[Person] ([PersonID])

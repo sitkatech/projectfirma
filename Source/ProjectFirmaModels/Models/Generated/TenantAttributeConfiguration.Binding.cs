@@ -54,7 +54,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.EnableMatchmaker).HasColumnName(@"EnableMatchmaker").HasColumnType("bit").IsRequired();
             Property(x => x.MatchmakerAlgorithmIncludesProjectGeospatialAreas).HasColumnName(@"MatchmakerAlgorithmIncludesProjectGeospatialAreas").HasColumnType("bit").IsRequired();
             Property(x => x.AreGeospatialAreasExternallySourced).HasColumnName(@"AreGeospatialAreasExternallySourced").HasColumnType("bit").IsRequired();
-            Property(x => x.FirmaSystemAuthenticationTypeID).HasColumnName(@"FirmaSystemAuthenticationTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID

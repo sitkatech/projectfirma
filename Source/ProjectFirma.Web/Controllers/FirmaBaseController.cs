@@ -65,22 +65,17 @@ namespace ProjectFirma.Web.Controllers
         protected override void OnAuthentication(AuthenticationContext filterContext)
         {
             FirmaSession firmaSessionFromAuthentication;
-            var tenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
-            if (tenantAttributes.FirmaSystemAuthenticationType == FirmaSystemAuthenticationType.Keystone)
+            switch (FirmaWebConfiguration.AuthenticationType)
             {
-                firmaSessionFromAuthentication = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
+                case AuthenticationType.KeystoneAuth:
+                    firmaSessionFromAuthentication = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
+                    break;
+                case AuthenticationType.LocalAuth:
+                    firmaSessionFromAuthentication = FirmaWebSession.GetSessionFromCookie(filterContext, CurrentTenant);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            else if (tenantAttributes.FirmaSystemAuthenticationType == FirmaSystemAuthenticationType.FirmaSelfAuth)
-            {
-                firmaSessionFromAuthentication = FirmaWebSession.GetSessionFromCookie(filterContext, CurrentTenant);
-            }
-            else
-            {
-                throw new SitkaDisplayErrorException($"Unknown FirmaSystemAuthType == {tenantAttributes.FirmaSystemAuthenticationType}");
-            }
-            
-            
-            
 
             // We also need to wedge this in in certain contexts
             firmaSessionFromAuthentication.SetDatabaseEntities(HttpRequestStorage.DatabaseEntities);

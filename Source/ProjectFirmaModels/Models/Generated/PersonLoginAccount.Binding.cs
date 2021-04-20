@@ -16,9 +16,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PersonLoginAccount] is multi-tenant, so is attributed as IHaveATenantID
+    // Table [dbo].[PersonLoginAccount] is NOT multi-tenant, so is attributed as ICanDeleteFull
     [Table("[dbo].[PersonLoginAccount]")]
-    public partial class PersonLoginAccount : IHavePrimaryKey, IHaveATenantID
+    public partial class PersonLoginAccount : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -74,7 +74,6 @@ namespace ProjectFirmaModels.Models
             this.PersonLoginAccountID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PersonID = person.PersonID;
             this.Person = person;
-            person.PersonLoginAccounts.Add(this);
             this.PersonLoginAccountName = personLoginAccountName;
             this.CreateDate = createDate;
             this.PasswordHash = passwordHash;
@@ -122,7 +121,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllPersonLoginAccounts.Remove(this);
+            dbContext.PersonLoginAccounts.Remove(this);
         }
         
         /// <summary>
@@ -137,7 +136,6 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int PersonLoginAccountID { get; set; }
         public int PersonID { get; set; }
-        public int TenantID { get; set; }
         public string PersonLoginAccountName { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
@@ -152,7 +150,6 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return PersonLoginAccountID; } set { PersonLoginAccountID = value; } }
 
         public virtual Person Person { get; set; }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

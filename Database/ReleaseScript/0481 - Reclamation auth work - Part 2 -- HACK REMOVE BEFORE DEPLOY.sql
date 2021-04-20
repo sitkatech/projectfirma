@@ -1,16 +1,11 @@
 
--- Remove before real deployment!!!!
-update dbo.TenantAttribute
-set FirmaSystemAuthenticationTypeID = 2
-
-
 
 
 -- HACK to get things bootstrapped and tested. This will be expanded or replaced.
+-- temp create accounts for all users
 insert into dbo.PersonLoginAccount
 (
 PersonID,
-TenantID,
 PersonLoginAccountName,
 CreateDate,
 PasswordHash,
@@ -19,22 +14,19 @@ LoginActive,
 LoginCount,
 FailedLoginCount
 )
-values 
-(
-7092, -- Clackamas Partnership
-2, -- Clackamas Partnership
-'stewart@sitkatech.com',
-GETDATE(),
-'UrFd2oinFLZ84RTumt7wHOF+F5G0jnLzDMjHY+M0FL0=',
-'10000:nG0bXssoKynZKz6hKh+jeMEgLTgpggSAOIorUYlv6vg=',
-1,
-0,
-0
-)
+select 
+    p.PersonID, 
+    p.Email,
+    GETDATE(),
+    'UrFd2oinFLZ84RTumt7wHOF+F5G0jnLzDMjHY+M0FL0=',
+    '10000:nG0bXssoKynZKz6hKh+jeMEgLTgpggSAOIorUYlv6vg=',
+    1,
+    0,
+    0
+from dbo.Person as p
 
 
-select * from Keystone.dbo.[User]
-where email = 'stewart@sitkatech.com'
+
 
 /*
 

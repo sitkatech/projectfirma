@@ -14,6 +14,7 @@
     <add key="ClientValidationEnabled" value="true"/>
     <add key="UnobtrusiveJavaScriptEnabled" value="true"/>
     <add key="CacheStaticContentTimeSpan" value="${cache-static-content-timespan}"/>
+    <add key="AuthenticationType" value="${authentication-type}" />
     <!-- forcing DefaultTenantID to be the sitka tenant(differs for reclamation which is hosted elsewhere) -->
     <add key="DefaultTenantID" value="${default-tenant-id}"/>
     <!-- should default to true (reclamation will be false in their hosting environment) -->
