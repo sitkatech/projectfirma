@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
             RequireLocalAuthMode();
             DateTime currentDateTime = DateTime.Now;
 
-            var personLoginAccount = ProjectFirmaModels.SecurityUtil.UserAuthentication.Validate(HttpRequestStorage.DatabaseEntities, viewModel.UserName, viewModel.Password);
+            var personLoginAccount = ProjectFirmaModels.SecurityUtil.UserAuthentication.Validate(HttpRequestStorage.DatabaseEntities, viewModel.UserName, viewModel.Password, this.CurrentTenant.TenantID);
             if (personLoginAccount == null)
             {
                 string invalidLoginGenericMessage = $"Bad login or password";

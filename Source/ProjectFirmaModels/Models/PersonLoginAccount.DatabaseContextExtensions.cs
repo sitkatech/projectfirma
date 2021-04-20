@@ -28,10 +28,9 @@ namespace ProjectFirmaModels.Models
 
     public static partial class DatabaseContextExtensions
     {
-        public static PersonLoginAccount GetPersonLoginAccountByName(this IQueryable<PersonLoginAccount> personLoginAccounts, string personLoginAccountName)
+        public static PersonLoginAccount GetPersonLoginAccountByNameAndTenant(this IQueryable<PersonLoginAccount> personLoginAccounts, string personLoginAccountName, int tenantID)
         {
-            var loginAccounts = personLoginAccounts.ToList();
-            var personLoginAccount = loginAccounts.SingleOrDefault(x => x.PersonLoginAccountName == personLoginAccountName);
+            var personLoginAccount = personLoginAccounts.Where(x => x.PersonLoginAccountName == personLoginAccountName).SingleOrDefault(x => x.Person.TenantID == tenantID);
             return personLoginAccount;
         }
 

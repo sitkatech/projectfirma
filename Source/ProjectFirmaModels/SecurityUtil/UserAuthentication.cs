@@ -7,11 +7,11 @@ namespace ProjectFirmaModels.SecurityUtil
 {
     public static class UserAuthentication
     {
-        public static PersonLoginAccount Validate(DatabaseEntities databaseEntities, string personLoginAccountName, string passwordPlainText)
+        public static PersonLoginAccount Validate(DatabaseEntities databaseEntities, string personLoginAccountName, string passwordPlainText, int tenantID)
         {
             try
             {
-                var personLoginAccount = databaseEntities.PersonLoginAccounts.GetPersonLoginAccountByName(personLoginAccountName);
+                var personLoginAccount = databaseEntities.PersonLoginAccounts.GetPersonLoginAccountByNameAndTenant(personLoginAccountName, tenantID);
                 Check.RequireNotNull(personLoginAccount, $"PersonLoginAccount record not found for LogonName {personLoginAccountName}");
 
                 // Should have a valid PersonLoginAccount by now
