@@ -39,6 +39,7 @@ namespace ProjectFirma.Web
     /// </summary>
     public class FirmaOwinStartup
     {
+        public const string CookieAuthenticationType = "Cookies";
         private static readonly object BranchBuildLock = new object();
 
         /// <summary>
@@ -70,11 +71,12 @@ namespace ProjectFirma.Web
                     var tenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
                     branch.UseCookieAuthentication(new CookieAuthenticationOptions
                     {
-                        AuthenticationType = "Cookies",
+                        AuthenticationType = CookieAuthenticationType,
                         CookieManager = new SystemWebChunkingCookieManager(),
                         CookieName =
                             $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
                     });
+
 
                     switch (FirmaWebConfiguration.AuthenticationType)
                     {

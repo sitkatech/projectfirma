@@ -22,10 +22,13 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using Microsoft.AspNet.Identity;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
@@ -72,6 +75,13 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
 
             FirmaOwinStartup.MakeFirmaSessionForPersonLoggingIn(personLoginAccount.Person, currentDateTime);
+
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, HttpRequestStorage.FirmaSession.FirmaSessionGuid.ToString()));
+            var id = new ClaimsIdentity(claims, FirmaOwinStartup.CookieAuthenticationType);
+            var ctx = Request.GetOwinContext();
+            var authenticationManager = ctx.Authentication;
+            authenticationManager.SignIn(id);
 
             /*
             var urlIsRedirectable = !String.IsNullOrWhiteSpace(viewModel.RedirectUrl);
