@@ -6,6 +6,7 @@ CREATE TABLE dbo.PersonLoginAccount
 (
     PersonLoginAccountID [int] IDENTITY(1,1) NOT NULL,
     PersonID int not null,
+    TenantID int not null constraint FK_PersonLoginAccount_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
     [PersonLoginAccountName] [nvarchar](128) NOT NULL,
     [CreateDate] [datetime] NOT NULL,
     [UpdateDate] [datetime] NULL,
@@ -26,14 +27,15 @@ ALTER TABLE [dbo].PersonLoginAccount ADD  CONSTRAINT [PK_PersonLoginAccount_Pers
 ) ON [PRIMARY]
 GO
 
-USE [ProjectFirma]
-GO
-
 
 
 -- Person FK
 ALTER TABLE [dbo].PersonLoginAccount  WITH CHECK ADD  CONSTRAINT [FK_PersonLoginAccount_Person_PersonID] FOREIGN KEY([PersonID])
 REFERENCES [dbo].[Person] ([PersonID])
+GO
+
+ALTER TABLE [dbo].PersonLoginAccount  WITH CHECK ADD  CONSTRAINT [FK_PersonLoginAccount_Person_PersonID_TenantID] FOREIGN KEY([PersonID], TenantID)
+REFERENCES [dbo].[Person] ([PersonID], TenantID)
 GO
 
 

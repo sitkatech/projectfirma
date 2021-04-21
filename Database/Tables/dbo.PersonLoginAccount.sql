@@ -5,6 +5,7 @@ GO
 CREATE TABLE [dbo].[PersonLoginAccount](
 	[PersonLoginAccountID] [int] IDENTITY(1,1) NOT NULL,
 	[PersonID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[PersonLoginAccountName] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[UpdateDate] [datetime] NULL,
@@ -30,3 +31,13 @@ ALTER TABLE [dbo].[PersonLoginAccount]  WITH CHECK ADD  CONSTRAINT [FK_PersonLog
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[PersonLoginAccount] CHECK CONSTRAINT [FK_PersonLoginAccount_Person_PersonID]
+GO
+ALTER TABLE [dbo].[PersonLoginAccount]  WITH CHECK ADD  CONSTRAINT [FK_PersonLoginAccount_Person_PersonID_TenantID] FOREIGN KEY([PersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[PersonLoginAccount] CHECK CONSTRAINT [FK_PersonLoginAccount_Person_PersonID_TenantID]
+GO
+ALTER TABLE [dbo].[PersonLoginAccount]  WITH CHECK ADD  CONSTRAINT [FK_PersonLoginAccount_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[PersonLoginAccount] CHECK CONSTRAINT [FK_PersonLoginAccount_Tenant_TenantID]

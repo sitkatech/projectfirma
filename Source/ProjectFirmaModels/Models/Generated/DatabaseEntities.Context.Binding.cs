@@ -372,7 +372,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<PersonLoginAccount> PersonLoginAccounts { get; set; }
+        public virtual DbSet<PersonLoginAccount> AllPersonLoginAccounts { get; set; }
+        public virtual IQueryable<PersonLoginAccount> PersonLoginAccounts { get { return AllPersonLoginAccounts.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonSettingGridColumn> AllPersonSettingGridColumns { get; set; }
         public virtual IQueryable<PersonSettingGridColumn> PersonSettingGridColumns { get { return AllPersonSettingGridColumns.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonSettingGridColumnSettingFilter> AllPersonSettingGridColumnSettingFilters { get; set; }

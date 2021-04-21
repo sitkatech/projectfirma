@@ -18,9 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using LtInfo.Common.DesignByContract;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ProjectFirmaModels.Models
@@ -33,31 +30,5 @@ namespace ProjectFirmaModels.Models
             var personLoginAccount = personLoginAccounts.Where(x => x.PersonLoginAccountName == personLoginAccountName).SingleOrDefault(x => x.Person.TenantID == tenantID);
             return personLoginAccount;
         }
-
-        /*
-        public static List<Organization> GetMatchmakerOrganizations(this IQueryable<Organization> organizations)
-        {
-            return organizations.Where(x => x.IsActive && (x.MatchmakerOptIn ?? false)).ToList().OrderBy(x => x.GetDisplayName()).ToList();
-        }
-
-        public static Organization GetOrganizationByKeystoneOrganizationGuid(this IQueryable<Organization> organizations, Guid keystoneOrganizationGuid)
-        {
-            var organization = organizations.SingleOrDefault(x => x.KeystoneOrganizationGuid == keystoneOrganizationGuid);
-            return organization;
-        }
-
-        public static Organization GetOrganizationByOrganizationName(this IQueryable<Organization> organizations, string organizationName)
-        {
-            var organization = organizations.SingleOrDefault(x => x.OrganizationName == organizationName);
-            return organization;
-        }
-
-        public static Organization GetUnknownOrganization(this IQueryable<Organization> organizations)
-        {
-            var unknownOrg = organizations.SingleOrDefault(x => x.OrganizationName == Organization.OrganizationUnknown);
-            Check.Ensure(unknownOrg != null, "No Unknown Organization found for current TenantID; please add to Organizations table");
-            return unknownOrg;
-        }
-        */
     }
 }

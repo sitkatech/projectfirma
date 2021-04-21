@@ -16,9 +16,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PersonLoginAccount] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[PersonLoginAccount] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PersonLoginAccount]")]
-    public partial class PersonLoginAccount : IHavePrimaryKey, ICanDeleteFull
+    public partial class PersonLoginAccount : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -121,7 +121,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.PersonLoginAccounts.Remove(this);
+            dbContext.AllPersonLoginAccounts.Remove(this);
         }
         
         /// <summary>
@@ -136,6 +136,7 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int PersonLoginAccountID { get; set; }
         public int PersonID { get; set; }
+        public int TenantID { get; set; }
         public string PersonLoginAccountName { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
@@ -150,6 +151,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return PersonLoginAccountID; } set { PersonLoginAccountID = value; } }
 
         public virtual Person Person { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

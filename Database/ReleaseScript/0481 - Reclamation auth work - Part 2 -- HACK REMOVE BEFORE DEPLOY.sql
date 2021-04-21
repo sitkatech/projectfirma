@@ -6,6 +6,7 @@
 insert into dbo.PersonLoginAccount
 (
 PersonID,
+TenantID,
 PersonLoginAccountName,
 CreateDate,
 PasswordHash,
@@ -15,7 +16,8 @@ LoginCount,
 FailedLoginCount
 )
 select 
-    p.PersonID, 
+    p.PersonID,
+    p.TenantID,
     p.Email,
     GETDATE(),
     'UrFd2oinFLZ84RTumt7wHOF+F5G0jnLzDMjHY+M0FL0=',
