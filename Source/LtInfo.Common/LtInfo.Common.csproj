@@ -251,7 +251,6 @@
     <Compile Include="LtInfoVersionInfo.cs" />
     <Compile Include="Mvc\InMemorySessionStateStore.cs" />
     <Compile Include="Mvc\ISitkaDbContext.cs" />
-    <Compile Include="Security\IPasswordHash.cs" />
     <Compile Include="Security\PBKDF2PasswordHash.cs" />
     <Compile Include="SitkaGeometryDisplayErrorException.cs" />
     <Compile Include="SitkaWebConfiguration.cs" />
