@@ -89,7 +89,7 @@
     <httpRuntime targetFramework="4.8" requestValidationMode="2.0" maxRequestLength="${max-request-length}" maxUrlLength="${max-request-url-length}" maxQueryStringLength="${max-request-querystring-length}" ${httpruntime-executiontimeout-optional}/>
     <compilation debug="true" targetFramework="4.8"/>
     <!-- ASP.NET session cookie should be httponly and secure -->
-    <httpCookies httpOnlyCookies="true" requireSSL="true" lockItem="true"/>
+    <httpCookies httpOnlyCookies="true" requireSSL="${redirect-to-https}" lockItem="true"/>
     <sessionState mode="Custom" customProvider="InMemorySessionStateStore" timeout="720">
       <providers>
         <add name="InMemorySessionStateStore" type="LtInfo.Common.Mvc.InMemorySessionStateStore"/>

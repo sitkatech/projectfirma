@@ -69,12 +69,15 @@ namespace ProjectFirma.Web
 
                     var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
                     var tenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
+                    var cookieSecureOption = FirmaWebConfiguration.RedirectToHttps
+                        ? CookieSecureOption.Always
+                        : CookieSecureOption.Never;
                     branch.UseCookieAuthentication(new CookieAuthenticationOptions
                     {
                         AuthenticationType = CookieAuthenticationType,
                         CookieManager = new SystemWebChunkingCookieManager(),
-                        CookieName =
-                            $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
+                        CookieName = $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}",
+                        CookieSecure = cookieSecureOption
                     });
 
 
