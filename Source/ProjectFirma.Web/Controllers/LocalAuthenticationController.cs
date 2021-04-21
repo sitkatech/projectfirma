@@ -19,27 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.LocalAuthentication;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
-using Microsoft.AspNet.Identity;
-using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security.Shared;
-using ProjectFirma.Web.Views.Home;
-using ProjectFirma.Web.Views.LocalAuthentication;
-using ProjectFirma.Web.Views.Map;
-using ProjectFirma.Web.Views.Organization;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
 namespace ProjectFirma.Web.Controllers
 {
