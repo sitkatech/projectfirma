@@ -39,6 +39,7 @@ namespace ProjectFirma.Web
     /// </summary>
     public class FirmaOwinStartup
     {
+        public const string CookieAuthenticationType = "Cookies";
         private static readonly object BranchBuildLock = new object();
 
         /// <summary>
@@ -68,101 +69,115 @@ namespace ProjectFirma.Web
 
                     var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
                     var tenantAttributes = MultiTenantHelpers.GetTenantAttributeFromCache();
+                    var cookieSecureOption = FirmaWebConfiguration.RedirectToHttps
+                        ? CookieSecureOption.Always
+                        : CookieSecureOption.Never;
                     branch.UseCookieAuthentication(new CookieAuthenticationOptions
                     {
-                        AuthenticationType = "Cookies",
+                        AuthenticationType = CookieAuthenticationType,
                         CookieManager = new SystemWebChunkingCookieManager(),
-                        CookieName =
-                            $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
+                        CookieName = $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}",
+                        CookieSecure = cookieSecureOption
                     });
 
-                    branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
+
+                    switch (FirmaWebConfiguration.AuthenticationType)
                     {
-                        Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
-                        ResponseType = "id_token token",
-                        Scope = "openid all_claims keystone",
-                        UseTokenLifetime = false,
-                        SignInAsAuthenticationType = "Cookies",
-                        CallbackPath = new PathString("/Account/LogOn"),
-                        ClientId = tenantAttributes.KeystoneOpenIDClientIdentifier,
-                        ClientSecret = tenantAttributes.KeystoneOpenIDClientSecret,
-                        RedirectUri =
+                        case AuthenticationType.KeystoneAuth:
+                            branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
+                            {
+                                Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
+                                ResponseType = "id_token token",
+                                Scope = "openid all_claims keystone",
+                                UseTokenLifetime = false,
+                                SignInAsAuthenticationType = "Cookies",
+                                CallbackPath = new PathString("/Account/LogOn"),
+                                ClientId = tenantAttributes.KeystoneOpenIDClientIdentifier,
+                                ClientSecret = tenantAttributes.KeystoneOpenIDClientSecret,
+                                RedirectUri =
                             $"https://{canonicalHostNameForEnvironment}/Account/LogOn", // this has to match the keystone client redirect uri
-                        PostLogoutRedirectUri =
+                                PostLogoutRedirectUri =
                             $"https://{canonicalHostNameForEnvironment}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
 
-                        Notifications = new OpenIdConnectAuthenticationNotifications
-                        {
-                            AuthenticationFailed = (context) =>
-                            {
-                                if ((context.Exception.Message.StartsWith("OICE_20004") ||
-                                     context.Exception.Message.Contains("IDX10311")))
+                                Notifications = new OpenIdConnectAuthenticationNotifications
                                 {
-                                    context.SkipToNextMiddleware();
-                                    return Task.FromResult(0);
-                                }
-
-                                return Task.FromResult(0);
-                            },
-                            SecurityTokenValidated = n =>
-                            {
-                                HttpRequestStorage.Tenant = GetTenantFromUrl(n.Request);
-                                SitkaHttpApplication.Logger.Debug(
-                                    $"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}");
-
-                                var claimsIdentity = n.AuthenticationTicket.Identity;
-                                claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
-
-                                if (n.ProtocolMessage.Code != null)
-                                {
-                                    claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
-                                }
-
-                                if (n.ProtocolMessage.AccessToken != null)
-                                {
-                                    claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
-                                }
-
-                                //map name claim to default name type
-                                claimsIdentity.AddClaim(new Claim(
-                                    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
-                                    claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
-
-                                if (claimsIdentity.IsAuthenticated) // we have a token and we can determine the person.
-                                {
-                                    KeystoneOpenIDUtilities.OpenIDClaimHandler(SyncLocalAccountStore, claimsIdentity);
-                                }
-
-                                return Task.FromResult(0);
-                            },
-                            RedirectToIdentityProvider = n =>
-                            {
-                                //n.ProtocolMessage.RedirectUri = GetHomePage(); // dynamic home page for multiple subdomains
-                                //n.ProtocolMessage.PostLogoutRedirectUri = GetOuterPage(); // dynamic landing page for multiple subdomains
-                                if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
-                                {
-                                    var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
-
-                                    if (idTokenHint != null)
+                                    AuthenticationFailed = (context) =>
                                     {
-                                        n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+                                        if ((context.Exception.Message.StartsWith("OICE_20004") ||
+                                             context.Exception.Message.Contains("IDX10311")))
+                                        {
+                                            context.SkipToNextMiddleware();
+                                            return Task.FromResult(0);
+                                        }
+
+                                        return Task.FromResult(0);
+                                    },
+                                    SecurityTokenValidated = n =>
+                                    {
+                                        HttpRequestStorage.Tenant = GetTenantFromUrl(n.Request);
+                                        SitkaHttpApplication.Logger.Debug(
+                                            $"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}");
+
+                                        var claimsIdentity = n.AuthenticationTicket.Identity;
+                                        claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+
+                                        if (n.ProtocolMessage.Code != null)
+                                        {
+                                            claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
+                                        }
+
+                                        if (n.ProtocolMessage.AccessToken != null)
+                                        {
+                                            claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
+                                        }
+
+                                        //map name claim to default name type
+                                        claimsIdentity.AddClaim(new Claim(
+                                            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+                                            claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
+
+                                        if (claimsIdentity.IsAuthenticated) // we have a token and we can determine the person.
+                                        {
+                                            KeystoneOpenIDUtilities.OpenIDClaimHandler(SyncLocalAccountStore, claimsIdentity);
+                                        }
+
+                                        return Task.FromResult(0);
+                                    },
+                                    RedirectToIdentityProvider = n =>
+                                    {
+                                        //n.ProtocolMessage.RedirectUri = GetHomePage(); // dynamic home page for multiple subdomains
+                                        //n.ProtocolMessage.PostLogoutRedirectUri = GetOuterPage(); // dynamic landing page for multiple subdomains
+                                        if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+                                        {
+                                            var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
+
+                                            if (idTokenHint != null)
+                                            {
+                                                n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+                                            }
+                                        }
+                                        else if (n.ProtocolMessage.RequestType ==
+                                                 OpenIdConnectRequestType.AuthenticationRequest)
+                                        {
+                                            var httpContextBase = GetHttpContext(n);
+                                            var referrer = httpContextBase.Request.UrlReferrer;
+                                            if (referrer != null && referrer.Host == canonicalHostNameForEnvironment)
+                                            {
+                                                n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
+                                            }
+                                        }
+
+                                        return Task.FromResult(0);
                                     }
                                 }
-                                else if (n.ProtocolMessage.RequestType ==
-                                         OpenIdConnectRequestType.AuthenticationRequest)
-                                {
-                                    var httpContextBase = GetHttpContext(n);
-                                    var referrer = httpContextBase.Request.UrlReferrer;
-                                    if (referrer != null && referrer.Host == canonicalHostNameForEnvironment)
-                                    {
-                                        n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
-                                    }
-                                }
-
-                                return Task.FromResult(0);
-                            }
-                        }
-                    });
+                            });
+                            break;
+                        case AuthenticationType.LocalAuth:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    
 
                     // we have to do this per tenant so needs to belong here
                     branch.UseHangfireDashboard("/hangfire", new DashboardOptions
@@ -283,11 +298,34 @@ namespace ProjectFirma.Web
                 //Assign user to magic Unknown Organization ID
             }
 
+            MakeFirmaSessionForPersonLoggingIn(person, currentDateTime);
+
+            if (sendNewUserNotification)
+            {
+                SendNewUserCreatedMessage(person, keystoneUserClaims.LoginName);
+            }
+
+            if (sendNewOrganizationNotification)
+            {
+                SendNewOrganizationCreatedMessage(person, keystoneUserClaims.LoginName);
+                // Post new Organization to ProjectFirma
+                if (person.Tenant.AreOrganizationsExternallySourced)
+                {
+                    PostOrganizationToExternalSystem(organization).ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+                }
+            }
+
+            return HttpRequestStorage.Person;
+        }
+
+        public static void MakeFirmaSessionForPersonLoggingIn(Person person, DateTime currentDateTime)
+        {
             person.UpdateDate = currentDateTime;
             person.LastActivityDate = currentDateTime;
 
             // Find existing FirmaSession if we can for this user
-            var firmaSessionsForPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(person.PersonID, false);
+            var firmaSessionsForPerson =
+                HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(person.PersonID, false);
             // If we find an existing Session..
             if (firmaSessionsForPerson.Any())
             {
@@ -306,23 +344,6 @@ namespace ProjectFirma.Web
                 HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(newFirmaSession);
                 HttpRequestStorage.DatabaseEntities.SaveChanges(newFirmaSession.Person);
             }
-
-            if (sendNewUserNotification)
-            {
-                SendNewUserCreatedMessage(person, keystoneUserClaims.LoginName);
-            }
-
-            if (sendNewOrganizationNotification)
-            {
-                SendNewOrganizationCreatedMessage(person, keystoneUserClaims.LoginName);
-                // Post new Organization to ProjectFirma
-                if (person.Tenant.AreOrganizationsExternallySourced)
-                {
-                    PostOrganizationToExternalSystem(organization).ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
-                }
-            }
-
-            return HttpRequestStorage.Person;
         }
 
         private static async Task PostOrganizationToExternalSystem(Organization organization)

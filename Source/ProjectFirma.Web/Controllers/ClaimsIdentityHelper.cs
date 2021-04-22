@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using Keystone.Common.OpenID;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using Microsoft.AspNet.Identity;
+using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -21,15 +24,23 @@ namespace ProjectFirma.Web.Controllers
             try
             {
                 // Get the Person from Claims Identity
-                //var personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
-                //    authenticationManager.User, PersonModelExtensions.GetAnonymousSitkaUser(),
-                //    HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
-
                 // Other RPs use an actual "anonymous" user, but we are trying to have CurrentPerson be null, so, we are trying this. -- SLG & SG
                 const Person anonymousSitkaUser = null;
-                var personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
-                    authenticationManager.User, anonymousSitkaUser,
-                    HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
+                Person personFromClaimsIdentity;
+                
+                switch (FirmaWebConfiguration.AuthenticationType)
+                {
+                    case AuthenticationType.KeystoneAuth:
+                        personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
+                            authenticationManager.User, anonymousSitkaUser,
+                            HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
+                        break;
+                    case AuthenticationType.LocalAuth:
+                        personFromClaimsIdentity = GetPersonFromLocalClaims(authenticationManager.User);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
                 // Actual real person
                 if (personFromClaimsIdentity != null)
@@ -63,6 +74,20 @@ namespace ProjectFirma.Web.Controllers
                 IdentitySignOut(authenticationManager);
                 throw new SitkaDisplayErrorException("Something went wrong with your session or credentials. Please try logging in again. If this does not resolve the issue, please contact support.", ex);
             }
+        }
+
+        private static Person GetPersonFromLocalClaims(ClaimsPrincipal principal)
+        {
+            if (!principal.Identity.IsAuthenticated)
+            {
+                return null;
+            }
+
+            var name = principal.Identity.Name;
+            var guid = Guid.Parse(name);
+            var firmaSession = HttpRequestStorage.DatabaseEntities.FirmaSessions.Single(x => x.FirmaSessionGuid == guid);
+
+            return firmaSession.Person;
         }
 
 

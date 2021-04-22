@@ -55,7 +55,36 @@ namespace ProjectFirma.Web.Common
 
         public static string GenerateLogInUrl()
         {
-            var logInUrl = SitkaRoute<AccountController>.BuildUrlFromExpression(c => c.LogOn());
+            var logInUrl = string.Empty;
+            switch (FirmaWebConfiguration.AuthenticationType)
+            {
+                case AuthenticationType.KeystoneAuth:
+                    logInUrl = SitkaRoute<AccountController>.BuildUrlFromExpression(c => c.LogOn());
+                    break;
+                case AuthenticationType.LocalAuth:
+                    logInUrl = SitkaRoute<LocalAuthenticationController>.BuildUrlFromExpression(c => c.LocalAuthLogon());
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return logInUrl;
+        }
+
+        public static string GenerateAbsoluteLogInUrl()
+        {
+            var logInUrl = string.Empty;
+            switch (FirmaWebConfiguration.AuthenticationType)
+            {
+                case AuthenticationType.KeystoneAuth:
+                    logInUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn());
+                    break;
+                case AuthenticationType.LocalAuth:
+                    logInUrl = SitkaRoute<LocalAuthenticationController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LocalAuthLogon());
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             return logInUrl;
         }

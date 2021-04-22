@@ -45,7 +45,10 @@ namespace ProjectFirma.Web.Controllers
 
         protected override string LoginUrl
         {
-            get { return SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn()); }
+            get
+            {
+                return FirmaHelpers.GenerateAbsoluteLogInUrl();
+            } 
         }
 
         [LoggedInUnclassifiedFeature]
