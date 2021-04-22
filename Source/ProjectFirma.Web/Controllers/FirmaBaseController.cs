@@ -62,16 +62,15 @@ namespace ProjectFirma.Web.Controllers
 
         protected override void OnAuthentication(AuthenticationContext filterContext)
         {
-            FirmaSession firmaSessionFromAuthentication = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
-
+            var firmaSessionFromClaimsIdentity = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
 
             // We also need to wedge this in in certain contexts
-            firmaSessionFromAuthentication.SetDatabaseEntities(HttpRequestStorage.DatabaseEntities);
+            firmaSessionFromClaimsIdentity.SetDatabaseEntities(HttpRequestStorage.DatabaseEntities);
 
             // Use this session
-            HttpRequestStorage.FirmaSession = firmaSessionFromAuthentication;
+            HttpRequestStorage.FirmaSession = firmaSessionFromClaimsIdentity;
             // we need to set this so that the save will know who the Person is
-            HttpRequestStorage.DatabaseEntities.Person = firmaSessionFromAuthentication.Person;
+            HttpRequestStorage.DatabaseEntities.Person = firmaSessionFromClaimsIdentity.Person;
 
             base.OnAuthentication(filterContext);
         }
