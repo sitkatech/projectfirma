@@ -570,7 +570,7 @@ namespace ProjectFirma.Web.Controllers
     <p>
     When you have a moment, please activate your account by logging in:
     </p>
-    <strong>Log in here:</strong>  <a href=""{SitkaRoute<AccountController>.BuildAbsoluteUrlFromExpression(x => x.LogOn())}"">{toolDisplayName}</a><br />
+    <strong>Log in here:</strong>  <a href=""{FirmaHelpers.GenerateAbsoluteLogInUrl()}"">{toolDisplayName}</a><br />
     <strong>Your user name is:</strong> {person.LoginName}<br />
     <p>
     If you don't remember your password, you will be able to reset it from the link above.

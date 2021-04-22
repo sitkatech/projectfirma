@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -408,6 +408,10 @@
     <Compile Include="Models\Generated\Person.Binding.cs" />
     <Compile Include="Models\Generated\Person.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PersonConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonLoginAccount.Binding.cs" />
+    <Compile Include="Models\Generated\PersonLoginAccount.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonLoginAccountConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonLoginAccountPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PersonPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PersonSettingGridColumn.Binding.cs" />
     <Compile Include="Models\Generated\PersonSettingGridColumn.DatabaseContextExtensions.cs" />
@@ -855,6 +859,7 @@
     <Compile Include="Models\MatchmakerOrganizationTaxonomyTrunk.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyBranch.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyLeaf.cs" />
+    <Compile Include="Models\PersonLoginAccount.DatabaseContextExtensions.cs" />
     <Compile Include="Models\OrganizationMatchmakerKeyword.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
@@ -905,6 +910,7 @@
     <Compile Include="Models\TaxonomyLeaf.cs" />
     <Compile Include="Models\TaxonomyTrunk.cs" />
     <Compile Include="Models\TenantAttribute.cs" />
+    <Compile Include="SecurityUtil\UserAuthentication.cs" />
     <Compile Include="UnitTestCommon\AssertCustom.cs" />
     <Compile Include="UnitTestCommon\HttpRequestStorageForTest.cs" />
     <Compile Include="UnitTestCommon\DatabaseDirectAccessTestFixtureBase.cs" />
@@ -1152,6 +1158,9 @@
     <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatPrimaryAndAlternateKeyNamesMatchNamingStandard.approved.txt" />
     <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatPrimaryKeyColumnMatchNamingStandard.approved.txt" />
     <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatThereAreNoIndexesAlreadyDefinedByPrimaryOrAlternateKey.approved.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

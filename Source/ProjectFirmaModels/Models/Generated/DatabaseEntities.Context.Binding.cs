@@ -124,6 +124,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
+            modelBuilder.Configurations.Add(new PersonLoginAccountConfiguration());
             modelBuilder.Configurations.Add(new PersonSettingGridColumnConfiguration());
             modelBuilder.Configurations.Add(new PersonSettingGridColumnSettingConfiguration());
             modelBuilder.Configurations.Add(new PersonSettingGridColumnSettingFilterConfiguration());
@@ -371,6 +372,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PersonLoginAccount> AllPersonLoginAccounts { get; set; }
+        public virtual IQueryable<PersonLoginAccount> PersonLoginAccounts { get { return AllPersonLoginAccounts.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonSettingGridColumn> AllPersonSettingGridColumns { get; set; }
         public virtual IQueryable<PersonSettingGridColumn> PersonSettingGridColumns { get { return AllPersonSettingGridColumns.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonSettingGridColumnSettingFilter> AllPersonSettingGridColumnSettingFilters { get; set; }
@@ -904,6 +907,9 @@ namespace ProjectFirmaModels.Models
                     var performanceMeasureType = PerformanceMeasureType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(performanceMeasureType, "PerformanceMeasureType", primaryKey);
                     return performanceMeasureType;
+
+                case "PersonLoginAccount":
+                    return PersonLoginAccounts.GetPersonLoginAccount(primaryKey);
 
                 case "PersonSettingGridColumn":
                     return PersonSettingGridColumns.GetPersonSettingGridColumn(primaryKey);
