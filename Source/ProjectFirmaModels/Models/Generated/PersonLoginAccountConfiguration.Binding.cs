@@ -16,8 +16,8 @@ namespace ProjectFirmaModels.Models
             ToTable("PersonLoginAccount", schema);
             HasKey(x => x.PersonLoginAccountID);
             Property(x => x.PersonLoginAccountID).HasColumnName(@"PersonLoginAccountID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsRequired();
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
+            Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsRequired();
             Property(x => x.PersonLoginAccountName).HasColumnName(@"PersonLoginAccountName").HasColumnType("nvarchar").IsRequired().HasMaxLength(128);
             Property(x => x.CreateDate).HasColumnName(@"CreateDate").HasColumnType("datetime").IsRequired();
             Property(x => x.UpdateDate).HasColumnName(@"UpdateDate").HasColumnType("datetime").IsOptional();

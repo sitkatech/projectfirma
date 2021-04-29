@@ -135,8 +135,8 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int PersonLoginAccountID { get; set; }
-        public int PersonID { get; set; }
         public int TenantID { get; set; }
+        public int PersonID { get; set; }
         public string PersonLoginAccountName { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
@@ -150,8 +150,8 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return PersonLoginAccountID; } set { PersonLoginAccountID = value; } }
 
-        public virtual Person Person { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual Person Person { get; set; }
 
         public static class FieldLengths
         {

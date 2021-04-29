@@ -4,8 +4,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[PersonLoginAccount](
 	[PersonLoginAccountID] [int] IDENTITY(1,1) NOT NULL,
-	[PersonID] [int] NOT NULL,
 	[TenantID] [int] NOT NULL,
+	[PersonID] [int] NOT NULL,
 	[PersonLoginAccountName] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[UpdateDate] [datetime] NULL,

@@ -5,8 +5,8 @@ GO
 CREATE TABLE dbo.PersonLoginAccount
 (
     PersonLoginAccountID [int] IDENTITY(1,1) NOT NULL,
-    PersonID int not null,
     TenantID int not null constraint FK_PersonLoginAccount_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+    PersonID int not null,
     [PersonLoginAccountName] [nvarchar](128) NOT NULL,
     [CreateDate] [datetime] NOT NULL,
     [UpdateDate] [datetime] NULL,
