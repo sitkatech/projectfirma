@@ -393,7 +393,11 @@
          {
             <div class="keyPhoto">
                <img class="img-responsive" src="@ViewDataTyped.KeyPhoto.GetPhotoUrlScaledForPrint()" alt="@ViewDataTyped.KeyPhoto.GetCaptionOnFullView()" />
-               <span class="captionText">@ViewDataTyped.KeyPhoto.Caption</span>
+               <div class="captionText">@ViewDataTyped.KeyPhoto.Caption</div>
+               @if (MultiTenantHelpers.ShowPhotoCreditOnFactSheet())
+               {
+                   <div class="captionText">Credit: @ViewDataTyped.KeyPhoto.Credit</div>
+               }
             </div>
          }
          else
@@ -476,6 +480,10 @@
                         <div class="col-sm-12 col-md-6">
                            <img class="img-responsive" src="@projectImage.GetPhotoUrlScaledForPrint()" alt="@projectImage.GetCaptionOnFullView()" />
                            <div class="captionText">@projectImage.Caption</div>
+                           @if (MultiTenantHelpers.ShowPhotoCreditOnFactSheet())
+                           {
+                               <div class="captionText">Credit: @projectImage.Credit</div>
+                           }
                         </div>
                      }
                   </div>
