@@ -48,6 +48,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Common\AuthenticationType.cs" />
     <Compile Include="Common\FieldDefinitionHelpers.cs" />
     <Compile Include="Common\FirmaDateUtilities.cs" />
     <Compile Include="Common\FirmaDateUtilitiesTest.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\LocalAuthenticationController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="Models\ProjectClassificationsUpdateModelExtensions.cs" />
+    <Compile Include="Models\RestApiClient.cs" />
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="Models\TenantSimple.cs" />
     <Compile Include="PartnerFinder\MatchMakerScoreSubScoreInsight.cs" />
@@ -325,6 +328,9 @@
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\GeospatialAreaPerformanceMeasureTargetGridSpec.cs" />
+    <Compile Include="Views\LocalAuthentication\LocalAuthLogonViewData.cs" />
+    <Compile Include="Views\LocalAuthentication\LocalAuthLogonViewModel.cs" />
+    <Compile Include="Views\LocalAuthentication\LocalAuthLogon.cs" />
     <Compile Include="Views\MapLayer\EditGeospatialAreaMapLayer.cs" />
     <Compile Include="Views\MapLayer\EditExternalMapLayer.cs" />
     <Compile Include="Views\MapLayer\EditGeospatialAreaMapLayerViewData.cs" />
@@ -562,6 +568,7 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
     <Compile Include="Views\Shared\DisplayDocumentLibrary.cs" />
     <Compile Include="Views\Shared\DisplayDocumentLibraryViewData.cs" />
+    <Compile Include="Views\Shared\CustomFooterViewData.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
@@ -751,6 +758,7 @@
     <Content Include="Views\Keyword\MatchmakerKeywordsModal.cshtml" />
     <Content Include="Views\Organization\MatchmakerOrganizationPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ExternalLinks.cshtml" />
+    <Content Include="Views\LocalAuthentication\LocalAuthLogon.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

@@ -25,6 +25,8 @@ using System.Linq;
 
 namespace ProjectFirmaModels.Models
 {
+
+
     public static partial class DatabaseContextExtensions
     {
         public static List<Organization> GetActiveOrganizations(this IQueryable<Organization> organizations)

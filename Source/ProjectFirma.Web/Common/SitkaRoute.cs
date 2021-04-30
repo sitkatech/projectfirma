@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Common
             // ReSharper restore StaticFieldInGenericType
         {
             var sw = new StringWriter();
-            var url = string.Format("http://{0}{1}", FirmaWebConfiguration.CanonicalHostName, SitkaWebConfiguration.WebApplicationRootPath);
+            var url = string.Format("http://{0}{1}", FirmaWebConfiguration.DefaultTenantCanonicalHostName, SitkaWebConfiguration.WebApplicationRootPath);
             var request = new HttpRequest(String.Empty, url, String.Empty);
             var httpContext = new HttpContext(request, new HttpResponse(sw));
             return new RequestContext(new HttpContextWrapper(httpContext), new RouteData());
@@ -108,9 +108,21 @@ namespace ProjectFirma.Web.Common
                    SitkaRouteRandomizer.RandomGenerator.Next();
         }
 
+        /// <summary>
+        /// This will return an absolute URL with https, unless the "RedirectToHttps" config flag is set to false. Then it will return the result with http.
+        /// </summary>
+        /// <param name="routeExpression"></param>
+        /// <returns></returns>
         public static string BuildAbsoluteUrlHttpsFromExpression(Expression<Action<T>> routeExpression)
         {
-            return BuildAbsoluteUrlFromExpressionImpl(routeExpression, "https");
+            if (FirmaWebConfiguration.RedirectToHttps)
+            {
+                return BuildAbsoluteUrlFromExpressionImpl(routeExpression, "https");
+            }
+            else
+            {
+                return BuildAbsoluteUrlFromExpression(routeExpression);
+            }
         }
 
         public static string BuildAbsoluteUrlFromExpression(Expression<Action<T>> routeExpression)
@@ -133,10 +145,10 @@ namespace ProjectFirma.Web.Common
         {
 
             var currentContext = HttpContext.Current;
-            var hostName = FirmaWebConfiguration.CanonicalHostName;
+            var hostName = FirmaWebConfiguration.DefaultTenantCanonicalHostName;
             if (currentContext != null)
             {
-                hostName = FirmaWebConfiguration.GetCanonicalHost(currentContext.Request.Url.Host, true) ?? FirmaWebConfiguration.CanonicalHostName;
+                hostName = FirmaWebConfiguration.GetCanonicalHost(currentContext.Request.Url.Host, true) ?? FirmaWebConfiguration.DefaultTenantCanonicalHostName;
             }
 
             return $"{protocol}://{hostName}{relativeUrl}";
@@ -223,9 +235,9 @@ namespace ProjectFirma.Web.Common
 
         public static string ReplaceHostNameForBackgroundJob(string absoluteUrl, string tenantHostName)
         {
-            // There is no Http Request Context for background jobs, so any urls built using SitkaRoute methods will have the FirmaWebConfiguration.CanonicalHostName (e.g. 'sitka.projectfirma.com') for the host name.
+            // There is no Http Request Context for background jobs, so any urls built using SitkaRoute methods will have the FirmaWebConfiguration.DefaultTenantCanonicalHostName (e.g. 'sitka.projectfirma.com') for the host name.
             // Need to replace this with the host name of the tenant
-            return absoluteUrl.Replace(FirmaWebConfiguration.CanonicalHostName, tenantHostName);
+            return absoluteUrl.Replace(FirmaWebConfiguration.DefaultTenantCanonicalHostName, tenantHostName);
         }
 
         #region Private Helper Methods

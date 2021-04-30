@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.MapLayer
@@ -26,9 +27,12 @@ namespace ProjectFirma.Web.Views.MapLayer
     public class EditGeospatialAreaMapLayerViewData : FirmaUserControlViewData
     {
         public GeospatialAreaType GeospatialAreaType { get; }
+        public bool AreGeospatialAreasExternallySourced { get; }
+
         public EditGeospatialAreaMapLayerViewData(GeospatialAreaType geospatialAreaType)
         {
             GeospatialAreaType = geospatialAreaType;
+            AreGeospatialAreasExternallySourced = MultiTenantHelpers.AreGeospatialAreasExternallySourced();
         }
     }
 }

@@ -28,6 +28,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.ModalDialog;
+using MoreLinq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Common
 
         public static Tenant GetTenantFromHostUrl(Uri urlHost)
         {
-            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Host.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
+            var tenant = Tenant.All.Where(x => urlHost.Host.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase)).SingleOrFallback(() => FirmaWebConfiguration.DefaultTenant);
             Check.RequireNotNull(tenant, $"[GetTenantFromHostUrl] Could not determine tenant from host \"{urlHost}\"");
             return tenant;
         }
@@ -403,6 +404,11 @@ namespace ProjectFirma.Web.Common
 
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<EvaluationController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
             }
+        }
+
+        public static bool AreGeospatialAreasExternallySourced()
+        {
+            return GetTenantAttributeFromCache().AreGeospatialAreasExternallySourced;
         }
 
         public static bool DisplayReportsLink()

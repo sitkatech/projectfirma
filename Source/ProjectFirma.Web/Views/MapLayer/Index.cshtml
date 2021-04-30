@@ -30,22 +30,30 @@
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-@section RightOfPageTitle
-{
-    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Add a new {0}", @FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserCanManage)
-}
 
 
-@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
-
-<div style="margin-top: 10px;">
-    @Html.DhtmlxGrid(ViewDataTyped.ExternalMapLayerGridSpec, ViewDataTyped.ExternalMapLayerGridName, ViewDataTyped.ExternalMapLayerGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
-</div>
-
-<h2 class="pageTitle" style="margin-top: 50px">Internal Map Layers</h2>
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.InternalMapLayersViewPageContentViewData); }
+
+@if (ViewDataTyped.AreGeospatialAreasExternallySourced)
+{
+    { ViewPageContent.RenderPartialView(Html, ViewDataTyped.ExternallySourcedGeospatialAreasInstructionsViewPageContentViewData); }
+}
 
 <div style="margin-top: 10px;">
     @Html.DhtmlxGrid(ViewDataTyped.GeospatialAreaMapLayerGridSpec, ViewDataTyped.GeospatialAreaMapLayerGridName, ViewDataTyped.GeospatialAreaMapLayerGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>
+
+<h2 class="pageTitle" style="margin-top: 50px">External Reference Layers</h2>
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+
+<div class="col-md-12" style="margin-bottom: 15px; padding: 0;">
+    <div class="pull-right">
+        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Add a new {0}", @FieldDefinitionEnum.ExternalReferenceLayer.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserCanManage)
+    </div>
+</div>
+
+<div style="margin-top: 10px;">
+    @Html.DhtmlxGrid(ViewDataTyped.ExternalMapLayerGridSpec, ViewDataTyped.ExternalMapLayerGridName, ViewDataTyped.ExternalMapLayerGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
