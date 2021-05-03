@@ -252,6 +252,11 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttributeFromCache().ShowLeadImplementerLogoOnFactSheet;
         }
 
+        public static bool ShowPhotoCreditOnFactSheet()
+        {
+            return GetTenantAttributeFromCache().ShowPhotoCreditOnFactSheet;
+        }
+
         public static List<ClassificationSystem> GetClassificationSystems()
         {
             return HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();

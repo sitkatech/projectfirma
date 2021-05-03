@@ -23,6 +23,7 @@ using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjectFirma.Web.Views.ProjectFactSheet
@@ -34,7 +35,10 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet)]
         public bool ShowLeadImplementerLogoOnFactSheet { get; set; }
-        
+
+        [DisplayName("Show Photo Credit on Fact Sheet?")]
+        public bool ShowPhotoCreditOnFactSheet { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -46,11 +50,13 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
         {
             TenantID = tenant.TenantID;
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
+            ShowPhotoCreditOnFactSheet = tenantAttribute.ShowPhotoCreditOnFactSheet;
         }
 
         public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
         {
             tenantAttribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
+            tenantAttribute.ShowPhotoCreditOnFactSheet = ShowPhotoCreditOnFactSheet;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
