@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectFirmaModels.Models.ProjectUpdate ProjectUpdate { get; }
         public SectionCommentsViewData SectionCommentsViewData { get; }
         public int? StartYearForTotalCostCalculation { get; }
+        public bool TenantUsesFiscalYears { get; }
 
 
         public BasicsViewData(FirmaSession currentFirmaSession
@@ -65,6 +66,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBasics(Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned());
             StartYearForTotalCostCalculation = projectUpdate.StartYearForTotalCostCalculations();
+            TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
     }
 }
