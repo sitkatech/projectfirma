@@ -164,9 +164,9 @@ Source code is available upon request via <support@sitkatech.com>.
             var completionYears = ViewDataTyped.CompletionYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
         }
 
-        initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
-            "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
-            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(), "@Html.IdFor(x => x.ProjectStageID)", @ViewDataTyped.TenantUsesFiscalYears.ToString().ToLower())
+//        initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
+//            "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
+//            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(), "@Html.IdFor(x => x.ProjectStageID)", @ViewDataTyped.TenantUsesFiscalYears.ToString().ToLower())
     </script>
 </div>
 

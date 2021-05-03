@@ -4,7 +4,6 @@
     yearSelect.children('option:not(:first)').remove();
 
     for (var year = min; year <= max; year++) {
-//        yearSelect.append(new Option(year, year));
         var yearString = tenantUsesFiscalYears ? "FY" + year : year;
         yearSelect.append(new Option(yearString, year));
     }
@@ -33,9 +32,13 @@ function initializeYearConstraining(planningYearInputId,
 
     constrainYearOptions();
 
-    jQuery("#" + planningYearInputId).on("input", constrainYearOptions);
-    jQuery("#" + implementationYearId).on("input", constrainYearOptions);
-    jQuery("#" + completionYearId).on("input", constrainYearOptions);
+//    jQuery("#" + planningYearInputId).on("change", function () { alert("Hey!"));
+//    jQuery("#" + implementationYearId).on("change", constrainYearOptions);
+//    jQuery("#" + completionYearId).on("change", constrainYearOptions);
+
+    document.getElementById(planningYearInputId).addEventListener("change", constrainYearOptions);
+    document.getElementById(implementationYearId).addEventListener("change", constrainYearOptions);
+    document.getElementById(completionYearId).addEventListener("change", constrainYearOptions);
 
     if (projectStageElementID) {
         var projectStageSelect = jQuery("#" + projectStageElementID);
