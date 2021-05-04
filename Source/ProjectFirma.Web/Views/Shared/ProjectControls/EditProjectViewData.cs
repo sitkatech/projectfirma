@@ -47,6 +47,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public bool HasThreeTierTaxonomy { get; }
         public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
         public TenantAttribute TenantAttribute { get; set; }
+        public bool TenantUsesFiscalYears { get; }
+
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyLeafDisplayName,
@@ -77,6 +79,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson != null ? DefaultPrimaryContactPerson.GetFullNameFirstLastAndOrgShortName() : "nobody";
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             TenantAttribute = tenantAttribute;
+            TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
     }
 }

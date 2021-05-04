@@ -297,6 +297,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
         initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
             "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
-            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(), "@Html.IdFor(x => x.ProjectStageID)")
+            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(), "@Html.IdFor(x => x.ProjectStageID)", @ViewDataTyped.TenantUsesFiscalYears.ToString().ToLower())
     </script>
 }
