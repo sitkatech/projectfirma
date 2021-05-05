@@ -32,10 +32,6 @@ function initializeYearConstraining(planningYearInputId,
 
     constrainYearOptions();
 
-//    jQuery("#" + planningYearInputId).on("change", function () { alert("Hey!"));
-//    jQuery("#" + implementationYearId).on("change", constrainYearOptions);
-//    jQuery("#" + completionYearId).on("change", constrainYearOptions);
-
     document.getElementById(planningYearInputId).addEventListener("change", constrainYearOptions);
     document.getElementById(implementationYearId).addEventListener("change", constrainYearOptions);
     document.getElementById(completionYearId).addEventListener("change", constrainYearOptions);
