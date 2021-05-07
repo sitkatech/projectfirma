@@ -1,10 +1,11 @@
-﻿function filterYearOptions(min, max, yearSelect) {
+﻿function filterYearOptions(min, max, yearSelect, tenantUsesFiscalYears) {
     var selectedYear = yearSelect.val();
 
     yearSelect.children('option:not(:first)').remove();
 
     for (var year = min; year <= max; year++) {
-        yearSelect.append(new Option(year, year));
+        var yearString = tenantUsesFiscalYears ? "FY" + year : year;
+        yearSelect.append(new Option(yearString, year));
     }
 
     if (min <= selectedYear && selectedYear <= max) {
@@ -15,7 +16,7 @@
 // Setup automatic constraining of project year selection inputs to valid years only
 function initializeYearConstraining(planningYearInputId,
     implementationYearId, implementationMinYear, implementationMaxYear, 
-    completionYearId, completionMinYear, completionMaxYear, projectStageElementID) {
+    completionYearId, completionMinYear, completionMaxYear, projectStageElementID, tenantUsesFiscalYears) {
 
     function constrainYearOptions() {
         var designStartSelect = jQuery("#" + planningYearInputId);
@@ -23,17 +24,17 @@ function initializeYearConstraining(planningYearInputId,
         var completedSelect = jQuery("#" + completionYearId);
 
         var minImplementationYear = Math.max(implementationMinYear, designStartSelect.val());
-        filterYearOptions(minImplementationYear, implementationMaxYear, implementationStartSelect);
+        filterYearOptions(minImplementationYear, implementationMaxYear, implementationStartSelect, tenantUsesFiscalYears);
 
         var minCompletionYear = Math.max(completionMinYear, minImplementationYear, implementationStartSelect.val());
-        filterYearOptions(minCompletionYear, completionMaxYear, completedSelect);
+        filterYearOptions(minCompletionYear, completionMaxYear, completedSelect, tenantUsesFiscalYears);
     }
 
     constrainYearOptions();
 
-    jQuery("#" + planningYearInputId).on("input", () => constrainYearOptions());
-    jQuery("#" + implementationYearId).on("input", () => constrainYearOptions());
-    jQuery("#" + completionYearId).on("input", () => constrainYearOptions());
+    document.getElementById(planningYearInputId).addEventListener("change", constrainYearOptions);
+    document.getElementById(implementationYearId).addEventListener("change", constrainYearOptions);
+    document.getElementById(completionYearId).addEventListener("change", constrainYearOptions);
 
     if (projectStageElementID) {
         var projectStageSelect = jQuery("#" + projectStageElementID);
