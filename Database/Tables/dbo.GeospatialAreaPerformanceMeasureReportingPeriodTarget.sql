@@ -13,18 +13,18 @@ CREATE TABLE [dbo].[GeospatialAreaPerformanceMeasureReportingPeriodTarget](
  CONSTRAINT [PK_GeospatialAreaPerformanceMeasureReportingPeriodTarget_GeospatialAreaPerformanceMeasureReportingPeriodTargetID] PRIMARY KEY CLUSTERED 
 (
 	[GeospatialAreaPerformanceMeasureReportingPeriodTargetID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
  CONSTRAINT [AK_GeospatialAreaPerformanceMeasureReportingPeriodTarget_GeospatialAreaID_PerformanceMeasureReportingPeriodID_PerformanceMeasure] UNIQUE NONCLUSTERED 
 (
 	[GeospatialAreaID] ASC,
 	[PerformanceMeasureReportingPeriodID] ASC,
 	[PerformanceMeasureID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
  CONSTRAINT [AK_GeospatialAreaPerformanceMeasureReportingPeriodTarget_GeospatialAreaPerformanceMeasureReportingPeriodTargetID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[GeospatialAreaPerformanceMeasureReportingPeriodTargetID] ASC,
 	[TenantID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
