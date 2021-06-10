@@ -101,7 +101,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">Associate Performance Measures to Taxonomy Tier</div>
-                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel.TaxonomyLevelDisplayName</div>
+                    <div class="col-sm-7">@(ViewDataTyped.TenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel != null ? ViewDataTyped.TenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel.TaxonomyLevelDisplayName : string.Empty)</div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">Minimum Year</div>
@@ -130,6 +130,14 @@
                     <div class="col-sm-5 fieldLabel text-right">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() External Data Source Enabled</div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        Track Accomplishments?
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.TrackAccomplishments.ToYesNo()
                     </div>
                 </div>
                 <div class="row">

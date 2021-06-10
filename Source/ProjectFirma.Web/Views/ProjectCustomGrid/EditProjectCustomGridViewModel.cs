@@ -67,6 +67,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.ProjectCategory).ToList();
             }
+            // Remove Performance Measure Columns if Tenant doesn't Track Accomplishments
+            if (!MultiTenantHelpers.TrackAccomplishments())
+            {
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.NumberOfExpectedPerformanceMeasureRecords).ToList();
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.NumberOfReportedPerformanceMeasures).ToList();
+            }
 
             foreach (var projectCustomGridColumn in projectCustomGridColumns)
             {

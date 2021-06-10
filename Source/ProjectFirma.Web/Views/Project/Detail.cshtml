@@ -255,41 +255,44 @@
                   @{ ProjectContactsDetail.RenderPartialView(Html, ViewDataTyped.ProjectContactsDetailViewData); }
                </div>
             </div>
-
-            <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
-            <div class="panel panelFirma">
-               <div class="panel-heading panelTitle">
-                  @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                  <h3 class="project-detail-heading">
-                     Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
-                  </h3>
-               </div>
-               <div class="panel-body">
-                  @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
-               </div>
-            </div>
-            <div class="panel panelFirma">
-               <div class="panel-heading panelTitle">
-                  @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
-                  <h3 class="project-detail-heading">
-                     Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
-                  </h3>
-               </div>
-               <div class="panel-body">
-                  @if (ViewDataTyped.Project.IsProposal())
-                  {
-                     <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
-                  }
-                  else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
-                  {
-                     <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
-                  }
-                  else
-                  {
-                     PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
-                  }
-               </div>
-            </div>
+            @if (MultiTenantHelpers.TrackAccomplishments())
+            {
+                <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
+                <div class="panel panelFirma">
+                   <div class="panel-heading panelTitle">
+                      @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                      <h3 class="project-detail-heading">
+                         Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
+                      </h3>
+                   </div>
+                   <div class="panel-body">
+                      @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
+                   </div>
+                </div>
+                <div class="panel panelFirma">
+                   <div class="panel-heading panelTitle">
+                      @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
+                      <h3 class="project-detail-heading">
+                         Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
+                      </h3>
+                   </div>
+                   <div class="panel-body">
+                      @if (ViewDataTyped.Project.IsProposal())
+                      {
+                         <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+                      }
+                      else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
+                      {
+                         <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
+                      }
+                      else
+                      {
+                         PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
+                      }
+                   </div>
+                </div>
+            } 
+            
             @* Technical Assistance Panel for Idaho *@
             @if (MultiTenantHelpers.UsesTechnicalAssistanceParameters())
             {

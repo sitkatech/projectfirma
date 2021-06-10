@@ -293,51 +293,53 @@
             <div class="col-xs-12">
                <div class="projectDescription">@Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())</div>
             </div>
-            <div class="col-xs-12" style="margin-top: 10px">
-               <h4>Key Accomplishments</h4>
-               @if (ViewDataTyped.PerformanceMeasureReportedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
-               {
-                  <ul>
-                     @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
-                     {
-                        if (performanceMeasureGroup.Key.IsSummable)
+            @if(MultiTenantHelpers.TrackAccomplishments()){
+               <div class="col-xs-12" style="margin-top: 10px">
+                  <h4>Key Accomplishments</h4>
+                  @if (ViewDataTyped.PerformanceMeasureReportedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
+                  {
+                     <ul>
+                        @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
                         {
-                           <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue()))</strong></li>
-                        }
-
-                        var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
-                        if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
-                        {
-                           foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
+                           if (performanceMeasureGroup.Key.IsSummable)
                            {
-                              var performanceMeasureReportedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
+                              <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue()))</strong></li>
+                           }
 
-                              if (performanceMeasureReportedValues.Any())
+                           var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
+                           if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
+                           {
+                              foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
                               {
-                                 <li>
-                                    @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName):
-                                    <strong>
-                                       @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureReportedValues.Sum(x => x.GetReportedValue()))
-                                    </strong>
-                                 </li>
+                                 var performanceMeasureReportedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
+
+                                 if (performanceMeasureReportedValues.Any())
+                                 {
+                                    <li>
+                                       @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName):
+                                       <strong>
+                                          @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureReportedValues.Sum(x => x.GetReportedValue()))
+                                       </strong>
+                                    </li>
+                                 }
                               }
                            }
                         }
-                     }
-                     @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
-                     {
-                        <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
-                        <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
-                        <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
-                        <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
-                     }
-                  </ul>
-               }
-               else
-               {
-                  <div class="systemText">Accomplishments to be provided upon completion of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</div>
-               }
-            </div>
+                        @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
+                        {
+                           <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
+                           <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
+                           <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
+                           <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
+                        }
+                     </ul>
+                  }
+                  else
+                  {
+                     <div class="systemText">Accomplishments to be provided upon completion of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</div>
+                  }
+               </div>
+            } 
             @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
             {
                <div class="col-xs-12">

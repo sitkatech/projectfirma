@@ -39,9 +39,12 @@ namespace ProjectFirma.Web.PartnerFinder
             CalculateOrganizationMatchmakerKeywordSubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
             // Classifications SubScore
             CalculateOrganizationMatchmakerClassificationSubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
-            // Performance Measure SubScore
-            CalculateOrganizationMatchmakerPerformanceMeasureSubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
-
+            if (MultiTenantHelpers.TrackAccomplishments())
+            {
+                // Performance Measure SubScore
+                CalculateOrganizationMatchmakerPerformanceMeasureSubScore(project, organization, ref subScores, ref matchInsightStrings, ref scoreInsightDictionary);
+            }
+            
             // Calculate final score from sub-scores
             double scoreToReturn = CalculateFinalScoreFromSubScores(subScores);
 
