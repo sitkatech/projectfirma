@@ -69,6 +69,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
             InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(projectUpdateBatch.Project));
             ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
+            if (!MultiTenantHelpers.TrackAccomplishments())
+            {
+                ProjectWorkflowSectionGroupings.Remove(ProjectWorkflowSectionGrouping.Accomplishments);
+            }
             ProjectUpdateBatch = projectUpdateBatch;
             Project = projectUpdateBatch.Project;
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
