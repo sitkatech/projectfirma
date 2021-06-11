@@ -464,7 +464,10 @@ namespace ProjectFirma.Web.Models
                         returnDict.Add(MatchmakerSubScoreTypeEnum.Classification, organization.HasMatchmakerClassificationsContent());
                         break;
                     case MatchmakerSubScoreTypeEnum.PerformanceMeasure:
-                        returnDict.Add(MatchmakerSubScoreTypeEnum.PerformanceMeasure, organization.HasMatchmakerPerformanceMeasureContent());
+                        if (MultiTenantHelpers.TrackAccomplishments())
+                        {
+                            returnDict.Add(MatchmakerSubScoreTypeEnum.PerformanceMeasure, organization.HasMatchmakerPerformanceMeasureContent());
+                        }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

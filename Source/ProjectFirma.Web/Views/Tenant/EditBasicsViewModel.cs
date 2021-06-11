@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Source Geospatial Areas Externally?")]
         public bool AreGeospatialAreasExternallySourced { get; set; }
 
-        [DisplayName("Track Accomplishments")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TrackAccomplishments)]
         public bool TrackAccomplishments { get; set; }
 
         /// <summary>

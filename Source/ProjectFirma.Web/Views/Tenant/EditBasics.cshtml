@@ -330,11 +330,7 @@
         var associatePerformanceMeasureTaxonomyLevelDropdown = jQuery("#@Html.IdFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID)");
 
         //Set default display
-        if (trackAccomplishmentsCheckbox.prop("checked")) {
-            enableAccomplishmentsDashboardCheckbox.attr("disabled", false);
-            associatePerformanceMeasureTaxonomyLevelDropdown.attr("disabled", false);
-        }
-        else {
+        if (!trackAccomplishmentsCheckbox.prop("checked")) {
             enableAccomplishmentsDashboardCheckbox.attr("disabled", "disabled");
             enableAccomplishmentsDashboardCheckbox.prop("checked", false);
             enableAccomplishmentsDashboardCheckbox.attr("title", "Disabled because Track Accomplishments is not selected.");
@@ -345,7 +341,6 @@
         jQuery(trackAccomplishmentsCheckbox).change(function () {
             var enableAccomplishmentsDashboardCheckboxForCheckboxFunction = jQuery("#@Html.IdFor(x => x.EnableAccomplishmentsDashboard)");
             var associatePerformanceMeasureTaxonomyLevelDropdownForCheckboxFunction = jQuery("#@Html.IdFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID)");
-            
 
             if (this.checked) {
                 enableAccomplishmentsDashboardCheckboxForCheckboxFunction.attr("disabled", false);

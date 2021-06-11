@@ -760,7 +760,7 @@ namespace ProjectFirma.Web.Models
             var projectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All;
             if (!MultiTenantHelpers.TrackAccomplishments())
             {
-                projectWorkflowSectionGroupings.Remove(ProjectWorkflowSectionGrouping.Accomplishments);
+                projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
             }
             return projectWorkflowSectionGroupings.SelectMany(x => x.GetProjectUpdateSections(currentFirmaSession, projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }

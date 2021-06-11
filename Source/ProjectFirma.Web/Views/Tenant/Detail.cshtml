@@ -101,7 +101,16 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">Associate Performance Measures to Taxonomy Tier</div>
-                    <div class="col-sm-7">@(ViewDataTyped.TenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel != null ? ViewDataTyped.TenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel.TaxonomyLevelDisplayName : string.Empty)</div>
+                    <div class="col-sm-7">
+                        @if (MultiTenantHelpers.TrackAccomplishments())
+                        {
+                            @ViewDataTyped.TenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel.TaxonomyLevelDisplayName
+                        }
+                        else
+                        {
+                            <span class="systemText">Not Applicable</span>
+                        }
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">Minimum Year</div>
@@ -134,7 +143,8 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Track Accomplishments?
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.TrackAccomplishments.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.TrackAccomplishments.ToType().GetFieldDefinitionLabel()?
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.TrackAccomplishments.ToYesNo()
@@ -145,7 +155,14 @@
                         Enable Accomplishments Dashboard?
                     </div>
                     <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.EnableAccomplishmentsDashboard.ToYesNo()
+                        @if (MultiTenantHelpers.TrackAccomplishments())
+                        {
+                            @ViewDataTyped.TenantAttribute.EnableAccomplishmentsDashboard.ToYesNo()
+                        }
+                        else
+                        {
+                            <span class="systemText">Not Applicable</span>
+                        }
                     </div>
                 </div>
                 <div class="row">
