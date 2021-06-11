@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
             if (!MultiTenantHelpers.TrackAccomplishments())
             {
-                ProjectWorkflowSectionGroupings.Remove(ProjectWorkflowSectionGrouping.Accomplishments);
+                ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
             }
             ProjectUpdateBatch = projectUpdateBatch;
             Project = projectUpdateBatch.Project;

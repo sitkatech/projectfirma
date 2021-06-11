@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
             if (!MultiTenantHelpers.TrackAccomplishments())
             {
-                ProjectWorkflowSectionGroupings.Remove(ProjectWorkflowSectionGrouping.Accomplishments);
+                ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
             }
             CurrentSectionDisplayName = currentSectionDisplayName;
             TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());

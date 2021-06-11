@@ -85,6 +85,10 @@ namespace ProjectFirma.Web.PartnerFinder
             var countOfMatches = itemsMatched.Count();
             var itemsNotMatched = this.ScoreInsightDictionary.Where(x => !x.Value.Matched).Select(x => MultiTenantHelpers.GetTenantDisplayNameForMatchmakerSubScoreTypeEnum(x.Key)).ToList();
             var countOfTotalPossibleItemsToMatchOn = Enum.GetNames(typeof(MatchmakerSubScoreTypeEnum)).Length;
+            if (!MultiTenantHelpers.TrackAccomplishments())
+            {
+                countOfTotalPossibleItemsToMatchOn -= 1; // progress measures should not be included in the count
+            }
 
             var sb = new StringBuilder();
             sb.AppendLine($"<div><p>This {sourceObjectFieldDefinitionEnum.ToType().GetFieldDefinitionLabel()} matches on {countOfMatches} of {countOfTotalPossibleItemsToMatchOn} elements:</p>");
