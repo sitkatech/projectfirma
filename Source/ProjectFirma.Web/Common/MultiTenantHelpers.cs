@@ -237,6 +237,11 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttributeFromCache().EnableAccomplishmentsDashboard;
         }
 
+        public static bool TrackAccomplishments()
+        {
+            return GetTenantAttributeFromCache().TrackAccomplishments;
+        }
+
         public static OrganizationRelationshipType GetIsPrimaryContactOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);

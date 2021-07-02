@@ -144,9 +144,12 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="active">
                 <a href="#classificationOverview" aria-controls="classificationOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
             </li>
-            <li>
-                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
-            </li>
+            @if (MultiTenantHelpers.TrackAccomplishments())
+            {
+                <li>
+                    <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Accomplishments</a>
+                </li>
+            }
         </ul>
     </div>
 </div>
@@ -211,43 +214,47 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="performanceMeasures">
+            @if (MultiTenantHelpers.TrackAccomplishments())
+            {
+                <div role="tabpanel" class="tab-pane" id="performanceMeasures">
 
-                @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
-                {
-                <p>
-                    The reported @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() results for projects with this @ViewDataTyped.ClassificationDisplayName are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @ViewDataTyped.ClassificationDisplayName. To see the full results for a @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), click the @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() name in the chart title
-                </p>
-                    foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
+                    @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
-                        <div class="row">
-                            @foreach (var performanceMeasureChartViewData in batch)
-                            {
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                                    <div class="panel panelFirma">
-                                        <div class="panel-body">
-                                            <div style="width: 500px; margin: auto;">
-                                                @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                        <p>
+                            The reported @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() results for projects with this @ViewDataTyped.ClassificationDisplayName are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @ViewDataTyped.ClassificationDisplayName. To see the full results for a @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), click the @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() name in the chart title
+                        </p>
+                        foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
+                        {
+                            <div class="row">
+                                @foreach (var performanceMeasureChartViewData in batch)
+                                {
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                        <div class="panel panelFirma">
+                                            <div class="panel-body">
+                                                <div style="width: 500px; margin: auto;">
+                                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="text-center">
+                                    There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @ViewDataTyped.ClassificationDisplayName.
+                                </p>
+                            </div>
                         </div>
                     }
-                }
-                else
-                {
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <p class="text-center">
-                                There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @ViewDataTyped.ClassificationDisplayName.
-                            </p>
-                        </div>
-                    </div>
-                }
 
-            </div>
+                </div>
+            }
+
         </div>
     </div>
 </div>

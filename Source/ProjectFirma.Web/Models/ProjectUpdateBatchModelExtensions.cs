@@ -456,7 +456,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool AreReportedPerformanceMeasuresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.NewStageIsPlanningDesign() || PerformanceMeasuresValidationResult.AreAllValid(projectUpdateBatch.ValidatePerformanceMeasures());
+            return !MultiTenantHelpers.TrackAccomplishments() || projectUpdateBatch.NewStageIsPlanningDesign() || PerformanceMeasuresValidationResult.AreAllValid(projectUpdateBatch.ValidatePerformanceMeasures());
         }
 
         public static List<string> ValidateExpendituresAndForceValidation(this ProjectUpdateBatch projectUpdateBatch)
@@ -757,7 +757,12 @@ namespace ProjectFirma.Web.Models
 
         public static List<ProjectSectionSimple> GetApplicableWizardSections(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, bool ignoreStatus, bool hasEditableCustomAttributes)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(currentFirmaSession, projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            var projectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All;
+            if (!MultiTenantHelpers.TrackAccomplishments())
+            {
+                projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
+            }
+            return projectWorkflowSectionGroupings.SelectMany(x => x.GetProjectUpdateSections(currentFirmaSession, projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)

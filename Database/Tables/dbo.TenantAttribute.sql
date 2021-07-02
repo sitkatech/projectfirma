@@ -43,6 +43,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[MatchmakerAlgorithmIncludesProjectGeospatialAreas] [bit] NOT NULL,
 	[AreGeospatialAreasExternallySourced] [bit] NOT NULL,
 	[ShowPhotoCreditOnFactSheet] [bit] NOT NULL,
+	[TrackAccomplishments] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

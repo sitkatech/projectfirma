@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
 
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
             var oldTenantAttributeTaxonomyLevel = tenantAttribute.TaxonomyLevel;
-            var oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel;
+            var oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevelID = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID;
             viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession);
             if (viewModel.BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID)
             {
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
 
                 viewModel.UpdateCostTypes(existingCostTypes, allCostTypes);
             }
-            var clearOutTaxonomyLeafPerformanceMeasures = oldTenantAttributeTaxonomyLevel.TaxonomyLevelID != viewModel.TaxonomyLevelID.Value || oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel.TaxonomyLevelID != viewModel.AssociatePerfomanceMeasureTaxonomyLevelID.Value;
+            var clearOutTaxonomyLeafPerformanceMeasures = oldTenantAttributeTaxonomyLevel.TaxonomyLevelID != tenantAttribute.TaxonomyLevelID || oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevelID != tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID;
 
             if (clearOutTaxonomyLeafPerformanceMeasures)
             {
@@ -141,9 +141,9 @@ namespace ProjectFirma.Web.Controllers
             }
 
             // if we are shrinking the number of tiers, we need to collapse child records to hidden parent record(s) named "Default"
-            if (oldTenantAttributeTaxonomyLevel.TaxonomyLevelID > viewModel.TaxonomyLevelID.Value)
+            if (oldTenantAttributeTaxonomyLevel.TaxonomyLevelID > tenantAttribute.TaxonomyLevelID)
             {
-                var newTaxonomyLevel = TaxonomyLevel.ToType(viewModel.TaxonomyLevelID.Value);
+                var newTaxonomyLevel = TaxonomyLevel.ToType(tenantAttribute.TaxonomyLevelID);
                 const string defaultTrunkOrBranchName = "Default";
                 if (newTaxonomyLevel == TaxonomyLevel.Branch)
                 {
