@@ -277,7 +277,7 @@ namespace ProjectFirma.Web.Common
         public static List<CustomPage> GetCustomPages(FirmaMenuItem firmaMenuItem)
         {
             return HttpRequestStorage.DatabaseEntities.CustomPages
-                .Where(x => x.FirmaMenuItemID == firmaMenuItem.FirmaMenuItemID).OrderBy(x => x.CustomPageDisplayName).ToList();
+                .Where(x => x.FirmaMenuItemID == firmaMenuItem.FirmaMenuItemID).OrderBy(x => x.SortOrder).ThenBy(x => x.CustomPageDisplayName).ToList();
         }
 
         public static AccomplishmentsDashboardFundingDisplayType GetAccomplishmentsDashboardFundingDisplayType()

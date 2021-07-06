@@ -28,6 +28,7 @@ using ProjectFirma.Web.Views.CustomPage;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
@@ -120,8 +121,9 @@ namespace ProjectFirma.Web.Controllers
             var gridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByFirmaSession(CurrentFirmaSession));
             var customPages = HttpRequestStorage.DatabaseEntities.CustomPages.ToList()
                 .Where(x => new CustomPageManageFeature().HasPermission(CurrentFirmaSession, x).HasPermission)
-                .OrderBy(x => x.CustomPageDisplayName)
+                .OrderBy(x => x.FirmaMenuItemID).ThenBy(x => x.SortOrder).ThenBy(x => x.CustomPageDisplayName)
                 .ToList();
+            
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CustomPage>(customPages, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -190,6 +192,10 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var customPage = new CustomPage(string.Empty, string.Empty, FirmaMenuItem.About);
+
+            var maxSortOrderForMenu = HttpRequestStorage.DatabaseEntities.CustomPages
+                .Where(x => x.FirmaMenuItemID == viewModel.FirmaMenuItemID).Max(x => x.SortOrder);
+            customPage.SortOrder = maxSortOrderForMenu.HasValue ? maxSortOrderForMenu + 1 : null;
 
             HttpRequestStorage.DatabaseEntities.CustomPageRoles.Load();
             var customPageRoles = HttpRequestStorage.DatabaseEntities.AllCustomPageRoles.Local;
@@ -269,6 +275,51 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"Custom Page '{customPage.CustomPageDisplayName}' successfully removed.");
 
             customPage.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            return new ModalDialogFormJsonResult();
+        }
+
+        [FirmaAdminFeature]
+        public PartialViewResult EditSortOrder()
+        {
+            var customPages = HttpRequestStorage.DatabaseEntities.CustomPages;
+            EditSortOrderInMenuGroupViewModel viewModel = new EditSortOrderInMenuGroupViewModel();
+            return ViewEditSortOrder(customPages, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(IQueryable<CustomPage> customPages, EditSortOrderInMenuGroupViewModel viewModel)
+        {
+            var aboutCustomPages = customPages.Where(x => x.FirmaMenuItemID == FirmaMenuItem.About.FirmaMenuItemID);
+            var projectsCustomPages = customPages.Where(x => x.FirmaMenuItemID == FirmaMenuItem.Projects.FirmaMenuItemID);
+            var programInfoCustomPages = customPages.Where(x => x.FirmaMenuItemID == FirmaMenuItem.ProgramInfo.FirmaMenuItemID);
+            var resultsCustomPages = customPages.Where(x => x.FirmaMenuItemID == FirmaMenuItem.Results.FirmaMenuItemID);
+
+            var menuItemToSortableList = new Dictionary<FirmaMenuItem, List<IHaveASortOrder>>
+            {
+                { FirmaMenuItem.About, new List<IHaveASortOrder>(aboutCustomPages) },
+                { FirmaMenuItem.Projects, new List<IHaveASortOrder>(projectsCustomPages) },
+                { FirmaMenuItem.ProgramInfo, new List<IHaveASortOrder>(programInfoCustomPages) },
+                { FirmaMenuItem.Results, new List<IHaveASortOrder>(resultsCustomPages) }
+            };
+
+            EditSortOrderInMenuGroupViewData viewData = new EditSortOrderInMenuGroupViewData(menuItemToSortableList, "Custom Pages");
+            return RazorPartialView<EditSortOrderInMenuGroup, EditSortOrderInMenuGroupViewData, EditSortOrderInMenuGroupViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(EditSortOrderInMenuGroupViewModel viewModel)
+        {
+            var customPages = HttpRequestStorage.DatabaseEntities.CustomPages;
+
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(customPages, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(customPages));
+            SetMessageForDisplay($"Successfully Updated Custom Page Sort Order");
             return new ModalDialogFormJsonResult();
         }
     }
