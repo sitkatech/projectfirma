@@ -23,6 +23,7 @@
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.CustomPage.Index
 @section JavascriptAndStylesContent
 {
@@ -32,6 +33,8 @@
 @section RightOfPageTitle
 {
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, "Create a new Custom Page", 850, ViewDataTyped.HasCustomPageManagePermissions)
+    <div class="pull-right" style="margin-left:10px">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, true)</div>
+
 }
 
 <div class="container-fluid">

@@ -290,6 +290,9 @@
     <Compile Include="Views\AttachmentType\EditAttachmentTypeViewModel.cs" />
     <Compile Include="Views\AttachmentType\Index.cs" />
     <Compile Include="Views\AttachmentType\IndexViewData.cs" />
+    <Compile Include="Views\CustomPage\EditSortOrderInMenuGroup.cs" />
+    <Compile Include="Views\CustomPage\EditSortOrderInMenuGroupViewData.cs" />
+    <Compile Include="Views\CustomPage\EditSortOrderInMenuGroupViewModel.cs" />
     <Compile Include="Views\DocumentLibrary\Detail.cs" />
     <Compile Include="Views\DocumentLibrary\DetailViewData.cs" />
     <Compile Include="Views\DocumentLibrary\Edit.cs" />
@@ -759,6 +762,7 @@
     <Content Include="Views\Organization\MatchmakerOrganizationPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ExternalLinks.cshtml" />
     <Content Include="Views\LocalAuthentication\LocalAuthLogon.cshtml" />
+    <Content Include="Views\CustomPage\EditSortOrderInMenuGroup.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

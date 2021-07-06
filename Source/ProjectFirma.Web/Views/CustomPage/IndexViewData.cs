@@ -35,6 +35,7 @@ namespace ProjectFirma.Web.Views.CustomPage
         public string CustomPageUrl { get; }
         public bool HasCustomPageManagePermissions { get; }
         public string NewUrl { get; }
+        public string EditSortOrderUrl { get; }
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession, null)
         {
@@ -53,6 +54,7 @@ namespace ProjectFirma.Web.Views.CustomPage
             CustomPageUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(x => x.CustomPageDetails(UrlTemplate.Parameter1Int));
             HasCustomPageManagePermissions = hasCustomPageManagePermissions;
             NewUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.New());
+            EditSortOrderUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(x => x.EditSortOrder());
         }
     }
 }
