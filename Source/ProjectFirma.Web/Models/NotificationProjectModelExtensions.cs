@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using LtInfo.Common;
@@ -126,11 +127,19 @@ Dear {personNames},
     <a href=""{detailUrl}"">View this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}</a>
 </p>
 Thank you for keeping your {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} information and accomplishments up to date!<br />
-{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}
+{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}<br/><br/><img src=""cid:tool-logo"" width=""160"" />
 ";
 
             var subject = $"The update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} was approved";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
+            
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var toolLogo = tenantAttribute.TenantSquareLogoFileResourceInfo ??
+                           tenantAttribute.TenantBannerLogoFileResourceInfo;
+            var htmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
+            htmlView.LinkedResources.Add(
+                new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            mailMessage.AlternateViews.Add(htmlView);
 
             SendMessageAndLogNotificationForProjectUpdateTransition(projectUpdateBatch,
                 mailMessage,
