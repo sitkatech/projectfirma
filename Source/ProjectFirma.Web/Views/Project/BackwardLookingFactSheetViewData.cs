@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views.Project
 
             ShowExpectedPerformanceMeasures =
                 MultiTenantHelpers.GetTenantAttributeFromCache().ShowExpectedPerformanceMeasuresOnFactSheet &&
-                project.ProjectStage == ProjectStage.Implementation && !PerformanceMeasureReportedValues.Any();
+                (project.ProjectStage == ProjectStage.Implementation || project.ProjectStage == ProjectStage.PostImplementation) && !PerformanceMeasureReportedValues.Any();
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
             KeyPhoto = project.GetKeyPhoto();
