@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -577,7 +578,7 @@ namespace ProjectFirma.Web.Controllers
     </p>
     <p>
     Sincerely,<br />
-    The {toolDisplayName} team
+    The {toolDisplayName} team<br/><br/><img src=""cid:tool-logo"" width=""160"" />
     </p>";
             var mailMessage = new MailMessage
             {
@@ -586,6 +587,14 @@ namespace ProjectFirma.Web.Controllers
                 Body = message,
                 IsBodyHtml = true
             };
+            
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var toolLogo = tenantAttribute.TenantSquareLogoFileResourceInfo ??
+                           tenantAttribute.TenantBannerLogoFileResourceInfo;
+            var htmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
+            htmlView.LinkedResources.Add(
+                new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            mailMessage.AlternateViews.Add(htmlView);
 
             mailMessage.ReplyToList.Add(currentPerson.Email);
             mailMessage.To.Add(person.Email);

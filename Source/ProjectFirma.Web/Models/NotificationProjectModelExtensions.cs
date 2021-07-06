@@ -193,12 +193,20 @@ Dear {personNames},
                 } left for you. If you have questions, please email: {returnerPerson.Email}
 </p>
 Thank you,<br />
-{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}
+{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}<br/><br/><img src=""cid:tool-logo"" width=""160"" />
 ";
 
             var subject =
                 $"The update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} has been returned - please review and re-submit";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
+
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var toolLogo = tenantAttribute.TenantSquareLogoFileResourceInfo ??
+                           tenantAttribute.TenantBannerLogoFileResourceInfo;
+            var htmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
+            htmlView.LinkedResources.Add(
+                new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            mailMessage.AlternateViews.Add(htmlView);
 
             SendMessageAndLogNotificationForProjectUpdateTransition(projectUpdateBatch,
                 mailMessage,
@@ -256,9 +264,18 @@ Thank you,<br />
 <p>This {fieldDefinitionLabelProject} is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} {fieldDefinitionLabelProject} List</a> and is visible to the public via the {fieldDefinitionLabelProject} detail page.</p>
 <p><a href=""{detailUrl}"">View this {fieldDefinitionLabelProject}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}!</p>
-<p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
+<p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}<br/><br/><img src=""cid:tool-logo"" width=""160"" /></p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
+
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var toolLogo = tenantAttribute.TenantSquareLogoFileResourceInfo ??
+                           tenantAttribute.TenantBannerLogoFileResourceInfo;
+            var htmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
+            htmlView.LinkedResources.Add(
+                new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            mailMessage.AlternateViews.Add(htmlView);
+
             var emailsToSendTo = new List<string> { submitterPerson.Email };
             var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
             var primaryContactPerson = project.GetPrimaryContact();
@@ -294,10 +311,19 @@ Thank you,<br />
 <p>The {fieldDefinitionLabelProject} was returned by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}. Please review this {fieldDefinitionLabelProject} and address the comments that {project.ReviewedByPerson.FirstName} left for you. If you have questions please email: {project.ReviewedByPerson.Email}.</p>
 <a href=""{basicsUrl}"">View this {fieldDefinitionLabelProject}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
-<p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}</p>
+<p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}<br/><br/><img src=""cid:tool-logo"" width=""160"" /></p>
 ";
 
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
+
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var toolLogo = tenantAttribute.TenantSquareLogoFileResourceInfo ??
+                           tenantAttribute.TenantBannerLogoFileResourceInfo;
+            var htmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
+            htmlView.LinkedResources.Add(
+                new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            mailMessage.AlternateViews.Add(htmlView);
+
             var emailsToSendTo = new List<string> { submitterPerson.Email };
             var primaryContactPerson = project.PrimaryContactPerson;
             if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
