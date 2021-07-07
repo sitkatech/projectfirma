@@ -23,6 +23,7 @@ namespace ProjectFirmaModels.Models
         public static readonly FirmaMenuItemProjects Projects = FirmaMenuItemProjects.Instance;
         public static readonly FirmaMenuItemProgramInfo ProgramInfo = FirmaMenuItemProgramInfo.Instance;
         public static readonly FirmaMenuItemResults Results = FirmaMenuItemResults.Instance;
+        public static readonly FirmaMenuItemHelp Help = FirmaMenuItemHelp.Instance;
 
         public static readonly List<FirmaMenuItem> All;
         public static readonly ReadOnlyDictionary<int, FirmaMenuItem> AllLookupDictionary;
@@ -32,7 +33,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static FirmaMenuItem()
         {
-            All = new List<FirmaMenuItem> { About, Projects, ProgramInfo, Results };
+            All = new List<FirmaMenuItem> { About, Projects, ProgramInfo, Results, Help };
             AllLookupDictionary = new ReadOnlyDictionary<int, FirmaMenuItem>(All.ToDictionary(x => x.FirmaMenuItemID));
         }
 
@@ -104,6 +105,8 @@ namespace ProjectFirmaModels.Models
             {
                 case FirmaMenuItemEnum.About:
                     return About;
+                case FirmaMenuItemEnum.Help:
+                    return Help;
                 case FirmaMenuItemEnum.ProgramInfo:
                     return ProgramInfo;
                 case FirmaMenuItemEnum.Projects:
@@ -121,7 +124,8 @@ namespace ProjectFirmaModels.Models
         About = 1,
         Projects = 2,
         ProgramInfo = 3,
-        Results = 4
+        Results = 4,
+        Help = 5
     }
 
     public partial class FirmaMenuItemAbout : FirmaMenuItem
@@ -146,5 +150,11 @@ namespace ProjectFirmaModels.Models
     {
         private FirmaMenuItemResults(int firmaMenuItemID, string firmaMenuItemName, string firmaMenuItemDisplayName) : base(firmaMenuItemID, firmaMenuItemName, firmaMenuItemDisplayName) {}
         public static readonly FirmaMenuItemResults Instance = new FirmaMenuItemResults(4, @"Results", @"Results");
+    }
+
+    public partial class FirmaMenuItemHelp : FirmaMenuItem
+    {
+        private FirmaMenuItemHelp(int firmaMenuItemID, string firmaMenuItemName, string firmaMenuItemDisplayName) : base(firmaMenuItemID, firmaMenuItemName, firmaMenuItemDisplayName) {}
+        public static readonly FirmaMenuItemHelp Instance = new FirmaMenuItemHelp(5, @"Help", @"Help");
     }
 }

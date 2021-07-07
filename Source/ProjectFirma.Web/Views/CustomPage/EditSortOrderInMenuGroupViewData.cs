@@ -27,13 +27,6 @@ namespace ProjectFirma.Web.Views.CustomPage
 {
     public class EditSortOrderInMenuGroupViewData : FirmaUserControlViewData
     {
-        public List<ISortingGroup> SortingGroups { get; }
-
-        public List<IHaveASortOrder> AboutCustomPages { get; }
-        public List<IHaveASortOrder> ProjectsCustomPages { get; }
-        public List<IHaveASortOrder> ProgramInfoCustomPages { get; }
-        public List<IHaveASortOrder> ResultsCustomPages { get; }
-
         public Dictionary<FirmaMenuItem, List<IHaveASortOrder>> MenuItemToSortableList { get; }
 
         public string SortableNamePlural { get; }

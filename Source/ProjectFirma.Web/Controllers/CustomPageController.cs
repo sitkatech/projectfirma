@@ -70,6 +70,13 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
+        [Route("HelpCustomPage/{vanityUrl}")]
+        public ActionResult Help(string vanityUrl)
+        {
+            return ViewCustomPage("HelpCustomPage", vanityUrl);
+        }
+
+        [AnonymousUnclassifiedFeature]
         public ActionResult ViewCustomPage(string route, string vanityUrl)
         {
             var customPage = MultiTenantHelpers.GetCustomPages()
@@ -234,7 +241,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var menusAsSelectListItems = FirmaMenuItem.All.ToSelectListWithEmptyFirstRow(
+            var menuItems = FirmaMenuItem.All;
+            if (!(MultiTenantHelpers.UsesCustomResultsPages(CurrentFirmaSession) || MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesTechnicalAssistanceParameters()))
+            {
+                menuItems = menuItems.Where(x => x.FirmaMenuItemID != FirmaMenuItem.Results.FirmaMenuItemID).ToList();
+            }
+            var menusAsSelectListItems = menuItems.ToSelectListWithEmptyFirstRow(
                 x => x.FirmaMenuItemID.ToString(CultureInfo.InvariantCulture),
                 x => x.GetFirmaMenuItemDisplayName());
 
@@ -292,13 +304,15 @@ namespace ProjectFirma.Web.Controllers
             var projectsCustomPages = customPages.Where(x => x.FirmaMenuItemID == FirmaMenuItem.Projects.FirmaMenuItemID);
             var programInfoCustomPages = customPages.Where(x => x.FirmaMenuItemID == FirmaMenuItem.ProgramInfo.FirmaMenuItemID);
             var resultsCustomPages = customPages.Where(x => x.FirmaMenuItemID == FirmaMenuItem.Results.FirmaMenuItemID);
+            var helpCustomPages = customPages.Where(x => x.FirmaMenuItemID == FirmaMenuItem.Help.FirmaMenuItemID);
 
             var menuItemToSortableList = new Dictionary<FirmaMenuItem, List<IHaveASortOrder>>
             {
                 { FirmaMenuItem.About, new List<IHaveASortOrder>(aboutCustomPages) },
                 { FirmaMenuItem.Projects, new List<IHaveASortOrder>(projectsCustomPages) },
                 { FirmaMenuItem.ProgramInfo, new List<IHaveASortOrder>(programInfoCustomPages) },
-                { FirmaMenuItem.Results, new List<IHaveASortOrder>(resultsCustomPages) }
+                { FirmaMenuItem.Results, new List<IHaveASortOrder>(resultsCustomPages) },
+                { FirmaMenuItem.Help, new List<IHaveASortOrder>(helpCustomPages) }
             };
 
             EditSortOrderInMenuGroupViewData viewData = new EditSortOrderInMenuGroupViewData(menuItemToSortableList, "Custom Pages");
