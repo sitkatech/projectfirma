@@ -379,15 +379,20 @@ namespace ProjectFirma.Web.Common
             }
         }
 
-        // TODO make this into a check to see if the tenant uses custom results pages. For now, it's just the Action Agenda for PSP, so check if the 2 firma page types needed for their custom results page are present for the tenant
         public static bool UsesCustomResultsPages(FirmaSession currentFirmaSession)
+        {
+            return HttpRequestStorage.DatabaseEntities.CustomPages.Any(x => x.FirmaMenuItemID == FirmaMenuItem.Results.FirmaMenuItemID) || UsesCustomFundingStatusPage(currentFirmaSession);
+        }
+
+        // TODO make this into a check to see if the tenant uses custom funding status pages. For now, it's just the Action Agenda for PSP, so check if the 2 firma page types needed for their custom results page are present for the tenant
+        public static bool UsesCustomFundingStatusPage(FirmaSession currentFirmaSession)
         {
             return currentFirmaSession.Tenant == Tenant.ActionAgendaForPugetSound;
         }
 
         public static void AddFundingStatusMenuItem(LtInfoMenuItem resultsMenu, FirmaSession currentFirmaSession)
         {
-            if (UsesCustomResultsPages(currentFirmaSession))
+            if (UsesCustomFundingStatusPage(currentFirmaSession))
             {
                 resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.FundingStatus()), currentFirmaSession, "Funding Status"));
             }

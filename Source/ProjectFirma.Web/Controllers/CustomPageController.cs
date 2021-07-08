@@ -241,12 +241,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var menuItems = FirmaMenuItem.All;
-            if (!(MultiTenantHelpers.UsesCustomResultsPages(CurrentFirmaSession) || MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesTechnicalAssistanceParameters()))
-            {
-                menuItems = menuItems.Where(x => x.FirmaMenuItemID != FirmaMenuItem.Results.FirmaMenuItemID).ToList();
-            }
-            var menusAsSelectListItems = menuItems.ToSelectListWithEmptyFirstRow(
+            var menusAsSelectListItems = FirmaMenuItem.All.ToSelectListWithEmptyFirstRow(
                 x => x.FirmaMenuItemID.ToString(CultureInfo.InvariantCulture),
                 x => x.GetFirmaMenuItemDisplayName());
 
