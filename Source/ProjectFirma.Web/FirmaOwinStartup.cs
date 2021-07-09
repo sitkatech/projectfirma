@@ -19,6 +19,7 @@ using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -385,7 +386,7 @@ namespace ProjectFirma.Web
     </div>
     <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {
                     FirmaWebConfiguration.SitkaSupportEmail
-                }.</div>
+                }.</div><br/><br/><img src=""cid:tool-logo"" width=""160"" />
 </div>
 ";
 
@@ -422,7 +423,7 @@ namespace ProjectFirma.Web
     </div>
     <div>You received this email because you are set up as a point of contact for support - if that's not correct, let us know: {
                     FirmaWebConfiguration.SitkaSupportEmail
-                }</div>.
+                }.</div><br/><br/><img src=""cid:tool-logo"" width=""160"" />
 </div>
 ";
 
@@ -438,6 +439,14 @@ namespace ProjectFirma.Web
                 Body = message,
                 IsBodyHtml = true
             };
+
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var toolLogo = tenantAttribute.TenantSquareLogoFileResourceInfo ??
+                           tenantAttribute.TenantBannerLogoFileResourceInfo;
+            var htmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
+            htmlView.LinkedResources.Add(
+                new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            mailMessage.AlternateViews.Add(htmlView);
 
             // Reply-To Header
             mailMessage.ReplyToList.Add(person.Email);
