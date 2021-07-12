@@ -79,7 +79,8 @@ namespace ProjectFirma.Web.Models
                 } was just submitted by {submitterPerson.GetFullNameFirstLastAndOrg()}.</p>
 <p>Please review and Approve or Return it at your earliest convenience.<br />
 <a href=""{instructionsUrl}"">View this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update</a></p>
-<p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.<br/><br/><img src=""cid:tool-logo"" width=""160"" /></p>
+{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}<br/><br/><img src=""cid:tool-logo"" width=""160"" />
+<p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
 
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
@@ -236,7 +237,8 @@ Thank you,<br />
                 }.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
 <a href=""{basicsUrl}"">View this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}</a></p>
-<p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.<br/><br/><img src=""cid:tool-logo"" width=""160"" /></p>
+{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}<br/><br/><img src=""cid:tool-logo"" width=""160"" />
+<p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
 
