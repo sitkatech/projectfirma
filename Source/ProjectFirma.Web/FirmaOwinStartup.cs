@@ -378,7 +378,6 @@ namespace ProjectFirma.Web
                 }"">assign this user roles</a> to allow them to work with specific areas of the site. Or you can leave the user with an unassigned role if they don't need special privileges.
         </p>
         <br />
-        <br />
     <div style='font-size: 10px; color: gray'>
     OTHER DETAILS:<br />
     LOGIN: {loginName}<br />
@@ -415,7 +414,6 @@ namespace ProjectFirma.Web
                     FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()
                 }, website, logo, etc. This will make its {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} summary page display better.
     </p>
-    <br />
     <br />
     <div style='font-size: 10px; color: gray'>
     OTHER DETAILS:<br />
