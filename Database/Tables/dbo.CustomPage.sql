@@ -10,6 +10,7 @@ CREATE TABLE [dbo].[CustomPage](
 	[CustomPageContent] [dbo].[html] NULL,
 	[DocumentLibraryID] [int] NULL,
 	[FirmaMenuItemID] [int] NOT NULL,
+	[SortOrder] [int] NULL,
  CONSTRAINT [PK_CustomPage_CustomPageID] PRIMARY KEY CLUSTERED 
 (
 	[CustomPageID] ASC

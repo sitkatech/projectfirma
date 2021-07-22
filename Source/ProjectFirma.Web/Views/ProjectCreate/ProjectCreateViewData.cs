@@ -145,6 +145,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentFirmaSession, project).HasPermission;
             ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
+            if (!MultiTenantHelpers.TrackAccomplishments())
+            {
+                ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
+            }
             CurrentSectionDisplayName = currentSectionDisplayName;
             TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
         }

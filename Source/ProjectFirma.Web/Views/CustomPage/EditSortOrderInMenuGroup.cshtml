@@ -1,0 +1,149 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditSortOrderInGroup.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared.SortOrder
+@inherits ProjectFirma.Web.Views.CustomPage.EditSortOrderInMenuGroup
+<script src="~/Content/Sortable.js"></script>
+<style>
+
+    .sortable-ghost {
+        background-color: #E0E0E0;
+    }
+
+    .sortables-list:hover {
+        cursor: move;
+        cursor: grab;
+    }
+
+    /* .panel-heading a.collapsePanel:before { */
+    /*     font-family: 'Glyphicons Halflings'; */
+    /*     content: "\2212"; */
+    /*     float: left; */
+    /*     margin-right: 5px; */
+    /*     color: #808080; */
+    /* } */
+    /* .panel-heading a.collapsePanel.collapsed:before { */
+    /*     content: "\2b"; */
+    /*     color: #808080; */
+    /* } */
+
+    .panel-heading a.collapsePanel:before {
+        font-family:'Glyphicons Halflings';
+        content: "\e114";
+        float: left;
+        margin-right: 5px;
+    
+    }
+    .panel-heading a.collapsePanel.collapsed:before {
+        content: "\e080";
+    }
+    
+</style>
+<span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span>
+
+<hr />
+@{
+    int itemCount = 0;
+}
+
+<div class="panel-group" id="accordion">
+    @foreach (var sortingGroup in ViewDataTyped.MenuItemToSortableList)
+    {
+        if (sortingGroup.Value.Any())
+        {
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle" >
+                    <a data-toggle="collapse" data-target="#panel-@itemCount" class="collapsed collapsePanel">
+                        <div style="padding-left: 22px;">
+                            <span>
+                                @sortingGroup.Key.FirmaMenuItemDisplayName
+                            </span>
+                        </div>
+                    </a>
+                </div>
+                <div id="panel-@itemCount" class="panel-collapse collapse">
+                    <div style="margin: 4px 15px; text-align: right">
+                        <button type="button" class=" btn btn-xs btn-firma" onclick="alphabetize(@itemCount)">Reset To Alphabetical</button>
+                    </div>
+                    <div id="sortables-list-@itemCount" class="sortables-list">
+                        @foreach (var sortable in sortingGroup.Value.SortByOrderThenName().ToArray())
+                        {
+                            <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px; margin-left: 40px; text-indent: -12px;">
+                                <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
+                                @sortable.GetDisplayName()
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            itemCount++;
+        }
+    }
+</div>
+
+@using (Html.BeginForm())
+{
+
+}
+<script>
+    var allSortableLists = [];
+
+    var alphabetize = function (id) {
+
+        var newWorldOrder = allSortableLists[id].toArray().sort(function (sortableIdA, sortableIdB) {
+            var $elA = jQuery("[data-id=" + sortableIdA + "]");
+            var a = $elA.attr("data-displayName").toLowerCase();
+            var $elB = jQuery("[data-id=" + sortableIdB + "]");
+            var b = $elB.attr("data-displayName").toLowerCase();
+            return a.localeCompare(b, undefined, {
+                numeric: true,
+                sensitivity: 'base'
+            });
+        });
+
+        allSortableLists[id].sort(newWorldOrder);
+
+    }
+
+    jQuery(function () {
+        var allSortableContainers = jQuery("div[id^='sortables-list-']");
+
+        jQuery.each(allSortableContainers, function (index, value) {
+            var sortable = Sortable.create(allSortableContainers[index]);
+            allSortableLists.push(sortable);
+        });
+
+        jQuery('#ltinfo-modal-dialog-save-button-id').click(function () {
+
+            var itemCount = 0;
+            jQuery.each(allSortableLists, function (index, value) {
+                var sortedArray = allSortableLists[index].toArray();
+
+                var form = jQuery("form");
+                //debugger;
+                for (var i = 0; i < sortedArray.length; i++) {
+                    jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" + itemCount + "]' value=" + sortedArray[i] + " />").appendTo(form);
+                    itemCount++;
+                }
+            });
+
+        });
+    });
+</script>

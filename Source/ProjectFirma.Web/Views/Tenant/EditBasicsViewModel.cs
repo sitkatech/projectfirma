@@ -132,6 +132,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Source Geospatial Areas Externally?")]
         public bool AreGeospatialAreasExternallySourced { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TrackAccomplishments)]
+        public bool TrackAccomplishments { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -163,6 +166,7 @@ namespace ProjectFirma.Web.Views.Tenant
             EnableReports = tenantAttribute.EnableReports;
             EnableMatchmaker = tenantAttribute.EnableMatchmaker;
             AreGeospatialAreasExternallySourced = tenantAttribute.AreGeospatialAreasExternallySourced;
+            TrackAccomplishments = tenantAttribute.TrackAccomplishments;
         }
 
         public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
@@ -186,7 +190,12 @@ namespace ProjectFirma.Web.Views.Tenant
             }
             tenantAttribute.PrimaryContactPerson = primaryContactPerson;
             tenantAttribute.TaxonomyLevelID = TaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
-            tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
+            if (TrackAccomplishments)
+            {
+                // only change this ID if Accomplishment Tracking is turned on. It is a required field in the DB. Also changing it results in deleting any Taxonomy-PM relationships
+                tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
+
+            }
             tenantAttribute.MinimumYear = MinimumYear ?? 0;
             tenantAttribute.BudgetTypeID = BudgetTypeID;
 
@@ -195,6 +204,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.EnableReports = EnableReports;
             tenantAttribute.EnableMatchmaker = EnableMatchmaker;
             tenantAttribute.AreGeospatialAreasExternallySourced = AreGeospatialAreasExternallySourced;
+            tenantAttribute.TrackAccomplishments = TrackAccomplishments;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)
@@ -221,7 +231,7 @@ namespace ProjectFirma.Web.Views.Tenant
                 }
             }
 
-            if (TaxonomyLevelID.Value < AssociatePerfomanceMeasureTaxonomyLevelID.Value)
+            if (TrackAccomplishments && TaxonomyLevelID.Value < AssociatePerfomanceMeasureTaxonomyLevelID.Value)
             {
                 errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Cannot choose a Taxonomy Tier that does not exist!", m => m.AssociatePerfomanceMeasureTaxonomyLevelID));
             }

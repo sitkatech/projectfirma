@@ -117,6 +117,9 @@
          */
         jQuery(document).ready(function () {
             var matchmakerToggle = jQuery('#MatchmakerToggle');
+            var projectFinderButton = jQuery('#ProjectFinderButton');
+            var projectFinderButtonDisabled = jQuery('#ProjectFinderButtonDisabled');
+            var profileIncomplete = @(ViewDataTyped.MatchmakerProfileIncomplete ? "true" : "false");
             if (matchmakerToggle.length > 0) {
                 matchmakerToggle.on('change', function () {
                     var isChecked = jQuery(this).is(':checked');
@@ -126,6 +129,14 @@
                     SitkaAjax.post(@Html.Raw(ViewDataTyped.EditProfileMatchmakerOptIn.ToJS()), postData,
                         function(result) {  },
                         function () { alert("There was an error updating the Matchmaker Opt-in/Opt-out."); });
+                    if (isChecked && !profileIncomplete) {
+                        projectFinderButton.show();
+                        projectFinderButtonDisabled.hide();
+                    }
+                    else {
+                        projectFinderButton.hide();
+                        projectFinderButtonDisabled.show();
+                    }
                 });
             }
         });
@@ -232,9 +243,12 @@
             <li>
                 <a href="#expenditures" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
             </li>
-            <li>
-                <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
-            </li>
+            @if (MultiTenantHelpers.TrackAccomplishments())
+            {
+                <li>
+                    <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
+                </li>
+            }
 
             @if (ViewDataTyped.ShowMatchmakerProfileTab)
             {
@@ -646,41 +660,44 @@
                 </div>
             </div>
 
-        <div role="tabpanel" class="tab-pane" id="accomplishments">
-            @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+            @if (MultiTenantHelpers.TrackAccomplishments())
             {
-                <p>
-                    The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
-                </p>
-                foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
-                {
-                    <div class="row">
-                        @foreach (var performanceMeasureChartViewData in batch)
+                <div role="tabpanel" class="tab-pane" id="accomplishments">
+                    @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+                    {
+                        <p>
+                            The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+                        </p>
+                        foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                         {
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-                                <div class="panel panelFirma">
-                                    <div class="panel-body">
-                                        <div style="margin: auto;">
-                                            @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                            <div class="row">
+                                @foreach (var performanceMeasureChartViewData in batch)
+                                {
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                        <div class="panel panelFirma">
+                                            <div class="panel-body">
+                                                <div style="margin: auto;">
+                                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                         }
-                    </div>
-                }
-            }
-            else
-            {
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p class="systemText">
-                            There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).
-                        </p>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="systemText">
+                                    There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).
+                                </p>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
-        </div>
 
         @* Might as well not render this extra html to the DOM if it can't be viewed. *@
         @if (ViewDataTyped.ShouldShowBackgroundTab)
@@ -743,14 +760,8 @@
                     }
                 </div>
                 <div class="col-md-2">
-                    @if (ViewDataTyped.MatchmakerProjectFinderButtonDisabled)
-                    {
-                        <button onclick="ProjectFirma.Views.Methods.addTooltipPopup(this, '@ViewDataTyped.MatchmakerProjectFinderButtonContent')" class="btn btn-firma btn-sm disabled"><span class="glyphicon glyphicon-search"></span> Project Finder</button>
-                    }
-                    else
-                    {
-                        <a href="@ViewDataTyped.ProjectFinderPageUrl" class="btn btn-firma btn-sm"><span class="glyphicon glyphicon-search"></span> Project Finder</a>
-                    }
+                    <button style="@(ViewDataTyped.MatchmakerProjectFinderButtonDisabled ? "display:inline-block" : "display:none" )" onclick="ProjectFirma.Views.Methods.addTooltipPopup(this, '@ViewDataTyped.MatchmakerProjectFinderButtonContent')" class="btn btn-sm btn-firma disabled" id="ProjectFinderButtonDisabled"><span class="glyphicon glyphicon-search"></span> Project Finder</button>
+                    <a style="@(ViewDataTyped.MatchmakerProjectFinderButtonDisabled ? "display:none" : "display:inline-block" )" href="@ViewDataTyped.ProjectFinderPageUrl" class="btn btn-firma btn-sm" id="ProjectFinderButton"><span class="glyphicon glyphicon-search"></span> Project Finder</a>
                 </div>
             </div>
             @if (ViewDataTyped.ShowMatchmakerProfileTabDetails)
@@ -1076,30 +1087,33 @@
                                 </div>
                             </div>
 
-                            @*Performance Measures*@
-                            <div class="col-lg-12">
-                                <div class="panel panelFirma">
-                                    <div class="panel-heading panelTitle">
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgPerformanceMeasuresUrl, string.Format("Edit {0}", FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
-                                        @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()
-                                    </div>
-                                    <div class="panel-body">
-                                        @if (!ViewDataTyped.Organization.MatchmakerOrganizationPerformanceMeasures.Any())
-                                        {
-                                            <p class="systemText">None selected</p>
-                                        }
-                                        else
-                                        {
-                                            <ul>
-                                                @foreach (var performanceMeasure in ViewDataTyped.Organization.MatchmakerOrganizationPerformanceMeasures)
-                                                {
-                                                    <li><a href="@performanceMeasure.PerformanceMeasure.GetSummaryUrl()" title="View @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() detail page">@performanceMeasure.PerformanceMeasure.GetDisplayName()</a></li>
-                                                }
-                                            </ul>
-                                        }
+                            @if (MultiTenantHelpers.TrackAccomplishments())
+                            {
+                                @*Performance Measures*@
+                                <div class="col-lg-12">
+                                    <div class="panel panelFirma">
+                                        <div class="panel-heading panelTitle">
+                                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrgPerformanceMeasuresUrl, string.Format("Edit {0}", FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasViewEditProfilePermission)
+                                            @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()
+                                        </div>
+                                        <div class="panel-body">
+                                            @if (!ViewDataTyped.Organization.MatchmakerOrganizationPerformanceMeasures.Any())
+                                            {
+                                                <p class="systemText">None selected</p>
+                                            }
+                                            else
+                                            {
+                                                <ul>
+                                                    @foreach (var performanceMeasure in ViewDataTyped.Organization.MatchmakerOrganizationPerformanceMeasures)
+                                                    {
+                                                        <li><a href="@performanceMeasure.PerformanceMeasure.GetSummaryUrl()" title="View @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() detail page">@performanceMeasure.PerformanceMeasure.GetDisplayName()</a></li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>

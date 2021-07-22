@@ -39,6 +39,9 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
         [DisplayName("Show Photo Credit on Fact Sheet?")]
         public bool ShowPhotoCreditOnFactSheet { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ShowExpectedPerformanceMeasuresOnFactSheet)]
+        public bool ShowExpectedPerformanceMeasuresOnFactSheet { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -51,12 +54,14 @@ namespace ProjectFirma.Web.Views.ProjectFactSheet
             TenantID = tenant.TenantID;
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
             ShowPhotoCreditOnFactSheet = tenantAttribute.ShowPhotoCreditOnFactSheet;
+            ShowExpectedPerformanceMeasuresOnFactSheet = tenantAttribute.ShowExpectedPerformanceMeasuresOnFactSheet;
         }
 
         public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
         {
             tenantAttribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
             tenantAttribute.ShowPhotoCreditOnFactSheet = ShowPhotoCreditOnFactSheet;
+            tenantAttribute.ShowExpectedPerformanceMeasuresOnFactSheet = ShowExpectedPerformanceMeasuresOnFactSheet;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

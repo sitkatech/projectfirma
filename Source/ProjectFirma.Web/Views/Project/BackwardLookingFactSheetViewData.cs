@@ -29,6 +29,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 
 
@@ -41,6 +42,8 @@ namespace ProjectFirma.Web.Views.Project
         public string SecuredFunding { get; }
         public string TargetedFunding { get; }
         public List<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues { get; }
+        public List<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureExpectedValues { get; }
+        public bool ShowExpectedPerformanceMeasures { get; }
         public List<GooglePieChartSlice> ExpenditureGooglePieChartSlices { get; }
         public string ChartID { get; }
         public ProjectFirmaModels.Models.ProjectImage KeyPhoto { get; }
@@ -91,6 +94,12 @@ namespace ProjectFirma.Web.Views.Project
            
             PerformanceMeasureReportedValues =
                 project.GetPerformanceMeasureReportedValues().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
+            PerformanceMeasureExpectedValues = project.PerformanceMeasureExpecteds.GroupBy(x => x.PerformanceMeasure, new HavePrimaryKeyComparer<ProjectFirmaModels.Models.PerformanceMeasure>())
+                .OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
+
+            ShowExpectedPerformanceMeasures =
+                MultiTenantHelpers.GetTenantAttributeFromCache().ShowExpectedPerformanceMeasuresOnFactSheet &&
+                (project.ProjectStage == ProjectStage.Implementation || project.ProjectStage == ProjectStage.PostImplementation) && !PerformanceMeasureReportedValues.Any();
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
             KeyPhoto = project.GetKeyPhoto();

@@ -124,6 +124,7 @@ namespace ProjectFirma.Web.Views.Organization
         public string ProjectFinderPageUrl { get; }
         public Dictionary<MatchmakerSubScoreTypeEnum, bool> MatchmakerProfileCompletionDictionary { get; }
         public bool MatchmakerProjectFinderButtonDisabled { get; set; }
+        public bool MatchmakerProfileIncomplete { get; set; }
 
         public readonly MapInitJson AreaOfInterestMapInitJson;
         public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
@@ -291,7 +292,8 @@ namespace ProjectFirma.Web.Views.Organization
             ProjectFinderPageUrl = SitkaRoute<ProjectFinderController>.BuildUrlFromExpression(c => c.Organization(organization));
             MatchmakerProfileCompletionDictionary = organization.GetMatchmakerOrganizationProfileCompletionDictionary();
 
-            MatchmakerProjectFinderButtonDisabled = !organization.MatchmakerOptIn.HasValue || !organization.MatchmakerOptIn.Value || !MatchmakerProfileCompletionDictionary.Values.Any(x => x);
+            MatchmakerProfileIncomplete = !MatchmakerProfileCompletionDictionary.Values.Any(x => x);
+            MatchmakerProjectFinderButtonDisabled = !organization.MatchmakerOptIn.HasValue || !organization.MatchmakerOptIn.Value || MatchmakerProfileIncomplete;
             ShouldShowBackgroundTab = DescriptionViewData.HasPageContent || new OrganizationBackgroundEditFeature().HasPermission(currentFirmaSession, organization).HasPermission;
             MatchmakerProjectFinderButtonContent = GetMatchmakerProjectFinderButtonContent(organization, MatchmakerProfileCompletionDictionary);
             
@@ -299,19 +301,13 @@ namespace ProjectFirma.Web.Views.Organization
 
         private string GetMatchmakerProjectFinderButtonContent(ProjectFirmaModels.Models.Organization organization, Dictionary<MatchmakerSubScoreTypeEnum, bool> matchmakerProfileCompletionDictionary)
         {
-            if (!organization.MatchmakerOptIn.HasValue || !organization.MatchmakerOptIn.Value)
-            {
-                return
-                    $"This {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} has not opted in to the Matchmaker service.";
-            }
-
             if (!matchmakerProfileCompletionDictionary.Values.Any(x => x))
             {
                 return
                     $"Your profile is empty, so it is not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. Please fill out your profile as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder.";
             }
 
-            return string.Empty;
+            return $"This {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} has not opted in to the Matchmaker service.";
         }
     }
 }

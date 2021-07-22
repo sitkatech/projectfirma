@@ -37,6 +37,10 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.ExpectedAccomplishments:
                     return true;
                 case ProjectCreateSectionEnum.ReportedAccomplishments:
+                    if (!MultiTenantHelpers.TrackAccomplishments())
+                    {
+                        return true;
+                    }
                     var pmValidationResults = new PerformanceMeasuresViewModel(
                         project.PerformanceMeasureActuals.Select(x => new PerformanceMeasureActualSimple(x)).ToList(),
                         project.PerformanceMeasureActualYearsExemptionExplanation,

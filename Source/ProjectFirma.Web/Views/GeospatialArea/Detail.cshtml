@@ -125,9 +125,12 @@ Source code is available upon request via <support@sitkatech.com>.
             <li class="active">
                 <a href="#geospatialAreaOverview" aria-controls="geospatialAreaOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
             </li>
-            <li>
-                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
-            </li>
+            @if (MultiTenantHelpers.TrackAccomplishments())
+            {
+                <li>
+                    <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Accomplishments</a>
+                </li>
+            }
         </ul>
     </div>
 </div>
@@ -190,8 +193,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="performanceMeasures">
-                
+            @if (MultiTenantHelpers.TrackAccomplishments())
+            {
+                <div role="tabpanel" class="tab-pane" id="performanceMeasures">
+
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
                         <p>
@@ -225,8 +230,10 @@ Source code is available upon request via <support@sitkatech.com>.
                             </div>
                         </div>
                     }
-                
-            </div>
+
+                </div>
+            }
+
         </div>
     </div>
 </div>

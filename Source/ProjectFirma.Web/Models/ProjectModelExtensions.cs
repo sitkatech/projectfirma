@@ -306,7 +306,12 @@ namespace ProjectFirma.Web.Models
 
         public static List<ProjectSectionSimple> GetApplicableProposalWizardSections(this Project project, bool ignoreStatus, bool hasEditableCustomAttributes)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectCreateSections(project, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            var projectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All;
+            if (!MultiTenantHelpers.TrackAccomplishments())
+            {
+                projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
+            }
+            return projectWorkflowSectionGroupings.SelectMany(x => x.GetProjectCreateSections(project, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public static IEnumerable<Organization> GetOrganizationsToReportInAccomplishments(this Project project)

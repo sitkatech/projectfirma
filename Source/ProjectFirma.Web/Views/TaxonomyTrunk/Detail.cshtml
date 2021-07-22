@@ -56,7 +56,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div class="row">
-    <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
+    <div class="col-md-@(MultiTenantHelpers.TrackAccomplishments() && ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
@@ -158,10 +158,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             </div>
         </div>
-        @{ RelatedPerformanceMeasures.RenderPartialView(Html, ViewDataTyped.RelatedPerformanceMeasuresViewData); }
+        @if (MultiTenantHelpers.TrackAccomplishments())
+        {
+            RelatedPerformanceMeasures.RenderPartialView(Html, ViewDataTyped.RelatedPerformanceMeasuresViewData);
+        }
     </div>
 
-    @if (ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+    @if (MultiTenantHelpers.TrackAccomplishments() && ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
     {
         <div class="col-md-6">
             @foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(3))
