@@ -199,20 +199,12 @@ namespace ProjectFirmaModels.Models
             return ProjectProjectStatuses.OrderBy(x => x.ProjectProjectStatusUpdateDate).ThenBy(x => x.ProjectProjectStatusID).LastOrDefault()?.ProjectStatus;
         }
 
-        public bool HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted()
-        {
-            return ProjectUpdateBatches
-                .Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved ||
-                            x.ProjectUpdateState == ProjectUpdateState.Submitted)
-                .Any(x => x.ProjectUpdate?.ProjectStage == ProjectStage.Completed);
-        }
-
         public string FinalStatusReportStatusDescription
         {
             get
             {
 
-                var shouldHaveFinalStatusReport = HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || ProjectStage == ProjectStage.Completed;
+                var shouldHaveFinalStatusReport = ProjectStage == ProjectStage.Completed;
 
                 var finalStatusReport = ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
 

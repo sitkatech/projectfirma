@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData)
         {
             ProjectTimeline = projectTimeline;
-            UserHasProjectStatusUpdatePermissions = userHasProjectStatusUpdatePermissions;
+            UserHasProjectStatusUpdatePermissions = userHasProjectStatusUpdatePermissions && MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates;
             var updateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
             AddProjectProjectStatusButton =
                 ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
