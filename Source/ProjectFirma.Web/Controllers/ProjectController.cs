@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
                         finalStatusReport.GetDeleteProjectProjectStatusUrl(), new List<string> { "btn", "btn-firma" }, true);
 
                     SetWarningForDisplay(
-                        $"The {projectEntityName} stage has been changed from Completed to {project.ProjectStage.ProjectStageDisplayName}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update <strong>here</strong>; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
+                        $"The {projectEntityName} stage has been changed from Completed to {project.ProjectStage.ProjectStageDisplayName}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update here; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
                 }
             }
 
@@ -344,7 +344,7 @@ namespace ProjectFirma.Web.Controllers
             if (allowEditFinalStatusReport)
             {
                 SetWarningForDisplay(
-                    $"The {projectEntityName} is completed. Submit a final status update <strong>here</strong>, or from the {projectEntityName} Update and Status History panel. </br></br> {addProjectProjectStatusButton}");
+                    $"The {projectEntityName} is completed. Submit a final status update here, or from the {projectEntityName} Update and Status History panel. </br></br> {addProjectProjectStatusButton}");
             }
         }
 
