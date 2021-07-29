@@ -114,6 +114,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.UseProjectTimeline)]
         public bool UseProjectTimeline { get; set; }
 
+        [DisplayName("Enable Status Updates")]
+        public bool EnableStatusUpdates { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableProjectEvaluations)]
         public bool EnableProjectEvaluations { get; set; }
 
@@ -160,6 +163,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
             GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
             UseProjectTimeline = tenantAttribute.UseProjectTimeline;
+            EnableStatusUpdates = tenantAttribute.EnableStatusUpdates;
             EnableProjectEvaluations = tenantAttribute.EnableEvaluations;
             GeoServerNamespace = tenantAttribute.GeoServerNamespace;
             EnableProjectCategories = tenantAttribute.EnableProjectCategories;
@@ -180,6 +184,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
             tenantAttribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
             tenantAttribute.UseProjectTimeline = UseProjectTimeline;
+            tenantAttribute.EnableStatusUpdates = EnableStatusUpdates;
             tenantAttribute.GeoServerNamespace = GeoServerNamespace;
             tenantAttribute.EnableProjectCategories = EnableProjectCategories;
 
@@ -250,6 +255,11 @@ namespace ProjectFirma.Web.Views.Tenant
                 {
                     errors.Add(new SitkaValidationResult<EditBasicsViewModel, string>($"The Google Analytics tracking code provided is invalid.", m => m.GoogleAnalyticsTrackingCode));
                 }
+            }
+
+            if (!UseProjectTimeline && EnableStatusUpdates)
+            {
+                errors.Add(new SitkaValidationResult<EditBasicsViewModel, bool>($"Cannot Enable Status Updates without {FieldDefinitionEnum.UseProjectTimeline.ToType().GetFieldDefinitionLabel()} also selected.", m => m.EnableStatusUpdates));
             }
 
             return errors;

@@ -67,11 +67,15 @@
                     @Html.LabelWithSugarFor(FieldDefinitionEnum.UpdateHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.UpdateHistory.ToType().GetFieldDefinitionLabel()
                 </h4>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.StatusHistory.ToType().GetFieldDefinitionLabel()
-                </h4>
-            </div>
+            @if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
+            {
+                <div class="col-md-6">
+                    <h4>
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.StatusHistory.ToType().GetFieldDefinitionLabel()
+                    </h4>
+                </div>
+            }
+            
         </div>
         <div class="project-timeline-wrapper">
             @foreach (var yearGroup in groupedTimelineEvents)
@@ -134,7 +138,8 @@
         </div>
     }
 
-    { ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData); }
-
-
+    if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
+    {
+        { ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData); }
+    }
 }

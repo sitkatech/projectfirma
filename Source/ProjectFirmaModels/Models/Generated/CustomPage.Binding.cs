@@ -32,7 +32,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CustomPage(int customPageID, string customPageDisplayName, string customPageVanityUrl, string customPageContent, int? documentLibraryID, int firmaMenuItemID) : this()
+        public CustomPage(int customPageID, string customPageDisplayName, string customPageVanityUrl, string customPageContent, int? documentLibraryID, int firmaMenuItemID, int? sortOrder) : this()
         {
             this.CustomPageID = customPageID;
             this.CustomPageDisplayName = customPageDisplayName;
@@ -40,6 +40,7 @@ namespace ProjectFirmaModels.Models
             this.CustomPageContent = customPageContent;
             this.DocumentLibraryID = documentLibraryID;
             this.FirmaMenuItemID = firmaMenuItemID;
+            this.SortOrder = sortOrder;
         }
 
         /// <summary>
@@ -156,6 +157,7 @@ namespace ProjectFirmaModels.Models
         }
         public int? DocumentLibraryID { get; set; }
         public int FirmaMenuItemID { get; set; }
+        public int? SortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CustomPageID; } set { CustomPageID = value; } }
 

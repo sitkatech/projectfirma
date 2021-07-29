@@ -6,4 +6,5 @@ values
 (1, 'About', 'About'),
 (2, 'Projects', 'Projects'),
 (3, 'ProgramInfo', 'Program Info'),
-(4, 'Results', 'Results')
+(4, 'Results', 'Results'),
+(5, 'Help', 'Help')

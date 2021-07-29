@@ -81,7 +81,13 @@ namespace ProjectFirma.Web.Models
         {
             var startDate = MultiTenantHelpers.GetStartDayOfFiscalYear();
             var startMonth = startDate.Month;
-            var timelineEventsGrouped = TimelineEvents
+            var timelineEvents = TimelineEvents;
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
+            {
+                // do not show the right side (Status Update) events
+                timelineEvents = timelineEvents.Where(x => x.ProjectTimelineSide != ProjectTimelineSide.Right).ToList();
+            }
+            var timelineEventsGrouped = timelineEvents
                 .OrderByDescending(a => a.Date)
                 .GroupBy(x => new DayGroup
                 {

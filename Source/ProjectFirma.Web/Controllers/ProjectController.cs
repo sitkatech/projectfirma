@@ -91,8 +91,29 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.GetDisplayName(), project.TotalExpenditures);
             }
+
+            var oldProjectStage = project.ProjectStage;
+
             viewModel.UpdateModel(project, CurrentFirmaSession);
             _logger.Info($"Project {project.ProjectID} - {project.GetDisplayName()} edited by {CurrentFirmaSession.Person.GetPersonInformationStringForLogging()}");
+
+            if (oldProjectStage == ProjectStage.Completed && project.ProjectStage != ProjectStage.Completed && MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
+            {
+                var projectEntityName = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+                var userHasPermissionToEditTimeline = new ProjectTimelineFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+                var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate)
+                    .OrderByDescending(x => x.ProjectProjectStatusUpdateDate).FirstOrDefault();
+                var hasFinalStatusReportAndAllowEdit = finalStatusReport != null && userHasPermissionToEditTimeline;
+                if (hasFinalStatusReportAndAllowEdit && project.ProjectStage != ProjectStage.Completed)
+                {
+                    var deleteIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.MakeDeleteLink("Delete Status",
+                        finalStatusReport.GetDeleteProjectProjectStatusUrl(), new List<string> { "btn", "btn-firma" }, true);
+
+                    SetWarningForDisplay(
+                        $"The {projectEntityName} stage has been changed from Completed to {project.ProjectStage.ProjectStageDisplayName}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update here; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
+                }
+            }
+
             return new ModalDialogFormJsonResult();
         }
 
@@ -322,17 +343,8 @@ namespace ProjectFirma.Web.Controllers
             var projectEntityName = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             if (allowEditFinalStatusReport)
             {
-                if (project.ProjectStage == ProjectStage.Completed)
-                {
-                    SetWarningForDisplay(
-                        $"The {projectEntityName} is completed. Submit a final status update <strong>here</strong>, or from the {projectEntityName} Update and Status History panel. </br></br> {addProjectProjectStatusButton}");
-                }
-                else
-                {
-                    SetWarningForDisplay(
-                        $"This {projectEntityName} has an update in progress that identifies the project as completed. Submit a final status update <strong>here</strong>, or from the {projectEntityName} Update and Status History panel." +
-                        $"</br></br> {addProjectProjectStatusButton}");
-                }
+                SetWarningForDisplay(
+                    $"The {projectEntityName} is completed. Submit a final status update here, or from the {projectEntityName} Update and Status History panel. </br></br> {addProjectProjectStatusButton}");
             }
         }
 

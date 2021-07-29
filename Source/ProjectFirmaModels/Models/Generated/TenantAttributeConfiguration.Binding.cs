@@ -56,6 +56,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.AreGeospatialAreasExternallySourced).HasColumnName(@"AreGeospatialAreasExternallySourced").HasColumnType("bit").IsRequired();
             Property(x => x.ShowPhotoCreditOnFactSheet).HasColumnName(@"ShowPhotoCreditOnFactSheet").HasColumnType("bit").IsRequired();
             Property(x => x.TrackAccomplishments).HasColumnName(@"TrackAccomplishments").HasColumnType("bit").IsRequired();
+            Property(x => x.ShowExpectedPerformanceMeasuresOnFactSheet).HasColumnName(@"ShowExpectedPerformanceMeasuresOnFactSheet").HasColumnType("bit").IsRequired();
+            Property(x => x.EnableStatusUpdates).HasColumnName(@"EnableStatusUpdates").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID

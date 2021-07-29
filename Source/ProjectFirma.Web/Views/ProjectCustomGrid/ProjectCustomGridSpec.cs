@@ -169,7 +169,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
-                    if (MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates && userHasEditProjectAsAdminPermissions)
                     {
                         Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString()
                             , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession, projectDetailsDictionary[x.ProjectID], projectLabel, hasProjectApprovalPermissionBySession, statusUpdateLabel)
@@ -179,7 +179,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.FinalStatusUpdateStatus:
-                    if (MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates && userHasEditProjectAsAdminPermissions)
                     {
                         Add(FieldDefinitionEnum.FinalStatusUpdateStatus.ToType().ToGridHeaderString()
                             , x => projectDetailsDictionary[x.ProjectID].FinalStatusReportStatusDescription

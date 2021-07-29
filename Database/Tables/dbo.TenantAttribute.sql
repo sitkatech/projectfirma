@@ -44,6 +44,8 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[AreGeospatialAreasExternallySourced] [bit] NOT NULL,
 	[ShowPhotoCreditOnFactSheet] [bit] NOT NULL,
 	[TrackAccomplishments] [bit] NOT NULL,
+	[ShowExpectedPerformanceMeasuresOnFactSheet] [bit] NOT NULL,
+	[EnableStatusUpdates] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

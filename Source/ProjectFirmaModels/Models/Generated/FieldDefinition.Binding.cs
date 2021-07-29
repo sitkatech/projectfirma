@@ -319,6 +319,7 @@ namespace ProjectFirmaModels.Models
         GeospatialAreaTypeOnByDefaultOnOtherMaps = 369,
         ProjectLocationIsPrivate = 370,
         CanContactTypeManageProject = 371,
-        TrackAccomplishments = 372
+        TrackAccomplishments = 372,
+        ShowExpectedPerformanceMeasuresOnFactSheet = 373
     }
 }

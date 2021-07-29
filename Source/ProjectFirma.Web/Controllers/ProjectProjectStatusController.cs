@@ -53,14 +53,14 @@ namespace ProjectFirma.Web.Controllers
         public static bool AllowUserToSetNewStatusReportToFinal(Project project, FirmaSession currentFirmaSession)
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            if (!tenantAttribute.UseProjectTimeline)
+            if (!tenantAttribute.EnableStatusUpdates)
             {
                 return false;
             }
 
             var allowEditFinal = false;
             var userHasPermissionToEditTimeline = new ProjectTimelineFeature().HasPermission(currentFirmaSession, project).HasPermission;
-            if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || project.ProjectStage == ProjectStage.Completed)
+            if (project.ProjectStage == ProjectStage.Completed)
             {
                 var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
 

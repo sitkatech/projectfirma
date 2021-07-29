@@ -52,13 +52,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf).ToList();
             }
-            // Remove the Project Status Column if Tenant doesn't use the timeline
-            if (!MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
+            // Remove the Project Status Column if Tenant doesn't use the timeline and status updates
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.ProjectStatus).ToList();
             }
             // Remove the Final Status Update Status Column if Tenant doesn't use the require submitting lessons learned
-            if (!MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.FinalStatusUpdateStatus).ToList();
             }
