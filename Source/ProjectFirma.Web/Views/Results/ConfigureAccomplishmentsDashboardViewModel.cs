@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -41,38 +42,27 @@ namespace ProjectFirma.Web.Views.Results
 
         public ConfigureAccomplishmentsDashboardViewModel(TenantAttribute tenantAttribute)
         {
-            AccomplishmentsButtonTextHtmlString =
-                tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString;
-            ExpendituresButtonTextHtmlString =
-                tenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString;
-            OrganizationsButtonTextHtmlString =
-                tenantAttribute.AccomplishmentsDashboardOrganizationsButtonTextHtmlString;
-            FundingDisplayTypeID =
-                tenantAttribute.AccomplishmentsDashboardFundingDisplayTypeID;
+            AccomplishmentsButtonTextHtmlString = tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString;
+            ExpendituresButtonTextHtmlString = tenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString;
+            OrganizationsButtonTextHtmlString = tenantAttribute.AccomplishmentsDashboardOrganizationsButtonTextHtmlString;
+            FundingDisplayTypeID = tenantAttribute.AccomplishmentsDashboardFundingDisplayTypeID;
             IncludeReportingOrganizationType = tenantAttribute.AccomplishmentsDashboardIncludeReportingOrganizationType;
-            RelationshipTypetoIncludeID = MultiTenantHelpers
-                .GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard()?.OrganizationRelationshipTypeID;
+            RelationshipTypetoIncludeID = MultiTenantHelpers.GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard()?.OrganizationRelationshipTypeID;
         }
 
         public void UpdateModel(IQueryable<OrganizationRelationshipType> organizationRelationshipTypes)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString =
-                AccomplishmentsButtonTextHtmlString;
-            tenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString =
-                ExpendituresButtonTextHtmlString;
-            tenantAttribute.AccomplishmentsDashboardOrganizationsButtonTextHtmlString =
-                OrganizationsButtonTextHtmlString;
-            tenantAttribute.AccomplishmentsDashboardFundingDisplayTypeID =
-                FundingDisplayTypeID ??
-                ModelObjectHelpers.NotYetAssignedID; // Should never be null due to Required validation
-            tenantAttribute.AccomplishmentsDashboardIncludeReportingOrganizationType =
-                IncludeReportingOrganizationType ?? false; // Should never be null due to Required validation
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.Single();
+            tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString = AccomplishmentsButtonTextHtmlString;
+            tenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString = ExpendituresButtonTextHtmlString;
+            tenantAttribute.AccomplishmentsDashboardOrganizationsButtonTextHtmlString = OrganizationsButtonTextHtmlString;
+            tenantAttribute.AccomplishmentsDashboardFundingDisplayTypeID = FundingDisplayTypeID ??
+                                                                           ModelObjectHelpers.NotYetAssignedID; // Should never be null due to Required validation
+            tenantAttribute.AccomplishmentsDashboardIncludeReportingOrganizationType = IncludeReportingOrganizationType ?? false; // Should never be null due to Required validation
 
             foreach (var organizationRelationshipType in organizationRelationshipTypes)
             {
-                organizationRelationshipType.ReportInAccomplishmentsDashboard =
-                    organizationRelationshipType.OrganizationRelationshipTypeID == RelationshipTypetoIncludeID;
+                organizationRelationshipType.ReportInAccomplishmentsDashboard = organizationRelationshipType.OrganizationRelationshipTypeID == RelationshipTypetoIncludeID;
             }
         }
 
