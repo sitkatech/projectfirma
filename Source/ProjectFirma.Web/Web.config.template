@@ -39,6 +39,7 @@
     <add key="TempFolder" value="${application-root-dir}\Temp"/>
     <add key="PsInfoUrl" value="${psinfo-url}"/>
     <add key="PsInfoDataCenterUrl" value="${psinfo-url}DataCenter"/>
+    <add key="OngoingProgramsUrl" value="${psinfo-url}OngoingProgram/Index"/>
     <add key="VitalSignsUrl" value="${vital-signs-url}"/>
     <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
     <add key="PSARDashboardUrl" value="${psar-dashboard-url}"/>
