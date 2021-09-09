@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             return new RedirectResult(SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index()));
         }
 
-        private static void RequireLocalAuthMode()
+        public static void RequireLocalAuthMode()
         {
             // Make sure we are in the right mode to support Local Authentication
             Check.Require(FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth, "Authentication Type is not configured correctly for this page.");

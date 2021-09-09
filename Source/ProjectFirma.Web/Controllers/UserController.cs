@@ -36,6 +36,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Email;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using LtInfo.Common.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
@@ -388,6 +389,64 @@ namespace ProjectFirma.Web.Controllers
 
             return RazorPartialView<EditUserStewardshipAreas, EditUserStewardshipAreasViewData,
                 EditUserStewardshipAreasViewModel>(viewData, viewModel);
+        }
+
+        [FirmaAdminFeature]
+        [HttpGet]
+        public ActionResult CreateAccount()
+        {
+            LocalAuthenticationController.RequireLocalAuthMode();
+            var viewModel = new CreateAccountViewModel();
+            return ViewCreateAccount(viewModel);
+        }
+
+        private ActionResult ViewCreateAccount(CreateAccountViewModel viewModel)
+        {
+            var firmaPage = FirmaPageTypeEnum.InviteUser.GetFirmaPage();
+            var viewData = new CreateAccountViewData(CurrentFirmaSession, firmaPage);
+            return RazorView<CreateAccount, CreateAccountViewData, CreateAccountViewModel>(viewData, viewModel);
+        }
+
+        [FirmaAdminFeature]
+        [HttpPost]
+        public ActionResult CreateAccount(CreateAccountViewModel viewModel)
+        {
+            LocalAuthenticationController.RequireLocalAuthMode();
+            if (!ModelState.IsValid)
+            {
+                return ViewCreateAccount(viewModel);
+            }
+            var theSelectedOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(viewModel.OrganizationID);
+            Check.EnsureNotNull(theSelectedOrganization);
+            
+            var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmail(viewModel.Email, false);
+            if (existingUser != null)
+            {
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.");
+                return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
+            }
+
+            var newUser = CreateNewFirmaPersonWithoutKeystone(theSelectedOrganization, viewModel);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            var saltAndHash = PBKDF2PasswordHash.CreateHash(viewModel.Password);
+            var personLoginAccount = new PersonLoginAccount(newUser, newUser.Email, DateTime.Now,
+                saltAndHash.PasswordHashed, saltAndHash.PasswordSalt, true, 0, 0);
+            HttpRequestStorage.DatabaseEntities.AllPersonLoginAccounts.Add(personLoginAccount);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+
+            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role.");
+            return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
+        }
+
+        private static Person CreateNewFirmaPersonWithoutKeystone(Organization userOrganization, CreateAccountViewModel viewModel)
+        {
+            var firmaPerson = new Person(Guid.NewGuid(), viewModel.FirstName, viewModel.LastName,
+                viewModel.Email, Role.Unassigned, DateTime.Now, true, userOrganization, false,
+                viewModel.Email);
+            HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+            return firmaPerson;
         }
 
         [FirmaAdminFeature]
