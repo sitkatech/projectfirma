@@ -104,8 +104,8 @@ namespace ProjectFirma.Web.Common
                 {
                     return Tenant.IdahoAssociatonOfSoilConservationDistricts.CanonicalHostNameProd;
                 }
-                // Redirect to ProjectFirma home if domain is bad in Prod 
-                return Tenant.SitkaTechnologyGroup.CanonicalHostNameProd;
+                // Redirect to default tenant home if domain is bad in Prod 
+                return DefaultTenant.CanonicalHostNameProd;
             }
 
             return canonicalHost;
