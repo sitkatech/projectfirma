@@ -66,8 +66,10 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-6">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-					//todo: TK - check for local auth
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDetailBasicsUrl, string.Format("Edit User: {0}", ViewDataTyped.Person.GetFullNameFirstLast()), 1000, ViewDataTyped.UserHasPersonManagePermissions)
+                    @if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
+                    {
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDetailBasicsUrl, string.Format("Edit User: {0}", ViewDataTyped.Person.GetFullNameFirstLast()), 1000, ViewDataTyped.UserHasPersonManagePermissions)
+                    }
                     Basics
                 </div>
                 <div class="panel-body">
@@ -104,19 +106,22 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     }
 
-					//todo: TK - check auth type
-                    @if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
+                    @if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth)
                     {
-                        <div class="alert" role="alert">
-                            This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
-                        </div>
-                    }
-                    
-                    @if (ViewDataTyped.UserHasPersonManagePermissions)
+                        if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
+                        {
+                            <div class="alert" role="alert">
+                                This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
+                            </div>
+                        }
+                    }else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
                     {
-                        <div>
-                            @ModalDialogFormHelper.MakeEditIconButton(ViewDataTyped.ChangePasswordUrl, "Change Password", "Change Password", ViewDataTyped.UserHasPersonManagePermissions)
-                        </div>
+                        if (ViewDataTyped.UserHasPersonManagePermissions)
+                        {
+                            <div>
+                                @ModalDialogFormHelper.MakeEditIconButton(ViewDataTyped.ChangePasswordUrl, "Change Password", "Change Password", ViewDataTyped.UserHasPersonManagePermissions)
+                            </div>
+                        }
                     }
 
                     @*  Impersonate User Button  *@

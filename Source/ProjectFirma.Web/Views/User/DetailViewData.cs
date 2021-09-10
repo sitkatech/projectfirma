@@ -68,8 +68,11 @@ namespace ProjectFirma.Web.Views.User
 
             EditPersonOrganizationPrimaryContactUrl = SitkaRoute<PersonOrganizationController>.BuildUrlFromExpression(c => c.EditPersonOrganizationPrimaryContacts(personToView));
             IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
-            EditDetailBasicsUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.EditUser(personToView.PrimaryKey));
-            ChangePasswordUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ChangePassword(personToView.PrimaryKey));
+            if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
+            {
+                EditDetailBasicsUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.EditUser(personToView.PrimaryKey));
+                ChangePasswordUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ChangePassword(personToView.PrimaryKey));
+            }
 
             // And again, here we should take Current FirmaSession, not the person. -- SLG & SG
             UserHasPersonViewPermissions = new UserViewFeature().HasPermission(currentFirmaSession, personToView).HasPermission;
