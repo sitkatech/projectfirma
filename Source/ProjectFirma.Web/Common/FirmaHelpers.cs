@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GenerateLogOutUrlWithReturnUrl()
         {
-            var logOutUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOff());
+            var logOutUrl = SitkaRoute<AccountController>.BuildUrlFromExpression(c => c.LogOff());
             
             var returnUrl = HttpContext.Current.Request.Url.AbsoluteUri;
 

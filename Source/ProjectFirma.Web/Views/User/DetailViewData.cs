@@ -32,10 +32,12 @@ namespace ProjectFirma.Web.Views.User
         public Person Person { get; }
         public string EditPersonOrganizationPrimaryContactUrl { get; }
         public string IndexUrl { get; }
+        public string EditDetailBasicsUrl { get; }
+        public string ChangePasswordUrl { get; }
 
         public bool UserHasPersonViewPermissions { get; }
         public bool UserHasPersonManagePermissions { get; }
-        public bool UserHasViewEverythingPermissions { get; }
+        public bool UserHasAdminPermissions { get; }
         public bool CurrentPersonCanBeImpersonatedByCurrentUser { get; }
         public bool IsViewingSelf { get; }
         public Project.UserProjectGridSpec UserProjectGridSpec { get; }
@@ -66,16 +68,18 @@ namespace ProjectFirma.Web.Views.User
 
             EditPersonOrganizationPrimaryContactUrl = SitkaRoute<PersonOrganizationController>.BuildUrlFromExpression(c => c.EditPersonOrganizationPrimaryContacts(personToView));
             IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
+            EditDetailBasicsUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.EditUser(personToView.PrimaryKey));
+            ChangePasswordUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ChangePassword(personToView.PrimaryKey));
 
             // And again, here we should take Current FirmaSession, not the person. -- SLG & SG
             UserHasPersonViewPermissions = new UserViewFeature().HasPermission(currentFirmaSession, personToView).HasPermission;
             UserHasPersonManagePermissions = new UserEditFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            UserHasViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            UserHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             CurrentPersonCanBeImpersonatedByCurrentUser = new FirmaImpersonateUserFeature().HasPermission(currentFirmaSession, personToView).HasPermission;
 
             IsViewingSelf = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == personToView.PersonID;
-            EditRolesLink = UserHasPersonManagePermissions
+            EditRolesLink = UserHasAdminPermissions
                 ? ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditRoles(personToView)),
                     $"Edit Roles for User - {personToView.GetFullNameFirstLast()}",
                     true)

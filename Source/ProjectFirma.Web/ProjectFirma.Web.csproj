@@ -282,6 +282,7 @@
     <Compile Include="Security\ReportTemplateViewListFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Security\UserAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectSimpleLocationCoordinates.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\AttachmentType\AttachmentTypeGridSpec.cs" />
@@ -1755,15 +1756,22 @@
     <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\DetailGridSpec.cs" />
+    <Compile Include="Views\User\ChangePassword.cs" />
+    <Compile Include="Views\User\ChangePasswordViewData.cs" />
+    <Compile Include="Views\User\ChangePasswordViewModel.cs" />
     <Compile Include="Views\User\CreateAccount.cs" />
     <Compile Include="Views\User\CreateAccountViewData.cs" />
     <Compile Include="Views\User\CreateAccountViewModel.cs" />
+    <Compile Include="Views\User\EditUser.cs" />
+    <Compile Include="Views\User\EditUserViewData.cs" />
+    <Compile Include="Views\User\EditUserViewModel.cs" />
     <Compile Include="Views\User\ImpersonateUserButton.ascx.cs">
       <DependentUpon>ImpersonateUserButton.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\User\Invite.cs" />
     <Compile Include="Views\User\InviteViewData.cs" />
     <Compile Include="Views\User\InviteViewModel.cs" />
+    <Compile Include="Views\User\PasswordHelper.cs" />
     <Compile Include="Views\WebServices\ViewAccessToken.cs" />
     <Compile Include="Views\WebServices\Index.cs" />
     <Compile Include="Views\WebServices\ViewAccessTokenViewData.cs" />
@@ -1886,6 +1894,8 @@
     <Content Include="Views\Shared\ProjectClassification\ProjectClassifications.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTimeNoYear.cshtml" />
     <Content Include="Views\User\CreateAccount.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

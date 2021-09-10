@@ -41,6 +41,8 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
+using IndexViewData = ProjectFirma.Web.Views.User.IndexViewData;
+using Index = ProjectFirma.Web.Views.User.Index;
 using Organization = ProjectFirmaModels.Models.Organization;
 using Person = ProjectFirmaModels.Models.Person;
 
@@ -50,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(SitkaSmtpClient));
 
-        [UserEditFeature]
+        [UserAdminFeature]
         public ViewResult Index()
         {
             const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum =
@@ -58,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
         }
 
-        [UserEditFeature]
+        [UserAdminFeature]
         public ViewResult ViewIndex(string gridDataUrl)
         {
             var firmaPage = FirmaPageTypeEnum.UsersList.GetFirmaPage();
@@ -83,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [UserEditFeature]
+        [UserAdminFeature]
         public GridJsonNetJObjectResult<Person> IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
         {
             var gridSpec = new IndexGridSpec(CurrentFirmaSession);
@@ -139,6 +141,77 @@ namespace ProjectFirma.Web.Controllers
                     x => x.GetRoleDisplayName());
             var viewData = new EditRolesViewData(rolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [UserEditFeature]
+        public PartialViewResult EditUser(PersonPrimaryKey personPrimaryKey)
+        {
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new EditUserViewModel(person);
+            return ViewEditUser(viewModel);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditUser(PersonPrimaryKey personPrimaryKey, EditUserViewModel viewModel)
+        {
+            var personBeingEdited = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditUser(viewModel);
+            }
+
+            viewModel.UpdateModel(personBeingEdited, CurrentFirmaSession);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditUser(EditUserViewModel viewModel)
+        {
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.OrganizationName).ToList();
+            var organizationsSelectList = allOrganizations.ToSelectList(x => x.OrganizationID.ToString(), x => x.OrganizationName);
+            var viewData = new EditUserViewData(organizationsSelectList);
+            return RazorPartialView<EditUser, EditUserViewData, EditUserViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [UserEditFeature]
+        public PartialViewResult ChangePassword(PersonPrimaryKey personPrimaryKey)
+        {
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new ChangePasswordViewModel(person);
+            return ViewChangePassword(viewModel, CurrentFirmaSession);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ChangePassword(PersonPrimaryKey personPrimaryKey, ChangePasswordViewModel viewModel)
+        {
+            var personBeingEdited = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewChangePassword(viewModel, CurrentFirmaSession);
+            }
+
+            var personAccount = personBeingEdited.PersonLoginAccount;
+
+            var saltAndHash = PBKDF2PasswordHash.CreateHash(viewModel.NewPassword);
+            personAccount.PasswordSalt = saltAndHash.PasswordSalt;
+            personAccount.PasswordHash = saltAndHash.PasswordHashed;
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{personBeingEdited.GetFullNameFirstLast()}'s password had been updated.");
+             return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewChangePassword(ChangePasswordViewModel viewModel, FirmaSession currentFirmaSession)
+        {
+            var isSelfEdit = viewModel.PersonID == currentFirmaSession.PersonID;
+            var viewData = new ChangePasswordViewData(isSelfEdit);
+            return RazorPartialView<ChangePassword, ChangePasswordViewData, ChangePasswordViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -545,7 +618,7 @@ namespace ProjectFirma.Web.Controllers
             var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
             if (existingUser != null)
             {
-                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.</a>.");
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.");
                 return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
             }
 
@@ -562,8 +635,7 @@ namespace ProjectFirma.Web.Controllers
                 SendExistingKeystoneUserCreatedMessage(newUser, CurrentPerson);
             }
 
-            SetMessageForDisplay(
-                $"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role</a>.");
+            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role.");
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 
