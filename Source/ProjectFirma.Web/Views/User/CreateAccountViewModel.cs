@@ -56,10 +56,10 @@ namespace ProjectFirma.Web.Views.User
                 errors.Add(new SitkaValidationResult<CreateAccountViewModel, string>("Passwords must match.", z => z.Password));
             }
 
-            //if (!PasswordHelper.VerifyPasswordComplexity(Password))
-            //{
-            //    errors.Add(new ValidationResult(PasswordHelper.GetPasswordComplexityErrorMessage(Password)));
-            //}
+            if (!PasswordHelper.VerifyPasswordComplexity(Password))
+            {
+                errors.Add(new ValidationResult(PasswordHelper.GetPasswordComplexityErrorMessage(Password)));
+            }
 
             return errors;
         }

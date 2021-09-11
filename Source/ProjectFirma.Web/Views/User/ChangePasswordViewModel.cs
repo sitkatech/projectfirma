@@ -18,18 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+using LtInfo.Common;
+using LtInfo.Common.Models;
+using LtInfo.Common.Security;
+using ProjectFirma.Web.Common;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using DocumentFormat.OpenXml.Bibliography;
-using LtInfo.Common;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Models;
-using LtInfo.Common.Security;
-using Microsoft.Web.Mvc.Controls;
-using ProjectFirma.Web.Common;
 using Person = ProjectFirmaModels.Models.Person;
 
 namespace ProjectFirma.Web.Views.User
