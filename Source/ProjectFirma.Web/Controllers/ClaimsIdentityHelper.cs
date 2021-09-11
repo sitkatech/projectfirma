@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
                             HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
                         break;
                     case AuthenticationType.LocalAuth:
-                        personFromClaimsIdentity = GetPersonFromLocalClaims(authenticationManager.User);
+                        personFromClaimsIdentity = GetPersonFromLocalClaims(authenticationManager);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -76,8 +76,9 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
-        private static Person GetPersonFromLocalClaims(ClaimsPrincipal principal)
+        private static Person GetPersonFromLocalClaims(IAuthenticationManager authenticationManager)
         {
+            var principal = authenticationManager.User;
             if (!principal.Identity.IsAuthenticated)
             {
                 return null;
@@ -85,21 +86,35 @@ namespace ProjectFirma.Web.Controllers
 
             var name = principal.Identity.Name;
             var guid = Guid.Parse(name);
-            var firmaSession = HttpRequestStorage.DatabaseEntities.FirmaSessions.Single(x => x.FirmaSessionGuid == guid);
+            var firmaSession = HttpRequestStorage.DatabaseEntities.FirmaSessions.SingleOrDefault(x => x.FirmaSessionGuid == guid);
+            if (firmaSession == null)
+            {
+                SitkaHttpApplication.Logger.Info($"ClaimsIdentityHelper - GetPersonFromLocalClaims() - Session Not Found - Signing out - AuthType:{FirmaWebConfiguration.AuthenticationType}");
+                authenticationManager.SignOut();
+                return null;
+            }
 
+            if (firmaSession.OriginalPerson != null)
+            {
+                return firmaSession.OriginalPerson;
+            }
             return firmaSession.Person;
         }
 
 
         public static void IdentitySignOut(IAuthenticationManager authenticationManager)
         {
+            SitkaHttpApplication.Logger.Info($"ClaimsIdentityHelper - IdentitySignOut() - AuthType:{FirmaWebConfiguration.AuthenticationType}");
             authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalCookie);
-            var authenticationApplicationCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
+            var authenticationApplicationCookieName = GetAuthenticationApplicationCookieName(HttpRequestStorage.Tenant);
             HttpContext.Current.Request.Cookies.Remove(authenticationApplicationCookieName);
             HttpRequestStorage.FirmaSession.Person = null;
             HttpRequestStorage.FirmaSession.OriginalPerson = null;
         }
 
-
+        public static string GetAuthenticationApplicationCookieName(Tenant tenant)
+        {
+            return $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
+        }
     }
 }

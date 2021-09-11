@@ -82,6 +82,9 @@ namespace ProjectFirma.Web
             RegisterGlobalFilters(GlobalFilters.Filters);
             FluentValidationModelValidatorProvider.Configure();
 
+            //Ensure our ResetPassword requirements are set globally
+            ValidatePasswordAttribute.SetRequirements(8, 1, 1, 1, string.Empty, ValidatePasswordAttributeRequirement.UppercaseSpecialNumeric);
+
             //FederatedAuthentication.ServiceConfigurationCreated += FederatedAuthentication_ServiceConfigurationCreated;
         }
 

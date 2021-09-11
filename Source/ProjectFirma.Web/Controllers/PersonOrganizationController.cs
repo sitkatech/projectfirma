@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Controllers
     public class PersonOrganizationController : FirmaBaseController
     {
         [HttpGet]
-        [UserEditFeature]
+        [UserAdminFeature]
         public PartialViewResult EditPersonOrganizationPrimaryContacts(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [UserEditFeature]
+        [UserAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditPersonOrganizationPrimaryContacts(PersonPrimaryKey personPrimaryKey, EditPersonOrganizationsViewModel viewModel)
         {
