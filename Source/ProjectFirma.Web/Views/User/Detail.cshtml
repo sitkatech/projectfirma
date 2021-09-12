@@ -49,13 +49,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
-    @if (ViewDataTyped.UserHasPersonManagePermissions)
+    @if (ViewDataTyped.UserHasAdminPermissions)
     {
         @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1} User", "<span class='glyphicon glyphicon-edit blue''></span>", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), ViewDataTyped.ActivateInactivateUrl, string.Format("{0} this user?", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), 400, "Continue", "Cancel", null, null, null)
     }
 }
 
-@if (ViewDataTyped.UserHasPersonManagePermissions)
+@if (ViewDataTyped.UserHasAdminPermissions)
 {
     <div>
         <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Users</a>
@@ -66,6 +66,10 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-6">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
+                    @if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
+                    {
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDetailBasicsUrl, string.Format("Edit User: {0}", ViewDataTyped.Person.GetFullNameFirstLast()), 1000, ViewDataTyped.UserHasPersonManagePermissions)
+                    }
                     Basics
                 </div>
                 <div class="panel-body">
@@ -102,17 +106,28 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     }
 
-                    @if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
+                    @if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth)
                     {
-                        <div class="alert" role="alert">
-                            This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
-                        </div>
+                        if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
+                        {
+                            <div class="alert" role="alert">
+                                This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
+                            </div>
+                        }
+                    }else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
+                    {
+                        if (ViewDataTyped.UserHasPersonManagePermissions)
+                        {
+                            <div>
+                                @ModalDialogFormHelper.MakeEditIconButton(ViewDataTyped.ChangePasswordUrl, "Change Password", "Change Password", ViewDataTyped.UserHasPersonManagePermissions)
+                            </div>
+                        }
                     }
 
                     @*  Impersonate User Button  *@
                     @if (ViewDataTyped.CurrentPersonCanBeImpersonatedByCurrentUser)
                     {
-                        <div>
+                        <div style="margin-top: 15px;">
                             @{ ImpersonateUserButton.RenderPartialView(Html, new ImpersonateUserButtonViewData(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Person)); }
                         </div>
                     }
@@ -131,7 +146,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="row">
                             <div class="col-xs-4 fieldLabel text-right">Role</div>
                             <div class="col-xs-8">
-                                @if (ViewDataTyped.UserHasPersonManagePermissions)
+                                @if (ViewDataTyped.UserHasAdminPermissions)
                                 {
                                     @ViewDataTyped.Person.Role.GetDisplayNameAsUrl()
                                 }

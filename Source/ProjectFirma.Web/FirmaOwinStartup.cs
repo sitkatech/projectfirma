@@ -48,7 +48,7 @@ namespace ProjectFirma.Web
         /// </summary>
         public void Configuration(IAppBuilder app)
         {
-            SitkaHttpApplication.Logger.Info("Owin Startup");
+            SitkaHttpApplication.Logger.Info("Owin Startup - Start Configuration");
             app.Use((ctx, next) =>
             {
                 // Trying a lock here to prevent sporadic "Collection was modified; enumeration operation may not execute." error.      
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web
                     {
                         AuthenticationType = CookieAuthenticationType,
                         CookieManager = new SystemWebChunkingCookieManager(),
-                        CookieName = $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}",
+                        CookieName = ClaimsIdentityHelper.GetAuthenticationApplicationCookieName(tenant),
                         CookieSecure = cookieSecureOption
                     });
 
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web
                                 ResponseType = "id_token token",
                                 Scope = "openid all_claims keystone",
                                 UseTokenLifetime = false,
-                                SignInAsAuthenticationType = "Cookies",
+                                SignInAsAuthenticationType = CookieAuthenticationType,
                                 CallbackPath = new PathString("/Account/LogOn"),
                                 ClientId = tenantAttributes.KeystoneOpenIDClientIdentifier,
                                 ClientSecret = tenantAttributes.KeystoneOpenIDClientSecret,
@@ -104,6 +104,7 @@ namespace ProjectFirma.Web
                                 {
                                     AuthenticationFailed = (context) =>
                                     {
+                                        SitkaHttpApplication.Logger.Info($"Owin Startup - Configuration - AuthenticationFailed AuthType:{FirmaWebConfiguration.AuthenticationType}" );
                                         if ((context.Exception.Message.StartsWith("OICE_20004") ||
                                              context.Exception.Message.Contains("IDX10311")))
                                         {
@@ -116,8 +117,8 @@ namespace ProjectFirma.Web
                                     SecurityTokenValidated = n =>
                                     {
                                         HttpRequestStorage.Tenant = GetTenantFromUrl(n.Request);
-                                        SitkaHttpApplication.Logger.Debug(
-                                            $"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}");
+                                        SitkaHttpApplication.Logger.Info(
+                                            $"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}, AuthType:{FirmaWebConfiguration.AuthenticationType}");
 
                                         var claimsIdentity = n.AuthenticationTicket.Identity;
                                         claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
@@ -146,6 +147,7 @@ namespace ProjectFirma.Web
                                     },
                                     RedirectToIdentityProvider = n =>
                                     {
+                                        SitkaHttpApplication.Logger.Info($"Owin Startup - Configuration - RedirectToIdentityProvider AuthType:{FirmaWebConfiguration.AuthenticationType}, RequestType:{n.ProtocolMessage.RequestType}");
                                         //n.ProtocolMessage.RedirectUri = GetHomePage(); // dynamic home page for multiple subdomains
                                         //n.ProtocolMessage.PostLogoutRedirectUri = GetOuterPage(); // dynamic landing page for multiple subdomains
                                         if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)

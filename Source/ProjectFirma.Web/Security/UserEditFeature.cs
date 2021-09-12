@@ -18,10 +18,59 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Edit User")]
-    public class UserEditFeature : FirmaAdminFeature
+    public class UserEditFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Person>
     {
+        private readonly FirmaFeatureWithContextImpl<Person> _firmaFeatureWithContextImpl;
+
+        public UserEditFeature() : base(Role.All)
+        {
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Person>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
+        }
+
+        public void DemandPermission(FirmaSession firmaSession, Person contextModelObject)
+        {
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="firmaSession"></param>
+        /// <param name="contextModelObject"></param>
+        /// <returns></returns>
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Person contextModelObject)
+        {
+            if (contextModelObject == null)
+            {
+                return new PermissionCheckResult("The Person whose details you are requesting to see doesn't exist.");
+            }
+
+            var userViewingOwnPage = !firmaSession.IsAnonymousUser() && firmaSession.PersonID == contextModelObject.PersonID;
+
+
+            var userHasAppropriateRole = HasPermissionByFirmaSession(firmaSession);
+            if (!userHasAppropriateRole)
+            {
+                return new PermissionCheckResult("You don't have permissions to view user details. If you aren't logged in, do that and try again.");
+            }
+
+            var userHasEditPermission = !firmaSession.IsAnonymousUser() &&
+                                        (firmaSession.Person.Role == Role.Admin ||
+                                         firmaSession.Person.Role == Role.SitkaAdmin);
+            if (userViewingOwnPage || userHasEditPermission)
+            {
+                return new PermissionCheckResult();
+            }
+
+            return new PermissionCheckResult("You don't have permission to view this user.");
+        }
+
     }
 }
