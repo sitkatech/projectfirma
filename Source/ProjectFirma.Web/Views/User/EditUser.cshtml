@@ -1,0 +1,81 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditUser.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@inherits ProjectFirma.Web.Views.User.EditUser
+
+<style type="text/css">
+    td, th {
+        padding-left: 8px;
+        padding-right: 8px;
+        padding-bottom: 3px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-xs-12 col-sm-3 control-label" })
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-xs-12 col-sm-3 control-label" })
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-xs-12 col-sm-3 control-label" })
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-xs-12 col-sm-3 control-label" })
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PhoneNumber)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Username, new { @class = "col-xs-12 col-sm-3 control-label" })
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Username)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.OrganizationID, new {@class = "col-xs-12 col-sm-3 control-label"})
+            <div class="col-xs-12 col-sm-9">
+                @Html.DropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.OrganizationID)
+            </div>
+        </div>
+
+    </div>
+    @Html.HiddenFor(m => m.PersonID)
+}

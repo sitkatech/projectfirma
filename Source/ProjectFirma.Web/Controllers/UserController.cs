@@ -36,10 +36,13 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Email;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using LtInfo.Common.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
+using IndexViewData = ProjectFirma.Web.Views.User.IndexViewData;
+using Index = ProjectFirma.Web.Views.User.Index;
 using Organization = ProjectFirmaModels.Models.Organization;
 using Person = ProjectFirmaModels.Models.Person;
 
@@ -49,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(SitkaSmtpClient));
 
-        [UserEditFeature]
+        [UserAdminFeature]
         public ViewResult Index()
         {
             const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum =
@@ -57,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
         }
 
-        [UserEditFeature]
+        [UserAdminFeature]
         public ViewResult ViewIndex(string gridDataUrl)
         {
             var firmaPage = FirmaPageTypeEnum.UsersList.GetFirmaPage();
@@ -82,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [UserEditFeature]
+        [UserAdminFeature]
         public GridJsonNetJObjectResult<Person> IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
         {
             var gridSpec = new IndexGridSpec(CurrentFirmaSession);
@@ -139,6 +142,8 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new EditRolesViewData(rolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
         }
+
+        
 
         [HttpGet]
         [UserEditFeature]
@@ -390,6 +395,8 @@ namespace ProjectFirma.Web.Controllers
                 EditUserStewardshipAreasViewModel>(viewData, viewModel);
         }
 
+        
+
         [FirmaAdminFeature]
         [HttpGet]
         public ActionResult Invite()
@@ -486,7 +493,7 @@ namespace ProjectFirma.Web.Controllers
             var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
             if (existingUser != null)
             {
-                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.</a>.");
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.");
                 return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
             }
 
@@ -503,8 +510,7 @@ namespace ProjectFirma.Web.Controllers
                 SendExistingKeystoneUserCreatedMessage(newUser, CurrentPerson);
             }
 
-            SetMessageForDisplay(
-                $"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role</a>.");
+            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role.");
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 
@@ -696,6 +702,143 @@ namespace ProjectFirma.Web.Controllers
         }
 
         #endregion impersonation
+
+
+        #region "Local Auth Methods"
+        [HttpGet]
+        [UserEditFeature]
+        public PartialViewResult EditUser(PersonPrimaryKey personPrimaryKey)
+        {
+            LocalAuthenticationController.RequireLocalAuthMode();
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new EditUserViewModel(person);
+            return ViewEditUser(viewModel);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditUser(PersonPrimaryKey personPrimaryKey, EditUserViewModel viewModel)
+        {
+            LocalAuthenticationController.RequireLocalAuthMode();
+            var personBeingEdited = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditUser(viewModel);
+            }
+
+            viewModel.UpdateModel(personBeingEdited, CurrentFirmaSession);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditUser(EditUserViewModel viewModel)
+        {
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.OrganizationName).ToList();
+            var organizationsSelectList = allOrganizations.ToSelectList(x => x.OrganizationID.ToString(), x => x.OrganizationName);
+            var viewData = new EditUserViewData(organizationsSelectList);
+            return RazorPartialView<EditUser, EditUserViewData, EditUserViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [UserEditFeature]
+        public PartialViewResult ChangePassword(PersonPrimaryKey personPrimaryKey)
+        {
+            LocalAuthenticationController.RequireLocalAuthMode();
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new ChangePasswordViewModel(person);
+            return ViewChangePassword(viewModel, CurrentFirmaSession);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ChangePassword(PersonPrimaryKey personPrimaryKey, ChangePasswordViewModel viewModel)
+        {
+            LocalAuthenticationController.RequireLocalAuthMode();
+            var personBeingEdited = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewChangePassword(viewModel, CurrentFirmaSession);
+            }
+
+            var personAccount = personBeingEdited.PersonLoginAccount;
+
+            var saltAndHash = PBKDF2PasswordHash.CreateHash(viewModel.NewPassword);
+            personAccount.PasswordSalt = saltAndHash.PasswordSalt;
+            personAccount.PasswordHash = saltAndHash.PasswordHashed;
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{personBeingEdited.GetFullNameFirstLast()}'s password had been updated.");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewChangePassword(ChangePasswordViewModel viewModel, FirmaSession currentFirmaSession)
+        {
+            var isSelfEdit = viewModel.PersonID == currentFirmaSession.PersonID;
+            var viewData = new ChangePasswordViewData(isSelfEdit);
+            return RazorPartialView<ChangePassword, ChangePasswordViewData, ChangePasswordViewModel>(viewData, viewModel);
+        }
+
+        [FirmaAdminFeature]
+        [HttpGet]
+        public ActionResult CreateAccount()
+        {
+            LocalAuthenticationController.RequireLocalAuthMode();
+            var viewModel = new CreateAccountViewModel();
+            return ViewCreateAccount(viewModel);
+        }
+
+        private ActionResult ViewCreateAccount(CreateAccountViewModel viewModel)
+        {
+            var firmaPage = FirmaPageTypeEnum.InviteUser.GetFirmaPage();
+            var viewData = new CreateAccountViewData(CurrentFirmaSession, firmaPage);
+            return RazorView<CreateAccount, CreateAccountViewData, CreateAccountViewModel>(viewData, viewModel);
+        }
+
+        [FirmaAdminFeature]
+        [HttpPost]
+        public ActionResult CreateAccount(CreateAccountViewModel viewModel)
+        {
+            LocalAuthenticationController.RequireLocalAuthMode();
+            if (!ModelState.IsValid)
+            {
+                return ViewCreateAccount(viewModel);
+            }
+            var theSelectedOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(viewModel.OrganizationID);
+            Check.EnsureNotNull(theSelectedOrganization);
+
+            var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmail(viewModel.Email, false);
+            if (existingUser != null)
+            {
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.");
+                return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
+            }
+
+            var newUser = CreateNewFirmaPersonWithoutKeystone(theSelectedOrganization, viewModel);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            var saltAndHash = PBKDF2PasswordHash.CreateHash(viewModel.Password);
+            var personLoginAccount = new PersonLoginAccount(newUser, newUser.Email, DateTime.Now,
+                saltAndHash.PasswordHashed, saltAndHash.PasswordSalt, true, 0, 0);
+            HttpRequestStorage.DatabaseEntities.AllPersonLoginAccounts.Add(personLoginAccount);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+
+            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role.");
+            return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
+        }
+
+        private static Person CreateNewFirmaPersonWithoutKeystone(Organization userOrganization, CreateAccountViewModel viewModel)
+        {
+            var firmaPerson = new Person(Guid.NewGuid(), viewModel.FirstName, viewModel.LastName,
+                viewModel.Email, Role.Unassigned, DateTime.Now, true, userOrganization, false,
+                viewModel.Email);
+            HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+            return firmaPerson;
+        }
+
+        #endregion "Local Auth Methods"
 
 
 

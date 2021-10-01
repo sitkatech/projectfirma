@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Common
         public static readonly string PsInfoDataCenterUrl = SitkaConfiguration.GetRequiredAppSetting("PsInfoDataCenterUrl");
         public static readonly string VitalSignsUrl = SitkaConfiguration.GetRequiredAppSetting("VitalSignsUrl");
         public static readonly string NEPAtlasUrl = SitkaConfiguration.GetRequiredAppSetting("NEPAtlasUrl");
+        public static readonly string OngoingProgramsUrl = SitkaConfiguration.GetRequiredAppSetting("OngoingProgramsUrl");
         public static readonly string PSARDashboardUrl = SitkaConfiguration.GetRequiredAppSetting("PSARDashboardUrl");
         public static readonly string SpatialHubUrl = SitkaConfiguration.GetRequiredAppSetting("SpatialHubUrl");
         public static readonly string PsInfoPostOrganizationUrl = SitkaConfiguration.GetRequiredAppSetting("PsInfoPostOrganizationUrl");
@@ -103,8 +104,8 @@ namespace ProjectFirma.Web.Common
                 {
                     return Tenant.IdahoAssociatonOfSoilConservationDistricts.CanonicalHostNameProd;
                 }
-                // Redirect to ProjectFirma home if domain is bad in Prod 
-                return Tenant.SitkaTechnologyGroup.CanonicalHostNameProd;
+                // Redirect to default tenant home if domain is bad in Prod 
+                return DefaultTenant.CanonicalHostNameProd;
             }
 
             return canonicalHost;

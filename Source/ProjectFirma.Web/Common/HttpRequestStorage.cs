@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Common
                         }
                         else
                         {
-                            return Tenant.SitkaTechnologyGroup;
+                            return FirmaWebConfiguration.DefaultTenant;
                         }
                     });
             }
