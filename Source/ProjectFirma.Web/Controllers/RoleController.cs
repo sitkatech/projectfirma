@@ -33,14 +33,14 @@ namespace ProjectFirma.Web.Controllers
 {
     public class RoleController : FirmaBaseController
     {
-        [FirmaAdminFeature]
+        [UserAdminFeature]
         public ViewResult Index()
         {
             var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [UserEditFeature]
+        [UserAdminFeature]
         public GridJsonNetJObjectResult<IRole> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec();
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [UserEditFeature]
+        [UserAdminFeature]
         public GridJsonNetJObjectResult<Person> PersonWithRoleGridJsonData(int roleID)
         {
             var role = Role.AllLookupDictionary[roleID];
@@ -66,14 +66,14 @@ namespace ProjectFirma.Web.Controllers
             return roles.OrderBy(x => x.RoleDisplayName).ToList();
         }
 
-        [FirmaAdminFeature]
+        [UserAdminFeature]
         public ViewResult Anonymous()
         {
             var role = new AnonymousRole();
             return ViewDetail(role, role.GetFeaturePermissions(typeof(AnonymousUnclassifiedFeature)), role.RoleDisplayName);
         }
 
-        [FirmaAdminFeature]
+        [UserAdminFeature]
         public ViewResult Detail(int roleID)
         {
             var role = Role.AllLookupDictionary[roleID];
