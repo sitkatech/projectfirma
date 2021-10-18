@@ -191,7 +191,7 @@ namespace ProjectFirmaModels.Models
     public partial class TenantNCRPProjectTracker : Tenant
     {
         private TenantNCRPProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantNCRPProjectTracker Instance = new TenantNCRPProjectTracker(4, @"NCRPProjectTracker", @"ncrp.localhost.projectfirma.com", @"qa-ncrp.projectfirma.com", @"ncrp.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
+        public static readonly TenantNCRPProjectTracker Instance = new TenantNCRPProjectTracker(4, @"NCRPProjectTracker", @"ncrp.localhost.projectfirma.com", @"ncrp.qa.projectfirma.com", @"ncrp.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
     }
 
     public partial class TenantDemoProjectFirma : Tenant
