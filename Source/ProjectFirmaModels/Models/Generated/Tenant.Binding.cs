@@ -22,8 +22,8 @@ namespace ProjectFirmaModels.Models
         public static readonly TenantSitkaTechnologyGroup SitkaTechnologyGroup = TenantSitkaTechnologyGroup.Instance;
         public static readonly TenantClackamasPartnership ClackamasPartnership = TenantClackamasPartnership.Instance;
         public static readonly TenantRCDProjectTracker RCDProjectTracker = TenantRCDProjectTracker.Instance;
+        public static readonly TenantNCRPProjectTracker NCRPProjectTracker = TenantNCRPProjectTracker.Instance;
         public static readonly TenantDemoProjectFirma DemoProjectFirma = TenantDemoProjectFirma.Instance;
-        public static readonly TenantInternationYearOfTheSalmon InternationYearOfTheSalmon = TenantInternationYearOfTheSalmon.Instance;
         public static readonly TenantPeaksToPeople PeaksToPeople = TenantPeaksToPeople.Instance;
         public static readonly TenantJohnDayBasinPartnership JohnDayBasinPartnership = TenantJohnDayBasinPartnership.Instance;
         public static readonly TenantAshlandForestAllLandsRestorationInitiative AshlandForestAllLandsRestorationInitiative = TenantAshlandForestAllLandsRestorationInitiative.Instance;
@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, DemoProjectFirma, InternationYearOfTheSalmon, PeaksToPeople, JohnDayBasinPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, NCRPProjectTracker, DemoProjectFirma, PeaksToPeople, JohnDayBasinPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -139,10 +139,10 @@ namespace ProjectFirmaModels.Models
                     return DemoProjectFirma;
                 case TenantEnum.IdahoAssociatonOfSoilConservationDistricts:
                     return IdahoAssociatonOfSoilConservationDistricts;
-                case TenantEnum.InternationYearOfTheSalmon:
-                    return InternationYearOfTheSalmon;
                 case TenantEnum.JohnDayBasinPartnership:
                     return JohnDayBasinPartnership;
+                case TenantEnum.NCRPProjectTracker:
+                    return NCRPProjectTracker;
                 case TenantEnum.PeaksToPeople:
                     return PeaksToPeople;
                 case TenantEnum.RCDProjectTracker:
@@ -160,8 +160,8 @@ namespace ProjectFirmaModels.Models
         SitkaTechnologyGroup = 1,
         ClackamasPartnership = 2,
         RCDProjectTracker = 3,
-        DemoProjectFirma = 4,
-        InternationYearOfTheSalmon = 5,
+        NCRPProjectTracker = 4,
+        DemoProjectFirma = 5,
         PeaksToPeople = 6,
         JohnDayBasinPartnership = 7,
         AshlandForestAllLandsRestorationInitiative = 8,
@@ -188,16 +188,16 @@ namespace ProjectFirmaModels.Models
         public static readonly TenantRCDProjectTracker Instance = new TenantRCDProjectTracker(3, @"RCDProjectTracker", @"rcdprojects.localhost.projectfirma.com", @"qa.rcdprojects.org", @"www.rcdprojects.org", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
     }
 
+    public partial class TenantNCRPProjectTracker : Tenant
+    {
+        private TenantNCRPProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
+        public static readonly TenantNCRPProjectTracker Instance = new TenantNCRPProjectTracker(4, @"NCRPProjectTracker", @"ncrp.localhost.projectfirma.com", @"qa-ncrp.projectfirma.com", @"ncrp.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
+    }
+
     public partial class TenantDemoProjectFirma : Tenant
     {
         private TenantDemoProjectFirma(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(4, @"DemoProjectFirma", @"demo.localhost.projectfirma.com", @"demo.qa.projectfirma.com", @"demo.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
-    }
-
-    public partial class TenantInternationYearOfTheSalmon : Tenant
-    {
-        private TenantInternationYearOfTheSalmon(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantInternationYearOfTheSalmon Instance = new TenantInternationYearOfTheSalmon(5, @"InternationYearOfTheSalmon", @"iysdemo.localhost.projectfirma.com", @"iysdemo.qa.projectfirma.com", @"iysdemo.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, false);
+        public static readonly TenantDemoProjectFirma Instance = new TenantDemoProjectFirma(5, @"DemoProjectFirma", @"demo.localhost.projectfirma.com", @"demo.qa.projectfirma.com", @"demo.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
     }
 
     public partial class TenantPeaksToPeople : Tenant
