@@ -75,6 +75,9 @@ label,
 .header {
   background-color: #fff;
 }
+.header img {
+  height: 75px;
+}
 .header .headerText {
   display: inline-block;
   font-size: 30px;
@@ -92,6 +95,7 @@ label,
 .header .headerText a #headerTenantShortDisplayName {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
+  margin-right: 20px;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
