@@ -488,29 +488,27 @@
                   <div class="panel-body">
                      @if (ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
                      {
-                        <table class="table">
-                           <thead>
-                              <tr>
-                                 <th scope="col">@FieldDefinitionEnum.EvaluationName.ToType().GetFieldDefinitionLabel()</th>
-                                 <th scope="col">@FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()</th>
-                                 <th scope="col">@FieldDefinitionEnum.EvaluationStartDate.ToType().GetFieldDefinitionLabel()</th>
-                                 <th scope="col">@FieldDefinitionEnum.EvaluationEndDate.ToType().GetFieldDefinitionLabel()</th>
-                                 <th scope="col">@FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabelPluralized()</th>
-                                 <th scope="col">Comments</th>
-                              </tr>
-                           </thead>
+                        <table class="summaryLayout table table-condensed table-striped">
                            <tbody>
-                              @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
-                              {
-                                 <tr>
-                                    <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
-                                    <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
-                                    <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
-                                    <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
-                                    <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
-                                    <td>@projectEvaluation.Comments</td>
-                                 </tr>
-                              }
+                               <tr>
+                                   <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationName.ToType())</th>
+                                   <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStatus.ToType())</th>
+                                   <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStartDate.ToType())</th>
+                                   <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationEndDate.ToType())</th>
+                                   <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationCriteria.ToType())</th>
+                                   <th scope="col">Comments</th>
+                               </tr>
+                               @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
+                               {
+                                   <tr>
+                                       <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
+                                       <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
+                                       <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
+                                       <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
+                                       <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
+                                       <td>@projectEvaluation.Comments</td>
+                                   </tr>
+                               }
                            </tbody>
                         </table>
 
