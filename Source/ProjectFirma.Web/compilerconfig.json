@@ -50,5 +50,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/bor.theme.css",
     "inputFile": "Content/Bootstrap/firma/bor.theme.less"
+  },
+  {
+    "outputFile": "Content/Bootstrap/firma/ncrp.theme.css",
+    "inputFile": "Content/Bootstrap/firma/ncrp.theme.less"
   }
 ]

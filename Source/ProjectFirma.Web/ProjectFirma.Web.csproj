@@ -612,6 +612,12 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
+    <Content Include="Content\Bootstrap\firma\ncrp.theme.css">
+      <DependentUpon>ncrp.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\ncrp.theme.min.css">
+      <DependentUpon>ncrp.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\combo-tree\style.css" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js" />
     <Content Include="Content\fancybox\blank.gif" />
@@ -673,6 +679,7 @@
     <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide_2020.pdf" />
     <Content Include="Content\Training\ProjectFirma_CustomizationGuide_2020.pdf" />
     <Content Include="Content\Training\ProjectFirma-Example.gdb.zip" />
+    <Content Include="Content\Bootstrap\firma\ncrp.theme.less" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
