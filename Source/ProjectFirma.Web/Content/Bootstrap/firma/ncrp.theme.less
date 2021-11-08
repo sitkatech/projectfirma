@@ -17,16 +17,19 @@
 @firma-header-font: "Roboto", sans-serif;
 @firma-title-font: "Roboto", sans-serif;
 @firma-text-font: "Open Sans",sans-serif;
-@firma-text-fontSize: 14px;
+@firma-text-fontSize: 16px;
 
 
 @PrimaryGray: rgba(75, 68, 81, 0.7);
 @PrimarySlate: #424142;
+@PrimarySteele: #2e6580;
 @PrimaryDaffodil: #ffe293; 
 @PrimaryMoss: #738c1f;
 @PrimarySky: #94c5e3;
 @PrimaryApricot: #e0871a;
 @PrimaryWhite: #fff;
+@PrimaryPebble: #e6e7e9;
+@PrimaryJuniper: #4b5c14;
 
 @SecondaryRed: #de7076;
 @SecondaryBeige: #f2f2eb;
@@ -42,7 +45,7 @@
 @SecondaryGreen: #c6b42f;
 
 
-@LinkBlue: #0f5faa;
+@LinkBlue: @PrimarySteele;
 
 @firma-text-color: #55575e;
 @firma-header-color: @PrimaryWhite;
@@ -52,34 +55,34 @@
 @firma-contentBorder-color: #fff;
 
 @firma-contentLink-color: @LinkBlue;
-@firma-contentLink-color-hover: @LinkBlue;
+@firma-contentLink-color-hover: @PrimaryApricot;
 
 
 @firma-logoHeaderBackground-color: @PrimaryWhite;
-@firma-logoHeaderText-color: @PrimarySlate;
+@firma-logoHeaderText-color: #55575e;
 
-@firma-navBackground-color: @SecondaryWhite;
-@firma-navBorder-color: @SecondaryWhite;
+@firma-navBackground-color: @PrimaryPebble;
+@firma-navBorder-color: @PrimaryPebble;
 @firma-navText-color: @PrimaryGray;
 @firma-navItemText-color-hover: @SecondaryRed;
 
-@firma-navItemBackground-color-hover: @SecondaryWhite;
+@firma-navItemBackground-color-hover: @PrimaryPebble;
 @firma-navItemBackground-color: transparent;
 @firma-navItemDropdownText-color: @PrimaryGray;
 @firma-navItemDropdownText-color-hover: @SecondaryRed;
-@firma-navItemDropdownBackground-color: @SecondaryWhite;
-@firma-navItemDropdownBackground-color-hover: @SecondaryWhite;
+@firma-navItemDropdownBackground-color: @PrimaryPebble;
+@firma-navItemDropdownBackground-color-hover: @PrimaryPebble;
 
-@firma-panel-headerBackground-color: @SecondaryTan;
-@firma-panel-headerText-color: @PrimarySlate;
-@firma-panel-border-color: @SecondaryTan;
+@firma-panel-headerBackground-color: @PrimarySteele;
+@firma-panel-headerText-color: @PrimaryWhite;
+@firma-panel-border-color: @PrimarySteele;
 @firma-panelDropdownText-color: @PrimaryGray;
 @firma-panelDropdownBackground-color: @SecondaryWhite;
 @firma-panel-Background-color: @PrimaryWhite;
 
-@firma-panel-projectpage-headerBackground-color: @SecondaryLightBlue;
-@firma-panel-projectpage-headerText-color: @PrimarySlate;
-@firma-panel-projectpage-border-color: @SecondaryLightBlue;
+@firma-panel-projectpage-headerBackground-color: @PrimaryMoss;
+@firma-panel-projectpage-headerText-color: @PrimaryWhite;
+@firma-panel-projectpage-border-color: @PrimaryMoss;
 @firma-panel-projectpage-DropdownText-color: @PrimaryGray;
 @firma-panel-projectpage-DropdownBackground-color: @SecondaryWhite;
 @firma-panel-projectpage-Background-color: @PrimaryWhite;
@@ -90,16 +93,16 @@
 @firma-helpIcon-color: @PrimarySlate;
 @firma-helpIconGrid-color: #fff;
 
-@firma-buttonBackground-color: @PrimaryMoss;
+@firma-buttonBackground-color: @PrimaryApricot;
 @firma-buttonText-color: #fff;
-@firma-buttonBackground-color-hover: #5C7018;
+@firma-buttonBackground-color-hover: #B36C14;
 @firma-buttonText-color-hover: #fff;
 
 @firma-scrollSpyAccent-color: @PrimaryApricot;
 
 @firma-white: #fff;
-@firma-active-arrow-color: @PrimarySky;
-@firma-inactive-arrow-color: #bbb;
+@firma-active-arrow-color: @PrimaryJuniper;
+@firma-inactive-arrow-color: DarkGray;
 
 @z-index-arrow: 900;
 
@@ -119,6 +122,7 @@ html, body {
 body {
     font-family: @firma-text-font;
     font-size: @firma-text-fontSize;
+    line-height: 26px;
     background-color: @firma-background-color;
     color: @firma-text-color;
 }
@@ -131,6 +135,7 @@ h1, h2, h3, h4, h5, h6 {
     color: @firma-header-color;
     font-family: @firma-header-font;
     font-weight: 400;
+    letter-spacing: 1px;
 }
 
 
@@ -186,9 +191,10 @@ label, .control-label {
 
 .header {
     background-color: @firma-logoHeaderBackground-color;
+    padding: 0px;
 
     img {
-        height:75px;
+        height:62px;
     }
     .headerText {
         display: inline-block;
@@ -836,4 +842,33 @@ nav#wizardNav ul li.workflowSectionGroup.active, nav#wizardNav ul li.workflowSec
         background-color: @PrimarySlate;
     }
 
-    
+//Homepage carousel
+.main-text h1 {
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 75px;
+    color: @SecondaryLightBlue;
+}
+
+@media only screen and (min-width: 768px) {
+    .main-text h1,
+    .main-text h2,
+    .main-text h3,
+    .main-text h4,
+    .main-text h5,
+    .main-text h6 {
+        width: 100%;
+        font-size: 60px;
+    }
+}
+
+#homepageCarousel .carousel-inner .item .carousel-caption p {
+    font-size: 18px;
+    float: none;
+    width: 100%;
+    text-align: center;
+}
+
+.carousel-caption{
+    bottom: 150px;
+}
