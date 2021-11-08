@@ -49,7 +49,6 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ Html.RenderRazorSitkaPartial<FirmaIncludes, FirmaIncludesViewData>(ViewDataTyped.FirmaIncludesViewData); }
 
     <link href="@Url.Content("~/Content/Bootstrap/firma/base.theme.min.css")" rel="stylesheet" type="text/css" />
-    @*<link href="@Url.Content("~/Content/Bootstrap/firma/ncrp.theme.min.css")" rel="stylesheet" type="text/css" />*@
 
     <link href="@Url.Content(MultiTenantHelpers.GetTenantStyleSheetUrl())" rel="stylesheet" type="text/css" />
     <script src="@Url.Content("~/Content/bootstrap-typeahead/bootstrap3-typeahead.js")" type="text/javascript"></script>
@@ -58,263 +57,266 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 </head>
-                <body class="environment-@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
-                    <div class="expandToFillScreen">
-                        <div class="header">
-                            <div class="optionalContainer">
-                                <div class="row">
-                                    <div class="headerText col-sm-12 col-md-7">
-                                        @if (ViewDataTyped.TenantName == "ActionAgendaForPugetSound")
-                                        {
-                                            <nav class="navbar projectFirmaNavbar actionAgendaCustomSiteExplorer">
-                                                <ul class="nav navbar-nav navbar-left">
-                                                    <li>
-                                                        <a class="siteLink" href="@FirmaWebConfiguration.PsInfoUrl">Puget Sound Info</a>
-                                                    </li>
-                                                    <li class="dropdown">
-                                                        <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="true"><span class="glyphicon glyphicon-menu-down"></span></a>
-                                                        <ul class="dropdown-menu" role="menu">
-                                                            <li class=""><a title="About Puget Sound Info" href="@string.Format("{0}About", FirmaWebConfiguration.PsInfoUrl)" class="navigation-dropdown-item">About Puget Sound Info</a></li>
-                                                            <li class="divider"></li>
-                                                            <li class=""><a title="Action Agenda" href="@ViewDataTyped.FirmaHomeUrl" class="navigation-dropdown-item">Action Agenda</a></li>
-                                                            <li class=""><a title="NEP Atlas" href="@FirmaWebConfiguration.NEPAtlasUrl" class="navigation-dropdown-item">NEP Atlas</a></li>
-                                                            <li class=""><a title="Ongoing Programs" href="@FirmaWebConfiguration.OngoingProgramsUrl" class="navigation-dropdown-item">Ongoing Programs</a></li>
-                                                            <li class=""><a title="PSAR Dashboard" href="@FirmaWebConfiguration.PSARDashboardUrl" class="navigation-dropdown-item">PSAR Dashboard</a></li>
-                                                            <li class=""><a title="Vital Signs" href="@FirmaWebConfiguration.VitalSignsUrl" class="navigation-dropdown-item">Vital Signs</a></li>
-                                                            <li class=""><a title="Spatial Hub" href="@FirmaWebConfiguration.SpatialHubUrl" class="navigation-dropdown-item">Spatial Hub</a></li>
-                                                            <li class="divider"></li>
-                                                            <li class=""><a title="Data Center" href="@FirmaWebConfiguration.PsInfoDataCenterUrl" class="navigation-dropdown-item">Data Center</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="menuDivider"></li>
-                                                    <li>
-                                                        <a class="siteLink" href="@ViewDataTyped.FirmaHomeUrl" title="Action Agenda">Action Agenda</a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        }
-                                        else
-                                        {
-                                            <a href="@ViewDataTyped.FirmaHomeUrl">
-                                                <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" /><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
-                                            </a>
-                                        }
-                                    </div>
-                                    <div class="col-sm-12 col-md-5">
-
-                                       @if (ViewDataTyped.ShowEnvironmentLabel)
-                                       {
-                                          <div class="header-button dropdown">
-                                             <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
-                                             </button>
-                                             @if (ViewDataTyped.ShowEnvironmentDropdown)
-                                             {
-                                                <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
-                                                    <li><a href="@ViewDataTyped.LocalUrl">Go to LOCAL</a></li>
-                                                    <li><a href="@ViewDataTyped.QaUrl">Go to QA</a></li>
-                                                    <li><a href="@ViewDataTyped.ProdUrl">Go to PROD</a></li>
-                                                </ul>
-                                             }
-                                          </div>
-                                        }
-
-                                        @if (ViewDataTyped.ShowTenantDropdown)
-                                        {
-                                             <div class="header-button dropdown">
-                                                 <button class=" btn btn-sm dropdown-toggle" type="button" title="Switch Tenant" id="tenantDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                     <span class="glyphicon glyphicon-th"></span>
-                                                 </button>
-
-                                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tenantDropdownMenu">
-                                                     @foreach (var tenant in ViewDataTyped.TenantSimples)
-                                                     {
-                                                         <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)"/></span> @tenant.TenantName</a></li>
-                                                     }
-                                                 </ul>
-                                             </div>
-                                        }
-
-                                        <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
-                                            <label for="@SearchResults.ProjectSearchInputTextboxID" class="sr-only">Search</label>
-                                            <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
-                                                   name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 1)"
-                                                   placeholder="@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Name or Description"
-                                                   style="margin-right: -5px; max-width: 300px; margin-left: auto;" />
-                                            <button id="searchButton" type="button" class="btn btn-default">
-                                                <span class="sr-only">Search</span>
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <script type="text/javascript">
-                            // <![CDATA[
-                            function submitFormWithEnter(myfield, e, numMinChars) {
-                                var keycode;
-                                if (window.event) {
-                                    keycode = window.event.keyCode;
-                                }
-                                else if (e) {
-                                    keycode = e.which;
-                                }
-                                else {
-                                    return true;
-                                }
-
-                                if (keycode == 13) {
-                                    if (myfield.value.trim().length >= numMinChars) {
-                                        var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
-                                        document.location = searchUrlTemplate
-                                            .ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
-                                    }
-                                    return false;
-                                }
-                                else {
-                                    return true;
-                                }
-                            }
-
-                            function search(myfield, numMinChars)
-                            {
-                                if (myfield.value.trim().length >= numMinChars) {
-                                    var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
-                                    document.location =
-                                        searchUrlTemplate.ParameterReplace(
-                                            "?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
-                                }
-                            }
-
-                            jQuery(document).ready(function () {
-
-                                jQuery(".btn-firma").each(function () {
-                                    this.addEventListener('click', autoAdvance);
-                                });
-
-                                function autoAdvance() {
-                                    var element = jQuery(this);
-                                    this.preventDefault();
-                                    if (element.attr('type') == 'submit') {
-                                        jQuery(window).off("beforeunload");
-                                        var autoAdvanceValue = element.attr('value') || "true";
-                                        jQuery("<input type='hidden' name='AutoAdvance' value=" + autoAdvanceValue + " />").appendTo(this.form);
-                                        this.form.submit();
-                                    }
-                                };
-
-                                var pfFinder = jQuery("#@SearchResults.ProjectSearchInputTextboxID");
-                                jQuery("#searchButton").click(function()
-                                {
-                                    search(pfFinder[0], 1);
-                                });
-
-                                jQuery("#@SearchResults.ProjectSearchInputTextboxID")
-                                    .autocomplete({
-                                        source: "@Html.Raw(ViewDataTyped.ProjectFindUrl)",
-                                        minLength: 1,
-                                        position: { my: "right top", at: "right bottom" },
-                                        select: function (event, ui) {
-                                            document.location = ui.item.value;
-                                            event.preventDefault();
-                                        },
-                                        html: true
-                                    });
-                            });
-                            // ]]>
-                        </script>
-
-                        <div id="mainnavandcontent">
-
-                            <nav class="navbar projectFirmaNavbar">
-                                <div class="optionalContainer">
-                                    <!-- Brand and toggle get grouped for better mobile display -->
-                                    <div class="navbar-header">
-                                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                                data-target="#firma-collapse-navbar" aria-expanded="false">
-                                            <span class="sr-only">Toggle navigation</span>
-                                            <span class="glyphicon glyphicon-menu-hamburger"></span>
-                                        </button>
-                                    </div>
-
-                                    <!-- Collect the nav links, forms, and other content for toggling -->
-                                    <div class="collapse navbar-collapse" id="firma-collapse-navbar">
-                                        <ul class="nav navbar-nav navbar-left">
-                                            @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
-                                            {
-                                                @topLevelMenu.RenderMenu()
-                                            }
+<body class="environment-@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
+    <div class="expandToFillScreen">
+        <div class="header">
+            <div class="optionalContainer">
+                <div class="row">
+                    <div class="headerText col-sm-12 col-md-7">
+                        @if (ViewDataTyped.TenantName == "ActionAgendaForPugetSound")
+                        {
+                            <nav class="navbar projectFirmaNavbar actionAgendaCustomSiteExplorer">
+                                <ul class="nav navbar-nav navbar-left">
+                                    <li>
+                                        <a class="siteLink" href="@FirmaWebConfiguration.PsInfoUrl">Puget Sound Info</a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="true"><span class="glyphicon glyphicon-menu-down"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li class=""><a title="About Puget Sound Info" href="@string.Format("{0}About", FirmaWebConfiguration.PsInfoUrl)" class="navigation-dropdown-item">About Puget Sound Info</a></li>
+                                            <li class="divider"></li>
+                                            <li class=""><a title="Action Agenda" href="@ViewDataTyped.FirmaHomeUrl" class="navigation-dropdown-item">Action Agenda</a></li>
+                                            <li class=""><a title="NEP Atlas" href="@FirmaWebConfiguration.NEPAtlasUrl" class="navigation-dropdown-item">NEP Atlas</a></li>
+                                            <li class=""><a title="Ongoing Programs" href="@FirmaWebConfiguration.OngoingProgramsUrl" class="navigation-dropdown-item">Ongoing Programs</a></li>
+                                            <li class=""><a title="PSAR Dashboard" href="@FirmaWebConfiguration.PSARDashboardUrl" class="navigation-dropdown-item">PSAR Dashboard</a></li>
+                                            <li class=""><a title="Vital Signs" href="@FirmaWebConfiguration.VitalSignsUrl" class="navigation-dropdown-item">Vital Signs</a></li>
+                                            <li class=""><a title="Spatial Hub" href="@FirmaWebConfiguration.SpatialHubUrl" class="navigation-dropdown-item">Spatial Hub</a></li>
+                                            <li class="divider"></li>
+                                            <li class=""><a title="Data Center" href="@FirmaWebConfiguration.PsInfoDataCenterUrl" class="navigation-dropdown-item">Data Center</a></li>
                                         </ul>
-                                        <ul class="nav navbar-nav navbar-right">
-                                            @if (Request.IsAuthenticated)
-                                            {
-                                                <li class="dropdown">
-                                                    <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        <span>Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
-                                                        <span class="glyphicon glyphicon-menu-down"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                                        <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                                        <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
-                                                        <li class="divider"></li>
-                                                        <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
-                                                    </ul>
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li class="dropdown joined-buttons">
-                                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left">Log In</a>
-                                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right">
-                                                        <span class="glyphicon glyphicon-menu-down"></span>
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                                        <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
-                                                        <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
-                                                    </ul>
-                                                </li>
-
-                                            }
-                                            @ViewDataTyped.HelpMenu.RenderMenu()
-                                        </ul>
-                                    </div><!-- /.navbar-collapse -->
-                                </div><!-- /.container-fluid -->
+                                    </li>
+                                    <li class="menuDivider"></li>
+                                    <li>
+                                        <a class="siteLink" href="@ViewDataTyped.FirmaHomeUrl" title="Action Agenda">Action Agenda</a>
+                                    </li>
+                                </ul>
                             </nav>
+                        }
+                        else
+                        {
+                            <a href="@ViewDataTyped.FirmaHomeUrl">
+                                <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" /><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
+                            </a>
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                       
+                       @if (ViewDataTyped.ShowEnvironmentLabel)
+                       { 
+                          <div class="header-button dropdown">
+                             <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
+                             </button>
+                             @if (ViewDataTyped.ShowEnvironmentDropdown)
+                             {
+                                <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
+                                    <li><a href="@ViewDataTyped.LocalUrl">Go to LOCAL</a></li>
+                                    <li><a href="@ViewDataTyped.QaUrl">Go to QA</a></li>
+                                    <li><a href="@ViewDataTyped.ProdUrl">Go to PROD</a></li>
+                                </ul>
+                             }
+                          </div>
+                        }
 
-                            @RenderSection("BeforeBodyContainer", false)
+                        @if (ViewDataTyped.ShowTenantDropdown)
+                        {
+                             <div class="header-button dropdown">
+                                 <button class=" btn btn-sm dropdown-toggle" type="button" title="Switch Tenant" id="tenantDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                     <span class="glyphicon glyphicon-th"></span>
+                                 </button>
 
-                            @RenderBody()
-                        </div>
+                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tenantDropdownMenu">
+                                     @foreach (var tenant in ViewDataTyped.TenantSimples)
+                                     {
+                                         <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)" /></span> @tenant.TenantName</a></li>
+                                     }
+                                     @if (FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Qa)
+                                     {
+                                         // 11/4/21 TK -- Seems a little hacky but works for now. Just adding Reclamation(an externally hosted tenant) into the tenant switcher dropdown.
+                                         <li><a href="https://bor.qa.projectfirma.com"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="https://sitka.qa.projectfirma.com:443/FileResource/DisplayResource/19141422-128f-4985-a283-30dbd33857b8" /></span> Reclamation</a></li>
+                                     }
+                                 </ul>
+                             </div>
+                        }
+
+                        <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
+                            <label for="@SearchResults.ProjectSearchInputTextboxID" class="sr-only">Search</label>
+                            <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
+                                   name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 1)"
+                                   placeholder="@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Name or Description"
+                                   style="margin-right: -5px; max-width: 300px; margin-left: auto;" />
+                            <button id="searchButton" type="button" class="btn btn-default">
+                                <span class="sr-only">Search</span>
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <script type="text/javascript">
+            // <![CDATA[
+            function submitFormWithEnter(myfield, e, numMinChars) {
+                var keycode;
+                if (window.event) {
+                    keycode = window.event.keyCode;
+                }
+                else if (e) {
+                    keycode = e.which;
+                }
+                else {
+                    return true;
+                }
+
+                if (keycode == 13) {
+                    if (myfield.value.trim().length >= numMinChars) {
+                        var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
+                        document.location = searchUrlTemplate
+                            .ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                    }
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+
+            function search(myfield, numMinChars)
+            {
+                if (myfield.value.trim().length >= numMinChars) {
+                    var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
+                    document.location =
+                        searchUrlTemplate.ParameterReplace(
+                            "?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                }
+            }
+
+            jQuery(document).ready(function () {
+                
+                jQuery(".btn-firma").each(function () {
+                    this.addEventListener('click', autoAdvance);
+                });
+
+                function autoAdvance() {
+                    var element = jQuery(this);
+                    this.preventDefault();
+                    if (element.attr('type') == 'submit') {
+                        jQuery(window).off("beforeunload");
+                        var autoAdvanceValue = element.attr('value') || "true";
+                        jQuery("<input type='hidden' name='AutoAdvance' value=" + autoAdvanceValue + " />").appendTo(this.form);
+                        this.form.submit();
+                    }
+                };
+
+                var pfFinder = jQuery("#@SearchResults.ProjectSearchInputTextboxID");
+                jQuery("#searchButton").click(function()
+                {
+                    search(pfFinder[0], 1);
+                });
+
+                jQuery("#@SearchResults.ProjectSearchInputTextboxID")
+                    .autocomplete({
+                        source: "@Html.Raw(ViewDataTyped.ProjectFindUrl)",
+                        minLength: 1,
+                        position: { my: "right top", at: "right bottom" },
+                        select: function (event, ui) {
+                            document.location = ui.item.value;
+                            event.preventDefault();
+                        },
+                        html: true
+                    });
+            });
+            // ]]>
+        </script>
+
+        <div id="mainnavandcontent">
+
+            <nav class="navbar projectFirmaNavbar">
+                <div class="optionalContainer">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#firma-collapse-navbar" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        </button>
                     </div>
 
-                <footer id="footer">
-                    <div class="container">
-                        <div class="text-center">
-                            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomFooterViewData.ViewPageContentViewData); }
-                        </div>
-                    </div>
-                    <div class="container">
-                        <p class="text-center">
-                            <a href="http://sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a service provided by Sitka Technology Group, which builds on the Tahoe Regional Planning Agency's <a href="https://eip.laketahoeinfo.org">EIP Project Tracker</a>.
-                            This program is free software; you can redistribute it and/or modify it under the terms of the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License</a> as published by the <a href="https://www.fsf.org/">Free Software Foundation</a>.
-                            Source code is available on <a href="https://github.com/sitkatech/projectfirma">GitHub</a>.
-                        </p>
-                        <p class="text-center">
-                           @*Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://www.sitkatech.com">Sitka Technology Group</a> | Version @FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | Compiled @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id*@
-    Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear
-    <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and
-    <a href="http://www.sitkatech.com">Sitka Technology Group</a> | Code last updated (compiled) at @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss"). @ViewDataTyped.CustomFooterViewData.OptionalSQLDatabaseBackupFromProductionDateString
-    </p>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="firma-collapse-navbar">
+                        <ul class="nav navbar-nav navbar-left">
+                            @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
+                            {
+                                @topLevelMenu.RenderMenu()
+                            }
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span>Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
+                                        <span class="glyphicon glyphicon-menu-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
+                                        <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="dropdown joined-buttons">
+                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left">Log In</a>
+                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right">
+                                        <span class="glyphicon glyphicon-menu-down"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                        <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                    </ul>
+                                </li>
+                                
+                            }
+                            @ViewDataTyped.HelpMenu.RenderMenu()
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+            
+            @RenderSection("BeforeBodyContainer", false)
+
+            @RenderBody()
+        </div>
+    </div>
+
+<footer id="footer">
+    <div class="container">
+        <div class="text-center">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomFooterViewData.ViewPageContentViewData); }
+        </div>
+    </div>
+    <div class="container">
+        <p class="text-center">
+            <a href="http://sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a service provided by Sitka Technology Group, which builds on the Tahoe Regional Planning Agency's <a href="https://eip.laketahoeinfo.org">EIP Project Tracker</a>.
+            This program is free software; you can redistribute it and/or modify it under the terms of the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License</a> as published by the <a href="https://www.fsf.org/">Free Software Foundation</a>.
+            Source code is available on <a href="https://github.com/sitkatech/projectfirma">GitHub</a>.
+        </p>
+        <p class="text-center">
+           @*Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://www.sitkatech.com">Sitka Technology Group</a> | Version @FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | Compiled @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id*@
+           Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://www.sitkatech.com">Sitka Technology Group</a> | Code last updated (compiled) at @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss"). @ViewDataTyped.CustomFooterViewData.OptionalSQLDatabaseBackupFromProductionDateString
+        </p>
 
     </div>
-    </footer>
+</footer>
 
     @{ Html.RenderRazorSitkaPartial<FirmaLateLoadingIncludes>(); }
 
-    </body>
+</body>
 </html>
 

@@ -75,6 +75,11 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult LogOff()
         {
+            if (HttpRequestStorage.FirmaSession.IsAnonymousUser())
+            {
+                return Redirect("/");
+            }
+
             // If we are impersonating, we drop back to the original user instead of fully logging out.
             var currentFirmaSession = HttpRequestStorage.FirmaSession;
             SitkaHttpApplication.Logger.Info($"AccountController - LogOff() - AuthType:{FirmaWebConfiguration.AuthenticationType}, PersonID:{currentFirmaSession.PersonID}, email?:{currentFirmaSession.Person?.Email}");
