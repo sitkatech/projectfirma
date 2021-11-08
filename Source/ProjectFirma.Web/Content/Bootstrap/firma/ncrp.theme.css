@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v26/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v27/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
@@ -17,7 +17,8 @@ body {
 }
 body {
   font-family: "Open Sans", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 26px;
   background-color: #fff;
   color: #55575e;
 }
@@ -33,6 +34,7 @@ h6 {
   color: #fff;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
+  letter-spacing: 1px;
 }
 h2 label {
   font-weight: 400;
@@ -42,17 +44,17 @@ h4 {
 }
 a,
 a:visited {
-  color: #0f5faa;
+  color: #2e6580;
 }
 a:hover {
-  color: #0f5faa;
+  color: #e0871a;
   text-decoration: underline;
 }
 .nav li a {
   font-family: "Open Sans", sans-serif;
 }
 span.keyPhotoButton label {
-  color: #0f5faa;
+  color: #2e6580;
 }
 label,
 .control-label {
@@ -74,22 +76,23 @@ label,
 }
 .header {
   background-color: #fff;
+  padding: 0px;
 }
 .header img {
-  height: 75px;
+  height: 62px;
 }
 .header .headerText {
   display: inline-block;
   font-size: 30px;
   font-weight: normal;
   font-family: "Roboto", sans-serif;
-  color: #424142;
+  color: #55575e;
   vertical-align: bottom;
   text-transform: uppercase;
   margin-bottom: 0;
 }
 .header .headerText a {
-  color: #424142;
+  color: #55575e;
   vertical-align: top;
 }
 .header .headerText a #headerTenantShortDisplayName {
@@ -105,13 +108,13 @@ label,
   text-decoration: none;
 }
 .navbar {
-  background: #E8EAEE;
+  background: #e6e7e9;
   border: none;
   border-radius: 0;
   margin-bottom: 0;
 }
 .projectFirmaNavbar {
-  background-color: #E8EAEE;
+  background-color: #e6e7e9;
 }
 .projectFirmaNavbar .headerLogo {
   height: 40px;
@@ -130,7 +133,7 @@ label,
 .projectFirmaNavbar .nav li a:focus,
 .projectFirmaNavbar .nav li a:active {
   color: #de7076;
-  background-color: #E8EAEE;
+  background-color: #e6e7e9;
   text-decoration: none;
 }
 .projectFirmaNavbar .nav li p a:hover {
@@ -143,11 +146,11 @@ label,
 .projectFirmaNavbar .nav li .nav .open > a,
 .projectFirmaNavbar .nav li .nav .open > a:hover,
 .projectFirmaNavbar .nav li .nav .open > a:focus {
-  background-color: #E8EAEE;
-  border-color: #E8EAEE;
+  background-color: #e6e7e9;
+  border-color: #e6e7e9;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu {
-  background-color: #E8EAEE;
+  background-color: #e6e7e9;
   border: none;
   border-top: none;
   border-radius: 0px;
@@ -157,13 +160,13 @@ label,
   font-weight: 400;
   font-family: "Roboto", sans-serif;
   color: rgba(75, 68, 81, 0.7);
-  background-color: #E8EAEE;
+  background-color: #e6e7e9;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:focus {
   color: #de7076;
-  background-color: #E8EAEE;
+  background-color: #e6e7e9;
   text-decoration: none;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu .divider {
@@ -206,22 +209,22 @@ footer#footer a:hover {
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
   color: #fff;
-  background-color: #738c1f;
+  background-color: #e0871a;
   border-radius: 0px;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #5C7018;
+  background-color: #B36C14;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
   color: #fff;
-  background-color: #5C7018;
+  background-color: #B36C14;
 }
 a.btn-firma {
   color: #fff;
-  background-color: #738c1f;
+  background-color: #e0871a;
 }
 table.summaryLayout th,
 .stylizeLikeTH {
@@ -252,13 +255,13 @@ table.summaryLayout th,
   text-align: center;
 }
 .singleArrow.current {
-  background-color: #94c5e3;
-  border-left-color: #94c5e3;
+  background-color: #4b5c14;
+  border-left-color: #4b5c14;
   color: #fff;
 }
 .singleArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
+  background-color: DarkGray;
+  border-left-color: DarkGray;
   color: #fff;
 }
 /* First arrow */
@@ -267,13 +270,13 @@ table.summaryLayout th,
   border-bottom-left-radius: 0.25rem;
 }
 .firstArrow.current {
-  background-color: #94c5e3;
-  border-left-color: #94c5e3;
+  background-color: #4b5c14;
+  border-left-color: #4b5c14;
   color: #fff;
 }
 .firstArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
+  background-color: DarkGray;
+  border-left-color: DarkGray;
   color: #fff;
 }
 .firstArrow:after {
@@ -295,13 +298,13 @@ table.summaryLayout th,
 }
 /* Middle arrow */
 .middleArrow.current {
-  background-color: #94c5e3;
-  border-left-color: #94c5e3;
+  background-color: #4b5c14;
+  border-left-color: #4b5c14;
   color: #fff;
 }
 .middleArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
+  background-color: DarkGray;
+  border-left-color: DarkGray;
   color: #fff;
 }
 .middleArrow:before {
@@ -341,13 +344,13 @@ table.summaryLayout th,
   border-bottom-right-radius: 0.25rem;
 }
 .lastArrow.current {
-  background-color: #94c5e3;
-  border-left-color: #94c5e3;
+  background-color: #4b5c14;
+  border-left-color: #4b5c14;
   color: #fff;
 }
 .lastArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
+  background-color: DarkGray;
+  border-left-color: DarkGray;
   color: #fff;
 }
 .lastArrow:before {
@@ -379,14 +382,14 @@ table.summaryLayout th,
 }
 .panelFirma {
   border-radius: 0px;
-  border-color: #e7e4cb;
+  border-color: #2e6580;
 }
 .panelFirma .panelTitle,
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
-  color: #424142;
-  background-color: #e7e4cb;
-  border-color: #e7e4cb;
+  color: #fff;
+  background-color: #2e6580;
+  border-color: #2e6580;
   border-radius: 0px;
   font-weight: 400;
   font-size: 16px;
@@ -399,49 +402,49 @@ table.summaryLayout th,
 .panelFirma .panelTitle a,
 .panelFirma .panelTitle h2 a,
 .panelFirma .panelTitle h3 a {
-  color: #424142;
+  color: #fff;
 }
 .panelFirma .panelTitle a .glyphicon,
 .panelFirma .panelTitle h2 a .glyphicon,
 .panelFirma .panelTitle h3 a .glyphicon {
-  color: #424142;
+  color: #fff;
 }
 .panelFirma .panelTitle .glyphicon,
 .panelFirma .panelTitle h2 .glyphicon,
 .panelFirma .panelTitle h3 .glyphicon {
-  color: #424142;
+  color: #fff;
 }
 #contentForTOC .panelFirma {
-  border-color: #e8f1fe;
+  border-color: #738c1f;
 }
 #contentForTOC .panelFirma .panelTitle,
 #contentForTOC .panelFirma .panelTitle h2,
 #contentForTOC .panelFirma .panelTitle h3 {
-  color: #424142;
-  background-color: #e8f1fe;
-  border-color: #e8f1fe;
+  color: #fff;
+  background-color: #738c1f;
+  border-color: #738c1f;
 }
 #contentForTOC .panelFirma .panelTitle a,
 #contentForTOC .panelFirma .panelTitle h2 a,
 #contentForTOC .panelFirma .panelTitle h3 a {
-  color: #424142;
+  color: #fff;
 }
 #contentForTOC .panelFirma .panelTitle a .glyphicon,
 #contentForTOC .panelFirma .panelTitle h2 a .glyphicon,
 #contentForTOC .panelFirma .panelTitle h3 a .glyphicon {
-  color: #424142;
+  color: #fff;
 }
 #contentForTOC .panelFirma .panelTitle .glyphicon,
 #contentForTOC .panelFirma .panelTitle h2 .glyphicon,
 #contentForTOC .panelFirma .panelTitle h3 .glyphicon {
-  color: #424142;
+  color: #fff;
 }
 #contentForTOC .panelFirma .panel-body {
   background-color: #fff;
 }
 a.gridButton {
   margin: 0 7px 0 0;
-  background-color: #738c1f;
+  background-color: #e0871a;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -477,7 +480,7 @@ div.gridbox_mm div.ftr td {
 }
 /* STANDARD */
 a.gridButton:hover {
-  background-color: #5C7018;
+  background-color: #B36C14;
   color: #fff;
 }
 .helpicon {
@@ -631,4 +634,30 @@ table.table-striped {
 }
 .qtip-default .qtip-titlebar {
   background-color: #424142;
+}
+.main-text h1 {
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 75px;
+  color: #e8f1fe;
+}
+@media only screen and (min-width: 768px) {
+  .main-text h1,
+  .main-text h2,
+  .main-text h3,
+  .main-text h4,
+  .main-text h5,
+  .main-text h6 {
+    width: 100%;
+    font-size: 60px;
+  }
+}
+#homepageCarousel .carousel-inner .item .carousel-caption p {
+  font-size: 18px;
+  float: none;
+  width: 100%;
+  text-align: center;
+}
+.carousel-caption {
+  bottom: 150px;
 }
