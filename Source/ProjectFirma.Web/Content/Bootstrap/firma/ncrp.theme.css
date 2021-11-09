@@ -590,14 +590,17 @@ nav#wizardNav ul li.workflowSectionGroup ul li.active span {
 }
 nav#wizardNav ul li.workflowSectionGroup.active,
 nav#wizardNav ul li.workflowSectionGroup.expanded {
-  background: #94c5e3;
+  background: #d3dde3;
   padding-bottom: 0;
-  border-left: 5px solid #94c5e3;
-  border-bottom: 5px solid #94c5e3;
+  border-left: 5px solid #d3dde3;
+  border-bottom: 5px solid #d3dde3;
   display: block;
 }
+nav#wizardNav ul li.workflowSection a:hover {
+  background-color: #94c5e3;
+  color: #fff;
+}
 #main-container {
-  background: #d3dde3;
   border-radius: 0px;
   border-top-left-radius: 0px !important;
 }
@@ -634,6 +637,9 @@ table.table-striped {
 }
 .qtip-default .qtip-titlebar {
   background-color: #424142;
+}
+.main-text {
+  width: 100%;
 }
 .main-text h1 {
   text-align: center;
