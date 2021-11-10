@@ -113,7 +113,13 @@ namespace ProjectFirma.Web.Common
         //Only public for unit testing
         public static int CalculateCurrentYearToUseForReportingImpl(DateTime currentDateTime, int reportingStartMonth, int reportingStartDay)
         {
-            var dateToCheckAgainst = new DateTime(currentDateTime.Year, reportingStartMonth, reportingStartDay);//
+            var dateToCheckAgainst = new DateTime(currentDateTime.Year, reportingStartMonth, reportingStartDay);
+            if (MultiTenantHelpers.UseFiscalYears())
+            {
+                var calculateCurrentYearToUseForUpToAllowableInputInReporting = currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year : currentDateTime.Year + 1;
+                return calculateCurrentYearToUseForUpToAllowableInputInReporting;
+            }
+            // 11/10/21 TK&JV - This case is okay to check for IsDateBefore because the reporting month and day are passed in.
             return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year - 1 : currentDateTime.Year;
         }
 
@@ -139,9 +145,12 @@ namespace ProjectFirma.Web.Common
             var dateToCheckAgainst = new DateTime(currentDateTime.Year, startDayOfYear.Month, startDayOfYear.Day);
             if (MultiTenantHelpers.UseFiscalYears())
             {
-                return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year : currentDateTime.Year + 1;
+                var calculateCurrentYearToUseForUpToAllowableInputInReporting = currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year : currentDateTime.Year + 1;
+                return calculateCurrentYearToUseForUpToAllowableInputInReporting;
             }
-            return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year - 1 : currentDateTime.Year;
+            // 11/10/21 TK&JV - This IsDateBefore check should never be true. A tenant should never be configured to Not use fiscal years and have a startDayOfFiscalYear different from 1/1/YYYY. just returning current year.
+            //return currentDateTime.IsDateBefore(dateToCheckAgainst) ? currentDateTime.Year - 1 : currentDateTime.Year;
+            return currentDateTime.Year;
         }
 
         public static List<int> CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(List<int> existingYears, IProject project, int currentYearToUse)
