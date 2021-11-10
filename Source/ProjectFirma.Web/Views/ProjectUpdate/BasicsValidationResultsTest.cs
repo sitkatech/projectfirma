@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using NUnit.Framework;
@@ -60,8 +62,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             Assert.That(!warningMessages.Contains(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear));
 
+            // This should always be the next calendar year, I believe -- SLG 1/2/2020 (writing after this test started crashing)
+            int nextCalendarYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting() + 1;
+
             projectUpdate.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
-            projectUpdate.PlanningDesignStartYear = 2022;
+            projectUpdate.PlanningDesignStartYear = nextCalendarYear;
             warningMessages = new BasicsValidationResult(projectUpdate).GetWarningMessages();
 
             Assert.That(!warningMessages.Contains(BasicsValidationResult.PlanningDesignStartYearIsRequired));
@@ -70,7 +75,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
 
             projectUpdate.ProjectStageID = ProjectStage.Implementation.ProjectStageID;
-            projectUpdate.ImplementationStartYear = 2022;
+            projectUpdate.ImplementationStartYear = nextCalendarYear;
             warningMessages = new BasicsValidationResult(projectUpdate).GetWarningMessages();
 
             Assert.That(warningMessages.Contains(BasicsValidationResult.ImplementationStartYearShouldBeLessThanCurrentYear));
