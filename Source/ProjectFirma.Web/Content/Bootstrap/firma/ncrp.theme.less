@@ -784,19 +784,22 @@ nav#wizardNav ul li.workflowSectionGroup ul li.active span {
 }
 
 nav#wizardNav ul li.workflowSectionGroup.active, nav#wizardNav ul li.workflowSectionGroup.expanded {
-    background: @PrimarySky;
+    background: @PrimaryIce;
     padding-bottom: 0;
-    border-left: 5px solid @PrimarySky;
-    border-bottom: 5px solid @PrimarySky;
+    border-left: 5px solid @PrimaryIce;
+    border-bottom: 5px solid @PrimaryIce;
     display: block;
 }
 
+nav#wizardNav ul li.workflowSection a:hover {
+    background-color: @PrimarySky;
+    color: #fff;
+}
 #main-container {
-    background: @PrimaryIce;
     border-radius: 0px;
     border-top-left-radius: 0px !important;
 
-    h3 {
+    h1, h2, h3, h4, h5, h6  {
         color: @firma-pageTitle-color;
     }
 }
@@ -844,6 +847,10 @@ nav#wizardNav ul li.workflowSectionGroup.active, nav#wizardNav ul li.workflowSec
     }
 
 //Homepage carousel
+.main-text {
+    width: 100%;
+}
+
 .main-text h1 {
     text-align: center;
     text-transform: uppercase;
