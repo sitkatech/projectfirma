@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no Project update record yet");
 
             // Should just have one year, current year
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
             AssertYearRangeForPerformanceMeasuresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // create a project update record
@@ -252,7 +252,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no Project update record yet");
 
             // Should just have one year, current year
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // create a project update record
@@ -440,7 +440,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should not be valid since we do not have an Implementation Start Year set");
             Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
 
             // This portion of the test I believe got a negative result originally for bad reasons; it was not yet checking for validation on a per-PerformanceMeasureID basis,
             // and I'd argue the code below should not have been able to have failing validations to check if there are NO PerformanceMeasureActualUpdates. If there are no records,
@@ -727,7 +727,16 @@ namespace ProjectFirma.Web.Models
                 List<PerformanceMeasureActualUpdate> currentPerformanceMeasureActualUpdates = performanceMeasureActualUpdateGroup.ToList();
 
                 var missingReportedValues = currentPerformanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
-                var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
+                var expectedMissingYears = new List<string>();
+                if (MultiTenantHelpers.UseFiscalYears())
+                {
+                    expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).Select(x => $"FY{x.ToString()}").ToList();
+                }
+                else
+                {
+                    expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).Select(x => x.ToString()).ToList();
+                }
+                
                 var missingYearsMessage = $"for {string.Join(", ", expectedMissingYears)}";
 
                 var currentWarningMessages = PerformanceMeasuresValidationResult.GetAllWarningMessages(currentLocalResults);
