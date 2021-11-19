@@ -82,6 +82,10 @@ namespace ProjectFirma.Web.Common
         public static string GeoServerUrl = SitkaConfiguration.GetRequiredAppSetting("GeoServerUrl");
         public static bool TenantDropdownEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("TenantDropdownEnabled"));
 
+        public static readonly string HttpAuthenticationUrlHost = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationUrlHost");
+        public static readonly string HttpAuthenticationUsername = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationUsername");
+        public static readonly string HttpAuthenticationPassword = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationPassword");
+
         // Feature Flag Settings
         // FeatureMatchMakerEnabled now has shipped, but leaving this in place so we can see readily how to set up the next Feature.
         //public static readonly bool FeatureMatchMakerEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureMatchMakerEnabled"));

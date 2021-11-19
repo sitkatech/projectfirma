@@ -210,7 +210,7 @@ namespace ProjectFirma.Web
         private static void RequireHttpAuthenticationAsNeeded(HttpRequest httpRequest, HttpResponse httpResponse)
         {
             // ReSharper disable once StringLiteralTypo
-            if (!httpRequest.Url.Host.StartsWith("ncrp.", StringComparison.InvariantCultureIgnoreCase))
+            if (!httpRequest.Url.Host.StartsWith(FirmaWebConfiguration.HttpAuthenticationUrlHost, StringComparison.InvariantCultureIgnoreCase))
             {
                 return;
             }
@@ -219,7 +219,7 @@ namespace ProjectFirma.Web
             {
                 var cred = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(auth.Substring(6))).Split(':');
                 var user = new { Name = cred[0], Pass = cred[1] };
-                if (user.Name.Equals("foo", StringComparison.InvariantCultureIgnoreCase) && user.Pass == "bar")
+                if (user.Name.Equals(FirmaWebConfiguration.HttpAuthenticationUsername, StringComparison.InvariantCultureIgnoreCase) && user.Pass == FirmaWebConfiguration.HttpAuthenticationPassword)
                 {
                     return;
                 }
