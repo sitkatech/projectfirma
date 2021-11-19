@@ -70,7 +70,8 @@ namespace LtInfo.Common
         private static readonly HashSet<HttpStatusCode> HttpStatusCodesThatShouldBeLogged = new HashSet<HttpStatusCode>
                                                                                              {
                                                                                                  HttpStatusCode.BadRequest,
-                                                                                                 HttpStatusCode.Unauthorized,
+                                                                                                 // 11/19/21 TK - removing unauthorized to reduce logging spam in App Alerts from the NCRP update to add login to access site.
+                                                                                                 //HttpStatusCode.Unauthorized,
                                                                                                  HttpStatusCode.PaymentRequired,
                                                                                                  HttpStatusCode.Forbidden,
                                                                                                  HttpStatusCode.MethodNotAllowed,
