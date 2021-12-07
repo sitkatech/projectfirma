@@ -98,8 +98,10 @@ namespace ProjectFirma.Web.Models
                 return true;
             }
 
-            return new ProjectUpdateCreateEditSubmitFeature().HasPermission(currentFirmaSession, project).HasPermission ||
-                   new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            var hasPermissionProjectUpdateCreateEditSubmitFeature = new ProjectUpdateCreateEditSubmitFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            var hasPermissionEditAsAdminRegardlessOfStageFeature = new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            return hasPermissionProjectUpdateCreateEditSubmitFeature ||
+                   hasPermissionEditAsAdminRegardlessOfStageFeature;
         }
 
         public static bool UserCanViewPrivateLocations(this FirmaSession currentFirmaSession, ProjectUpdate projectUpdate)

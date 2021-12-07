@@ -600,7 +600,7 @@ namespace ProjectFirma.Web.Controllers
             var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => !x.LocationIsPrivate).
                 Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
             var projectSimpleLocationsFeatureCollection = new FeatureCollection();
-            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Where(currentFirmaSession.UserCanViewPrivateLocations).Select(x =>
+            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Select(x =>
             {
                 var feature = x.MakePointFeatureWithRelevantProperties(x.GetProjectLocationPoint(true), true, true);
                 feature.Properties["FeatureColor"] = "#99b3ff";
