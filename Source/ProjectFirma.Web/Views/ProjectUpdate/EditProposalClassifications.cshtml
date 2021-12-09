@@ -114,7 +114,7 @@ else
                         <div class="col-xs-12 col-sm-4">
                             <label>
                                 @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
-                                <span style="font-weight: bold">@classification.DisplayName</span>
+                                <span style="font-weight: bold; word-break: break-word">@classification.DisplayName</span>
                             </label>
                             <div class="help-block">
                                 @classification.ClassificationDescription

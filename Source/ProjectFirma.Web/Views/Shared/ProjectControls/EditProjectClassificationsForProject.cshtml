@@ -43,13 +43,13 @@
 </div>
     <div>
             @{ var classificationIndex = 0;}
-            @foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.GetDisplayName()).ToList())
+            @foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.GetSortOrder()).ThenBy(x => x.GetDisplayName()).ToList())
             {
                 <div class="row" style="padding-top:20px">
                     <div class="col-xs-12 col-sm-4">
                         <label>
                             @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
-                            <span style="font-weight: bold">@classification.GetDisplayName()</span>
+                            <span style="font-weight: bold; word-break: break-word">@classification.GetDisplayName()</span>
                         </label>
                         <div class="help-block">
                             @classification.ClassificationDescription
