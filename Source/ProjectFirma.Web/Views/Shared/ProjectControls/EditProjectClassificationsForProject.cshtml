@@ -49,7 +49,7 @@
                     <div class="col-xs-12 col-sm-4">
                         <label>
                             @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
-                            <span style="font-weight: bold; word-break: break-word">@classification.GetDisplayName()</span>
+                            <span style="font-weight: bold">@classification.GetDisplayName()</span>
                         </label>
                         <div class="help-block">
                             @classification.ClassificationDescription
