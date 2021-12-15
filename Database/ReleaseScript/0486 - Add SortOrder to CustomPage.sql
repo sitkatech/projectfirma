@@ -1,1 +1,0 @@
-alter table dbo.CustomPage add SortOrder int null
