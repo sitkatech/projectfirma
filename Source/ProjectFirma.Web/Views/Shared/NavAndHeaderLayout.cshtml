@@ -92,6 +92,12 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </ul>
                             </nav>
                         }
+                        else if (ViewDataTyped.TenantName == "NCRPProjectTracker")
+                        {
+                            <a href="@FirmaWebConfiguration.NCRPHomeUrl">
+                                <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" /><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
+                            </a>
+                        }
                         else
                         {
                             <a href="@ViewDataTyped.FirmaHomeUrl">
