@@ -1,0 +1,2 @@
+update dbo.TenantAttribute set GeoServerNamespace = 'NCRPProjectTracker' where tenantid = 4 --'DemoProjectFirma'
+update dbo.GeospatialAreaType set GeospatialAreaLayerName = 'NCRPProjectTracker:Watershed' where GeospatialAreaTypeID = 2
