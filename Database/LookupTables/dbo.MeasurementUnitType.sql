@@ -38,4 +38,5 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (35, 'CanopyBulkDensity', 'Canopy Bulk Density (kg/m^3)', 'kg/m^3', 'Canopy Bulk Density', 2),
 (36, 'LinearStreamMiles', 'Linear Stream Miles', 'linear stream miles', 'Linear Stream Mile', 2),
 (37, 'Celsius', 'Celsius (C)', 'C', 'Celsius', 2),
-(38, 'PerSquareMeter', 'Per Square Meter (per sq m)', 'per sq m', 'Per Square Meter', 2) 
+(38, 'PerSquareMeter', 'Per Square Meter (per sq m)', 'per sq m', 'Per Square Meter', 2),
+(39, 'KilowattHour', 'Kilowatt-hours', 'kWh', 'Kilowatt-hour', 2)
