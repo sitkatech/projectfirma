@@ -6,7 +6,7 @@ values
 (1, 'SitkaTechnologyGroup', 'sitka.localhost.projectfirma.com', 'sitka.qa.projectfirma.com', 'sitka.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 0, 1),
 (2, 'ClackamasPartnership', 'clackamaspartnership.localhost.projectfirma.com', 'qa.clackamaspartnership.org', 'www.clackamaspartnership.org', '1/1/1990', 0, 0, 0, 0, 0, 1),
 (3, 'RCDProjectTracker', 'rcdprojects.localhost.projectfirma.com', 'qa.rcdprojects.org', 'www.rcdprojects.org', '1/1/1990', 0, 0, 0, 0, 0, 1),
-(4, 'NCRPProjectTracker', 'ncrp.localhost.projectfirma.com', 'ncrp.qa.projectfirma.com', 'ncrp.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 0, 1),
+(4, 'NCRPProjectTracker', 'ncrp.localhost.projectfirma.com', 'qa.northcoastresourcepartnershipprojects.org', 'www.northcoastresourcepartnershipprojects.org', '1/1/1990', 0, 0, 0, 0, 0, 1),
 (5, 'DemoProjectFirma', 'demo.localhost.projectfirma.com', 'demo.qa.projectfirma.com', 'demo.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 0, 1),
 (6, 'PeaksToPeople', 'peakstopeople.localhost.projectfirma.com', 'qa-outcomes.peakstopeople.org', 'outcomes.peakstopeople.org', '1/1/1990', 0, 0, 0, 0, 0, 1),
 (7, 'JohnDayBasinPartnership', 'johndaybasinpartnership.localhost.projectfirma.com', 'qa.johndaybasinpartnership.org', 'www.johndaybasinpartnership.org', '1/1/1990', 0, 0, 0, 0, 0, 1),

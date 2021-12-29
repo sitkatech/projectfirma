@@ -210,7 +210,7 @@ namespace ProjectFirma.Web
         private static void RequireHttpAuthenticationAsNeeded(HttpRequest httpRequest, HttpResponse httpResponse)
         {
             // ReSharper disable once StringLiteralTypo
-            if (!httpRequest.Url.Host.StartsWith(FirmaWebConfiguration.HttpAuthenticationUrlHost, StringComparison.InvariantCultureIgnoreCase))
+            if (!httpRequest.Url.Host.Contains(FirmaWebConfiguration.HttpAuthenticationUrlHost, StringComparison.InvariantCultureIgnoreCase))
             {
                 return;
             }

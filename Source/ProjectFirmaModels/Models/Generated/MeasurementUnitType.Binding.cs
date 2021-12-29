@@ -57,6 +57,7 @@ namespace ProjectFirmaModels.Models
         public static readonly MeasurementUnitTypeLinearStreamMiles LinearStreamMiles = MeasurementUnitTypeLinearStreamMiles.Instance;
         public static readonly MeasurementUnitTypeCelsius Celsius = MeasurementUnitTypeCelsius.Instance;
         public static readonly MeasurementUnitTypePerSquareMeter PerSquareMeter = MeasurementUnitTypePerSquareMeter.Instance;
+        public static readonly MeasurementUnitTypeKilowattHour KilowattHour = MeasurementUnitTypeKilowattHour.Instance;
 
         public static readonly List<MeasurementUnitType> All;
         public static readonly ReadOnlyDictionary<int, MeasurementUnitType> AllLookupDictionary;
@@ -66,7 +67,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static MeasurementUnitType()
         {
-            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight, CanopyBulkDensity, LinearStreamMiles, Celsius, PerSquareMeter };
+            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight, CanopyBulkDensity, LinearStreamMiles, Celsius, PerSquareMeter, KilowattHour };
             AllLookupDictionary = new ReadOnlyDictionary<int, MeasurementUnitType>(All.ToDictionary(x => x.MeasurementUnitTypeID));
         }
 
@@ -178,6 +179,8 @@ namespace ProjectFirmaModels.Models
                     return Kilogram;
                 case MeasurementUnitTypeEnum.Kilometer:
                     return Kilometer;
+                case MeasurementUnitTypeEnum.KilowattHour:
+                    return KilowattHour;
                 case MeasurementUnitTypeEnum.LinearFeet:
                     return LinearFeet;
                 case MeasurementUnitTypeEnum.LinearStreamMiles:
@@ -263,7 +266,8 @@ namespace ProjectFirmaModels.Models
         CanopyBulkDensity = 35,
         LinearStreamMiles = 36,
         Celsius = 37,
-        PerSquareMeter = 38
+        PerSquareMeter = 38,
+        KilowattHour = 39
     }
 
     public partial class MeasurementUnitTypeAcres : MeasurementUnitType
@@ -492,5 +496,11 @@ namespace ProjectFirmaModels.Models
     {
         private MeasurementUnitTypePerSquareMeter(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
         public static readonly MeasurementUnitTypePerSquareMeter Instance = new MeasurementUnitTypePerSquareMeter(38, @"PerSquareMeter", @"Per Square Meter (per sq m)", @"per sq m", @"Per Square Meter", 2);
+    }
+
+    public partial class MeasurementUnitTypeKilowattHour : MeasurementUnitType
+    {
+        private MeasurementUnitTypeKilowattHour(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeKilowattHour Instance = new MeasurementUnitTypeKilowattHour(39, @"KilowattHour", @"Kilowatt-hours", @"kWh", @"Kilowatt-hour", 2);
     }
 }
