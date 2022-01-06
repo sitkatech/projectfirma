@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Text;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace ProjectFirma.Web.Common
 {
     public class KeystoneService
     {
-        private readonly string _token;
+        private readonly IPrincipal _principal;
 
         public class KeystoneInviteModel
         {
@@ -102,9 +103,7 @@ namespace ProjectFirma.Web.Common
 
         public KeystoneService(IPrincipal principal)
         {
-            var requestHeader = (ClaimsIdentity)principal.Identity;
-            var accessToken = requestHeader.Claims.FirstOrDefault(x => x.Type == "access_token");
-            _token = $"Bearer {accessToken?.Value}"; //this includes the word "Bearer"
+            _principal = principal;
         }
 
         public KeystoneApiResponse<KeystoneNewUserModel> Invite(KeystoneInviteModel inviteModel)
@@ -112,16 +111,58 @@ namespace ProjectFirma.Web.Common
             var client = CreateClientWithAuthHeader();
             var content = new StringContent(JsonConvert.SerializeObject(inviteModel), Encoding.UTF8, "application/json");
             var response = client.PostAsync(FirmaWebConfiguration.KeystoneInviteUserUrl, content).Result;
-
             return ProcessRepsonse<KeystoneNewUserModel>(response);
         }
 
         private HttpClient CreateClientWithAuthHeader()
         {
             var client = new HttpClient();
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", _token);
+            var claimsIdentity = (ClaimsIdentity)_principal.Identity;
+            var accessToken = claimsIdentity.Claims.FirstOrDefault(x => x.Type == "access_token");
+            var bearerToken = $"Bearer {accessToken?.Value}"; //this includes the word "Bearer"
+            client.DefaultRequestHeaders.Add("Authorization", bearerToken);
             return client;
         }
+
+        public HttpClient CreateClientWithAuthHeaderWithClientCert()
+        {
+            var handler = new WebRequestHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ClientCertificates.Add(GetClientCert());
+            handler.UseProxy = false;
+            var client = new HttpClient(handler);
+            return client;
+        }
+
+        private static X509Certificate GetClientCert()
+        {
+            X509Store store = null;
+            try
+            {
+                store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+                store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
+
+                var certificateSerialNumber = "‎81 c6 62 0a 73 c7 b1 aa 41 06 a3 ce 62 83 ae 25".ToUpper().Replace(" ", string.Empty);
+
+                //Does not work for some reason, could be culture related
+                //var certs = store.Certificates.Find(X509FindType.FindBySerialNumber, certificateSerialNumber, true);
+
+                //if (certs.Count == 1)
+                //{
+                //    var cert = certs[0];
+                //    return cert;
+                //}
+
+                var cert = store.Certificates.Cast<X509Certificate>().FirstOrDefault(x => x.GetSerialNumberString().Equals(certificateSerialNumber, StringComparison.InvariantCultureIgnoreCase));
+
+                return cert;
+            }
+            finally
+            {
+                store?.Close();
+            }
+        }
+
 
         private static KeystoneApiResponse<T> ParseError<T>(HttpResponseMessage response)
         {
