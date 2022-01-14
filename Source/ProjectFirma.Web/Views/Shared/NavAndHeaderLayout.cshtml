@@ -75,7 +75,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <ul class="dropdown-menu" role="menu">
                                             <li class=""><a title="About Puget Sound Info" href="@string.Format("{0}About", FirmaWebConfiguration.PsInfoUrl)" class="navigation-dropdown-item">About Puget Sound Info</a></li>
                                             <li class="divider"></li>
-                                            <li class=""><a title="Action Agenda" href="@ViewDataTyped.FirmaHomeUrl" class="navigation-dropdown-item">Action Agenda</a></li>
+                                            <li class=""><a title="Action Agenda" href="@ViewDataTyped.FirmaHomeUrl" class="navigation-dropdown-item">2018-2022 Action Agenda Tracker</a></li>
                                             <li class=""><a title="NEP Atlas" href="@FirmaWebConfiguration.NEPAtlasUrl" class="navigation-dropdown-item">NEP Atlas</a></li>
                                             <li class=""><a title="Ongoing Programs" href="@FirmaWebConfiguration.OngoingProgramsUrl" class="navigation-dropdown-item">Ongoing Programs</a></li>
                                             <li class=""><a title="PSAR Dashboard" href="@FirmaWebConfiguration.PSARDashboardUrl" class="navigation-dropdown-item">PSAR Dashboard</a></li>
@@ -118,44 +118,44 @@ Source code is available upon request via <support@sitkatech.com>.
                              <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
                              </button>
-                             @if (ViewDataTyped.ShowEnvironmentDropdown)
-                             {
-                                <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
-                                    <li><a href="@ViewDataTyped.LocalUrl">Go to LOCAL</a></li>
-                                    <li><a href="@ViewDataTyped.QaUrl">Go to QA</a></li>
-                                    <li><a href="@ViewDataTyped.ProdUrl">Go to PROD</a></li>
-                                </ul>
-                             }
-                          </div>
+                                @if (ViewDataTyped.ShowEnvironmentDropdown)
+                                {
+                                    <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
+                                        <li><a href="@ViewDataTyped.LocalUrl">Go to LOCAL</a></li>
+                                        <li><a href="@ViewDataTyped.QaUrl">Go to QA</a></li>
+                                        <li><a href="@ViewDataTyped.ProdUrl">Go to PROD</a></li>
+                                    </ul>
+                                }
+                            </div>
                         }
 
                         @if (ViewDataTyped.ShowTenantDropdown)
                         {
-                             <div class="header-button dropdown">
-                                 <button class=" btn btn-sm dropdown-toggle" type="button" title="Switch Tenant" id="tenantDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                     <span class="glyphicon glyphicon-th"></span>
-                                 </button>
+                            <div class="header-button dropdown">
+                                <button class=" btn btn-sm dropdown-toggle" type="button" title="Switch Tenant" id="tenantDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </button>
 
-                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tenantDropdownMenu">
-                                     @foreach (var tenant in ViewDataTyped.TenantSimples)
-                                     {
-                                         if (tenant.TenantID == Tenant.NCRPProjectTracker.TenantID)
-                                         {
-                                             // don't show the tenant logo when the Http Authentication popup is being used
-                                             <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"></span> @tenant.TenantName</a></li>
-                                         }
-                                         else
-                                         {
-                                             <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)" /></span> @tenant.TenantName</a></li>
-                                         }
-                                     }
-                                     @if (FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Qa)
-                                     {
-                                         // 11/4/21 TK -- Seems a little hacky but works for now. Just adding Reclamation(an externally hosted tenant) into the tenant switcher dropdown.
-                                         <li><a href="https://bor.qa.projectfirma.com"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="~/Content/img/Reclamation_logo_icon.png" /></span> Reclamation</a></li>
-                                     }
-                                 </ul>
-                             </div>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tenantDropdownMenu">
+                                    @foreach (var tenant in ViewDataTyped.TenantSimples)
+                                    {
+                                        if (tenant.TenantID == Tenant.NCRPProjectTracker.TenantID)
+                                        {
+                                            // don't show the tenant logo when the Http Authentication popup is being used
+                                            <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"></span> @tenant.TenantName</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)" /></span> @tenant.TenantName</a></li>
+                                        }
+                                    }
+                                    @if (FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Qa)
+                                    {
+                                        // 11/4/21 TK -- Seems a little hacky but works for now. Just adding Reclamation(an externally hosted tenant) into the tenant switcher dropdown.
+                                        <li><a href="https://bor.qa.projectfirma.com"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="~/Content/img/Reclamation_logo_icon.png" /></span> Reclamation</a></li>
+                                    }
+                                </ul>
+                            </div>
                         }
 
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
