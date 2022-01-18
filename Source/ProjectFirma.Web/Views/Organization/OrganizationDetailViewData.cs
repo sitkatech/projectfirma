@@ -134,6 +134,7 @@ namespace ProjectFirma.Web.Views.Organization
 
         public bool ShouldShowBackgroundTab { get; }
         public string MatchmakerProjectFinderButtonContent { get; }
+        public bool ShowFundingSources { get; }
 
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
@@ -296,7 +297,8 @@ namespace ProjectFirma.Web.Views.Organization
             MatchmakerProjectFinderButtonDisabled = !organization.MatchmakerOptIn.HasValue || !organization.MatchmakerOptIn.Value || MatchmakerProfileIncomplete;
             ShouldShowBackgroundTab = DescriptionViewData.HasPageContent || new OrganizationBackgroundEditFeature().HasPermission(currentFirmaSession, organization).HasPermission;
             MatchmakerProjectFinderButtonContent = GetMatchmakerProjectFinderButtonContent(organization, MatchmakerProfileCompletionDictionary);
-            
+
+            ShowFundingSources = Organization.FundingSources.Any() || new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
         private string GetMatchmakerProjectFinderButtonContent(ProjectFirmaModels.Models.Organization organization, Dictionary<MatchmakerSubScoreTypeEnum, bool> matchmakerProfileCompletionDictionary)
