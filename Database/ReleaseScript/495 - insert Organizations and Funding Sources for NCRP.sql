@@ -118,3 +118,42 @@ values
 (4, @orgID, 1, 'Regional Forest and Fire Capacity Program','The Regional Forest and Fire Capacity program aims to increase regional capacity to prioritize, develop, and implement projects to improve forest health and fire resilience and increase carbon sequestration in forests throughout California. Six regional entities including the NCRP are using block grants to conduct regional planning, develop projects, conduct outreach, and implement landscape-level forest health projects consistent with the California Forest Carbon Plan and Executive Order B-52'),
 (4, @orgID, 1, 'Sustainable Agricultural Lands Conservation Program','The California Strategic Growth Council''s (SGC) SALC Program is a component of SGC''s Affordable ​​Housing and Sustainable Communities Program​ (AHSC). ​SALC complements investments made in urban areas with the purchase of agricultural conservation easements, development of agricultural land strategy plans, and other mechanisms that result in GHG reductions and a more resilient agricultural sector.'),
 (4, @orgID, 1, 'Multibenefit Land Repurposing Program','This program funds groundwater sustainability projects that reduce groundwater use, repurpose irrigated agricultural land, and provide wildlife habitat. The Multibenefit Land Repurposing Program seeks to use this funding to increase regional capacity to repurpose agricultural land to reduce reliance on groundwater while providing community health, economic wellbeing, water supply, habitat, renewable energy, and climate benefits.')
+
+-- delete some funding sources
+--'Prop 50 R1',
+--'Prop 50 R2',
+--'Prop 84 2015',
+--'Prop 84 Drought',
+--'Prop 84 R1',
+--'Prop 84 R2'
+delete from dbo.ProjectFundingSourceExpenditure where FundingSourceID in
+(
+9297,
+9302,
+33,
+9296,
+9303,
+9301
+)
+
+delete from dbo.ProjectFundingSourceBudget where FundingSourceID in
+(
+9297,
+9302,
+33,
+9296,
+9303,
+9301
+)
+
+
+delete from dbo.FundingSource where FundingSourceID in
+(
+9297,
+9302,
+33,
+9296,
+9303,
+9301
+)
+
