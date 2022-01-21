@@ -213,7 +213,7 @@ namespace ProjectFirma.Web.Views
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentFirmaSession, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
             }
 
-            foreach (var geospatialAreaType in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList())
+            foreach (var geospatialAreaType in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeNamePluralized).ToList())
             {
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<GeospatialAreaController>(c => c.Index(geospatialAreaType)), currentFirmaSession, $"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", "Group2"));
             }
