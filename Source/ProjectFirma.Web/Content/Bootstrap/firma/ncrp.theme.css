@@ -113,6 +113,12 @@ label,
   border-radius: 0;
   margin-bottom: 0;
 }
+.menuDivider {
+  border-left: 3px solid black;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  height: 62px;
+}
 .projectFirmaNavbar {
   background-color: #e6e7e9;
 }
