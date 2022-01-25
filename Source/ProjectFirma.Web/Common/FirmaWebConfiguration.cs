@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Common
         public static readonly string PsInfoDataCenterUrl = SitkaConfiguration.GetRequiredAppSetting("PsInfoDataCenterUrl");
         public static readonly string VitalSignsUrl = SitkaConfiguration.GetRequiredAppSetting("VitalSignsUrl");
         public static readonly string NEPAtlasUrl = SitkaConfiguration.GetRequiredAppSetting("NEPAtlasUrl");
+        public static readonly string ActionAgendaUrl = SitkaConfiguration.GetRequiredAppSetting("ActionAgendaUrl");
         public static readonly string OngoingProgramsUrl = SitkaConfiguration.GetRequiredAppSetting("OngoingProgramsUrl");
         public static readonly string PSARDashboardUrl = SitkaConfiguration.GetRequiredAppSetting("PSARDashboardUrl");
         public static readonly string SpatialHubUrl = SitkaConfiguration.GetRequiredAppSetting("SpatialHubUrl");

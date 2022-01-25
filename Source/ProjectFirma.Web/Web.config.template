@@ -42,6 +42,7 @@
     <add key="OngoingProgramsUrl" value="${psinfo-url}OngoingProgram/Index"/>
     <add key="VitalSignsUrl" value="${vital-signs-url}"/>
     <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
+    <add key="ActionAgendaUrl" value="${action-agenda-url}"/>
     <add key="PSARDashboardUrl" value="${psar-dashboard-url}"/>
     <add key="SpatialHubUrl" value="${spatial-hub-url}"/>
     <add key="PsInfoPostOrganizationUrl" value="${psinfo-post-organization-url}"/>
