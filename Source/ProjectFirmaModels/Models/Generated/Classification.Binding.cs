@@ -49,12 +49,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Classification(string classificationDescription, string themeColor, string displayName, int classificationSystemID) : this()
+        public Classification(string themeColor, string displayName, int classificationSystemID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
             this.ClassificationSystemID = classificationSystemID;
@@ -63,11 +62,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Classification(string classificationDescription, string themeColor, string displayName, ClassificationSystem classificationSystem) : this()
+        public Classification(string themeColor, string displayName, ClassificationSystem classificationSystem) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ClassificationDescription = classificationDescription;
             this.ThemeColor = themeColor;
             this.DisplayName = displayName;
             this.ClassificationSystemID = classificationSystem.ClassificationSystemID;
@@ -80,7 +78,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static Classification CreateNewBlank(ClassificationSystem classificationSystem)
         {
-            return new Classification(default(string), default(string), default(string), classificationSystem);
+            return new Classification(default(string), default(string), classificationSystem);
         }
 
         /// <summary>
