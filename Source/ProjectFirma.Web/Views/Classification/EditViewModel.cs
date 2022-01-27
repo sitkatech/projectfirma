@@ -43,7 +43,6 @@ namespace ProjectFirma.Web.Views.Classification
         [StringLength(ProjectFirmaModels.Models.Classification.FieldLengths.DisplayName)]
         public string DisplayName { get; set; }
 
-        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ClassificationDescription)]
         [StringLength(ProjectFirmaModels.Models.Classification.FieldLengths.ClassificationDescription)]
         public string ClassificationDescription { get; set; }
