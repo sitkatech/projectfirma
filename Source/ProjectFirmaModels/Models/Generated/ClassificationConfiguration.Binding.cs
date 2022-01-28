@@ -17,7 +17,7 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.ClassificationID);
             Property(x => x.ClassificationID).HasColumnName(@"ClassificationID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
-            Property(x => x.ClassificationDescription).HasColumnName(@"ClassificationDescription").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.ClassificationDescription).HasColumnName(@"ClassificationDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
             Property(x => x.ThemeColor).HasColumnName(@"ThemeColor").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(7);
             Property(x => x.DisplayName).HasColumnName(@"DisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(75);
             Property(x => x.GoalStatement).HasColumnName(@"GoalStatement").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(200);
