@@ -58,7 +58,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
         .classificationHeader h1
         {
-            font-size: 42px;
             margin-top: 0;
             margin-bottom: 5px;
         }
@@ -115,7 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 <div class="row classificationHeader">
-    <div class="col-lg-7 col-sm-6 col-xs-12">
+    <div class="@ViewDataTyped.DisplayNameClass">
         <div style="padding: 20px;">
             <h1>
                 <span style="vertical-align: top">
@@ -123,19 +122,27 @@ Source code is available upon request via <support@sitkatech.com>.
                 </span>
                 @ViewDataTyped.Classification.GetDisplayName()
             </h1>
-            <p style="border-top: 2px solid white; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.ClassificationDescription</p>
-            <p style="font-style: italic; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.GoalStatement</p>
+            @if (!string.IsNullOrEmpty(ViewDataTyped.Classification.ClassificationDescription))
+            {
+                <p style="border-top: 2px solid white; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.ClassificationDescription</p>
+            }
+            
+            @if (!string.IsNullOrEmpty(ViewDataTyped.Classification.GoalStatement))
+            {
+                <p style="font-style: italic; margin-top: 5px; margin-bottom: 5px; padding-top: 10px">@ViewDataTyped.Classification.GoalStatement</p>
+            }
+            
         </div>
 
     </div>
-    <div class="col-lg-5 col-sm-6 col-xs-12">
-        <div style="margin-right: 10px">
-        @if (ViewDataTyped.Classification.KeyImageFileResourceInfo != null)
-        {
-            <a class="gallery" href="@ViewDataTyped.Classification.KeyImageFileResourceInfo.GetFileResourceUrl()"><img src="@ViewDataTyped.Classification.GetKeyImageUrlLarge()" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
-        }
+    @if (ViewDataTyped.Classification.KeyImageFileResourceInfo != null)
+    {
+        <div class="col-lg-5 col-sm-6 col-xs-12">
+            <div style="margin-right: 10px">
+                <a class="gallery" href="@ViewDataTyped.Classification.KeyImageFileResourceInfo.GetFileResourceUrl()"><img src="@ViewDataTyped.Classification.GetKeyImageUrlLarge()" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 <div class="container-fluid">

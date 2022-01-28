@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.Classification
 
         public string ClassificationDisplayName { get; }
         public string ClassificationDisplayNamePluralized { get; }
+        public string DisplayNameClass { get; }
 
         public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
         public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
@@ -79,6 +80,10 @@ namespace ProjectFirma.Web.Views.Classification
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.ClassificationProjectsGridJsonData(classification));
 
             PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => classification.GetPerformanceMeasureChartViewData(x, CurrentFirmaSession)).ToList();
+
+            DisplayNameClass = (Classification.KeyImageFileResourceInfo == null)
+                                ? "col-xs-12"
+                                : "col-lg-7 col-sm-6 col-xs-12";
         }
     }
 }

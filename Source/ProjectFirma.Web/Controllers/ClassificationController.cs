@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, classificationSystem);
             }
             
-            var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem.ClassificationSystemID);
+            var classification = new Classification("#BBBBBB", viewModel.DisplayName, classificationSystem.ClassificationSystemID);
             viewModel.UpdateModel(classification, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
