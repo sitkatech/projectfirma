@@ -188,6 +188,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new ReportTemplateConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
+            modelBuilder.Configurations.Add(new SolicitationConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
@@ -499,6 +500,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ReportTemplate> ReportTemplates { get { return AllReportTemplates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Solicitation> Solicitations { get; set; }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
@@ -1204,6 +1206,9 @@ namespace ProjectFirmaModels.Models
 
                 case "SecondaryProjectTaxonomyLeaf":
                     return SecondaryProjectTaxonomyLeafs.GetSecondaryProjectTaxonomyLeaf(primaryKey);
+
+                case "Solicitation":
+                    return Solicitations.GetSolicitation(primaryKey);
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);

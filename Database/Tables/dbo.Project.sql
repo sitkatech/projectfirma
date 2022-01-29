@@ -48,6 +48,7 @@ CREATE TABLE [dbo].[Project](
 	[PhotosComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SubmittedByPersonID] [int] NULL,
 	[LocationIsPrivate] [bit] NOT NULL,
+	[SolicitationID] [int] NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC
@@ -137,6 +138,11 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectStage
 REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectStage_ProjectStageID]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Solicitation_SolicitationID] FOREIGN KEY([SolicitationID])
+REFERENCES [dbo].[Solicitation] ([SolicitationID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Solicitation_SolicitationID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_TaxonomyLeafID] FOREIGN KEY([TaxonomyLeafID])
 REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID])

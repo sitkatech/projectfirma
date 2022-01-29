@@ -46,6 +46,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TrackAccomplishments] [bit] NOT NULL,
 	[ShowExpectedPerformanceMeasuresOnFactSheet] [bit] NOT NULL,
 	[EnableStatusUpdates] [bit] NOT NULL,
+	[EnableSolicitations] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
