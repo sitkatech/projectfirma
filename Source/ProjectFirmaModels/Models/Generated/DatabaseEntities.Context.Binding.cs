@@ -500,7 +500,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ReportTemplate> ReportTemplates { get { return AllReportTemplates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<Solicitation> Solicitations { get; set; }
+        public virtual DbSet<Solicitation> AllSolicitations { get; set; }
+        public virtual IQueryable<Solicitation> Solicitations { get { return AllSolicitations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }

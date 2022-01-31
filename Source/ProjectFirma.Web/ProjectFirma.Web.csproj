@@ -71,6 +71,7 @@
     <Compile Include="Controllers\LocalAuthenticationController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
+    <Compile Include="Controllers\SolicitationController.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
@@ -574,6 +575,12 @@
     <Compile Include="Views\Shared\DisplayDocumentLibraryViewData.cs" />
     <Compile Include="Views\Shared\CustomFooterViewData.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
+    <Compile Include="Views\Solicitation\Edit.cs" />
+    <Compile Include="Views\Solicitation\EditViewData.cs" />
+    <Compile Include="Views\Solicitation\EditViewModel.cs" />
+    <Compile Include="Views\Solicitation\Index.cs" />
+    <Compile Include="Views\Solicitation\IndexGridSpec.cs" />
+    <Compile Include="Views\Solicitation\IndexViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -1905,6 +1912,8 @@
     <Content Include="Views\User\CreateAccount.cshtml" />
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\Solicitation\Index.cshtml" />
+    <Content Include="Views\Solicitation\Edit.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

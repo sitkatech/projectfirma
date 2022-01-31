@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[Solicitation]
 using System.Collections.Generic;
 using System.Linq;
-using Z.EntityFramework.Plus;
 using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
@@ -21,33 +20,5 @@ namespace ProjectFirmaModels.Models
             return solicitation;
         }
 
-        // Delete using an IDList (Firma style)
-        public static void DeleteSolicitation(this IQueryable<Solicitation> solicitations, List<int> solicitationIDList)
-        {
-            if(solicitationIDList.Any())
-            {
-                solicitations.Where(x => solicitationIDList.Contains(x.SolicitationID)).Delete();
-            }
-        }
-
-        // Delete using an object list (Firma style)
-        public static void DeleteSolicitation(this IQueryable<Solicitation> solicitations, ICollection<Solicitation> solicitationsToDelete)
-        {
-            if(solicitationsToDelete.Any())
-            {
-                var solicitationIDList = solicitationsToDelete.Select(x => x.SolicitationID).ToList();
-                solicitations.Where(x => solicitationIDList.Contains(x.SolicitationID)).Delete();
-            }
-        }
-
-        public static void DeleteSolicitation(this IQueryable<Solicitation> solicitations, int solicitationID)
-        {
-            DeleteSolicitation(solicitations, new List<int> { solicitationID });
-        }
-
-        public static void DeleteSolicitation(this IQueryable<Solicitation> solicitations, Solicitation solicitationToDelete)
-        {
-            DeleteSolicitation(solicitations, new List<Solicitation> { solicitationToDelete });
-        }
     }
 }

@@ -16,9 +16,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[Solicitation] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[Solicitation] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[Solicitation]")]
-    public partial class Solicitation : IHavePrimaryKey, ICanDeleteFull
+    public partial class Solicitation : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -94,7 +94,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.Solicitations.Remove(this);
+            dbContext.AllSolicitations.Remove(this);
         }
         
         /// <summary>
@@ -119,6 +119,7 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int SolicitationID { get; set; }
+        public int TenantID { get; set; }
         public string SolicitationName { get; set; }
         public string Instructions { get; set; }
         public bool IsActive { get; set; }
@@ -126,6 +127,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return SolicitationID; } set { SolicitationID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {
