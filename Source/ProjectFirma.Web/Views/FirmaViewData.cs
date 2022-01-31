@@ -263,7 +263,7 @@ namespace ProjectFirma.Web.Views
 
             if (MultiTenantHelpers.HasSolicitations())
             {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentFirmaSession, FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SolicitationController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
             }
 
             // Group 2 - System Config stuff
