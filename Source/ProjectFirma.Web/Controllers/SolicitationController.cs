@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ActionResult Index()
         {
-            var firmaPage = FirmaPageTypeEnum.TagList.GetFirmaPage();
+            var firmaPage = FirmaPageTypeEnum.SolicitationIndex.GetFirmaPage();
             var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -24,8 +24,8 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Solicitation> IndexGridJsonData()
         {
-            var hasTagDeletePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var gridSpec = new IndexGridSpec(hasTagDeletePermission);
+            var hasSolicitationEditPermission = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var gridSpec = new IndexGridSpec(hasSolicitationEditPermission);
             var solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.OrderBy(x => x.SolicitationName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Solicitation>(solicitations, gridSpec);
             return gridJsonNetJObjectResult;
@@ -75,8 +75,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var tag = solicitationPrimaryKey.EntityObject;
-            viewModel.UpdateModel(tag, CurrentFirmaSession);
+            var solicitation = solicitationPrimaryKey.EntityObject;
+            viewModel.UpdateModel(solicitation, CurrentFirmaSession);
             return new ModalDialogFormJsonResult(SitkaRoute<SolicitationController>.BuildUrlFromExpression(x => x.Index()));
         }
 
@@ -88,14 +88,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public PartialViewResult DeleteTag(SolicitationPrimaryKey solicitationPrimaryKey)
+        public PartialViewResult DeleteSolicitation(SolicitationPrimaryKey solicitationPrimaryKey)
         {
             var solicitation = solicitationPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(solicitation.SolicitationID);
-            return ViewDeleteTag(solicitation, viewModel);
+            return ViewDeleteSolicitation(solicitation, viewModel);
         }
 
-        private PartialViewResult ViewDeleteTag(Solicitation solicitation, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteSolicitation(Solicitation solicitation, ConfirmDialogFormViewModel viewModel)
         {
             var confirmMessage = $"Are you sure you want to delete this {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()} '{solicitation.SolicitationName}'?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
@@ -105,12 +105,12 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteTag(SolicitationPrimaryKey solicitationPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteSolicitation(SolicitationPrimaryKey solicitationPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var solicitation = solicitationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDeleteTag(solicitation, viewModel);
+                return ViewDeleteSolicitation(solicitation, viewModel);
             }
             solicitation.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();

@@ -19,12 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using NUnit.Framework;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Solicitation
@@ -35,11 +37,15 @@ namespace ProjectFirma.Web.Views.Solicitation
         public int SolicitationID { get; set; }
 
         [Required]
+        [DisplayName("Name")]
         [StringLength(ProjectFirmaModels.Models.Solicitation.FieldLengths.SolicitationName)]
         public string SolicitationName { get; set; }
 
         [StringLength(ProjectFirmaModels.Models.Solicitation.FieldLengths.Instructions)]
         public string Instructions { get; set; }
+
+        [DisplayName("Is Active?")]
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -53,12 +59,14 @@ namespace ProjectFirma.Web.Views.Solicitation
             SolicitationID = solicitation.SolicitationID;
             SolicitationName = solicitation.SolicitationName;
             Instructions = solicitation.Instructions;
+            IsActive = solicitation.IsActive;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Solicitation solicitation, FirmaSession currentFirmaSession)
         {
             solicitation.SolicitationName = SolicitationName;
             solicitation.Instructions = Instructions;
+            solicitation.IsActive = IsActive;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

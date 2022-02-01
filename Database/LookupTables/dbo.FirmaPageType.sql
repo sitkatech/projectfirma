@@ -68,4 +68,4 @@ values
 (83, 'ManageOrganizationTypes', 'Manage Organization Types', 1),
 (84, 'InternalMapLayers', 'Internal Map Layers', 1),
 (85, 'ExternallySourcedGeospatialAreasInstructions', 'Externally Sourced Geospatial Areas Instructions', 1),
-(86, 'Solicitation', 'Solicitation', 2)
+(86, 'SolicitationIndex', 'Solicitation Index', 1)

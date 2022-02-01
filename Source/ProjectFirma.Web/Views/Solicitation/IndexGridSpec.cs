@@ -22,6 +22,7 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -29,16 +30,18 @@ namespace ProjectFirma.Web.Views.Solicitation
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.Solicitation>
     {
-        public IndexGridSpec(bool hasDeletePermissions)
-        {            
-            //if (hasDeletePermissions)
-            //{
-            //    Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(TagModelExtensions.GetDeleteUrl(x), true), 30);
-            //}
+        public IndexGridSpec(bool hasEditPermissions)
+        {
+            if (hasEditPermissions)
+            {
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.DeleteSolicitation(x)), true), 30);
 
-            //Add(FieldDefinitionEnum.TagName.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(TagModelExtensions.GetDetailUrl(a), a.GetDisplayName()), 200, DhtmlxGridColumnFilterType.Html);
-            //Add(FieldDefinitionEnum.TagDescription.ToType().ToGridHeaderString(), a => a.TagDescription, 600);
-            //Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectTags.Count, 65);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.Edit(x)), $"Edit {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()}"), 30);
+            }
+
+            Add($"{FieldDefinitionEnum.Solicitation.ToType().ToGridHeaderString()} Name", a => a.SolicitationName, 200, DhtmlxGridColumnFilterType.Text);
+            Add("Instructions", a => a.Instructions, 600);
+            Add("Is Active", a => a.IsActive.ToYesNo(), 65);
         }
     }
 }
