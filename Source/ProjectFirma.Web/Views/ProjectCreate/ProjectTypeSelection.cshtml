@@ -26,6 +26,15 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary()
+    if (ViewDataTyped.TenantAttribute.EnableSolicitations)
+    {
+        <div class="form-group">
+            @Html.LabelFor(x => x.SolicitationID)
+            <div>
+                @Html.DropDownListFor(m => m.SolicitationID, ViewDataTyped.SolicitationOptions)
+            </div>
+        </div>
+    }
     <div>
         Do you want to:
     </div>

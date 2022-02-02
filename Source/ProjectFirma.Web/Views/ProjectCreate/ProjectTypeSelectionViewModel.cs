@@ -25,6 +25,8 @@ using System.ComponentModel.DataAnnotations;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -41,6 +43,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [Required(ErrorMessage = "You must select an option in order to proceed.")]
         public ProjectCreateType? CreateType { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
+        public int SolicitationID { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
@@ -51,6 +56,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 errors.Add(new SitkaValidationResult<ProjectTypeSelectionViewModel, ProjectCreateType?>("Invalid option.", m => m.CreateType));
             }
+
 
             return errors;
         }

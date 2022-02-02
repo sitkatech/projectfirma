@@ -107,7 +107,12 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectTypeSelection()
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
+            var solicitations = new List<Solicitation>();
+            if (tenantAttribute.EnableSolicitations)
+            {
+                solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.ToList();
+            }
+            var viewData = new ProjectTypeSelectionViewData(tenantAttribute, solicitations);
             var viewModel = new ProjectTypeSelectionViewModel();
             return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
         }
@@ -118,7 +123,12 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ProjectTypeSelection(ProjectTypeSelectionViewModel viewModel)
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
+            var solicitations = new List<Solicitation>();
+            if (tenantAttribute.EnableSolicitations)
+            {
+                solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.ToList();
+            }
+            var viewData = new ProjectTypeSelectionViewData(tenantAttribute, solicitations);
 
             if (!ModelState.IsValid)
             {

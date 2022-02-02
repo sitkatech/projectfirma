@@ -257,6 +257,28 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             @Html.HiddenFor(m => m.ProjectCategoryEnum)
         }
+        
+        @if (ViewDataTyped.TenantAttribute.EnableSolicitations)
+        {
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(m => m.SolicitationID)
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    @Html.DropDownListFor(m => m.SolicitationID, ViewDataTyped.SolicitationOptions)
+                    @Html.ValidationMessageFor(m => m.SolicitationID)
+                    <span class="smallExplanationText">
+                        The @FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel() cannot be changed after a proposal is accepted.
+                    </span>
+                </div>
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.SolicitationID)
+        }
+
+
         @if (@ViewDataTyped.ShowCommentsSection)
         {
             <hr/>

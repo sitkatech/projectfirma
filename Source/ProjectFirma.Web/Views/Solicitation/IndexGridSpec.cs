@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Solicitation
 
             Add($"{FieldDefinitionEnum.Solicitation.ToType().ToGridHeaderString()} Name", a => a.SolicitationName, 200, DhtmlxGridColumnFilterType.Text);
             Add("Instructions", a => a.Instructions, 600);
-            Add("Is Active", a => a.IsActive.ToYesNo(), 65);
+            Add("Is Active", a => a.IsActive.ToYesNo(), 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

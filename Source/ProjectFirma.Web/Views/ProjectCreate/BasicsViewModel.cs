@@ -75,6 +75,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCategory)]
         public ProjectCategoryEnum ProjectCategoryEnum { get; set; }
 
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
+        public int SolicitationID { get; set; }
+
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BasicsComment)]
         public string Comments { get; set; }    
