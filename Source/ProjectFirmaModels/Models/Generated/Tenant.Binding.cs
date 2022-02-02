@@ -227,7 +227,7 @@ namespace ProjectFirmaModels.Models
     public partial class TenantActionAgendaForPugetSound : Tenant
     {
         private TenantActionAgendaForPugetSound(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantActionAgendaForPugetSound Instance = new TenantActionAgendaForPugetSound(11, @"ActionAgendaForPugetSound", @"actionagendatracker.localhost.projectfirma.com", @"qa-actionagenda.pugetsoundinfo.wa.gov", @"actionagenda.pugetsoundinfo.wa.gov", DateTime.Parse("01/01/1990"), false, false, true, true, true, true);
+        public static readonly TenantActionAgendaForPugetSound Instance = new TenantActionAgendaForPugetSound(11, @"ActionAgendaForPugetSound", @"actionagendatracker.localhost.projectfirma.com", @"qa-actionagendatracker.pugetsoundinfo.wa.gov", @"actionagendatracker.pugetsoundinfo.wa.gov", DateTime.Parse("01/01/1990"), false, false, true, true, true, true);
     }
 
     public partial class TenantBureauOfReclamation : Tenant
