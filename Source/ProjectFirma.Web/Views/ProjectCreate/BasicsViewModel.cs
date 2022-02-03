@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
-        public int SolicitationID { get; set; }
+        public int? SolicitationID { get; set; }
 
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BasicsComment)]
@@ -114,6 +114,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 HttpRequestStorage.DatabaseEntities.AllImportExternalProjectStagings.Remove(importExternalProjectStagingToDelete);
             }
 
+            project.SolicitationID = SolicitationID;
             project.ProposingPersonID = currentFirmaSession.PersonID;
             project.TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectID = ProjectID ?? ModelObjectHelpers.NotYetAssignedID;

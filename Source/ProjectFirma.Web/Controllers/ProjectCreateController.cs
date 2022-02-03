@@ -265,7 +265,7 @@ namespace ProjectFirma.Web.Controllers
             {
 
                 ProposingPerson = CurrentFirmaSession.Person,
-                ProposingDate = now
+                ProposingDate = now,
             };
 
             return SaveProjectAndCreateAuditEntry(project, viewModel);
