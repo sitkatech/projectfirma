@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.ToList();
             }
-            var viewData = new ProjectTypeSelectionViewData(tenantAttribute, solicitations);
+            var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
             var viewModel = new ProjectTypeSelectionViewModel();
             return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
         }
@@ -128,7 +128,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.ToList();
             }
-            var viewData = new ProjectTypeSelectionViewData(tenantAttribute, solicitations);
+            var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
 
             if (!ModelState.IsValid)
             {

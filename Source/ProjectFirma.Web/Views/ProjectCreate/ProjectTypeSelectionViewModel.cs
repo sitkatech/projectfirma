@@ -43,8 +43,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [Required(ErrorMessage = "You must select an option in order to proceed.")]
         public ProjectCreateType? CreateType { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
-        public int SolicitationID { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

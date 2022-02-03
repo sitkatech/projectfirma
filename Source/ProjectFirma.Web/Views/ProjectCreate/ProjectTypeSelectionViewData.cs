@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
 using System.Web.Mvc;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using LtInfo.Common.Mvc;
@@ -29,13 +28,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ProjectTypeSelectionViewData : FirmaUserControlViewData
     {
-        public ProjectTypeSelectionViewData(TenantAttribute tenantAttribute, List<ProjectFirmaModels.Models.Solicitation> solicitations)
+        public ProjectTypeSelectionViewData(TenantAttribute tenantAttribute)
         {
             TenantAttribute = tenantAttribute;
-            SolicitationOptions = solicitations.ToSelectListWithEmptyFirstRow(x => x.SolicitationID.ToString(), y => y.SolicitationName);
         }
 
         public TenantAttribute TenantAttribute { get; set; }
-        public IEnumerable<SelectListItem> SolicitationOptions { get; set; }
     }
 }
