@@ -107,6 +107,11 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectTypeSelection()
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var solicitations = new List<Solicitation>();
+            if (tenantAttribute.EnableSolicitations)
+            {
+                solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.ToList();
+            }
             var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
             var viewModel = new ProjectTypeSelectionViewModel();
             return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
@@ -118,6 +123,11 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ProjectTypeSelection(ProjectTypeSelectionViewModel viewModel)
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var solicitations = new List<Solicitation>();
+            if (tenantAttribute.EnableSolicitations)
+            {
+                solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.ToList();
+            }
             var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
 
             if (!ModelState.IsValid)
@@ -255,7 +265,7 @@ namespace ProjectFirma.Web.Controllers
             {
 
                 ProposingPerson = CurrentFirmaSession.Person,
-                ProposingDate = now
+                ProposingDate = now,
             };
 
             return SaveProjectAndCreateAuditEntry(project, viewModel);

@@ -260,7 +260,17 @@
                         @ViewDataTyped.TenantAttribute.EnableMatchmaker.ToYesNo()
                     </div>
                 </div>
-
+            
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableSolicitations.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableSolicitations.ToType().GetFieldDefinitionLabel()?
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.EnableSolicitations.ToYesNo()
+                    </div>
+                </div>
+            
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
                         Google Analytics Tracking Code

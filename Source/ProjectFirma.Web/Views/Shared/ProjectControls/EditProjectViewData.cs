@@ -39,6 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public IEnumerable<ProjectStage> ProjectStagesModels = ProjectStage.All.Except(new List<ProjectStage> { ProjectStage.Proposal }).OrderBy(x => x.SortOrder);
         public IEnumerable<SelectListItem> Organizations { get; }
         public IEnumerable<SelectListItem> PrimaryContactPeople { get; }
+        public IEnumerable<SelectListItem> SolicitationOptions { get; }
         public Person DefaultPrimaryContactPerson { get; }
         public EditProjectType EditProjectType { get; }
         public string TaxonomyLeafDisplayName { get; }
@@ -80,6 +81,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             TenantAttribute = tenantAttribute;
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
+            SolicitationOptions = HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(
+                x => x.SolicitationID.ToString(), y => y.SolicitationName);
         }
     }
 }

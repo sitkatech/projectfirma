@@ -194,5 +194,7 @@ VALUES
 (370, 'ProjectLocationIsPrivate', 'Location Privacy'),
 (371, N'CanContactTypeManageProject', N'Can Manage the Project?'),
 (372, N'TrackAccomplishments', N'Track Accomplishments'),
-(373, N'ShowExpectedPerformanceMeasuresOnFactSheet', N'Show Expected Performance Measures on Fact Sheet?')
+(373, N'ShowExpectedPerformanceMeasuresOnFactSheet', N'Show Expected Performance Measures on Fact Sheet?'),
+(374, N'Solicitation', N'Solicitation'),
+(375, N'EnableSolicitations', N'Enable Solicitations')
 

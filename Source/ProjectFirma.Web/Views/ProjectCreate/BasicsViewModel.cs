@@ -75,6 +75,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCategory)]
         public ProjectCategoryEnum ProjectCategoryEnum { get; set; }
 
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
+        public int? SolicitationID { get; set; }
+
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BasicsComment)]
         public string Comments { get; set; }    
@@ -99,6 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CompletionYear = project.CompletionYear;
             ProjectCategoryEnum = project.ProjectCategory.ToEnum;
             Comments = project.BasicsComment;
+            SolicitationID = project.SolicitationID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
@@ -110,6 +115,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 HttpRequestStorage.DatabaseEntities.AllImportExternalProjectStagings.Remove(importExternalProjectStagingToDelete);
             }
 
+            project.SolicitationID = SolicitationID;
             project.ProposingPersonID = currentFirmaSession.PersonID;
             project.TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectID = ProjectID ?? ModelObjectHelpers.NotYetAssignedID;

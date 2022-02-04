@@ -553,5 +553,10 @@ namespace ProjectFirma.Web.Common
                     return MatchmakerSubScoreType.ToType(enumType).MatchmakerSubScoreTypeDisplayName;
             }
         }
+
+        public static bool HasSolicitations()
+        {
+            return GetTenantAttributeFromCache().EnableSolicitations;
+        }
     }
 }

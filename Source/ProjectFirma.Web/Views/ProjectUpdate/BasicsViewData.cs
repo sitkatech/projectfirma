@@ -46,6 +46,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public SectionCommentsViewData SectionCommentsViewData { get; }
         public int? StartYearForTotalCostCalculation { get; }
         public bool TenantUsesFiscalYears { get; }
+        public bool TenantHasSolicitations { get; }
 
 
         public BasicsViewData(FirmaSession currentFirmaSession
@@ -67,6 +68,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned());
             StartYearForTotalCostCalculation = projectUpdate.StartYearForTotalCostCalculations();
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
+            TenantHasSolicitations = MultiTenantHelpers.HasSolicitations();
         }
     }
 }

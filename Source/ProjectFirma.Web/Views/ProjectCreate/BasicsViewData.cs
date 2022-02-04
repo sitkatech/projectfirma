@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<SelectListItem> PlanningDesignStartYearRange { get; private set; }
         public IEnumerable<SelectListItem> ImplementationStartYearRange { get; private set; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
+        public IEnumerable<SelectListItem> SolicitationOptions { get; private set; }
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
         public bool ShowProjectStageDropDown { get; }
@@ -101,6 +102,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             TenantAttribute = tenantAttribute;
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
+
+            SolicitationOptions =
+                HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(
+                    x => x.SolicitationID.ToString(), y => y.SolicitationName);
         }
     }
 }

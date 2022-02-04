@@ -320,6 +320,8 @@ namespace ProjectFirmaModels.Models
         ProjectLocationIsPrivate = 370,
         CanContactTypeManageProject = 371,
         TrackAccomplishments = 372,
-        ShowExpectedPerformanceMeasuresOnFactSheet = 373
+        ShowExpectedPerformanceMeasuresOnFactSheet = 373,
+        Solicitation = 374,
+        EnableSolicitations = 375
     }
 }

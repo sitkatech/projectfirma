@@ -156,6 +156,26 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.TaxonomyLeafDisplayName
         </div>
     </div>
+    @if (ViewDataTyped.TenantHasSolicitations)
+    {
+        <div class="row form-group-condensed">
+            <div class="col-sm-4 control-label">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.Solicitation.ToType())
+            </div>
+            <div class="col-sm-8">
+                @if (ViewDataTyped.Project.Solicitation != null)
+                {
+                    @ViewDataTyped.Project.Solicitation.SolicitationName
+                }
+                else
+                {
+                    @Html.Raw("None")
+                }
+
+            </div>
+        </div>
+    }
+
     
     <script type="text/javascript" src="/Views/Shared/ConstrainProjectYears.js"></script>
     <script>
