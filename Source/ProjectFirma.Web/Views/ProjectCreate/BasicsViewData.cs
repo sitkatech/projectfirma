@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
 
             SolicitationOptions =
-                HttpRequestStorage.DatabaseEntities.Solicitations.ToSelectListWithEmptyFirstRow(
+                HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(
                     x => x.SolicitationID.ToString(), y => y.SolicitationName);
         }
     }

@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             TenantAttribute = tenantAttribute;
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
-            SolicitationOptions = HttpRequestStorage.DatabaseEntities.Solicitations.ToSelectListWithEmptyFirstRow(
+            SolicitationOptions = HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(
                 x => x.SolicitationID.ToString(), y => y.SolicitationName);
         }
     }

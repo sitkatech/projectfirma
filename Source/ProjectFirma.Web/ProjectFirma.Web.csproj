@@ -117,6 +117,7 @@
     <Compile Include="Models\ProjectClassificationsUpdateModelExtensions.cs" />
     <Compile Include="Models\RestApiClient.cs" />
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
+    <Compile Include="Models\SolicitationModelExtensions.cs" />
     <Compile Include="Models\TenantSimple.cs" />
     <Compile Include="PartnerFinder\MatchMakerScoreSubScoreInsight.cs" />
     <Compile Include="PartnerFinder\PartnerOrganizationMatchMakerScore.cs" />
