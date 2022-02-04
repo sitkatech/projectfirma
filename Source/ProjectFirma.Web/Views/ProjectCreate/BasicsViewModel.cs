@@ -103,6 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CompletionYear = project.CompletionYear;
             ProjectCategoryEnum = project.ProjectCategory.ToEnum;
             Comments = project.BasicsComment;
+            SolicitationID = project.SolicitationID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)

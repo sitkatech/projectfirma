@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits EditProject
 
@@ -32,6 +33,27 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
+        
+        @if (ViewDataTyped.TenantAttribute.EnableSolicitations)
+        {
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(m => m.SolicitationID)
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    @Html.DropDownListFor(m => m.SolicitationID, ViewDataTyped.SolicitationOptions, new { @class = "form-control", style = "width: auto;" })
+                    @Html.ValidationMessageFor(m => m.SolicitationID)
+                    <span class="smallExplanationText">
+                        The @FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel() cannot be changed after a proposal is accepted.
+                    </span>
+                </div>
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.SolicitationID)
+        }
+
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyLeafID, MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject(), null)</div>
             <div class="col-xs-8">
@@ -81,7 +103,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ProjectName)
             </div>
             <div class="col-xs-8">
-                @Html.TextBoxFor(m => m.ProjectName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.ProjectName, new {@class = "form-control"})
                 @Html.ValidationMessageFor(m => m.ProjectName)
             </div>
         </div>
@@ -91,16 +113,16 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ProjectDescription)
             </div>
             <div class="col-xs-8">
-                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
+                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> {"form-control"})
                 @Html.ValidationMessageFor(m => m.ProjectDescription)
             </div>
-        </div>       
+        </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectStageID)
             </div>
             <div class="col-xs-8">
-                @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new { style = "width: auto;", @class = "form-control" })
+                @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new {style = "width: auto;", @class = "form-control"})
             </div>
         </div>
         @* <div class="form-group"> *@
@@ -170,7 +192,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.CompletionYear)
             </div>
         </div>
-        
+
         <script type="text/javascript" src="/Views/Shared/ConstrainProjectYears.js"></script>
         <script>
             @{
@@ -179,8 +201,14 @@ Source code is available upon request via <support@sitkatech.com>.
             }
 
             initializeYearConstraining("@Html.IdFor(x => x.PlanningDesignStartYear)",
-                "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
-                "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(), "@Html.IdFor(x=> x.ProjectStageID)", @ViewDataTyped.TenantUsesFiscalYears.ToString().ToLower())
+                "@Html.IdFor(x => x.ImplementationStartYear)",
+                @implementationYears.Min(),
+                @implementationYears.Max(),
+                "@Html.IdFor(x => x.CompletionYear)",
+                @completionYears.Min(),
+                @completionYears.Max(),
+                "@Html.IdFor(x => x.ProjectStageID)",
+                @ViewDataTyped.TenantUsesFiscalYears.ToString().ToLower())
         </script>
     </div>
     @Html.HiddenFor(m => m.ProjectID)
