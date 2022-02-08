@@ -71,6 +71,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public int? OldProjectStageID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
         public int? SolicitationID { get; set; }
 
         /// <summary>

@@ -122,6 +122,12 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public string SolicitationName { get; set; }
         public string Instructions { get; set; }
+        [NotMapped]
+        public HtmlString InstructionsHtmlString
+        { 
+            get { return Instructions == null ? null : new HtmlString(Instructions); }
+            set { Instructions = value?.ToString(); }
+        }
         public bool IsActive { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return SolicitationID; } set { SolicitationID = value; } }
@@ -132,7 +138,6 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int SolicitationName = 200;
-            public const int Instructions = 200;
         }
     }
 }
