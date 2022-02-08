@@ -73,6 +73,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.NumberOfExpectedPerformanceMeasureRecords).ToList();
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.NumberOfReportedPerformanceMeasures).ToList();
             }
+            // Remove Solicitation Column if Tenant doesn't have solicitations
+            if (!MultiTenantHelpers.HasSolicitations())
+            {
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.Solicitation).ToList();
+            }
 
             foreach (var projectCustomGridColumn in projectCustomGridColumns)
             {

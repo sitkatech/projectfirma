@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
@@ -41,8 +42,7 @@ namespace ProjectFirma.Web.Views.Solicitation
         [StringLength(ProjectFirmaModels.Models.Solicitation.FieldLengths.SolicitationName)]
         public string SolicitationName { get; set; }
 
-        [StringLength(ProjectFirmaModels.Models.Solicitation.FieldLengths.Instructions)]
-        public string Instructions { get; set; }
+        public HtmlString Instructions { get; set; }
 
         [DisplayName("Is Active?")]
         public bool IsActive { get; set; }
@@ -58,14 +58,14 @@ namespace ProjectFirma.Web.Views.Solicitation
         {
             SolicitationID = solicitation.SolicitationID;
             SolicitationName = solicitation.SolicitationName;
-            Instructions = solicitation.Instructions;
+            Instructions = solicitation.InstructionsHtmlString;
             IsActive = solicitation.IsActive;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Solicitation solicitation, FirmaSession currentFirmaSession)
         {
             solicitation.SolicitationName = SolicitationName;
-            solicitation.Instructions = Instructions;
+            solicitation.InstructionsHtmlString = Instructions;
             solicitation.IsActive = IsActive;
         }
 
@@ -73,11 +73,6 @@ namespace ProjectFirma.Web.Views.Solicitation
         {
             var errors = new List<ValidationResult>();
 
-            //var existingTags = HttpRequestStorage.DatabaseEntities.Tags.ToList();
-            //if (!TagModelExtensions.IsTagNameUnique(existingTags, SolicitationName, SolicitationID))
-            //{
-            //    errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.TagNameUnique, x => x.SolicitationName));
-            //}
 
             return errors;
         }

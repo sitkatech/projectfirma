@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[Solicitation](
 	[SolicitationID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[SolicitationName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[Instructions] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Instructions] [dbo].[html] NULL,
 	[IsActive] [bit] NOT NULL,
  CONSTRAINT [PK_Solicitation_SolicitationID] PRIMARY KEY CLUSTERED 
 (
@@ -22,7 +22,7 @@ CREATE TABLE [dbo].[Solicitation](
 	[SolicitationName] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
 ALTER TABLE [dbo].[Solicitation]  WITH CHECK ADD  CONSTRAINT [FK_Solicitation_Tenant_TenantID] FOREIGN KEY([TenantID])
