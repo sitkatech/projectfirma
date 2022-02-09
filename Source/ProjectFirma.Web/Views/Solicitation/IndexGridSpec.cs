@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
+using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
@@ -40,7 +43,7 @@ namespace ProjectFirma.Web.Views.Solicitation
             }
 
             Add($"{FieldDefinitionEnum.Solicitation.ToType().ToGridHeaderString()} Name", a => a.SolicitationName, 200, DhtmlxGridColumnFilterType.Text);
-            Add("Instructions", a => a.InstructionsHtmlString, 600, DhtmlxGridColumnFilterType.Html);
+            Add("Instructions", a => !string.IsNullOrEmpty(a.Instructions) ? a.InstructionsHtmlString : new HtmlString(string.Empty), 600, DhtmlxGridColumnFilterType.Html);
             Add("Is Active", a => a.IsActive.ToYesNo(), 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
