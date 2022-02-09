@@ -42,7 +42,8 @@ namespace ProjectFirma.Web.Views.Solicitation
         [StringLength(ProjectFirmaModels.Models.Solicitation.FieldLengths.SolicitationName)]
         public string SolicitationName { get; set; }
 
-        public HtmlString Instructions { get; set; }
+        [DisplayName("Attachment Instructions")]
+        public HtmlString AttachmentInstructions { get; set; }
 
         [DisplayName("Is Active?")]
         public bool IsActive { get; set; }
@@ -58,14 +59,14 @@ namespace ProjectFirma.Web.Views.Solicitation
         {
             SolicitationID = solicitation.SolicitationID;
             SolicitationName = solicitation.SolicitationName;
-            Instructions = solicitation.InstructionsHtmlString;
+            AttachmentInstructions = solicitation.AttachmentInstructionsHtmlString;
             IsActive = solicitation.IsActive;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Solicitation solicitation, FirmaSession currentFirmaSession)
         {
             solicitation.SolicitationName = SolicitationName;
-            solicitation.InstructionsHtmlString = Instructions;
+            solicitation.AttachmentInstructionsHtmlString = AttachmentInstructions;
             solicitation.IsActive = IsActive;
         }
 

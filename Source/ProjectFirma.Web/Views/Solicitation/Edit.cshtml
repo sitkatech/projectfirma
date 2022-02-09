@@ -44,11 +44,11 @@
         </div>
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.Instructions)
+                @Html.LabelWithSugarFor(m => m.AttachmentInstructions)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.CkEditorFor(m => m.Instructions, CkEditorExtension.CkEditorToolbar.Minimal, true, false, 300)
-                @Html.ValidationMessageFor(m => m.Instructions)
+                @Html.CkEditorFor(m => m.AttachmentInstructions, CkEditorExtension.CkEditorToolbar.Minimal, true, false, 300)
+                @Html.ValidationMessageFor(m => m.AttachmentInstructions)
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[Solicitation](
 	[SolicitationID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[SolicitationName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[Instructions] [dbo].[html] NULL,
+	[AttachmentInstructions] [dbo].[html] NULL,
 	[IsActive] [bit] NOT NULL,
  CONSTRAINT [PK_Solicitation_SolicitationID] PRIMARY KEY CLUSTERED 
 (

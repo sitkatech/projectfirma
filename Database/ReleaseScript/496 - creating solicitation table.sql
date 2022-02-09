@@ -4,7 +4,7 @@ create table dbo.Solicitation
 	SolicitationID int not null identity(1,1) constraint PK_Solicitation_SolicitationID primary key,
 	TenantID int not null constraint FK_Solicitation_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
 	SolicitationName varchar(200) not null,
-	Instructions html,
+	AttachmentInstructions html,
 	IsActive bit not null
 );
 

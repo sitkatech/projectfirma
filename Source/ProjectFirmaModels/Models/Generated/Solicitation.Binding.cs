@@ -31,11 +31,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Solicitation(int solicitationID, string solicitationName, string instructions, bool isActive) : this()
+        public Solicitation(int solicitationID, string solicitationName, string attachmentInstructions, bool isActive) : this()
         {
             this.SolicitationID = solicitationID;
             this.SolicitationName = solicitationName;
-            this.Instructions = instructions;
+            this.AttachmentInstructions = attachmentInstructions;
             this.IsActive = isActive;
         }
 
@@ -121,12 +121,12 @@ namespace ProjectFirmaModels.Models
         public int SolicitationID { get; set; }
         public int TenantID { get; set; }
         public string SolicitationName { get; set; }
-        public string Instructions { get; set; }
+        public string AttachmentInstructions { get; set; }
         [NotMapped]
-        public HtmlString InstructionsHtmlString
+        public HtmlString AttachmentInstructionsHtmlString
         { 
-            get { return Instructions == null ? null : new HtmlString(Instructions); }
-            set { Instructions = value?.ToString(); }
+            get { return AttachmentInstructions == null ? null : new HtmlString(AttachmentInstructions); }
+            set { AttachmentInstructions = value?.ToString(); }
         }
         public bool IsActive { get; set; }
         [NotMapped]
