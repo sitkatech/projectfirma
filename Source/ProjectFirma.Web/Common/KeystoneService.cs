@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Common
 
         public KeystoneApiResponse<KeystoneNewUserModel> Invite(KeystoneInviteModel inviteModel)
         {
-            var client = CreateClientWithAuthHeader();
+            var client = CreateClientWithAuthHeaderWithClientCert();
             var content = new StringContent(JsonConvert.SerializeObject(inviteModel), Encoding.UTF8, "application/json");
             var response = client.PostAsync(FirmaWebConfiguration.KeystoneInviteUserUrl, content).Result;
             return ProcessRepsonse<KeystoneNewUserModel>(response);
@@ -134,33 +134,20 @@ namespace ProjectFirma.Web.Common
             return client;
         }
 
-        private static X509Certificate GetClientCert()
+        private static X509Certificate2 GetClientCert()
         {
-            X509Store store = null;
-            try
-            {
-                store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-                store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadOnly);
+            var bytes = ConvertCertificateBase64ToBytes(FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificateBase64);
+            var cert = new X509Certificate2(bytes, "password");
+            return cert;
+        }
 
-                var certificateSerialNumber = "‎81 c6 62 0a 73 c7 b1 aa 41 06 a3 ce 62 83 ae 25".ToUpper().Replace(" ", string.Empty);
-
-                //Does not work for some reason, could be culture related
-                //var certs = store.Certificates.Find(X509FindType.FindBySerialNumber, certificateSerialNumber, true);
-
-                //if (certs.Count == 1)
-                //{
-                //    var cert = certs[0];
-                //    return cert;
-                //}
-
-                var cert = store.Certificates.Cast<X509Certificate>().FirstOrDefault(x => x.GetSerialNumberString().Equals(certificateSerialNumber, StringComparison.InvariantCultureIgnoreCase));
-
-                return cert;
-            }
-            finally
-            {
-                store?.Close();
-            }
+        private static byte[] ConvertCertificateBase64ToBytes(string projectFirmaKeystoneApiClientCertificateBase64)
+        {
+            const string beginCert = "-----BEGIN CERTIFICATE-----";
+            const string endCert = "-----END CERTIFICATE-----";
+            var justTheBase64Stuff = projectFirmaKeystoneApiClientCertificateBase64.Replace(beginCert, "").Replace(endCert, "")
+                .Trim();
+            return Convert.FromBase64String(justTheBase64Stuff);
         }
 
 

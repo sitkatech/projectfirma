@@ -416,6 +416,8 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         public ActionResult Invite(InviteViewModel viewModel)
         {
+            Check.Require(FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth, "Inviting users only applies to Keystone Authentication");
+
             var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
             var homeUrl = SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var supportUrl = SitkaRoute<HelpController>.BuildAbsoluteUrlHttpsFromExpression(x => x.RequestSupport());
