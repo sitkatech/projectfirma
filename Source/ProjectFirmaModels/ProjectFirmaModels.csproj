@@ -707,6 +707,10 @@
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeaf.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeafConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeafPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Solicitation.Binding.cs" />
+    <Compile Include="Models\Generated\Solicitation.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SolicitationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\SolicitationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StateProvinceConfiguration.Binding.cs" />
@@ -896,6 +900,7 @@
     <Compile Include="Models\ReportTemplate.cs" />
     <Compile Include="Models\ReportTemplateModel.cs" />
     <Compile Include="Models\ReportTemplateModelType.cs" />
+    <Compile Include="Models\Solicitation.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />
     <Compile Include="Models\TechnicalAssistanceRequest.cs" />

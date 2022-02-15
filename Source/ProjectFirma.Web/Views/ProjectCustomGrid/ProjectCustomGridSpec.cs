@@ -198,6 +198,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         Add(FieldDefinitionEnum.ProjectCategory.ToType().ToGridHeaderString(), x => x.ProjectCategory.ProjectCategoryDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     }
                     break;
+                case ProjectCustomGridColumnEnum.Solicitation:
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableSolicitations)
+                    {
+                        Add(FieldDefinitionEnum.Solicitation.ToType().ToGridHeaderString(), x => x.Solicitation != null ? x.Solicitation.SolicitationName : string.Empty, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    }
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

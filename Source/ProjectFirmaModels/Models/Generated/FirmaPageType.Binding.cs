@@ -199,6 +199,7 @@ namespace ProjectFirmaModels.Models
         ManageContactTypes = 82,
         ManageOrganizationTypes = 83,
         InternalMapLayers = 84,
-        ExternallySourcedGeospatialAreasInstructions = 85
+        ExternallySourcedGeospatialAreasInstructions = 85,
+        SolicitationIndex = 86
     }
 }

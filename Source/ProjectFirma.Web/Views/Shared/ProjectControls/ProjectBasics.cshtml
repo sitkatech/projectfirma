@@ -73,6 +73,25 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
     <hr />
+    @if (ViewDataTyped.TenantAttribute.EnableSolicitations )
+    {
+        <div class="row">
+            <div class="col-xs-5">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.Solicitation.ToType())
+            </div>
+            <div class="col-xs-7">
+                @if (ViewDataTyped.Project.Solicitation != null)
+                {
+                    @ViewDataTyped.Project.Solicitation.SolicitationName
+                }
+                else
+                {
+                    @Html.Raw("None")
+                }
+
+            </div>
+        </div>
+    }
     <div class="row">
         <div class="col-xs-5">
             @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStage.ToType())
@@ -101,7 +120,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 
-     <hr />
+    <hr />
 
     <div class="row">
         <div class="col-xs-6">

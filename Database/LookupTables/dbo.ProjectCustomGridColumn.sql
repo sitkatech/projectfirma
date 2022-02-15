@@ -30,4 +30,5 @@ values
 (25, 'ProjectStatus', 'Status', 1),
 (26, 'FinalStatusUpdateStatus', 'Final Status Update', 1),
 (27, 'ProjectCategory', 'Project Category', 1),
-(28, 'NumberOfExpectedPerformanceMeasureRecords', '# of Expected Performance Measures Records', 1)
+(28, 'NumberOfExpectedPerformanceMeasureRecords', '# of Expected Performance Measures Records', 1),
+(29, 'Solicitation', 'Solicitation', 1)

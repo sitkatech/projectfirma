@@ -21,6 +21,7 @@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ProjectAttachment
@@ -35,6 +36,14 @@
 
 
 <p>Add attachments and notes to the @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). When approved, the attachments and notes will be publicly visible.</p>
+
+@if (MultiTenantHelpers.HasSolicitations() && ViewDataTyped.Project.Solicitation != null)
+{
+    <div>
+        @ViewDataTyped.Project.Solicitation.AttachmentInstructionsHtmlString
+    </div>
+}
+
 <div style="min-height: 300px">
     <div>
         @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
