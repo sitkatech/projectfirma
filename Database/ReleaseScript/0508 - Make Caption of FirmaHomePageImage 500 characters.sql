@@ -1,0 +1,1 @@
+alter table dbo.FirmaHomePageImage alter column Caption varchar(500) not null

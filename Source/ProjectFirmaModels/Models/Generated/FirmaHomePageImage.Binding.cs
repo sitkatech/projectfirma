@@ -130,7 +130,7 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-            public const int Caption = 300;
+            public const int Caption = 500;
         }
     }
 }
