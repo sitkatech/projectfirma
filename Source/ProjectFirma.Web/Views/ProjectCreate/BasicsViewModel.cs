@@ -116,7 +116,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
             project.SolicitationID = SolicitationID;
-            project.ProposingPersonID = currentFirmaSession.PersonID;
+            if (!project.ProposingPersonID.HasValue)
+            {
+                project.ProposingPersonID = currentFirmaSession.PersonID;
+            }
             project.TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectID = ProjectID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectName = ProjectName;
