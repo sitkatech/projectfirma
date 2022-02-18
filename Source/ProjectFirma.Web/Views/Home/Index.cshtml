@@ -71,6 +71,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if (ViewDataTyped.TenantName.Equals("NCRPProjectTracker"))
+                                    {
+                                        <div id="exploreMoreButton" class="carousel-caption">
+                                            <a href="#homepageContent">
+                                                <div  style="padding-bottom: 30px; font-size: 22px;">EXPLORE</div>
+                                                <div class="exploreBarWrapper"></div>
+                                                <i style="font-size: 50px;" class="glyphicon glyphicon-circle-arrow-down" title="Explore" alt="Explore"></i>
+                                            </a>
+                                        </div>
+                                    }
                                 </div>
                             }
                         </div>
@@ -102,7 +112,7 @@
     }
 }
 
-<div class="container firmaContent">
+<div class="container firmaContent" id="homepageContent">
     @if (!ViewDataTyped.FirmaHomePageCarouselImages.Any())
     {
         <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
@@ -141,13 +151,13 @@
     }
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 fullWidth">
             <div>
                 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageTextViewData); }
             </div>
         </div>
 
-        <div class="col-md-4 homepageActionButtons">
+        <div class="col-md-4 fullWidth homepageActionButtons">
             @if (ViewDataTyped.DisplayActionButtons)
             {            
                 @ProjectCreateHelper.AddProjectButton()

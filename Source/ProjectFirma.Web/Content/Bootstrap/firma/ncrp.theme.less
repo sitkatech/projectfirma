@@ -885,10 +885,48 @@ nav#wizardNav ul li.workflowSection a:hover {
 }
 
 .carousel-caption{
-    bottom: 150px;
+    bottom: 250px;
 }
 
 //Classification System
 .classification .visibleText {
     top: 0 !important;
+}
+
+#exploreMoreButton {
+    bottom: 50px;
+}
+
+#exploreMoreButton a:hover {
+    opacity: .9;
+    text-decoration: none;
+}
+
+#exploreMoreButton a {
+    color: white;
+    opacity: .5;
+    filter: alpha(opacity=50);
+    transition: 0.25s;
+}
+
+.exploreBarWrapper {
+    display: block;
+    position: relative;
+    left: 42%;
+    width: 16%;
+}
+
+.exploreBarWrapper:after {
+    content: '';
+    display: block;
+    position: relative;
+    left: 25%;
+    width: 50%;
+    height: 2px;
+    margin-bottom: 30px;
+    background-color: white;
+}
+
+.fullWidth {
+    width: 100%;
 }
