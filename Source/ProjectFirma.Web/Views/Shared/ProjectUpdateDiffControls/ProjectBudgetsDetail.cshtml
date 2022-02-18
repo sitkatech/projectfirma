@@ -76,7 +76,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr class="@fundingSourceRequestAmount.DisplayCssClass">
             <td>
                 <span>@fundingSourceRequestAmount.FundingSource.GetDisplayNameAsUrl()</span>
-                <span style="font-style: italic"> - @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</span>
+                <span style="font-style: italic"> - @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</span>
             </td>
             <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
                 <span >@fundingSourceRequestAmount.SecuredAmount.ToStringCurrency()</span>
@@ -85,7 +85,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr class="@fundingSourceRequestAmount.DisplayCssClass">
             <td>
                 <span>@fundingSourceRequestAmount.FundingSource.GetDisplayNameAsUrl()</span>
-                <span style="font-style: italic"> - @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()</span>
+                <span style="font-style: italic"> - @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</span>
             </td>
             <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
                 <span >@fundingSourceRequestAmount.TargetedAmount.ToStringCurrency()</span>

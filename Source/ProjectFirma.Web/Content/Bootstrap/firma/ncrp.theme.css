@@ -31,7 +31,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #fff;
+  color: #424142;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
@@ -75,7 +75,7 @@ label,
   min-height: 100%;
 }
 .header {
-  background-color: #fff;
+  background-color: #e6e7e9;
   padding: 0px;
 }
 .header img {
@@ -430,16 +430,6 @@ table.summaryLayout th,
   background-color: #738c1f;
   border-color: #738c1f;
 }
-#contentForTOC .panelFirma .panelTitle a,
-#contentForTOC .panelFirma .panelTitle h2 a,
-#contentForTOC .panelFirma .panelTitle h3 a {
-  color: #fff;
-}
-#contentForTOC .panelFirma .panelTitle a .glyphicon,
-#contentForTOC .panelFirma .panelTitle h2 a .glyphicon,
-#contentForTOC .panelFirma .panelTitle h3 a .glyphicon {
-  color: #fff;
-}
 #contentForTOC .panelFirma .panelTitle .glyphicon,
 #contentForTOC .panelFirma .panelTitle h2 .glyphicon,
 #contentForTOC .panelFirma .panelTitle h3 .glyphicon {
@@ -483,6 +473,12 @@ div.gridbox table.hdr td {
 }
 div.gridbox_mm div.ftr td {
   background: #fff !important;
+}
+div.gridbox_mm table.hdr td label {
+  color: white;
+}
+div.gridbox_mm table.hdr td .helpicon {
+  color: white;
 }
 /* STANDARD */
 a.gridButton:hover {

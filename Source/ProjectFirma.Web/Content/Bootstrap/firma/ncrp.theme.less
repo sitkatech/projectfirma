@@ -49,7 +49,6 @@
 @LinkBlue: @PrimarySteele;
 
 @firma-text-color: #55575e;
-@firma-header-color: @PrimaryWhite;
 
 @firma-background-color: #fff;
 @firma-contentBackground-color: #fff;
@@ -59,7 +58,7 @@
 @firma-contentLink-color-hover: @PrimaryApricot;
 
 
-@firma-logoHeaderBackground-color: @PrimaryWhite;
+@firma-logoHeaderBackground-color: @PrimaryPebble;
 @firma-logoHeaderText-color: #55575e;
 
 @firma-navBackground-color: @PrimaryPebble;
@@ -89,7 +88,7 @@
 @firma-panel-projectpage-Background-color: @PrimaryWhite;
 
 @firma-pageTitle-color: @PrimarySlate;
-@firma-header-color: @PrimaryWhite;
+@firma-header-color: @PrimarySlate;
 
 @firma-helpIcon-color: @PrimarySlate;
 @firma-helpIconGrid-color: #fff;
@@ -600,13 +599,7 @@ footer#footer {
             border-color: @firma-panel-projectpage-border-color;
            
 
-            a {
-                color: @firma-panel-projectpage-headerText-color;
 
-                .glyphicon {
-                    color: @firma-panel-projectpage-headerText-color;
-                }
-            }
 
             .glyphicon {
                 color: @firma-panel-projectpage-headerText-color;
@@ -657,6 +650,16 @@ div.gridbox table.hdr td{
 div.gridbox_mm div.ftr td {
     background: #fff !important;
 }
+
+div.gridbox_mm table.hdr td {
+    label {
+        color: white;
+    }
+    .helpicon {
+        color: white;
+    }
+}
+
 /* STANDARD */
 a.gridButton:hover {
     background-color: @firma-buttonBackground-color-hover;
