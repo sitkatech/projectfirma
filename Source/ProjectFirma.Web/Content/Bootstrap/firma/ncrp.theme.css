@@ -674,6 +674,9 @@ table.table-striped {
 .carousel-caption {
   bottom: 250px;
 }
+#featuredProjectsCarouselInner {
+  height: 500px;
+}
 .classification .visibleText {
   top: 0 !important;
 }
