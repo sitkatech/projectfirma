@@ -207,6 +207,15 @@
             map.disableUserInteraction();
 
             jQuery('.leaflet-container').css('cursor', 'pointer');
+
+            // update Page Title and image caption location for NCRP Project Tracker
+            if ("@(ViewDataTyped.TenantName == "NCRPProjectTracker")" === "True") {
+                var heightOfTitleAndCaption = jQuery(".carousel-caption").height() + jQuery(".main-text").height();
+                var topBottom = heightOfTitleAndCaption + 50;
+                var topBottomCss = "calc(50vh - " + topBottom + "px)";
+                jQuery(".main-text").css("top", topBottomCss);
+                jQuery(".carousel-caption:not(#exploreMoreButton)").css("bottom", topBottomCss);
+            }
         })
     </script>
 </div>
