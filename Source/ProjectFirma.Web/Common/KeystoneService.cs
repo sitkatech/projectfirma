@@ -136,17 +136,14 @@ namespace ProjectFirma.Web.Common
 
         private static X509Certificate2 GetClientCert()
         {
-            var bytes = ConvertCertificateBase64ToBytes(FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificateBase64);
-            var cert = new X509Certificate2(bytes, "password");
+            var bytes = ConvertCertificatePfxBase64ToBytes(FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificatePfxBase64);
+            var cert = new X509Certificate2(bytes, FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificatePfxPassword);
             return cert;
         }
 
-        private static byte[] ConvertCertificateBase64ToBytes(string projectFirmaKeystoneApiClientCertificateBase64)
+        private static byte[] ConvertCertificatePfxBase64ToBytes(string projectFirmaKeystoneApiClientCertificatePfxBase64)
         {
-            const string beginCert = "-----BEGIN CERTIFICATE-----";
-            const string endCert = "-----END CERTIFICATE-----";
-            var justTheBase64Stuff = projectFirmaKeystoneApiClientCertificateBase64.Replace(beginCert, "").Replace(endCert, "")
-                .Trim();
+            var justTheBase64Stuff = projectFirmaKeystoneApiClientCertificatePfxBase64.Trim();
             return Convert.FromBase64String(justTheBase64Stuff);
         }
 

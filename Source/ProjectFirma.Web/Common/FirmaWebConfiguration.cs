@@ -58,7 +58,8 @@ namespace ProjectFirma.Web.Common
         public static readonly Guid KeystoneWebServiceApplicationGuid = Guid.Parse(SitkaConfiguration.GetRequiredAppSetting("KeystoneWebServiceApplicationGuid"));
         
         public static readonly string KeystoneOpenIDUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneOpenIDUrl");
-        public static readonly string ProjectFirmaKeystoneApiClientCertificateBase64 = SitkaConfiguration.GetRequiredAppSetting("ProjectFirmaKeystoneApiClientCertificateBase64");
+        public static readonly string ProjectFirmaKeystoneApiClientCertificatePfxBase64 = SitkaConfiguration.GetRequiredAppSetting("ProjectFirmaKeystoneApiClientCertificatePfxBase64");
+        public static readonly string ProjectFirmaKeystoneApiClientCertificatePfxPassword = SitkaConfiguration.GetRequiredAppSetting("ProjectFirmaKeystoneApiClientCertificatePfxPassword");
         public static readonly DirectoryInfo LogFileFolder = ParseLogFileFolder();
 
         public static readonly string RecaptchaPublicKey = SitkaConfiguration.GetRequiredAppSetting("RecaptchaPublicKey");

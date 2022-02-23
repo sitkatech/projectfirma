@@ -74,8 +74,11 @@
     <!-- Feature Flag Settings -->
     <add key="FeatureMatchMakerEnabled" value="${feature-match-maker-enabled}" />
 
+    <!-- Client Cert Password for API for connecting to Keystone Invite API - only needed if using Keystone Authentication -->
+    <add key="ProjectFirmaKeystoneApiClientCertificatePfxPassword" value="${project-firma-keystone-api-client-certificate-pfx-password}" />
+
     <!-- Client Cert for API for connecting to Keystone Invite API - only needed if using Keystone Authentication -->
-    <add key="ProjectFirmaKeystoneApiClientCertificateBase64" value="${project-firma-keystone-api-client-certificate-base64}" />
+    <add key="ProjectFirmaKeystoneApiClientCertificatePfxBase64" value="${project-firma-keystone-api-client-certificate-pfx-base64}" />
   </appSettings>
   <system.net>
     <mailSettings>
