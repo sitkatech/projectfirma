@@ -18,23 +18,27 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Controllers
 @using Microsoft.Web.Mvc
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.FirmaHomePageImage.Edit
 @using (Html.BeginForm<FirmaHomePageImageController>(x => x.Edit(ViewDataTyped.FirmaHomePageImage.FirmaHomePageImageID, null), FormMethod.Post, new {enctype = "multipart/form-data"}))
 {
-    <div class="row form-group">
-        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.Caption)</div>
-        <div class="col-md-8">
-            @Html.TextBoxFor(x => x.Caption, new {style = "width:380px"})
-            <div class="smallExplanationText">Be concise yet descriptive. Thumbnails above will display by sort order specified.</div>
+    <div class="form-horizontal">
+        <div class="row form-group">
+            <div class="col-md-4 control-label">@Html.LabelWithSugarFor(x => x.Caption)</div>
+            <div class="col-md-8">
+                @Html.TextAreaWithMaxLengthFor(m => m.Caption, new TextAreaForExtensions.TextAreaDimensions(null, 5), null, new List<string> {"form-control"})
+                <div class="smallExplanationText">Be concise yet descriptive. Thumbnails above will display by sort order specified.</div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-4 control-label">@Html.LabelWithSugarFor(x => x.SortOrder)</div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(x => x.SortOrder, new { style = "width:50px", type = "number", @class = "form-control" })
+            </div>
         </div>
     </div>
-    <div class="row form-group">
-        <div class="col-md-4">@Html.LabelWithSugarFor(x => x.SortOrder)</div>
-        <div class="col-md-8">
-            @Html.TextBoxFor(x => x.SortOrder, new { style = "width:50px", type = "number" })
-        </div>
-    </div>
+    
 }

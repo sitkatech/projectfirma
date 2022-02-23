@@ -118,6 +118,13 @@ namespace ProjectFirma.Web.Common
 
         public static string GetTenantSquareLogScaledAsIconoUrl()
         {
+            if (HttpRequestStorage.Tenant == Tenant.NCRPProjectTracker)
+            {
+                return GetTenantAttributeFromCache().TenantSquareLogoFileResourceInfo != null
+                    ? GetTenantAttributeFromCache().TenantSquareLogoFileResourceInfo
+                        .FileResourceUrlScaledThumbnail(375)
+                    : "/Content/img/ProjectFirma_Logo_Square.png";
+            }
             return GetTenantAttributeFromCache().TenantSquareLogoFileResourceInfo != null
                 ? GetTenantAttributeFromCache().TenantSquareLogoFileResourceInfo
                     .FileResourceUrlScaledThumbnail(100)

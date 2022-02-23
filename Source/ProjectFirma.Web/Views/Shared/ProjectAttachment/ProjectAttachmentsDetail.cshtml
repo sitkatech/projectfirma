@@ -10,7 +10,7 @@
 
 @if (MultiTenantHelpers.HasAttachmentTypeConfigured())
 {
-    <div class="pull-right">
+    <div style="text-align: right; padding-bottom: 25px;">
         @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Attachment", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddAttachmentUrl, "Upload New Attachment", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditAttachments)
     </div>
 }
@@ -38,7 +38,7 @@ else
 {
     var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentType.AttachmentTypeID == attachmentType.AttachmentTypeID).ToList();
      
-    <div class="row">
+    <div class="row" style="padding-bottom: 25px;">
         <div class="col-sm-3">
             <p><strong>@attachmentType.AttachmentTypeName</strong></p>
             <div class="help-block">

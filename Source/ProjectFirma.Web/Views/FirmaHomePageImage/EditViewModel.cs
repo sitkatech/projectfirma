@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
     {
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.PhotoCaption)]
-        [StringLength(ProjectFirmaModels.Models.ProjectImage.FieldLengths.Caption)]
+        [StringLength(ProjectFirmaModels.Models.FirmaHomePageImage.FieldLengths.Caption)]
         public string Caption { get; set; }
 
         [Required]

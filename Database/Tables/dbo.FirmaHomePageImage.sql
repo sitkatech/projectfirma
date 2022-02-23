@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[FirmaHomePageImage](
 	[FirmaHomePageImageID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[FileResourceInfoID] [int] NOT NULL,
-	[Caption] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Caption] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[SortOrder] [int] NOT NULL,
  CONSTRAINT [PK_FirmaHomePageImage_FirmaHomePageImageID] PRIMARY KEY CLUSTERED 
 (

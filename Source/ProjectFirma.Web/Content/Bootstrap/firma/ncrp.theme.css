@@ -31,7 +31,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #fff;
+  color: #424142;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   letter-spacing: 1px;
@@ -75,7 +75,7 @@ label,
   min-height: 100%;
 }
 .header {
-  background-color: #fff;
+  background-color: #e6e7e9;
   padding: 0px;
 }
 .header img {
@@ -430,16 +430,6 @@ table.summaryLayout th,
   background-color: #738c1f;
   border-color: #738c1f;
 }
-#contentForTOC .panelFirma .panelTitle a,
-#contentForTOC .panelFirma .panelTitle h2 a,
-#contentForTOC .panelFirma .panelTitle h3 a {
-  color: #fff;
-}
-#contentForTOC .panelFirma .panelTitle a .glyphicon,
-#contentForTOC .panelFirma .panelTitle h2 a .glyphicon,
-#contentForTOC .panelFirma .panelTitle h3 a .glyphicon {
-  color: #fff;
-}
 #contentForTOC .panelFirma .panelTitle .glyphicon,
 #contentForTOC .panelFirma .panelTitle h2 .glyphicon,
 #contentForTOC .panelFirma .panelTitle h3 .glyphicon {
@@ -483,6 +473,12 @@ div.gridbox table.hdr td {
 }
 div.gridbox_mm div.ftr td {
   background: #fff !important;
+}
+div.gridbox_mm table.hdr td label {
+  color: white;
+}
+div.gridbox_mm table.hdr td .helpicon {
+  color: white;
 }
 /* STANDARD */
 a.gridButton:hover {
@@ -628,8 +624,23 @@ nav#wizardNav ul li.workflowSection a:hover {
     font-size: 32px;
   }
 }
+.homepageActionButtons {
+  margin-top: 50px;
+}
 .homepageActionButtons a {
   margin-top: 4px;
+}
+.homepageActionButtons h4 {
+  font-size: 24px;
+}
+.homepageActionButtonsAlignRight {
+  float: right;
+}
+.featuredProjectsWrapper {
+  margin-top: 50px;
+}
+.featuredProjectsWrapper h4 {
+  font-size: 24px;
 }
 table.table-striped {
   border: 1px solid #ddd;
@@ -651,6 +662,7 @@ table.table-striped {
 }
 .main-text {
   width: 100%;
+  top: auto;
 }
 .main-text h1 {
   text-align: center;
@@ -669,6 +681,11 @@ table.table-striped {
     font-size: 60px;
   }
 }
+@media only screen and (min-width: 992px) {
+  .main-text {
+    top: 30%;
+  }
+}
 #homepageCarousel .carousel-inner .item .carousel-caption p {
   font-size: 18px;
   float: none;
@@ -676,8 +693,48 @@ table.table-striped {
   text-align: center;
 }
 .carousel-caption {
-  bottom: 150px;
+  bottom: 250px;
+}
+#homepageCarousel {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#featuredProjectsCarouselInner {
+  height: 500px;
 }
 .classification .visibleText {
   top: 0 !important;
+}
+#exploreMoreButton {
+  bottom: 50px;
+}
+#exploreMoreButton a:hover {
+  opacity: 0.9;
+  text-decoration: none;
+}
+#exploreMoreButton a {
+  color: white;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  transition: 0.25s;
+}
+.exploreBarWrapper {
+  display: block;
+  position: relative;
+  left: 42%;
+  width: 16%;
+}
+.exploreBarWrapper:after {
+  content: '';
+  display: block;
+  position: relative;
+  left: 25%;
+  width: 50%;
+  height: 2px;
+  margin-bottom: 30px;
+  background-color: white;
+}
+.fullWidth {
+  width: 100%;
 }

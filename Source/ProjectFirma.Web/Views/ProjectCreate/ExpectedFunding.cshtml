@@ -113,7 +113,9 @@
                             ng-bind="fundingSource.DisplayName"
                             data-tokens="{{fundingSource.DisplayName}} {{fundingSource.OrganizationFullName}}"></option>
                 </select>
-                <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
+                <span class="input-group-btn">
+                    <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
+                </span>
                 <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
                     Not listed?
                     @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
@@ -136,7 +138,7 @@
                     </td>
                     <td>
                         <span ng-bind="getFundingSourceName(projectFundingSourceBudget)"></span>
-                        <span style="font-style: italic"> - @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</span>
+                        <span style="font-style: italic"> - @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</span>
                     </td>
                     <td style="text-align: right">
                         <input type="text" style="text-align: right" ng-model="projectFundingSourceBudget.SecuredAmount" class="sitkaCurrency form-control " ng-currency/>
@@ -146,7 +148,7 @@
                     <td></td>
                     <td>
                         <span ng-bind="getFundingSourceName(projectFundingSourceBudget)"></span>
-                        <span style="font-style: italic"> - @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()</span>
+                        <span style="font-style: italic"> - @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</span>
                     </td>
                     <td style="text-align: right">
                         <input type="text" style="text-align: right" ng-model="projectFundingSourceBudget.TargetedAmount" class="sitkaCurrency form-control" ng-currency/>

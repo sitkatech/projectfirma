@@ -46,63 +46,106 @@
     {
         <div class="container-fluid">
             <div class="row">
-                @* ReSharper disable once UnknownCssClass *@
-                <div class="col-md-12 homepageCarouselFullWidthColumn">
-                    @* ReSharper disable once UnknownCssClass *@
-                    <div id="homepageCarousel" class="carousel slide" data-ride="carousel" data-interval="8000">
-                        <ol class="carousel-indicators">
-                            @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
+                @if (ViewDataTyped.TenantName.Equals("NCRPProjectTracker"))
+                {
+                    <div class="col-md-12 homepageCarouselFullWidthColumn">
+                        <div >
+                            @if (ViewDataTyped.FirmaHomePageCarouselImages.Any())
                             {
-                                for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
-                                {
-                                    <li data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
-                                }
-                            }
-                        </ol>
-                        <div class="carousel-inner" role="listbox">
-                            @for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
-                            {
-                                var firmaSiteImage = ViewDataTyped.FirmaHomePageCarouselImages[i];
-                                <div class="item@(i == 0 ? " active" : null)" style="background-image: url('@firmaSiteImage.FileResourceInfo.GetFileResourceUrl()')">
-                                    <div class="carousel-caption">
+                                var firmaSiteImage = ViewDataTyped.FirmaHomePageCarouselImages[0];
+                                <div id="homepageCarousel" style="background-image: url('@firmaSiteImage.FileResourceInfo.GetFileResourceUrl()')">
+                                    <div class="main-text">
                                         <div class="container">
+                                            <div class="col-md-12">
+                                                <h1>@ViewDataTyped.PageTitle</h1>
+                                            </div>
                                             <div class="col-md-12">
                                                 <p>@firmaSiteImage.Caption</p>
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="exploreMoreButton" class="carousel-caption">
+                                        <a href="#homepageContent">
+                                            <div style="padding-bottom: 30px; font-size: 22px;">EXPLORE</div>
+                                            <div class="exploreBarWrapper"></div>
+                                            <i style="font-size: 50px;" class="glyphicon glyphicon-circle-arrow-down" title="Explore" alt="Explore"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             }
                         </div>
-                        @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
-                        {
-                            <a href="#homepageCarousel" class="carousel-control left" role="button" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a href="#homepageCarousel" class="carousel-control right" role="button" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        }
-
                     </div>
+                }
+                else
+                {
                     @* ReSharper disable once UnknownCssClass *@
-                    <div class="afterHomepageCarousel"></div>
-                    <div class="main-text">
-                        <div class="container">
-                            <div class="col-md-12">
-                                <h1>@ViewDataTyped.PageTitle</h1>
+                    <div class="col-md-12 homepageCarouselFullWidthColumn">
+                        @* ReSharper disable once UnknownCssClass *@
+                        <div id="homepageCarousel" class="carousel slide" data-ride="carousel" data-interval="8000">
+                            <ol class="carousel-indicators">
+                                @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
+                                {
+                                    for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
+                                    {
+                                        <li data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
+                                    }
+                                }
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+                                @for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
+                                {
+                                    var firmaSiteImage = ViewDataTyped.FirmaHomePageCarouselImages[i];
+                                    <div class="item@(i == 0 ? " active" : null)" style="background-image: url('@firmaSiteImage.FileResourceInfo.GetFileResourceUrl()')">
+                                        <div class="carousel-caption">
+                                            <div class="container">
+                                                <div class="col-md-12">
+                                                    <p>@firmaSiteImage.Caption</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (ViewDataTyped.TenantName.Equals("NCRPProjectTracker"))
+                                        {
+                                            <div id="exploreMoreButton" class="carousel-caption">
+                                                <a href="#homepageContent">
+                                                    <div style="padding-bottom: 30px; font-size: 22px;">EXPLORE</div>
+                                                    <div class="exploreBarWrapper"></div>
+                                                    <i style="font-size: 50px;" class="glyphicon glyphicon-circle-arrow-down" title="Explore" alt="Explore"></i>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                            @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
+                            {
+                                <a href="#homepageCarousel" class="carousel-control left" role="button" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a href="#homepageCarousel" class="carousel-control right" role="button" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            }
+
+                        </div>
+                        @* ReSharper disable once UnknownCssClass *@
+                        <div class="afterHomepageCarousel"></div>
+                        <div class="main-text">
+                            <div class="container">
+                                <div class="col-md-12">
+                                    <h1>@ViewDataTyped.PageTitle</h1>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     }
 }
 
-<div class="container firmaContent">
+<div class="container firmaContent" id="homepageContent">
     @if (!ViewDataTyped.FirmaHomePageCarouselImages.Any())
     {
         <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
@@ -141,17 +184,19 @@
     }
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 fullWidth">
             <div>
                 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageTextViewData); }
             </div>
         </div>
 
-        <div class="col-md-4 homepageActionButtons">
+        <div class="col-md-4 fullWidth homepageActionButtons">
             @if (ViewDataTyped.DisplayActionButtons)
-            {            
-                @ProjectCreateHelper.AddProjectButton()
-                <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</a>
+            {    
+                <div class="homepageActionButtonsAlignRight">
+                    @ProjectCreateHelper.AddProjectButton()
+                    <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</a>
+                </div>
             }
             <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Map</h4>
             <div>
@@ -167,7 +212,7 @@
 
     @if (ViewDataTyped.FeaturedProjectsViewData.FeaturedProjects.Any())
     {
-        <div class="row">
+        <div class="row featuredProjectsWrapper">
             <div class="col-md-12">
                 <h4>Featured @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h4>
                 @{ FeaturedProjects.RenderPartialView(Html, ViewDataTyped.FeaturedProjectsViewData); }
@@ -197,6 +242,7 @@
             map.disableUserInteraction();
 
             jQuery('.leaflet-container').css('cursor', 'pointer');
+
         })
     </script>
 </div>

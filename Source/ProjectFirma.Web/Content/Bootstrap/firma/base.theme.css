@@ -2,7 +2,7 @@
   font-family: 'Basic';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/basic/v10/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/basic/v15/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
@@ -22,13 +22,13 @@
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/montserrat/v18/JTUSjIg1_i6t8kCHKm459Wlhzg.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/montserrat/v23/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aX8.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/montserrat/v18/JTURjIg1_i6t8kCHKm45_dJE3gnD-w.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/montserrat/v23/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
@@ -46,13 +46,13 @@
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v15/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v24/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
 }
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v15/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v24/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
 }
 html,
 body {
@@ -1159,6 +1159,9 @@ td.stage {
 }
 #featuredProjectsCarousel .carousel-indicators .active {
   background-color: #eee;
+}
+#featuredProjectsCarouselInner {
+  height: 440px;
 }
 .homepageCarouselFullWidthColumn {
   padding-left: 0;
