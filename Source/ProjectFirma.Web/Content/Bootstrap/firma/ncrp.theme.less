@@ -820,28 +820,48 @@ nav#wizardNav ul li.workflowSection a:hover {
 }
 
 //Home page image carousel customizations
-    @media only screen and (min-width: 768px) {
-        .main-text h1 {
-            font-size: 32px;
-        }
+@media only screen and (min-width: 768px) {
+    .main-text h1 {
+        font-size: 32px;
     }
+}
 
-    .homepageActionButtons a {
+.homepageActionButtons {
+    margin-top: 50px;
+
+    a {
         margin-top: 4px;
     }
-    //Tables
-    table.table-striped {
-        border: 1px solid #ddd;
-    }
 
-    //Accomplishment Dashboard
-    #accomplishmentsDashboard {
-        h1 {
-            text-transform: uppercase;
-            color: @firma-pageTitle-color !important;
-        }
+    h4 {
+        font-size: 24px;
     }
-    //Pop ups
+}
+
+.homepageActionButtonsAlignRight {
+    float: right
+}
+
+.featuredProjectsWrapper {
+    margin-top: 50px;
+
+    h4 {
+        font-size: 24px;
+    }
+}
+//Tables
+table.table-striped {
+    border: 1px solid #ddd;
+}
+
+//Accomplishment Dashboard
+#accomplishmentsDashboard {
+    h1 {
+        text-transform: uppercase;
+        color: @firma-pageTitle-color !important;
+    }
+}
+//Pop ups
 .ui-tooltip-help {
     border: 1px solid @PrimarySlate;
     background-color: @SecondaryWhite;
@@ -859,6 +879,7 @@ nav#wizardNav ul li.workflowSection a:hover {
 //Homepage carousel
 .main-text {
     width: 100%;
+    top: auto;
 }
 
 .main-text h1 {
@@ -880,6 +901,12 @@ nav#wizardNav ul li.workflowSection a:hover {
     }
 }
 
+@media only screen and (min-width: 992px){
+    .main-text {
+        top: 30%;
+    }
+}
+
 #homepageCarousel .carousel-inner .item .carousel-caption p {
     font-size: 18px;
     float: none;
@@ -889,6 +916,12 @@ nav#wizardNav ul li.workflowSection a:hover {
 
 .carousel-caption{
     bottom: 250px;
+}
+
+#homepageCarousel {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 #featuredProjectsCarouselInner {

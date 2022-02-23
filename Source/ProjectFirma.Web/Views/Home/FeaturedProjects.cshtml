@@ -51,7 +51,7 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 var featuredProject = ViewDataTyped.FeaturedProjects[index];
                 <div class="item@((index == 0) ? " active" : String.Empty)">
-                    <div  >
+                    <div class="summaryLayout">
                         <div>
                             @* It doesn't seem likely you'd make a Terminated project a featured one, but you never know... *@
                             @if (OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(ViewDataTyped.CurrentFirmaSession, featuredProject))

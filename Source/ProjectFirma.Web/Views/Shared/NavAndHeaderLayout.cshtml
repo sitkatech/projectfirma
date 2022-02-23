@@ -262,7 +262,14 @@ Source code is available upon request via <support@sitkatech.com>.
                     });
                     var heightCss = "calc(100vh - " + heightOfTopSections + "px)";
                     jQuery("#homepageCarousel").css("height", heightCss);
-                    jQuery("#homepageCarousel .carousel-inner .item").css("height", heightCss);
+                    // for small screens, adjust height so "Explore" link does not overlap the Title and Caption
+                    var heightOfTitleAndCaption = jQuery(".main-text").height();
+                    jQuery(".carousel-caption").each(function() {
+                        heightOfTitleAndCaption = heightOfTitleAndCaption + $(this).height();
+                    });
+                    if (jQuery("#homepageCarousel").height() < heightOfTitleAndCaption) {
+                        jQuery("#homepageCarousel").css("height", "calc(100vh + " + jQuery(".carousel-caption").height() + "px)");
+                    }
                 }
             });
             // ]]>
