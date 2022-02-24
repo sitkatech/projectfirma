@@ -251,10 +251,18 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             List<ProjectCustomGridConfiguration> projectCustomGridConfigurations,
             ProjectCustomGridTypeEnum projectCustomGridTypeEnum,
             Dictionary<int, vProjectDetail> projectDetailsDictionary,
-            ProjectFirmaModels.Models.Tenant tenant)
+            ProjectFirmaModels.Models.Tenant tenant): this(currentFirmaSession, projectCustomGridConfigurations, projectCustomGridTypeEnum, projectDetailsDictionary, tenant, true)
+        {
+        }
+
+        public ProjectCustomGridSpec(FirmaSession currentFirmaSession,
+            List<ProjectCustomGridConfiguration> projectCustomGridConfigurations,
+            ProjectCustomGridTypeEnum projectCustomGridTypeEnum,
+            Dictionary<int, vProjectDetail> projectDetailsDictionary,
+            ProjectFirmaModels.Models.Tenant tenant, bool shouldShowDeleteColumn)
         {
             bool userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            bool userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            bool userHasDeletePermissionsAndShouldShowColumn = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession) && shouldShowDeleteColumn;
             bool userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             bool userHasReportDownloadPermissions = new ReportTemplateGenerateReportsFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var geospatialAreas = HttpRequestStorage.DatabaseEntities.vGeospatialAreas.Where(x => x.TenantID == tenant.TenantID).ToDictionary(x => x.GeospatialAreaID);
@@ -274,7 +282,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     x.RoleID == ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID).Select(x => x.PersonID).ToList();
 
             // Mandatory fields before
-            AddMandatoryFieldsBefore(userHasTagManagePermissions, userHasReportDownloadPermissions, userHasDeletePermissions, projectCustomGridTypeEnum);
+            AddMandatoryFieldsBefore(userHasTagManagePermissions, userHasReportDownloadPermissions, userHasDeletePermissionsAndShouldShowColumn, projectCustomGridTypeEnum);
             
             // Implement configured fields here
             AddConfiguredFields(currentFirmaSession
