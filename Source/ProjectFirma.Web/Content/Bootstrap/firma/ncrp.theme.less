@@ -901,7 +901,19 @@ table.table-striped {
     }
 }
 
-@media only screen and (min-width: 992px){
+@media only screen and (min-width: 992px) and (min-height: 568px) {
+    .main-text {
+        top: 15%;
+    }
+}
+
+@media only screen and (min-width: 992px) and (min-height: 668px) {
+    .main-text {
+        top: 25%;
+    }
+}
+
+@media only screen and (min-width: 992px) and (min-height: 736px) {
     .main-text {
         top: 30%;
     }
@@ -935,7 +947,7 @@ table.table-striped {
 }
 
 #exploreMoreButton {
-    bottom: 50px;
+    bottom: 0;
 }
 
 #exploreMoreButton a:hover {
@@ -950,22 +962,61 @@ table.table-striped {
     transition: 0.25s;
 }
 
+.exploreMoreText {
+    padding-bottom: 20px;
+    font-size: 18px;
+}
+
 .exploreBarWrapper {
     display: block;
     position: relative;
-    left: 42%;
-    width: 16%;
+    left: 40%;
+    width: 20%;
 }
 
 .exploreBarWrapper:after {
     content: '';
     display: block;
     position: relative;
-    left: 25%;
-    width: 50%;
+    left: 20%;
+    width: 60%;
     height: 2px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     background-color: white;
+}
+
+@media only screen and (min-width: 768px) {
+    .exploreMoreText {
+        //padding-bottom: 30px;
+        font-size: 22px;
+    }
+
+    .exploreBarWrapper:after {
+        //margin-bottom: 30px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .exploreBarWrapper {
+        left: 42%;
+        width: 16%;
+    }
+
+    .exploreBarWrapper:after {
+        left: 25%;
+        width: 50%;
+        //margin-bottom: 30px;
+    }
+}
+
+@media only screen and (min-height: 668px) {
+    .exploreMoreText {
+        padding-bottom: 30px;
+    }
+
+    .exploreBarWrapper:after {
+        margin-bottom: 30px;
+    }
 }
 
 .fullWidth {
