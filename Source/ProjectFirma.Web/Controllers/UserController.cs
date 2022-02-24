@@ -456,7 +456,7 @@ namespace ProjectFirma.Web.Controllers
                     SignatureBlock = $"The {toolDisplayName} team"
                 };
 
-                var keystoneService = new KeystoneService(HttpRequestStorage.GetHttpContextUserThroughOwin());
+                var keystoneService = new KeystoneService();
                 keystoneNewUserResponse = keystoneService.Invite(inviteModel);
                 if (keystoneNewUserResponse.StatusCode != HttpStatusCode.OK || keystoneNewUserResponse.Error != null)
                 {

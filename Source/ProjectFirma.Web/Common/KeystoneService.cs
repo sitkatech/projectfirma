@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
 using System.Text;
 using Newtonsoft.Json;
 
@@ -14,8 +11,6 @@ namespace ProjectFirma.Web.Common
 {
     public class KeystoneService
     {
-        private readonly IPrincipal _principal;
-
         public class KeystoneInviteModel
         {
             public virtual string FirstName { get; set; }
@@ -44,41 +39,13 @@ namespace ProjectFirma.Web.Common
             public string Message { get; set; }
             public Dictionary<string, string[]> ModelState { get; set; }
         }
+
         public class KeystoneNewUserModel
         {
             public bool Created { get; set; }
             public KeystoneUserClaims Claims { get; set; }
         }
 
-        public class KeystoneProfileModel
-        {
-            public Guid UserGuid { get; set; }
-            public string Email { get; set; }
-            public string UserName { get; set; }
-            public string Prefix { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string Suffix { get; set; }
-            public string JobTitle { get; set; }
-            public string PrimaryPhone { get; set; }
-            public string PrimaryPhoneExtension { get; set; }
-            public string Bio { get; set; }
-            public string Publications { get; set; }
-            public string Address1 { get; set; }
-            public string Address2 { get; set; }
-            public string City { get; set; }
-            public string PostalCode { get; set; }
-            public string PersonalURL { get; set; }
-            public string FacebookURL { get; set; }
-            public string TwitterURL { get; set; }
-            public string LinkedInURL { get; set; }
-            public string FacultyURL { get; set; }
-            public string CountryID { get; set; }
-            public string OrganizationName { get; set; }
-            public string StateID { get; set; }
-            public int TimezoneID { get; set; }
-
-        }
         public class KeystoneUserClaims
         {
             public Guid UserGuid { get; set; }
@@ -101,52 +68,37 @@ namespace ProjectFirma.Web.Common
             public string PersonalURL { get; set; }
         }
 
-        public KeystoneService(IPrincipal principal)
-        {
-            _principal = principal;
-        }
-
         public KeystoneApiResponse<KeystoneNewUserModel> Invite(KeystoneInviteModel inviteModel)
         {
-            var client = CreateClientWithAuthHeaderWithClientCert();
+            var httpClient = CreateHttpClientWithClientCert();
             var content = new StringContent(JsonConvert.SerializeObject(inviteModel), Encoding.UTF8, "application/json");
-            var response = client.PostAsync(FirmaWebConfiguration.KeystoneInviteUserUrl, content).Result;
+            var response = httpClient.PostAsync(FirmaWebConfiguration.KeystoneInviteUserUrl, content).Result;
             return ProcessRepsonse<KeystoneNewUserModel>(response);
         }
 
-        private HttpClient CreateClientWithAuthHeader()
+        public HttpClient CreateHttpClientWithClientCert()
         {
-            var client = new HttpClient();
-            var claimsIdentity = (ClaimsIdentity)_principal.Identity;
-            var accessToken = claimsIdentity.Claims.FirstOrDefault(x => x.Type == "access_token");
-            var bearerToken = $"Bearer {accessToken?.Value}"; //this includes the word "Bearer"
-            client.DefaultRequestHeaders.Add("Authorization", bearerToken);
-            return client;
+            var webRequestHandler = new WebRequestHandler();
+            webRequestHandler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            webRequestHandler.ClientCertificates.Add(GetProjectFirmaKeystoneApiClientCertificate());
+            webRequestHandler.UseProxy = false;
+            return new HttpClient(webRequestHandler);
         }
 
-        public HttpClient CreateClientWithAuthHeaderWithClientCert()
+        private static X509Certificate2 GetProjectFirmaKeystoneApiClientCertificate()
         {
-            var handler = new WebRequestHandler();
-            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-            handler.ClientCertificates.Add(GetClientCert());
-            handler.UseProxy = false;
-            var client = new HttpClient(handler);
-            return client;
+            try
+            {
+                var trimmedBase64 = FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificatePfxBase64.Trim();
+                var bytes = Convert.FromBase64String(trimmedBase64);
+                var clientCert = new X509Certificate2(bytes, FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificatePfxPassword);
+                return clientCert;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException($"Had problem loading Keystone API Client Certificate, check configuration for valid values for {nameof(FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificatePfxBase64)} and {nameof(FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificatePfxPassword)}", ex);
+            }
         }
-
-        private static X509Certificate2 GetClientCert()
-        {
-            var bytes = ConvertCertificatePfxBase64ToBytes(FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificatePfxBase64);
-            var cert = new X509Certificate2(bytes, FirmaWebConfiguration.ProjectFirmaKeystoneApiClientCertificatePfxPassword);
-            return cert;
-        }
-
-        private static byte[] ConvertCertificatePfxBase64ToBytes(string projectFirmaKeystoneApiClientCertificatePfxBase64)
-        {
-            var justTheBase64Stuff = projectFirmaKeystoneApiClientCertificatePfxBase64.Trim();
-            return Convert.FromBase64String(justTheBase64Stuff);
-        }
-
 
         private static KeystoneApiResponse<T> ParseError<T>(HttpResponseMessage response)
         {
@@ -162,7 +114,6 @@ namespace ProjectFirma.Web.Common
                 }
             }
         }
-
 
         private static KeystoneApiResponse<T> ProcessRepsonse<T>(HttpResponseMessage response)
         {
