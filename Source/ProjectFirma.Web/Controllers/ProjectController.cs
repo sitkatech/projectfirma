@@ -564,7 +564,19 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new ProposalsGridSpec(CurrentFirmaSession);
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetProposalsVisibleToUser(CurrentFirmaSession);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
+            List<Project> filteredProposals;
+            if (CurrentFirmaSession.Role == Role.Normal && !MultiTenantHelpers.ShowProposalsToThePublic())
+            {
+                filteredProposals = proposals.Where(x =>
+                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))
+                    .ToList();
+            }
+            else
+            {
+                filteredProposals = proposals;
+            }
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredProposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -581,18 +593,18 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new PendingGridSpec(CurrentFirmaSession);
             var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects());
-            List<Project> filteredProposals;
+            List<Project> filteredPendingProjects;
             if (CurrentFirmaSession.Role == Role.Normal)
             {
-                filteredProposals = pendingProjects.Where(x =>
+                filteredPendingProjects = pendingProjects.Where(x =>
                         x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))
                     .ToList();
             }
             else
             {
-                filteredProposals = pendingProjects;
+                filteredPendingProjects = pendingProjects;
             }
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredProposals, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredPendingProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

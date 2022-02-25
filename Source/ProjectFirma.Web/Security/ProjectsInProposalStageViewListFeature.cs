@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Security
     public class ProjectsInProposalStageViewListFeature : FirmaFeature
     {
         public ProjectsInProposalStageViewListFeature()
-            : base(MultiTenantHelpers.ShowProposalsToThePublic() ? new List<Role>() : FirmaBaseFeatureHelpers.AllRolesExceptUnassigned)
+            : base(MultiTenantHelpers.ShowProposalsToThePublic() ? Role.All : FirmaBaseFeatureHelpers.AllRolesExceptUnassigned)
         {
         }
     }
