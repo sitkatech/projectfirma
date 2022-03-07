@@ -123,12 +123,12 @@ namespace ProjectFirma.Web.Controllers
                 MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
-                projects = organization.GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard();
+                projects = organization.GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard(CurrentFirmaSession);
             }
             else
             {
                 projects = HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
+                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic(), CurrentFirmaSession).ToList();
             }
 
             var projectCount = projects.Count;
@@ -156,7 +156,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic()).ToList();
+                projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic(), CurrentFirmaSession).ToList();
             }
 
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
@@ -202,7 +202,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 partnerOrganizations = organization
-                    .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
+                    .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard(CurrentFirmaSession)
                     .SelectMany(x => x.GetAssociatedOrganizationRelationships().Where(y => y.Organization.OrganizationID != organizationID && 
                                                                                y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assembly districts 
                                                                                y.Organization.IsActive))
@@ -212,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
             else
             {
                 var activeProjectsAndProposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic());
+                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic(), CurrentFirmaSession);
                 var projectOrganizationRelationshipsForActiveProjects = activeProjectsAndProposals
                     .SelectMany(x => x.GetAssociatedOrganizationRelationships().Where(y => y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assembly districts 
                                                                                y.Organization.IsActive)).ToList();
@@ -271,7 +271,7 @@ namespace ProjectFirma.Web.Controllers
 
             var firmaPage = FirmaPageTypeEnum.ProjectMap.GetFirmaPage();
 
-            var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals, CurrentFirmaSession);
 
             var initialCustomization =
                 new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
@@ -390,7 +390,7 @@ namespace ProjectFirma.Web.Controllers
             var filterFunction =
                 projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
                     .FilterPropertyValues);
-            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(CurrentFirmaSession.CanViewProposals());
+            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(CurrentFirmaSession.CanViewProposals(), CurrentFirmaSession);
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 

@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -49,17 +50,36 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to view {contextModelObject.GetDisplayName()}");
             }
 
-            if (contextModelObject.IsProposal() && firmaSession.IsAnonymousUser())
+            if (contextModelObject.IsProposal())
             {
-                // do not allow if user is anonymous and do not show proposals to public
-                if (!MultiTenantHelpers.ShowProposalsToThePublic())
+                if (firmaSession.IsAnonymousUser())
                 {
-                    return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
+                    // do not allow if user is anonymous and do not show proposals to public
+                    if (!MultiTenantHelpers.ShowProposalsToThePublic())
+                    {
+                        return new PermissionCheckResult(
+                            $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
+                    }
+
+                    // do not allow if user is anonymous and show proposals to public and stage a stage other than pending 
+                    if (MultiTenantHelpers.ShowProposalsToThePublic() && contextModelObject.ProjectApprovalStatus !=
+                        ProjectApprovalStatus.PendingApproval)
+                    {
+                        return new PermissionCheckResult(
+                            $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
+                    }
                 }
-                // do not allow if user is anonymous and show proposals to public and stage a stage other than pending 
-                if (MultiTenantHelpers.ShowProposalsToThePublic() && contextModelObject.ProjectApprovalStatus != ProjectApprovalStatus.PendingApproval)
+
+                if (firmaSession.Role == Role.Normal && !MultiTenantHelpers.ShowProposalsToThePublic())
                 {
-                    return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
+                    if (!contextModelObject.GetAssociatedOrganizations().Select(y => y.OrganizationID)
+                            .Contains(firmaSession.Person.OrganizationID) ||
+                        (contextModelObject.ProposingPersonID.HasValue &&
+                         contextModelObject.ProposingPersonID == firmaSession.PersonID))
+                    {
+                        return new PermissionCheckResult(
+                            $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
+                    }
                 }
             }
 

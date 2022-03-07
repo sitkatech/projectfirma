@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjects(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
         {
-            return taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals());
+            return taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals(), currentFirmaSession);
         }
 
         public static List<Project> GetAssociatedPrimaryAndSecondaryProjects(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Models
                 .Union(taxonomyLeaf.SecondaryProjectTaxonomyLeafs.Select(x => x.Project))
                 .Distinct(new HavePrimaryKeyComparer<Project>())
                 .ToList()
-                .GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals());
+                .GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals(), currentFirmaSession);
         }
 
         public static IEnumerable<SelectListItem> ToGroupedSelectList(this List<TaxonomyLeaf> taxonomyLeafs)

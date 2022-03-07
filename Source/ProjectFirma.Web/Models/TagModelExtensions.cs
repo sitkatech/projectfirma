@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjects(this Tag tag, FirmaSession currentFirmaSession)
         {
-            return tag.ProjectTags.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals());
+            return tag.ProjectTags.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals(), currentFirmaSession);
         }
     }
 }

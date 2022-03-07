@@ -35,12 +35,12 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjects(this FundingSource fundingSource, FirmaSession firmaSession, List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
-            return projectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
+            return projectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(firmaSession.CanViewProposals(), firmaSession);
         }
 
         public static List<Project> GetAssociatedProjectsWithSecuredFunding(this FundingSource fundingSource, FirmaSession firmasession, List<ProjectFundingSourceBudget> projectFundingSourceBudgets, Dictionary<int,Project> projectDictionary)
         {
-            return projectFundingSourceBudgets.Where(x => x.SecuredAmount > 0).Select(x => projectDictionary[x.ProjectID]).ToList().GetActiveProjectsAndProposals(firmasession.CanViewProposals());
+            return projectFundingSourceBudgets.Where(x => x.SecuredAmount > 0).Select(x => projectDictionary[x.ProjectID]).ToList().GetActiveProjectsAndProposals(firmasession.CanViewProposals(), firmasession);
         }
 
         public static string GetDisplayName(this FundingSource fundingSource) =>

@@ -109,10 +109,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return projectStagesForMap;
         }
 
-        public static List<ProjectFirmaModels.Models.Project> ProjectsForMap(bool showProposals)
+        public static List<ProjectFirmaModels.Models.Project> ProjectsForMap(bool showProposals,
+            FirmaSession firmaSession)
         {
             return new List<ProjectFirmaModels.Models.Project>(HttpRequestStorage.DatabaseEntities.Projects.Where(x => !x.LocationIsPrivate).ToList().
-                    GetActiveProjectsAndProposals(showProposals)).Where(x => x.ProjectStage.ShouldShowOnMap())
+                    GetActiveProjectsAndProposals(showProposals, firmaSession)).Where(x => x.ProjectStage.ShouldShowOnMap())
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
         }
 
