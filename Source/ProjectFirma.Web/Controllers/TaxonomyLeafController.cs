@@ -84,13 +84,13 @@ namespace ProjectFirma.Web.Controllers
             var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
 
             var primaryTaxonomyLeafProjects = taxonomyLeaf.Projects.ToList()
-                .GetActiveProjectsAndProposals(currentPersonCanViewProposals)
+                .GetActiveProjectsAndProposals(currentPersonCanViewProposals, CurrentFirmaSession)
                 .Where(x => x.ProjectStage.ShouldShowOnMap())
                 .ToList();
             var secondaryTaxonomyLeafProjects = primaryTaxonomyLeafProjects.Union(
                     taxonomyLeaf.SecondaryProjectTaxonomyLeafs.Select(x => x.Project)
                         .ToList()
-                        .GetActiveProjectsAndProposals(currentPersonCanViewProposals)
+                        .GetActiveProjectsAndProposals(currentPersonCanViewProposals, CurrentFirmaSession)
                         .Where(x => x.ProjectStage.ShouldShowOnMap()))
                 .ToList();
 

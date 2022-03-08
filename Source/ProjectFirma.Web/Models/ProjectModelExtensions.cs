@@ -531,10 +531,11 @@ namespace ProjectFirma.Web.Models
                     .ToList();
         }
 
-        public static List<Project> GetActiveProjectsAndProposals(this IList<Project> projects, bool showProposals)
+        public static List<Project> GetActiveProjectsAndProposals(this IList<Project> projects, bool showProposals,
+            FirmaSession firmaSession)
         {
             var activeProjects = projects.GetActiveProjects();
-            var activeProposals = projects.GetActiveProposals(showProposals);
+            var activeProposals = projects.GetActiveProposals(showProposals, firmaSession);
             return activeProjects.Union(activeProposals, new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
@@ -543,21 +544,21 @@ namespace ProjectFirma.Web.Models
             return projects.Where(x => x.IsActiveProject()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
-        public static List<Project> GetActiveProposals(this IList<Project> projects, bool showProposals)
+        public static List<Project> GetActiveProposals(this IList<Project> projects, bool showProposals,
+            FirmaSession firmaSession)
         {
-            return showProposals
-                ? projects.Where(x => x.IsActiveProposal()).OrderBy(x => x.GetDisplayName()).ToList()
-                : new List<Project>();
+            if (!showProposals)
+            {
+                return new List<Project>();
+            }
+
+            return projects.GetProposalsVisibleToUser(firmaSession).Where(x => x.IsActiveProposal()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
-        //public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, Person currentPerson)
-        //{
-        //    return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(currentPerson, x).HasPermission).ToList();
-        //}
 
-        public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, FirmaSession firmaSesssion)
+        public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, FirmaSession firmaSession)
         {
-            return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(firmaSesssion, x).HasPermission).ToList();
+            return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(firmaSession, x).HasPermission).ToList();
         }
 
         public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)

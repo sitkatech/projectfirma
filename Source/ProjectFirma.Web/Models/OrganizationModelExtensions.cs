@@ -189,7 +189,7 @@ namespace ProjectFirma.Web.Models
 
         public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, FirmaSession firmaSession)
         {
-            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
+            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(firmaSession.CanViewProposals(), firmaSession);
         }
 
         public static List<Project> GetAllActiveProjects(this Organization organization
@@ -227,7 +227,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(this Organization organization, FirmaSession firmaSession)
         {
-            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(firmaSession.CanViewProposals());
+            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(firmaSession.CanViewProposals(), firmaSession);
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
@@ -237,11 +237,12 @@ namespace ProjectFirma.Web.Models
             return allActiveProjectsAndProposals.Where(x => x.GetPrimaryContactOrganization() == organization).ToList();
         }
 
-        public static List<Project> GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard(this Organization organization)
+        public static List<Project> GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard(
+            this Organization organization, FirmaSession firmaSession)
         {
             Check.Assert(MultiTenantHelpers.DisplayAccomplishmentDashboard());
             return organization.GetAllAssociatedProjects()
-                .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
+                .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic(), firmaSession)
                 .Where(x => x.GetOrganizationsToReportInAccomplishments().Any(y => y == organization))
                 .ToList();
         }

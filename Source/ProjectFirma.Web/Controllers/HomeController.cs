@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().OrderBy(x => x.SortOrder).ToList();
 
             var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
-            var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals, CurrentFirmaSession);
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow, currentPersonCanViewProposals);
             var projectLocationsLayerGeoJson = new LayerGeoJson(

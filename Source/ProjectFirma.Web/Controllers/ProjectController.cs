@@ -568,7 +568,7 @@ namespace ProjectFirma.Web.Controllers
             if (CurrentFirmaSession.Role == Role.Normal && !MultiTenantHelpers.ShowProposalsToThePublic())
             {
                 filteredProposals = proposals.Where(x =>
-                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))
+                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID) || (x.ProposingPersonID.HasValue && x.ProposingPersonID == CurrentFirmaSession.PersonID))
                     .ToList();
             }
             else
@@ -597,7 +597,7 @@ namespace ProjectFirma.Web.Controllers
             if (CurrentFirmaSession.Role == Role.Normal)
             {
                 filteredPendingProjects = pendingProjects.Where(x =>
-                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))
+                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID) || (x.ProposingPersonID.HasValue && x.ProposingPersonID == CurrentFirmaSession.PersonID))
                     .ToList();
             }
             else
@@ -824,7 +824,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsFound = HttpRequestStorage.DatabaseEntities.Projects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
-                    .ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals());
+                    .ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals(), CurrentFirmaSession);
             return projectsFound;
         }
 

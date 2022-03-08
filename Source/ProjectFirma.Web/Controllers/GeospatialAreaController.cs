@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
                 geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
             };
             var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
-            var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
+            var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals, CurrentFirmaSession);
             var projectLocationsLayerGeoJson =
                 new LayerGeoJson($"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(false, true, true), "#80b2ff", 1,
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var gridSpec = new IndexGridSpec(CurrentFirmaSession, geospatialAreaType);
-            var projectIDsViewableByUser = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals()).Select(x => x.ProjectID).ToList();
+            var projectIDsViewableByUser = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals(), CurrentFirmaSession).Select(x => x.ProjectID).ToList();
             var geospatialAreaIndexGridSimples = GeospatialAreaModelExtensions.GetGeospatialAreaIndexGridSimples(geospatialAreaType, projectIDsViewableByUser).OrderByDescending(x => x.ProjectViewableByUserCount).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialAreaIndexGridSimple>(geospatialAreaIndexGridSimples, gridSpec);
             return gridJsonNetJObjectResult;
