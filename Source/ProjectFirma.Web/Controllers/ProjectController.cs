@@ -564,19 +564,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new ProposalsGridSpec(CurrentFirmaSession);
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetProposalsVisibleToUser(CurrentFirmaSession);
-            List<Project> filteredProposals;
-            if (CurrentFirmaSession.Role == Role.Normal && !MultiTenantHelpers.ShowProposalsToThePublic())
-            {
-                filteredProposals = proposals.Where(x =>
-                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID) || (x.ProposingPersonID.HasValue && x.ProposingPersonID == CurrentFirmaSession.PersonID))
-                    .ToList();
-            }
-            else
-            {
-                filteredProposals = proposals;
-            }
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredProposals, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

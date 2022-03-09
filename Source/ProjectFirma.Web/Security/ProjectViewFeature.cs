@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Security
 
             if (contextModelObject.IsProposal())
             {
-                if (firmaSession.IsAnonymousUser())
+                if (firmaSession.IsAnonymousUser() && firmaSession.Role == Role.Unassigned)
                 {
                     // do not allow if user is anonymous and do not show proposals to public
                     if (!MultiTenantHelpers.ShowProposalsToThePublic())
@@ -72,10 +72,15 @@ namespace ProjectFirma.Web.Security
 
                 if (firmaSession.Role == Role.Normal && !MultiTenantHelpers.ShowProposalsToThePublic())
                 {
-                    if (!contextModelObject.GetAssociatedOrganizations().Select(y => y.OrganizationID)
+                    if (contextModelObject.GetAssociatedOrganizations().Select(y => y.OrganizationID)
                             .Contains(firmaSession.Person.OrganizationID) ||
                         (contextModelObject.ProposingPersonID.HasValue &&
                          contextModelObject.ProposingPersonID == firmaSession.PersonID))
+                    {
+                        return new PermissionCheckResult();
+                        
+                    }
+                    else
                     {
                         return new PermissionCheckResult(
                             $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
