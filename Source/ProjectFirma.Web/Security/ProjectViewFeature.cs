@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Security
 
             if (contextModelObject.IsProposal())
             {
-                if (firmaSession.IsAnonymousUser() && firmaSession.Role == Role.Unassigned)
+                if (firmaSession.IsAnonymousUser() || firmaSession.Role == Role.Unassigned)
                 {
                     // do not allow if user is anonymous and do not show proposals to public
                     if (!MultiTenantHelpers.ShowProposalsToThePublic())
