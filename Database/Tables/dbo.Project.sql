@@ -144,6 +144,11 @@ REFERENCES [dbo].[Solicitation] ([SolicitationID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Solicitation_SolicitationID]
 GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Solicitation_SolicitationID_TenantID] FOREIGN KEY([SolicitationID], [TenantID])
+REFERENCES [dbo].[Solicitation] ([SolicitationID], [TenantID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Solicitation_SolicitationID_TenantID]
+GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_TaxonomyLeafID] FOREIGN KEY([TaxonomyLeafID])
 REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID])
 GO
