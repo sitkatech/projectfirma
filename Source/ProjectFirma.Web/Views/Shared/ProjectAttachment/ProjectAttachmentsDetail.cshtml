@@ -40,19 +40,7 @@ else
      
     <div class="row" style="padding-bottom: 25px;">
         <div class="col-sm-3">
-            <p><strong>@attachmentType.AttachmentTypeName</strong></p>
-            <div class="help-block">
-                <p class="smallExplanationText">@attachmentType.AttachmentTypeDescription</p>
-                @if (attachmentType.NumberOfAllowedAttachments != null)
-                {
-                    <p class="smallExplanationText"><strong>Maximum File Uploads:</strong> <span>@attachmentType.NumberOfAllowedAttachments </span></p>
-
-                    if (thisAttachmentList.Count >= attachmentType.NumberOfAllowedAttachments)
-                    {
-                        <div class="alert alert-warning smallExplanationText">You have reached the maximum number of files for this type. To upload another of this type, you will need to delete an existing file.</div>
-                    }
-                }
-            </div>
+            @Html.LabelWithSugarFor(attachmentType)
         </div>
         <div class="col-sm-9">
             
@@ -92,7 +80,7 @@ else
 
             @if (!thisAttachmentList.Any())
             {
-                <p class="systemText">No attachments associated with the <strong>'@(attachmentType.AttachmentTypeName)'</strong> @(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()).</p>
+                <p class="systemText">No attachments</p>
             }
         </div>
     </div>

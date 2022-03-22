@@ -20,5 +20,11 @@ namespace ProjectFirmaModels.Models
             return SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(c =>
                 c.DeleteAttachmentType(contactType.AttachmentTypeID));
         }
+
+        public static string GetContentUrl(this AttachmentType attachmentType)
+        {
+            return SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x =>
+                x.FieldDefinitionDetailsForAttachmentType(attachmentType.AttachmentTypeID));
+        }
     }
 }

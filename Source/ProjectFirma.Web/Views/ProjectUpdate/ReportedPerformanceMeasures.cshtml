@@ -191,7 +191,7 @@ else
                                 </td>
                                 <td style="width: 100px">
                                     <input class="form-control" style="text-align: right"
-                                           ng-model="performanceMeasureActualUpdate.ActualValue" />
+                                           ng-model="performanceMeasureActualUpdate.ActualValue" ng-number/>
                                 </td>
                                 <td style="vertical-align: middle; padding-left: 0">
                                     {{getMeasurementUnitTypeDisplayName(performanceMeasureActualUpdate)}}
@@ -200,7 +200,7 @@ else
                             <tr>
                                 <td colspan="{{numberOfSubcategoryOptions(performanceMeasureGroup) + 4}}" class="text-right">
                                     <button class="btn btn-xs btn-firma" type="button" ng-click="addPerformanceMeasureToGroup(performanceMeasureGroup)">
-                                        <span class="glyphicon glyphicon-plus"></span> Add Reported Value
+                                        <span class="glyphicon glyphicon-plus"></span> Add a Row
                                     </button>
                                 </td>
                             </tr>

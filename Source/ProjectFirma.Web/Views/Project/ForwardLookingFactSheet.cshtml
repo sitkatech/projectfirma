@@ -309,7 +309,7 @@
       </div>
    </div>
    <div class="row section">
-      <div class="col-xs-12 col-sm-12 col-md-7">
+      <div class="col-xs-12 col-sm-12 @(ViewDataTyped.KeyPhoto != null ? "col-md-7" : "col-md-12")">
          <div class="row">
             <div class="col-xs-12">
                <div class="projectDescription">@Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())</div>
@@ -390,26 +390,20 @@
             }
          </div>
       </div>
+       @if (ViewDataTyped.KeyPhoto != null)
+       {
+           <div class="col-md-5">
+               <div class="keyPhoto">
+                   <img class="img-responsive" src="@ViewDataTyped.KeyPhoto.GetPhotoUrlScaledForPrint()" alt="@ViewDataTyped.KeyPhoto.GetCaptionOnFullView()" />
+                   <div class="captionText">@ViewDataTyped.KeyPhoto.Caption</div>
+                   @if (MultiTenantHelpers.ShowPhotoCreditOnFactSheet())
+                   {
+                       <div class="captionText">Credit: @ViewDataTyped.KeyPhoto.Credit</div>
+                   }
+               </div>
+           </div>
+       }
 
-      <div class="col-md-5">
-         @if (ViewDataTyped.KeyPhoto != null)
-         {
-            <div class="keyPhoto">
-               <img class="img-responsive" src="@ViewDataTyped.KeyPhoto.GetPhotoUrlScaledForPrint()" alt="@ViewDataTyped.KeyPhoto.GetCaptionOnFullView()" />
-               <div class="captionText">@ViewDataTyped.KeyPhoto.Caption</div>
-               @if (MultiTenantHelpers.ShowPhotoCreditOnFactSheet())
-               {
-                   <div class="captionText">Credit: @ViewDataTyped.KeyPhoto.Credit</div>
-               }
-            </div>
-         }
-         else
-         {
-            <div class="text-center">
-               <p class="systemText">No Key Photo provided</p>
-            </div>
-         }
-      </div>
    </div>
    <div class="row section">
       <div class="col-sm-12 col-md-6">

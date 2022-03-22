@@ -1,0 +1,1 @@
+update dbo.FieldDefinitionData set FieldDefinitionLabel = 'Project Sponsor' where FieldDefinitionID = 12 and TenantID = 4

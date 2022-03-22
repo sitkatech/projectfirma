@@ -55,6 +55,15 @@ namespace ProjectFirma.Web.Common
             return LabelWithSugarFor(classificationSystem, classificationSystem.ClassificationSystemName.Replace(" ", ""), DefaultPopupWidth, displayStyle, false, classificationSystem.ClassificationSystemName, classificationSystem.GetContentUrl());
         }
 
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, AttachmentType attachmentType)
+        {
+            return LabelWithSugarFor(html, attachmentType, DisplayStyle.HelpIconWithLabel);
+        }
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, AttachmentType attachmentType, DisplayStyle displayStyle)
+        {
+            return LabelWithSugarFor(attachmentType, attachmentType.AttachmentTypeName.Replace(" ", ""), DefaultPopupWidth, displayStyle, false, attachmentType.AttachmentTypeName, attachmentType.GetContentUrl());
+        }
+
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>

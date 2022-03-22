@@ -3,6 +3,7 @@
     // create the angular app
     angular.module("ProjectFirmaApp", [
         "ng-currency",
+        "ng-number",
         "server-validate",
         "ui.bootstrap"
     ]);

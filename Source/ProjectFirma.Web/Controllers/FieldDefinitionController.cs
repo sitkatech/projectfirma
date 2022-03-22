@@ -129,5 +129,18 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new FieldDefinitionDetailsViewData(classificationSystem, false, string.Empty, new HtmlString("<p>A logical system to group projects according to overarching program themes or goals.</p>"), classificationSystem.ClassificationSystemName);
             return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
         }
+
+        [HttpGet]
+        [FieldDefinitionViewFeature]
+        [CrossAreaRoute]
+        public PartialViewResult FieldDefinitionDetailsForAttachmentType(AttachmentTypePrimaryKey attachmentTypePrimaryKey)
+        {
+            var attachmentType = attachmentTypePrimaryKey.EntityObject;
+            var viewData = new FieldDefinitionDetailsViewData(attachmentType, false, string.Empty,
+                new HtmlString(
+                    $"{attachmentType.AttachmentTypeDescription} <p class=\"smallExplanationText\"><strong>Maximum File Uploads:</strong> <span>{attachmentType.NumberOfAllowedAttachments} </span></p>"),
+                attachmentType.AttachmentTypeName);
+            return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
+        }
     }
 }

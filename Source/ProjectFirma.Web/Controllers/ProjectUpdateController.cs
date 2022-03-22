@@ -3641,7 +3641,12 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(CurrentFirmaSession, true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
-            var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
+            var nextProjectUpdateSection = applicableWizardSections.Where(x =>
+                    x.SortOrder > currentSection.SortOrder &&
+                    (currentSection.SectionDisplayName !=
+                     ProjectUpdateSection.BulkSetSpatialInformation.ProjectUpdateSectionDisplayName ||
+                     x.ProjectWorkflowSectionGrouping != ProjectWorkflowSectionGrouping.SpatialInformation))
+                .OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;
             return Redirect(nextSection);
         }
