@@ -64,7 +64,7 @@
         @if (!string.IsNullOrWhiteSpace(ViewDataTyped.OtherPartners))
         {
             <tr>
-                <td>@FieldDefinitionEnum.OtherPartners.ToType().FieldDefinitionDisplayName</td>
+                <td>@FieldDefinitionEnum.OtherPartners.ToType().GetFieldDefinitionLabel()</td>
                 <td>@ViewDataTyped.OtherPartners</td>
             </tr>
         }

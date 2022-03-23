@@ -142,6 +142,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 errors.Add(new ValidationResult("One or more relationship types are invalid."));
             }
 
+            if (OtherPartners != null &&
+                OtherPartners.Length > ProjectFirmaModels.Models.Project.FieldLengths.OtherPartners)
+            {
+                errors.Add(new ValidationResult($"The field '{FieldDefinitionEnum.OtherPartners.ToType().GetFieldDefinitionLabel()}' must be a string with a maximum length of {ProjectFirmaModels.Models.Project.FieldLengths.OtherPartners}."));
+            }
+
             return errors;
         }
     }
