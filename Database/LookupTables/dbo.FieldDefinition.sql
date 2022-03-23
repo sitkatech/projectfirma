@@ -196,5 +196,6 @@ VALUES
 (372, N'TrackAccomplishments', N'Track Accomplishments'),
 (373, N'ShowExpectedPerformanceMeasuresOnFactSheet', N'Show Expected Performance Measures on Fact Sheet?'),
 (374, N'Solicitation', N'Solicitation'),
-(375, N'EnableSolicitations', N'Enable Solicitations')
+(375, N'EnableSolicitations', N'Enable Solicitations'),
+(376, N'OtherPartners', N'Other Partners')
 

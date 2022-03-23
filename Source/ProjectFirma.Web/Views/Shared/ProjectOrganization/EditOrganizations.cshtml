@@ -154,6 +154,20 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12"><label>@FieldDefinitionEnum.OtherPartners.ToType().FieldDefinitionDisplayName</label></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="text" ng-model="AngularModel.OtherPartners" class="form-control"/>
+                    @Html.ValidationMessageFor(m => m.OtherPartners)
+                </div>
+            </div>
+        </div>
+    </div>
 
     @using (Html.BeginForm())
     {
@@ -162,5 +176,6 @@ Source code is available upon request via <support@sitkatech.com>.
             <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].OrganizationID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationID}}" />
             <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].OrganizationRelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationRelationshipTypeID}}" />
         </div>
+        <input type="hidden" name="@Html.NameFor(x => x.OtherPartners)" value="{{AngularModel.OtherPartners}}" />
     }
 </div>

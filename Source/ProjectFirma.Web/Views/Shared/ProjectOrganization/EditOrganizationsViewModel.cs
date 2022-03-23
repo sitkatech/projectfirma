@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectPrimaryContact)]
         public int? PrimaryContactPersonID { get; set; }
         public List<ProjectOrganizationSimple> ProjectOrganizationSimples { get; set; }
+        public string OtherPartners { get; set; }
 
         /// <summary>
         /// Needed by Model Binder
@@ -69,6 +70,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                     PrimaryContactPersonID = currentFirmaSession.Person.Organization.PrimaryContactPersonID;
                 }
             }
+
+            OtherPartners = project.OtherPartners;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, ICollection<ProjectFirmaModels.Models.ProjectOrganization> allProjectOrganizations)
@@ -81,6 +84,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             project.ProjectOrganizations.Merge(projectOrganizationsUpdated,
                 allProjectOrganizations,
                 (x, y) => x.ProjectID == y.ProjectID && x.OrganizationID == y.OrganizationID && x.OrganizationRelationshipTypeID == y.OrganizationRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
+
+            project.OtherPartners = OtherPartners;
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

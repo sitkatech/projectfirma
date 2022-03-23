@@ -322,6 +322,7 @@ namespace ProjectFirmaModels.Models
         TrackAccomplishments = 372,
         ShowExpectedPerformanceMeasuresOnFactSheet = 373,
         Solicitation = 374,
-        EnableSolicitations = 375
+        EnableSolicitations = 375,
+        OtherPartners = 376
     }
 }

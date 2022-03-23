@@ -14,6 +14,7 @@ namespace ProjectFirma.Web.Models
                 project.ProjectOrganizations.Select(
                     po => new ProjectOrganizationUpdate(projectUpdateBatch, po.Organization, po.OrganizationRelationshipType)
                 ).ToList();
+            projectUpdateBatch.ProjectUpdate.OtherPartners = project.OtherPartners;
         }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
@@ -25,6 +26,7 @@ namespace ProjectFirma.Web.Models
             project.ProjectOrganizations.Merge(projectOrganizationsFromProjectUpdate,
                 (x, y) => x.OrganizationID == y.OrganizationID &&
                           x.OrganizationRelationshipTypeID == y.OrganizationRelationshipTypeID, databaseEntities);
+            project.OtherPartners = projectUpdateBatch.ProjectUpdate.OtherPartners;
         }
     }
 }

@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 : new List<ProjectOrganizationSimple>();
             PrimaryContactPersonID = projectUpdateBatch.ProjectUpdate.PrimaryContactPersonID;
             Comments = projectUpdateBatch.OrganizationsComment;
+            OtherPartners = projectUpdateBatch.ProjectUpdate.OtherPartners;
         }
 
         public void UpdateModel(ProjectUpdateBatch projectUpdateBatch,
@@ -50,6 +51,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             currentProjectOrganizationUpdates.Merge(projectOrganizationUpdatesUpdated,
                 allProjectOrganizationUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.OrganizationID == y.OrganizationID && x.OrganizationRelationshipTypeID == y.OrganizationRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
+
+            projectUpdateBatch.ProjectUpdate.OtherPartners = OtherPartners;
         }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

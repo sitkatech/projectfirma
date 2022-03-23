@@ -26,36 +26,46 @@
 @inherits ProjectOrganizationsDetail
 
    
-@if (ViewDataTyped.AllProjectOrganizations.Any())
+@if (ViewDataTyped.AllProjectOrganizations.Any() || !string.IsNullOrWhiteSpace(ViewDataTyped.OtherPartners))
 {
     <table class="summaryLayout table table-condensed table-striped">
         <tr>
             <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>
             <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>
         </tr>
-        @foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
+        @if (ViewDataTyped.AllProjectOrganizations.Any())
         {
-            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.OrganizationRelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
-            <tr>
-                @if (projectOrganizations.Count > 1)
-                {
-                    <td>@(relationshipTypeName + "s")</td>
-                }
-                else
-                {
-                    <td>@relationshipTypeName</td>
-                }
-                <td>
-                    <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                        @foreach (var x in projectOrganizations)
-                        {
-                            <li>
-                                <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>
-                            </li>
-                        }
-                    </ul>
-                </td>
+            foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
+            {
+                var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.OrganizationRelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
+                <tr>
+                    @if (projectOrganizations.Count > 1)
+                    {
+                        <td>@(relationshipTypeName + "s")</td>
+                    }
+                    else
+                    {
+                        <td>@relationshipTypeName</td>
+                    }
+                    <td>
+                        <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                            @foreach (var x in projectOrganizations)
+                            {
+                                <li>
+                                    <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>
+                                </li>
+                            }
+                        </ul>
+                    </td>
 
+                </tr>
+            }
+        }
+        @if (!string.IsNullOrWhiteSpace(ViewDataTyped.OtherPartners))
+        {
+            <tr>
+                <td>@FieldDefinitionEnum.OtherPartners.ToType().FieldDefinitionDisplayName</td>
+                <td>@ViewDataTyped.OtherPartners</td>
             </tr>
         }
 

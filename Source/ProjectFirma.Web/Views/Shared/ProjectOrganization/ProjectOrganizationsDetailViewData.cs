@@ -30,12 +30,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public List<ProjectOrganizationRelationship> AllProjectOrganizations { get; }
         public List<string> SetRelationshipTypes { get; }
         public Person PrimaryContactPerson { get; }
+        public string OtherPartners { get; }
 
-        public ProjectOrganizationsDetailViewData(List<ProjectOrganizationRelationship> allProjectOrganizations, Person primaryContactPerson)
+        public ProjectOrganizationsDetailViewData(List<ProjectOrganizationRelationship> allProjectOrganizations, Person primaryContactPerson, string otherPartners)
         {
             AllProjectOrganizations = allProjectOrganizations;
             SetRelationshipTypes = AllProjectOrganizations.Select(x => x.OrganizationRelationshipTypeName).Distinct().ToList();
             PrimaryContactPerson = primaryContactPerson;
+            OtherPartners = otherPartners;
         }
     }
 }
