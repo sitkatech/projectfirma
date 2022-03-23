@@ -47,7 +47,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <td>@performanceMeasureCalendarYearExpectedValue.PerformanceMeasureDisplayNameAsUrl</td>
                     <td>@Html.Raw(subcategoriesExpectedValue.PerformanceMeasureSubcategories)</td>
                     <th style="text-align: right">
-                        <span>@subcategoriesExpectedValue.ExpectedValue.ToGroupedNumeric()</span>
+                        <span>@(performanceMeasureCalendarYearExpectedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? subcategoriesExpectedValue.ExpectedValue.ToStringCurrency() : subcategoriesExpectedValue.ExpectedValue.ToGroupedNumeric())</span>
                     </th>
                     <th>
                         <span>@(performanceMeasureCalendarYearExpectedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearExpectedValue.MeasurementUnitType.LegendDisplayName : string.Empty)</span>

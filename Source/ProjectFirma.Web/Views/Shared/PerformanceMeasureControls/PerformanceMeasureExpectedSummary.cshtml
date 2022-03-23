@@ -34,17 +34,18 @@ Source code is available upon request via <support@sitkatech.com>.
         </tr>
         @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureDisplayName))
         {
-            
-                 var measurementUnitTypeDisplayName = performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType == MeasurementUnitType.Number ? 
-                     "" :
-                     " " + performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType.LegendDisplayName;
-            
+
+            var measurementUnitTypeDisplayName = performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType == MeasurementUnitType.Number || performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType == MeasurementUnitType.Dollars ?
+                "" :
+                " " + performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType.LegendDisplayName;
+            var reportedValue = performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType == MeasurementUnitType.Dollars ? performanceMeasureExpected.GetReportedValue().ToStringCurrency() : performanceMeasureExpected.GetReportedValue().ToGroupedNumeric();
+
 
             <tr>
                 <td>@performanceMeasureExpected.PerformanceMeasure.GetDisplayNameAsUrl()</td>
                 <td>@performanceMeasureExpected.GetPerformanceMeasureSubcategoriesAsString()</td>
                 <td style="text-align: right;">
-                    @(performanceMeasureExpected.GetReportedValue().HasValue ? new HtmlString(performanceMeasureExpected.GetReportedValue().ToGroupedNumeric() + measurementUnitTypeDisplayName) : new HtmlString("<span class='systemText'>Not Provided</span>"))</td>
+                    @(performanceMeasureExpected.GetReportedValue().HasValue ? new HtmlString(reportedValue + measurementUnitTypeDisplayName) : new HtmlString("<span class='systemText'>Not Provided</span>"))</td>
 
             </tr>
         }

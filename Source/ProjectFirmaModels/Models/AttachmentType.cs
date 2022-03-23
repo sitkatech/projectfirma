@@ -19,6 +19,7 @@ namespace ProjectFirmaModels.Models
 
         public string FieldDefinitionLabel => AttachmentTypeName;
 
-        public HtmlString FieldDefinitionDataValueHtmlString => new HtmlString($"{AttachmentTypeDescription} <p class=\"smallExplanationText\"><strong>Maximum File Uploads:</strong> <span>{NumberOfAllowedAttachments} </span></p>");
+        public HtmlString FieldDefinitionDataValueHtmlString => new HtmlString(
+            $"{AttachmentTypeDescription}{(NumberOfAllowedAttachments.HasValue ? $"<p class=\"smallExplanationText\"><strong>Maximum File Uploads:</strong> <span>{NumberOfAllowedAttachments} </span></p>" : string.Empty)}");
     }
 }

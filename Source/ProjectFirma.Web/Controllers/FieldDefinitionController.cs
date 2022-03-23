@@ -138,7 +138,7 @@ namespace ProjectFirma.Web.Controllers
             var attachmentType = attachmentTypePrimaryKey.EntityObject;
             var viewData = new FieldDefinitionDetailsViewData(attachmentType, false, string.Empty,
                 new HtmlString(
-                    $"{attachmentType.AttachmentTypeDescription} <p class=\"smallExplanationText\"><strong>Maximum File Uploads:</strong> <span>{attachmentType.NumberOfAllowedAttachments} </span></p>"),
+                    $"{attachmentType.AttachmentTypeDescription}{(attachmentType.NumberOfAllowedAttachments.HasValue ? $"<p class=\"smallExplanationText\"><strong>Maximum File Uploads:</strong> <span>{attachmentType.NumberOfAllowedAttachments} </span></p>" : string.Empty)}"),
                 attachmentType.AttachmentTypeName);
             return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
         }
