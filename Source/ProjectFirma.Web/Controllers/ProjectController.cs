@@ -641,6 +641,10 @@ namespace ProjectFirma.Web.Controllers
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
             var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizationRelationships()).ToList();
+            var otherPartnersLabel = FieldDefinitionEnum.OtherPartners.ToType().GetFieldDefinitionLabel();
+            var projectOtherPartners = projects.Where(x => !string.IsNullOrWhiteSpace(x.OtherPartners)).Select(x => new ProjectOrganizationRelationship(x, x.OtherPartners, otherPartnersLabel)).ToList();
+            projectOrganizations.AddRange(projectOtherPartners);
+            projectOrganizations = projectOrganizations.OrderBy(x => x.Project.ProjectID).ToList();
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
             workSheets.Add(wsOrganizations);
 

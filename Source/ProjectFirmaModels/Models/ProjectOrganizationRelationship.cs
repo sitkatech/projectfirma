@@ -4,6 +4,7 @@
     {
         public Project Project { get; }
         public Organization Organization { get; }
+        public string OtherPartners { get; }
         public string OrganizationRelationshipTypeName { get; }
         public string DisplayCssClass { get; }
 
@@ -25,6 +26,13 @@
         public ProjectOrganizationRelationship(Project project, Organization organization, OrganizationRelationshipType organizationRelationshipType, string displayCssClass) : this(project, organization, organizationRelationshipType)
         {
             DisplayCssClass = displayCssClass;
+        }
+
+        public ProjectOrganizationRelationship(Project project, string otherPartners, string organizationRelationshipTypeName)
+        {
+            Project = project;
+            OtherPartners = otherPartners;
+            OrganizationRelationshipTypeName = organizationRelationshipTypeName;
         }
     }
 }
