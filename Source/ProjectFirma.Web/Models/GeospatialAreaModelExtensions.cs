@@ -150,12 +150,13 @@ namespace ProjectFirma.Web.Models
                     into x
                 where geospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID
                 from x2 in x.DefaultIfEmpty()
-                group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaShortName } into grouped
+                group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaShortName, geospatialArea.LayerColor } into grouped
                 select new GeospatialAreaIndexGridSimple()
                 {
                     GeospatialAreaID = grouped.Key.GeospatialAreaID,
                     GeospatialAreaShortName = grouped.Key.GeospatialAreaShortName,
-                    ProjectViewableByUserCount = grouped.Count(t => t.ProjectGeospatialAreaID > 0)
+                    ProjectViewableByUserCount = grouped.Count(t => t.ProjectGeospatialAreaID > 0),
+                    LayerColor = grouped.Key.LayerColor
                 };
 
             var geospatialAreaIndexGridSimplesNew = results.ToList();
