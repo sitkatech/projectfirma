@@ -8,7 +8,7 @@ update dbo.GeospatialArea set LayerColor = '#A53FFF' where GeospatialAreaID = 12
 update dbo.GeospatialArea set LayerColor = '#59acff' where GeospatialAreaID = 12142
 
 -- tribally owned land
-update dbo.GeospatialArea set LayerColor = '#59acff' where GeospatialAreaID = 12143
+update dbo.GeospatialArea set LayerColor = '#d3dde3' where GeospatialAreaID = 12143
 update dbo.GeospatialArea set LayerColor = '#2E88AB' where GeospatialAreaID = 12144
 update dbo.GeospatialArea set LayerColor = '#3A25B0' where GeospatialAreaID = 12145
 update dbo.GeospatialArea set LayerColor = '#267300' where GeospatialAreaID = 12146
