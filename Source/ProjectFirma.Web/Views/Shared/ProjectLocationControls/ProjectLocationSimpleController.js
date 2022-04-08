@@ -47,6 +47,8 @@
                     $scope.projectLocationMap.map.scrollWheelZoom.enable();
                     if ($scope.projectLocationMap.currentSelectedPoint) {
                         $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
+                        $scope.AngularModel.ProjectLocationPointX = L.Util.formatNum($scope.projectLocationMap.currentSelectedPoint._latlng.lng);
+                        $scope.AngularModel.ProjectLocationPointY = L.Util.formatNum($scope.projectLocationMap.currentSelectedPoint._latlng.lat);
                     }
 
                     if ($scope.projectLocationMap.currentSelectedGeometry) {
@@ -146,9 +148,6 @@
             }
 
             function setPointOnMap(latlng) {
-                $scope.AngularModel.ProjectLocationPointX = L.Util.formatNum(latlng.lng);
-                $scope.AngularModel.ProjectLocationPointY = L.Util.formatNum(latlng.lat);
-
                 if ($scope.projectLocationMap.currentSelectedPoint) {
                     $scope.projectLocationMap.map.removeLayer(
                         $scope.projectLocationMap.currentSelectedPoint);
