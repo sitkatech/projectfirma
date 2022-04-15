@@ -33,8 +33,8 @@ namespace ProjectFirmaModels.Models
         [Test]
         public void ProjectProposedTest()
         {
-            var editPerformanceMeasureFeature = new ProjectEditAsAdminFeature();
-            var viewPerformanceMeasureFeature = new ProjectsInProposalStageViewListFeature();
+            var projectEditAsAdminFeature = new ProjectEditAsAdminFeature();
+            var projectsInProposalStageViewListFeature = new ProjectsInProposalStageViewListFeature();
 
             // Test organizations we'll use for membership checks
             var testOrganizationForProject = TestFramework.TestOrganization.Create("The Test Organization for Project");
@@ -59,27 +59,27 @@ namespace ProjectFirmaModels.Models
                 deferredProject.ProjectStageID = ProjectStage.Deferred.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, projectsInProposalStageViewListFeature, false);
+                TestExpectedUserPermission(userNormal, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userAdmin, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, projectsInProposalStageViewListFeature, true);
 
                 // - Edit PMs -
-                TestExpectedUserPermission(userAnonymous, deferredProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, deferredProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userAdmin, deferredProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, deferredProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, deferredProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userNormal, deferredProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userAdmin, deferredProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, deferredProject, projectEditAsAdminFeature, true);
 
-                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, deferredProject, editPerformanceMeasureFeature, testOrganizationForProject, false);
+                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, deferredProject, projectEditAsAdminFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
                     deferredProject,
-                    editPerformanceMeasureFeature,
+                    projectEditAsAdminFeature,
                     testOrganizationJustForUser,
                     testOrganizationForProject,
                     false);
                 
-                TestExpectedUserPermission(userAdmin, deferredProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, deferredProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAdmin, deferredProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, deferredProject, projectEditAsAdminFeature, true);
             }
 
             // Planning/Design Project
@@ -90,26 +90,26 @@ namespace ProjectFirmaModels.Models
                 planningDesignProject.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, projectsInProposalStageViewListFeature, false);
+                TestExpectedUserPermission(userNormal, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userAdmin, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, projectsInProposalStageViewListFeature, true);
 
                 // - Edit PMs -
-                TestExpectedUserPermission(userAnonymous, planningDesignProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, planningDesignProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userAdmin, planningDesignProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, planningDesignProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userNormal, planningDesignProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userAdmin, planningDesignProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, projectEditAsAdminFeature, true);
 
-                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, planningDesignProject, editPerformanceMeasureFeature, testOrganizationForProject, false);
+                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, planningDesignProject, projectEditAsAdminFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
                     planningDesignProject,
-                    editPerformanceMeasureFeature,
+                    projectEditAsAdminFeature,
                     testOrganizationJustForUser,
                     testOrganizationForProject,
                     false);
-                TestExpectedUserPermission(userAdmin, planningDesignProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAdmin, planningDesignProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, projectEditAsAdminFeature, true);
             }
 
             // Implementation Project
@@ -120,26 +120,26 @@ namespace ProjectFirmaModels.Models
                 implementationProject.ProjectStageID = ProjectStage.Implementation.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, projectsInProposalStageViewListFeature, false);
+                TestExpectedUserPermission(userNormal, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userAdmin, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, projectsInProposalStageViewListFeature, true);
 
                 // - Edit PMs -
-                TestExpectedUserPermission(userAnonymous, implementationProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, implementationProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userAdmin, implementationProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, implementationProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, implementationProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userNormal, implementationProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userAdmin, implementationProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, implementationProject, projectEditAsAdminFeature, true);
 
-                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, implementationProject, editPerformanceMeasureFeature, testOrganizationForProject, false);
+                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, implementationProject, projectEditAsAdminFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
                     implementationProject,
-                    editPerformanceMeasureFeature,
+                    projectEditAsAdminFeature,
                     testOrganizationJustForUser,
                     testOrganizationForProject,
                     false);
-                TestExpectedUserPermission(userAdmin, implementationProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, implementationProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAdmin, implementationProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, implementationProject, projectEditAsAdminFeature, true);
             }
 
             // Post-Implementation Project
@@ -150,26 +150,26 @@ namespace ProjectFirmaModels.Models
                 postImplementationProject.ProjectStageID = ProjectStage.PostImplementation.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, projectsInProposalStageViewListFeature, false);
+                TestExpectedUserPermission(userNormal, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userAdmin, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, projectsInProposalStageViewListFeature, true);
 
                 // - Edit PMs -
-                TestExpectedUserPermission(userAnonymous, postImplementationProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, postImplementationProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userAdmin, postImplementationProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, postImplementationProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userNormal, postImplementationProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userAdmin, postImplementationProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, projectEditAsAdminFeature, true);
 
-                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, postImplementationProject, editPerformanceMeasureFeature, testOrganizationForProject, false);
+                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, postImplementationProject, projectEditAsAdminFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
                     postImplementationProject,
-                    editPerformanceMeasureFeature,
+                    projectEditAsAdminFeature,
                     testOrganizationJustForUser,
                     testOrganizationForProject,
                     false);
-                TestExpectedUserPermission(userAdmin, postImplementationProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAdmin, postImplementationProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, projectEditAsAdminFeature, true);
             }
 
             // Completed Project
@@ -180,26 +180,26 @@ namespace ProjectFirmaModels.Models
                 completedProject.ProjectStageID = ProjectStage.Completed.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, projectsInProposalStageViewListFeature, false);
+                TestExpectedUserPermission(userNormal, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userAdmin, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, projectsInProposalStageViewListFeature, true);
 
                 // - Edit PMs -
-                TestExpectedUserPermission(userAnonymous, completedProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, completedProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userAdmin, completedProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, completedProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, completedProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userNormal, completedProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userAdmin, completedProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, completedProject, projectEditAsAdminFeature, true);
 
-                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, completedProject, editPerformanceMeasureFeature, testOrganizationForProject, false);
+                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, completedProject, projectEditAsAdminFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
                     completedProject,
-                    editPerformanceMeasureFeature,
+                    projectEditAsAdminFeature,
                     testOrganizationJustForUser,
                     testOrganizationForProject,
                     false);
-                TestExpectedUserPermission(userAdmin, completedProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, completedProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAdmin, completedProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, completedProject, projectEditAsAdminFeature, true);
             }
 
             // Terminated Project
@@ -210,26 +210,26 @@ namespace ProjectFirmaModels.Models
                 terminatedProject.ProjectStageID = ProjectStage.Terminated.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, projectsInProposalStageViewListFeature, false);
+                TestExpectedUserPermission(userNormal, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userAdmin, projectsInProposalStageViewListFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, projectsInProposalStageViewListFeature, true);
 
                 // - Edit PMs -
-                TestExpectedUserPermission(userAnonymous, terminatedProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, terminatedProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userAdmin, terminatedProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, terminatedProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAnonymous, terminatedProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userNormal, terminatedProject, projectEditAsAdminFeature, false);
+                TestExpectedUserPermission(userAdmin, terminatedProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, terminatedProject, projectEditAsAdminFeature, true);
 
-                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, terminatedProject, editPerformanceMeasureFeature, testOrganizationForProject, false);
+                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, terminatedProject, projectEditAsAdminFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
                     terminatedProject,
-                    editPerformanceMeasureFeature,
+                    projectEditAsAdminFeature,
                     testOrganizationJustForUser,
                     testOrganizationForProject,
                     false);
-                TestExpectedUserPermission(userAdmin, terminatedProject, editPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userSitkaAdmin, terminatedProject, editPerformanceMeasureFeature, true);
+                TestExpectedUserPermission(userAdmin, terminatedProject, projectEditAsAdminFeature, true);
+                TestExpectedUserPermission(userSitkaAdmin, terminatedProject, projectEditAsAdminFeature, true);
             }
         }
 
