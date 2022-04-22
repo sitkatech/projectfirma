@@ -232,5 +232,19 @@ namespace ProjectFirma.Web.Security
             var x = usingAllowAnonymous.Select(MethodName).ToList();
             Assert.That(x, Is.Empty, $"Found some uses of \"{_typeOfAllowAnonymousAttribute.FullName}\", should be using types of \"{_typeOfFirmaBaseFeature.FullName}\" only.");
         }
+
+        [Test]
+        public void GetFeatureWithContextTypeCanDetectContextObjectType()
+        {
+            var fundingSourceEditFeature = new FundingSourceEditFeature();
+            Assert.That(FirmaBaseFeatureHelpers.GetFeatureWithContextType(fundingSourceEditFeature), Is.EqualTo(typeof(FundingSource)));
+        }
+
+        [Test]
+        public void GetFeatureWithContextTypeReturnsNullWhenSecurityFeatureDoesNotHaveContext()
+        {
+            var assessmentViewFeature = new AssessmentViewFeature();
+            Assert.That(FirmaBaseFeatureHelpers.GetFeatureWithContextType(assessmentViewFeature), Is.Null);
+        }
     }
 }
