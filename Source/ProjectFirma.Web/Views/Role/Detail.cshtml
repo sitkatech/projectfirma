@@ -63,6 +63,10 @@ Source code is available upon request via <support@sitkatech.com>.
                         <td>@featurePermission.FeatureName</td>
                         <td style="text-align: center">
                             @featurePermission.HasPermission.ToYesNo()
+                            @if (featurePermission.NeedsContext)
+                            {
+                                <span>but based on the context of a specific @featurePermission.ContextObjectName.</span>
+                            }
                         </td>
                     </tr>
                 }

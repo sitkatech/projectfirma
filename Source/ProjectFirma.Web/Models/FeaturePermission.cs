@@ -24,11 +24,15 @@ namespace ProjectFirma.Web.Models
     {
         public string FeatureName;
         public bool HasPermission;
+        public bool NeedsContext;
+        public string ContextObjectName;
 
-        public FeaturePermission(string featureName, bool hasPermission)
+        public FeaturePermission(string featureName, bool hasPermission, bool needsContext, string contextObjectName)
         {
             FeatureName = featureName;
             HasPermission = hasPermission;
+            NeedsContext = needsContext;
+            ContextObjectName = contextObjectName;
         }
     }
 }

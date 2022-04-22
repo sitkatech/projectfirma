@@ -29,9 +29,8 @@ namespace ProjectFirma.Web.Security
     {
         public static readonly List<Role> AllRolesExceptUnassigned = Role.All.Except(new[] { Role.Unassigned }).ToList();
 
-        public static bool DoesRoleHavePermissionsForFeature(IRole role, Type type)
+        public static bool DoesRoleHavePermissionsForFeature(IRole role, FirmaBaseFeature firmaBaseFeature)
         {
-            var firmaBaseFeature = FirmaBaseFeature.InstantiateFeature(type);
             if (IsContextFeatureByInheritance(firmaBaseFeature))
             {
                 return true;
@@ -60,5 +59,19 @@ namespace ProjectFirma.Web.Security
         {
             return featureAttribute is FirmaFeatureWithContext;
         }
+
+        public static Type GetFeatureWithContextType(Attribute featureAttribute)
+        {
+            var genericTypeInterface = featureAttribute.GetType().GetInterfaces().FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IFirmaBaseFeatureWithContext<>));
+            if (genericTypeInterface != null)
+            {
+                return genericTypeInterface.GetGenericArguments()[0];
+            }
+
+            //not a firma feature with context
+            return null;
+            
+        }
+
     }
 }

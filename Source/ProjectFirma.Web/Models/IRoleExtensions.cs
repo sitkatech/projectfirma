@@ -51,12 +51,15 @@ namespace ProjectFirma.Web.Models
                 foreach (var type in types)
                 {
                     string featureDisplayName = FirmaBaseFeatureHelpers.GetDisplayName(type);
-                    var hasPermission = FirmaBaseFeatureHelpers.DoesRoleHavePermissionsForFeature(role, type);
+                    var firmaBaseFeature = FirmaBaseFeature.InstantiateFeature(type);
+                    var hasPermission = FirmaBaseFeatureHelpers.DoesRoleHavePermissionsForFeature(role, firmaBaseFeature);
+                    var needsContext = FirmaBaseFeatureHelpers.IsContextFeatureByInheritance(firmaBaseFeature);
+                    var contextObjectType = FirmaBaseFeatureHelpers.GetFeatureWithContextType(firmaBaseFeature);
 
                     // Don't add duplicates to the list
                     if (featurePermissions.All(x => x.FeatureName != featureDisplayName))
                     {
-                        featurePermissions.Add(new FeaturePermission(featureDisplayName, hasPermission));
+                        featurePermissions.Add(new FeaturePermission(featureDisplayName, hasPermission, needsContext, contextObjectType?.Name ?? string.Empty));
                     }
                 }
             }
