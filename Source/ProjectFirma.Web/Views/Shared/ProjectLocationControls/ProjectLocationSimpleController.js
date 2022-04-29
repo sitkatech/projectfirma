@@ -148,6 +148,11 @@
             }
 
             function setPointOnMap(latlng) {
+                if ($scope.AngularModel.ProjectLocationSimpleType === "PointOnMap") {
+                    $scope.AngularModel.ProjectLocationPointX = L.Util.formatNum(latlng.lng);
+                    $scope.AngularModel.ProjectLocationPointY = L.Util.formatNum(latlng.lat);
+                }
+
                 if ($scope.projectLocationMap.currentSelectedPoint) {
                     $scope.projectLocationMap.map.removeLayer(
                         $scope.projectLocationMap.currentSelectedPoint);
