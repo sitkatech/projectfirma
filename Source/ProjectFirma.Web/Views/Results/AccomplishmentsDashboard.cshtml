@@ -110,7 +110,7 @@
 
             <div class="row resultsQuestions">
                 <div class="col-xs-12 col-sm-4 text-center">
-                    <button type="button" class="btn btn-lg btn-block btn-firma questionButton" onclick="jQuery('#accomplishmentsTab').tab('show')">
+                    <button type="button" class="btn btn-lg btn-block btn-firma questionButton active" onclick="jQuery('#accomplishmentsTab').tab('show')">
                         @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString
                     </button>
                 </div>
@@ -280,6 +280,9 @@
 
         jQuery(document).ready(function () {
             reloadWithNewOrganization(true);
+
+            @*show the Accomplishments Tab data immediately upon loading the page*@
+            jQuery('#accomplishmentsTab').tab('show');
 
             jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
                 _.forOwn(window.GoogleCharts.chartWrappers,
