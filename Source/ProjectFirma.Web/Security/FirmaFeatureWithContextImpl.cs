@@ -41,6 +41,14 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, T contextModelObject)
         {
+            var hasPermissionByPerson = _firmaFeatureWithContext.HasPermissionByPerson(person);
+            var resultFromContext = _firmaFeatureWithContext.HasPermission(person, contextModelObject);
+            if (resultFromContext.HasPermission && !hasPermissionByPerson)
+            {
+                return new PermissionCheckResult(false,
+                    "You don't have permission on this object because you don't have the right set of roles");
+            }
+
             return _firmaFeatureWithContext.HasPermission(firmaSession, contextModelObject);
         }
 

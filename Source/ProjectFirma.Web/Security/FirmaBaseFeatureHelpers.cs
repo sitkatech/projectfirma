@@ -31,14 +31,14 @@ namespace ProjectFirma.Web.Security
 
         public static bool DoesRoleHavePermissionsForFeature(IRole role, FirmaBaseFeature firmaBaseFeature)
         {
-            if (IsContextFeatureByInheritance(firmaBaseFeature))
+
+            if (!firmaBaseFeature.GrantedRoles.Any()) // AnonymousUnclassifiedFeature case
             {
                 return true;
             }
-            else
-            {
-                return firmaBaseFeature.GrantedRoles.Contains(role) || (role == null);
-            }
+
+            return firmaBaseFeature.GrantedRoles.Contains(role) || (role == null);
+
         }
 
         public static string GetDisplayName(Type type)

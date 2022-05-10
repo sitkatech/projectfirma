@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -48,6 +49,11 @@ namespace ProjectFirma.Web.Security
         /// <returns></returns>
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectNote contextModelObject)
         {
+            var hasPermissionByPerson = HasPermissionByPerson(firmaSession.Person);
+            if (!hasPermissionByPerson)
+            {
+                return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.Project.GetDisplayName()}");
+            }
             return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject.Project);
         }
     }
