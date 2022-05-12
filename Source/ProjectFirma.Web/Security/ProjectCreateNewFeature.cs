@@ -32,9 +32,9 @@ namespace ProjectFirma.Web.Security
         {
         }
 
-        public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        public bool HasPermission(FirmaSession firmaSession)
         {
-            if (!base.HasPermissionByFirmaSession(firmaSession))
+            if (!HasPermissionByFirmaSession(firmaSession))
             {
                 return false;
             }
