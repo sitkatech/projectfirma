@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
                 // stop bashing their heads eventually here.
             }
             new CustomPageViewFeature().DemandPermission(CurrentFirmaSession, customPage);
-            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentFirmaSession, customPage).HasPermission;
+            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentFirmaSession).HasPermission;
             var viewData = new DisplayPageContentViewData(CurrentFirmaSession, customPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByFirmaSession(CurrentFirmaSession));
             var customPages = HttpRequestStorage.DatabaseEntities.CustomPages.ToList()
-                .Where(x => new CustomPageManageFeature().HasPermission(CurrentFirmaSession, x).HasPermission)
+                .Where(x => new CustomPageManageFeature().HasPermission(CurrentFirmaSession).HasPermission)
                 .OrderBy(x => x.FirmaMenuItemID).ThenBy(x => x.SortOrder).ThenBy(x => x.CustomPageDisplayName)
                 .ToList();
             

@@ -27,32 +27,8 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage {0} {1}", FieldDefinitionEnum.TaxonomyBranch, FieldDefinitionEnum.PerformanceMeasure)]
-    public class TaxonomyTierPerformanceMeasureManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<PerformanceMeasure>
+    public class TaxonomyTierPerformanceMeasureManageFeature : FirmaAdminFeature
     {
-        private readonly FirmaFeatureWithContextImpl<PerformanceMeasure> _firmaFeatureWithContextImpl;
 
-        public TaxonomyTierPerformanceMeasureManageFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
-        {
-            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<PerformanceMeasure>(this);
-            ActionFilter = _firmaFeatureWithContextImpl;
-        }
-
-        public void DemandPermission(FirmaSession firmaSession, PerformanceMeasure contextModelObject)
-        {
-            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
-        }
-
-        public PermissionCheckResult HasPermission(FirmaSession firmaSession, PerformanceMeasure contextModelObject)
-        {
-            var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
-            if (!hasPermissionByPerson)
-            {
-                return new PermissionCheckResult(
-                    $"You don't have permission to Edit {FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized()} for {MultiTenantHelpers.GetPerformanceMeasureName()} {contextModelObject.PerformanceMeasureDisplayName}");
-            }
-
-            return new PermissionCheckResult();
-        }
     }
 }

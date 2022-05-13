@@ -24,29 +24,9 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Custom Page Content")]
-    public class CustomPageManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<CustomPage>
+    public class CustomPageManageFeature : FirmaAdminFeature
     {
-        private readonly FirmaFeatureWithContextImpl<CustomPage> _firmaFeatureWithContextImpl;
 
-        public CustomPageManageFeature()
-            : base(new List<Role>{Role.Admin, Role.SitkaAdmin})
-        {
-            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<CustomPage>(this);
-            ActionFilter = _firmaFeatureWithContextImpl;
-        }
 
-        public void DemandPermission(FirmaSession firmaSession, CustomPage contextModelObject)
-        {
-            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
-        }
-
-        public PermissionCheckResult HasPermission(FirmaSession firmaSession, CustomPage contextModelObject)
-        {
-            if (HasPermissionByFirmaSession(firmaSession))
-            {
-                return new PermissionCheckResult();
-            }
-            return new PermissionCheckResult("Does not have administration privileges");
-        }
     }
 }

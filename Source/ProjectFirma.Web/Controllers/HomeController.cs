@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ViewPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
             var firmaPage = firmaPageTypeEnum.GetFirmaPage();
-            var hasPermission = new FirmaPageManageFeature().HasPermission(CurrentFirmaSession, firmaPage).HasPermission;
+            var hasPermission = new FirmaPageManageFeature().HasPermission(CurrentFirmaSession).HasPermission;
             var viewData = new DisplayPageContentViewData(CurrentFirmaSession, firmaPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }

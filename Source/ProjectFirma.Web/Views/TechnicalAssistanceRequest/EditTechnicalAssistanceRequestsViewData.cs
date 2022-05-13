@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
         public EditTechnicalAssistanceRequestsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.Project project, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base()
         {
             Check.EnsureNotNull(firmaPage, "The Firma Page for this section is not found; is one defined?");
-            bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission;
+            bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentFirmaSession).HasPermission;
             TechnicalAssistanceInstructionsViewData = new ViewPageContentViewData(firmaPage, hasPermissionToManageFirmaPage);
             ProjectID = project.ProjectID;
             TechnicalAssistanceTypes = technicalAssistanceTypes;

@@ -27,5 +27,6 @@ namespace ProjectFirma.Web.Security
         PermissionCheckResult HasPermission(FirmaSession firmaSession, T contextModelObject);
         void DemandPermission(FirmaSession firmaSession, T contextModelObject);
         string FeatureName { get; }
+        bool HasPermissionByFirmaSession(FirmaSession firmaSession);
     }
 }

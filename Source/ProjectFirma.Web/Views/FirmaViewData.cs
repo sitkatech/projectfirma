@@ -118,7 +118,7 @@ namespace ProjectFirma.Web.Views
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
 
-            var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission;
+            var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession).HasPermission;
             ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPersonCanManage) : null;
             CustomFooterViewData = new CustomFooterViewData(FirmaPageTypeEnum.CustomFooter.GetFirmaPage(), currentPersonCanManage, this.CurrentFirmaSession);
             TenantName = MultiTenantHelpers.GetTenantName();

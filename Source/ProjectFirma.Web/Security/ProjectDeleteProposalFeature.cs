@@ -22,7 +22,14 @@ namespace ProjectFirma.Web.Security
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
             var permissionDeniedMessage = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not deletable by you";
-            if (new ProjectDeleteFeature().HasPermission(firmaSession, contextModelObject).HasPermission)
+
+            var hasPermissionByFirmaSession = HasPermissionByFirmaSession(firmaSession);
+            if (!hasPermissionByFirmaSession)
+            {
+                return new PermissionCheckResult(permissionDeniedMessage);
+            }
+
+            if (new ProjectDeleteFeature().HasPermission(firmaSession).HasPermission)
             {
                 return new PermissionCheckResult();
             }

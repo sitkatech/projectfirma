@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Organization contextModelObject)
         {
-            var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
-            if (!hasPermissionByPerson)
+            var hasPermissionByFirmaSession = HasPermissionByFirmaSession(firmaSession);
+            if (!hasPermissionByFirmaSession)
             {
                 return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }

@@ -38,13 +38,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public InstructionsProposalViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentFirmaSession, "Instructions", SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)))
         {
             PageTitle = $"Propose {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
-            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission);
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
 
         public InstructionsProposalViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ProposalSectionsStatus proposalSectionsStatus, ProjectFirmaModels.Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentFirmaSession, project,  "Instructions", proposalSectionsStatus)
         {
-            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission);
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
     }

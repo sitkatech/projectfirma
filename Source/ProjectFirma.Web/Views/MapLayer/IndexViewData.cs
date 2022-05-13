@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.MapLayer
             ExternalMapLayerGridDataUrl = externalMapLayerGridDataUrl;
             NewUrl = SitkaRoute<MapLayerController>.BuildUrlFromExpression(x => x.New());
 
-            var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, internalMapLayersFirmaPage).HasPermission;
+            var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession).HasPermission;
             InternalMapLayersViewPageContentViewData = new ViewPageContentViewData(internalMapLayersFirmaPage, currentPersonCanManage);
 
             AreGeospatialAreasExternallySourced = MultiTenantHelpers.AreGeospatialAreasExternallySourced();

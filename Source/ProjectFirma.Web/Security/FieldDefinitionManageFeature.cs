@@ -24,28 +24,8 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Field Definitions")]
-    public class FieldDefinitionManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<FieldDefinition>
+    public class FieldDefinitionManageFeature : FirmaAdminFeature
     {
-        private readonly FirmaFeatureWithContextImpl<FieldDefinition> _firmaFeatureWithContextImpl;
 
-        public FieldDefinitionManageFeature() : base(new List<Role> {Role.Admin, Role.SitkaAdmin})
-        {
-            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<FieldDefinition>(this);
-            ActionFilter = _firmaFeatureWithContextImpl;
-        }
-
-        public void DemandPermission(FirmaSession firmaSession, FieldDefinition contextModelObject)
-        {
-            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
-        }
-
-        public PermissionCheckResult HasPermission(FirmaSession firmaSession, FieldDefinition contextModelObject)
-        {
-            if (HasPermissionByFirmaSession(firmaSession))
-            {
-                return new PermissionCheckResult();
-            }
-            return new PermissionCheckResult("Does not have administration privileges");
-        }
     }
 }
