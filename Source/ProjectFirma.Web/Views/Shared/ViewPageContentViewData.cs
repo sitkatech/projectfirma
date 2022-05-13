@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Shared
         }
 
         public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, FirmaSession currentFirmaSession)
-            : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission)
+            : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession).HasPermission)
         {
         }
     }

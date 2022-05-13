@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDelete(ReportTemplate reportTemplate, ConfirmDialogFormViewModel viewModel)
         {
 
-            var canDelete = new ReportTemplateManageFeature().HasPermission(CurrentFirmaSession, reportTemplate).HasPermission;
+            var canDelete = new ReportTemplateManageFeature().HasPermission(CurrentFirmaSession).HasPermission;
 
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete the \"{reportTemplate.DisplayName}\" Report Template?"

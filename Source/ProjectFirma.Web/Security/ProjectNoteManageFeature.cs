@@ -49,8 +49,8 @@ namespace ProjectFirma.Web.Security
         /// <returns></returns>
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectNote contextModelObject)
         {
-            var hasPermissionByPerson = HasPermissionByPerson(firmaSession.Person);
-            if (!hasPermissionByPerson)
+            var hasPermissionByFirmaSession = HasPermissionByFirmaSession(firmaSession);
+            if (!hasPermissionByFirmaSession)
             {
                 return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.Project.GetDisplayName()}");
             }

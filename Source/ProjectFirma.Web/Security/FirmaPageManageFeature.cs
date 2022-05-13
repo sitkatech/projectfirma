@@ -24,29 +24,8 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Page Content")]
-    public class FirmaPageManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<FirmaPage>
+    public class FirmaPageManageFeature : FirmaAdminFeature
     {
-        private readonly FirmaFeatureWithContextImpl<FirmaPage> _firmaFeatureWithContextImpl;
 
-        public FirmaPageManageFeature()
-            : base(new List<Role>{Role.Admin, Role.SitkaAdmin})
-        {
-            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<FirmaPage>(this);
-            ActionFilter = _firmaFeatureWithContextImpl;
-        }
-
-        public void DemandPermission(FirmaSession firmaSession, FirmaPage contextModelObject)
-        {
-            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
-        }
-
-        public PermissionCheckResult HasPermission(FirmaSession firmaSession, FirmaPage contextModelObject)
-        {
-            if (HasPermissionByFirmaSession(firmaSession))
-            {
-                return new PermissionCheckResult();
-            }
-            return new PermissionCheckResult("Does not have administration privileges");
-        }
     }
 }

@@ -27,9 +27,9 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectEvaluation contextModelObject)
         {
-            if (firmaSession.IsAnonymousOrUnassigned())
+            if (HasPermissionByFirmaSession(firmaSession))
             {
-                return new PermissionCheckResult("Anonymous users can't manage evaluation criteria");
+                return new PermissionCheckResult("You do not have permission to manage evaluation criteria");
             }
 
             var evaluation = contextModelObject.Evaluation;

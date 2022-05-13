@@ -23,8 +23,8 @@ namespace ProjectFirma.Web.Security
             }
             else
             {
-                var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
-                if (!hasPermissionByPerson)
+                var hasPermissionByFirmaSession = HasPermissionByFirmaSession(firmaSession);
+                if (!hasPermissionByFirmaSession)
                 {
                     return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
                 }

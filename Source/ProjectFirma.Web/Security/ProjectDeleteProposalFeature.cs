@@ -23,13 +23,13 @@ namespace ProjectFirma.Web.Security
         {
             var permissionDeniedMessage = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not deletable by you";
 
-            var hasPermissionByPerson = HasPermissionByPerson(firmaSession.Person);
-            if (!hasPermissionByPerson)
+            var hasPermissionByFirmaSession = HasPermissionByFirmaSession(firmaSession);
+            if (!hasPermissionByFirmaSession)
             {
                 return new PermissionCheckResult(permissionDeniedMessage);
             }
 
-            if (new ProjectDeleteFeature().HasPermission(firmaSession, contextModelObject).HasPermission)
+            if (new ProjectDeleteFeature().HasPermission(firmaSession).HasPermission)
             {
                 return new PermissionCheckResult();
             }

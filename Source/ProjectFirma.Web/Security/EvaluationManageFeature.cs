@@ -50,9 +50,9 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Evaluation contextModelObject)
         {
-            if (firmaSession.IsAnonymousOrUnassigned())
+            if (!HasPermissionByFirmaSession(firmaSession))
             {
-                return new PermissionCheckResult("Anonymous users can't manage evaluations");
+                return new PermissionCheckResult("You do not have permission to manage evaluations");
             }
 
             var evaluationVisibility = (EvaluationVisibilityEnum)contextModelObject.EvaluationVisibilityID;
