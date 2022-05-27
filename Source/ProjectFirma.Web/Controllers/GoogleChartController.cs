@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
                 throw new Exception("Invalid POST data.");
             }
 
-            var excelWorkbook = viewModel.GetExcelWorkbook(x => ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(x.LegendTitle,
+            var excelWorkbook = viewModel.GetExcelWorkbook(x => ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{(x.IsCumulativeChart ? "Cumulative " : string.Empty)}{x.LegendTitle}",
                 new PerformanceMeasureChartExcelSpec(x.GoogleChartDataTable.GoogleChartColumns.Where(y => PerformanceMeasureChartDataSimple.IsValidColumn(y.ColumnLabel, x)).ToList()),
                 PerformanceMeasureChartDataSimple.DeriveSimplesFromGoogleChartJson(x, viewModel.MainColumnLabel)) as IExcelWorkbookSheetDescriptor);
             return new ExcelResult(excelWorkbook, viewModel.ExcelFilename);
