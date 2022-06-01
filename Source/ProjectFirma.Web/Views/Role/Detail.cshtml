@@ -62,10 +62,14 @@ Source code is available upon request via <support@sitkatech.com>.
                     <tr>
                         <td>@featurePermission.FeatureName</td>
                         <td style="text-align: center">
-                            @featurePermission.HasPermission.ToYesNo()
-                            @if (featurePermission.NeedsContext)
+                            @if (featurePermission.HasPermission && featurePermission.NeedsContext)
                             {
-                                <span>but based on the context of a specific @featurePermission.ContextObjectName.</span>
+                                
+                                <span>Yes, based on the context of a specific @string.Concat(featurePermission.ContextObjectName.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ').</span>
+                            }
+                            else
+                            {
+                                @featurePermission.HasPermission.ToYesNo()
                             }
                         </td>
                     </tr>
@@ -86,9 +90,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     foreach (var featurePermission in ViewDataTyped.DeniedFeatures.OrderByDescending(x => x.HasPermission).ThenBy(x => x.FeatureName))
                     {
                         <tr>
-                            <td><span style="color: lightgray">@featurePermission.FeatureName</span></td>
+                            <td>@featurePermission.FeatureName</td>
                             <td style="text-align: center">
-                                <span style="color: lightgray">@featurePermission.HasPermission.ToYesNo()</span>
+                                @featurePermission.HasPermission.ToYesNo()
                             </td>
                         </tr>
                     }
