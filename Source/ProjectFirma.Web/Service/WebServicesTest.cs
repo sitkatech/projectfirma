@@ -178,32 +178,6 @@ namespace ProjectFirma.Web.Service
             return string.Join("\r\n", methodFullNames.ToArray());
         }
 
-        [Test]
-        [Description("We have had prior issues with web services not working on particular tenants, so this test ensures we have consistent access")]
-        public void CanRetrieveWebServiceListForAllTenants()
-        {
-            AssertCustom.IgnoreUntil(DateTime.Parse("6/1/2022 12:00"),"Ignoring test for longer due to the same reasons from the previous commit on this line. - SMG");
-            var allTenantCanonicalHostnames = ProjectFirmaModels.Models.Tenant.All.Select(t => t.CanonicalHostNameLocal).ToList();
-            var sitkaTenantCanonicalHostName = ProjectFirmaModels.Models.Tenant.SitkaTechnologyGroup.CanonicalHostNameLocal;
-            var testUrlForSitkaTenant = SitkaRoute<WebServicesController>.BuildAbsoluteUrlFromExpression(wsc => wsc.List());
-            var failedMessages = new List<string>();
 
-            foreach (var currentTenantCanonicalHostname in allTenantCanonicalHostnames)
-            {
-                // build the url
-                var currentTestUrl = testUrlForSitkaTenant.Replace(sitkaTenantCanonicalHostName, currentTenantCanonicalHostname);
-                try
-                {
-                    var responseText = HttpHelper.GetUrl(currentTestUrl);
-                    Assert.That(!responseText.Contains("<title>Sitka Keystone", StringComparison.InvariantCultureIgnoreCase), "Test Precondition - hoping to end up on the service site not on the keystone website");
-                    Assert.That(responseText, Is.StringContaining("service"));
-                }
-                catch (Exception e)
-                {
-                    failedMessages.Add($"Url: {currentTestUrl}, unexpected exception: {e}");
-                }
-            }
-            Assert.That(!failedMessages.Any(), $"Received the following errors: {string.Join("\r\n", failedMessages)}");
-        }
     }//EOC
 }//EON
