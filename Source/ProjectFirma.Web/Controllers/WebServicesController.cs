@@ -117,7 +117,9 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProjectsByOrganization(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, OrganizationPrimaryKey organizationPK)
         {
-            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            // don't require valid web token for this endpoint
+            // EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProject.GetProjectsByOrganization(organizationPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectsByOrganization");
@@ -162,7 +164,9 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult GetOrganizations(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
         {
-            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
+            HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            // don't require valid web token for this endpoint
+            // EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var organizations = WebServiceOrganization.GetOrganizations();
             var gridSpec = new WebServiceOrganizationGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, organizations, gridSpec, "Organizations");
