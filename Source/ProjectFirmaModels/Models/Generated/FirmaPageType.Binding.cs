@@ -200,6 +200,7 @@ namespace ProjectFirmaModels.Models
         ManageOrganizationTypes = 83,
         InternalMapLayers = 84,
         ExternallySourcedGeospatialAreasInstructions = 85,
-        SolicitationIndex = 86
+        SolicitationIndex = 86,
+        ManagePerformanceMeasures = 87
     }
 }

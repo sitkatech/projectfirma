@@ -59,16 +59,13 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureManageFeature]
         public ViewResult Manage()
         {
-            return IndexImpl();
+            var firmaPage = FirmaPageTypeEnum.ManagePerformanceMeasures.GetFirmaPage();
+            var viewData = new ManageViewData(CurrentFirmaSession, firmaPage);
+            return RazorView<Manage, ManageViewData>(viewData);
         }
 
         [PerformanceMeasureViewFeature]
         public ViewResult Index()
-        {
-            return IndexImpl();
-        }
-
-        private ViewResult IndexImpl()
         {
             var firmaPage = FirmaPageTypeEnum.PerformanceMeasuresList.GetFirmaPage();
             var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
@@ -172,8 +169,15 @@ namespace ProjectFirma.Web.Controllers
                     .ToSelectListWithEmptyFirstRow(
                         x => x.PerformanceMeasureTypeID.ToString(CultureInfo.InvariantCulture),
                         x => x.PerformanceMeasureTypeDisplayName);
+            var performanceMeasureGroupsAsSelectListItems =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasureGroups.OrderBy(x => x.PerformanceMeasureGroupName)
+                    .ToSelectListWithEmptyFirstRow(
+                        x => x.PerformanceMeasureGroupID.ToString(CultureInfo.InvariantCulture),
+                        x => x.PerformanceMeasureGroupName);
+            var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var viewData = new EditViewData(measurementUnitTypesAsSelectListItems,
-                performanceMeasureTypesAsSelectListItems);
+                performanceMeasureTypesAsSelectListItems,
+                performanceMeasureGroupsAsSelectListItems, userHasAdminPermissions);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

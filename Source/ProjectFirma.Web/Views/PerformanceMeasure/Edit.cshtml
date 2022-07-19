@@ -91,6 +91,19 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
+    @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard() && ViewDataTyped.UserHasAdminPermissions)
+    {
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.PerformanceMeasureGroupID)
+            </div>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.PerformanceMeasureGroupID, ViewDataTyped.PerformanceMeasureGroups, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PerformanceMeasureGroupID)
+            </div>
+        </div>
+    }
+
 </div>
     @Html.HiddenFor(m => m.PerformanceMeasureID)
 }

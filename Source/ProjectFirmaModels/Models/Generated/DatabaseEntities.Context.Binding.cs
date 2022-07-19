@@ -117,6 +117,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedSubcategoryOptionUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureFixedTargetConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureGroupConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodConfiguration());
@@ -359,6 +360,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureExpectedUpdate> PerformanceMeasureExpectedUpdates { get { return AllPerformanceMeasureExpectedUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureFixedTarget> AllPerformanceMeasureFixedTargets { get; set; }
         public virtual IQueryable<PerformanceMeasureFixedTarget> PerformanceMeasureFixedTargets { get { return AllPerformanceMeasureFixedTargets.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureGroup> AllPerformanceMeasureGroups { get; set; }
+        public virtual IQueryable<PerformanceMeasureGroup> PerformanceMeasureGroups { get { return AllPerformanceMeasureGroups.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureImage> AllPerformanceMeasureImages { get; set; }
         public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
@@ -879,6 +882,9 @@ namespace ProjectFirmaModels.Models
 
                 case "PerformanceMeasureFixedTarget":
                     return PerformanceMeasureFixedTargets.GetPerformanceMeasureFixedTarget(primaryKey);
+
+                case "PerformanceMeasureGroup":
+                    return PerformanceMeasureGroups.GetPerformanceMeasureGroup(primaryKey);
 
                 case "PerformanceMeasureImage":
                     return PerformanceMeasureImages.GetPerformanceMeasureImage(primaryKey);

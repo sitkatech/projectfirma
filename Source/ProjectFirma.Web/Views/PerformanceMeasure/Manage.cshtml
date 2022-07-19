@@ -1,0 +1,62 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Manage.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.SortOrder
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.PerformanceMeasure.Manage
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewPerformanceMeasureUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
+    @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
+    {
+        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewPerformanceMeasureGroupUrl, "Create Group", ViewDataTyped.HasPerformanceMeasureManagePermissions)
+    }
+    @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasPerformanceMeasureManagePermissions)
+    @* <div class="pull-right" style="margin-left:10px">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasPerformanceMeasureManagePermissions)</div> *@
+    
+
+}
+
+<div class="row">
+    <div class="col-xs-12" style="margin-bottom: 20px;">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    </div>
+    <div class="col-xs-12" style="margin-bottom: 20px;">
+        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    </div>
+    @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
+    {
+        <div class="col-xs-12">
+            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGroupGridSpec, ViewDataTyped.PerformanceMeasureGroupGridName, ViewDataTyped.PerformanceMeasureGroupGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        </div>
+    }
+</div>
