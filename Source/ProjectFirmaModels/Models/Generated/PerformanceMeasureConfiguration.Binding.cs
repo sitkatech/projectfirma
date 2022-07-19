@@ -32,9 +32,10 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Importance).HasColumnName(@"Importance").HasColumnType("varchar").IsOptional();
             Property(x => x.AdditionalInformation).HasColumnName(@"AdditionalInformation").HasColumnType("varchar").IsOptional();
             Property(x => x.CanBeChartedCumulatively).HasColumnName(@"CanBeChartedCumulatively").HasColumnType("bit").IsRequired();
+            Property(x => x.PerformanceMeasureGroupID).HasColumnName(@"PerformanceMeasureGroupID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-
+            HasOptional(a => a.PerformanceMeasureGroup).WithMany(b => b.PerformanceMeasures).HasForeignKey(c => c.PerformanceMeasureGroupID).WillCascadeOnDelete(false); // FK_PerformanceMeasure_PerformanceMeasureGroup_PerformanceMeasureGroupID
         }
     }
 }

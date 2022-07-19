@@ -21,21 +21,17 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace ProjectFirma.Web.Views.PerformanceMeasure
+namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
 {
     public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> MeasurementUnitTypes;
         public readonly IEnumerable<SelectListItem> PerformanceMeasureTypes;
-        public readonly IEnumerable<SelectListItem> PerformanceMeasureGroups;
-        public readonly bool UserHasAdminPermissions;
 
-        public EditViewData(IEnumerable<SelectListItem> measurementUnitTypes, IEnumerable<SelectListItem> performanceMeasureTypes, IEnumerable<SelectListItem> performanceMeasureGroups, bool userHasAdminPermissions)
+        public EditViewData(IEnumerable<SelectListItem> measurementUnitTypes, IEnumerable<SelectListItem> performanceMeasureTypes)
         {
             MeasurementUnitTypes = measurementUnitTypes;
             PerformanceMeasureTypes = performanceMeasureTypes;
-            PerformanceMeasureGroups = performanceMeasureGroups;
-            UserHasAdminPermissions = userHasAdminPermissions;
         }
     }
 }

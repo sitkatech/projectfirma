@@ -120,6 +120,14 @@
                     <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()</div>
                 </div>
+                @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard() && ViewDataTyped.IsAdmin)
+                {
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureGroup.ToType())</div>
+                        <div class="col-xs-7">@(ViewDataTyped.PerformanceMeasure.PerformanceMeasureGroup != null ? ViewDataTyped.PerformanceMeasure.PerformanceMeasureGroup.PerformanceMeasureGroupName : string.Empty)</div>
+                    </div>
+                }
+
             </div>
         </div>
 

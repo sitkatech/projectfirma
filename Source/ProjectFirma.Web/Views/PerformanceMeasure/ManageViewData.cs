@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IndexViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ManageViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -21,20 +21,30 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.PerformanceMeasureGroup;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
-    public class IndexViewData : FirmaViewData
+    public class ManageViewData : FirmaViewData
     {        
         public PerformanceMeasureGridSpec PerformanceMeasureGridSpec{ get; }
         public string PerformanceMeasureGridName{ get; }
         public string PerformanceMeasureGridDataUrl{ get; }
+        public string EditSortOrderUrl { get; }
+        public bool HasPerformanceMeasureManagePermissions { get; }
+        public string NewPerformanceMeasureUrl { get; }
+        public PerformanceMeasureGroupGridSpec PerformanceMeasureGroupGridSpec { get; }
+        public string PerformanceMeasureGroupGridName { get; }
+        public string PerformanceMeasureGroupGridDataUrl { get; }
+        public string NewPerformanceMeasureGroupUrl { get; }
 
-        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
+        public ManageViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
+            PageTitle = $"Manage {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}";
 
+            HasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
@@ -42,12 +52,25 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 SaveFiltersInCookie = true
             };
 
+            NewPerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());
+            NewPerformanceMeasureGroupUrl = SitkaRoute<PerformanceMeasureGroupController>.BuildUrlFromExpression(c => c.New());
 
             PerformanceMeasureGridSpec.CustomExcelDownloadLinkText = $"Download with {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}";
             PerformanceMeasureGridSpec.CustomExcelDownloadUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
 
             PerformanceMeasureGridName = "performanceMeasuresGrid";
             PerformanceMeasureGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.PerformanceMeasureGridJsonData());
+            EditSortOrderUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.EditSortOrder());
+
+            PerformanceMeasureGroupGridSpec = new PerformanceMeasureGroupGridSpec(currentFirmaSession)
+            {
+                ObjectNameSingular = $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}",
+                SaveFiltersInCookie = true
+            };
+
+            PerformanceMeasureGroupGridName = "performanceMeasureGroupsGrid";
+            PerformanceMeasureGroupGridDataUrl = SitkaRoute<PerformanceMeasureGroupController>.BuildUrlFromExpression(c => c.PerformanceMeasureGroupGridJsonData());
         }
     }
 }
