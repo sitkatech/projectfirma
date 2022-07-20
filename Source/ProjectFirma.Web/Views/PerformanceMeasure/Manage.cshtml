@@ -36,14 +36,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @section RightOfPageTitle
 {
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewPerformanceMeasureUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
-    @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
-    {
-        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewPerformanceMeasureGroupUrl, "Create Group", ViewDataTyped.HasPerformanceMeasureManagePermissions)
-    }
     @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasPerformanceMeasureManagePermissions)
-    @* <div class="pull-right" style="margin-left:10px">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasPerformanceMeasureManagePermissions)</div> *@
-    
-
 }
 
 <div class="row">
@@ -51,11 +44,19 @@ Source code is available upon request via <support@sitkatech.com>.
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
     </div>
     <div class="col-xs-12" style="margin-bottom: 20px;">
+        @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
+        {
+            <h4> @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h4>
+        }
         @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
     @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
     {
         <div class="col-xs-12">
+            <div class="pull-right">
+                @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewPerformanceMeasureGroupUrl, string.Format("Create {0}", FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
+            </div>
+            <h4> @FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabelPluralized()</h4> 
             @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGroupGridSpec, ViewDataTyped.PerformanceMeasureGroupGridName, ViewDataTyped.PerformanceMeasureGroupGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
         </div>
     }

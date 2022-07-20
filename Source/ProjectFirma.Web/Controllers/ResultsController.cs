@@ -46,37 +46,49 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult AccomplishmentsDashboard()
         {
-            var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-
-            List<Organization> organizations;
-            // default to Funding Organizations if no relationship type is selected to report in the dashboard.
-            var relationshipTypeToReportInAccomplishmentsDashboard = MultiTenantHelpers.GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard();
-            if (relationshipTypeToReportInAccomplishmentsDashboard == null)
+            if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
             {
-                var expectedFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
-                    .Select(x => x.FundingSource.Organization).ToList();
-                var reportedFundingOrganization = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures
-                    .Select(x => x.FundingSource.Organization).ToList();
-
-                expectedFundingOrganizations.AddRange(reportedFundingOrganization);
-                organizations = expectedFundingOrganizations.Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();
+                var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
+                var performanceMeasureGroups = HttpRequestStorage.DatabaseEntities.PerformanceMeasureGroups.Where(x => x.PerformanceMeasures.Any())
+                    .OrderBy(x => x.PerformanceMeasureGroupName).ToList();
+                var viewData =
+                    new SimpleAccomplishmentsDashboardViewData(CurrentFirmaSession, firmaPage, performanceMeasureGroups);
+                return RazorView<SimpleAccomplishmentsDashboard, SimpleAccomplishmentsDashboardViewData>(viewData);
             }
             else
             {
-                organizations = HttpRequestStorage.DatabaseEntities.Projects.ToList().SelectMany(x =>
-                    x.ProjectOrganizations.Where(y =>
-                        y.OrganizationRelationshipType == relationshipTypeToReportInAccomplishmentsDashboard).Select(z => z.Organization)).ToList().Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();              
-            }
+                var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
+                var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
-            var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
-            var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
-            var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase).ToList();
-            var viewData = new AccomplishmentsDashboardViewData(CurrentFirmaSession, firmaPage, tenantAttribute,
-                organizations, FirmaDateUtilities.GetRangeOfYearsForReporting(), defaultBeginYear,
-                defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
-            return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
+                List<Organization> organizations;
+                // default to Funding Organizations if no relationship type is selected to report in the dashboard.
+                var relationshipTypeToReportInAccomplishmentsDashboard = MultiTenantHelpers.GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard();
+                if (relationshipTypeToReportInAccomplishmentsDashboard == null)
+                {
+                    var expectedFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
+                        .Select(x => x.FundingSource.Organization).ToList();
+                    var reportedFundingOrganization = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures
+                        .Select(x => x.FundingSource.Organization).ToList();
+
+                    expectedFundingOrganizations.AddRange(reportedFundingOrganization);
+                    organizations = expectedFundingOrganizations.Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();
+                }
+                else
+                {
+                    organizations = HttpRequestStorage.DatabaseEntities.Projects.ToList().SelectMany(x =>
+                        x.ProjectOrganizations.Where(y =>
+                            y.OrganizationRelationshipType == relationshipTypeToReportInAccomplishmentsDashboard).Select(z => z.Organization)).ToList().Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();
+                }
+
+                var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
+                var defaultBeginYear = defaultEndYear - (defaultEndYear - MultiTenantHelpers.GetMinimumYear());
+                var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
+                var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase).ToList();
+                var viewData = new AccomplishmentsDashboardViewData(CurrentFirmaSession, firmaPage, tenantAttribute,
+                    organizations, FirmaDateUtilities.GetRangeOfYearsForReporting(), defaultBeginYear,
+                    defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
+                return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
+            }
         }
 
         [AnonymousUnclassifiedFeature]

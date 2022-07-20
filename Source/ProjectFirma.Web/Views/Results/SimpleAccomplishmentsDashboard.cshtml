@@ -1,0 +1,85 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="SimpleAccomplishmentsDashboard.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Results.SimpleAccomplishmentsDashboard
+@section JavascriptAndStylesContent
+{
+    <style>
+    .pageTitle {
+        display: none;
+    }
+
+    div.star-primary:after {
+        content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
+    }
+
+    .accomplishmentGroupHeader {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .accomplishmentGroupNumbers {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    </style>
+
+}
+
+<div id="accomplishmentsDashboard">
+    <div class="homepageHeader">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
+                <div class="intro-text">
+                    <h1 class="subSectionName">Accomplishments Dashboard</h1>
+                    <div class="star-primary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row counterHeader">
+        <div class="col-xs-12 text-center">
+            <h4>Accomplishments</h4>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px">
+        @foreach (var group in ViewDataTyped.PerformanceMeasureGroups)
+        {
+            <div class="col-xs-3" style="text-align: center">
+                <div class="accomplishmentGroupHeader">@group.PerformanceMeasureGroupName</div>
+                @if (group.IconFileResourceInfo != null)
+                {
+                    <img src="@group.IconFileResourceInfo.FileResourceUrlScaledThumbnail(100)" alt="@group.IconFileResourceInfo.OriginalBaseFilename"/>
+                }
+
+                @foreach (var unitAndTotal in ViewDataTyped.PerformanceMeasureGroupsAndMeasurementUnitTypeTotals[group])
+                {
+                    <div class="accomplishmentGroupNumbers">@unitAndTotal.Item1.ToGroupedNumeric()</div>
+                    <div style="padding-bottom: 10px; margin-top: -5px;">@(unitAndTotal.Item2 == MeasurementUnitType.Dollars ? unitAndTotal.Item2.MeasurementUnitTypeDisplayName : unitAndTotal.Item2.LegendDisplayName)</div>
+                }
+            </div>
+        }
+    </div>
+</div>
