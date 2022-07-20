@@ -43,17 +43,16 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.PerformanceMeasureDisplayName),
                 300,
                 DhtmlxGridColumnFilterType.Text);
+            if (new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                Add($"{FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()}", a => a.PerformanceMeasureGroup?.PerformanceMeasureGroupName, 200);
+            }
             Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString("Unit"), a => a.MeasurementUnitType == MeasurementUnitType.Dollars ? a.MeasurementUnitType.MeasurementUnitTypeDisplayName  : a.MeasurementUnitType.LegendDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.PerformanceMeasureType.ToType().ToGridHeaderString("Type"), a => a.PerformanceMeasureType.PerformanceMeasureTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.PerformanceMeasureDefinition, 400, DhtmlxGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Reporting", a => a.ReportedProjectsCount(currentFirmaSession), 80);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Expecting", a => a.ExpectedProjectsCount(currentFirmaSession), 80);
-            if (new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))
-            {
-                Add($"{FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()}", a => a.PerformanceMeasureGroup?.PerformanceMeasureGroupName, 200);
-
-            }
         }
     }
 }

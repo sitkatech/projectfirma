@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureGroups.Add(performanceMeasureGroup);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(
-                $"New {FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()} '{performanceMeasureGroup.PerformanceMeasureGroupName}' successfully created!");
+                $"New {FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()} '{performanceMeasureGroup.PerformanceMeasureGroupName}' successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -154,8 +154,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !performanceMeasureGroup.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()} \"{performanceMeasureGroup.PerformanceMeasureGroupName}\"?</p>"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()}");
+                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()} \"{performanceMeasureGroup.PerformanceMeasureGroupName}\"?</p>"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
