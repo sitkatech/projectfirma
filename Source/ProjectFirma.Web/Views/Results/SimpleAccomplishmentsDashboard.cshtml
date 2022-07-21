@@ -21,6 +21,7 @@
 @using LtInfo.Common
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Results
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.SimpleAccomplishmentsDashboard
 @section JavascriptAndStylesContent
@@ -58,7 +59,11 @@
             </div>
         </div>
     </div>
-    
+    @if (ViewDataTyped.TenantName.Equals("NCRPProjectTracker"))
+    {
+        FundingSummary.RenderPartialView(Html, ViewDataTyped.FundingSummaryViewData);
+    }
+
     <div class="row counterHeader">
         <div class="col-xs-12 text-center">
             <h4>Accomplishments</h4>
@@ -80,6 +85,7 @@
                     <div style="padding-bottom: 10px; margin-top: -5px;">@(unitAndTotal.Item2 == MeasurementUnitType.Dollars ? unitAndTotal.Item2.MeasurementUnitTypeDisplayName : unitAndTotal.Item2.LegendDisplayName)</div>
                 }
             </div>
+
         }
     </div>
 </div>

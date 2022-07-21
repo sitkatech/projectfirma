@@ -416,6 +416,8 @@
     <Compile Include="Views\Reports\ReportTemplateGridSpec.cs" />
     <Compile Include="Views\Reports\Index.cs" />
     <Compile Include="Views\Reports\IndexViewData.cs" />
+    <Compile Include="Views\Results\FundingSummary.cs" />
+    <Compile Include="Views\Results\FundingSummaryViewData.cs" />
     <Compile Include="Views\Results\SimpleAccomplishmentsDashboard.cs" />
     <Compile Include="Views\Results\SimpleAccomplishmentsDashboardViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
@@ -1929,6 +1931,7 @@
     <Content Include="Views\Solicitation\Index.cshtml" />
     <Content Include="Views\Solicitation\Edit.cshtml" />
     <Content Include="Views\Results\SimpleAccomplishmentsDashboard.cshtml" />
+    <Content Include="Views\Results\FundingSummary.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
