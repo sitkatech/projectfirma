@@ -54,9 +54,9 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="col-xs-12">
             <div class="pull-right">
-                @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewPerformanceMeasureGroupUrl, string.Format("Create {0}", FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
+                @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewPerformanceMeasureGroupUrl, string.Format("Create {0}", FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
             </div>
-            <h4> @FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabelPluralized()</h4> 
+            <h4> @FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabelPluralized()</h4> 
             @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGroupGridSpec, ViewDataTyped.PerformanceMeasureGroupGridName, ViewDataTyped.PerformanceMeasureGroupGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
         </div>
     }

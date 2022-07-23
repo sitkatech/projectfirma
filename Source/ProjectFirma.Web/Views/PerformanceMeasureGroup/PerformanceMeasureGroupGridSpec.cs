@@ -36,9 +36,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
             if (hasManagePermission)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit '{x.PerformanceMeasureGroupName}'", !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit '{x.PerformanceMeasureGroupName}'", true), 30, DhtmlxGridColumnFilterType.None);
             }
-            Add(FieldDefinitionEnum.AccomplishmentGroup.ToType().ToGridHeaderString(),
+            Add(FieldDefinitionEnum.PerformanceMeasureGroup.ToType().ToGridHeaderString(),
                 a => a.PerformanceMeasureGroupName,
                 300,
                 DhtmlxGridColumnFilterType.Text);

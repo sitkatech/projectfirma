@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -55,7 +56,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(PerformanceMeasureGroupPrimaryKey performanceMeasureGroupPrimaryKey)
         {
             var performanceMeasureGroup = performanceMeasureGroupPrimaryKey.EntityObject;
-            var viewModel = new EditViewModel(performanceMeasureGroup);
+            var allPerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            var viewModel = new EditViewModel(performanceMeasureGroup, allPerformanceMeasures);
             return ViewEdit(viewModel);
         }
 
@@ -77,17 +79,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var measurementUnitTypesAsSelectListItems = MeasurementUnitType.All
-                .OrderBy(x => x.MeasurementUnitTypeDisplayName).ToSelectListWithEmptyFirstRow(
-                    x => x.MeasurementUnitTypeID.ToString(CultureInfo.InvariantCulture),
-                    x => x.MeasurementUnitTypeDisplayName);
-            var performanceMeasureTypesAsSelectListItems =
-                PerformanceMeasureType.All.OrderBy(x => x.PerformanceMeasureTypeDisplayName)
-                    .ToSelectListWithEmptyFirstRow(
-                        x => x.PerformanceMeasureTypeID.ToString(CultureInfo.InvariantCulture),
-                        x => x.PerformanceMeasureTypeDisplayName);
-            var viewData = new EditViewData(measurementUnitTypesAsSelectListItems,
-                performanceMeasureTypesAsSelectListItems);
+            var performanceMeasuresAsSelectListItems =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
+            var viewData = new EditViewData(performanceMeasuresAsSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -95,7 +89,8 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureManageFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditViewModel();
+            var allPerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
+            var viewModel = new EditViewModel(allPerformanceMeasures);
             return ViewEdit(viewModel);
         }
 
@@ -112,12 +107,26 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureGroup = new PerformanceMeasureGroup(default(string));
             viewModel.UpdateModel(performanceMeasureGroup, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
 
-
-
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureGroups.Add(performanceMeasureGroup);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            var performanceMeasureIDsSubmitted = new List<int>();
+            if (viewModel.PerformanceMeasureListbox != null)
+            {
+                performanceMeasureIDsSubmitted.AddRange(viewModel.PerformanceMeasureListbox.SelectedItems.Select(y => Int32.Parse(y)).ToList());
+            }
+
+            var performanceMeasuresToUpdate =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(x =>
+                    performanceMeasureIDsSubmitted.Contains(x.PerformanceMeasureID));
+
+            foreach (var performanceMeasure in performanceMeasuresToUpdate)
+            {
+                performanceMeasure.PerformanceMeasureGroupID = performanceMeasureGroup.PerformanceMeasureGroupID;
+            }
+
             SetMessageForDisplay(
-                $"New {FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()} '{performanceMeasureGroup.PerformanceMeasureGroupName}' successfully created!");
+                $"New {FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()} '{performanceMeasureGroup.PerformanceMeasureGroupName}' successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -154,8 +163,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !performanceMeasureGroup.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()} \"{performanceMeasureGroup.PerformanceMeasureGroupName}\"?</p>"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()}");
+                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()} \"{performanceMeasureGroup.PerformanceMeasureGroupName}\"?</p>"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,

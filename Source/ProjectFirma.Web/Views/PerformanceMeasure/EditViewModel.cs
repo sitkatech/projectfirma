@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively)]
         public bool? CanBeChartedCumulatively { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.AccomplishmentGroup)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureGroup)]
         public int? PerformanceMeasureGroupID { get; set; }
 
         /// <summary>

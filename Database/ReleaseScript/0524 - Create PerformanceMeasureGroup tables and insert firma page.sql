@@ -9,7 +9,7 @@ select 87, TenantID, FirmaPageContent from dbo.FirmaPage where FirmaPageTypeID =
 
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 
-(377, N'AccomplishmentGroup', N'Accomplishment Group')
+(377, N'PerformanceMeasureGroup', N'Performance Measure Group')
 
 insert into dbo.FieldDefinitionDefault (FieldDefinitionID, DefaultDefinition)
 values

@@ -324,6 +324,6 @@ namespace ProjectFirmaModels.Models
         Solicitation = 374,
         EnableSolicitations = 375,
         OtherPartners = 376,
-        AccomplishmentGroup = 377
+        PerformanceMeasureGroup = 377
     }
 }

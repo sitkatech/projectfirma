@@ -64,8 +64,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureGroupGridSpec = new PerformanceMeasureGroupGridSpec(currentFirmaSession)
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.AccomplishmentGroup.ToType().GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 

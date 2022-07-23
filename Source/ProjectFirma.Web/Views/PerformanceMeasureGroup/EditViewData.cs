@@ -25,13 +25,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public readonly IEnumerable<SelectListItem> MeasurementUnitTypes;
-        public readonly IEnumerable<SelectListItem> PerformanceMeasureTypes;
+        public readonly List<ProjectFirmaModels.Models.PerformanceMeasure> AllPerformanceMeasures;
 
-        public EditViewData(IEnumerable<SelectListItem> measurementUnitTypes, IEnumerable<SelectListItem> performanceMeasureTypes)
+        public EditViewData(List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures)
         {
-            MeasurementUnitTypes = measurementUnitTypes;
-            PerformanceMeasureTypes = performanceMeasureTypes;
+            AllPerformanceMeasures = allPerformanceMeasures;
         }
     }
 }
