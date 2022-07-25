@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to view {contextModelObject.GetDisplayName()}");
             }
 
-            if (contextModelObject.IsProposal())
+            if (contextModelObject.IsProposal() || contextModelObject.IsPendingProject())
             {
                 if (firmaSession.IsAnonymousUser() || firmaSession.Role == Role.Unassigned)
                 {
