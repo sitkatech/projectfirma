@@ -29,6 +29,11 @@ REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureGroup] CHECK CONSTRAINT [FK_PerformanceMeasureGroup_FileResourceInfo_IconFileResourceInfoID_FileResourceInfoID]
 GO
+ALTER TABLE [dbo].[PerformanceMeasureGroup]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureGroup_FileResourceInfo_IconFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([IconFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureGroup] CHECK CONSTRAINT [FK_PerformanceMeasureGroup_FileResourceInfo_IconFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureGroup]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureGroup_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
