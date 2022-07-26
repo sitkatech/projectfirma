@@ -22,6 +22,22 @@
 @inherits ProjectFirma.Web.Views.Results.FundingSummary
 
 <style>
+    .counterSection {
+        padding-bottom: 10px;
+    }
+
+        .counterSection .text-right {
+            padding-right: 5px;
+        }
+
+        .counterSection .text-left {
+            padding-left: 5px;
+        }
+
+    #accomplishmentsDashboard .counterHeader h4 {
+        font-size: 24px;
+
+    }
 </style>
 <script src="/Scripts/waypoints.min.js"></script>
 <script src="/Scripts/jquery.counterup.min.js"></script>
@@ -31,17 +47,32 @@
         <h4>Funding Totals</h4>
     </div>
 </div>
+
 <div class="row counterSection">
-    <div class="col-sm-12 text-center">
-        <div id="counterNumbers">
-            <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span> Total Awarded
-            <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-            <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span> Total Matched
-            <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-            <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> Total Investment
-        </div>
+    <div class="col-xs-6 text-right">
+        <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span>
+    </div>
+    <div class="col-xs-6 text-left">
+        Awarded
     </div>
 </div>
+<div class="row counterSection">
+    <div class="col-xs-6 text-right">
+        <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span>
+    </div>
+    <div class="col-xs-6 text-left">
+        Leveraged
+    </div>
+</div>
+<div class="row counterSection">
+    <div class="col-xs-6 text-right">
+        <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span>
+    </div>
+    <div class="col-xs-6 text-left">
+        Total Investment
+    </div>
+</div>
+
 
 <div class="row">
     <div class="col-xs-12" style="margin-bottom: 20px;">

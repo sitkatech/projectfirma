@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -59,8 +61,8 @@ namespace ProjectFirma.Web.Views.Results
 
                 var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
 
-                TotalAwarded = projects.Sum(x => x.GetSecuredFundingForFundingSources(awardFundingSourceIDs) ?? 0);
-                TotalMatched = projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0);
+                TotalAwarded = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(awardFundingSourceIDs) ?? 0));
+                TotalMatched = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0));
                 TotalInvestment = TotalAwarded + TotalMatched;
             }
 

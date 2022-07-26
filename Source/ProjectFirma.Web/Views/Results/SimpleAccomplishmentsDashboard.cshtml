@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Results
@@ -70,22 +71,27 @@
         </div>
     </div>
     <div class="row" style="margin-top: 20px">
-        @foreach (var group in ViewDataTyped.PerformanceMeasureGroups)
-        {
-            <div class="col-xs-3" style="text-align: center">
-                <div class="accomplishmentGroupHeader">@group.PerformanceMeasureGroupName</div>
-                @if (group.IconFileResourceInfo != null)
-                {
-                    <img src="@group.IconFileResourceInfo.FileResourceUrlScaledThumbnail(100)" alt="@group.IconFileResourceInfo.OriginalBaseFilename"/>
-                }
 
-                @foreach (var unitAndTotal in ViewDataTyped.PerformanceMeasureGroupsAndMeasurementUnitTypeTotals[group])
+        @foreach (var batch in ViewDataTyped.PerformanceMeasureGroups.Batch(4))
+        {
+            <div class="row">
+                @foreach (var group in batch)
                 {
-                    <div class="accomplishmentGroupNumbers">@unitAndTotal.Item1.ToGroupedNumeric()</div>
-                    <div style="padding-bottom: 10px; margin-top: -5px;">@(unitAndTotal.Item2 == MeasurementUnitType.Dollars ? unitAndTotal.Item2.MeasurementUnitTypeDisplayName : unitAndTotal.Item2.LegendDisplayName)</div>
+                <div class="col-xs-3" style="text-align: center">
+                    <div class="accomplishmentGroupHeader">@group.PerformanceMeasureGroupName</div>
+                    @if (group.IconFileResourceInfo != null)
+                    {
+                        <img src="@group.IconFileResourceInfo.FileResourceUrlScaledThumbnail(100)" alt="@group.IconFileResourceInfo.OriginalBaseFilename"/>
+                    }
+
+                    @foreach (var unitAndTotal in ViewDataTyped.PerformanceMeasureGroupsAndMeasurementUnitTypeTotals[group])
+                    {
+                        <div class="accomplishmentGroupNumbers">@unitAndTotal.Item1.ToGroupedNumeric()</div>
+                        <div style="padding-bottom: 10px; margin-top: -5px;">@(unitAndTotal.Item2 == MeasurementUnitType.Dollars ? unitAndTotal.Item2.MeasurementUnitTypeDisplayName : unitAndTotal.Item2.LegendDisplayName)</div>
+                    }
+                </div>
                 }
             </div>
-
         }
     </div>
 </div>

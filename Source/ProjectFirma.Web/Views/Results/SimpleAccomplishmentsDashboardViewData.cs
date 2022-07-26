@@ -54,8 +54,8 @@ namespace ProjectFirma.Web.Views.Results
                 foreach (var unitAndPms in pmsByUnit)
                 {
                     var unit = unitAndPms.Key;
-                    var reported = unitAndPms.Sum(x =>
-                        x.GetReportedPerformanceMeasureValues(currentFirmaSession).Sum(y => y.GetReportedValue() ?? 0));
+                    var reported = Math.Round(unitAndPms.Sum(x =>
+                        x.GetReportedPerformanceMeasureValues(currentFirmaSession).Sum(y => y.GetReportedValue() ?? 0)));
                     PerformanceMeasureGroupsAndMeasurementUnitTypeTotals[group].Add(new Tuple<double, MeasurementUnitType>(reported, unit));
                 }
             }
