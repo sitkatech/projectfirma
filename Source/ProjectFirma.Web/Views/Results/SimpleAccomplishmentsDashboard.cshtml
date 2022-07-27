@@ -74,22 +74,30 @@
 
         @foreach (var batch in ViewDataTyped.PerformanceMeasureGroups.Batch(4))
         {
+            var batchList = batch.ToList();
             <div class="row" style="margin-bottom:10px">
-                @foreach (var group in batch)
+                @foreach (var group in batchList)
                 {
-                <div class="col-xs-3" style="text-align: center">
-                    <div class="accomplishmentGroupHeader">@group.PerformanceMeasureGroupName</div>
-                    @if (group.IconFileResourceInfo != null)
-                    {
-                        <img src="@group.IconFileResourceInfo.FileResourceUrlScaledThumbnail(100)" alt="@group.IconFileResourceInfo.OriginalBaseFilename"/>
-                    }
+                    <div class="col-xs-3" style="text-align: center">
+                        <div class="accomplishmentGroupHeader">@group.PerformanceMeasureGroupName</div>
+                    </div>
+                }
+            </div>
+            <div class="row" style="margin-bottom:10px">
+                @foreach (var group in batchList)
+                {
+                    <div class="col-xs-3" style="text-align: center">
+                        @if (group.IconFileResourceInfo != null)
+                        {
+                            <img src="@group.IconFileResourceInfo.FileResourceUrlScaledThumbnail(100)" alt="@group.IconFileResourceInfo.OriginalBaseFilename"/>
+                        }
 
-                    @foreach (var unitAndTotal in ViewDataTyped.PerformanceMeasureGroupsAndMeasurementUnitTypeTotals[group])
-                    {
-                        <div class="accomplishmentGroupNumbers">@unitAndTotal.Item1.ToGroupedNumeric()</div>
-                        <div style="padding-bottom: 10px; margin-top: -5px;">@(unitAndTotal.Item2 == MeasurementUnitType.Dollars ? unitAndTotal.Item2.MeasurementUnitTypeDisplayName : unitAndTotal.Item2.LegendDisplayName)</div>
-                    }
-                </div>
+                        @foreach (var unitAndTotal in ViewDataTyped.PerformanceMeasureGroupsAndMeasurementUnitTypeTotals[group])
+                        {
+                            <div class="accomplishmentGroupNumbers">@unitAndTotal.Item1.ToGroupedNumeric()</div>
+                            <div style="padding-bottom: 10px; margin-top: -5px;">@(unitAndTotal.Item2 == MeasurementUnitType.Dollars ? unitAndTotal.Item2.MeasurementUnitTypeDisplayName : unitAndTotal.Item2.LegendDisplayName)</div>
+                        }
+                    </div>
                 }
             </div>
         }
