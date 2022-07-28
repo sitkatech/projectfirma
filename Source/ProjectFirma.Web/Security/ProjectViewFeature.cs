@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Security
                     }
 
                     // do not allow if user is anonymous and show proposals to public and stage a stage other than pending 
-                    if (MultiTenantHelpers.ShowProposalsToThePublic() && contextModelObject.ProjectApprovalStatus !=
+                    if (contextModelObject.IsProposal() && MultiTenantHelpers.ShowProposalsToThePublic() && contextModelObject.ProjectApprovalStatus !=
                         ProjectApprovalStatus.PendingApproval)
                     {
                         return new PermissionCheckResult(
