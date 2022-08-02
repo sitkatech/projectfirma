@@ -19,15 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using System.Web.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public readonly List<ProjectFirmaModels.Models.PerformanceMeasure> AllPerformanceMeasures;
+        public readonly List<PerformanceMeasureSimple> AllPerformanceMeasures;
 
-        public EditViewData(List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures)
+        public EditViewData(List<PerformanceMeasureSimple> allPerformanceMeasures)
         {
             AllPerformanceMeasures = allPerformanceMeasures;
         }

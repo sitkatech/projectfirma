@@ -47,33 +47,26 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase IconFileResourceData { get; set; }
 
-        public SitkaLeftRightListbox PerformanceMeasureListbox { get; set; }
+        //public SitkaLeftRightListbox PerformanceMeasureListbox { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasure)]
+        public List<int> PerformanceMeasureIDs { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
         public EditViewModel()
         {
+            PerformanceMeasureIDs = new List<int>();
         }
 
-        public EditViewModel(List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures)
-        {
-            var allSelectListItems = allPerformanceMeasures.OrderBy(x => x.GetSortOrder()).ToList();
-            var selectListItems = allSelectListItems.ToSelectList(x => Convert.ToString(x.PerformanceMeasureID), x => x.GetDisplayName(), new List<string>()).ToList();
-            PerformanceMeasureListbox = new SitkaLeftRightListbox("PerformanceMeasure", selectListItems); ;
-
-        }
-
-        public EditViewModel(ProjectFirmaModels.Models.PerformanceMeasureGroup performanceMeasureGroup, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures)
+        public EditViewModel(ProjectFirmaModels.Models.PerformanceMeasureGroup performanceMeasureGroup)
         {
             PerformanceMeasureGroupID = performanceMeasureGroup.PerformanceMeasureGroupID;
             PerformanceMeasureGroupName = performanceMeasureGroup.PerformanceMeasureGroupName;
 
-            var allSelectListItems = allPerformanceMeasures.OrderBy(x => x.GetSortOrder()).ToList();
-            var selectedPerformanceMeasures = performanceMeasureGroup.PerformanceMeasures.Select(x => x).ToList();
-            var selectListItems = allSelectListItems.ToSelectList(x => Convert.ToString(x.PerformanceMeasureID), x => x.GetDisplayName(),
-                selectedPerformanceMeasures.Select(y => Convert.ToString(y.PerformanceMeasureID)).ToList()).ToList();
-            PerformanceMeasureListbox = new SitkaLeftRightListbox("PerformanceMeasure", selectListItems); ;
+            PerformanceMeasureIDs =
+                performanceMeasureGroup.PerformanceMeasures.Select(x => x.PerformanceMeasureID).ToList();
 
         }
 
@@ -94,9 +87,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
                 var allCurrentPerformanceMeasuresForGroup = performanceMeasureGroup.PerformanceMeasures;
 
                 var performanceMeasureIDsSubmitted = new List<int>();
-                if (PerformanceMeasureListbox != null)
+                if (PerformanceMeasureIDs != null)
                 {
-                    performanceMeasureIDsSubmitted.AddRange(PerformanceMeasureListbox.SelectedItems.Select(y => Int32.Parse(y)).ToList());
+                    performanceMeasureIDsSubmitted.AddRange(PerformanceMeasureIDs);
                 }
 
                 var performanceMeasuresToRemoveGroupFrom = allCurrentPerformanceMeasuresForGroup.Where(x => !performanceMeasureIDsSubmitted.Contains(x.PerformanceMeasureID));

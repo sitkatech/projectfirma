@@ -56,8 +56,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(PerformanceMeasureGroupPrimaryKey performanceMeasureGroupPrimaryKey)
         {
             var performanceMeasureGroup = performanceMeasureGroupPrimaryKey.EntityObject;
-            var allPerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
-            var viewModel = new EditViewModel(performanceMeasureGroup, allPerformanceMeasures);
+            var viewModel = new EditViewModel(performanceMeasureGroup);
             return ViewEdit(viewModel);
         }
 
@@ -79,9 +78,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var performanceMeasuresAsSelectListItems =
-                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
-            var viewData = new EditViewData(performanceMeasuresAsSelectListItems);
+            var allPerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().OrderBy(x => x.PerformanceMeasureDisplayName).Select(x => new PerformanceMeasureSimple(x)).ToList();
+            var viewData = new EditViewData(allPerformanceMeasures);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -89,8 +87,7 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureManageFeature]
         public PartialViewResult New()
         {
-            var allPerformanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
-            var viewModel = new EditViewModel(allPerformanceMeasures);
+            var viewModel = new EditViewModel();
             return ViewEdit(viewModel);
         }
 
@@ -111,9 +108,9 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             var performanceMeasureIDsSubmitted = new List<int>();
-            if (viewModel.PerformanceMeasureListbox != null)
+            if (viewModel.PerformanceMeasureIDs != null)
             {
-                performanceMeasureIDsSubmitted.AddRange(viewModel.PerformanceMeasureListbox.SelectedItems.Select(y => Int32.Parse(y)).ToList());
+                performanceMeasureIDsSubmitted.AddRange(viewModel.PerformanceMeasureIDs);
             }
 
             var performanceMeasuresToUpdate =

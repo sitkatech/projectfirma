@@ -736,6 +736,7 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
+    <Content Include="Views\PerformanceMeasureGroup\PerformanceMeasureGroupController.js" />
     <Content Include="Views\Shared\ConstrainProjectYears.js" />
     <Content Include="Views\Shared\EditPerformanceMeasureTargetsController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
