@@ -167,5 +167,41 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
                 viewModel);
         }
+
+        [HttpGet]
+        [PerformanceMeasureManageFeature]
+        public PartialViewResult DeleteDisplayImage(PerformanceMeasureGroupPrimaryKey performanceMeasureGroupPrimaryKey)
+        {
+            var performanceMeasureGroup = performanceMeasureGroupPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(performanceMeasureGroup.IconFileResourceInfoID.Value);
+            return ViewDeleteDisplayImage(performanceMeasureGroup, viewModel);
+        }
+
+        private PartialViewResult ViewDeleteDisplayImage(PerformanceMeasureGroup performanceMeasureGroup, ConfirmDialogFormViewModel viewModel)
+        {
+            var confirmMessage =
+                $"Are you sure you want to delete the Display Image from {FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()} '{performanceMeasureGroup.PerformanceMeasureGroupName}'?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [PerformanceMeasureManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteDisplayImage(PerformanceMeasureGroupPrimaryKey performanceMeasureGroupPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var performanceMeasureGroup = performanceMeasureGroupPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteDisplayImage(performanceMeasureGroup, viewModel);
+            }
+
+            // will delete the File Resource Info and File  Resource Data
+            performanceMeasureGroup.IconFileResourceInfo.FileResourceData.Delete(HttpRequestStorage.DatabaseEntities);
+            performanceMeasureGroup.IconFileResourceInfo.Delete(HttpRequestStorage.DatabaseEntities);
+           
+            SetMessageForDisplay("Display Image successfully deleted.");
+            return new ModalDialogFormJsonResult();
+        }
     }
 }

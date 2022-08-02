@@ -43,6 +43,12 @@ namespace ProjectFirma.Web.Models
             return DeleteUrlTemplate.ParameterReplace(performanceMeasureGroup.PerformanceMeasureGroupID);
         }
 
+        public static readonly UrlTemplate<int> DeleteDisplayImageUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureGroupController>.BuildUrlFromExpression(t => t.DeleteDisplayImage(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteDisplayImageUrl(this PerformanceMeasureGroup performanceMeasureGroup)
+        {
+            return DeleteDisplayImageUrlTemplate.ParameterReplace(performanceMeasureGroup.PerformanceMeasureGroupID);
+        }
+
         public static bool IsPerformanceMeasureGroupNameUnique(IEnumerable<PerformanceMeasureGroup> performanceMeasureGroups, string performanceMeasureGroupName, int currentPerformanceMeasureGroupID)
         {
             var performanceMeasureGroup =

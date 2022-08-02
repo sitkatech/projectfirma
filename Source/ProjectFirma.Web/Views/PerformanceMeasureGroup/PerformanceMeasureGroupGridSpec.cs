@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
@@ -42,7 +43,16 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
                 a => a.PerformanceMeasureGroupName,
                 300,
                 DhtmlxGridColumnFilterType.Text);
-            Add($"# of {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", a => a.PerformanceMeasures.Count, 300);
+            Add($"# of {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", a => a.PerformanceMeasures.Count, 150);
+            if (hasManagePermission)
+            {
+                Add("Delete Display Image",
+                    x => x.IconFileResourceInfo != null
+                        ? DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteDisplayImageUrl(), true,
+                            x.IconFileResourceInfo != null)
+                        : new HtmlString(string.Empty), 60, DhtmlxGridColumnFilterType.None);
+            }
+            Add("Display Image File Name", a => a.IconFileResourceInfo?.GetOriginalCompleteFileName(), 300);
         }
     }
 }
