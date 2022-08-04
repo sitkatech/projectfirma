@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
 
-            const string chartTitle = "Reported Expenditures By Organization Type";
+            const string chartTitle = "Reported Expenditures By Funding Organization Type";
             var chartContainerID = chartTitle.Replace(" ", "");
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 organizationTypes.Select(x => x.OrganizationTypeName).ToList(),

@@ -1,0 +1,1 @@
+update dbo.GeospatialAreaType set GeospatialAreaTypeName = 'BIA Tribal Boundary' , GeospatialAreaTypeNamePluralized = 'BIA Tribal Boundaries' where GeospatialAreaTypeID = 22
