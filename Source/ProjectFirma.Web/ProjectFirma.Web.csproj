@@ -70,6 +70,7 @@
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\LocalAuthenticationController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
+    <Compile Include="Controllers\PerformanceMeasureGroupController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
     <Compile Include="Controllers\SolicitationController.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
     <Compile Include="Models\FirmaMenuItemModelExtensions.cs" />
     <Compile Include="Models\MatchmakerKeywordModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureGroupModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="Models\ProjectClassificationsUpdateModelExtensions.cs" />
@@ -371,6 +373,12 @@
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewData.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationClassificationsViewModel.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewModel.cs" />
+    <Compile Include="Views\PerformanceMeasureGroup\Edit.cs" />
+    <Compile Include="Views\PerformanceMeasureGroup\EditViewData.cs" />
+    <Compile Include="Views\PerformanceMeasureGroup\EditViewModel.cs" />
+    <Compile Include="Views\PerformanceMeasureGroup\PerformanceMeasureGroupGridSpec.cs" />
+    <Compile Include="Views\PerformanceMeasure\Manage.cs" />
+    <Compile Include="Views\PerformanceMeasure\ManageViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExternalLinks.cs" />
     <Compile Include="Views\ProjectCreate\ExternalLinksViewData.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
@@ -408,6 +416,10 @@
     <Compile Include="Views\Reports\ReportTemplateGridSpec.cs" />
     <Compile Include="Views\Reports\Index.cs" />
     <Compile Include="Views\Reports\IndexViewData.cs" />
+    <Compile Include="Views\Results\FundingSummary.cs" />
+    <Compile Include="Views\Results\FundingSummaryViewData.cs" />
+    <Compile Include="Views\Results\SimpleAccomplishmentsDashboard.cs" />
+    <Compile Include="Views\Results\SimpleAccomplishmentsDashboardViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
@@ -724,6 +736,7 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
+    <Content Include="Views\PerformanceMeasureGroup\PerformanceMeasureGroupController.js" />
     <Content Include="Views\Shared\ConstrainProjectYears.js" />
     <Content Include="Views\Shared\EditPerformanceMeasureTargetsController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
@@ -782,6 +795,8 @@
     <Content Include="Views\ProjectCreate\ExternalLinks.cshtml" />
     <Content Include="Views\LocalAuthentication\LocalAuthLogon.cshtml" />
     <Content Include="Views\CustomPage\EditSortOrderInMenuGroup.cshtml" />
+    <Content Include="Views\PerformanceMeasure\Manage.cshtml" />
+    <Content Include="Views\PerformanceMeasureGroup\Edit.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1916,6 +1931,8 @@
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\Solicitation\Index.cshtml" />
     <Content Include="Views\Solicitation\Edit.cshtml" />
+    <Content Include="Views\Results\SimpleAccomplishmentsDashboard.cshtml" />
+    <Content Include="Views\Results\FundingSummary.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

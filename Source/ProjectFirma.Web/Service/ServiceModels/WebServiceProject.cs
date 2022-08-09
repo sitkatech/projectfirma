@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
@@ -87,6 +88,10 @@ namespace ProjectFirma.Web.Service.ServiceModels
         public static List<WebServiceProject> GetProject(int projectID)
         {
             var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
+            if (!MultiTenantHelpers.ShowProposalsToThePublic() && project.IsProposal() || project.IsPendingProject())
+            {
+                throw new SitkaRecordNotAuthorizedException($"You do not have permission to view project #{projectID}");
+            }
             return new List<WebServiceProject> {new WebServiceProject(project)};
         }
 
@@ -95,7 +100,11 @@ namespace ProjectFirma.Web.Service.ServiceModels
             var projects =
                 HttpRequestStorage.DatabaseEntities.Projects
                     .Where(x => x.ProjectStageID != ProjectStage.Terminated.ProjectStageID && x.ProjectStageID != ProjectStage.Deferred.ProjectStageID)
-                    .ToList();                    
+                    .ToList();
+            if (!MultiTenantHelpers.ShowProposalsToThePublic())
+            {
+                projects = projects.Where(x => !x.IsProposal() && !x.IsPendingProject()).ToList();
+            }
             return
                 projects
                     .Select(x => new WebServiceProject(x))

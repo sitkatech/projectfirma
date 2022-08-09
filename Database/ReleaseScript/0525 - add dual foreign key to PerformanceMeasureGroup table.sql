@@ -1,0 +1,3 @@
+alter table dbo.PerformanceMeasureGroup add constraint FK_PerformanceMeasureGroup_FileResourceInfo_IconFileResourceInfoID_TenantID_FileResourceInfoID_TenantID foreign key (IconFileResourceInfoID, TenantID) references dbo.FileResourceInfo(FileResourceInfoID, TenantID)
+
+alter table dbo.PerformanceMeasure add constraint FK_PerformanceMeasure_PerformanceMeasureGroup_PerformanceMeasureGroupID_TenantID foreign key (PerformanceMeasureGroupID, TenantID) references dbo.PerformanceMeasureGroup(PerformanceMeasureGroupID, TenantID)

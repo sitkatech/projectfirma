@@ -27,11 +27,15 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public readonly IEnumerable<SelectListItem> MeasurementUnitTypes;
         public readonly IEnumerable<SelectListItem> PerformanceMeasureTypes;
+        public readonly IEnumerable<SelectListItem> PerformanceMeasureGroups;
+        public readonly bool UserHasAdminPermissions;
 
-        public EditViewData(IEnumerable<SelectListItem> measurementUnitTypes, IEnumerable<SelectListItem> performanceMeasureTypes)
+        public EditViewData(IEnumerable<SelectListItem> measurementUnitTypes, IEnumerable<SelectListItem> performanceMeasureTypes, IEnumerable<SelectListItem> performanceMeasureGroups, bool userHasAdminPermissions)
         {
             MeasurementUnitTypes = measurementUnitTypes;
             PerformanceMeasureTypes = performanceMeasureTypes;
+            PerformanceMeasureGroups = performanceMeasureGroups;
+            UserHasAdminPermissions = userHasAdminPermissions;
         }
     }
 }

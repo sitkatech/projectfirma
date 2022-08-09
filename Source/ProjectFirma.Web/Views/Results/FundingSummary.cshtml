@@ -1,0 +1,76 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="FundingSummary.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@inherits ProjectFirma.Web.Views.Results.FundingSummary
+
+<style>
+    .counterSection {
+        padding-bottom: 10px;
+    }
+
+    #accomplishmentsDashboard .counterHeader h4 {
+        font-size: 24px;
+
+    }
+</style>
+<script src="/Scripts/waypoints.min.js"></script>
+<script src="/Scripts/jquery.counterup.min.js"></script>
+
+<div class="row counterHeader">
+    <div class="col-xs-12 text-center">
+        <h4>Funding Totals</h4>
+    </div>
+</div>
+
+<div class="row counterSection">
+    <div class="col-xs-12 text-center">
+        <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Awarded
+    </div>
+</div>
+<div class="row counterSection">
+    <div class="col-xs-12 text-center">
+        <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Leveraged
+    </div>
+</div>
+<div class="row counterSection">
+    <div class="col-xs-12 text-center">
+        <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Total Investment
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12" style="margin-bottom: 20px;">
+    </div>
+    <div class="col-xs-12">
+    </div>
+    <div class="col-xs-12" style="margin-top: 20px;">
+    </div>
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+        jQuery('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
+    });
+</script>

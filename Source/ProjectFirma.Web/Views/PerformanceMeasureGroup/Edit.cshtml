@@ -1,0 +1,128 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.Mvc
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.PerformanceMeasureGroup.Edit
+
+@*<script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />*@
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    jQuery(document).ready(function ()
+    {
+        angular.bootstrap(jQuery("#EditPerformanceMeasureGroupApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker")
+            .selectpicker(
+                {
+                    dropupAuto: false
+                });
+
+        jQuery(".selectpicker").selectpicker("refresh");
+        jQuery(".modal").on("hidden.bs.modal",
+            function() {
+                jQuery(".bootstrap-select.open").removeClass("open");
+            });
+    });
+    // ]]>
+</script>
+
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal" id="EditPerformanceMeasureGroupApp" ng-controller="PerformanceMeasureGroupController">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.PerformanceMeasureGroupName)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.PerformanceMeasureGroupName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PerformanceMeasureGroupName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.IconFileResourceData)
+            </div>
+            <div class="col-sm-9">
+                @Html.EditorFor(x => x.IconFileResourceData)
+                <span class="smallExplanationText">
+                    Allowed Extensions: @Model.GetFileExtensions(x => x.IconFileResourceData)
+                </span>
+                @Html.ValidationMessageFor(x => x.IconFileResourceData)
+            </div>
+        </div>
+        @*<div class="form-group">
+                <div class="col-sm-12">
+                    <div class="systemText">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized() can only be associated with one group at a time.</div>
+                    <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
+                </div>
+                <div class="col-sm-12">
+                    @Html.EditorFor(x => x.PerformanceMeasureListbox, additionalViewData)
+                </div>
+            </div>*@
+    <div class="form-group">
+        @*Selectpicker for Performance Measures*@
+        <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.PerformanceMeasureIDs)</div>
+        <div class="col-sm-9">
+            <div class="input-group" style="width: auto;">
+                <select class="selectpicker" ng-model="PerformanceMeasureIDToAdd" data-live-search="true" data-width="100%" data-size="6" data-auto-dropup="false">
+                    <option value="null" disabled selected>Select one</option>
+                    <option ng-repeat="performanceMeasure in getAvailablePerformanceMeasures()"
+                            ng-bind="performanceMeasure.DisplayName"
+                            ng-value="performanceMeasure.PerformanceMeasureID"></option>
+                </select>
+                <div class="btn-group input-group-btn">
+                    <button type="button" class="btn btn-sm btn-firma" ng-click="addRowPerformanceMeasure()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                </div>
+            </div>
+        </div>
+
+        @*Selections for Performance Measures*@
+        <div class="col-sm-9 col-sm-offset-3">
+            <div class="col-xs-12" ng-repeat="selectedPerformanceMeasureID in AngularModel.PerformanceMeasureIDs">
+                <span>
+                    <a href="#" ng-click="deleteRowPerformanceMeasure(selectedPerformanceMeasureID); $event.preventDefault();">
+                        <i class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row"></i>
+                    </a>
+                </span>
+                <span ng-bind="getPerformanceMeasureDisplayName(selectedPerformanceMeasureID)"></span>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+        <input ng-repeat="selectedPerformanceMeasureID in AngularModel.PerformanceMeasureIDs" type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{selectedPerformanceMeasureID}}">
+    </div>
+
+    </div>
+    @Html.HiddenFor(m => m.PerformanceMeasureGroupID)
+}

@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Common
         public static string FundingSourceNameUnique => $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} name already exists.";
         public static string ClassificationNameUnique => $"{FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} name already exists.";
         public static string PerformanceMeasureNameUnique => $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} name already exists.";
+        public static string PerformanceMeasureGroupNameUnique => $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Group name already exists.";
         public static string ExplanationNecessaryForProjectExemptYears => $"Please provide an explanation of why the {FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabelPluralized()} are exempt.";
         public static string ExplanationForProjectExemptYearsExceedsMax(int maxCharacters) => $"Explanation of why the {FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabelPluralized()} are exempt cannot exceed {maxCharacters} characters.";
         public static string ExplanationNotNecessaryForProjectExemptYears => $"Explanation is not necessary since no {FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabelPluralized()} are exempt.";

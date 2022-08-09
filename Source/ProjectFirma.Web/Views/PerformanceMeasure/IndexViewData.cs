@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
@@ -31,15 +30,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public PerformanceMeasureGridSpec PerformanceMeasureGridSpec{ get; }
         public string PerformanceMeasureGridName{ get; }
         public string PerformanceMeasureGridDataUrl{ get; }
-        public string EditSortOrderUrl { get; }
-        public bool HasPerformanceMeasureManagePermissions { get; }
-        public string NewUrl { get; }
 
         public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
 
-            HasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
@@ -47,14 +42,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 SaveFiltersInCookie = true
             };
 
-            NewUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());
 
             PerformanceMeasureGridSpec.CustomExcelDownloadLinkText = $"Download with {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}";
             PerformanceMeasureGridSpec.CustomExcelDownloadUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
 
             PerformanceMeasureGridName = "performanceMeasuresGrid";
             PerformanceMeasureGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.PerformanceMeasureGridJsonData());
-            EditSortOrderUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.EditSortOrder());
         }
     }
 }

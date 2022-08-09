@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"You don't have permission to view {contextModelObject.GetDisplayName()}");
             }
 
-            if (contextModelObject.IsProposal())
+            if (contextModelObject.IsProposal() || contextModelObject.IsPendingProject())
             {
                 if (firmaSession.IsAnonymousUser() || firmaSession.Role == Role.Unassigned)
                 {
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Security
                     }
 
                     // do not allow if user is anonymous and show proposals to public and stage a stage other than pending 
-                    if (MultiTenantHelpers.ShowProposalsToThePublic() && contextModelObject.ProjectApprovalStatus !=
+                    if (contextModelObject.IsProposal() && MultiTenantHelpers.ShowProposalsToThePublic() && contextModelObject.ProjectApprovalStatus !=
                         ProjectApprovalStatus.PendingApproval)
                     {
                         return new PermissionCheckResult(
