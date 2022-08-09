@@ -43,6 +43,8 @@ namespace ProjectFirma.Web.Views.Tenant
                         : new HtmlString(""),
                 200,
                 DhtmlxGridColumnFilterType.Html);
+            Add("Is Tenant Enabled", t => t.Tenant.TenantEnabled.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Is Tenant Active", t => t.IsActive.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }
