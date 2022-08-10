@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<CustomPage> _firmaFeatureWithContextImpl;
 
         public CustomPageViewFeature()
-            : base(new List<Role> { Role.Unassigned, Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+            : base(new List<Role>())
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<CustomPage>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
