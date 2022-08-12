@@ -84,9 +84,6 @@ namespace ProjectFirma.Web.Common
         public static string GeoServerUrl = SitkaConfiguration.GetRequiredAppSetting("GeoServerUrl");
         public static bool TenantDropdownEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("TenantDropdownEnabled"));
 
-        public static readonly string HttpAuthenticationUrlHost = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationUrlHost");
-        public static readonly string HttpAuthenticationUsername = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationUsername");
-        public static readonly string HttpAuthenticationPassword = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationPassword");
         public static readonly string NCRPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("NCRPHomeUrl");
 
         // Feature Flag Settings

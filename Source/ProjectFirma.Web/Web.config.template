@@ -60,9 +60,6 @@
     <add key="ImpersonationAllowed" value="${impersonation-allowed}" />
     <add key="GeoServerUrl" value="${geoserver-url}" />
     <add key="TenantDropdownEnabled" value="${tenant-dropdown-enabled}" />
-    <add key="HttpAuthenticationUrlHost" value="${http-authentication-url-host}" />
-    <add key="HttpAuthenticationUsername" value="${http-authentication-username}" />
-    <add key="HttpAuthenticationPassword" value="${http-authentication-password}" />
     <add key="NCRPHomeUrl" value="${ncrp-home-url}"/>
 
     <!-- projectfirma.com reCAPTCHA key, be sure to add domain names to reCAPTCHA admin control panel when adding new tenants with new domains -->
