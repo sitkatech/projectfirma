@@ -204,6 +204,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         Add(FieldDefinitionEnum.Solicitation.ToType().ToGridHeaderString(), x => x.Solicitation != null ? x.Solicitation.SolicitationName : string.Empty, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     }
                     break;
+                case ProjectCustomGridColumnEnum.FundingSources:
+                    Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => UrlTemplate.MakeHrefString(y.GetDetailUrl(), y.FundingSourceName)))), 300, DhtmlxGridColumnFilterType.Html);//UrlTemplate.MakeHrefString(y.GetDetailUrl(), y.FundingSourceName)
+                    break;
+                case ProjectCustomGridColumnEnum.Organizations:
+                    Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetAssociatedOrganizations().OrderBy(y => y.OrganizationShortName).Select(y => y.GetShortNameAsUrl()))), 300, DhtmlxGridColumnFilterType.Html);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -236,6 +236,14 @@ namespace ProjectFirma.Web.Models
             return fundingOrganizations.ToList();
         }
 
+        public static List<FundingSource> GetFundingSources(this Project project, bool excludeTargetedFunders)
+        {
+            var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource)
+                .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders && x.SecuredAmount > 0) || !excludeTargetedFunders).Select(x => x.FundingSource), new HavePrimaryKeyComparer<FundingSource>());
+            return fundingOrganizations.OrderBy(x => x.FundingSourceName).ToList();
+        }
+
+
         public static List<Organization> GetAssociatedOrganizations(this Project project)
         {
             var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
