@@ -209,7 +209,13 @@
 
                                 case ProjectCustomAttributeDataTypeEnum.LongString:
                                     <textarea class="form-control" rows="4"
-                                              name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))</textarea>
+                                              name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))"
+                                              onkeydown="Sitka.Methods.keepTextAreaWithinMaxLength(this, 1000, 20, 'CharactersRemaining_ProjectCustomAttribute_@(realIndexOfAttribute)', 'Characters Remaining: ');" 
+                                              onkeyup="Sitka.Methods.keepTextAreaWithinMaxLength(this, 1000, 20, 'CharactersRemaining_ProjectCustomAttribute_@(realIndexOfAttribute)', 'Characters Remaining: ');">@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))</textarea>
+                                    <div class="charactersRemainingText" id="CharactersRemaining_ProjectCustomAttribute_@(realIndexOfAttribute)" 
+                                         style="text-align: right; color:@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple) != null && MakeAttributeValueForProjectCustomAttributeValues(attributeSimple).Length >= 980 ? "rgb(255, 0, 0)" :"#666666" );">
+                                        Characters Remaining: @(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple) != null ? 1000 - MakeAttributeValueForProjectCustomAttributeValues(attributeSimple).Length : 1000)
+                                    </div>
                                     break;
 
                                 default:
