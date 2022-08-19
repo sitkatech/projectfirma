@@ -19,6 +19,9 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.FundingSummary
 
 <style>
@@ -36,7 +39,7 @@
 
 <div class="row counterHeader">
     <div class="col-xs-12 text-center">
-        <h4>Funding Totals</h4>
+        <h4>@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Funding Totals</h4>
     </div>
 </div>
 

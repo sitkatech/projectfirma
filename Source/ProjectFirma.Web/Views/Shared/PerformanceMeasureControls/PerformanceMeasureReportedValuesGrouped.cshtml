@@ -25,7 +25,7 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureReportedValuesGrouped
 
-@{ const string fixedWidthStyleForYearTotalAndUnits = "min-width:75px; width:75px; max-width: 75px;";}
+@{ const string fixedWidthStyleForYearTotalAndUnits = "min-width:80px; width:80px; max-width: 80px;";}
 
 @if (ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Any())
 {
@@ -65,12 +65,12 @@
                     <th></th>
                     @if (showTotalColumn)
                     {
-                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value).ToGroupedNumeric()</th>
+                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@((performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value).ToGroupedNumeric())</th>
                     }
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures)
                     {
                         <td style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
-                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : string.Empty)
+                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? (performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName: string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : string.Empty)
                         </td>
                     }
                     <th style="@fixedWidthStyleForYearTotalAndUnits @fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
@@ -83,13 +83,13 @@
                         @if (showTotalColumn)
                         {
                             <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
-                                @performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Sum(p => p.CalendarYearReportedValue.Sum(q => q.Value)).ToGroupedNumeric()
+                                @((performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Sum(p => p.CalendarYearReportedValue.Sum(q => q.Value)).ToGroupedNumeric())
                             </th>
                         }
                         @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures)
                         {
                             <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
-                                @performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Where(p => p.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear)).Sum(p => p.CalendarYearReportedValue[calendarYear.CalendarYear]).ToGroupedNumeric()
+                                @((performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Where(p => p.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear)).Sum(p => p.CalendarYearReportedValue[calendarYear.CalendarYear]).ToGroupedNumeric())
                             </th>
                         }
                         <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
@@ -144,13 +144,13 @@
 
                     @if (showTotalColumn)
                     {
-                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value).ToGroupedNumeric()</th>
+                        <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@((performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value).ToGroupedNumeric())</th>
                     }
 
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures)
                     {
                         <td style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
-                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : string.Empty)
+                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? (performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : string.Empty)
                         </td>
                     }
                     <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
@@ -165,13 +165,13 @@
                         @if (showTotalColumn)
                         {
                             <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
-                                @performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Sum(p => p.CalendarYearReportedValue.Sum(q => q.Value)).ToGroupedNumeric()
+                                @((performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Sum(p => p.CalendarYearReportedValue.Sum(q => q.Value)).ToGroupedNumeric())
                             </th>
                         }
                         @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures)
                         {
                             <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
-                                @performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Where(p => p.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear)).Sum(p => p.CalendarYearReportedValue[calendarYear.CalendarYear]).ToGroupedNumeric()
+                                @((performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues.Where(p => p.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear)).Sum(p => p.CalendarYearReportedValue[calendarYear.CalendarYear]).ToGroupedNumeric())
                             </th>
                         }
                         <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
