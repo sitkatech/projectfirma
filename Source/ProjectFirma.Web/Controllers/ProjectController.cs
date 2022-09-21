@@ -1084,42 +1084,5 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var viewModel = new ConfirmDialogFormViewModel();
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
-
-        [ProjectsViewFullListFeature]
-        public FileContentResult FactSheetPdf(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            Uri factSheetUrl = new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetForPdf(project)).BuildAbsoluteUrlHttpsFromExpression());
-            var pdfFileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
-
-            return MakeFactSheetPdfFileFromUrl(factSheetUrl, pdfFileName);
-        }
-
-        [ProjectsViewFullListFeature]
-        public FileContentResult FactSheetWithCustomAttributesPdf(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            Uri factSheetUrl = new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributesForPdf(project)).BuildAbsoluteUrlHttpsFromExpression());
-            var pdfFileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
-
-            return MakeFactSheetPdfFileFromUrl(factSheetUrl, pdfFileName);
-        }
-
-        private FileContentResult MakeFactSheetPdfFileFromUrl(Uri factSheetUrl, string fileName)
-        {
-            using (var outputPdfFile = new DisposableTempFile())
-            {
-                var pdfConversionSettings = new HeadlessChromePDFUtility.HeadlessChromePdfConversionSettings();
-                HeadlessChromePDFUtility.ConvertURLToPDFWithHeadlessChrome(factSheetUrl, outputPdfFile.FileInfo, pdfConversionSettings);
-
-                var fileContents = FileUtility.FileToString(outputPdfFile.FileInfo);
-                Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
-
-                var content = System.IO.File.ReadAllBytes(outputPdfFile.FileInfo.FullName);
-                return File(content, "application/pdf", fileName);
-            }
-        }
-
-
     }
 }

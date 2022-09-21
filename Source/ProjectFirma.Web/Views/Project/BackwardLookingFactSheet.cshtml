@@ -35,10 +35,6 @@
    @SetLayout("~/Views/Shared/NavAndHeaderLayout.cshtml", ViewDataTyped)
 }
 
-@*This is here to allow us slow down page loading during PDF printing. The delay is invoked only when printing to PDF. The image is always invisible.*@
-<img src="@ViewDataTyped.FakeImageWithDelayUrl">
-
-
 @section JavascriptAndStylesContent
 {
    <link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" type="text/css" />
@@ -86,19 +82,12 @@
          * If anyone at all has any comments or suggestions, feel free to contact me! - SMG <stewart.gordon@sitkatech.com>
          */
         jQuery(document).ready(function () {
-            var factSheetPdfUrl = '@ViewDataTyped.FactSheetPdfUrl';
-            var factSheetWithCustomAttributesPdfUrl = '@ViewDataTyped.FactSheetWithCustomAttributesPdfUrl';
-
             var factSheetCustomAttributeInput = jQuery('#FactSheetContainsCustomAttributes');
             var customAttributesRow = jQuery('#CustomAttributesRow');
-            var printFactSheetLink = jQuery('#PrintFactSheetLink');
 
             if (factSheetCustomAttributeInput.length > 0) {
                 factSheetCustomAttributeInput.on('change', function () {
-                    var isChecked = jQuery(this).is(':checked');
                     customAttributesRow.toggle();
-                    var correctUrl = isChecked ? factSheetWithCustomAttributesPdfUrl : factSheetPdfUrl;
-                    printFactSheetLink.attr('href', correctUrl);
                 });
             }
         });
@@ -114,8 +103,10 @@
          </div>
       }
       <div class="pull-right">
-         <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
-         <a class="btn btn-firma" id="PrintFactSheetLink" href="@ViewDataTyped.FactSheetWithCustomAttributesPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
+          <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
+          <div class="hidden-print pull-right" style="margin-left: 5px">
+              <button class="btn btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
+          </div>
       </div>
    </div>
 </div>

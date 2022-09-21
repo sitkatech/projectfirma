@@ -204,7 +204,6 @@
     <Compile Include="GeneralUtilityTest.cs" />
     <Compile Include="GeoJson\GeoJsonToSqlGeometryHelper.cs" />
     <Compile Include="LtInfoGeometryConfiguration.cs" />
-    <Compile Include="HeadlessChromePDFUtility.cs" />
     <Compile Include="HealthMonitor\HealthCheckStatus.cs" />
     <Compile Include="HtmlHelperExtensions\DropdownForExtensions.cs" />
     <Compile Include="HtmlHelperExtensions\IFieldDefinitionData.cs" />
