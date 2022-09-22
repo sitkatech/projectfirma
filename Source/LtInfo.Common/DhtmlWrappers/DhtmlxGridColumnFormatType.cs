@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridColumnFormatType.cs" company="Sitka Technology Group">
-Copyright (c) Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="DhtmlxGridColumnFormatType.cs" company="Environmental Science Associates">
+Copyright (c) Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>

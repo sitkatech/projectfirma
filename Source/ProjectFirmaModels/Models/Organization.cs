@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Organization.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="Organization.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -33,7 +33,7 @@ namespace ProjectFirmaModels.Models
     {
         public static bool UseOrganizationBoundaryForMatchmakerDefault = true;
 
-        public const string OrganizationSitka = "Sitka Technology Group";
+        public const string OrganizationSitka = "Environmental Science Associates";
         public const string OrganizationUnknown = "(Unknown or Unspecified Organization)";
 
         public const string OrganizationAreaOfInterestMapLayerColor = "purple";
