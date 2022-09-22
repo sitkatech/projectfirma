@@ -17,6 +17,7 @@ body {
     margin: 0;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact;
+    height: 99%; /* prevents printing a 2nd page that is completely blank */
 }
 
 h1, h2, h3, h4, h5, h6, code, pre {
