@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("View Partner Finder via Match Maker")]
     public class MatchMakerViewPotentialPartnersFeature : FirmaFeature
     {
-        public MatchMakerViewPotentialPartnersFeature() : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward }) 
+        public MatchMakerViewPotentialPartnersFeature() : base(new List<Role> { Role.Normal, Role.ESAAdmin, Role.Admin, Role.ProjectSteward }) 
         {
         }
 

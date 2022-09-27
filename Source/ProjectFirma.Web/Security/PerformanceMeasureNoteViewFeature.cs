@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Security
     public class PerformanceMeasureNoteViewFeature : FirmaFeature
     {
         public PerformanceMeasureNoteViewFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
+            : base(new List<Role> { Role.ESAAdmin, Role.Admin })
         {
         }
     }

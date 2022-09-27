@@ -285,7 +285,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var statusUpdateLabel = FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel();
             var sitkaAdminPersonIDs =
                 HttpRequestStorage.DatabaseEntities.AllPeople.Where(x =>
-                    x.RoleID == ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID).Select(x => x.PersonID).ToList();
+                    x.RoleID == ProjectFirmaModels.Models.Role.ESAAdmin.RoleID).Select(x => x.PersonID).ToList();
 
             // Mandatory fields before
             AddMandatoryFieldsBefore(userHasTagManagePermissions, userHasReportDownloadPermissions, userHasDeletePermissionsAndShouldShowColumn, projectCustomGridTypeEnum);

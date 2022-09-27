@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.User
             var downgradingFromSteward = personBeingEdited.Role == ProjectFirmaModels.Models.Role.ProjectSteward &&
                                          RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID &&
                                          RoleID != ProjectFirmaModels.Models.Role.Admin.RoleID &&
-                                         RoleID != ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID;
+                                         RoleID != ProjectFirmaModels.Models.Role.ESAAdmin.RoleID;
 
             personBeingEdited.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
             personBeingEdited.ReceiveSupportEmails = ShouldReceiveSupportEmails;

@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<ProjectInternalNote> _firmaFeatureWithContextImpl;
 
         public ProjectInternalNoteManageAsAdminFeature()
-            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+            : base(new List<Role> { Role.Normal, Role.ESAAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectInternalNote>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

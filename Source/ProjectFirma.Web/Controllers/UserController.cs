@@ -135,7 +135,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditRoles(EditRolesViewModel viewModel)
         {
-            var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.SitkaAdmin});
+            var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.ESAAdmin});
             var rolesAsSelectListItems =
                 roles.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture),
                     x => x.GetRoleDisplayName());

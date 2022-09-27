@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             }
 
             var currentPerson = HttpRequestStorage.Person;
-            if (new List<ProjectFirmaModels.Models.Role> {ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.SitkaAdmin}.All(
+            if (new List<ProjectFirmaModels.Models.Role> {ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.ESAAdmin}.All(
                 x => x.RoleID != currentPerson.RoleID) && currentPerson.OrganizationID != OrganizationID)
             {
                 var errorMessage = $"You cannot create a {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} for an {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} other than your own.";

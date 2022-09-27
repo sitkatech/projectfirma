@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<Evaluation> _firmaFeatureWithContextImpl;
 
-        public EvaluationManageFeature(): base(new List<Role>{Role.Admin, Role.SitkaAdmin})
+        public EvaluationManageFeature(): base(new List<Role>{Role.Admin, Role.ESAAdmin})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Evaluation>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

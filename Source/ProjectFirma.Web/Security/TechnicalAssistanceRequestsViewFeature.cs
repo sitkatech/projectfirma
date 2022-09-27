@@ -26,6 +26,6 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Can view Technical Assistance Requests")]
     public class TechnicalAssistanceRequestsViewFeature : FirmaFeature
     {
-        public TechnicalAssistanceRequestsViewFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal }) { }
+        public TechnicalAssistanceRequestsViewFeature() : base(new List<Role> { Role.ESAAdmin, Role.Admin, Role.ProjectSteward, Role.Normal }) { }
     }
 }

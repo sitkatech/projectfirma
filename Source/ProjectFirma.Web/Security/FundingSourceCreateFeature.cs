@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Create New {0}", FieldDefinitionEnum.FundingSource)]
     public class FundingSourceCreateFeature : FirmaFeature
     {
-        public FundingSourceCreateFeature() : base(new List<Role> {Role.Admin, Role.SitkaAdmin, Role.ProjectSteward})
+        public FundingSourceCreateFeature() : base(new List<Role> {Role.Admin, Role.ESAAdmin, Role.ProjectSteward})
         {
         }
 

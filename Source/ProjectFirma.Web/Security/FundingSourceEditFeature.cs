@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<FundingSource> _firmaFeatureWithContextImpl;
 
-        public FundingSourceEditFeature() : base(new List<Role> {Role.Admin, Role.SitkaAdmin, Role.ProjectSteward})
+        public FundingSourceEditFeature() : base(new List<Role> {Role.Admin, Role.ESAAdmin, Role.ProjectSteward})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<FundingSource>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

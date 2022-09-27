@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("_Admin for ProjectFirma")]
     public class FirmaAdminFeature : FirmaFeature
     {
-        public FirmaAdminFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin }) { }
+        public FirmaAdminFeature() : base(new List<Role> { Role.ESAAdmin, Role.Admin }) { }
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession)
         {

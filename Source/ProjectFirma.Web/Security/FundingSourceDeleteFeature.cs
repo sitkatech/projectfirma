@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<FundingSource> _firmaFeatureWithContextImpl;
 
-        public FundingSourceDeleteFeature() : base(new List<Role> {Role.Admin, Role.SitkaAdmin})
+        public FundingSourceDeleteFeature() : base(new List<Role> {Role.Admin, Role.ESAAdmin})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<FundingSource>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

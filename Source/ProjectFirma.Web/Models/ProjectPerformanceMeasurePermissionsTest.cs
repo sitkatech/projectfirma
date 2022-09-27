@@ -49,7 +49,7 @@ namespace ProjectFirmaModels.Models
             userAdmin.RoleID = Role.Admin.RoleID;
 
             var userSitkaAdmin = TestFramework.TestPerson.Create();
-            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+            userSitkaAdmin.RoleID = Role.ESAAdmin.RoleID;
 
             // Deferred Project
             // ----------------
@@ -251,7 +251,7 @@ namespace ProjectFirmaModels.Models
             userAdmin.RoleID = Role.Admin.RoleID;
 
             var userSitkaAdmin = TestFramework.TestPerson.Create();
-            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+            userSitkaAdmin.RoleID = Role.ESAAdmin.RoleID;
 
             // Planning/Design Project
             // ----------------
@@ -293,7 +293,7 @@ namespace ProjectFirmaModels.Models
             userAdmin.RoleID = Role.Admin.RoleID;
 
             var userSitkaAdmin = TestFramework.TestPerson.Create();
-            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+            userSitkaAdmin.RoleID = Role.ESAAdmin.RoleID;
 
             // Planning/Design Project
             // ----------------

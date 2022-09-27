@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Security
     public class SitkaAdminFeature : FirmaFeature
     {
         public SitkaAdminFeature()
-            : base(new List<Role> { Role.SitkaAdmin })
+            : base(new List<Role> { Role.ESAAdmin })
         {
         }
     }

@@ -58,8 +58,8 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult("You don't have permissions to view user details. If you aren't logged in, do that and try again.");
             }
 
-            //Only SitkaAdmin users should be able to see other SitkaAdmin users
-            if (firmaSession.Role != Role.SitkaAdmin && contextModelObject.Role == Role.SitkaAdmin)
+            //Only ESAAdmin users should be able to see other ESAAdmin users
+            if (firmaSession.Role != Role.ESAAdmin && contextModelObject.Role == Role.ESAAdmin)
             {
                 return new PermissionCheckResult("You don't have permission to view this user.");
             }
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Security
         /// This copies the logic from <see cref="HasPermission" /> , but with a PersonID parameter instead of a Person model.
         /// Used for checking permission on the ProjectCustomGridSpec because that uses the view vProject and only has the IDs for the primary contact person, not the model itself.
         /// </summary>
-        public PermissionCheckResult HasPermissionForPersonID(FirmaSession firmaSession, int personIDToView, List<int> sitkaAdminPersonIDs)
+        public PermissionCheckResult HasPermissionForPersonID(FirmaSession firmaSession, int personIDToView, List<int> esaAdminPersonIDs)
         {
             var userHasEditPermission = new UserEditFeature().HasPermissionByFirmaSession(firmaSession);
             var userViewingOwnPage = !firmaSession.IsAnonymousUser() && firmaSession.PersonID == personIDToView;
@@ -89,8 +89,8 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult("You don't have permissions to view user details. If you aren't logged in, do that and try again.");
             }
 
-            //Only SitkaAdmin users should be able to see other SitkaAdmin users
-            if (firmaSession.Role != Role.SitkaAdmin && sitkaAdminPersonIDs.Contains(personIDToView))
+            //Only ESAAdmin users should be able to see other ESAAdmin users
+            if (firmaSession.Role != Role.ESAAdmin && esaAdminPersonIDs.Contains(personIDToView))
             {
                 return new PermissionCheckResult("You don't have permission to view this user.");
             }

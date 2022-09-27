@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Security
             {
                 var obj = FirmaBaseFeature.InstantiateFeature(type);
                 bool allowsAdmin = obj.GrantedRoles.Contains(Role.Admin);
-                bool allowsSitkaAdmin = obj.GrantedRoles.Contains(Role.SitkaAdmin);
+                bool allowsSitkaAdmin = obj.GrantedRoles.Contains(Role.ESAAdmin);
                 bool allowsAdminOrSitkaAdmin = allowsAdmin || allowsSitkaAdmin;
                 if (!allowsAdminOrSitkaAdmin && obj.GrantedRoles.Count != 0)
                 {
@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Security
             foreach (var type in types)
             {
                 var obj = FirmaBaseFeature.InstantiateFeature(type);
-                if (!obj.GrantedRoles.Contains(Role.SitkaAdmin) && obj.GrantedRoles.Count != 0)
+                if (!obj.GrantedRoles.Contains(Role.ESAAdmin) && obj.GrantedRoles.Count != 0)
                 {
                     var errorMessage = $"Feature {type.FullName} is not available to Administrators";
                     listOfErrors.Add(errorMessage);

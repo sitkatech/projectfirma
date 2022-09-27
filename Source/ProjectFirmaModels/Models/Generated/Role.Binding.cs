@@ -22,7 +22,7 @@ namespace ProjectFirmaModels.Models
         public static readonly RoleAdmin Admin = RoleAdmin.Instance;
         public static readonly RoleNormal Normal = RoleNormal.Instance;
         public static readonly RoleUnassigned Unassigned = RoleUnassigned.Instance;
-        public static readonly RoleSitkaAdmin SitkaAdmin = RoleSitkaAdmin.Instance;
+        public static readonly RoleESAAdmin ESAAdmin = RoleESAAdmin.Instance;
         public static readonly RoleProjectSteward ProjectSteward = RoleProjectSteward.Instance;
 
         public static readonly List<Role> All;
@@ -33,7 +33,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static Role()
         {
-            All = new List<Role> { Admin, Normal, Unassigned, SitkaAdmin, ProjectSteward };
+            All = new List<Role> { Admin, Normal, Unassigned, ESAAdmin, ProjectSteward };
             AllLookupDictionary = new ReadOnlyDictionary<int, Role>(All.ToDictionary(x => x.RoleID));
         }
 
@@ -109,12 +109,12 @@ namespace ProjectFirmaModels.Models
             {
                 case RoleEnum.Admin:
                     return Admin;
+                case RoleEnum.ESAAdmin:
+                    return ESAAdmin;
                 case RoleEnum.Normal:
                     return Normal;
                 case RoleEnum.ProjectSteward:
                     return ProjectSteward;
-                case RoleEnum.SitkaAdmin:
-                    return SitkaAdmin;
                 case RoleEnum.Unassigned:
                     return Unassigned;
                 default:
@@ -128,7 +128,7 @@ namespace ProjectFirmaModels.Models
         Admin = 1,
         Normal = 2,
         Unassigned = 7,
-        SitkaAdmin = 8,
+        ESAAdmin = 8,
         ProjectSteward = 9
     }
 
@@ -150,10 +150,10 @@ namespace ProjectFirmaModels.Models
         public static readonly RoleUnassigned Instance = new RoleUnassigned(7, @"Unassigned", @"Unassigned", @"", 10);
     }
 
-    public partial class RoleSitkaAdmin : Role
+    public partial class RoleESAAdmin : Role
     {
-        private RoleSitkaAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription, int? sortOrder) : base(roleID, roleName, roleDisplayName, roleDescription, sortOrder) {}
-        public static readonly RoleSitkaAdmin Instance = new RoleSitkaAdmin(8, @"SitkaAdmin", @"Sitka Administrator", @"", 50);
+        private RoleESAAdmin(int roleID, string roleName, string roleDisplayName, string roleDescription, int? sortOrder) : base(roleID, roleName, roleDisplayName, roleDescription, sortOrder) {}
+        public static readonly RoleESAAdmin Instance = new RoleESAAdmin(8, @"ESAAdmin", @"ESA Administrator", @"", 50);
     }
 
     public partial class RoleProjectSteward : Role

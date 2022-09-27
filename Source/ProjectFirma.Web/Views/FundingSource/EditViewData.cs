@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             Organizations = organizations;
             var currentPerson = currentFirmaSession.Person;
             CurrentPerson = currentPerson;
-            AllowPersonToSetOrganization = new List<ProjectFirmaModels.Models.Role> { ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.SitkaAdmin }.Any(x => x.RoleID == currentPerson.RoleID);
+            AllowPersonToSetOrganization = new List<ProjectFirmaModels.Models.Role> { ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.ESAAdmin }.Any(x => x.RoleID == currentPerson.RoleID);
         }
     }
 }

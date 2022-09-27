@@ -92,7 +92,7 @@ namespace ProjectFirmaModels.Models
 
         public bool IsSitkaAdministrator()
         {
-            return this.Person != null && this.Role == Role.SitkaAdmin;
+            return this.Person != null && this.Role == Role.ESAAdmin;
         }
 
         public bool IsAdministrator()
