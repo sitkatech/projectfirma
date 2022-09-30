@@ -37,6 +37,7 @@ using System.Data.Entity;
 using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.GeoJson;
@@ -817,9 +818,33 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDeleteOrganization(Organization organization, ConfirmDialogFormViewModel viewModel)
         {
             var projectFundingSourceExpenditureTotal = organization.FundingSources.Sum(x => x.ProjectFundingSourceExpenditures.Sum(y => y.ExpenditureAmount)).ToStringCurrency();
-            var confirmMessage = $"Organization \"{organization.OrganizationName}\" is related to {organization.ProjectOrganizations.Count} projects and has {organization.FundingSources.Count} funding sources that fund a total of {projectFundingSourceExpenditureTotal} across various projects.  It also has {organization.People.Count(x => x.IsActive)} people, which need to be inactivated before you can do this.<br /><br />Are you sure you want to delete this Organization?";
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, organization.People.All(x => !x.IsActive));
-            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+            var canDelete = !organization.ProjectOrganizations.Any() && !organization.FundingSources.Any() &&
+                            organization.People.All(x => !x.IsActive);
+            var stringBuilderConfirmMessage = new StringBuilder();
+            if (!canDelete)
+            {
+                stringBuilderConfirmMessage.Append($"Organization \"{organization.OrganizationName}\" cannot be deleted because it");
+                if (organization.ProjectOrganizations.Any())
+                {
+                    stringBuilderConfirmMessage.Append($" is related to {organization.ProjectOrganizations.Select(x => x.ProjectID).Distinct().ToList().Count} projects");
+                    stringBuilderConfirmMessage.Append(organization.FundingSources.Any() ? " and" : ".");
+                }
+                if (organization.FundingSources.Any())
+                {
+                    stringBuilderConfirmMessage.Append($" has {organization.FundingSources.Count} funding sources that fund a total of {projectFundingSourceExpenditureTotal} across various projects.");
+                }
+
+                if (organization.People.Any(x => x.IsActive))
+                {
+                    stringBuilderConfirmMessage.Append($"  It also has {organization.People.Count(x => x.IsActive)} people, which need to be inactivated before you can do this.");
+                }
+            }
+            var confirmMessage = canDelete
+                ? $"Are you sure you want to delete the Organization \"{organization.OrganizationName}\"?"
+                : stringBuilderConfirmMessage.ToString();
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
+                viewModel);
         }
 
         [HttpPost]
@@ -836,6 +861,16 @@ namespace ProjectFirma.Web.Controllers
             var databaseEntities = HttpRequestStorage.DatabaseEntities;
             organization.LogoFileResourceInfo?.FileResourceData.Delete(databaseEntities);
             organization.LogoFileResourceInfo?.Delete(databaseEntities);
+            
+            // assign any People to the unknown org to prevent cascade delete of Projects associated with the inactive user
+            var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
+            foreach (var person in organization.People)
+            {
+                person.Organization = unknownOrganization;
+                person.OrganizationID = unknownOrganization.OrganizationID;
+            }
+            organization.People = new List<Person>();
+
             organization.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
 
