@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Organization
             var projectFundingSourceBudgetsDictionary = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
                 .GroupBy(x => x.FundingSourceID)
                 .ToDictionary(x => x.Key, y => y.ToList());
-            var peopleDictionary = HttpRequestStorage.DatabaseEntities.People
+            var peopleDictionary = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive)
                 .GroupBy(x => x.OrganizationID)
                 .ToDictionary(x => x.Key, y => y.ToList());
 
