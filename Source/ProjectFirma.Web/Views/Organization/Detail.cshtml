@@ -317,6 +317,10 @@
                                             <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-9")">@(ViewDataTyped.OrganizationKeystoneGuidDisplayString)</div>
                                         </div>
 
+                                        <div class="row">
+                                            <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.Label("Is Active?")</div>
+                                            <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-9")">@ViewDataTyped.Organization.IsActive.ToYesNo()</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

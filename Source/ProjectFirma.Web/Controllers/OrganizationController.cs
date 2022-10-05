@@ -821,17 +821,36 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !organization.ProjectOrganizations.Any() && !organization.FundingSources.Any() &&
                             organization.People.All(x => !x.IsActive);
             var stringBuilderConfirmMessage = new StringBuilder();
+
+            var projectUpdateCount = organization.ProjectOrganizationUpdates
+                .Where(x => x.ProjectUpdateBatch.ProjectUpdateState.ProjectUpdateStateID !=
+                            ProjectUpdateState.Approved.ProjectUpdateStateID)
+                .Select(x => x.ProjectUpdateBatchID).Distinct().ToList().Count;
+
             if (!canDelete)
             {
                 stringBuilderConfirmMessage.Append($"Organization \"{organization.OrganizationName}\" cannot be deleted because it");
-                if (organization.ProjectOrganizations.Any())
+                if (organization.ProjectOrganizations.Any() || projectUpdateCount > 0)
                 {
                     stringBuilderConfirmMessage.Append($" is related to {organization.ProjectOrganizations.Select(x => x.ProjectID).Distinct().ToList().Count} projects");
-                    stringBuilderConfirmMessage.Append(organization.FundingSources.Any() ? " and" : ".");
+                    stringBuilderConfirmMessage.Append(projectUpdateCount > 0 ? (organization.FundingSources.Any() ? $", {projectUpdateCount} project updates" : $" and {projectUpdateCount} project updates") : "");
+                    stringBuilderConfirmMessage.Append(organization.FundingSources.Any() ? projectUpdateCount > 0 ? ", and" : " and" : ".");
                 }
                 if (organization.FundingSources.Any())
                 {
                     stringBuilderConfirmMessage.Append($" has {organization.FundingSources.Count} funding sources that fund a total of {projectFundingSourceExpenditureTotal} across various projects.");
+                }
+
+                stringBuilderConfirmMessage.Append("  To delete this organization, you must first remove the organization's relationship to these");
+                if (organization.ProjectOrganizations.Any() || projectUpdateCount > 0)
+                {
+                    stringBuilderConfirmMessage.Append(" projects");
+                    stringBuilderConfirmMessage.Append(projectUpdateCount > 0 ? (organization.FundingSources.Any() ? ", project updates" : " and project updates") : "");
+                    stringBuilderConfirmMessage.Append(organization.FundingSources.Any() ? projectUpdateCount > 0 ? ", and" : " and" : ".");
+                }
+                if (organization.FundingSources.Any())
+                {
+                    stringBuilderConfirmMessage.Append(" funding sources.");
                 }
 
                 if (organization.People.Any(x => x.IsActive))
