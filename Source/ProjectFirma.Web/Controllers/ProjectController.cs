@@ -47,6 +47,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using log4net;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
@@ -125,6 +126,12 @@ namespace ProjectFirma.Web.Controllers
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault(x => x.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
+            var solicitationOptions = HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(x => x.SolicitationID.ToString(), y => y.SolicitationName).ToList();
+            // need to include the current Solicitation if it is inactive so saving the Basics admin editor does not null out the solicitation
+            if (project?.Solicitation != null && !project.Solicitation.IsActive)
+            {
+                solicitationOptions.Add(new SelectListItem{ Value = project.Solicitation.SolicitationID.ToString() , Text = project.Solicitation.SolicitationName });
+            }
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
                 ProjectStage.All.Except(new[] {ProjectStage.Proposal}), organizations,
@@ -133,7 +140,8 @@ namespace ProjectFirma.Web.Controllers
                 totalExpenditures,
                 taxonomyLeafs,
                 projectCustomAttributeTypes,
-                tenantAttribute
+                tenantAttribute,
+                solicitationOptions
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }

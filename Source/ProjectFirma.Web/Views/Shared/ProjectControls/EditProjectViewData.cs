@@ -60,7 +60,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             decimal? totalExpenditures,
             List<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes,
-            TenantAttribute tenantAttribute)
+            TenantAttribute tenantAttribute,
+            IEnumerable<SelectListItem> solicitationOptions)
         {
             EditProjectType = editProjectType;
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
@@ -81,8 +82,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             TenantAttribute = tenantAttribute;
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
-            SolicitationOptions = HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(
-                x => x.SolicitationID.ToString(), y => y.SolicitationName);
+            SolicitationOptions = solicitationOptions;
         }
     }
 }
