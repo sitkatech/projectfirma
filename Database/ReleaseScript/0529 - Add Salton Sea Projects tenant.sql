@@ -98,20 +98,44 @@ values
 
 	select @primaryContactPersonID = p.PersonID from dbo.Person p where p.Email = 'jrodrigues@esassoc.com' and TenantID = @TenantIDTo
 
+	update dbo.Person set RoleID = 8 where PersonID = @primaryContactPersonID 
+
 	insert into dbo.FileResourceInfo(TenantID, FileResourceMimeTypeID, OriginalBaseFilename, OriginalFileExtension, FileResourceGUID, CreatePersonID, CreateDate, LogoFileResourceInfoIDFromTenant)
 	select @TenantIDTo as TenantID, fr.FileResourceMimeTypeID, fr.OriginalBaseFilename, fr.OriginalFileExtension, NEWID(), @primaryContactPersonID as CreatePersonID, fr.CreateDate, fr.FileResourceInfoID as LogoFileResourceInfoIDFromTenant
 	from dbo.Organization o
 	join dbo.FileResourceInfo fr on o.LogoFileResourceInfoID = fr.FileResourceInfoID
 	where o.OrganizationID = 1421 -- ESA Sitka
 
-	-- file resource data for the above file resource info
+	declare @logoFileResourceInfoID int
+	set @logoFileResourceInfoID = SCOPE_IDENTITY()
+
+	update dbo.Organization set LogoFileResourceInfoID = @logoFileResourceInfoID where TenantID = @TenantIDTo and OrganizationName = 'ESA Sitka'
+
+	-- copy demo logos as placeholders
+	insert into dbo.FileResourceInfo(TenantID, FileResourceMimeTypeID, OriginalBaseFilename, OriginalFileExtension, FileResourceGUID, CreatePersonID, CreateDate, LogoFileResourceInfoIDFromTenant)
+	select @TenantIDTo as TenantID, fr.FileResourceMimeTypeID, fr.OriginalBaseFilename, fr.OriginalFileExtension, NEWID(), @primaryContactPersonID as CreatePersonID, fr.CreateDate, fr.FileResourceInfoID as LogoFileResourceInfoIDFromTenant
+	from dbo.TenantAttribute t
+	join dbo.FileResourceInfo fr on t.TenantSquareLogoFileResourceInfoID = fr.FileResourceInfoID
+	where t.TenantID = @TenantIDFrom
+
+	set @logoFileResourceInfoID = SCOPE_IDENTITY()
+	update dbo.TenantAttribute set TenantSquareLogoFileResourceInfoID = @logoFileResourceInfoID where TenantID = @TenantIDTo
+
+	insert into dbo.FileResourceInfo(TenantID, FileResourceMimeTypeID, OriginalBaseFilename, OriginalFileExtension, FileResourceGUID, CreatePersonID, CreateDate, LogoFileResourceInfoIDFromTenant)
+	select @TenantIDTo as TenantID, fr.FileResourceMimeTypeID, fr.OriginalBaseFilename, fr.OriginalFileExtension, NEWID(), @primaryContactPersonID as CreatePersonID, fr.CreateDate, fr.FileResourceInfoID as LogoFileResourceInfoIDFromTenant
+	from dbo.TenantAttribute t
+	join dbo.FileResourceInfo fr on t.TenantBannerLogoFileResourceInfoID = fr.FileResourceInfoID
+	where t.TenantID = 1
+
+	set @logoFileResourceInfoID = SCOPE_IDENTITY()
+	update dbo.TenantAttribute set TenantBannerLogoFileResourceInfoID = @logoFileResourceInfoID where TenantID = @TenantIDTo
+
+	-- file resource data for the above file resource infos
 	insert into dbo.FileResourceData(TenantID, FileResourceInfoID, [Data])
 	select @TenantIDTo as TenantID, fr.FileResourceInfoID, frd.[Data]
 	from dbo.FileResourceInfo fr
 	join dbo.FileResourceData frd on frd.FileResourceInfoID = fr.LogoFileResourceInfoIDFromTenant
 	where fr.LogoFileResourceInfoIDFromTenant is not null
-
-	update dbo.Organization set LogoFileResourceInfoID = (select FileResourceInfoID from FileResourceInfo fr where fr.TenantID = @TenantIDTo and fr.LogoFileResourceInfoIDFromTenant is not null) where TenantID = @TenantIDTo and OrganizationName = 'ESA Sitka'
 	
 	insert into dbo.OrganizationRelationshipType(TenantID, OrganizationRelationshipTypeName, CanStewardProjects, IsPrimaryContact, IsOrganizationRelationshipTypeRequired, ShowOnFactSheet, ReportInAccomplishmentsDashboard)
 	values
