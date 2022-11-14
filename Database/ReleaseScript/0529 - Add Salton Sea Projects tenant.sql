@@ -19,7 +19,7 @@ values
 
 insert into dbo.Tenant(TenantID, TenantName, CanonicalHostNameLocal, CanonicalHostNameQa, CanonicalHostNameProd, FiscalYearStartDate, UseFiscalYears, UsesTechnicalAssistanceParameters, ArePerformanceMeasuresExternallySourced, AreOrganizationsExternallySourced, AreFundingSourcesExternallySourced, TenantEnabled)
 values 
-(13, 'SSMPProjectTracker', 'SaltonSeaProjects.localhost.projectfirma.com', 'SaltonSeaProjects.qa.projectfirma.org', 'SaltonSeaProjects.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 0, 1)
+(13, 'SSMPProjectTracker', 'SaltonSeaProjects.localhost.projectfirma.com', 'SaltonSeaProjects.qa.projectfirma.com', 'SaltonSeaProjects.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 0, 1)
 
 
 	alter table dbo.FileResourceInfo add LogoFileResourceInfoIDFromTenant int null
