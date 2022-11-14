@@ -650,6 +650,17 @@
     <Content Include="Content\fancybox\fancybox_sprite.png" />
     <Content Include="Content\img\NCRPProjectTracker\Project-Tracker-Logo.png" />
     <Content Include="Content\img\Reclamation_logo_icon.png" />
+    <Content Include="Content\img\SaltonSeaProjects\apple-icon-114x114.png" />
+    <Content Include="Content\img\SaltonSeaProjects\apple-icon-120x120.png" />
+    <Content Include="Content\img\SaltonSeaProjects\apple-icon-57x57.png" />
+    <Content Include="Content\img\SaltonSeaProjects\apple-icon-60x60.png" />
+    <Content Include="Content\img\SaltonSeaProjects\apple-icon-72x72.png" />
+    <Content Include="Content\img\SaltonSeaProjects\apple-icon-76x76.png" />
+    <Content Include="Content\img\SaltonSeaProjects\favicon-16x16.png" />
+    <Content Include="Content\img\SaltonSeaProjects\favicon-32x32.png" />
+    <Content Include="Content\img\SaltonSeaProjects\favicon-96x96.png" />
+    <Content Include="Content\img\SaltonSeaProjects\favicon.ico" />
+    <Content Include="Content\img\SaltonSeaProjects\favicon.png" />
     <Content Include="Content\jquery.fancybox-buttons.css" />
     <Content Include="Content\jquery.fancybox-thumbs.css" />
     <Content Include="Content\jquery.fancybox.css" />

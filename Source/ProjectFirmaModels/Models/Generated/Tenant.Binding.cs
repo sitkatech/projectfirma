@@ -30,6 +30,7 @@ namespace ProjectFirmaModels.Models
         public static readonly TenantIdahoAssociatonOfSoilConservationDistricts IdahoAssociatonOfSoilConservationDistricts = TenantIdahoAssociatonOfSoilConservationDistricts.Instance;
         public static readonly TenantActionAgendaForPugetSound ActionAgendaForPugetSound = TenantActionAgendaForPugetSound.Instance;
         public static readonly TenantBureauOfReclamation BureauOfReclamation = TenantBureauOfReclamation.Instance;
+        public static readonly TenantSSMPProjectTracker SSMPProjectTracker = TenantSSMPProjectTracker.Instance;
 
         public static readonly List<Tenant> All;
         public static readonly ReadOnlyDictionary<int, Tenant> AllLookupDictionary;
@@ -39,7 +40,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, NCRPProjectTracker, DemoProjectFirma, PeaksToPeople, JohnDayBasinPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, NCRPProjectTracker, DemoProjectFirma, PeaksToPeople, JohnDayBasinPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation, SSMPProjectTracker };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -149,6 +150,8 @@ namespace ProjectFirmaModels.Models
                     return RCDProjectTracker;
                 case TenantEnum.SitkaTechnologyGroup:
                     return SitkaTechnologyGroup;
+                case TenantEnum.SSMPProjectTracker:
+                    return SSMPProjectTracker;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -167,7 +170,8 @@ namespace ProjectFirmaModels.Models
         AshlandForestAllLandsRestorationInitiative = 8,
         IdahoAssociatonOfSoilConservationDistricts = 9,
         ActionAgendaForPugetSound = 11,
-        BureauOfReclamation = 12
+        BureauOfReclamation = 12,
+        SSMPProjectTracker = 13
     }
 
     public partial class TenantSitkaTechnologyGroup : Tenant
@@ -234,5 +238,11 @@ namespace ProjectFirmaModels.Models
     {
         private TenantBureauOfReclamation(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
         public static readonly TenantBureauOfReclamation Instance = new TenantBureauOfReclamation(12, @"BureauOfReclamation", @"OBSOLETE_HOSTED_INDEPENDENTLY_bor.localhost.projectfirma.com", @"OBSOLETE_HOSTED_INDEPENDENTLY_bor.qa.projectfirma.com", @"OBSOLETE_HOSTED_INDEPENDENTLY_bor.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, false);
+    }
+
+    public partial class TenantSSMPProjectTracker : Tenant
+    {
+        private TenantSSMPProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
+        public static readonly TenantSSMPProjectTracker Instance = new TenantSSMPProjectTracker(13, @"SSMPProjectTracker", @"SaltonSeaProjects.localhost.projectfirma.com", @"SaltonSeaProjects.qa.projectfirma.org", @"SaltonSeaProjects.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
     }
 }
