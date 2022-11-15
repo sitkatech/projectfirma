@@ -164,6 +164,10 @@ values
     select @TenantIDTo, ProjectUpdateKickOffDate, ProjectUpdateCloseOutDate, ProjectUpdateReminderInterval, EnableProjectUpdateReminders, SendPeriodicReminders, SendCloseOutNotification, ProjectUpdateKickOffIntroContent, ProjectUpdateReminderIntroContent, ProjectUpdateCloseOutIntroContent, DaysBeforeCloseOutDateForReminder from dbo.ProjectUpdateSetting where TenantID = @TenantIDFrom
 
 
+	-- copy vidoes from NCRP Project Tracker
+    insert into dbo.TrainingVideo (TenantID, VideoName, VideoDescription, VideoUploadDate, VideoURL)
+    select @TenantIDTo, VideoName, VideoDescription, VideoUploadDate, VideoURL from dbo.TrainingVideo where TenantID = 4 
+
 
 	alter table dbo.FileResourceInfo DROP COLUMN LogoFileResourceInfoIDFromTenant
 	alter table dbo.FileResourceInfo DROP COLUMN ProjectImageIDFromTenant
