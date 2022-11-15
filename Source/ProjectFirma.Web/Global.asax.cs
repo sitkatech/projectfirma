@@ -130,6 +130,8 @@ namespace ProjectFirma.Web
             UnsupportedHttpMethodHandler.BeginRequestRespondToUnsupportedHttpMethodsWith405MethodNotAllowed(Request, Response);
             RedirectToCanonicalHostnameIfNeeded();
             Response.TrySkipIisCustomErrors = true;
+
+            RequireHttpAuthenticationAsNeeded(Request, Response);
         }
 
         /// <summary>
@@ -200,6 +202,44 @@ namespace ProjectFirma.Web
         public override string NotFoundHtml
         {
             get { return "<h2>Aw Shucks!</h2><p>Sorry, the page or item you requested does not exist.</p>"; }
+        }
+
+
+        /// <summary>
+        /// Require a browser based username password to block all access to site
+        /// </summary>
+        private static void RequireHttpAuthenticationAsNeeded(HttpRequest httpRequest, HttpResponse httpResponse)
+        {
+            // ReSharper disable once StringLiteralTypo
+            if (!httpRequest.Url.Host.Contains(FirmaWebConfiguration.HttpAuthenticationUrlHost, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return;
+            }
+            var auth = httpRequest.Headers["Authorization"];
+            if (!string.IsNullOrEmpty(auth))
+            {
+                var cred = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(auth.Substring(6))).Split(':');
+                var user = new { Name = cred[0], Pass = cred[1] };
+                if (user.Name.Equals(FirmaWebConfiguration.HttpAuthenticationUsername, StringComparison.InvariantCultureIgnoreCase) && user.Pass == FirmaWebConfiguration.HttpAuthenticationPassword)
+                {
+                    return;
+                }
+            }
+            httpResponse.AddHeader("WWW-Authenticate", String.Format("Basic realm=\"{0}\"", "ProjectFirma"));
+            httpResponse.StatusCode = (int)HttpStatusCode.Unauthorized;
+            // ReSharper disable once StringLiteralTypo
+            httpResponse.Write(@"<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title>Unauthorized</title>
+</head>
+<body>
+<h1>HTTP Status 401 - Unauthorized</h1>
+<p>Not Authorized to view this web page.</p>
+</body>
+</html>");
+            httpResponse.End();
         }
     }
 }
