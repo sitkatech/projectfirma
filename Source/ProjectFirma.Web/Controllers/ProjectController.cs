@@ -535,31 +535,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
 
-/*        public void CalculatePhotosForFactSheet()
-        {
-            var allProjects = HttpRequestStorage.DatabaseEntities.AllProjects;
-            var projectImageIDs = new List<int>();
-            foreach (var project in allProjects)
-            {
-                var projectImagesExceptKeyPhotoGroupedByTiming = project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)
-                    .GroupBy(x => x.ProjectImageTiming).OrderBy(x => x.Key.SortOrder).ToList();
-                var projectImagesPerTimingGroup = projectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
-                foreach (var projectImagesGroupedByTiming in projectImagesExceptKeyPhotoGroupedByTiming)
-                {
-                    foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResourceInfo.GetOrientation()).Take(projectImagesPerTimingGroup).Batch(2))
-                    {
-                        foreach (var projectImage in projectImageBatch)
-                        {
-                            projectImageIDs.Add(projectImage.ProjectImageID);
-                        }
-                    }
-                }
-                
-            }
-            _logger.Info($"update dbo.ProjectImage set IncludeInFactSheet = 1 where ProjectImageID in ({string.Join(", ", projectImageIDs)})");
-
-        }*/
-
         public static GoogleChartDataTable GetProjectFundingRequestSheetGoogleChartDataTable(List<GooglePieChartSlice> fundingSourceExpenditureGooglePieChartSlices)
         {
             var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Funding Source", GoogleChartColumnDataType.String, GoogleChartType.PieChart), new GoogleChartColumn("Expenditures", GoogleChartColumnDataType.Number, GoogleChartType.PieChart) };
