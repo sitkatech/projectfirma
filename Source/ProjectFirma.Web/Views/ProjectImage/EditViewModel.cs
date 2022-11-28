@@ -42,8 +42,8 @@ namespace ProjectFirma.Web.Views.ProjectImage
         public int ProjectImageTimingID { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ExcludeFromFactSheet)]
-        public bool ExcludeFromFactSheet { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IncludeInFactSheet)]
+        public bool IncludeInFactSheet { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
             Caption = projectImage.Caption;
             Credit = projectImage.Credit;
             ProjectImageTimingID = projectImage.ProjectImageTimingID;
-            ExcludeFromFactSheet = projectImage.ExcludeFromFactSheet;
+            IncludeInFactSheet = projectImage.IncludeInFactSheet;
         }
 
         public virtual void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, FirmaSession currentFirmaSession)
@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
             projectImage.Caption = Caption;
             projectImage.Credit = Credit;
             projectImage.ProjectImageTimingID = ProjectImageTimingID;
-            projectImage.ExcludeFromFactSheet = ExcludeFromFactSheet;
+            projectImage.IncludeInFactSheet = IncludeInFactSheet;
         }
     }
 }

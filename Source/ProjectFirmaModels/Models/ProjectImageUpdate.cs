@@ -28,7 +28,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectImageUpdate
     {
         public ProjectImageUpdate(ProjectUpdateBatch projectUpdateBatch, bool userHasPermissionToSetKeyPhoto)
-            : this(ModelObjectHelpers.NotYetAssignedID, null, projectUpdateBatch.ProjectUpdateBatchID, ProjectImageTiming.Unknown.ProjectImageTimingID, string.Empty, string.Empty, false, false, null)
+            : this(ModelObjectHelpers.NotYetAssignedID, null, projectUpdateBatch.ProjectUpdateBatchID, ProjectImageTiming.Unknown.ProjectImageTimingID, string.Empty, string.Empty, false, null, false)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             ProjectUpdateBatch = projectUpdateBatch;

@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
                     currentFileResource.CreatePerson,
                     currentFileResource.CreateDate);
                 newFileResource.FileResourceDatas.Add(new FileResourceData(newFileResource.FileResourceInfoID, currentFileResource.FileResourceData.Data));
-                return new ProjectImageUpdate(projectUpdateBatch, pn.ProjectImageTiming, pn.Caption, pn.Credit, pn.IsKeyPhoto, pn.ExcludeFromFactSheet)
+                return new ProjectImageUpdate(projectUpdateBatch, pn.ProjectImageTiming, pn.Caption, pn.Credit, pn.IsKeyPhoto, pn.IncludeInFactSheet)
                 {
                     FileResourceInfo = newFileResource,
                     ProjectImageID = pn.ProjectImageID
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
                         x.Caption,
                         x.Credit,
                         x.IsKeyPhoto,
-                        x.ExcludeFromFactSheet);
+                        x.IncludeInFactSheet);
                 }).ToList();
             }
 
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Models
                     x.Caption = y.Caption;
                     x.Credit = y.Credit;
                     x.IsKeyPhoto = y.IsKeyPhoto;
-                    x.ExcludeFromFactSheet = y.ExcludeFromFactSheet;
+                    x.IncludeInFactSheet = y.IncludeInFactSheet;
                 }, databaseEntities);
         }
     }

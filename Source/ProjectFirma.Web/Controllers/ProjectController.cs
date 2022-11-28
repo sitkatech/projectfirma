@@ -48,6 +48,7 @@ using System.Web.UI.WebControls;
 using log4net;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
+using MoreLinq;
 using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
@@ -533,6 +534,31 @@ namespace ProjectFirma.Web.Controllers
                 googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes, factSheetPdfEnum);
             return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
+
+/*        public void CalculatePhotosForFactSheet()
+        {
+            var allProjects = HttpRequestStorage.DatabaseEntities.AllProjects;
+            var projectImageIDs = new List<int>();
+            foreach (var project in allProjects)
+            {
+                var projectImagesExceptKeyPhotoGroupedByTiming = project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)
+                    .GroupBy(x => x.ProjectImageTiming).OrderBy(x => x.Key.SortOrder).ToList();
+                var projectImagesPerTimingGroup = projectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
+                foreach (var projectImagesGroupedByTiming in projectImagesExceptKeyPhotoGroupedByTiming)
+                {
+                    foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResourceInfo.GetOrientation()).Take(projectImagesPerTimingGroup).Batch(2))
+                    {
+                        foreach (var projectImage in projectImageBatch)
+                        {
+                            projectImageIDs.Add(projectImage.ProjectImageID);
+                        }
+                    }
+                }
+                
+            }
+            _logger.Info($"update dbo.ProjectImage set IncludeInFactSheet = 1 where ProjectImageID in ({string.Join(", ", projectImageIDs)})");
+
+        }*/
 
         public static GoogleChartDataTable GetProjectFundingRequestSheetGoogleChartDataTable(List<GooglePieChartSlice> fundingSourceExpenditureGooglePieChartSlices)
         {

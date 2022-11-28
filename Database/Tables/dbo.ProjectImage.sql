@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[ProjectImage](
 	[Caption] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Credit] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[IsKeyPhoto] [bit] NOT NULL,
-	[ExcludeFromFactSheet] [bit] NOT NULL,
+	[IncludeInFactSheet] [bit] NOT NULL,
  CONSTRAINT [PK_ProjectImage_ProjectImageID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectImageID] ASC

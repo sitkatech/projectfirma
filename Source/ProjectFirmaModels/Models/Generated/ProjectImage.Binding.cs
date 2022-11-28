@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectImage(int projectImageID, int fileResourceInfoID, int projectID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet) : this()
+        public ProjectImage(int projectImageID, int fileResourceInfoID, int projectID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool includeInFactSheet) : this()
         {
             this.ProjectImageID = projectImageID;
             this.FileResourceInfoID = fileResourceInfoID;
@@ -40,13 +40,13 @@ namespace ProjectFirmaModels.Models
             this.Caption = caption;
             this.Credit = credit;
             this.IsKeyPhoto = isKeyPhoto;
-            this.ExcludeFromFactSheet = excludeFromFactSheet;
+            this.IncludeInFactSheet = includeInFactSheet;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectImage(int fileResourceInfoID, int projectID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet) : this()
+        public ProjectImage(int fileResourceInfoID, int projectID, int projectImageTimingID, string caption, string credit, bool isKeyPhoto, bool includeInFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -57,13 +57,13 @@ namespace ProjectFirmaModels.Models
             this.Caption = caption;
             this.Credit = credit;
             this.IsKeyPhoto = isKeyPhoto;
-            this.ExcludeFromFactSheet = excludeFromFactSheet;
+            this.IncludeInFactSheet = includeInFactSheet;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectImage(FileResourceInfo fileResourceInfo, Project project, ProjectImageTiming projectImageTiming, string caption, string credit, bool isKeyPhoto, bool excludeFromFactSheet) : this()
+        public ProjectImage(FileResourceInfo fileResourceInfo, Project project, ProjectImageTiming projectImageTiming, string caption, string credit, bool isKeyPhoto, bool includeInFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -77,7 +77,7 @@ namespace ProjectFirmaModels.Models
             this.Caption = caption;
             this.Credit = credit;
             this.IsKeyPhoto = isKeyPhoto;
-            this.ExcludeFromFactSheet = excludeFromFactSheet;
+            this.IncludeInFactSheet = includeInFactSheet;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace ProjectFirmaModels.Models
         public string Caption { get; set; }
         public string Credit { get; set; }
         public bool IsKeyPhoto { get; set; }
-        public bool ExcludeFromFactSheet { get; set; }
+        public bool IncludeInFactSheet { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectImageID; } set { ProjectImageID = value; } }
 

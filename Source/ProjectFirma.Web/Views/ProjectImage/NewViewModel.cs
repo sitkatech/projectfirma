@@ -37,6 +37,11 @@ namespace ProjectFirma.Web.Views.ProjectImage
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
+        public NewViewModel()
+        {
+            IncludeInFactSheet = true;
+        }
+
         public override void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, FirmaSession currentFirmaSession)
         {
             base.UpdateModel(projectImage, currentFirmaSession);

@@ -164,7 +164,7 @@ namespace ProjectFirmaModels.Models
         PerformanceMeasureSubcategoryOption = 50,
         FundedAmount = 56,
         ProjectLocation = 57,
-        ExcludeFromFactSheet = 64,
+        IncludeInFactSheet = 64,
         FundingType = 73,
         ProjectCostInYearOfExpenditure = 74,
         GlobalInflationRate = 75,

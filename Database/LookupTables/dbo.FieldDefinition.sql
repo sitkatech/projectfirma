@@ -38,7 +38,7 @@ VALUES
 (50, N'PerformanceMeasureSubcategoryOption', N'Performance Measure Subcategory Option'),
 (56, N'FundedAmount', N'Funded Amount'),
 (57, N'ProjectLocation', N'Project Location'),
-(64, N'ExcludeFromFactSheet', N'Exclude from Fact Sheet'),
+(64, N'IncludeInFactSheet', N'Include in Fact Sheet'),
 (73, N'FundingType', N'Funding Type'),
 (74, N'ProjectCostInYearOfExpenditure', N'Cost in Year of Expenditure'),
 (75, N'GlobalInflationRate', N'Global Inflation Rate'),

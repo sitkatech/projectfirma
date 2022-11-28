@@ -23,7 +23,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Caption).HasColumnName(@"Caption").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
             Property(x => x.Credit).HasColumnName(@"Credit").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
             Property(x => x.IsKeyPhoto).HasColumnName(@"IsKeyPhoto").HasColumnType("bit").IsRequired();
-            Property(x => x.ExcludeFromFactSheet).HasColumnName(@"ExcludeFromFactSheet").HasColumnType("bit").IsRequired();
+            Property(x => x.IncludeInFactSheet).HasColumnName(@"IncludeInFactSheet").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.FileResourceInfo).WithMany(b => b.ProjectImages).HasForeignKey(c => c.FileResourceInfoID).WillCascadeOnDelete(false); // FK_ProjectImage_FileResourceInfo_FileResourceInfoID

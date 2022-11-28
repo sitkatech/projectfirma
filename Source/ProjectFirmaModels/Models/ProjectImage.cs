@@ -28,7 +28,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectImage : IAuditableEntity
     {
         public ProjectImage(Project project, bool userHasPermissionToSetKeyPhoto)
-            : this(ModelObjectHelpers.NotYetAssignedID, project.ProjectID, ProjectImageTiming.Unknown.ProjectImageTimingID, string.Empty, string.Empty, false, false)
+            : this(ModelObjectHelpers.NotYetAssignedID, project.ProjectID, ProjectImageTiming.Unknown.ProjectImageTimingID, string.Empty, string.Empty, false, true)
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             Project = project;

@@ -29,6 +29,7 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
+using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared.SortOrder;
@@ -48,6 +49,8 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectFirmaModels.Models.ProjectImage KeyPhoto { get; }
         public List<IGrouping<ProjectImageTiming, ProjectFirmaModels.Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming { get; }
         public int ProjectImagesPerTimingGroup { get; }
+        public List<ProjectFirmaModels.Models.ProjectImage> ProjectImages { get; }
+
         public List<ProjectFirmaModels.Models.Classification> Classifications { get; }
         public ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson { get; }
         public GoogleChartJson GoogleChartJson { get; }
@@ -96,9 +99,13 @@ namespace ProjectFirma.Web.Views.Project
                 .OrderBy(x=>x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
 
             KeyPhoto = project.GetKeyPhoto();
-            ProjectImagesExceptKeyPhotoGroupedByTiming = project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)
+            ProjectImages = project.ProjectImages.Where(x => x.IncludeInFactSheet && !x.IsKeyPhoto).ToList();
+            // If there are no ProjectImages above, this old logic will be used: 2 each of before, during, and after images (or 6 of one if there is only one timing group)
+            ProjectImagesExceptKeyPhotoGroupedByTiming = project.ProjectImages.Where(x =>
+                    !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown)
                 .GroupBy(x => x.ProjectImageTiming).OrderBy(x => x.Key.SortOrder).ToList();
             ProjectImagesPerTimingGroup = ProjectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
+            
             Classifications = project.ProjectClassifications.Select(x => x.Classification).ToList().SortByOrderThenName().ToList();
 
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
