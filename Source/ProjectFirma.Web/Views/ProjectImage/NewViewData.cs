@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
         public readonly List<string> SupportedFileExtensions;
         public readonly IEnumerable<SelectListItem> ProjectImageTimings;
 
+
         public NewViewData(ProjectFirmaModels.Models.Project project, IEnumerable<SelectListItem> projectImageTimings)
         {
             Project = project;

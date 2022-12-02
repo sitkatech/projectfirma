@@ -52,3 +52,12 @@
         </div>
     </div>
 }
+<script>
+    jQuery(document).ready(function() {
+        var checkbox = jQuery('#@Html.IdFor(x => x.IncludeInFactSheet)');
+        if ('@ViewDataTyped.ProjectImageUpdate.IsKeyPhoto' === 'True') {
+            checkbox.attr('disabled', 'disabled');
+            checkbox.attr('title', 'This is the Key Photo, so it must be included in the fact sheet');
+        }
+    });
+</script>

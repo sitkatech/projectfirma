@@ -47,8 +47,6 @@ namespace ProjectFirma.Web.Views.Project
         public List<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, PerformanceMeasureExpected>> PerformanceMeasureExpectedValues { get; }
         public List<GooglePieChartSlice> FundingSourceRequestAmountGooglePieChartSlices { get; }
         public ProjectFirmaModels.Models.ProjectImage KeyPhoto { get; }
-        public List<IGrouping<ProjectImageTiming, ProjectFirmaModels.Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming { get; }
-        public int ProjectImagesPerTimingGroup { get; }
         public List<ProjectFirmaModels.Models.ProjectImage> ProjectImages { get; }
 
         public List<ProjectFirmaModels.Models.Classification> Classifications { get; }
@@ -100,11 +98,6 @@ namespace ProjectFirma.Web.Views.Project
 
             KeyPhoto = project.GetKeyPhoto();
             ProjectImages = project.ProjectImages.Where(x => x.IncludeInFactSheet && !x.IsKeyPhoto).ToList();
-            // If there are no ProjectImages above, this old logic will be used: 2 each of before, during, and after images (or 6 of one if there is only one timing group)
-            ProjectImagesExceptKeyPhotoGroupedByTiming = project.ProjectImages.Where(x =>
-                    !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown)
-                .GroupBy(x => x.ProjectImageTiming).OrderBy(x => x.Key.SortOrder).ToList();
-            ProjectImagesPerTimingGroup = ProjectImagesExceptKeyPhotoGroupedByTiming.Count == 1 ? 6 : 2;
             
             Classifications = project.ProjectClassifications.Select(x => x.Classification).ToList().SortByOrderThenName().ToList();
 

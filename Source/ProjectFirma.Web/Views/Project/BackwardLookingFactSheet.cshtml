@@ -487,7 +487,7 @@
          </div>
       </div>
    </div>
-   <div class="row section" style="page-break-before: @(ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any() ? "always" : "auto")">
+   <div class="row section" style="page-break-before: @(ViewDataTyped.ProjectImages.Any() ? "always" : "auto")">
        <div class="col-xs-12">
            <h4>Photos</h4>
        </div>
@@ -511,33 +511,6 @@
                    </div>
                }
            </div>
-       }
-       else if (ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming.Any())
-       {
-           foreach (var projectImagesGroupedByTiming in ViewDataTyped.ProjectImagesExceptKeyPhotoGroupedByTiming)
-           {
-               <div class="col-xs-12">
-                   <strong>@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</strong>
-               </div>
-               <div class="col-xs-12" style="margin: 0 15px;">
-                   @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResourceInfo.GetOrientation()).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
-                   {
-                       <div class="row">
-                           @foreach (var projectImage in projectImageBatch)
-                           {
-                               <div class="col-sm-12 col-md-6">
-                                   <img class="img-responsive" src="@projectImage.GetPhotoUrlScaledForPrint()" alt="@projectImage.GetCaptionOnFullView()" />
-                                   <div class="captionText">@projectImage.Caption</div>
-                                   @if (MultiTenantHelpers.ShowPhotoCreditOnFactSheet())
-                                   {
-                                       <div class="captionText">Credit: @projectImage.Credit</div>
-                                   }
-                               </div>
-                           }
-                       </div>
-                   }
-               </div>
-           }
        }
        else
        {

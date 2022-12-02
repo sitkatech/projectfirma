@@ -65,7 +65,8 @@ namespace ProjectFirma.Web.Views.ProjectImage
             projectImage.Caption = Caption;
             projectImage.Credit = Credit;
             projectImage.ProjectImageTimingID = ProjectImageTimingID;
-            projectImage.IncludeInFactSheet = IncludeInFactSheet;
+            // Key Photo must be included in fact sheet
+            projectImage.IncludeInFactSheet = projectImage.IsKeyPhoto || IncludeInFactSheet;
         }
     }
 }
