@@ -54,5 +54,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/ncrp.theme.css",
     "inputFile": "Content/Bootstrap/firma/ncrp.theme.less"
+  },
+  {
+    "outputFile": "Content/Bootstrap/firma/ssmp.theme.css",
+    "inputFile": "Content/Bootstrap/firma/ssmp.theme.less"
   }
 ]
