@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.Project
             ChartID = $"fundingChartForProject{project.ProjectID}";
 
             KeyPhoto = project.GetKeyPhoto();
-            ProjectImages = project.ProjectImages.Where(x => x.IncludeInFactSheet && !x.IsKeyPhoto).ToList();
+            ProjectImages = project.ProjectImages.Where(x => x.IncludeInFactSheet && !x.IsKeyPhoto).ToList().OrderBy(x => x.ProjectImageTiming.SortOrder).ThenBy(x => x.FileResourceInfo.GetOrientation()).ToList();
 
             Classifications = project.ProjectClassifications.Select(x => x.Classification).ToList().SortByOrderThenName().ToList();
 

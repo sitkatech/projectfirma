@@ -455,14 +455,14 @@
        @if (ViewDataTyped.ProjectImages.Any())
        {
            <div class="col-xs-12" style="margin: 0 15px;">
-               @foreach (var projectImageBatch in ViewDataTyped.ProjectImages.OrderBy(x => x.FileResourceInfo.GetOrientation()).Batch(2))
+               @foreach (var projectImageBatch in ViewDataTyped.ProjectImages.Batch(2))
                {
                    <div class="row">
                        @foreach (var projectImage in projectImageBatch)
                        {
                            <div class="col-sm-12 col-md-6">
                                <img class="img-responsive" src="@projectImage.GetPhotoUrlScaledForPrint()" alt="@projectImage.GetCaptionOnFullView()" />
-                               <div class="captionText">@projectImage.Caption</div>
+                               <div class="captionText">@projectImage.Caption (Timing: @projectImage.ProjectImageTiming.ProjectImageTimingDisplayName)</div>
                                @if (MultiTenantHelpers.ShowPhotoCreditOnFactSheet())
                                {
                                    <div class="captionText">Credit: @projectImage.Credit</div>
