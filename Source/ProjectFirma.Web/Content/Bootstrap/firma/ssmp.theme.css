@@ -26,7 +26,7 @@ h5,
 h6 {
   color: #1E2617;
   font-family: "Source Sans Pro", sans-serif;
-  font-weight: 600;
+  font-weight: 400;
 }
 h4 {
   margin-top: 0px;
@@ -38,7 +38,6 @@ a:visited {
 .pageTitle {
   font-weight: 400;
   color: #1E2617;
-  font-size: 28px;
 }
 .firmaContent {
   background-color: #fff;
@@ -52,7 +51,7 @@ a:visited {
 }
 .header img {
   margin: 10px;
-  height: 50px;
+  height: 70px;
 }
 .header .headerText {
   display: inline-block;
@@ -187,10 +186,13 @@ footer p {
   margin: 10px 0;
   font-size: 12px;
 }
+.btn {
+  font-size: 16px;
+}
 .btn-firma,
 .form-dialog .ui-widget-content .btn-firma,
 .firma-modal-dialog .btn-firma {
-  font-size: 14px;
+  font-size: 16px;
   color: #fff;
   background-color: #0E3F77;
 }
@@ -350,6 +352,20 @@ table.summaryLayout th,
   border-bottom: 22px solid transparent;
   border-left: 7px solid #fff;
 }
+.panelFirma .panelTitle a:hover {
+  text-decoration: none;
+}
+.panelFirma .panelTitle ul {
+  background-color: #EDF6FB;
+}
+.panelFirma .panelTitle ul li a,
+.panelFirma .panelTitle ul li a:visited {
+  color: #446A7C;
+  background-color: #EDF6FB;
+}
+.panelFirma .panelTitle ul li a:hover {
+  background-color: #fff;
+}
 .panelFirma {
   border-color: #ddd;
 }
@@ -399,6 +415,12 @@ a.button:active {
 a.gridButton.disabled {
   background-color: LightGray;
 }
+div.gridbox_mm table.hdr td label {
+  color: white;
+}
+div.gridbox_mm table.hdr td .helpicon {
+  color: white;
+}
 /* STANDARD */
 a.gridButton:hover {
   background-color: #6E79B3;
@@ -424,7 +446,6 @@ nav#tableOfContents ul.nav ul.nav {
   border: none;
   background-color: transparent;
   text-decoration: none;
-  font-weight: bold;
   padding: 0 0 0 5px;
 }
 nav#tableOfContents ul.nav ul.nav li a {
@@ -469,6 +490,10 @@ nav#tableOfContents ul.nav li ul.nav li a:hover {
   color: #046B99;
   cursor: pointer;
   text-decoration: none;
+}
+#tableOfContents h4,
+#tableOfContentsAffixed h4 {
+  font-weight: bold;
 }
 .scrollSpy {
   width: 230px;

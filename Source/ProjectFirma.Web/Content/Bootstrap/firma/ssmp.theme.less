@@ -49,6 +49,9 @@
 @firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
 
+@firma-panelDropdownText-color: @PrimaryBlue;
+@firma-panelDropdownBackground-color: @PrimaryLightBlue;
+
 @firma-pageTitle-color: #1E2617;
 @firma-header-color: #1E2617;
 
@@ -89,7 +92,7 @@ input[disabled] {
 h1, h2, h3, h4, h5, h6 {
     color: @firma-header-color;
     font-family: @firma-header-font;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 h4 {
@@ -109,7 +112,6 @@ a, a:visited {
 .pageTitle {
     font-weight: 400;
     color: @firma-pageTitle-color;
-    font-size: 28px
 }
 
 .firmaContent {
@@ -129,7 +131,7 @@ a, a:visited {
 
     img {
         margin: 10px;
-        height: 50px;
+        height: 70px;
     }
 
     .headerText {
@@ -293,8 +295,11 @@ footer {
 
 
 // buttons
+.btn {
+    font-size: 16px;
+}
 .btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma {
-  font-size: 14px;
+  font-size: 16px;
   color: @firma-buttonText-color;
   background-color: @firma-buttonBackground-color;
 }
@@ -480,6 +485,29 @@ table.summaryLayout th,
     border-left: 7px solid @firma-contentBackground-color;
 }
 
+// Main page drop downs
+.panelFirma {
+    .panelTitle {
+        a:hover {
+            text-decoration: none;
+        }
+
+        ul {
+            background-color: @firma-panelDropdownBackground-color;
+
+            li {
+                a, a:visited {
+                    color: @firma-panelDropdownText-color;
+                    background-color: @firma-panelDropdownBackground-color;
+                }
+
+                a:hover {
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+}
 
 // Panels
 
@@ -533,6 +561,17 @@ a.gridButton.disabled {
     background-color: @disabled-color;    
 }
 
+div.gridbox_mm table.hdr td {
+    label {
+        color: white;
+    }
+
+    .helpicon {
+        color: white;
+    }
+}
+
+
 /* STANDARD */
 a.gridButton:hover {
     background-color: @firma-buttonBackground-color-hover;
@@ -563,7 +602,7 @@ nav#tableOfContents ul.nav ul.nav {
   border: none;
   background-color: transparent;
   text-decoration: none;
-  font-weight: bold;
+  //font-weight: bold;
   padding: 0 0 0 5px;
 }
 nav#tableOfContents ul.nav ul.nav li a {
@@ -614,6 +653,9 @@ nav#tableOfContents ul.nav li ul.nav li a:hover
     color: @firma-scrollSpyAccent-color;
     cursor: pointer;
     text-decoration: none;   
+}
+#tableOfContents h4, #tableOfContentsAffixed h4 {
+    font-weight: bold;
 }
 
 
