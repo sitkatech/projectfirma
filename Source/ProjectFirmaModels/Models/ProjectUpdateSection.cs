@@ -23,9 +23,15 @@
 
     public partial class ProjectUpdateSectionClassifications
     {
+        //public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
+        //{
+        //    // should never be called. Classifications are treated differently in ProjectWorkflowSectionGroupingModelExtensions
+        //    return false;
+        //}
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateStatus.IsClassificationsUpdated;
+            // should never be called. Classifications are treated differently in ProjectWorkflowSectionGroupingModelExtensions
+            throw new System.NotImplementedException();
         }
     }
 

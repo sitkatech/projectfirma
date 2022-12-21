@@ -7,4 +7,5 @@ values
 (3, 'Accomplishments', 'Accomplishments', 30),
 (4, 'Financials', 'Financials', 40),
 (5, 'AdditionalData', 'Additional Data', 50),
-(6, 'Partners', 'Partners', 60)
+(6, 'Partners', 'Partners', 60),
+(7, 'Classifications', 'Classifications', 45)

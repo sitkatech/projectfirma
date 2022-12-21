@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProposalClassificationsViewModel.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ClassificationsViewModel.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -29,62 +29,63 @@ using LtInfo.Common.Models;
 using MoreLinq;
 using ProjectFirma.Web.Models;
 
-namespace ProjectFirma.Web.Views.ProjectCreate
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class EditProposalClassificationsViewModel : FormViewModel, IValidatableObject
+    public class ClassificationsViewModel : FormViewModel, IValidatableObject
     {
         public List<ProjectClassificationSimple> ProjectClassificationSimples { get; set; }
         
-        [DisplayName("Reviewer Comments")]
+        [DisplayName("Comments")]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProposalClassificationsComment)]
         public string Comments { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditProposalClassificationsViewModel()
+        public ClassificationsViewModel()
         {
         }
 
-        public EditProposalClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples, ProjectFirmaModels.Models.Project project)
+        public ClassificationsViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, List<ProjectClassificationSimple> projectClassificationSimples, string projectClassificationsComment)
         {
             ProjectClassificationSimples = projectClassificationSimples;
-            Comments = project.ProposalClassificationsComment;
+            Comments = projectClassificationsComment;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, List<ProjectClassificationSimple> projectClassificationSimples, ProjectUpdateBatchClassificationSystem projectUpdateBatchClassificationSystem)
         {
             foreach (var projectClassificationSimple in projectClassificationSimples)
             {
-                var alreadySelected = project.ProjectClassifications
+                var alreadySelected = projectUpdateBatch.ProjectClassificationUpdates
                     .SingleOrDefault(x => x.ClassificationID == projectClassificationSimple.ClassificationID) != null;
 
                 if (projectClassificationSimple.Selected && !alreadySelected)
                 {
-                    var projectClassification = new ProjectClassification(project.ProjectID,
+                    var projectClassificationUpdate = new ProjectClassificationUpdate(projectUpdateBatch.ProjectUpdateBatchID,
                         projectClassificationSimple.ClassificationID)
                     {
-                        ProjectClassificationNotes = projectClassificationSimple.ProjectClassificationNotes
+                        ProjectClassificationUpdateNotes = projectClassificationSimple.ProjectClassificationNotes
                     };
 
-                    project.ProjectClassifications.Add(projectClassification);
+                    projectUpdateBatch.ProjectClassificationUpdates.Add(projectClassificationUpdate);
                 }
                 else if (projectClassificationSimple.Selected && alreadySelected)
                 {
-                    var existingProjectClassification = project.ProjectClassifications.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
-                    existingProjectClassification.ProjectClassificationNotes = projectClassificationSimple.ProjectClassificationNotes;
+                    var existingProjectClassification = projectUpdateBatch.ProjectClassificationUpdates.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
+                    existingProjectClassification.ProjectClassificationUpdateNotes = projectClassificationSimple.ProjectClassificationNotes;
                 }
                 else if (!projectClassificationSimple.Selected && alreadySelected)
                 {
-                    var existingProjectClassification = project.ProjectClassifications.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
+                    var existingProjectClassification = projectUpdateBatch.ProjectClassificationUpdates.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
                     existingProjectClassification.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
             }
 
-            if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
+            if (projectUpdateBatch.IsSubmitted())
             {
-                project.ProposalClassificationsComment = Comments;
+                projectUpdateBatchClassificationSystem.ProjectClassificationsComment = Comments;
             }
+
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

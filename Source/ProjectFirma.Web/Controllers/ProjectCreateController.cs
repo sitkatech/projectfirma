@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ProposalSectionsStatus GetProposalSectionsStatus(Project project)
         {
-            return new ProposalSectionsStatus(project, HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList(), CurrentFirmaSession);
+            return new ProposalSectionsStatus(project, HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList(), HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList(), CurrentFirmaSession);
         }
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
@@ -803,20 +803,21 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult EditClassifications(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditClassifications(ProjectPrimaryKey projectPrimaryKey, ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectClassificationSimples = GetProjectClassificationSimples(project);
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
+            var projectClassificationSimples = GetProjectClassificationSimples(project, classificationSystem.ClassificationSystemID);
             var viewModel = new EditProposalClassificationsViewModel(projectClassificationSimples, project);
-            return ViewEditClassifications(project, viewModel);
+            return ViewEditClassifications(project, classificationSystem, viewModel);
         }
 
-        public static List<ProjectClassificationSimple> GetProjectClassificationSimples(Project project)
+        public static List<ProjectClassificationSimple> GetProjectClassificationSimples(Project project, int classificationSystemID)
         {
-            var selectedProjectClassifications = project.ProjectClassifications;
+            var selectedProjectClassifications = project.ProjectClassifications.Where(x => x.Classification.ClassificationSystemID == classificationSystemID);
 
             var projectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications).OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple
+                HttpRequestStorage.DatabaseEntities.ClassificationSystems.Single(x => x.ClassificationSystemID == classificationSystemID).Classifications.OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple
                 {
                     ClassificationID = x.ClassificationID,
                     ClassificationSystemID = x.ClassificationSystemID,
@@ -833,33 +834,33 @@ namespace ProjectFirma.Web.Controllers
             return projectClassificationSimples;
         }
 
-        private ViewResult ViewEditClassifications(Project project, EditProposalClassificationsViewModel viewModel)
+        private ViewResult ViewEditClassifications(Project project, ClassificationSystem classificationSystem, EditProposalClassificationsViewModel viewModel)
         {
-            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList().Where(x => x.HasClassifications).OrderBy(p => p.ClassificationSystemName).ToList();
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
 
-            var viewData = new EditProposalClassificationsViewData(CurrentFirmaSession, project, allClassificationSystems, ProjectCreateSection.Classifications.ProjectCreateSectionDisplayName, proposalSectionsStatus);
+            var viewData = new EditProposalClassificationsViewData(CurrentFirmaSession, project, classificationSystem, classificationSystem.ClassificationSystemNamePluralized, proposalSectionsStatus);
             return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditClassifications(ProjectPrimaryKey projectPrimaryKey, EditProposalClassificationsViewModel viewModel)
+        public ActionResult EditClassifications(ProjectPrimaryKey projectPrimaryKey, ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditProposalClassificationsViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
+            var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditClassifications(project, viewModel);
+                return ViewEditClassifications(project, classificationSystem, viewModel);
             }
             var currentProjectClassifications = viewModel.ProjectClassificationSimples;
             HttpRequestStorage.DatabaseEntities.ProjectClassifications.Load();
             viewModel.UpdateModel(project, currentProjectClassifications);
 
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()} successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.Classifications.ProjectCreateSectionDisplayName);
+            return GoToNextSection(viewModel, project, classificationSystem.ClassificationSystemNamePluralized);
         }
 
         [HttpGet]

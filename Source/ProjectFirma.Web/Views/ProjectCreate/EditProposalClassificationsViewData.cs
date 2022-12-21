@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class EditProposalClassificationsViewData : ProjectCreateViewData
     {
-        public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
+        public ProjectFirmaModels.Models.ClassificationSystem ClassificationSystem { get; }
         public string ProjectName { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForClassification { get; }
@@ -38,11 +38,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool ShowCommentsSection { get; }
         public bool CanEditComments { get; }
 
-        public EditProposalClassificationsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
+        public EditProposalClassificationsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ProjectFirmaModels.Models.ClassificationSystem classificationSystem, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentFirmaSession, project, currentSectionDisplayName, proposalSectionsStatus)
         {
             ProjectName = project.GetDisplayName();
-            ClassificationSystems = classificationSystems;
+            ClassificationSystem = classificationSystem;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForClassification = FieldDefinitionEnum.Classification.ToType();
             if (new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))

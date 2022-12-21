@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectUpdateSectionModelExtensions
     {
-        public static bool IsComplete(this ProjectUpdateSection projectUpdateSection, ProjectUpdateBatch projectUpdateBatch)
+        public static bool IsComplete(this ProjectUpdateSection projectUpdateSection, ProjectUpdateBatch projectUpdateBatch, int? classificationSystemID = null)
         {
             if (projectUpdateBatch == null)
             {
@@ -52,12 +52,16 @@ namespace ProjectFirma.Web.Models
                 case ProjectUpdateSectionEnum.PartnerFinder:
                     return true;
                 case ProjectUpdateSectionEnum.Classifications:
-                    return projectUpdateBatch.ValidateClassifications().IsValid;
+                    if (classificationSystemID.HasValue)
+                    {
+                        return projectUpdateBatch.ValidateClassifications(classificationSystemID.Value).IsValid;
+                    }
+                    return false;
                 default:
                     throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled Project Update Section Enum: {projectUpdateSection.ToEnum}");
             }
         }
-        public static string GetSectionUrl(this ProjectUpdateSection projectUpdateSection, Project project)
+        public static string GetSectionUrl(this ProjectUpdateSection projectUpdateSection, Project project, int? classificationSystemID = null)
         {
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(
                 project.GetLatestNotApprovedUpdateBatch().ProjectUpdateBatchID))
@@ -104,7 +108,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectUpdateSectionEnum.PartnerFinder:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.PartnerFinder(project));
                 case ProjectUpdateSectionEnum.Classifications:
-                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Classifications(project));
+                    return classificationSystemID.HasValue ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Classifications(project, classificationSystemID.Value)) : null;
 
                 default:
                     throw new ArgumentOutOfRangeException($"Unhandled Project Update Section Enum: {projectUpdateSection.ToEnum}");

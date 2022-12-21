@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ApprovalUtilities.Utilities;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -6,10 +8,21 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectClassificationsUpdateModelExtensions
     {
-        public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
+        public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch, List<ClassificationSystem> classificationSystems)
         {
             var project = projectUpdateBatch.Project;
             projectUpdateBatch.ProjectClassificationUpdates = project.ProjectClassifications.Select(x => new ProjectClassificationUpdate(projectUpdateBatch, x.Classification){ProjectClassificationUpdateNotes = x.ProjectClassificationNotes}).ToList();
+            projectUpdateBatch.ProjectUpdateBatchClassificationSystems = classificationSystems.Select(x => new ProjectUpdateBatchClassificationSystem(projectUpdateBatch, x)).ToList();
+        }
+
+        public static void RefreshForClassificationSystemFromProject(ProjectUpdateBatch projectUpdateBatch, ClassificationSystem classificationSystem)
+        {
+            var project = projectUpdateBatch.Project;
+            var projectClassificationUpdates = project.ProjectClassifications
+                .Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID)
+                .Select(x => new ProjectClassificationUpdate(projectUpdateBatch, x.Classification)
+                    {ProjectClassificationUpdateNotes = x.ProjectClassificationNotes}).ToList();
+            projectUpdateBatch.ProjectClassificationUpdates.AddAll(projectClassificationUpdates);
         }
 
 

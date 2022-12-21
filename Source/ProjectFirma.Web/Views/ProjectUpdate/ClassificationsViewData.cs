@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProposalClassificationsViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="ClassificationsViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -28,9 +28,9 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class EditProposalClassificationsViewData : ProjectUpdateViewData
+    public class ClassificationsViewData : ProjectUpdateViewData
     {
-        public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
+        public ProjectFirmaModels.Models.ClassificationSystem ClassificationSystem { get; }
         public string ProjectName { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForClassification { get; }
@@ -38,17 +38,17 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string DiffUrl { get; }
         public string RefreshUrl { get; }
 
-        public EditProposalClassificationsViewData(FirmaSession currentFirmaSession
+        public ClassificationsViewData(FirmaSession currentFirmaSession
             , ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch
-            , List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems
+            , ProjectFirmaModels.Models.ClassificationSystem classificationSystem
             , ClassificationsValidationResult classificationsValidationResult
             , ProjectUpdateStatus projectUpdateStatus
             , string diffUrl
             , string refreshUrl)
-            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, classificationsValidationResult.GetWarningMessages(), ProjectUpdateSection.Classifications.ProjectUpdateSectionDisplayName)
+            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, classificationsValidationResult.GetWarningMessages(), classificationSystem.ClassificationSystemNamePluralized)
         {
             ProjectName = projectUpdateBatch.Project.GetDisplayName();
-            ClassificationSystems = classificationSystems;
+            ClassificationSystem = classificationSystem;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForClassification = FieldDefinitionEnum.Classification.ToType();
             if (new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))

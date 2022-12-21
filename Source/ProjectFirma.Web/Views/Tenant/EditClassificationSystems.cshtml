@@ -28,8 +28,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @using (Html.BeginForm())
 {
-    var i = 0;
-<div class="form-horizontal">
+    <div class="form-horizontal">
     @Html.HiddenFor(m => m.TenantID)
    
     <div class="row">
@@ -43,7 +42,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var classificationSystem in Model.ClassificationSystemSimples)
+                    @for (var i = 0; i < Model.ClassificationSystemSimples.Count; i++)
                     {
                         <tr>
                             <td style="width: 200px">
@@ -53,7 +52,6 @@ Source code is available upon request via <support@sitkatech.com>.
                             </td>
                             <td>@Html.CkEditorFor(m => m.ClassificationSystemSimples[i].ClassificationSystemDefinition, CkEditorExtension.CkEditorToolbar.Minimal, true, false, null, 50)</td>
                         </tr>
-                        i++;
                     }
                     </tbody>
                 </table>

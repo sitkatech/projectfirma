@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.Tenant
             TenantID = tenant.TenantID;
             ClassificationSystemSimples = MultiTenantHelpers.GetClassificationSystems().Select(x => new ClassificationSystemSimple(x)).ToList();
 
-            if (ClassificationSystemSimples.Count < 2)
+            while (ClassificationSystemSimples.Count < 4)
             {
                 ClassificationSystemSimples.Add(new ClassificationSystemSimple(tenant.TenantID));
             }
@@ -38,10 +38,13 @@ namespace ProjectFirma.Web.Views.Tenant
 
         public void UpdateModel(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.ClassificationSystem> currentClassificationSystems, ObservableCollection<ProjectFirmaModels.Models.ClassificationSystem> allClassificationSystems)
         {
-            var updatedClassificationSystems = ClassificationSystemSimples.Where(x => !string.IsNullOrEmpty(x.ClassificationSystemName)).Select(x => new ProjectFirmaModels.Models.ClassificationSystem(x.ClassificationSystemID ?? ModelObjectHelpers.NotYetAssignedID, 
-                x.ClassificationSystemName, 
-                x.ClassificationSystemDefinition?.ToString(), 
-                null)).ToList();
+            var updatedClassificationSystems = ClassificationSystemSimples
+                .Where(x => !string.IsNullOrEmpty(x.ClassificationSystemName)).Select(x =>
+                    new ProjectFirmaModels.Models.ClassificationSystem(
+                        x.ClassificationSystemID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(),
+                        x.ClassificationSystemName,
+                        x.ClassificationSystemDefinition?.ToString(),
+                        null)).ToList();
             currentClassificationSystems.Merge(updatedClassificationSystems, allClassificationSystems, (x, y) => x.ClassificationSystemID == y.ClassificationSystemID, (x, y) =>
             {
                 x.ClassificationSystemName = y.ClassificationSystemName;
@@ -53,14 +56,14 @@ namespace ProjectFirma.Web.Views.Tenant
         {
             var errors = new List<ValidationResult>();
 
-            if (ClassificationSystemSimples.Count(x => string.IsNullOrEmpty(x.ClassificationSystemName)) > 1)
+            if (ClassificationSystemSimples.All(x => string.IsNullOrEmpty(x.ClassificationSystemName)))
             {
                 errors.Add(new ValidationResult("Each Tenant must have at least one Classification System."));
             }
 
-            if (ClassificationSystemSimples.Count(x => !string.IsNullOrEmpty(x.ClassificationSystemName)) > 2)
+            if (ClassificationSystemSimples.Count(x => !string.IsNullOrEmpty(x.ClassificationSystemName)) > 4)
             {
-                errors.Add(new ValidationResult("Each Tenant can only have up to two Classification Systems."));
+                errors.Add(new ValidationResult("Each Tenant can only have up to four Classification Systems."));
             }
 
             if (ClassificationSystemSimples.Any(x => !x.CanDelete && string.IsNullOrEmpty(x.ClassificationSystemName)))

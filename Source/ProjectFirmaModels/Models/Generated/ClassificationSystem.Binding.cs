@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected ClassificationSystem()
         {
             this.Classifications = new HashSet<Classification>();
+            this.ProjectUpdateBatchClassificationSystems = new HashSet<ProjectUpdateBatchClassificationSystem>();
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Classifications.Any();
+            return Classifications.Any() || ProjectUpdateBatchClassificationSystems.Any();
         }
 
         /// <summary>
@@ -79,13 +80,18 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(Classification).Name);
             }
+
+            if(ProjectUpdateBatchClassificationSystems.Any())
+            {
+                dependentObjects.Add(typeof(ProjectUpdateBatchClassificationSystem).Name);
+            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ClassificationSystem).Name, typeof(Classification).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ClassificationSystem).Name, typeof(Classification).Name, typeof(ProjectUpdateBatchClassificationSystem).Name};
 
 
         /// <summary>
@@ -114,6 +120,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ProjectUpdateBatchClassificationSystems.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -138,6 +149,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ClassificationSystemID; } set { ClassificationSystemID = value; } }
 
         public virtual ICollection<Classification> Classifications { get; set; }
+        public virtual ICollection<ProjectUpdateBatchClassificationSystem> ProjectUpdateBatchClassificationSystems { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

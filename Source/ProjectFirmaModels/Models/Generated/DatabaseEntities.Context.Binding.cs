@@ -184,6 +184,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectTagConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateBatchConfiguration());
+            modelBuilder.Configurations.Add(new ProjectUpdateBatchClassificationSystemConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateHistoryConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
@@ -490,6 +491,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectStatus> ProjectStatuses { get { return AllProjectStatuses.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
         public virtual IQueryable<ProjectTag> ProjectTags { get { return AllProjectTags.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectUpdateBatchClassificationSystem> AllProjectUpdateBatchClassificationSystems { get; set; }
+        public virtual IQueryable<ProjectUpdateBatchClassificationSystem> ProjectUpdateBatchClassificationSystems { get { return AllProjectUpdateBatchClassificationSystems.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectUpdateBatch> AllProjectUpdateBatches { get; set; }
         public virtual IQueryable<ProjectUpdateBatch> ProjectUpdateBatches { get { return AllProjectUpdateBatches.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectUpdateHistory> AllProjectUpdateHistories { get; set; }
@@ -1162,6 +1165,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectTag":
                     return ProjectTags.GetProjectTag(primaryKey);
+
+                case "ProjectUpdateBatchClassificationSystem":
+                    return ProjectUpdateBatchClassificationSystems.GetProjectUpdateBatchClassificationSystem(primaryKey);
 
                 case "ProjectUpdateBatch":
                     return ProjectUpdateBatches.GetProjectUpdateBatch(primaryKey);

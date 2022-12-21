@@ -15,12 +15,36 @@ namespace ProjectFirma.Web.Models
             return projectCreateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(project), !ignoreStatus && x.IsComplete(project), false, project != null && x.HasCompletionStatus)).OrderBy(x => x.SortOrder).ToList();
         }
 
+        private static List<ProjectSectionSimple> GetProjectCreateClassificationSections(Project project, List<ClassificationSystem> classificationSystems, bool ignoreStatus)
+        {
+            classificationSystems = classificationSystems.OrderBy(x => x.ClassificationSystemName).ToList();
+
+            return classificationSystems.Select((classificationSystem, i) => new ProjectSectionSimple(
+                classificationSystem.ClassificationSystemNamePluralized, ProjectCreateSection.Classifications.SortOrder + i, project != null,
+                ProjectWorkflowSectionGrouping.Classifications,
+                ProjectCreateSection.Classifications.GetSectionUrl(project, classificationSystem.ClassificationSystemID),
+                !ignoreStatus && ProjectCreateSection.Classifications.IsComplete(project, classificationSystem.ClassificationSystemID),
+                false)).ToList();
+        }
+
         private static List<ProjectSectionSimple> GetProjectUpdateSectionsImpl(ProjectUpdateBatch projectUpdateBatch, 
                                                                                List<ProjectUpdateSection> projectUpdateSections, 
                                                                                ProjectUpdateStatus projectUpdateStatus, bool ignoreStatus)
         {
             var sections = projectUpdateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(projectUpdateBatch.Project), !ignoreStatus && x.IsComplete(projectUpdateBatch), projectUpdateStatus != null && x.SectionIsUpdated(projectUpdateStatus))).OrderBy(x => x.SortOrder).ToList();
             return sections;
+        }
+
+        private static List<ProjectSectionSimple> GetProjectUpdateClassificationSections(ProjectUpdateBatch projectUpdateBatch, List<ClassificationSystem> classificationSystems, ProjectUpdateStatus projectUpdateStatus, bool ignoreStatus)
+        {
+            classificationSystems = classificationSystems.OrderBy(x => x.ClassificationSystemName).ToList();
+
+            return classificationSystems.Select((classificationSystem, i) => new ProjectSectionSimple(
+                classificationSystem.ClassificationSystemNamePluralized, ProjectUpdateSection.Classifications.SortOrder + i, true,
+                ProjectWorkflowSectionGrouping.Classifications,
+                ProjectUpdateSection.Classifications.GetSectionUrl(projectUpdateBatch.Project, classificationSystem.ClassificationSystemID),
+                !ignoreStatus && ProjectUpdateSection.Classifications.IsComplete(projectUpdateBatch, classificationSystem.ClassificationSystemID),
+                projectUpdateStatus != null && projectUpdateStatus.ClassificationSystemIsUpdated[classificationSystem.ClassificationSystemID])).ToList();
         }
 
         public static List<ProjectSectionSimple> GetProjectCreateSections(this ProjectWorkflowSectionGrouping projectWorkflowSectionGrouping, Project project, bool ignoreStatus, bool hasEditableCustomAttributes)
@@ -45,6 +69,9 @@ namespace ProjectFirma.Web.Models
                         projectCreateSectionsForAdditionalData.Add(ProjectCreateSection.Assessment);
                     }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForAdditionalData, ignoreStatus);
+
+                case ProjectWorkflowSectionGroupingEnum.Classifications:
+                    return project != null ? GetProjectCreateClassificationSections(project, HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList(), ignoreStatus) : new List<ProjectSectionSimple>();
 
                 case ProjectWorkflowSectionGroupingEnum.Financials:
                     var projectCreateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Budget, ProjectCreateSection.ReportedExpenditures }).ToList();
@@ -175,6 +202,9 @@ namespace ProjectFirma.Web.Models
                         projectUpdateSectionsForExpenditures.Add(ProjectUpdateSection.Budget);
                     }
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForExpenditures, projectUpdateStatus, ignoreStatus);
+                case ProjectWorkflowSectionGroupingEnum.Classifications:
+                    return GetProjectUpdateClassificationSections(projectUpdateBatch, HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList(), projectUpdateStatus, ignoreStatus);
+
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     var additionalDataProjectUpdateSections = projectWorkflowSectionGrouping.ProjectUpdateSections.ToList();
 

@@ -11,7 +11,7 @@ values
 (7, 'ReportedAccomplishments', 'Reported Accomplishments', 70, 1, 3),
 (8, 'Budget', 'Budget', 80, 0, 4),
 (9, 'ReportedExpenditures', 'Reported Expenditures', 90, 1, 4),
-(11, 'Classifications', 'Classifications', 110, 1, 5),
+(11, 'Classifications', 'Classifications', 110, 1, 7),
 (12, 'Assessment', 'Asssessment', 120, 1, 5),
 (13, 'Photos', 'Photos', 130, 0, 5),
 (15, 'Contacts', 'Contacts', 45, 1, 1),

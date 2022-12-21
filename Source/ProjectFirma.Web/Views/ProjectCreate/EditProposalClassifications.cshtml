@@ -35,7 +35,7 @@
     }
 </style>
 
-@if (!ViewDataTyped.ClassificationSystems.Any())
+@if (ViewDataTyped.ClassificationSystem == null)
 {
     <div class="alert alert-danger" role="alert">
         <p>
@@ -61,37 +61,36 @@
     </div>
     <div>
 
-        @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
+        @if(ViewDataTyped.ClassificationSystem != null)
         {
             <h4>
-                @Html.LabelWithSugarFor(classificationSystem)
+                @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem)
             <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
-        </h4>
-        foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
-        {
-            var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
-            var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
-            <div class="row" style="padding-top: 20px">
-                <div class="col-xs-12 col-sm-4">
-                    <label>
-                        @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
-                        <span style="font-weight: bold">@classification.DisplayName</span>
-                    </label>
-                    <div class="help-block">
-                        @classification.ClassificationDescription
+            </h4>
+            foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
+            {
+                var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
+                var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
+                <div class="row" style="padding-top: 20px">
+                    <div class="col-xs-12 col-sm-4">
+                        <label>
+                            @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
+                            <span style="font-weight: bold">@classification.DisplayName</span>
+                        </label>
+                        <div class="help-block">
+                            @classification.ClassificationDescription
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-8">
+                        <div>
+                            @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", ViewDataTyped.ClassificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> { "form-control" })
+                        </div>
+                        @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
+                        @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-8">
-                    <div>
-                        @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> { "form-control" })
-                    </div>
-                    @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
-                    @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
-                </div>
-            </div>
+            }
         }
-        <hr />
-    }
     </div>
 
     if (@ViewDataTyped.ShowCommentsSection)
@@ -131,49 +130,53 @@
 
     jQuery(document).ready(function () {
         // This is fragile- depends on the ViewData ClassificationSystems and Classifications being ordered in the same way
-        @for (var i = 0; i < ViewDataTyped.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications.OrderBy(y => y.DisplayName)).ToList().Count; i++)
+        @if (ViewDataTyped.ClassificationSystem != null)
         {
-            <text>
-        var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");
-        var notesTextArea = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
-        var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+            for (var i = 0; i < ViewDataTyped.ClassificationSystem.Classifications.OrderBy(y => y.DisplayName).ToList().Count; i++)
+            {
+                <text>
+            var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");
+            var notesTextArea = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+            var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
 
-        //Set default display
-        if (checkBox.prop("checked")) {
-            notesTextArea.css("background-color", "");
-            notesTextArea.attr("disabled", false);
-            notesTextArea.attr("disabled", false);
-            charactersRemaining.css("display", "");
-        }
-        else {
-            notesTextArea.css("background-color", "#EEEEEE");
-            notesTextArea.attr("disabled", "disabled");
-            charactersRemaining.css("display", "none");
-        }
-
-        //Create on-change event
-        jQuery(checkBox).change(function () {
-            var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
-            var charactersRemainingFunction =
-                jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
-
-            if (this.checked) {
-                notesTextAreaForCheckboxFunction.css("background-color", "");
-                notesTextAreaForCheckboxFunction.attr("disabled", false);
-                charactersRemainingFunction.css("display", "");
+            //Set default display
+            if (checkBox.prop("checked")) {
+                notesTextArea.css("background-color", "");
+                notesTextArea.attr("disabled", false);
+                notesTextArea.attr("disabled", false);
+                charactersRemaining.css("display", "");
             }
             else {
-                notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
-                notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
-                charactersRemainingFunction.css("display", "none");
+                notesTextArea.css("background-color", "#EEEEEE");
+                notesTextArea.attr("disabled", "disabled");
+                charactersRemaining.css("display", "none");
             }
-        });
-        </text>
+
+            //Create on-change event
+            jQuery(checkBox).change(function () {
+                var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+                var charactersRemainingFunction =
+                    jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+
+                if (this.checked) {
+                    notesTextAreaForCheckboxFunction.css("background-color", "");
+                    notesTextAreaForCheckboxFunction.attr("disabled", false);
+                    charactersRemainingFunction.css("display", "");
+                }
+                else {
+                    notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
+                    notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
+                    charactersRemainingFunction.css("display", "none");
+                }
+            });
+            </text>
+            }
         }
+
 
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
 
-        var hasClassificationSetupData = @ViewDataTyped.ClassificationSystems.Any().ToString().ToLower();
+        var hasClassificationSetupData = @((ViewDataTyped.ClassificationSystem != null).ToString().ToLower());
         if (!hasClassificationSetupData) {
             jQuery('form button[type="button"]').attr('disabled','disabled');
         }

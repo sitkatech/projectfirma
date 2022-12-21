@@ -94,7 +94,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             HasCustomAttributesEditableByUser = projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession);
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
-            ProjectUpdateStatus = currentFirmaSession.Person.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+            var classificationSystemIsUpdated =
+                projectUpdateStatus.ClassificationSystemIsUpdated.Keys.ToDictionary(x => x, x => false);
+            ProjectUpdateStatus = currentFirmaSession.Person.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false, classificationSystemIsUpdated);
             HasUpdateStarted = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
 
             ValidationWarnings = validationWarnings;

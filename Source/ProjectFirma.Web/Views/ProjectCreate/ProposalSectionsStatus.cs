@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         /// </summary>
         /// <param name="project"></param>
         /// <param name="geospatialAreaTypes">Geospatial areas are defined per tenant, this is passed to check if the tenant has any and are complete</param>
-        public ProposalSectionsStatus(ProjectFirmaModels.Models.Project project, List<GeospatialAreaType> geospatialAreaTypes, FirmaSession currentFirmaSession)
+        public ProposalSectionsStatus(ProjectFirmaModels.Models.Project project, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems, FirmaSession currentFirmaSession)
         {
             // Basics section
             var basicsResults = new BasicsViewModel(project).GetValidationResults();
@@ -102,9 +102,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IsExpectedFundingSectionComplete = !expectedFundingValidationResults.Any();
 
             // Classifications section
-            var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
-            var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples, project).GetValidationResults();
-            IsClassificationsComplete = !classificationValidationResults.Any();
+            var isClassificationComplete = true;
+            foreach (var classificationSystem in classificationSystems)
+            {
+                var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project, classificationSystem.ClassificationSystemID);
+                var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples, project).GetValidationResults();
+                isClassificationComplete = isClassificationComplete && !classificationValidationResults.Any();
+            }
+
+            IsClassificationsComplete = isClassificationComplete;
 
             // Assessment section
             IsAssessmentComplete = ProjectCreateController.GetProjectAssessmentQuestionSimples(project).All(simple => simple.Answer.HasValue);

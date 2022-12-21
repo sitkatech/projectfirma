@@ -19,4 +19,4 @@ values
 (16, 'CustomAttributes', 'Custom Attributes', 25, 1, 1),
 (17, 'BulkSetSpatialInformation', 'Bulk Set Spatial Information',60, 0, 2),
 (18, 'PartnerFinder', 'Partner Finder', 140, 0, 6),
-(19, 'Classifications', 'Classifications', 109, 1, 5)
+(19, 'Classifications', 'Classifications', 109, 1, 7)

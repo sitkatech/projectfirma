@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+
 namespace ProjectFirmaModels.Models
 {
     public class ProjectUpdateStatus
@@ -36,7 +39,7 @@ namespace ProjectFirmaModels.Models
         public bool IsExpectedPerformanceMeasuresUpdated { get; }
         public bool IsTechnicalAssistanceRequestsUpdated { get;  }
         public bool IsCustomAttributesUpdated { get; }
-        public bool IsClassificationsUpdated { get; }
+        public Dictionary<int, bool> ClassificationSystemIsUpdated { get; }
         public bool IsBulkSetSpatialInformationUpdated { get; }
         
         public ProjectUpdateStatus(bool isBasicsUpdated,
@@ -53,7 +56,7 @@ namespace ProjectFirmaModels.Models
             bool isTechnicalAssistanceRequestsUpdated,
             bool isContactsUpdated,
             bool isCustomAttributesUpdated,
-            bool isClassificationsUpdated)
+            Dictionary<int, bool> classificationSystemIsUpdated)
         {
             IsBasicsUpdated = isBasicsUpdated;
             IsReportedPerformanceMeasuresUpdated = isReportedPerformanceMeasuresUpdated;
@@ -69,7 +72,7 @@ namespace ProjectFirmaModels.Models
             IsTechnicalAssistanceRequestsUpdated = isTechnicalAssistanceRequestsUpdated;
             IsContactsUpdated = isContactsUpdated;
             IsCustomAttributesUpdated = isCustomAttributesUpdated;
-            IsClassificationsUpdated = isClassificationsUpdated;
+            ClassificationSystemIsUpdated = classificationSystemIsUpdated;
             IsBulkSetSpatialInformationUpdated = false;//10/18/2019 TK - always set to false because this section itself isn't updated. We are updating specific Geospatial Area Types.
         }
     }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProposalClassifications.cs" company="Tahoe Regional Planning Agency">
+<copyright file="Classifications.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -21,8 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public abstract class EditProposalClassifications :
-        LtInfo.Common.Mvc.TypedWebViewPage<EditProposalClassificationsViewData, EditProposalClassificationsViewModel>
+    public abstract class Classifications :
+        LtInfo.Common.Mvc.TypedWebViewPage<ClassificationsViewData, ClassificationsViewModel>
     {
     }
 }

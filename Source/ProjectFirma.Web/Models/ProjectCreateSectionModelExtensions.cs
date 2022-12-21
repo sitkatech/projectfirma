@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectCreateSectionModelExtensions
     {
-        public static bool IsComplete(this ProjectCreateSection projectCreateSection, Project project)
+        public static bool IsComplete(this ProjectCreateSection projectCreateSection, Project project, int? classificationSystemID = null)
         {
             if (project == null)
             {
@@ -78,9 +78,13 @@ namespace ProjectFirma.Web.Models
                     }
 
                 case ProjectCreateSectionEnum.Classifications:
-                    var projectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
-                    var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples, project).GetValidationResults();
-                    return !classificationValidationResults.Any();
+                    if (classificationSystemID.HasValue)
+                    {
+                        var projectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project, classificationSystemID.Value);
+                        var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples, project).GetValidationResults();
+                        return !classificationValidationResults.Any();
+                    }
+                    return false;
                 case ProjectCreateSectionEnum.Assessment:
                     return !new EditAssessmentViewModel(project.ProjectAssessmentQuestions.Select(x => new ProjectAssessmentQuestionSimple(x)).ToList()).GetValidationResults().Any();
                 case ProjectCreateSectionEnum.Photos:
@@ -97,7 +101,7 @@ namespace ProjectFirma.Web.Models
                     throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled ProjectCreateSection Enum: {projectCreateSection.ToEnum}");
             }
         }
-        public static string GetSectionUrl(this ProjectCreateSection projectCreateSection, Project project)
+        public static string GetSectionUrl(this ProjectCreateSection projectCreateSection, Project project, int? classificationSystemID = null)
         {
             if (project == null)
             {
@@ -135,7 +139,7 @@ namespace ProjectFirma.Web.Models
                             : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID))
                         : null;
                 case ProjectCreateSectionEnum.Classifications:
-                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditClassifications(project.ProjectID)) : null;
+                    return classificationSystemID.HasValue && ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditClassifications(project.ProjectID, classificationSystemID)) : null;
                 case ProjectCreateSectionEnum.Assessment:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditAssessment(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Photos:

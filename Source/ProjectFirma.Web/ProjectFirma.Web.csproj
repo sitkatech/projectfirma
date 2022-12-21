@@ -398,9 +398,9 @@
     <Compile Include="Views\ProjectFinder\ProjectFinderOrganizationViewData.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsValidationResult.cs" />
-    <Compile Include="Views\ProjectUpdate\EditProposalClassifications.cs" />
-    <Compile Include="Views\ProjectUpdate\EditProposalClassificationsViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\EditProposalClassificationsViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\Classifications.cs" />
+    <Compile Include="Views\ProjectUpdate\ClassificationsViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ClassificationsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
@@ -953,7 +953,7 @@
     <Content Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cshtml" />
     <Content Include="Views\ProjectCreate\PartnerFinderProjectCreate.cshtml" />
     <Content Include="Views\ProjectFinder\ProjectFinderOrganization.cshtml" />
-    <Content Include="Views\ProjectUpdate\EditProposalClassifications.cshtml" />
+    <Content Include="Views\ProjectUpdate\Classifications.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

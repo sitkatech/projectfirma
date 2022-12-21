@@ -18,46 +18,39 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Views
-@using LtInfo.Common
-@using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.ModalDialog
-@using LtInfo.Common.Views
 @using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectClassification.ProjectClassifications
 
-@foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
-            {
-               <h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
-               <div class="panel panelFirma">
-                  <div class="panel-heading panelTitle">
-                     <h2 class="project-detail-heading">
-                        @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)
-                     </h2>
-                  </div>
-                  <div class="panel-body">
-                     @{ var classifications = ViewDataTyped.Classifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
-                     @if (classifications.Count > 0)
-                     {
-                        // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
-                        foreach (var classificationBatch in classifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x => x.Classification.GetDisplayName()).Batch(3))
-                        {
-                           <div class="row" style="padding-top: 10px;">
-                              @foreach (var classification in classificationBatch)
-                              {
-                                 <div class="col-md-4">
-                                    <label>@classification.Classification.GetDisplayNameAsUrl()</label>
 
-                                    <div>@classification.ClassificationNote</div>
-                                 </div>
-                              }
-                           </div>
-                        }
-                     }
-                  </div>
-               </div>
+<h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(ViewDataTyped.ClassificationSystem)</h2>
+<div class="panel panelFirma">
+  <div class="panel-heading panelTitle">
+     <h2 class="project-detail-heading">
+        @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(ViewDataTyped.ClassificationSystem)
+     </h2>
+  </div>
+  <div class="panel-body">
+     @{ var classifications = ViewDataTyped.Classifications.Where(x => x.Classification.ClassificationSystemID == ViewDataTyped.ClassificationSystem.ClassificationSystemID).ToList(); }
+     @if (classifications.Count > 0)
+     {
+        // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
+        foreach (var classificationBatch in classifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x => x.Classification.GetDisplayName()).Batch(3))
+        {
+           <div class="row" style="padding-top: 10px;">
+              @foreach (var classification in classificationBatch)
+              {
+                 <div class="col-md-4">
+                    <label>@classification.Classification.GetDisplayNameAsUrl()</label>
 
-            }
+                    <div>@classification.ClassificationNote</div>
+                 </div>
+              }
+           </div>
+        }
+     }
+  </div>
+</div>
+
+            

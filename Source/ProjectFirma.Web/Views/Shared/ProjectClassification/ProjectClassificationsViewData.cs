@@ -25,16 +25,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectClassification
 {
     public class ProjectClassificationsViewData : FirmaUserControlViewData
     {
-        public readonly List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems;
+        public readonly ProjectFirmaModels.Models.ClassificationSystem ClassificationSystem;
         public readonly List<ProjectFirmaModels.Models.IProjectClassification> Classifications;
         public readonly string ClassificationsName;
 
 
-        public ProjectClassificationsViewData(List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems
+        public ProjectClassificationsViewData(ProjectFirmaModels.Models.ClassificationSystem classificationSystem
             , List<ProjectFirmaModels.Models.IProjectClassification> classifications
             , string classificationsName)
         {
-            ClassificationSystems = classificationSystems;
+            ClassificationSystem = classificationSystem;
             Classifications = classifications;
             ClassificationsName = classificationsName;
         }

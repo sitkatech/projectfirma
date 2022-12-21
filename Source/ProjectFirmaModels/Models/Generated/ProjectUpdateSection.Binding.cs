@@ -281,6 +281,6 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectUpdateSectionClassifications : ProjectUpdateSection
     {
         private ProjectUpdateSectionClassifications(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionClassifications Instance = new ProjectUpdateSectionClassifications(19, @"Classifications", @"Classifications", 109, true, 5);
+        public static readonly ProjectUpdateSectionClassifications Instance = new ProjectUpdateSectionClassifications(19, @"Classifications", @"Classifications", 109, true, 7);
     }
 }
