@@ -55,23 +55,46 @@ a:visited {
 }
 .header .headerText {
   display: inline-block;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: 600;
   font-family: "Source Sans Pro", sans-serif;
   color: #333333;
   vertical-align: bottom;
   margin-bottom: 6px;
   margin-bottom: 10px;
-  text-transform: uppercase;
   letter-spacing: 3px;
 }
 .header .headerText a {
   color: #333333;
   vertical-align: top;
 }
+.header .headerText a #headerTenantShortDisplayName {
+  margin-left: 10px;
+}
 .header .headerText a:hover,
 .header .headerText a:active {
   text-decoration: none;
+}
+.header .firmaHomeHeaderLink {
+  display: flex;
+  align-items: center;
+}
+.header .firmaHomeHeaderLink .headerLogoContainer {
+  width: 70px;
+  height: 70px;
+  background: url("/Content/img/SSMPProjectTracker/header-gears.png") no-repeat;
+  display: inline-block;
+  background-size: contain;
+}
+.header .firmaHomeHeaderLink:hover .headerLogoContainer {
+  background: url("/Content/img/SSMPProjectTracker/header-gears-hover.png") no-repeat;
+  background-size: contain;
+}
+.menuDivider {
+  border-left: 3px solid #333333;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  height: 62px;
 }
 .navbar {
   background: #fff;

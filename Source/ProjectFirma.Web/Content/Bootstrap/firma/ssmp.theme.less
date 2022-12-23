@@ -136,25 +136,53 @@ a, a:visited {
 
     .headerText {
         display: inline-block;
-        font-size: 36px;
+        font-size: 30px;
         font-weight: 600;
         font-family: @firma-header-font;
         color: @firma-logoHeaderText-color;
         vertical-align: bottom;
         margin-bottom: 6px;
         margin-bottom: 10px;
-        text-transform: uppercase;
         letter-spacing: 3px;
 
         a {
             color: @firma-logoHeaderText-color;
             vertical-align: top;
+
+            #headerTenantShortDisplayName {
+                margin-left: 10px;
+            }
         }
 
         a:hover, a:active {
             text-decoration: none;
         }
     }
+
+    .firmaHomeHeaderLink {
+        display: flex;
+        align-items: center;
+
+        .headerLogoContainer {
+            width: 70px;
+            height: 70px;
+            background: url("/Content/img/SSMPProjectTracker/header-gears.png") no-repeat;
+            display: inline-block;
+            background-size: contain;
+        }
+
+        &:hover .headerLogoContainer {
+            background: url("/Content/img/SSMPProjectTracker/header-gears-hover.png") no-repeat;
+            background-size: contain;
+        }
+    }
+}
+
+.menuDivider {
+    border-left: 3px solid @firma-logoHeaderText-color;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    height: 62px;
 }
 
 .navbar {

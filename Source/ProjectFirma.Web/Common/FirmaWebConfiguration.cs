@@ -89,6 +89,7 @@ namespace ProjectFirma.Web.Common
         public static readonly string HttpAuthenticationPassword = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationPassword");
 
         public static readonly string NCRPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("NCRPHomeUrl");
+        public static readonly string SSMPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("SSMPHomeUrl");
 
         // Feature Flag Settings
         // FeatureMatchMakerEnabled now has shipped, but leaving this in place so we can see readily how to set up the next Feature.

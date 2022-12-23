@@ -104,6 +104,18 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </a>
                             </div>
                         }
+                        else if (ViewDataTyped.TenantName == "SSMPProjectTracker")
+                        {
+                            <div style="display: flex; align-items: center; flex-wrap: wrap">
+                                <a href="@FirmaWebConfiguration.SSMPHomeUrl">
+                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
+                                </a>
+                                <div class="menuDivider"></div>
+                                <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
+                                    <span class="headerLogoContainer"></span><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
+                                </a>
+                            </div>
+                        }
                         else
                         {
                             <a href="@ViewDataTyped.FirmaHomeUrl">
