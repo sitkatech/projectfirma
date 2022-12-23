@@ -57,16 +57,12 @@
 {
     <div>
         Click the checkboxes below to associate this
-        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForClassification, ViewDataTyped.FieldDefinitionForClassification.GetFieldDefinitionLabelPluralized())).
+        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem)<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>.
     </div>
     <div>
 
         @if(ViewDataTyped.ClassificationSystem != null)
         {
-            <h4>
-                @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem)
-            <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
-            </h4>
             foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
             {
                 var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
