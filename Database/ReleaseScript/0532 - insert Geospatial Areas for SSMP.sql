@@ -1,7 +1,7 @@
 
   insert into dbo.GeospatialAreaType (TenantID, GeospatialAreaTypeName, GeospatialAreaTypeNamePluralized, GeospatialAreaIntroContent, GeospatialAreaTypeDefinition, GeospatialAreaLayerName, [DisplayOnAllProjectMaps], [OnByDefaultOnProjectMap], OnByDefaultOnOtherMaps)
   values
-  (13, 'County', 'Counties', '', '', 'SSMPProjectTracker:County', 1,1,1)
+  (13, 'County', 'Counties', '', '', 'SSMPProjectTracker:County', 1, 0, 0)
 
   declare @geospatialAreaTypeID int
   set @geospatialAreaTypeID = SCOPE_IDENTITY()
