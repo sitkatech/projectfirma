@@ -47,10 +47,17 @@
         });
         //]]>
     </script>
+    
+    <style>
+        .panelSectionLabel {
+            font-weight: bold;
+            margin-top: 25px;
+        }
+    </style>
 }
 
 <div class="row">
-    <div class="col-md-7 col-lg-6">
+    <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
@@ -60,10 +67,9 @@
                 Basics
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">Tenant Name</div>
-                    <div class="col-sm-7">@ViewDataTyped.Tenant.TenantName</div>
-                </div>
+                <div>These basic configurations for a tenant can be changed at any time by an ESA Admin with a developer's assistance.</div>
+                @* Tenant Details section *@
+                <div class="panelSectionLabel">Tenant Details</div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(@FieldDefinitionEnum.TenantShortDisplayName.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.TenantShortDisplayName.ToType().GetFieldDefinitionLabel()</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.TenantShortDisplayName</div>
@@ -73,13 +79,26 @@
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ToolDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">Tenant Domains</div>
+                    <div class="col-sm-5 fieldLabel text-right">
+                        GeoServer Namespace
+                    </div>
                     <div class="col-sm-7">
-                        <ul class="list-unstyled">
-                            <li>@ViewDataTyped.Tenant.CanonicalHostNameLocal</li>
-                            <li>@ViewDataTyped.Tenant.CanonicalHostNameQa</li>
-                            <li>@ViewDataTyped.Tenant.CanonicalHostNameProd</li>
-                        </ul>
+                        @ViewDataTyped.TenantAttribute.GeoServerNamespace
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        Google Analytics Tracking Code
+                    </div>
+                    <div class="col-sm-7">
+                        @if (ViewDataTyped.TenantAttribute.GoogleAnalyticsTrackingCode != null)
+                        {
+                            @ViewDataTyped.TenantAttribute.GoogleAnalyticsTrackingCode
+                        }
+                        else
+                        {
+                            <p class="systemText">None</p>
+                        }
                     </div>
                 </div>
                 <div class="row">
@@ -95,12 +114,15 @@
                         }
                     </div>
                 </div>
+                
+                @* Site Basics section *@
+                <div class="panelSectionLabel">Site Basics</div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">Number Of Taxonomy Tiers To Use</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.TaxonomyLevel.TaxonomyLevelDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">Associate Performance Measures to Taxonomy Tier</div>
+                    <div class="col-sm-5 fieldLabel text-right">Performance Measure Taxonomy Tier Association</div>
                     <div class="col-sm-7">
                         @if (MultiTenantHelpers.TrackAccomplishments())
                         {
@@ -110,6 +132,14 @@
                         {
                             <span class="systemText">Not Applicable</span>
                         }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        Enable @FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
@@ -131,9 +161,19 @@
                         </div>
                     </div>
                 }
+
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ShowProposalsToThePublic.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ShowProposalsToThePublic.ToType().GetFieldDefinitionLabel()</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ShowProposalsToThePublic.ToYesNo()</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType().GetFieldDefinitionLabel()
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.ExcludeTargetedFundingOrganizations.ToYesNo()
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() External Data Source Enabled</div>
@@ -141,6 +181,10 @@
                         @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
                     </div>
                 </div>
+
+
+                @* Accomplishments section *@
+                <div class="panelSectionLabel">Accomplishments</div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
                         @Html.LabelWithSugarFor(FieldDefinitionEnum.TrackAccomplishments.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
@@ -167,15 +211,25 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Enable @FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()
+                        Enable Simple Accomplishments Dashboard?
                     </div>
                     <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf.ToYesNo()
+                        @if (MultiTenantHelpers.TrackAccomplishments())
+                        {
+                            @ViewDataTyped.TenantAttribute.EnableSimpleAccomplishmentsDashboard.ToYesNo()
+                        }
+                        else
+                        {
+                            <span class="systemText">Not Applicable</span>
+                        }
                     </div>
                 </div>
+                
+                @* Optional Features section *@
+                <div class="panelSectionLabel">Optional Features</div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Can Manage Custom Attributes?
+                        Enable Custom Attributes
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.CanManageCustomAttributes.ToYesNo()
@@ -183,27 +237,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Project Stewardship Area
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectCategory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableProjectCategory.ToType().GetFieldDefinitionLabel()?
                     </div>
                     <div class="col-sm-7">
-                        @if (ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType != null)
-                        {
-                            @ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType.GetProjectStewardshipAreaTypeDisplayName()
-
-                        }
-                        else
-                        {
-                            <p class="systemText">None</p>
-                        }
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        @FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType().GetFieldDefinitionLabel()
-                    </div>
-                    <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.ExcludeTargetedFundingOrganizations.ToYesNo()
+                        @ViewDataTyped.TenantAttribute.EnableProjectCategories.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
@@ -226,33 +264,6 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Enable Status Updates?
-                    </div>
-                    <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.EnableStatusUpdates.ToYesNo()
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectCategory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        @FieldDefinitionEnum.EnableProjectCategory.ToType().GetFieldDefinitionLabel()?
-                    </div>
-                    <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.EnableProjectCategories.ToYesNo()
-                    </div>
-                </div>
-                <div class="row">
-                   <div class="col-sm-5 fieldLabel text-right">
-                      @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableReports.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                      @FieldDefinitionEnum.EnableReports.ToType().GetFieldDefinitionLabel()?
-                   </div>
-                   <div class="col-sm-7">
-                      @ViewDataTyped.TenantAttribute.EnableReports.ToYesNo()
-                   </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">
                         @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableMatchmaker.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
                         @FieldDefinitionEnum.EnableMatchmaker.ToType().GetFieldDefinitionLabel()?
                     </div>
@@ -260,7 +271,15 @@
                         @ViewDataTyped.TenantAttribute.EnableMatchmaker.ToYesNo()
                     </div>
                 </div>
-            
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableReports.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableReports.ToType().GetFieldDefinitionLabel()?
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.EnableReports.ToYesNo()
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
                         @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableSolicitations.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
@@ -270,15 +289,50 @@
                         @ViewDataTyped.TenantAttribute.EnableSolicitations.ToYesNo()
                     </div>
                 </div>
-            
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Google Analytics Tracking Code
+                        Enable Status Updates?
                     </div>
                     <div class="col-sm-7">
-                        @if (ViewDataTyped.TenantAttribute.GoogleAnalyticsTrackingCode != null)
+                        @ViewDataTyped.TenantAttribute.EnableStatusUpdates.ToYesNo()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            Developer Configurations
+        </div>
+            <div class="panel-body">
+                <div>Enabling these configurations for a tenant will require a developer's assistance.</div>
+                <div class="panelSectionLabel">Tenant Details</div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">Tenant Name</div>
+                    <div class="col-sm-7">@ViewDataTyped.Tenant.TenantName</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">Tenant Domains</div>
+                    <div class="col-sm-7">
+                        <ul class="list-unstyled">
+                            <li>@ViewDataTyped.Tenant.CanonicalHostNameLocal</li>
+                            <li>@ViewDataTyped.Tenant.CanonicalHostNameQa</li>
+                            <li>@ViewDataTyped.Tenant.CanonicalHostNameProd</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        Project Stewardship Area
+                    </div>
+                    <div class="col-sm-7">
+                        @if (ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType != null)
                         {
-                            @ViewDataTyped.TenantAttribute.GoogleAnalyticsTrackingCode
+                            @ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType.GetProjectStewardshipAreaTypeDisplayName()
 
                         }
                         else
@@ -287,14 +341,7 @@
                         }
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">
-                        GeoServer Namespace
-                    </div>
-                    <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.GeoServerNamespace
-                    </div>
-                </div>     
+                <div class="panelSectionLabel">Geospatial Data</div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
                         Source Geospatial Areas Externally?
@@ -303,21 +350,6 @@
                         @ViewDataTyped.TenantAttribute.AreGeospatialAreasExternallySourced.ToYesNo()
                     </div>
                 </div>
-                
-
-            </div>
-        </div>
-    </div>
-    <div class="col-md-5 col-lg-6">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                @if (ViewDataTyped.IsCurrentTenant)
-                {
-                    @ModalDialogFormHelper.ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, ModalDialogFormHelper.SaveButtonID, "Save", "Cancel", new List<string>(), null, null, ViewDataTyped.EditBoundingBoxFormID, null)
-                }
-                Default Map Extent
-            </div>
-            <div class="panel-body" id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 400px;">
             </div>
         </div>
     </div>
@@ -330,72 +362,76 @@
                 {
                     @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditTenantLogoUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
                 }
-                Logos
-            </div>
-            <div class="row panel-body">
-                <div class="col-sm-4 fieldLabel text-right">
-                    @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantSquareLogoFileResourceInfo != null)
-                    {
-                        @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantSquareLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
-                    }
-                    @Html.LabelWithSugarFor(@FieldDefinitionEnum.TenantSquareLogo.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.TenantSquareLogo.ToType().GetFieldDefinitionLabel()
-                </div>
-                <div class="col-sm-7">
-                    @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResourceInfo != null)
-                    {
-                        <div style="margin-bottom: 15px;">
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResourceInfo.GetFileResourceUrl(), new { style = "max-width: 100%;" })
-                        </div>
-                    }
-                    else
-                    {
-                        <em>Square Logo is set to the default.</em>
-                    }
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4 fieldLabel text-right">
-                    @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantBannerLogoFileResourceInfo != null)
-                    {
-                        @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantBannerLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
-                    }
-                    Banner Logo
-                </div>
-                <div class="col-sm-7">
-                    @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResourceInfo != null)
-                    {
-                        <div style="margin-bottom: 15px;">
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResourceInfo.GetFileResourceUrl(), new { style = "max-width: 100%;" })
-                        </div>
-                    }
-                    else
-                    {
-                        <em>Tenant Banner Logo is set to the default.</em>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-5 col-lg-6">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                @if (ViewDataTyped.IsCurrentTenant)
-                {
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditStylesheetUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
-                }
-                Tenant Style Sheet
+                Logos & Style Sheet
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-2 fieldLabel text-right">
-                        @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantStyleSheetFileResourceInfo != null)
+                    <div class="col-sm-12 fieldLabel">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.TenantSquareLogo.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.TenantSquareLogo.ToType().GetFieldDefinitionLabel()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="margin-bottom: 15px; display: flex; align-items: center">
+                        @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResourceInfo != null)
                         {
-                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantStyleSheetFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
+                            if (ViewDataTyped.IsCurrentTenant)
+                            {
+                                <div style="margin: 0 30px;">
+                                    @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantSquareLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
+                                </div>
+                            }
+                            <div>
+                                @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResourceInfo.GetFileResourceUrl(), new {style = "max-width: 100%; max-height: 250px"})
+                            </div>
+                        }
+                        else
+                        {
+                            <em>Square Logo is set to the default.</em>
                         }
                     </div>
-                    <div class="col-sm-7">
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-12 fieldLabel">
+                        Banner Logo
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="margin-bottom: 15px; display: flex; align-items: center">
+                        @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResourceInfo != null)
+                        {
+                            if (ViewDataTyped.IsCurrentTenant)
+                            {
+                                <div style="margin: 0 30px;">
+                                    @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantBannerLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
+                                </div>
+                            }
+                            <div>
+                                @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResourceInfo.GetFileResourceUrl(), new { style = "max-width: 100%; max-height: 250px" })
+                            </div>
+                        }
+                        else
+                        {
+                            <em>Tenant Banner Logo is set to the default.</em>
+                        }
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 fieldLabel">
+                        Style Sheet
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="margin-bottom: 15px; display: flex; align-items: center">
                         @if (ViewDataTyped.TenantAttribute.TenantStyleSheetFileResourceInfo != null)
                         {
+                            if (ViewDataTyped.IsCurrentTenant)
+                            {
+                                <div style="margin: 0 30px;">
+                                    @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantStyleSheetFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
+                                </div>
+                            }
                             <a href="@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResourceInfo.GetFileResourceUrl()" target="_blank">
                                 @ViewDataTyped.TenantAttribute.TenantStyleSheetFileResourceInfo.GetOriginalCompleteFileName()
                             </a>
@@ -406,6 +442,20 @@
                         }
                     </div>
                 </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-5 col-lg-6">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @if (ViewDataTyped.IsCurrentTenant)
+                {
+                    @ModalDialogFormHelper.ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, ModalDialogFormHelper.SaveButtonID, "Save", "Cancel", new List<string>(), null, null, ViewDataTyped.EditBoundingBoxFormID, null)
+                }
+                Default Map Extent
+            </div>
+            <div class="panel-body" id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 400px;">
             </div>
         </div>
     </div>
@@ -424,20 +474,20 @@
             <div class="panel-body">
                 <table class="table">
                     <thead>
-                        <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystemName.ToType())</th>
-                            <th>@Html.Label("Description")</th>
-                        </tr>
+                    <tr>
+                        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystemName.ToType())</th>
+                        <th>@Html.Label("Description")</th>
+                    </tr>
                     </thead>
                     <tbody>
 
-                        @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
-                        {
-                            <tr>
-                                <td>@classificationSystem.ClassificationSystemName</td>
-                                <td>@Html.Raw(classificationSystem.ClassificationSystemDefinition)</td>
-                            </tr>
-                        }
+                    @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
+                    {
+                        <tr>
+                            <td>@classificationSystem.ClassificationSystemName</td>
+                            <td>@Html.Raw(classificationSystem.ClassificationSystemDefinition)</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>

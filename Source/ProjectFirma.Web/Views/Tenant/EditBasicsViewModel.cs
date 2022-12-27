@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [Required(ErrorMessage = "Must specify a Number Of Taxonomy Tiers To Use")]
         public int? TaxonomyLevelID { get; set; }
 
-        [DisplayName("Associate Performance Measures at Taxonomy Tier")]
+        [DisplayName("Performance Measure Taxonomy Tier Association")]
         public int? AssociatePerfomanceMeasureTaxonomyLevelID { get; set; }
 
         [DisplayName("Tenant Style Sheet")]
@@ -138,9 +138,6 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableSolicitations)]
         public bool EnableSolicitations { get; set; }
 
-        [DisplayName("Source Geospatial Areas Externally?")]
-        public bool AreGeospatialAreasExternallySourced { get; set; }
-
         [FieldDefinitionDisplay(FieldDefinitionEnum.TrackAccomplishments)]
         public bool TrackAccomplishments { get; set; }
 
@@ -176,7 +173,6 @@ namespace ProjectFirma.Web.Views.Tenant
             EnableProjectCategories = tenantAttribute.EnableProjectCategories;
             EnableReports = tenantAttribute.EnableReports;
             EnableMatchmaker = tenantAttribute.EnableMatchmaker;
-            AreGeospatialAreasExternallySourced = tenantAttribute.AreGeospatialAreasExternallySourced;
             TrackAccomplishments = tenantAttribute.TrackAccomplishments;
             EnableSolicitations = tenantAttribute.EnableSolicitations;
         }
@@ -217,7 +213,6 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.EnableEvaluations = EnableProjectEvaluations;
             tenantAttribute.EnableReports = EnableReports;
             tenantAttribute.EnableMatchmaker = EnableMatchmaker;
-            tenantAttribute.AreGeospatialAreasExternallySourced = AreGeospatialAreasExternallySourced;
             tenantAttribute.TrackAccomplishments = TrackAccomplishments;
             tenantAttribute.EnableSolicitations = EnableSolicitations;
         }

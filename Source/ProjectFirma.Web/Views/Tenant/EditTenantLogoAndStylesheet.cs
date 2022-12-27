@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditBasics.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="EditTenantLogoAndStylesheet.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -22,7 +22,7 @@ using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public abstract class EditTenantLogo : TypedWebPartialViewPage<EditTenantLogoViewData, EditTenantLogoViewModel>
+    public abstract class EditTenantLogoAndStylesheet : TypedWebPartialViewPage<EditTenantLogoAndStylesheetViewData, EditTenantLogoAndStylesheetViewModel>
     {
     }
 }

@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="EditBasics.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="EditTenantLogoAndStylesheet.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -18,10 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Views.Tenant
-@inherits EditTenantLogo
+@inherits EditTenantLogoAndStylesheet
 
 @using (Html.BeginForm())
 {
@@ -49,6 +48,15 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(x => x.TenantBannerLogoFileResourceData)
         </div>
     </div>
-
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.TenantStyleSheetFileResourceData)</div>
+        <div class="col-md-8">
+            @Html.EditorFor(x => x.TenantStyleSheetFileResourceData)
+            <span class="smallExplanationText">
+                Allowed Extensions: @Model.GetFileExtensions(x => x.TenantStyleSheetFileResourceData)
+            </span>
+            @Html.ValidationMessageFor(x => x.TenantStyleSheetFileResourceData)
+        </div>
+    </div>
 </div>
 }

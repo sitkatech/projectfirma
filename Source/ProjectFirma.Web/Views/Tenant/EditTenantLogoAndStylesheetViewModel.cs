@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditBasicsViewModel.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="EditTenantLogoAndStylesheetViewModel.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -24,18 +24,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class EditTenantLogoViewModel : FormViewModel
+    public class EditTenantLogoAndStylesheetViewModel : FormViewModel
     {
         [Required]
         public int? TenantID { get; set; }
-
-       
 
         [DisplayName("Tenant Banner Logo")]
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
@@ -45,15 +42,18 @@ namespace ProjectFirma.Web.Views.Tenant
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase TenantSquareLogoFileResourceData { get; set; }
 
+        [DisplayName("Tenant Style Sheet")]
+        [SitkaFileExtensions("css")]
+        public HttpPostedFileBase TenantStyleSheetFileResourceData { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public EditTenantLogoViewModel()
+        public EditTenantLogoAndStylesheetViewModel()
         {
         }
 
-        public EditTenantLogoViewModel(ProjectFirmaModels.Models.Tenant tenant)
+        public EditTenantLogoAndStylesheetViewModel(ProjectFirmaModels.Models.Tenant tenant)
         {
             TenantID = tenant.TenantID;
         }
@@ -73,6 +73,14 @@ namespace ProjectFirma.Web.Views.Tenant
                 tenantAttribute.TenantBannerLogoFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentFirmaSession);
                 attributeTenantBannerLogoFileResource?.FileResourceData.Delete(databaseEntities);
                 attributeTenantBannerLogoFileResource?.Delete(databaseEntities);
+            }
+
+            if (TenantStyleSheetFileResourceData != null)
+            {
+                var attributeTenantStyleSheetFileResource = tenantAttribute.TenantStyleSheetFileResourceInfo;
+                tenantAttribute.TenantStyleSheetFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentFirmaSession);
+                attributeTenantStyleSheetFileResource?.FileResourceData.Delete(databaseEntities);
+                attributeTenantStyleSheetFileResource?.Delete(databaseEntities);
             }
         }
     }
