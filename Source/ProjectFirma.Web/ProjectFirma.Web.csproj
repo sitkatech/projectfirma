@@ -662,6 +662,7 @@
     <Content Include="Content\img\SSMPProjectTracker\apple-icon-60x60.png" />
     <Content Include="Content\img\SSMPProjectTracker\apple-icon-72x72.png" />
     <Content Include="Content\img\SSMPProjectTracker\apple-icon-76x76.png" />
+    <Content Include="Content\img\SSMPProjectTracker\header-gears-dark-grey.png" />
     <Content Include="Content\img\SSMPProjectTracker\header-gears-hover.png" />
     <Content Include="Content\img\SSMPProjectTracker\header-gears.png" />
     <Content Include="Content\img\SSMPProjectTracker\favicon-16x16.png" />

@@ -65,8 +65,11 @@ a:visited {
   letter-spacing: 3px;
 }
 .header .headerText a {
-  color: #333333;
+  color: #555555;
   vertical-align: top;
+}
+.header .headerText a:hover {
+  color: #446A7C;
 }
 .header .headerText a #headerTenantShortDisplayName {
   margin-left: 10px;
@@ -82,7 +85,7 @@ a:visited {
 .header .firmaHomeHeaderLink .headerLogoContainer {
   width: 70px;
   height: 70px;
-  background: url("/Content/img/SSMPProjectTracker/header-gears.png") no-repeat;
+  background: url("/Content/img/SSMPProjectTracker/header-gears-dark-grey.png") no-repeat;
   display: inline-block;
   background-size: contain;
 }

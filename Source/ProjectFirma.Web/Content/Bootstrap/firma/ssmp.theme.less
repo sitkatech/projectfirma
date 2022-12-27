@@ -146,8 +146,12 @@ a, a:visited {
         letter-spacing: 3px;
 
         a {
-            color: @firma-logoHeaderText-color;
+            color: #555555; //same dark grey as the gear image
             vertical-align: top;
+
+            &:hover {
+                color: @PrimaryBlue;
+            }
 
             #headerTenantShortDisplayName {
                 margin-left: 10px;
@@ -163,10 +167,11 @@ a, a:visited {
         display: flex;
         align-items: center;
 
+
         .headerLogoContainer {
             width: 70px;
             height: 70px;
-            background: url("/Content/img/SSMPProjectTracker/header-gears.png") no-repeat;
+            background: url("/Content/img/SSMPProjectTracker/header-gears-dark-grey.png") no-repeat;
             display: inline-block;
             background-size: contain;
         }
