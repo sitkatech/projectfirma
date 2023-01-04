@@ -18,8 +18,19 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Home.TrainingVideo
+
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.UserHasAdminPermissions)
+    {
+        <a class="btn btn-firma" href="@ViewDataTyped.ManageTrainingVideosUrl" title="Manage Training Videos">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Manage Training Videos</a>
+    }
+}
 
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }

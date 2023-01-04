@@ -31,13 +31,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TrainingVideo(int trainingVideoID, string videoName, string videoDescription, DateTime videoUploadDate, string videoURL) : this()
+        public TrainingVideo(int trainingVideoID, string videoName, string videoDescription, DateTime videoUploadDate, string videoURL, int? sortOrder) : this()
         {
             this.TrainingVideoID = trainingVideoID;
             this.VideoName = videoName;
             this.VideoDescription = videoDescription;
             this.VideoUploadDate = videoUploadDate;
             this.VideoURL = videoURL;
+            this.SortOrder = sortOrder;
         }
 
         /// <summary>
@@ -111,6 +112,7 @@ namespace ProjectFirmaModels.Models
         public string VideoDescription { get; set; }
         public DateTime VideoUploadDate { get; set; }
         public string VideoURL { get; set; }
+        public int? SortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TrainingVideoID; } set { TrainingVideoID = value; } }
 

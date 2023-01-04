@@ -68,12 +68,14 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\TrainingVideoController.cs" />
     <Compile Include="Controllers\LocalAuthenticationController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\PerformanceMeasureGroupController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
     <Compile Include="Controllers\SolicitationController.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
+    <Compile Include="Models\TrainingVideoModelExtensions.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
     <Compile Include="Models\GridColumn.cs" />
@@ -1031,6 +1033,12 @@
     <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequestsViewData.cs" />
     <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReportViewData.cs" />
     <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetailViewData.cs" />
+    <Compile Include="Views\TrainingVideo\ManageTrainingVideos.cs" />
+    <Compile Include="Views\TrainingVideo\ManageTrainingVideosGridSpec.cs" />
+    <Compile Include="Views\TrainingVideo\ManageTrainingVideosViewData.cs" />
+    <Compile Include="Views\TrainingVideo\Edit.cs" />
+    <Compile Include="Views\TrainingVideo\EditViewModel.cs" />
+    <Compile Include="Views\TrainingVideo\EditViewData.cs" />
     <Compile Include="Views\Tenant\EditTenantLogoAndStylesheet.cs" />
     <Compile Include="Views\Tenant\EditTenantLogoViewData.cs" />
     <Compile Include="Views\Tenant\EditTenantLogoAndStylesheetViewModel.cs" />
@@ -1950,6 +1958,8 @@
     <Content Include="Views\Solicitation\Edit.cshtml" />
     <Content Include="Views\Results\SimpleAccomplishmentsDashboard.cshtml" />
     <Content Include="Views\Results\FundingSummary.cshtml" />
+    <Content Include="Views\TrainingVideo\ManageTrainingVideos.cshtml" />
+    <Content Include="Views\TrainingVideo\Edit.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

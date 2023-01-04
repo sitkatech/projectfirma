@@ -31,6 +31,7 @@ using ProjectFirma.Web.Views.Home;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -148,7 +149,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Training()
         {
             var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
-            List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList();
+            List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList().SortByOrderThenName().ToList();
             var viewData = new TrainingVideoViewData(CurrentFirmaSession, firmaPage, trainingVideos);
             return RazorView<Views.Home.TrainingVideo, TrainingVideoViewData>(viewData);
         }

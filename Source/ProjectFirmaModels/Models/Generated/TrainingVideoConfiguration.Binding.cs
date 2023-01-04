@@ -21,6 +21,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.VideoDescription).HasColumnName(@"VideoDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.VideoUploadDate).HasColumnName(@"VideoUploadDate").HasColumnType("datetime").IsRequired();
             Property(x => x.VideoURL).HasColumnName(@"VideoURL").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
+            Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsOptional();
 
             // Foreign keys
 

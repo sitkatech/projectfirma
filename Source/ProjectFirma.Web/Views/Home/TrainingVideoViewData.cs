@@ -19,6 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Home
@@ -27,12 +30,16 @@ namespace ProjectFirma.Web.Views.Home
     {
 
         public List<ProjectFirmaModels.Models.TrainingVideo> TrainingVideos { get; }
+        public bool UserHasAdminPermissions { get; }
+        public string ManageTrainingVideosUrl { get; }
 
         public TrainingVideoViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Training";
             EntityName = "Stormwater Tools";
             TrainingVideos = trainingVideos;
+            UserHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            ManageTrainingVideosUrl = SitkaRoute<TrainingVideoController>.BuildUrlFromExpression(tc => tc.ManageTrainingVideos());
         }
     }
 }
