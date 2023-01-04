@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[TrainingVideo](
 	[VideoDescription] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[VideoUploadDate] [datetime] NOT NULL,
 	[VideoURL] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[SortOrder] [int] NULL,
  CONSTRAINT [PK_TrainingVideo_TrainingVideoID] PRIMARY KEY CLUSTERED 
 (
 	[TrainingVideoID] ASC
