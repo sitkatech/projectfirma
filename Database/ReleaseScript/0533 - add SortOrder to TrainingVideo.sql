@@ -1,3 +1,13 @@
+INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
+VALUES 
+(378, N'TrainingVideoUploadDate', N'Video Upload Date'),
+(379, N'TrainingVideoUrl', N'Video URL')
+
+insert into dbo.FieldDefinitionDefault (FieldDefinitionID, DefaultDefinition)
+values
+(378, 'The date the video was uploaded on the external site where it is hosted.'),
+(379, 'URL of externally hosted training video. URL must be an embed link provided by the video hosting service.')
+
 alter table dbo.TrainingVideo add SortOrder int null
 go
 

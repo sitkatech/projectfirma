@@ -23,6 +23,8 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.TrainingVideo
 {
@@ -41,11 +43,11 @@ namespace ProjectFirma.Web.Views.TrainingVideo
         public string VideoDescription { get; set; }
 
         [Required]
-        [DisplayName("Video Upload Date")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TrainingVideoUploadDate)]
         public DateTime? VideoUploadDate { get; set; }
 
         [Required]
-        [DisplayName("Video URL")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TrainingVideoUrl)]
         [StringLength(ProjectFirmaModels.Models.TrainingVideo.FieldLengths.VideoURL)]
         public string VideoURL { get; set; }
 

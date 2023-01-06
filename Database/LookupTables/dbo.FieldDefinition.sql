@@ -198,4 +198,6 @@ VALUES
 (374, N'Solicitation', N'Solicitation'),
 (375, N'EnableSolicitations', N'Enable Solicitations'),
 (376, N'OtherPartners', N'Other Partners'),
-(377, N'PerformanceMeasureGroup', N'Performance Measure Group')
+(377, N'PerformanceMeasureGroup', N'Performance Measure Group'),
+(378, N'TrainingVideoUploadDate', N'Video Upload Date'),
+(379, N'TrainingVideoUrl', N'Video URL')

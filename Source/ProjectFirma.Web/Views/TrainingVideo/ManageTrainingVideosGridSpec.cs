@@ -25,6 +25,7 @@ using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.TrainingVideo
 {
@@ -39,8 +40,8 @@ namespace ProjectFirma.Web.Views.TrainingVideo
 
             Add("Video Title", a => a.VideoName, 250);
             Add("Video Description", a => a.VideoDescription, 300);
-            Add("Video Upload Date", a => a.VideoUploadDate, 130, DhtmlxGridColumnFormatType.DateTime);
-            Add("Video URL", a => a.VideoURL, 300);
+            Add(FieldDefinitionEnum.TrainingVideoUploadDate.ToType().ToGridHeaderString(), a => a.VideoUploadDate, 130, DhtmlxGridColumnFormatType.DateTime);
+            Add(FieldDefinitionEnum.TrainingVideoUrl.ToType().ToGridHeaderString(), a => a.VideoURL, 300);
             Add("Sort Order", a => a.SortOrder, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
         }
 
