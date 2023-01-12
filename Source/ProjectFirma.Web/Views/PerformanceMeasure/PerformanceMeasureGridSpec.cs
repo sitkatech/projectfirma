@@ -53,6 +53,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add($"# of {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Reporting", a => a.ReportedProjectsCount(currentFirmaSession), 80);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Expecting", a => a.ExpectedProjectsCount(currentFirmaSession), 80);
+            Add($"TEST currency", a => 7.99, 80, DhtmlxGridColumnFormatType.Currency);
+            Add($"TEST DECIMALS", a => 7.99, 80, DhtmlxGridColumnFormatType.Decimal);
         }
     }
 }
