@@ -470,8 +470,8 @@ ProjectFirmaMaps.Map.prototype.runEsriFeatureLayerQueryThenCallPopupForVectorLay
     query.run(function (error, featureCollection, response) {
         externalFeatureLayersInfo = firmaMap.formatExternalFeatureLayerResponse(error, featureLayer, featureCollection);
         allLayers.push(externalFeatureLayersInfo);
+        firmaMap.popupForVectorLayers(vectorLayers, allLayers, latlng);
     });
-    firmaMap.popupForVectorLayers(vectorLayers, allLayers, latlng);
 }
 
 ProjectFirmaMaps.Map.prototype.popupForVectorLayers = function(vectorLayers, allLayers, latlng) {
