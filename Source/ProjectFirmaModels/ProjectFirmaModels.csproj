@@ -871,6 +871,7 @@
     <Compile Include="Models\MatchmakerOrganizationTaxonomyTrunk.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyBranch.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyLeaf.cs" />
+    <Compile Include="Models\ProjectUpdateBatchClassificationSystem.cs" />
     <Compile Include="Models\TrainingVideo.cs" />
     <Compile Include="Models\PerformanceMeasureGroup.cs" />
     <Compile Include="Models\PersonLoginAccount.DatabaseContextExtensions.cs" />
