@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -88,7 +87,7 @@ namespace DHTMLX.Export.Excel
                 watermarkPrint(parser);
          
                 wb.Dispose();
-            } catch (Exception) {
+            } catch (Exception e) {
                 throw;
             }
         }
@@ -328,28 +327,20 @@ namespace DHTMLX.Export.Excel
 
                     
                     int intVal;
-                    double doubleVal;
-                    var provider = CultureInfo.CreateSpecificCulture("en-US");
-                    var cellValue = cells[col - 1].GetValue();
-                    if (int.TryParse(cellValue, NumberStyles.Any, provider, out intVal))
+              
+
+                    if (int.TryParse(cells[col - 1].GetValue(), out intVal))
                     {
                         sheet.Cells[rowInd, col].Value = intVal;
                     }
-                    else if (double.TryParse(cellValue, NumberStyles.Any, provider, out doubleVal))
-                    {
-                        sheet.Cells[rowInd, col].Value = doubleVal;
-                        sheet.Cells[rowInd, col].Style.NumberFormat.Format = "$0.000";
-                    }
                     else
                     {
-                        sheet.Cells[rowInd, col].Value = cellValue;
+                        sheet.Cells[rowInd, col].Value = cells[col - 1].GetValue();
                     }
-
-
+                        
                     
-
                     //COLOR!
-
+				   
                     /*
 				    
 
@@ -365,8 +356,8 @@ namespace DHTMLX.Export.Excel
 						    f.setAlignment(Alignment.CENTRE);
 					    }
 				    }*/
-
-                }
+				   
+			    }
 		    }
 		    headerOffset += rows.Length;
 	    }
