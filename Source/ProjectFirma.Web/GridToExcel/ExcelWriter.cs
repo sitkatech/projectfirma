@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -87,7 +88,7 @@ namespace DHTMLX.Export.Excel
                 watermarkPrint(parser);
          
                 wb.Dispose();
-            } catch (Exception e) {
+            } catch (Exception ) {
                 throw;
             }
         }
@@ -276,18 +277,22 @@ namespace DHTMLX.Export.Excel
 	    private void rowsPrint(ExcelXmlParser parser, Stream resp) {
 		    
 		    ExcelRow[] rows = parser.getGridContent();
+            
 
 		    this.rows_stat = rows.Length;
            
             ExcelBorder border = getBorder();
             ExcelFont font = wb.CreateFont(FontFamily, GridFontSize);
 
-		    for (uint row = 1; row <= rows.Length; row++) {
+            var columnInfo = parser.getColumnsInfo("head");
+            var excelColumns = columnInfo.Last();
+
+            for (uint row = 1; row <= rows.Length; row++) {
 			    ExcelCell[] cells = rows[row-1].getCells();
                 uint rowInd = (uint)(row + headerOffset);
                 sheet.Rows[rowInd].Height = 20;
-	 
-			    for (uint col = 1; col <= cells.Length; col++) {
+
+                for (uint col = 1; col <= cells.Length; col++) {
                     if (cells[col - 1].GetBold() || cells[col - 1].GetItalic())
                     {
                         ExcelFont curFont = wb.CreateFont(FontFamily, GridFontSize); ;
@@ -325,22 +330,36 @@ namespace DHTMLX.Export.Excel
 					    }
 				    }
 
-                    
-                    int intVal;
-              
 
-                    if (int.TryParse(cells[col - 1].GetValue(), out intVal))
+                    var datatype = excelColumns[col - 1].getType();
+                    var cellValue = cells[col - 1].GetValue();
+                    if (datatype.Equals("ron"))
                     {
-                        sheet.Cells[rowInd, col].Value = intVal;
+                        int intVal;
+                        double doubleVal;
+                        var provider = CultureInfo.CurrentCulture;
+                        if (int.TryParse(cellValue, NumberStyles.Any, provider, out intVal))
+                        {
+                            sheet.Cells[rowInd, col].Value = intVal;
+                        }
+                        else if (double.TryParse(cellValue, NumberStyles.Any, provider, out doubleVal))
+                        {
+                            sheet.Cells[rowInd, col].Value = doubleVal;
+
+                        }
+                        else
+                        {
+                            sheet.Cells[rowInd, col].Value = cellValue;
+                        }
                     }
                     else
                     {
-                        sheet.Cells[rowInd, col].Value = cells[col - 1].GetValue();
+                        sheet.Cells[rowInd, col].Value = cellValue;
                     }
-                        
-                    
+
+
                     //COLOR!
-				   
+
                     /*
 				    
 
@@ -356,8 +375,8 @@ namespace DHTMLX.Export.Excel
 						    f.setAlignment(Alignment.CENTRE);
 					    }
 				    }*/
-				   
-			    }
+
+                }
 		    }
 		    headerOffset += rows.Length;
 	    }

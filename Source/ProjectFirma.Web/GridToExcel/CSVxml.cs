@@ -40,14 +40,15 @@ namespace DHTMLX.Export.Excel
                 rowsPos = 0;
 
             }           
-            catch (Exception ioe)
+            catch (Exception)
             {
                 
             }
         }
 
-        public CSVxml(String xml)
+        public CSVxml(String xml, XmlDocument dom)
         {
+            this.dom = dom;
             parseXmlString(xml);
         }
 

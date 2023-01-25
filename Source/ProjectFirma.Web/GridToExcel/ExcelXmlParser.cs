@@ -21,7 +21,7 @@ namespace DHTMLX.Export.Excel
 		    try {
             ///TODO: handle exceptions, log maybe
             dom.LoadXml(xml);
-		    }catch(Exception se) {
+		    }catch(Exception ) {
 
 		    }
 		    root = dom.DocumentElement;
@@ -75,7 +75,7 @@ namespace DHTMLX.Export.Excel
                     }
                 }
                 
-		    } catch (Exception e) {
+		    } catch (Exception ) {
 
 		    }
 		
