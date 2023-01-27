@@ -284,8 +284,7 @@ namespace DHTMLX.Export.Excel
             ExcelBorder border = getBorder();
             ExcelFont font = wb.CreateFont(FontFamily, GridFontSize);
 
-            var columnInfo = parser.getColumnsInfo("head");
-            var excelColumns = columnInfo.Last();
+            var excelColumns = FindColumnInfoWithTheMostTypeInformation(parser.getColumnsInfo("head"));
 
             for (uint row = 1; row <= rows.Length; row++) {
 			    ExcelCell[] cells = rows[row-1].getCells();
@@ -381,7 +380,17 @@ namespace DHTMLX.Export.Excel
 		    headerOffset += rows.Length;
 	    }
 
-	    private void insertHeader(ExcelXmlParser parser, Stream resp){
+        /// <summary>
+        ///     1/26/23 TK&MF - DHTMLx Grid can have multiple header rows, this function searches all the header rows and finds the one with the most type information filled out. We ran into a situation with a date from/to filter that threw off the initial implementation.
+        /// </summary>
+        /// <param name="columnInfo"></param>
+        /// <returns></returns>
+        private static ExcelColumn[] FindColumnInfoWithTheMostTypeInformation(ExcelColumn[][] columnInfo)
+        {
+            return columnInfo.Select(x => new { ColInfo = x, Length = string.Join("", x.Select(y => y.getType())).Length }  ).OrderByDescending(len => len.Length).First().ColInfo;
+        }
+
+        private void insertHeader(ExcelXmlParser parser, Stream resp){
 		   /* if (parser.getHeader() == true) {
 			    sheet.insertRow(0);
 			    sheet.setRowView(0, 5000);

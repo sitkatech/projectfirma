@@ -166,7 +166,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectID.ToType().ToGridHeaderString(), x => x.ProjectID.ToString(), 140);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectLastUpdated:
-                    Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
+                    Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140, DhtmlxGridColumnFormatType.DateTime);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates && userHasEditProjectAsAdminPermissions)
