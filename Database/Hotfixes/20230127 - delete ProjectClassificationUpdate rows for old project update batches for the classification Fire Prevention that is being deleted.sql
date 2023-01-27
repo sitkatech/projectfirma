@@ -1,0 +1,2 @@
+-- removing two rows that are associated with a Classification that NCRP is trying to delete. These are for project update batches that were already approved and there is no way to edit the classification assoications from the UI
+delete from dbo.ProjectClassificationUpdate where ProjectClassificationUpdateID in ( 1865, 1866)
