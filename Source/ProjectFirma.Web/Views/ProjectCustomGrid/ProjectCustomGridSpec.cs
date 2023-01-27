@@ -90,10 +90,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfExpectedPerformanceMeasureRecords:
-                    Add($"# Of Expected {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureExpectedCount, 100);
+                    Add($"# Of Expected {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureExpectedCount, 100, DhtmlxGridColumnFormatType.Integer);
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfReportedPerformanceMeasures:
-                    Add($"# Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureActualCount, 100);
+                    Add($"# Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureActualCount, 100, DhtmlxGridColumnFormatType.Integer);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectsStewardOrganizationRelationshipToProject:
                     if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfReportedExpenditures:
-                    Add($"# Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => projectDetailsDictionary[x.ProjectID].ProjectFundingSourceExpenditureCount, 100);
+                    Add($"# Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => projectDetailsDictionary[x.ProjectID].ProjectFundingSourceExpenditureCount, 100, DhtmlxGridColumnFormatType.Integer);
                     break;
                 case ProjectCustomGridColumnEnum.FundingType:
                     Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType != null ? x.FundingType.FundingTypeDisplayName : "", 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -160,13 +160,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 200);
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfPhotos:
-                    Add("# of Photos", x => projectDetailsDictionary[x.ProjectID].ProjectImageCount, 60);
+                    Add("# of Photos", x => projectDetailsDictionary[x.ProjectID].ProjectImageCount, 60, DhtmlxGridColumnFormatType.Integer);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectID:
                     Add(FieldDefinitionEnum.ProjectID.ToType().ToGridHeaderString(), x => x.ProjectID.ToString(), 140);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectLastUpdated:
-                    Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
+                    Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140, DhtmlxGridColumnFormatType.DateTime);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates && userHasEditProjectAsAdminPermissions)

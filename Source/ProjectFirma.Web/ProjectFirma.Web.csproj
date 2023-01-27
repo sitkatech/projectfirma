@@ -74,6 +74,13 @@
     <Compile Include="Controllers\PerformanceMeasureGroupController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
     <Compile Include="Controllers\SolicitationController.cs" />
+    <Compile Include="GridToExcel\CSVxml.cs" />
+    <Compile Include="GridToExcel\ExcelCell.cs" />
+    <Compile Include="GridToExcel\ExcelColumn.cs" />
+    <Compile Include="GridToExcel\ExcelRow.cs" />
+    <Compile Include="GridToExcel\ExcelWriter.cs" />
+    <Compile Include="GridToExcel\ExcelXmlParser.cs" />
+    <Compile Include="GridToExcel\RGBColor.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
     <Compile Include="Models\TrainingVideoModelExtensions.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
@@ -1992,9 +1999,6 @@
     </Reference>
     <Reference Include="ClosedXML, Version=0.94.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\ClosedXML.0.94.2\lib\net46\ClosedXML.dll</HintPath>
-    </Reference>
-    <Reference Include="DHTMLX.Export.Excel">
-      <HintPath>..\Libraries\DhtmlxGrid\DHTMLX.Export.Excel.dll</HintPath>
     </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.10.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\DocumentFormat.OpenXml.2.10.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
