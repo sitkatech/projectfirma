@@ -343,9 +343,9 @@ namespace ProjectFirma.Web.Common
             var xml = Request.Form["grid_xml"];
             Check.EnsureNotNull(xml, "Could not find 'grid_xml' form element in form POST. Is this a properly formed POST request?");
             xml = Server.UrlDecode(xml);
-            xml = xml.Replace("<![CDATA[$", "<![CDATA["); // RL 7/11/2015 Poor man's hack to remove currency and allow for total rows
+            //xml = xml.Replace("<![CDATA[$", "<![CDATA["); // RL 7/11/2015 Poor man's hack to remove currency and allow for total rows
             xml = BlankRowFixup(xml);
-            Check.EnsureNotNull(xml);
+            
             var stream = generator.Generate(xml);
             var fileDownloadName = $"{gridName}.xlsx";
             return File(stream.ToArray(), generator.ContentType, fileDownloadName);
