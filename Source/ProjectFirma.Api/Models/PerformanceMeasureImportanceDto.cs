@@ -9,7 +9,6 @@ namespace ProjectFirma.Api.Models
         public PerformanceMeasureImportanceDto(PerformanceMeasure performanceMeasure)
         {
             PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
-            Importance = performanceMeasure.Importance;
             FileResources = performanceMeasure.PerformanceMeasureImages.Select(x => new FileResourceDto(x.FileResourceInfo))
                 .ToList();
 

@@ -254,6 +254,11 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttributeFromCache().TrackAccomplishments;
         }
 
+        public static bool SetTargetsByGeospatialArea()
+        {
+            return GetTenantAttributeFromCache().SetTargetsByGeospatialArea;
+        }
+
         public static OrganizationRelationshipType GetIsPrimaryContactOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);

@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceInfoID, int? tenantBannerLogoFileResourceInfoID, int? tenantStyleSheetFileResourceInfoID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode, bool useProjectTimeline, string geoServerNamespace, bool enableEvaluations, bool enableProjectCategories, bool enableReports, int? tenantFactSheetLogoFileResourceInfoID, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, bool areGeospatialAreasExternallySourced, bool showPhotoCreditOnFactSheet, bool trackAccomplishments, bool showExpectedPerformanceMeasuresOnFactSheet, bool enableStatusUpdates, bool enableSolicitations, bool enableSimpleAccomplishmentsDashboard) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceInfoID, int? tenantBannerLogoFileResourceInfoID, int? tenantStyleSheetFileResourceInfoID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode, bool useProjectTimeline, string geoServerNamespace, bool enableEvaluations, bool enableProjectCategories, bool enableReports, int? tenantFactSheetLogoFileResourceInfoID, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, bool areGeospatialAreasExternallySourced, bool showPhotoCreditOnFactSheet, bool trackAccomplishments, bool showExpectedPerformanceMeasuresOnFactSheet, bool enableStatusUpdates, bool enableSolicitations, bool enableSimpleAccomplishmentsDashboard, bool setTargetsByGeospatialArea) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -77,12 +77,13 @@ namespace ProjectFirmaModels.Models
             this.EnableStatusUpdates = enableStatusUpdates;
             this.EnableSolicitations = enableSolicitations;
             this.EnableSimpleAccomplishmentsDashboard = enableSimpleAccomplishmentsDashboard;
+            this.SetTargetsByGeospatialArea = setTargetsByGeospatialArea;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, bool useProjectTimeline, bool enableEvaluations, bool enableProjectCategories, bool enableReports, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, bool areGeospatialAreasExternallySourced, bool showPhotoCreditOnFactSheet, bool trackAccomplishments, bool showExpectedPerformanceMeasuresOnFactSheet, bool enableStatusUpdates, bool enableSolicitations, bool enableSimpleAccomplishmentsDashboard) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, bool useProjectTimeline, bool enableEvaluations, bool enableProjectCategories, bool enableReports, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, bool areGeospatialAreasExternallySourced, bool showPhotoCreditOnFactSheet, bool trackAccomplishments, bool showExpectedPerformanceMeasuresOnFactSheet, bool enableStatusUpdates, bool enableSolicitations, bool enableSimpleAccomplishmentsDashboard, bool setTargetsByGeospatialArea) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -119,12 +120,13 @@ namespace ProjectFirmaModels.Models
             this.EnableStatusUpdates = enableStatusUpdates;
             this.EnableSolicitations = enableSolicitations;
             this.EnableSimpleAccomplishmentsDashboard = enableSimpleAccomplishmentsDashboard;
+            this.SetTargetsByGeospatialArea = setTargetsByGeospatialArea;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, bool isActive, bool projectExternalDataSourceEnabled, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, BudgetType budgetType, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, bool useProjectTimeline, bool enableEvaluations, bool enableProjectCategories, bool enableReports, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, bool areGeospatialAreasExternallySourced, bool showPhotoCreditOnFactSheet, bool trackAccomplishments, bool showExpectedPerformanceMeasuresOnFactSheet, bool enableStatusUpdates, bool enableSolicitations, bool enableSimpleAccomplishmentsDashboard) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, bool isActive, bool projectExternalDataSourceEnabled, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, BudgetType budgetType, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, bool useProjectTimeline, bool enableEvaluations, bool enableProjectCategories, bool enableReports, bool enableMatchmaker, bool matchmakerAlgorithmIncludesProjectGeospatialAreas, bool areGeospatialAreasExternallySourced, bool showPhotoCreditOnFactSheet, bool trackAccomplishments, bool showExpectedPerformanceMeasuresOnFactSheet, bool enableStatusUpdates, bool enableSolicitations, bool enableSimpleAccomplishmentsDashboard, bool setTargetsByGeospatialArea) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -160,6 +162,7 @@ namespace ProjectFirmaModels.Models
             this.EnableStatusUpdates = enableStatusUpdates;
             this.EnableSolicitations = enableSolicitations;
             this.EnableSimpleAccomplishmentsDashboard = enableSimpleAccomplishmentsDashboard;
+            this.SetTargetsByGeospatialArea = setTargetsByGeospatialArea;
         }
 
         /// <summary>
@@ -167,7 +170,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static TenantAttribute CreateNewBlank(TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, BudgetType budgetType)
         {
-            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel, associatePerfomanceMeasureTaxonomyLevel, default(bool), default(bool), accomplishmentsDashboardFundingDisplayType, default(bool), default(bool), default(bool), default(bool), default(string), default(string), budgetType, default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool));
+            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel, associatePerfomanceMeasureTaxonomyLevel, default(bool), default(bool), accomplishmentsDashboardFundingDisplayType, default(bool), default(bool), default(bool), default(bool), default(string), default(string), budgetType, default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool), default(bool));
         }
 
         /// <summary>
@@ -276,6 +279,7 @@ namespace ProjectFirmaModels.Models
         public bool EnableStatusUpdates { get; set; }
         public bool EnableSolicitations { get; set; }
         public bool EnableSimpleAccomplishmentsDashboard { get; set; }
+        public bool SetTargetsByGeospatialArea { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 

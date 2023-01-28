@@ -48,6 +48,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[EnableStatusUpdates] [bit] NOT NULL,
 	[EnableSolicitations] [bit] NOT NULL,
 	[EnableSimpleAccomplishmentsDashboard] [bit] NOT NULL,
+	[SetTargetsByGeospatialArea] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

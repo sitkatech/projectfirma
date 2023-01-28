@@ -326,6 +326,7 @@ namespace ProjectFirmaModels.Models
         OtherPartners = 376,
         PerformanceMeasureGroup = 377,
         TrainingVideoUploadDate = 378,
-        TrainingVideoUrl = 379
+        TrainingVideoUrl = 379,
+        SetTargetsByGeospatialArea = 380
     }
 }

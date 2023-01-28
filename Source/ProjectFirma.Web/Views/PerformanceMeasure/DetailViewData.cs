@@ -19,9 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Linq.Expressions;
-using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
@@ -30,11 +27,20 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.BootstrapWrappers;
 using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class DetailViewData : FirmaViewData
     {
+        public enum PerformanceMeasureDetailTab
+        {
+            Overview,
+            ReportingGuidance
+        }
+
         public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
         public PerformanceMeasureChartViewData PerformanceMeasureChartViewData { get; }
         public EntityNotesViewData EntityNotesViewData { get; }
@@ -44,8 +50,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public string EditPerformanceMeasureUrl { get; }
         public string EditSubcategoriesAndOptionsUrl { get; }
-        public bool CanEditImportanceAndAdditionalInformation { get; }
-        public string EditImportanceUrl { get; }
+        public bool CanEditAdditionalInformation { get; }
         public string EditAdditionalInformationUrl { get; }
         public string EditCriticalDefinitionsUrl { get; }
         public string EditProjectReportingUrl { get; }
@@ -64,7 +69,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public bool ShowGeoSpatialAreaPanel { get; }
         public bool CanAddGeospatialArea { get; }
 
-        public string TaxonomyTierDisplayNamePluralized { get; }
+        public string TaxonomyTierDisplayName { get; }
 
         public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasure { get; }
@@ -80,11 +85,25 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string AddGeospatialAreaPerformanceMeasureTargetText { get; }
         public string AddGeospatialAreaPerformanceMeasureTargetUrl { get; }
 
+        public ViewPageContentViewData ExpectedAccomplishmentsTextViewData { get; }
+        public ViewPageContentViewData ReportedAccomplishmentsTextViewData { get; }
+        public ViewPageContentViewData TargetsTabIntoTextViewData { get; }
+
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+
+        public PerformanceMeasureDetailTab ActiveTab { get; }
+
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData,
             EntityNotesViewData entityNotesViewData,
-            bool userHasPerformanceMeasureManagePermissions, bool isAdmin) : base(currentFirmaSession)
+            bool userHasPerformanceMeasureManagePermissions, bool isAdmin,
+            ProjectFirmaModels.Models.FirmaPage expectedAccomplishmentsFirmaPage,
+            ProjectFirmaModels.Models.FirmaPage reportedAccomplishmentsFirmaPage,
+            ProjectFirmaModels.Models.FirmaPage targetsTabIntroFirmaPage,
+            ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson,
+            PerformanceMeasureDetailTab activeTab) : base(currentFirmaSession)
         {
             PageTitle = performanceMeasure.PerformanceMeasureDisplayName;
             EntityName = "PerformanceMeasure Detail";
@@ -99,15 +118,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             EditSubcategoriesAndOptionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditSubcategoriesAndOptions(performanceMeasure));
 
             var performanceMeasuresExternallySourced = HttpRequestStorage.Tenant.ArePerformanceMeasuresExternallySourced;
-            CanEditImportanceAndAdditionalInformation = !performanceMeasuresExternallySourced;
-            EditImportanceUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.Importance));
+            CanEditAdditionalInformation = !performanceMeasuresExternallySourced;
             EditAdditionalInformationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation));
             EditCriticalDefinitionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions));
             EditProjectReportingUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting));
 
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            TaxonomyTierDisplayNamePluralized = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabelPluralized();
+            TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
             UserHasTaxonomyTierPerformanceMeasureManagePermissions = new TaxonomyTierPerformanceMeasureManageFeature().HasPermission(currentFirmaSession).HasPermission;
             EditTaxonomyTiersUrl = SitkaRoute<TaxonomyTierPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             RelatedTaxonomyTiersViewData = new RelatedTaxonomyTiersViewData(performanceMeasure, associatePerformanceMeasureTaxonomyLevel, true);
@@ -156,6 +174,15 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             FieldDefinitionForPerformanceMeasureSubcategory = FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType();
             FieldDefinitionForPerformanceMeasureSubcategoryOption = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+
+            ExpectedAccomplishmentsTextViewData = new ViewPageContentViewData(expectedAccomplishmentsFirmaPage, IsAdmin);
+            ReportedAccomplishmentsTextViewData = new ViewPageContentViewData(reportedAccomplishmentsFirmaPage, IsAdmin);
+            TargetsTabIntoTextViewData = new ViewPageContentViewData(targetsTabIntroFirmaPage, IsAdmin);
+
+            ProjectLocationsMapInitJson = projectLocationsMapInitJson;
+            ProjectLocationsMapViewData = projectLocationsMapViewData;
+
+            ActiveTab = activeTab;
         }
 
     }

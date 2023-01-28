@@ -27,18 +27,43 @@
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @inherits Detail
 
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+
     <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Views/Shared/EditPerformanceMeasureTargetsController.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Views/GeospatialAreaPerformanceMeasureTarget/AddGeospatialAreaToPerformanceMeasureController.js")"></script>
+    <script type="text/javascript">
 
+        jQuery(function () {
+            jQuery("#overviewTab").on("shown.bs.tab", function () {
+                var gridName1 = @(ViewDataTyped.PerformanceMeasureExpectedsGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName1].resizeGridWidths();
+                var gridName2 = @(ViewDataTyped.PerformanceMeasureReportedValuesGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName2].resizeGridWidths();
+                _.forOwn(window.GoogleCharts.chartWrappers,
+                    function (chartWrapper) {
+                        if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                            chartWrapper.getChart().clearChart();
+                            chartWrapper.draw();
+                        }
+                    });
+            });
+            jQuery("#targetsTab").on("shown.bs.tab", function() {
+                var gridName1 = @(ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridName.ToJS().ToHTMLFormattedString());
+                Sitka[gridName1].resizeGridWidths();
+            });
+        });
+    </script>
     <style>
         th {
             white-space: nowrap;
@@ -69,6 +94,11 @@
         .rightOfPageTitle {
             margin: 0;
         }
+
+        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
+        {
+            height: 420px;
+        }
     </style>
 }
 
@@ -79,258 +109,316 @@
     </a>
 </div>
 
-<div class="row">
-    <div class="col-lg-6 col-md-5">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit {0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    Basics
-                </h2>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>Name</label></div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureType)</div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</div>
-                </div>
-                @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                {
-                    <div class="row">
-                        <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</label></div>
-                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType())</div>
-                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively.ToType())</div>
-                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.CanBeChartedCumulatively.ToYesNo()</div>
-                    </div>
-                }
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()</div>
-                </div>
-                @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard() && ViewDataTyped.IsAdmin)
-                {
-                    <div class="row">
-                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureGroup.ToType())</div>
-                        <div class="col-xs-7">@(ViewDataTyped.PerformanceMeasure.PerformanceMeasureGroup != null ? ViewDataTyped.PerformanceMeasure.PerformanceMeasureGroup.PerformanceMeasureGroupName : string.Empty)</div>
-                    </div>
-                }
+<div class="container-fluid">
+    <div class="row">
+        <ul class="nav nav-tabs" id="performanceMeasuresDetailsTabs" style="border-bottom: none;">
+            <li class="active">
+                <a href="#performanceMeasureOverview" aria-controls="performanceMeasureOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
+            </li>
 
-            </div>
-        </div>
+            <li>
+                <a href="#reportingGuidance" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="reportingGuidanceTab">Reporting Guidance</a>
+            </li>
+            @if (MultiTenantHelpers.SetTargetsByGeospatialArea())
+            {
+                <li>
+                    <a href="#targets" aria-controls="results" role="tab" data-toggle="tab" id="targetsTab">Targets</a>
+                </li>
+            }
 
-
-    </div>
-    <div class="col-lg-6 col-md-7">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureTargetUrl, string.Format("Edit {0} Targets", MultiTenantHelpers.GetPerformanceMeasureName()), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    Accomplishments
-                </h2>
-            </div>
-            <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
-                @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
-            </div>
-        </div>
+        </ul>
     </div>
 </div>
 
-@if (ViewDataTyped.ShowGeoSpatialAreaPanel)
-{
-    <div class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>Targets by @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()</h2>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <p>The following @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized() have or should have @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() that contribute results for this @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(). If a @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel() has a Target value it is displayed below.</p>
-                        </div>
-                        <div class="col-xs-4">
-                            <div style="float: right">
-                                @if (ViewDataTyped.CanAddGeospatialArea)
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="performanceMeasureOverview">
+                <div class="row">
+                    <div class="col-lg-6 col-md-5">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>
+                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit {0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    Basics
+                                </h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right"><label>Name</label></div>
+                                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureType)</div>
+                                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit.ToType())</div>
+                                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</div>
+                                </div>
+                                @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                                 {
-                                    @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetText, ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetUrl,
-                                        ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetDialogTitle, 700, "Save", "Cancel",
-                                        new List<string> {"btn", "btn-firma"}, null, null)
+                                    <div class="row">
+                                        <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</label></div>
+                                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType())</div>
+                                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively.ToType())</div>
+                                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.CanBeChartedCumulatively.ToYesNo()</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SetTargetsByGeospatialArea.ToType())</div>
+                                        <div class="col-xs-7">@MultiTenantHelpers.SetTargetsByGeospatialArea().ToYesNo()</div>
+                                    </div>
+                                }
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>
+                                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()</div>
+                                </div>
+                                @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard() && ViewDataTyped.IsAdmin)
+                                {
+                                    <div class="row">
+                                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureGroup.ToType())</div>
+                                        <div class="col-xs-7">@(ViewDataTyped.PerformanceMeasure.PerformanceMeasureGroup != null ? ViewDataTyped.PerformanceMeasure.PerformanceMeasureGroup.PerformanceMeasureGroupName : string.Empty)</div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-lg-6 col-md-7">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTiersUrl, string.Format("Edit {0}", ViewDataTyped.TaxonomyTierDisplayName), ViewDataTyped.UserHasTaxonomyTierPerformanceMeasureManagePermissions) Related @ViewDataTyped.TaxonomyTierDisplayName Association</h2>
+                            </div>
+                            <div class="panel-body">
+                                @{ RelatedTaxonomyTiers.RenderPartialView(Html, ViewDataTyped.RelatedTaxonomyTiersViewData); }
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-5">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>
+                                    Map
+                                </h2>
+                            </div>
+                            <div style="padding: 10px">
+                                To zoom, hold down Shift and drag a rectangle.
+                                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
+                                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-7">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>
+                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureTargetUrl, string.Format("Edit {0} Targets", MultiTenantHelpers.GetPerformanceMeasureName()), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    Accomplishments
+                                </h2>
+                            </div>
+                            <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
+                                @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAdditionalInformationUrl, string.Format("Edit Additional Information: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions && ViewDataTyped.CanEditAdditionalInformation) Additional Information</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        @ViewDataTyped.PerformanceMeasure.AdditionalInformationHtmlString
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Expected @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ExpectedAccomplishmentsTextViewData); }
+                        </div>
+                        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
+                </div>
+
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>Reported @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ReportedAccomplishmentsTextViewData); }
+                        </div>
+                        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
+                </div>
+                @if (ViewDataTyped.IsAdmin)
+                {
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
+                        </div>
+                        <div class="panel-body">
+                            @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
+                        </div>
+                    </div>
+                }
+            </div>
+            <div role="tabpanel" class="tab-pane" id="reportingGuidance">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Reporting Guidance</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel">
+                                        Critical Definitions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    </div>
+                                    <div class="col-xs-7">
+                                        @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-xs-5 fieldLabel">
+                                        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    </div>
+                                    <div class="col-xs-7">
+                                        @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>
+                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0}: {1}",
+                                        MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory.GetFieldDefinitionLabel()
+                                </h2>
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.PerformanceMeasure.HasRealSubcategories())
+                                {
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>
+                                                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption, string.Format("{0}", ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()))
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var performanceMeasureSubcategory in ViewDataTyped.PerformanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
+                                            {
+                                                <tr>
+                                                    <td>@performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName</td>
+                                                    <td>
+                                                        <div>@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Take(5))</div>
+                                                        @if (performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count > 5)
+                                                        {
+                                                            <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">[@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count - 5) More Options]</a>
+                                                            <div class="collapse" id="morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Skip(5))</div>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p class="systemText">No @ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized() for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                                 }
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                            @Html.DhtmlxGrid(ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridSpec, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridName, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="targets">
+                @if (ViewDataTyped.ShowGeoSpatialAreaPanel)
+                {
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    <h2>Targets by @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()</h2>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.TargetsTabIntoTextViewData); }
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                            <p>The following @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized() have or should have @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() that contribute results for this @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(). If a @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel() has a Target value it is displayed below.</p>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div style="float: right">
+                                                @if (ViewDataTyped.CanAddGeospatialArea)
+                                                {
+                                                    @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetText, ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetUrl,
+                                                        ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetDialogTitle, 700, "Save", "Cancel",
+                                                        new List<string> {"btn", "btn-firma"}, null, null)
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            @Html.DhtmlxGrid(ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridSpec, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridName, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditImportanceUrl, string.Format("Edit Importance: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions && ViewDataTyped.CanEditImportanceAndAdditionalInformation) Importance</h2>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12">
-                        @ViewDataTyped.PerformanceMeasure.ImportanceHtmlString
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAdditionalInformationUrl, string.Format("Edit Additional Information: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions && ViewDataTyped.CanEditImportanceAndAdditionalInformation) Additional Information</h2>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12">
-                        @ViewDataTyped.PerformanceMeasure.AdditionalInformationHtmlString
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12 col-md-12">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>Reporting Guidance</h2>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel">
-                        Critical Definitions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    </div>
-                    <div class="col-xs-7">
-                        @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
-                    </div>
-                </div>
-                <hr />
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel">
-                        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    </div>
-                    <div class="col-xs-7">
-                        @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-md-6">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0}: {1}",
-                             MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory.GetFieldDefinitionLabel()
-                </h2>
-            </div>
-            <div class="panel-body">
-                @if (ViewDataTyped.PerformanceMeasure.HasRealSubcategories())
-                {
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>
-                                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption, string.Format("{0}", ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()))
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var performanceMeasureSubcategory in ViewDataTyped.PerformanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
-                            {
-                                <tr>
-                                    <td>@performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName</td>
-                                    <td>
-                                        <div>@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Take(5))</div>
-                                        @if (performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count > 5)
-                                        {
-                                            <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">[@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count - 5) More Options]</a>
-                                            <div class="collapse" id="morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Skip(5))</div>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <p class="systemText">No @ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized() for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                 }
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyTiersUrl, string.Format("Edit {0}", ViewDataTyped.TaxonomyTierDisplayNamePluralized), ViewDataTyped.UserHasTaxonomyTierPerformanceMeasureManagePermissions) @ViewDataTyped.TaxonomyTierDisplayNamePluralized</h2>
-            </div>
-            <div class="panel-body">
-                @{ RelatedTaxonomyTiers.RenderPartialView(Html, ViewDataTyped.RelatedTaxonomyTiersViewData); }
-            </div>
-        </div>
-
-    </div>
 </div>
 
-<div class="panel panelFirma">
-    <div class="panel-heading panelTitle">
-        <h2>Expected @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
-    </div>
-    <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-    </div>
-</div>
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
+        var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+        map.initializeProjectLocations(projectLocationsMapInitJson);
+        var clusterLocationsCheckbox = jQuery("#ClusterLocations");
+        clusterLocationsCheckbox.change(function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+    })
+</script>
 
-<div class="panel panelFirma">
-    <div class="panel-heading panelTitle">
-        <h2>Reported @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
-    </div>
-    <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-    </div>
-</div>
-
-@if (ViewDataTyped.IsAdmin)
-{
-    <div class="panel panelFirma">
-        <div class="panel-heading panelTitle">
-            <h2>Change History and Rationale Notes (only visible to Administrators)</h2>
-        </div>
-        <div class="panel-body">
-            @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.EntityNotesViewData); }
-        </div>
-    </div>
-}
