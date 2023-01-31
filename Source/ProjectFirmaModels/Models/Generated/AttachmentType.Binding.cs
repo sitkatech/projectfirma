@@ -34,25 +34,27 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentType(int attachmentTypeID, string attachmentTypeName, string attachmentTypeDescription, int maxFileSize, int? numberOfAllowedAttachments) : this()
+        public AttachmentType(int attachmentTypeID, string attachmentTypeName, string attachmentTypeDescription, int maxFileSize, int? numberOfAllowedAttachments, bool isQuickAccessAttachment) : this()
         {
             this.AttachmentTypeID = attachmentTypeID;
             this.AttachmentTypeName = attachmentTypeName;
             this.AttachmentTypeDescription = attachmentTypeDescription;
             this.MaxFileSize = maxFileSize;
             this.NumberOfAllowedAttachments = numberOfAllowedAttachments;
+            this.IsQuickAccessAttachment = isQuickAccessAttachment;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentType(string attachmentTypeName, int maxFileSize) : this()
+        public AttachmentType(string attachmentTypeName, int maxFileSize, bool isQuickAccessAttachment) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.AttachmentTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.AttachmentTypeName = attachmentTypeName;
             this.MaxFileSize = maxFileSize;
+            this.IsQuickAccessAttachment = isQuickAccessAttachment;
         }
 
 
@@ -61,7 +63,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static AttachmentType CreateNewBlank()
         {
-            return new AttachmentType(default(string), default(int));
+            return new AttachmentType(default(string), default(int), default(bool));
         }
 
         /// <summary>
@@ -158,6 +160,7 @@ namespace ProjectFirmaModels.Models
         public string AttachmentTypeDescription { get; set; }
         public int MaxFileSize { get; set; }
         public int? NumberOfAllowedAttachments { get; set; }
+        public bool IsQuickAccessAttachment { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return AttachmentTypeID; } set { AttachmentTypeID = value; } }
 

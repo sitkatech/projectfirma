@@ -201,4 +201,5 @@ VALUES
 (377, N'PerformanceMeasureGroup', N'Performance Measure Group'),
 (378, N'TrainingVideoUploadDate', N'Video Upload Date'),
 (379, N'TrainingVideoUrl', N'Video URL'),
-(380, N'SetTargetsByGeospatialArea', N'Set Targets By Geospatial Area?')
+(380, N'SetTargetsByGeospatialArea', N'Set Targets By Geospatial Area?'),
+(381, N'QuickAccessAttachment', N'Quick Link on Top of Project Pages')

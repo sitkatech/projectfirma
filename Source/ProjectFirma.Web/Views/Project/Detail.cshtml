@@ -104,7 +104,16 @@
 
 
 <div>
-   <a class="btn backButton" style="padding-left: 0;" href="@ViewDataTyped.ProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @ViewDataTyped.BackToProjectsText</a>
+    <a class="btn backButton" style="padding-left: 0;" href="@ViewDataTyped.ProjectListUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") @ViewDataTyped.BackToProjectsText</a>
+    @if (ViewDataTyped.QuickAccessAttachment != null)
+    {
+        <div style="float: right; text-align: right">
+            <a href="@ViewDataTyped.QuickAccessAttachment.Attachment.GetFileResourceUrl()">
+                @ViewDataTyped.QuickAccessAttachment.DisplayName
+                @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
+            </a>
+        </div>
+    }
 </div>
 
 @if (ViewDataTyped.ProjectAlerts.Any())

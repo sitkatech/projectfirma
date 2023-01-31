@@ -61,6 +61,9 @@ namespace ProjectFirma.Web.Views.AttachmentType
         [DisplayName("Maximum Number of Allowed Attachments per Project")]
         public int? NumberOfAllowedAttachments { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.QuickAccessAttachment)]
+        public bool IsQuickAccessAttachment { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -91,6 +94,7 @@ namespace ProjectFirma.Web.Views.AttachmentType
             MaxFileSize = attachmentType.MaxFileSize;
             FileResourceMimeTypeIDs = attachmentType.AttachmentTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeTypeID).ToList();
             TaxonomyTrunkIDs = attachmentType.AttachmentTypeTaxonomyTrunks.Select(x => x.TaxonomyTrunkID).ToList();
+            IsQuickAccessAttachment = attachmentType.IsQuickAccessAttachment;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.AttachmentType attachmentType, 
@@ -114,6 +118,8 @@ namespace ProjectFirma.Web.Views.AttachmentType
             attachmentType.AttachmentTypeTaxonomyTrunks.Merge(taxonomyTrunksUpdated,
                 allAttachmentTypeTaxonomyTrunks,
                 (x, y) => x.AttachmentTypeID == y.AttachmentTypeID && x.TaxonomyTrunkID == y.TaxonomyTrunkID, HttpRequestStorage.DatabaseEntities);
+
+            attachmentType.IsQuickAccessAttachment = IsQuickAccessAttachment;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -137,6 +143,23 @@ namespace ProjectFirma.Web.Views.AttachmentType
                     x => x.FileResourceMimeTypeIDs);
             }
 
+            if (IsQuickAccessAttachment)
+            {
+                if (!NumberOfAllowedAttachments.HasValue || NumberOfAllowedAttachments.Value != 1)
+                {
+                    yield return new SitkaValidationResult<EditAttachmentTypeViewModel, int?>(
+                        "'Maximum Number of Allowed Attachments per Project' must be set to 1 when Quick Link is enabled for Attachment Type.",
+                        x => x.NumberOfAllowedAttachments);
+                }
+
+                if (attachmentTypes.Any(x => x.AttachmentTypeID != AttachmentTypeID && x.IsQuickAccessAttachment))
+                {
+                    var attachmentType = attachmentTypes.Single(x => x.IsQuickAccessAttachment);
+                    yield return new SitkaValidationResult<EditAttachmentTypeViewModel, bool>(
+                        $"'{FieldDefinitionEnum.QuickAccessAttachment.ToType().GetFieldDefinitionLabel()}' can only be set to 'Yes' for one Attachment Type at a time. '{attachmentType.AttachmentTypeName}' is already has this set to 'Yes'.",
+                        x => x.IsQuickAccessAttachment);
+                }
+            }
         }
     }
 }

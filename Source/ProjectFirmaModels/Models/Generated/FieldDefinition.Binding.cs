@@ -327,6 +327,7 @@ namespace ProjectFirmaModels.Models
         PerformanceMeasureGroup = 377,
         TrainingVideoUploadDate = 378,
         TrainingVideoUrl = 379,
-        SetTargetsByGeospatialArea = 380
+        SetTargetsByGeospatialArea = 380,
+        QuickAccessAttachment = 381
     }
 }
