@@ -80,6 +80,8 @@ namespace ProjectFirma.Web.Views.Project
 
         public bool ProjectLocationIsProvided { get; }
 
+        public ProjectFirmaModels.Models.ProjectAttachment QuickAccessAttachment { get; }
+
         public ForwardLookingFactSheetViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
@@ -162,6 +164,8 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectLocationIsProvided = project.ProjectLocationPoint != null || project.ProjectLocations.Any();
 
+            QuickAccessAttachment =
+                project.ProjectAttachments.SingleOrDefault(x => x.AttachmentType.IsQuickAccessAttachment);
         }
 
         public HtmlString LegendHtml

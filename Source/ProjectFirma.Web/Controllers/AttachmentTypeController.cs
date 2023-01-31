@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNewAttachmentType(viewModel);
             }
 
-            var attachmentType = new AttachmentType(viewModel.AttachmentTypeName, viewModel.MaxFileSize);
+            var attachmentType = new AttachmentType(viewModel.AttachmentTypeName, viewModel.MaxFileSize, false);
             
             HttpRequestStorage.DatabaseEntities.AllAttachmentTypes.Add(attachmentType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();

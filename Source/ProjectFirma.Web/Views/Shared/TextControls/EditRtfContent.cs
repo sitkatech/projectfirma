@@ -31,7 +31,6 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
             AccountingPeriodAndScale,
             ProjectReporting,
             AssociatedPrograms,
-            Importance,
             AdditionalInformation
         }
     }

@@ -201,6 +201,9 @@ namespace ProjectFirmaModels.Models
         InternalMapLayers = 84,
         ExternallySourcedGeospatialAreasInstructions = 85,
         SolicitationIndex = 86,
-        ManagePerformanceMeasures = 87
+        ManagePerformanceMeasures = 87,
+        PerformanceMeasureExpectedAccomplishments = 88,
+        PerformanceMeasureReportedAccomplishments = 89,
+        PerformanceMeasureTargetsTabIntro = 90
     }
 }

@@ -39,7 +39,6 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.CriticalDefinitions = performanceMeasureDto.CriticalDefinitions;
             performanceMeasure.PerformanceMeasureDefinition = performanceMeasureDto.PerformanceMeasureDefinition;
             performanceMeasure.ProjectReporting = performanceMeasureDto.ProjectReporting;
-            performanceMeasure.Importance = performanceMeasureDto.Importance;
             performanceMeasure.AdditionalInformation = performanceMeasureDto.AdditionalInformation;
 
             // create file resources for images in the Importance rich text
@@ -156,7 +155,6 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
             performanceMeasure.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID;
             performanceMeasure.IsSummable = performanceMeasureDto.IsSummable;
-            performanceMeasure.Importance = performanceMeasureDto.Importance;
             var fileResourceDtos = performanceMeasureDto.FileResources;
             var fileResourceMimeTypes = fileResourceDtos.ToDictionary(x => new { x.FileResourceGUID, x.FileResourceMimeTypeName },
                 x => MapFileResourceMimeTypeNameToFileResourceMimeType(x.FileResourceMimeTypeName));
@@ -259,8 +257,6 @@ namespace ProjectFirma.Api.Controllers
                 var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
                 return NotFound();
             }
-
-            performanceMeasure.Importance = performanceMeasureDto.Importance;
 
             var fileResourceDtos = performanceMeasureDto.FileResources;
             var fileResourceMimeTypes = fileResourceDtos.ToDictionary(x => new { x.FileResourceGUID, x.FileResourceMimeTypeName },

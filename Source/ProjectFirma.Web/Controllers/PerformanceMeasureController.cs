@@ -47,6 +47,8 @@ using Index = ProjectFirma.Web.Views.PerformanceMeasure.Index;
 using IndexViewData = ProjectFirma.Web.Views.PerformanceMeasure.IndexViewData;
 using MoreLinq;
 using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using EditPerformanceMeasureTargets = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargets;
 using EditPerformanceMeasureTargetsViewData = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargetsViewData;
 using EditPerformanceMeasureTargetsViewDataForAngular = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargetsViewDataForAngular;
@@ -110,8 +112,30 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasure.PerformanceMeasureDisplayName,
                 canManagePerformanceMeasure);
 
+            var expectedAccomplishmentsFirmaPage = FirmaPageTypeEnum.PerformanceMeasureExpectedAccomplishments.GetFirmaPage();
+            var reportedAccomplishmentsFirmaPage = FirmaPageTypeEnum.PerformanceMeasureReportedAccomplishments.GetFirmaPage();
+            var targetsTabIntroFirmaPage = FirmaPageTypeEnum.PerformanceMeasureTargetsTabIntro.GetFirmaPage();
+
+            var currentPersonCanViewProposals = CurrentFirmaSession.CanViewProposals();
+            var performanceMeasureProjects = performanceMeasure.GetAssociatedProjectsWithExpectedValues(CurrentFirmaSession).Union(performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentFirmaSession)).ToList();
+
+            var projectMapCustomization = new ProjectMapCustomization(ProjectMapCustomization.DefaultLocationFilterType,
+                ProjectMapCustomization.GetDefaultLocationFilterValues(currentPersonCanViewProposals), ProjectColorByType.ProjectStage);
+            var projectLocationsLayerGeoJson =
+                new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
+                    performanceMeasureProjects.MappedPointsToGeoJsonFeatureCollection(false, true, true), "red", 1,
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
+                projectMapCustomization, "PerformanceMeasureProjectMap", false);
+
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
+                ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                CurrentFirmaSession.CanViewProposals());
+
             var viewData = new DetailViewData(CurrentFirmaSession, performanceMeasure, performanceMeasureChartViewData,
-                entityNotesViewData, canManagePerformanceMeasure, isAdmin);
+                entityNotesViewData, canManagePerformanceMeasure, isAdmin, 
+                expectedAccomplishmentsFirmaPage, reportedAccomplishmentsFirmaPage, targetsTabIntroFirmaPage,
+                projectLocationsMapViewData, projectLocationsMapInitJson, DetailViewData.PerformanceMeasureDetailTab.Overview);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -197,9 +221,6 @@ namespace ProjectFirma.Web.Controllers
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
                     rtfContent = performanceMeasure.ProjectReportingHtmlString;
                     break;
-                case EditRtfContent.PerformanceMeasureRichTextType.Importance:
-                    rtfContent = performanceMeasure.ImportanceHtmlString;
-                    break;
                 case EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation:
                     rtfContent = performanceMeasure.AdditionalInformationHtmlString;
                     break;
@@ -239,7 +260,6 @@ namespace ProjectFirma.Web.Controllers
                 case EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions:
                 case EditRtfContent.PerformanceMeasureRichTextType.AccountingPeriodAndScale:
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
-                case EditRtfContent.PerformanceMeasureRichTextType.Importance:
                 case EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation:
                     viewData = new EditRtfContentViewData(CkEditorExtension.CkEditorToolbar.Minimal, null);
                     break;

@@ -49,7 +49,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string importance, string additionalInformation, bool canBeChartedCumulatively, int? performanceMeasureGroupID) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string additionalInformation, bool canBeChartedCumulatively, int? performanceMeasureGroupID) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
@@ -64,7 +64,6 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureSortOrder = performanceMeasureSortOrder;
             this.IsSummable = isSummable;
             this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceTypeID;
-            this.Importance = importance;
             this.AdditionalInformation = additionalInformation;
             this.CanBeChartedCumulatively = canBeChartedCumulatively;
             this.PerformanceMeasureGroupID = performanceMeasureGroupID;
@@ -373,13 +372,6 @@ namespace ProjectFirmaModels.Models
         public int? PerformanceMeasureSortOrder { get; set; }
         public bool IsSummable { get; set; }
         public int PerformanceMeasureDataSourceTypeID { get; set; }
-        public string Importance { get; set; }
-        [NotMapped]
-        public HtmlString ImportanceHtmlString
-        { 
-            get { return Importance == null ? null : new HtmlString(Importance); }
-            set { Importance = value?.ToString(); }
-        }
         public string AdditionalInformation { get; set; }
         [NotMapped]
         public HtmlString AdditionalInformationHtmlString

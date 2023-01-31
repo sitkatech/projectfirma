@@ -70,6 +70,8 @@ namespace ProjectFirma.Web.Views.Project
         public DateTime LastUpdated { get; }
         public ProjectController.FactSheetPdfEnum FactSheetPdfEnum { get; }
         public bool ProjectLocationIsProvided { get; }
+        public ProjectFirmaModels.Models.ProjectAttachment QuickAccessAttachment { get; }
+
 
         public BackwardLookingFactSheetViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
@@ -147,6 +149,9 @@ namespace ProjectFirma.Web.Views.Project
             FactSheetPdfEnum = factSheetPdfEnum;
 
             ProjectLocationIsProvided = project.ProjectLocationPoint != null || project.ProjectLocations.Any();
+
+            QuickAccessAttachment =
+                project.ProjectAttachments.SingleOrDefault(x => x.AttachmentType.IsQuickAccessAttachment);
         }
     }
 }

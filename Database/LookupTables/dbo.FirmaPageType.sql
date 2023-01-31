@@ -69,4 +69,7 @@ values
 (84, 'InternalMapLayers', 'Internal Map Layers', 1),
 (85, 'ExternallySourcedGeospatialAreasInstructions', 'Externally Sourced Geospatial Areas Instructions', 1),
 (86, 'SolicitationIndex', 'Solicitation Index', 1),
-(87, 'ManagePerformanceMeasures', 'ManagePerformanceMeasures', 1)
+(87, 'ManagePerformanceMeasures', 'ManagePerformanceMeasures', 1),
+(88, 'PerformanceMeasureExpectedAccomplishments', 'Performance Measure Expected Accomplishments', 2),
+(89, 'PerformanceMeasureReportedAccomplishments', 'Performance Measure Reported Accomplishments', 2),
+(90, 'PerformanceMeasureTargetsTabIntro', 'Performance Measure Targets Tab Intro', 1)

@@ -18,8 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController", function ($scope, angularModelAndViewData)
-{    
+angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController", function ($scope, angularModelAndViewData) {
+    $scope.PerformanceMeasureActualIDNew = 0;
+
     $scope.performanceMeasureTooltip = function (performanceMeasureExpected) {
         var displayName = $scope.getPerformanceMeasureName(performanceMeasureExpected);
         var definitionAndGuidanceUrl = $scope.getPerformanceMeasureDefinitionAndGuidanceUrl(performanceMeasureExpected);
@@ -132,6 +133,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
     };
 
     $scope.createNewRow = function (project, performanceMeasure) {
+        $scope.PerformanceMeasureActualIDNew += -1;
         var newPerformanceMeasureActual = {
             ProjectID: project.ProjectID,
             PerformanceMeasureID: performanceMeasure.PerformanceMeasureID,
@@ -139,7 +141,8 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
             ActualValue: null,
             MeasurementUnitTypeDisplayName: performanceMeasure.MeasurementUnitTypeDisplayName,
             PerformanceMeasureActualSubcategoryOptions: $scope.createPerformanceMeasureValueSubcategoryOptionRows(performanceMeasure),
-            PerformanceMeasureReportingPeriodID: -1
+            PerformanceMeasureReportingPeriodID: -1,
+            PerformanceMeasureActualID: $scope.PerformanceMeasureActualIDNew
         };
         return newPerformanceMeasureActual;
     };

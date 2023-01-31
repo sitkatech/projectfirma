@@ -22,6 +22,7 @@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.Views
 @using MoreLinq
 @using Newtonsoft.Json
@@ -102,12 +103,22 @@
             <label><input type="checkbox" data-toggle="toggle" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /></label> Extra Details
          </div>
       }
-   <div class="pull-right">
-       <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
-       <div class="hidden-print pull-right" style="margin-left: 5px">
-           <button class="btn btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
-       </div>
-   </div>
+      <div class="pull-right">
+          <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
+          <div class="hidden-print pull-right" style="margin-left: 5px">
+              <button class="btn btn-firma" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Print</button>
+          </div>
+      </div>
+      @if (ViewDataTyped.QuickAccessAttachment != null)
+      {
+          <div class="clearfix"></div>
+          <div class="pull-right" style="margin-top: 5px; text-align: right">
+              <a href="@ViewDataTyped.QuickAccessAttachment.Attachment.GetFileResourceUrl()">
+                  @ViewDataTyped.QuickAccessAttachment.DisplayName
+                  @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
+              </a>
+          </div>
+      }
    </div>
 </div>
 

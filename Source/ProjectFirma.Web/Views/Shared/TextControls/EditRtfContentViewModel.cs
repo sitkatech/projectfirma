@@ -53,9 +53,6 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
                     performanceMeasure.ProjectReportingHtmlString = RtfContent;
                     break;
-                case EditRtfContent.PerformanceMeasureRichTextType.Importance:
-                    performanceMeasure.ImportanceHtmlString = RtfContent;
-                    break;
                 case EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation:
                     performanceMeasure.AdditionalInformationHtmlString = RtfContent;
                     break;
