@@ -328,6 +328,11 @@ namespace ProjectFirmaModels.Models
         TrainingVideoUploadDate = 378,
         TrainingVideoUrl = 379,
         SetTargetsByGeospatialArea = 380,
-        QuickAccessAttachment = 381
+        QuickAccessAttachment = 381,
+        AboutMenu = 382,
+        ProjectsMenu = 383,
+        ProgramInfoMenu = 384,
+        ResultsMenu = 385,
+        ReportsMenu = 386
     }
 }

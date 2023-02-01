@@ -202,4 +202,9 @@ VALUES
 (378, N'TrainingVideoUploadDate', N'Video Upload Date'),
 (379, N'TrainingVideoUrl', N'Video URL'),
 (380, N'SetTargetsByGeospatialArea', N'Set Targets By Geospatial Area?'),
-(381, N'QuickAccessAttachment', N'Quick Link on Top of Project Pages')
+(381, N'QuickAccessAttachment', N'Quick Link on Top of Project Pages'),
+(382, N'AboutMenu', N'About'),
+(383, N'ProjectsMenu', N'Projects'),
+(384, N'ProgramInfoMenu', N'Program Info'),
+(385, N'ResultsMenu', N'Results'),
+(386, N'ReportsMenu', N'Reports')
