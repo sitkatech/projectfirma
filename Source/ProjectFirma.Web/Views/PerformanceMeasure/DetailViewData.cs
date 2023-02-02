@@ -38,7 +38,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public enum PerformanceMeasureDetailTab
         {
             Overview,
-            ReportingGuidance
+            ReportingGuidance,
+            Targets
         }
 
         public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
@@ -103,7 +104,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             ProjectFirmaModels.Models.FirmaPage reportedAccomplishmentsFirmaPage,
             ProjectFirmaModels.Models.FirmaPage targetsTabIntroFirmaPage,
             ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            PerformanceMeasureDetailTab activeTab) : base(currentFirmaSession)
+            PerformanceMeasureDetailTab? activeTab) : base(currentFirmaSession)
         {
             PageTitle = performanceMeasure.PerformanceMeasureDisplayName;
             EntityName = "PerformanceMeasure Detail";
@@ -182,7 +183,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
 
-            ActiveTab = activeTab;
+            ActiveTab = activeTab ?? PerformanceMeasureDetailTab.Overview;
         }
 
     }

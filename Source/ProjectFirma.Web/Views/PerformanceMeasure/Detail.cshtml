@@ -73,23 +73,14 @@
             font-weight: normal;
         }
 
-        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-            background-color: #0b406b;
-            color: #fff;
-        }
-
-        .nav > li.disabled > a, .nav-tabs > li.disabled > a:hover, .nav-tabs > li.disabled > a:focus {
-            background-color: #ccc;
-        }
-
-        .panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4 {
+        @*.panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4 {
             margin: 0;
         }
 
         .panel-primary .panel-heading h4 {
             color: #fff;
             font-weight: bold;
-        }
+        }*@
 
         .rightOfPageTitle {
             margin: 0;
@@ -113,16 +104,16 @@
     <div class="row">
         <ul class="nav nav-tabs" id="performanceMeasuresDetailsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#performanceMeasureOverview" aria-controls="performanceMeasureOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
+                <a href="#Overview" aria-controls="performanceMeasureOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
 
             <li>
-                <a href="#reportingGuidance" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="reportingGuidanceTab">Reporting Guidance</a>
+                <a href="#ReportingGuidance" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="reportingGuidanceTab">Reporting Guidance</a>
             </li>
             @if (MultiTenantHelpers.SetTargetsByGeospatialArea())
             {
                 <li>
-                    <a href="#targets" aria-controls="results" role="tab" data-toggle="tab" id="targetsTab">Targets</a>
+                    <a href="#Targets" aria-controls="results" role="tab" data-toggle="tab" id="targetsTab">Targets</a>
                 </li>
             }
 
@@ -133,7 +124,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="performanceMeasureOverview">
+            <div role="tabpanel" class="tab-pane active" id="Overview">
                 <div class="row">
                     <div class="col-lg-6 col-md-5">
                         <div class="panel panelFirma">
@@ -239,25 +230,6 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAdditionalInformationUrl, string.Format("Edit Additional Information: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions && ViewDataTyped.CanEditAdditionalInformation) Additional Information</h2>
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        @ViewDataTyped.PerformanceMeasure.AdditionalInformationHtmlString
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h2>Expected @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
@@ -281,6 +253,24 @@
                         @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAdditionalInformationUrl, string.Format("Edit Additional Information: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions && ViewDataTyped.CanEditAdditionalInformation) Additional Information</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        @ViewDataTyped.PerformanceMeasure.AdditionalInformationHtmlString
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 @if (ViewDataTyped.IsAdmin)
                 {
                     <div class="panel panelFirma">
@@ -293,7 +283,7 @@
                     </div>
                 }
             </div>
-            <div role="tabpanel" class="tab-pane" id="reportingGuidance">
+            <div role="tabpanel" class="tab-pane" id="ReportingGuidance">
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="panel panelFirma">
@@ -370,7 +360,7 @@
                 </div>
             </div>
 
-            <div role="tabpanel" class="tab-pane" id="targets">
+            <div role="tabpanel" class="tab-pane" id="Targets">
                 @if (ViewDataTyped.ShowGeoSpatialAreaPanel)
                 {
                     <div class="row">
@@ -418,7 +408,9 @@
         var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
         map.initializeProjectLocations(projectLocationsMapInitJson);
         var clusterLocationsCheckbox = jQuery("#ClusterLocations");
-        clusterLocationsCheckbox.change(function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+        clusterLocationsCheckbox.change(function () { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+
+        $('#performanceMeasuresDetailsTabs a[href="#@ViewDataTyped.ActiveTab.ToString()"]').tab('show');
     })
 </script>
 

@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(CurrentFirmaSession, performanceMeasure);
 
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(performanceMeasure.GetDetailTargetsTabUrl());
         }
 
         private List<int> GetSelectedGeospatialAreasFromPerformanceMeasure(PerformanceMeasure performanceMeasure)
@@ -157,7 +157,7 @@ namespace ProjectFirma.Web.Controllers
                 geoTarget.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
 
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(performanceMeasure.GetDetailTargetsTabUrl());
         }
 
 
@@ -199,7 +199,7 @@ namespace ProjectFirma.Web.Controllers
                 );
 
             SetMessageForDisplay($"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(performanceMeasure.GetDetailTargetsTabUrl());
         }
 
         private ActionResult ViewEdit(GeospatialArea geospatialArea,
