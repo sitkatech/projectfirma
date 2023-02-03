@@ -292,19 +292,19 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel">
+                                    <div class="col-md-3 col-xs-5 fieldLabel">
                                         Critical Definitions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditCriticalDefinitionsUrl, string.Format("Edit Critical Definitions: {0}", ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                                     </div>
-                                    <div class="col-xs-7">
+                                    <div class="col-md-9 col-xs-7">
                                         @ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString
                                     </div>
                                 </div>
                                 <hr />
                                 <div class="row">
-                                    <div class="col-xs-5 fieldLabel">
+                                    <div class="col-md-3 col-xs-5 fieldLabel">
                                         @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                                     </div>
-                                    <div class="col-xs-7">
+                                    <div class="col-md-9 col-xs-7">
                                         @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
                                     </div>
                                 </div>
@@ -338,11 +338,11 @@
                                                 <tr>
                                                     <td>@performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName</td>
                                                     <td>
-                                                        <div>@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Take(5))</div>
-                                                        @if (performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count > 5)
+                                                        <div>@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Take(15))</div>
+                                                        @if (performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count > 15)
                                                         {
-                                                            <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">[@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count - 5) More Options]</a>
-                                                            <div class="collapse" id="morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Skip(5))</div>
+                                                            <a style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">[@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Count - 15) More Options]</a>
+                                                            <div class="collapse" id="morePerformanceMeasureSubcategory@(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID)Options">@string.Join(", ", performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.OrderBy(x => x.SortOrder).ThenBy(x => x.PerformanceMeasureSubcategoryOptionName).Select(x => x.PerformanceMeasureSubcategoryOptionName).Skip(15))</div>
                                                         }
                                                     </td>
                                                 </tr>
