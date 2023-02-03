@@ -86,9 +86,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [PerformanceMeasureViewFeature]
-        public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, DetailViewData.PerformanceMeasureDetailTab? performanceMeasureDetailTab)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            performanceMeasureDetailTab =
+                performanceMeasureDetailTab ?? DetailViewData.PerformanceMeasureDetailTab.Overview;
             var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var isAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
@@ -135,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new DetailViewData(CurrentFirmaSession, performanceMeasure, performanceMeasureChartViewData,
                 entityNotesViewData, canManagePerformanceMeasure, isAdmin, 
                 expectedAccomplishmentsFirmaPage, reportedAccomplishmentsFirmaPage, targetsTabIntroFirmaPage,
-                projectLocationsMapViewData, projectLocationsMapInitJson, DetailViewData.PerformanceMeasureDetailTab.Overview);
+                projectLocationsMapViewData, projectLocationsMapInitJson, performanceMeasureDetailTab);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -247,7 +249,18 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(performanceMeasure, performanceMeasureRichTextType);
-            return new ModalDialogFormJsonResult();
+
+            switch (performanceMeasureRichTextType)
+            {
+                case EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions:
+                    return new ModalDialogFormJsonResult(performanceMeasure.GetDetailReportingGuidanceTabUrl());
+                case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
+                    return new ModalDialogFormJsonResult(performanceMeasure.GetDetailReportingGuidanceTabUrl());
+                case EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation:
+                    return new ModalDialogFormJsonResult(performanceMeasure.GetSummaryUrl());
+                default:
+                    return new ModalDialogFormJsonResult(performanceMeasure.GetSummaryUrl());
+            }
         }
 
         private PartialViewResult ViewEditGuidance(EditRtfContentViewModel viewModel,
@@ -297,7 +310,7 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.UpdateModel(performanceMeasure, performanceMeasureSubcategoryID, chartConfiguration);
             }
 
-            return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure)));
+            return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure, DetailViewData.PerformanceMeasureDetailTab.Overview)));
         }
 
         [HttpGet]
@@ -357,7 +370,7 @@ namespace ProjectFirma.Web.Controllers
                         $"Invalid PerformanceMeasureSubcategoryChartConfiguration: '{chartConfiguration}'");
             }
 
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(performanceMeasure.GetSummaryUrl());
         }
 
 
@@ -393,7 +406,7 @@ namespace ProjectFirma.Web.Controllers
             PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasureExpecteds =
-                GetPerformanceMeasureExpectedsAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject);
+                GetPerformanceMeasureExpectedsAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject, CurrentFirmaSession);
             var gridJsonNetJObjectResult =
                 new GridJsonNetJObjectResult<PerformanceMeasureExpected>(performanceMeasureExpecteds, gridSpec);
             return gridJsonNetJObjectResult;
@@ -427,10 +440,10 @@ namespace ProjectFirma.Web.Controllers
         }
 
         private static List<PerformanceMeasureExpected> GetPerformanceMeasureExpectedsAndGridSpec(
-            out PerformanceMeasureExpectedGridSpec gridSpec, PerformanceMeasure performanceMeasure)
+            out PerformanceMeasureExpectedGridSpec gridSpec, PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             gridSpec = new PerformanceMeasureExpectedGridSpec(performanceMeasure);
-            return performanceMeasure.PerformanceMeasureExpecteds.ToList();
+            return performanceMeasure.GetExpectedPerformanceMeasureValues(currentFirmaSession);
         }
 
         [HttpGet]
@@ -477,7 +490,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(
                 $"New {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.GetDisplayNameAsUrl()}' successfully created!");
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(performanceMeasure.GetSummaryUrl());
         }
 
         [HttpGet]
@@ -505,7 +518,7 @@ namespace ProjectFirma.Web.Controllers
 
             SetMessageForDisplay(
                 $"Successfully updated {MultiTenantHelpers.GetPerformanceMeasureName()} '{performanceMeasure.PerformanceMeasureDisplayName}'!");
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(performanceMeasure.GetDetailReportingGuidanceTabUrl());
         }
 
         private PartialViewResult ViewEditSubcategoriesAndOptions(EditSubcategoriesAndOptionsViewModel viewModel)
@@ -553,7 +566,7 @@ namespace ProjectFirma.Web.Controllers
                     "<p>Are you sure you want to delete {0} \"{1}\"?</p><p>Deleting this {0} will <strong>delete all associated reported data</strong>, and this action cannot be undone. Click {2} to review.</p>",
                     MultiTenantHelpers.GetPerformanceMeasureName(),
                     performanceMeasure.PerformanceMeasureDisplayName,
-                    SitkaRoute<PerformanceMeasureController>.BuildLinkFromExpression(x => x.Detail(performanceMeasure),
+                    SitkaRoute<PerformanceMeasureController>.BuildLinkFromExpression(x => x.Detail(performanceMeasure, null),
                         "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
@@ -755,7 +768,7 @@ namespace ProjectFirma.Web.Controllers
 
             SetMessageForDisplay(
                 $"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
-            return new ModalDialogFormJsonResult();
+            return new ModalDialogFormJsonResult(performanceMeasure.GetSummaryUrl());
         }
 
         private ActionResult ViewEditPerformanceMeasureReportedValues(PerformanceMeasure performanceMeasure,

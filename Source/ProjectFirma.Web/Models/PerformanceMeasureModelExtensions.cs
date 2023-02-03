@@ -40,10 +40,22 @@ namespace ProjectFirma.Web.Models
             return UrlTemplate.MakeHrefString(performanceMeasure.GetSummaryUrl(), performanceMeasure.PerformanceMeasureDisplayName);
         }
 
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, null)));
         public static string GetSummaryUrl(this PerformanceMeasure performanceMeasure)
         {
             return SummaryUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureID);
+        }
+
+        public static readonly UrlTemplate<int> DetailReportingGuidanceTabUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, Views.PerformanceMeasure.DetailViewData.PerformanceMeasureDetailTab.ReportingGuidance)));
+        public static string GetDetailReportingGuidanceTabUrl(this PerformanceMeasure performanceMeasure)
+        {
+            return DetailReportingGuidanceTabUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureID);
+        }
+
+        public static readonly UrlTemplate<int> DetailTargetsTabUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, Views.PerformanceMeasure.DetailViewData.PerformanceMeasureDetailTab.Targets)));
+        public static string GetDetailTargetsTabUrl(this PerformanceMeasure performanceMeasure)
+        {
+            return DetailTargetsTabUrlTemplate.ParameterReplace(performanceMeasure.PerformanceMeasureID);
         }
 
         private static readonly UrlTemplate<int> DefinitionAndGuidanceUrlTemplate = new UrlTemplate<int>(SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(t => t.DefinitionAndGuidance(UrlTemplate.Parameter1Int)));
@@ -188,6 +200,11 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureReportedValues;
         }
 
+        public static List<PerformanceMeasureExpected> GetExpectedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
+        {
+            var projectIDs = performanceMeasure.GetAssociatedProjectsWithExpectedValues(currentFirmaSession).Select(x => x.ProjectID);
+            return performanceMeasure.PerformanceMeasureExpecteds.Where(x => projectIDs.Contains(x.ProjectID)).ToList();
+        }
 
         public static List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
         {
@@ -240,7 +257,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjectsWithExpectedValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
-            return performanceMeasure.PerformanceMeasureExpecteds.Select(pme => pme.Project).Distinct().ToList();
+            return performanceMeasure.PerformanceMeasureExpecteds.Select(pme => pme.Project).Distinct().ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals(), currentFirmaSession);
         }
 
         public static int ExpectedProjectsCount(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)

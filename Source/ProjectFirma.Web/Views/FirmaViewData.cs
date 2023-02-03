@@ -177,7 +177,7 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildAboutMenu(FirmaSession currentFirmaSession)
         {
-            var aboutMenu = new LtInfoMenuItem(FirmaMenuItem.About.GetFirmaMenuItemDisplayName());
+            var aboutMenu = new LtInfoMenuItem(FieldDefinitionEnum.AboutMenu.ToType().GetFieldDefinitionLabel());
             AddCustomPagesToMenu(currentFirmaSession, FirmaMenuItem.About, aboutMenu, "Group1");
             
             return aboutMenu;
@@ -185,7 +185,7 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildResultsMenu(FirmaSession firmaSession)
         {
-            var resultsMenu = new LtInfoMenuItem(FirmaMenuItem.Results.GetFirmaMenuItemDisplayName());
+            var resultsMenu = new LtInfoMenuItem(FieldDefinitionEnum.ResultsMenu.ToType().GetFieldDefinitionLabel());
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, "Accomplishments Dashboard"));
@@ -201,7 +201,7 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildProgramInfoMenu(FirmaSession currentFirmaSession)
         {
-            var programInfoMenu = new LtInfoMenuItem(FirmaMenuItem.ProgramInfo.GetFirmaMenuItemDisplayName());
+            var programInfoMenu = new LtInfoMenuItem(FieldDefinitionEnum.ProgramInfoMenu.ToType().GetFieldDefinitionLabel());
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentFirmaSession, MultiTenantHelpers.GetTaxonomySystemName(), "Group1"));
 
             MultiTenantHelpers.GetClassificationSystems().ForEach(x =>
@@ -343,7 +343,7 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildReportsMenu(FirmaSession currentFirmaSession)
         {
-            var reportsMenu = new LtInfoMenuItem("Reports");
+            var reportsMenu = new LtInfoMenuItem(FieldDefinitionEnum.ReportsMenu.ToType().GetFieldDefinitionLabel());
 
             reportsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportsController>(c => c.Projects()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
 
@@ -357,7 +357,12 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildProjectsMenu(FirmaSession currentFirmaSession)
         {
-            var projectsMenu = new LtInfoMenuItem(FirmaMenuItem.Projects.GetFirmaMenuItemDisplayName());
+
+            var projectMenuLabel = FieldDefinitionEnum.ProjectsMenu.ToType().HasCustomFieldLabel()
+                ? FieldDefinitionEnum.ProjectsMenu.ToType().GetFieldDefinitionLabel()
+                : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized();
+
+            var projectsMenu = new LtInfoMenuItem(projectMenuLabel);
 
             // Group 1 - Project map & full project list
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map", "Group1"));
