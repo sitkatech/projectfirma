@@ -57,6 +57,7 @@ namespace ProjectFirma.Web.Views.AttachmentType
 
             Add("# of Allowed Attachments", a => a.NumberOfAllowedAttachments, 80);
             Add("Maximum File Size", a => a.MaxFileSizeForDisplay, 140);
+            Add(FieldDefinitionEnum.QuickAccessAttachment.ToType().ToGridHeaderString(), a => a.IsQuickAccessAttachment.ToYesNo(), 140);
 
 
 
