@@ -224,6 +224,15 @@
                         }
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.SetTargetsByGeospatialArea.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.SetTargetsByGeospatialArea.ToType().GetFieldDefinitionLabel()
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.SetTargetsByGeospatialArea.ToYesNo()
+                    </div>
+                </div>
                 
                 @* Optional Features section *@
                 <div class="panelSectionLabel">Optional Features</div>
@@ -295,15 +304,6 @@
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.EnableStatusUpdates.ToYesNo()
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.SetTargetsByGeospatialArea.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        @FieldDefinitionEnum.SetTargetsByGeospatialArea.ToType().GetFieldDefinitionLabel()
-                    </div>
-                    <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.SetTargetsByGeospatialArea.ToYesNo()
                     </div>
                 </div>
             </div>

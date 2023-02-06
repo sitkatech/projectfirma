@@ -271,7 +271,13 @@
                 @Html.ValidationMessageFor(x => x.EnableSimpleAccomplishmentsDashboard)
             </div>
         </div>
-
+        <div class="form-group">
+            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.SetTargetsByGeospatialArea)</div>
+            <div class="col-md-8">
+                @Html.CheckBoxFor(x => x.SetTargetsByGeospatialArea)
+                @Html.ValidationMessageFor(x => x.SetTargetsByGeospatialArea)
+            </div>
+        </div>
         
         @* Optional Features section *@
         <div class="panelSectionLabel">Optional Features</div>
@@ -338,13 +344,6 @@
             <div class="col-md-8">
                 @Html.CheckBoxFor(x => x.EnableStatusUpdates)
                 @Html.ValidationMessageFor(x => x.EnableStatusUpdates)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.SetTargetsByGeospatialArea)</div>
-            <div class="col-md-8">
-                @Html.CheckBoxFor(x => x.SetTargetsByGeospatialArea)
-                @Html.ValidationMessageFor(x => x.SetTargetsByGeospatialArea)
             </div>
         </div>
     </div>
