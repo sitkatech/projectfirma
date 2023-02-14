@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
@@ -107,7 +108,17 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(projectAttachmentUpdate, viewModel);
             }
             projectAttachmentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
-            projectAttachmentUpdate.Attachment.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            // if the under lying File Resource is still referenced by the Project, only delete the ProjectUpdateAttachment row but not the File Resource Attachment
+            if (projectAttachmentUpdate.Attachment.ProjectAttachmentsWhereYouAreTheAttachment.Any())
+            {
+                projectAttachmentUpdate.Delete(HttpRequestStorage.DatabaseEntities);
+            }
+            else
+            {
+                // delete ProjectUpdateAttachment row and the File Resource Attachment
+                projectAttachmentUpdate.Attachment.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+            
             return new ModalDialogFormJsonResult();
         }
     }
