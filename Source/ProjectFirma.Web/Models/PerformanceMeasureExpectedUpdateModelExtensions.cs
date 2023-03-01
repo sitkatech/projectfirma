@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Models
             currentPerformanceMeasureExpecteds.ForEach(pmav => pmav.DeleteFull(databaseEntities));
             currentPerformanceMeasureExpecteds.Clear();
 
-            if (projectUpdateBatch.AreAccomplishmentsRelevant() && projectUpdateBatch.PerformanceMeasureExpectedUpdates.Any())
+            if (projectUpdateBatch.PerformanceMeasureExpectedUpdates.Any())
             {
                 // Completely rebuild the list
                 projectUpdateBatch.PerformanceMeasureExpectedUpdates.ToList().ForEach(x =>
