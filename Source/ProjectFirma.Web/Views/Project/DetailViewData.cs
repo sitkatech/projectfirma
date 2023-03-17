@@ -126,6 +126,8 @@ namespace ProjectFirma.Web.Views.Project
         public string UpdateStatusUrl { get; set; }
 
         public ProjectFirmaModels.Models.ProjectAttachment QuickAccessAttachment { get; }
+        public string RevertApprovedProjectUrl { get; }
+        public string RevertApprovedProjectButtonText { get; }
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
@@ -406,6 +408,9 @@ namespace ProjectFirma.Web.Views.Project
 
             QuickAccessAttachment =
                 project.ProjectAttachments.SingleOrDefault(x => x.AttachmentType.IsQuickAccessAttachment);
+
+            RevertApprovedProjectButtonText = $"Revert {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} to Pending Approval";
+            RevertApprovedProjectUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.RevertProjectToPendingApproval(project));
         }
     }
 }
