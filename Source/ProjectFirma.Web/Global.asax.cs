@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using FluentValidation.Mvc;
 using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using Keystone.Common;
@@ -80,7 +79,6 @@ namespace ProjectFirma.Web
             ModelBinders.Binders.DefaultBinder = new SitkaDefaultModelBinder();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
-            FluentValidationModelValidatorProvider.Configure();
 
             //Ensure our ResetPassword requirements are set globally
             ValidatePasswordAttribute.SetRequirements(8, 1, 1, 1, string.Empty, ValidatePasswordAttributeRequirement.UppercaseSpecialNumeric);

@@ -2015,12 +2015,6 @@
     <Reference Include="FastMember, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\FastMember.1.3.0\lib\net45\FastMember.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentValidation.Mvc, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\FluentValidation.MVC5.5.6.2.0\lib\Net45\FluentValidation.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="GeoJSON.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\GeoJSON.Net.1.1.70\lib\net45\GeoJSON.Net.dll</HintPath>
     </Reference>
@@ -2373,7 +2367,6 @@
     <Compile Include="Views\PersonOrganization\EditPersonOrganizations.cs" />
     <Compile Include="Views\PersonOrganization\EditPersonOrganizationsViewData.cs" />
     <Compile Include="Views\PersonOrganization\EditPersonOrganizationsViewModel.cs" />
-    <Compile Include="Views\Organization\EditViewModelValidator.cs" />
     <Compile Include="Views\Shared\TextControls\EditNoteViewModel.cs" />
     <Compile Include="Views\Shared\TextControls\EditNoteViewModelTest.cs" />
     <Compile Include="Views\Organization\Detail.cs" />
