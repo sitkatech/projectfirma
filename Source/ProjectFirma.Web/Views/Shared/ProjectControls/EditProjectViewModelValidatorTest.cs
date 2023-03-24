@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using FluentValidation.TestHelper;
 using NUnit.Framework;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
