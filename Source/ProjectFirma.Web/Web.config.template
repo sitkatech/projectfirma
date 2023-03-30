@@ -256,7 +256,7 @@
 		  </dependentAssembly>
 		  <dependentAssembly>
 			  <assemblyIdentity name="DocumentFormat.OpenXml" culture="neutral" publicKeyToken="8fb06cb64d019a17" />
-			  <bindingRedirect oldVersion="0.0.0.0-2.10.0.0" newVersion="2.10.0.0" />
+			  <bindingRedirect oldVersion="0.0.0.0-2.19.0.0" newVersion="2.19.0.0" />
 		  </dependentAssembly>
 		  <dependentAssembly>
 			  <assemblyIdentity name="log4net" publicKeyToken="669e0ddf0bb1aa2a" culture="neutral" />
