@@ -95,8 +95,8 @@
     <Reference Include="DHTMLX.Export.Excel">
       <HintPath>..\Libraries\DhtmlxGrid\DHTMLX.Export.Excel.dll</HintPath>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.10.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\DocumentFormat.OpenXml.2.10.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.19.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\DocumentFormat.OpenXml.2.19.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
