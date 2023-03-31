@@ -124,13 +124,13 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                     </div>
                     <div class="col-sm-12 col-md-5">
-                       
-                       @if (ViewDataTyped.ShowEnvironmentLabel)
-                       { 
-                          <div class="header-button dropdown">
-                             <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
-                             </button>
+
+                        @if (ViewDataTyped.ShowEnvironmentLabel)
+                        {
+                            <div class="header-button dropdown">
+                                <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
+                                </button>
                                 @if (ViewDataTyped.ShowEnvironmentDropdown)
                                 {
                                     <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
@@ -170,7 +170,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </ul>
                             </div>
                         }
-
+                        <div id="google_translate_element"></div>
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
                             <label for="@SearchResults.ProjectSearchInputTextboxID" class="sr-only">Search</label>
                             <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
@@ -185,9 +185,16 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        
         <script type="text/javascript">
             // <![CDATA[
             function submitFormWithEnter(myfield, e, numMinChars) {
@@ -226,7 +233,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
 
             jQuery(document).ready(function () {
-                
+
                 jQuery(".btn-firma").each(function () {
                     this.addEventListener('click', autoAdvance);
                 });
@@ -330,14 +337,14 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
                                     </ul>
                                 </li>
-                                
+
                             }
                             @ViewDataTyped.HelpMenu.RenderMenu()
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>
-            
+
             @RenderSection("BeforeBodyContainer", false)
 
             @RenderBody()
