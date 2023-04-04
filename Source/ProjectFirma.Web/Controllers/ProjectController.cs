@@ -1103,7 +1103,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
 
             var viewData = new ConfirmDialogFormViewData($@"
 <div>
-Are you sure you want to revert this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}, {project.GetDisplayName()}, to Pending Approval?
+Are you sure you want to revert this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}, {project.GetDisplayName()}, to a Draft?
 </div>");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -1114,16 +1114,16 @@ Are you sure you want to revert this {FieldDefinitionEnum.Project.ToType().GetFi
         {
             var project = projectPrimaryKey.EntityObject;
             Check.Assert(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved,
-                $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is not in Approved state and cannot be returned to Pending Approval. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
+                $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is not in Approved state and cannot be returned to a Draft. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
 
-            project.ProjectApprovalStatusID = ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID;
+            project.ProjectApprovalStatusID = ProjectApprovalStatus.Draft.ProjectApprovalStatusID;
             project.ApprovalDate = null;
             project.ReviewedByPersonID = null;
 
             var auditLog = new AuditLog(CurrentPerson, DateTime.Now, AuditLogEventType.Added, "Project", project.ProjectID, "ProjectID", project.ProjectID.ToString(), true)
             {
                 ProjectID = project.ProjectID,
-                AuditDescription = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()} reverted from Approved to Pending Approval."
+                AuditDescription = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()} reverted from Approved to Draft."
             };
 
             HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
