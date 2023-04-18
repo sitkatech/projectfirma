@@ -79,6 +79,18 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.Solicitation).ToList();
             }
 
+            // Remove Project financial related columns if Tenant does not Report Financials at the project level
+            if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.NumberOfReportedExpenditures).ToList();
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.FundingType).ToList();
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.EstimatedTotalCost).ToList();
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.SecuredFunding).ToList();
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.TargetedFunding).ToList();
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.NoFundingSourceIdentified).ToList();
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.FundingSources).ToList();
+            }
+
             foreach (var projectCustomGridColumn in projectCustomGridColumns)
             {
                 if (projectCustomGridColumn == ProjectCustomGridColumnEnum.CustomAttribute)

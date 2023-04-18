@@ -73,6 +73,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
             }
+            if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Financials).ToList();
+            }
             ProjectUpdateBatch = projectUpdateBatch;
             Project = projectUpdateBatch.Project;
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();

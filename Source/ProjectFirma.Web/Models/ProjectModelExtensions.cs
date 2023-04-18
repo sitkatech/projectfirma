@@ -319,6 +319,10 @@ namespace ProjectFirma.Web.Models
             {
                 projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
             }
+            if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Financials).ToList();
+            }
             return projectWorkflowSectionGroupings.SelectMany(x => x.GetProjectCreateSections(project, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
