@@ -69,12 +69,16 @@
 
    @{ MapJavascriptIncludes.RenderPartialView(Html); }
 
-   @*This used to be conditional, but now that we are using Headless Google Chrome we hope
+   @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+   {
+          @*This used to be conditional, but now that we are using Headless Google Chrome we hope
    that's no longer necessary.*@
-   <script type="text/javascript">
-         var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
-         GoogleCharts.drawCharts([chartJson]);
-   </script>
+       <script type="text/javascript">
+           var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
+           GoogleCharts.drawCharts([chartJson]);
+       </script>
+   }
+
 
    <script type="text/javascript">
         /**
@@ -437,66 +441,70 @@
 
    </div>
    <div class="row section">
-      <div class="col-sm-12 col-md-6">
-         <div style="margin-left: auto; margin-right: auto;">
-             <h4>Location</h4>
-             <div>
-                 <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
+       <div class="col-sm-12 col-md-6">
+           <div style="margin-left: auto; margin-right: auto;">
+               <h4>Location</h4>
+               <div>
+                   <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
                  
-                 @if (!ViewDataTyped.ProjectLocationIsProvided)
-                 {
-                     <div class="locationNotDisplayedAlert alert alert-warning text-center" role="alert">
-                         Location Not Specified
-                     </div>
-                 }
-                 else if (ViewDataTyped.Project.LocationIsPrivate)
-                 {
-                     <div class="locationNotDisplayedAlert alert alert-warning" role="alert">
-                         This @(ViewDataTyped.EntityName)’s location has been marked private.
-                     </div>
-                 }
-             </div>
-            <script type="text/javascript">
-                    jQuery(document).ready(function()
-                    {
-                        var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
-                        var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
-                    });
-            </script>
-         </div>
-      </div>
-      <div class="col-sm-12 col-md-6">
-         <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
-            <h4>Expenditures</h4>
-            <div class="chartPanel">
-               @if (ViewDataTyped.ExpenditureGooglePieChartSlices.Any())
-               {
-                  <div class="text-center">
-                     <strong>Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Date: @ViewDataTyped.Project.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</strong>
-                  </div>
-                  <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
-                  <div class="captionText">
-                     <div>
-                        @foreach (var googlePieChartSlice in ViewDataTyped.ExpenditureGooglePieChartSlices.OrderBy(x => x.SortOrder))
-                        {
-                           <div class="chartLegendColorBox" style="display:inline-block; border: solid 6px @(googlePieChartSlice.Color);"></div>
-                           <div style="display: inline-block;">
-                              @(googlePieChartSlice.Label): @googlePieChartSlice.Value.ToString("C0")
+                   @if (!ViewDataTyped.ProjectLocationIsProvided)
+                   {
+                       <div class="locationNotDisplayedAlert alert alert-warning text-center" role="alert">
+                           Location Not Specified
+                       </div>
+                   }
+                   else if (ViewDataTyped.Project.LocationIsPrivate)
+                   {
+                       <div class="locationNotDisplayedAlert alert alert-warning" role="alert">
+                           This @(ViewDataTyped.EntityName)’s location has been marked private.
+                       </div>
+                   }
+               </div>
+               <script type="text/javascript">
+                   jQuery(document).ready(function()
+                   {
+                       var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
+                       var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
+                   });
+               </script>
+           </div>
+       </div>
+       @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+       {
+           <div class="col-sm-12 col-md-6">
+               <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
+                   <h4>Expenditures</h4>
+                   <div class="chartPanel">
+                       @if (ViewDataTyped.ExpenditureGooglePieChartSlices.Any())
+                       {
+                           <div class="text-center">
+                               <strong>Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Date: @ViewDataTyped.Project.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount).ToStringCurrency()</strong>
                            </div>
-                           <br />
-                        }
-                     </div>
-                  </div>
-               }
-               else
-               {
-                  <div class="text-center">
-                     <p class="systemText">No expenditures provided</p>
-                  </div>
-               }
-            </div>
-         </div>
-      </div>
+                           <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
+                           <div class="captionText">
+                               <div>
+                                   @foreach (var googlePieChartSlice in ViewDataTyped.ExpenditureGooglePieChartSlices.OrderBy(x => x.SortOrder))
+                                   {
+                                       <div class="chartLegendColorBox" style="display:inline-block; border: solid 6px @(googlePieChartSlice.Color);"></div>
+                                       <div style="display: inline-block;">
+                                           @(googlePieChartSlice.Label): @googlePieChartSlice.Value.ToString("C0")
+                                       </div>
+                                       <br />
+                                   }
+                               </div>
+                           </div>
+                       }
+                       else
+                       {
+                           <div class="text-center">
+                               <p class="systemText">No expenditures provided</p>
+                           </div>
+                       }
+                   </div>
+               </div>
+           </div>
+       }
+
    </div>
    <div class="row section" style="page-break-before: @(ViewDataTyped.ProjectImages.Any() ? "always" : "auto")">
        <div class="col-xs-12">

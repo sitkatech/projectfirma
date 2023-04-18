@@ -149,6 +149,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
             }
+            if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Financials).ToList();
+            }
             CurrentSectionDisplayName = currentSectionDisplayName;
             TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
         }

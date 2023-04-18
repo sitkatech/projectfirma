@@ -319,52 +319,55 @@
                </div>
             }
 
-            <h2 class="sectionHeader">Financials</h2>
-            <div class="panel panelFirma">
-               <div class="panel-heading panelTitle">
-                  @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Budget", 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                  <h3 class="project-detail-heading">
-                     Budget
-                  </h3>
-               </div>
-               <div class="panel-body">
-                  @{
-                     ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
-                  }
-                  @if (ViewDataTyped.ReportFinancialsByCostType)
-                  {
-                     ProjectBudgetsAnnualByCostType.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualByCostTypeViewData);
-                  }
-                  else
-                  {
-                     ProjectBudgetsAnnual.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualViewData);
-                  }
+            @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+               <h2 class="sectionHeader">Financials</h2>
+               <div class="panel panelFirma">
+                  <div class="panel-heading panelTitle">
+                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Budget", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                     <h3 class="project-detail-heading">
+                        Budget
+                     </h3>
+                  </div>
+                  <div class="panel-body">
+                     @{
+                        ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
+                     }
+                     @if (ViewDataTyped.ReportFinancialsByCostType)
+                     {
+                        ProjectBudgetsAnnualByCostType.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualByCostTypeViewData);
+                     }
+                     else
+                     {
+                        ProjectBudgetsAnnual.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualViewData);
+                     }
 
+                  </div>
                </div>
-            </div>
+               <div class="panel panelFirma">
+                  <div class="panel-heading panelTitle">
+                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                     <h3 class="project-detail-heading">
+                        @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
+                     </h3>
+                  </div>
+                  <div class="panel-body">
+                     @if (ViewDataTyped.Project.IsProposal())
+                     {
+                        <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+                     }
+                     else if (ViewDataTyped.ReportFinancialsByCostType)
+                     {
+                         ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
+                     }
+                     else
+                     {
+                        ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
+                     }
+                  </div>
+               </div>
+            }
 
-            <div class="panel panelFirma">
-               <div class="panel-heading panelTitle">
-                  @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                  <h3 class="project-detail-heading">
-                     @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
-                  </h3>
-               </div>
-               <div class="panel-body">
-                  @if (ViewDataTyped.Project.IsProposal())
-                  {
-                     <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
-                  }
-                  else if (ViewDataTyped.ReportFinancialsByCostType)
-                  {
-                     ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
-                  }
-                  else
-                  {
-                     ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
-                  }
-               </div>
-            </div>
 
             @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
             {
