@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
@@ -97,6 +98,10 @@ namespace ProjectFirma.Web.Service.ServiceModels
         public static List<WebServiceProjectAccomplishments> GetProjectAccomplishments(int projectID)
         {
             var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
+            if (!MultiTenantHelpers.ShowProposalsToThePublic() && project.IsProposal() || project.IsPendingProject())
+            {
+                throw new SitkaRecordNotAuthorizedException($"You do not have permission to view project #{projectID}");
+            }
             return project.PerformanceMeasureActuals.Select(x => new WebServiceProjectAccomplishments(x)).OrderBy(x => x.PerformanceMeasureName).ToList();
         }       
     }
