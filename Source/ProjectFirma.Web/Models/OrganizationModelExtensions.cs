@@ -274,7 +274,7 @@ namespace ProjectFirma.Web.Models
                                                                                          FirmaSession firmaSession)
         {
             var projects = organization.GetAllActiveProjectsAndProposals(firmaSession).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, firmaSession, false, projects);
+            return new PerformanceMeasureChartViewData(performanceMeasure, firmaSession, false, projects, false);
         }
 
         public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)

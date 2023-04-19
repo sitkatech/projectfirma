@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure,
                 CurrentFirmaSession, false, canManagePerformanceMeasure,
-                performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentFirmaSession));
+                performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentFirmaSession), false);
 
             // Avoid scrolling the legend if it can be displayed on two lines
             performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>

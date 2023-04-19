@@ -141,10 +141,10 @@ namespace ProjectFirma.Web.Controllers
                 .ToList();
             var primaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
                 x => x.PerformanceMeasureID,
-                x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, primaryTaxonomyLeafProjects, $"primary{x.GetJavascriptSafeChartUniqueName()}"));
+                x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, primaryTaxonomyLeafProjects, $"primary{x.GetJavascriptSafeChartUniqueName()}", false));
             var secondaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
                 x => x.PerformanceMeasureID,
-                x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, secondaryTaxonomyLeafProjects, $"secondary{x.GetJavascriptSafeChartUniqueName()}"));
+                x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, secondaryTaxonomyLeafProjects, $"secondary{x.GetJavascriptSafeChartUniqueName()}", false));
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 

@@ -436,7 +436,7 @@ namespace ProjectFirma.Api.Controllers
             var projects = _databaseEntities.Projects.Where(x =>
                 x.ProjectStageID != ProjectStage.Proposal.ProjectStageID && x.ProjectApprovalStatusID ==
                 ProjectApprovalStatus.Approved.ProjectApprovalStatusID).ToList();
-            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
+            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects, false);
             return Ok(performanceMeasureReportedValues.Select(x => new PerformanceMeasureReportedValueFromProjectFirma(x)).ToList());
         }
 
