@@ -42,7 +42,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-5">
+        <div class="@(MultiTenantHelpers.ReportFinancialsAtProjectLevel() ? "col-lg-5" : "col-sm-12")">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditFundingSourceUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel(), ViewDataTyped.FundingSource.GetDisplayName()), ViewDataTyped.UserHasFundingSourceManagePermissions) Basics
@@ -94,49 +94,55 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             }
         </div>
-        <div class="col-lg-7">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()
-                </div>
-                <div class="panel-body">
-                    @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
-                    {
-                        <div style="border-radius: 8px; background-color: white; height: 410px; margin-right: auto; margin-left: auto; width: 600px">
-                            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
-                        </div>
-                    }
-                    else
-                    {
-                        <p class="systemText">No expenditures to report for this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()).</p>
-                    }
-                </div>
-            </div>            
-        </div>
+        @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+        {
+            <div class="col-lg-7">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()
+                    </div>
+                    <div class="panel-body">
+                        @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
+                        {
+                            <div style="border-radius: 8px; background-color: white; height: 410px; margin-right: auto; margin-left: auto; width: 600px">
+                                @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="systemText">No expenditures to report for this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()).</p>
+                        }
+                    </div>
+                </div>            
+            </div>
+        }
+
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
-                </div>
-                <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.ProjectCalendarYearExpendituresGridSpec, ViewDataTyped.ProjectCalendarYearExpendituresGridName, ViewDataTyped.ProjectCalendarYearExpendituresGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
+                    </div>
+                    <div class="panel-body">
+                        @Html.DhtmlxGrid(ViewDataTyped.ProjectCalendarYearExpendituresGridSpec, ViewDataTyped.ProjectCalendarYearExpendituresGridName, ViewDataTyped.ProjectCalendarYearExpendituresGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    Budget by @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()
-                </div>
-                <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceBudgetGridSpec, ViewDataTyped.ProjectFundingSourceBudgetGridName, ViewDataTyped.ProjectFundingSourceBudgetGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        Budget by @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()
+                    </div>
+                    <div class="panel-body">
+                        @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceBudgetGridSpec, ViewDataTyped.ProjectFundingSourceBudgetGridName, ViewDataTyped.ProjectFundingSourceBudgetGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
+    }
 </div>

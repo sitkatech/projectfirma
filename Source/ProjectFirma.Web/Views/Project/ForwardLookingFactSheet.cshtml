@@ -69,12 +69,15 @@
 
    @{ MapJavascriptIncludes.RenderPartialView(Html); }
 
-   @*This used to be conditional, but now that we are using Headless Google Chrome we hope
-      that's no longer necessary.*@
-   <script type="text/javascript">
-            var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
-            GoogleCharts.drawCharts([chartJson]);
-   </script>
+    @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+    {
+        @*This used to be conditional, but now that we are using Headless Google Chrome we hope
+            that's no longer necessary.*@
+        <script type="text/javascript">
+           var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString());
+           GoogleCharts.drawCharts([chartJson]);
+        </script>
+    }
 
 <script type="text/javascript">
         /**
@@ -229,34 +232,38 @@
                @ViewDataTyped.Project.GetDuration()
             </div>
          </div>
-         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               <strong>@ViewDataTyped.EstimatedTotalCostLabel</strong>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               @ViewDataTyped.EstimatedTotalCost
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               <strong> @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</strong>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               @ViewDataTyped.SecuredFunding
-            </div>
-         </div>
-         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               <strong>@ViewDataTyped.NoFundingSourceIdentifiedLabel</strong>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               @ViewDataTyped.NoFundingSourceIdentified
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               <strong> @ViewDataTyped.TargetedFundingLabel</strong>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               @ViewDataTyped.TargetedFunding
-            </div>
-         </div>
+         @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+         {
+             <div class="row">
+                 <div class="col-xs-12 col-sm-6 col-md-3">
+                     <strong>@ViewDataTyped.EstimatedTotalCostLabel</strong>
+                 </div>
+                 <div class="col-xs-12 col-sm-6 col-md-3">
+                     @ViewDataTyped.EstimatedTotalCost
+                 </div>
+                 <div class="col-xs-12 col-sm-6 col-md-3">
+                     <strong> @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</strong>
+                 </div>
+                 <div class="col-xs-12 col-sm-6 col-md-3">
+                     @ViewDataTyped.SecuredFunding
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-xs-12 col-sm-6 col-md-3">
+                     <strong>@ViewDataTyped.NoFundingSourceIdentifiedLabel</strong>
+                 </div>
+                 <div class="col-xs-12 col-sm-6 col-md-3">
+                     @ViewDataTyped.NoFundingSourceIdentified
+                 </div>
+                 <div class="col-xs-12 col-sm-6 col-md-3">
+                     <strong> @ViewDataTyped.TargetedFundingLabel</strong>
+                 </div>
+                 <div class="col-xs-12 col-sm-6 col-md-3">
+                     @ViewDataTyped.TargetedFunding
+                 </div>
+             </div>
+         }
+
          @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
          {
             @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
@@ -438,26 +445,29 @@
             </script>
          </div>
       </div>
-      <div class="col-sm-12 col-md-6">
-         <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
-            <h4>Budget</h4>
-            <div class="chartPanel">
-               @if (ViewDataTyped.FundingSourceRequestAmountGooglePieChartSlices.Any())
-               {
-                  <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
-                  <div class="captionText">
-                     @Html.Raw(ViewDataTyped.LegendHtml)
+      @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+      {
+          <div class="col-sm-12 col-md-6">
+              <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
+                  <h4>Budget</h4>
+                  <div class="chartPanel">
+                      @if (ViewDataTyped.FundingSourceRequestAmountGooglePieChartSlices.Any())
+                      {
+                          <div id="@ViewDataTyped.GoogleChartJson.ChartContainerID" class="googleChart" style="height: @(ViewDataTyped.CalculatedChartHeight)px;"></div>
+                          <div class="captionText">
+                              @Html.Raw(ViewDataTyped.LegendHtml)
+                          </div>
+                      }
+                      else
+                      {
+                          <div class="text-center">
+                              <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                          </div>
+                      }
                   </div>
-               }
-               else
-               {
-                  <div class="text-center">
-                     <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
-                  </div>
-               }
-            </div>
-         </div>
-      </div>
+              </div>
+          </div>
+      }
    </div>
    <div class="row section" style="page-break-before: @(ViewDataTyped.ProjectImages.Any() ? "always" : "auto")">
        <div class="col-xs-12">

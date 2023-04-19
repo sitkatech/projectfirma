@@ -443,6 +443,11 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttributeFromCache().AreGeospatialAreasExternallySourced;
         }
 
+        public static bool ReportFinancialsAtProjectLevel()
+        {
+            return GetTenantAttributeFromCache().ReportFinancialsAtProjectLevel;
+        }
+
         public static bool DisplayReportsLink()
         {
             return GetTenantAttributeFromCache().EnableReports;

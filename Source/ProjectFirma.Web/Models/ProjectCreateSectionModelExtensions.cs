@@ -50,9 +50,17 @@ namespace ProjectFirma.Web.Models
                     }.GetValidationResults();
                     return !pmValidationResults.Any();
                 case ProjectCreateSectionEnum.Budget:
+                    if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        return true;
+                    }
                     // todo: more complicated than that.
                     return ProjectCreateSection.Basics.IsComplete(project);
                 case ProjectCreateSectionEnum.ReportedExpenditures:
+                    if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        return true;
+                    }
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
                     {
                         var expectedYears =

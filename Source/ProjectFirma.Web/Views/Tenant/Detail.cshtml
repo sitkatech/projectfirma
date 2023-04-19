@@ -114,7 +114,7 @@
                         }
                     </div>
                 </div>
-                
+
                 @* Site Basics section *@
                 <div class="panelSectionLabel">Site Basics</div>
                 <div class="row">
@@ -146,12 +146,7 @@
                     <div class="col-sm-5 fieldLabel text-right">Minimum Year</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">Budget Type</div>
-                    <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.BudgetType.BudgetTypeDisplayName
-                    </div>
-                </div>
+
                 @if (ViewDataTyped.UsesCostTypes)
                 {
                     <div class="row">
@@ -166,6 +161,30 @@
                     <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ShowProposalsToThePublic.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ShowProposalsToThePublic.ToType().GetFieldDefinitionLabel()</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ShowProposalsToThePublic.ToYesNo()</div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() External Data Source Enabled</div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
+                    </div>
+                </div>
+
+                @* Financials section *@
+                <div class="panelSectionLabel">Financials</div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        Report financials at project level?
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.ReportFinancialsAtProjectLevel.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">Budget Type</div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.BudgetType.BudgetTypeDisplayName
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
                         @Html.LabelWithSugarFor(FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
@@ -175,13 +194,6 @@
                         @ViewDataTyped.TenantAttribute.ExcludeTargetedFundingOrganizations.ToYesNo()
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() External Data Source Enabled</div>
-                    <div class="col-sm-7">
-                        @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
-                    </div>
-                </div>
-
 
                 @* Accomplishments section *@
                 <div class="panelSectionLabel">Accomplishments</div>
@@ -233,7 +245,7 @@
                         @ViewDataTyped.TenantAttribute.SetTargetsByGeospatialArea.ToYesNo()
                     </div>
                 </div>
-                
+
                 @* Optional Features section *@
                 <div class="panelSectionLabel">Optional Features</div>
                 <div class="row">
