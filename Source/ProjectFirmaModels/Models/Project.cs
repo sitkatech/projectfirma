@@ -236,6 +236,11 @@ namespace ProjectFirmaModels.Models
             return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
         }
 
+        public bool IsActivePendingProject()
+        {
+            return IsPendingProject() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
+        }
+
         public bool IsPendingProject()
         {
             return IsPendingProject(this.ProjectStageID, this.ProjectApprovalStatusID);
