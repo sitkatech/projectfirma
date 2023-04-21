@@ -124,13 +124,13 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                     </div>
                     <div class="col-sm-12 col-md-5">
-                       
-                       @if (ViewDataTyped.ShowEnvironmentLabel)
-                       { 
-                          <div class="header-button dropdown">
-                             <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
-                             </button>
+
+                        @if (ViewDataTyped.ShowEnvironmentLabel)
+                        {
+                            <div class="header-button dropdown">
+                                <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
+                                </button>
                                 @if (ViewDataTyped.ShowEnvironmentDropdown)
                                 {
                                     <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
@@ -169,6 +169,24 @@ Source code is available upon request via <support@sitkatech.com>.
                                     }
                                 </ul>
                             </div>
+                        }
+
+                        @if (ViewDataTyped.TenantName == "SSMPProjectTracker")
+                        {
+                            <div id="google_translate_element" class="header-button"></div>
+
+                            <script type="text/javascript">
+                                function googleTranslateElementInit() {
+                                    new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+                                }
+                            </script>
+                            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                            <style>
+                                div#google_translate_element .goog-te-gadget-simple img {
+                                    height: 19px;
+                                    margin: 0 2px 0 2px;
+                                }
+                            </style>
                         }
 
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">

@@ -681,27 +681,49 @@ namespace ProjectFirma.Web.Controllers
                 $"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", performanceMeasureActualExcelSpec, performanceMeasureActuals);
             workSheets.Add(wsPerformanceMeasureActuals);
 
-            var budgetType = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType;
-            var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
-            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
-
-            var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec(fundingSourceCustomAttributeTypes, reportFinancialsByCostType);
-            var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
-            var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()}", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
-            workSheets.Add(wsProjectFundingSourceExpenditures);
-
-            var projectFundingSourceBudgetExcelSpec = new ProjectFundingSourceBudgetExcelSpec(fundingSourceCustomAttributeTypes, reportFinancialsByCostType);
-            var projectBudgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
-            // add ProjectFundingSourceBudgets and ProjectNoFundingSourceIdentifieds for "varies by year" for Tenants that use Annual Budget by Cost Type or Annual Budget (current no tenants use this, but adding for future support)
-            if (reportFinancialsByCostType || budgetType == BudgetType.AnnualBudget)
+            if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
             {
-                projectBudgetFinancialsForExcels = projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectFundingSourceBudgets.Select(y => new ProjectBudgetFinancialsForExcel(y, reportFinancialsByCostType, null))).ToList();
-                projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.Select(y => new ProjectBudgetFinancialsForExcel(y, null))).ToList());
-            }
-            else
-            {
-                // add ProjectFundingSourceBudgets and ProjectNoFundingSourceIdentifieds for "varies by year" for Tenants that use Simple Budget. Need to add one row per year of the project, because current CalendarYear not set for these ProjectFundingSourceBudgets
-                projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p =>
+                var budgetType = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType;
+                var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
+                var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
+
+                var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec(fundingSourceCustomAttributeTypes, reportFinancialsByCostType);
+                var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
+                var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()}", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
+                workSheets.Add(wsProjectFundingSourceExpenditures);
+
+                var projectFundingSourceBudgetExcelSpec = new ProjectFundingSourceBudgetExcelSpec(fundingSourceCustomAttributeTypes, reportFinancialsByCostType);
+                var projectBudgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
+                // add ProjectFundingSourceBudgets and ProjectNoFundingSourceIdentifieds for "varies by year" for Tenants that use Annual Budget by Cost Type or Annual Budget (current no tenants use this, but adding for future support)
+                if (reportFinancialsByCostType || budgetType == BudgetType.AnnualBudget)
+                {
+                    projectBudgetFinancialsForExcels = projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectFundingSourceBudgets.Select(y => new ProjectBudgetFinancialsForExcel(y, reportFinancialsByCostType, null))).ToList();
+                    projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.Select(y => new ProjectBudgetFinancialsForExcel(y, null))).ToList());
+                }
+                else
+                {
+                    // add ProjectFundingSourceBudgets and ProjectNoFundingSourceIdentifieds for "varies by year" for Tenants that use Simple Budget. Need to add one row per year of the project, because current CalendarYear not set for these ProjectFundingSourceBudgets
+                    projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p =>
+                    {
+                        var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
+                        for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
+                        {
+                            budgetFinancialsForExcels.AddRange(p.ProjectFundingSourceBudgets.Select(pfsb => new ProjectBudgetFinancialsForExcel(pfsb, reportFinancialsByCostType, i)).ToList());
+                        }
+                        return budgetFinancialsForExcels;
+                    }).ToList());
+                    projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.SelectMany(y =>
+                    {
+                        var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
+                        for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
+                        {
+                            budgetFinancialsForExcels.Add(new ProjectBudgetFinancialsForExcel(y, i));
+                        }
+                        return budgetFinancialsForExcels;
+                    })).ToList());
+                }
+                // add ProjectFundingSourceBudgets for "same each year"
+                projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p =>
                 {
                     var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
                     for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
@@ -710,7 +732,8 @@ namespace ProjectFirma.Web.Controllers
                     }
                     return budgetFinancialsForExcels;
                 }).ToList());
-                projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.SelectMany(y =>
+                // add no funding source identified for "same each year"
+                projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.SelectMany(y =>
                 {
                     var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
                     for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
@@ -719,31 +742,11 @@ namespace ProjectFirma.Web.Controllers
                     }
                     return budgetFinancialsForExcels;
                 })).ToList());
+                projectBudgetFinancialsForExcels = projectBudgetFinancialsForExcels.OrderBy(x => x.Project.ProjectID)
+                    .ThenBy(x => x.FundingSource).ThenBy(x => x.CalendarYear).ToList();
+                var wsProjectFundingSourceBudgets = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Budgets", projectFundingSourceBudgetExcelSpec, projectBudgetFinancialsForExcels);
+                workSheets.Add(wsProjectFundingSourceBudgets);
             }
-            // add ProjectFundingSourceBudgets for "same each year"
-            projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p =>
-            {
-                var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
-                for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
-                {
-                    budgetFinancialsForExcels.AddRange(p.ProjectFundingSourceBudgets.Select(pfsb => new ProjectBudgetFinancialsForExcel(pfsb, reportFinancialsByCostType, i)).ToList());
-                }
-                return budgetFinancialsForExcels;
-            }).ToList());
-            // add no funding source identified for "same each year"
-            projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p => p.ProjectNoFundingSourceIdentifieds.SelectMany(y =>
-            {
-                var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
-                for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
-                {
-                    budgetFinancialsForExcels.Add(new ProjectBudgetFinancialsForExcel(y, i));
-                }
-                return budgetFinancialsForExcels;
-            })).ToList());
-            projectBudgetFinancialsForExcels = projectBudgetFinancialsForExcels.OrderBy(x => x.Project.ProjectID)
-                .ThenBy(x => x.FundingSource).ThenBy(x => x.CalendarYear).ToList();
-            var wsProjectFundingSourceBudgets = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Budgets", projectFundingSourceBudgetExcelSpec, projectBudgetFinancialsForExcels);
-            workSheets.Add(wsProjectFundingSourceBudgets);
 
             var projectGeospatialAreaSpec = new ProjectGeospatialAreaExcelSpec();
             var projectGeospatialAreas = projects.SelectMany(p => p.ProjectGeospatialAreas).ToList();
@@ -1092,6 +1095,45 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
             var viewModel = new ConfirmDialogFormViewModel();
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult RevertProjectToPendingApproval(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel();
+
+            var viewData = new ConfirmDialogFormViewData($@"
+<div>
+Are you sure you want to revert this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}, {project.GetDisplayName()}, to a Draft?
+</div>");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        public ActionResult RevertProjectToPendingApproval(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            Check.Assert(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved,
+                $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is not in Approved state and cannot be returned to a Draft. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
+
+            project.ProjectApprovalStatusID = ProjectApprovalStatus.Draft.ProjectApprovalStatusID;
+            project.ApprovalDate = null;
+            project.ReviewedByPersonID = null;
+
+            var auditLog = new AuditLog(CurrentPerson, DateTime.Now, AuditLogEventType.Added, "Project", project.ProjectID, "ProjectID", project.ProjectID.ToString(), true)
+            {
+                ProjectID = project.ProjectID,
+                AuditDescription = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()} reverted from Approved to Draft."
+            };
+
+            HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName())}\" successfully reverted to Pending Approval.");
+            return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
     }
 }
