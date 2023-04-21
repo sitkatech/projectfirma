@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Models
             FirmaSession currentFirmaSession)
         {
             var projects = geospatialArea.GetAssociatedProjects(currentFirmaSession);
-            return new PerformanceMeasureChartViewData(geospatialArea, performanceMeasure, currentFirmaSession, false, projects);
+            return new PerformanceMeasureChartViewData(geospatialArea, performanceMeasure, currentFirmaSession, false, projects, false);
         }
 
         public static List<Project> GetAssociatedProjects(this GeospatialArea geospatialArea, FirmaSession currentFirmaSession)

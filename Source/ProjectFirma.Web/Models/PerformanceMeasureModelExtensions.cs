@@ -166,21 +166,21 @@ namespace ProjectFirma.Web.Models
                             reportedValuesGroup.Sum(x => x.GetReportedValue()))).ToList();
         }
 
-        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea, List<Project> projects, string chartUniqueName)
+        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea, List<Project> projects, string chartUniqueName, bool projectsIntentionallyEmpty)
         {
-            var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects);
+            var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects, projectsIntentionallyEmpty);
             return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, geospatialArea, reportedValues);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             var projects = performanceMeasure.GetAssociatedProjectsWithReportedValues(currentFirmaSession);
-            return performanceMeasure.GetReportedPerformanceMeasureValues(projects);
+            return performanceMeasure.GetReportedPerformanceMeasureValues(projects, false);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, Project project)
         {
-            return performanceMeasure.GetReportedPerformanceMeasureValues(new List<Project> { project });
+            return performanceMeasure.GetReportedPerformanceMeasureValues(new List<Project> { project }, false);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, ProjectUpdateBatch projectUpdateBatch)
@@ -188,9 +188,9 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.GetReportedPerformanceMeasureValues(new List<ProjectUpdateBatch> { projectUpdateBatch });
         }
 
-        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
+        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Project> projects, bool projectsIntentionallyEmpty)
         {
-            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
+            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects, projectsIntentionallyEmpty);
             return performanceMeasureReportedValues;
         }
 
@@ -206,9 +206,9 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.PerformanceMeasureExpecteds.Where(x => projectIDs.Contains(x.ProjectID)).ToList();
         }
 
-        public static List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
+        public static List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this PerformanceMeasure performanceMeasure, List<Project> projects, bool projectsIntentionallyEmpty)
         {
-            var performanceMeasureValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
+            var performanceMeasureValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects, projectsIntentionallyEmpty);
 
             var performanceMeasureActualsFiltered = projects?.Any() == true
                 ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList()

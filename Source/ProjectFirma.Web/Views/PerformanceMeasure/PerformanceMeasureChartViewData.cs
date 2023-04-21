@@ -51,12 +51,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                                                bool fromPerformanceMeasureDetailPage,
                                                List<ProjectFirmaModels.Models.Project> projects,
                                                string chartUniqueName,
-                                               ProjectFirmaModels.Models.GeospatialArea geospatialArea)
+                                               ProjectFirmaModels.Models.GeospatialArea geospatialArea, bool projectsIntentionallyEmpty)
         {
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
-            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(geospatialArea, projects, chartUniqueName);
+            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(geospatialArea, projects, chartUniqueName, projectsIntentionallyEmpty);
 
             var performanceMeasureActuals = PerformanceMeasure.PerformanceMeasureActuals.Where(x => projects.Contains(x.Project)).ToList();
             ChartTotal = performanceMeasureActuals.Any() ? performanceMeasureActuals.Sum(x => x.ActualValue) : (double?) null;
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 HyperlinkPerformanceMeasureName);
         }
 
-        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects, bool projectsIntentionallyEmpty) : this(
             performanceMeasure,
             DefaultHeight,
             currentFirmaSession,
@@ -88,11 +88,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             false, 
             projects,
             performanceMeasure.GetJavascriptSafeChartUniqueName(),
-            null)
+            null,
+            projectsIntentionallyEmpty)
         {
         }
 
-        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.GeospatialArea geospatialArea, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.GeospatialArea geospatialArea, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects, bool projectsIntentionallyEmpty) : this(
             performanceMeasure,
             DefaultHeight,
             currentFirmaSession,
@@ -100,14 +101,15 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             false,
             projects,
             performanceMeasure.GetJavascriptSafeChartUniqueName(),
-            geospatialArea)
+            geospatialArea,
+            projectsIntentionallyEmpty)
         {
         }
 
 
         public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects,
-            string chartUniqueName) : this(
+            string chartUniqueName, bool projectsIntentionallyEmpty) : this(
             performanceMeasure,
             DefaultHeight,
             currentFirmaSession,
@@ -115,11 +117,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             false,
             projects,
             chartUniqueName,
-            null)
+            null,
+            projectsIntentionallyEmpty)
         {
         }
 
-        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, bool showConfigureOption, List<ProjectFirmaModels.Models.Project> projects) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, bool showConfigureOption, List<ProjectFirmaModels.Models.Project> projects, bool projectsIntentionallyEmpty) : this(
             performanceMeasure,
             DefaultHeight,
             currentFirmaSession,
@@ -127,7 +130,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             showConfigureOption, 
             projects,
             performanceMeasure.GetJavascriptSafeChartUniqueName(),
-            null)
+            null,
+            projectsIntentionallyEmpty)
         {
         }
 

@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
             List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas = null;
             if (canHaveAssociatedPerformanceMeasures)
             {
-                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x => new PerformanceMeasureChartViewData(x.Key, CurrentFirmaSession, false, new List<Project>())).ToList();
+                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x => new PerformanceMeasureChartViewData(x.Key, CurrentFirmaSession, false, new List<Project>(), true)).ToList();
             }
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();

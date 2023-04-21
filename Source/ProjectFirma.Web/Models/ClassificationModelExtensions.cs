@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Models
             FirmaSession currentFirmaSession)
         {
             var projects = classification.GetAssociatedProjects(currentFirmaSession);
-            return new PerformanceMeasureChartViewData(performanceMeasure, currentFirmaSession, false, projects);
+            return new PerformanceMeasureChartViewData(performanceMeasure, currentFirmaSession, false, projects, false);
         }
 
         public static List<Project> GetAssociatedProjects(this Classification classification, FirmaSession currentFirmaSession)
