@@ -5,10 +5,12 @@ namespace ProjectFirmaModels.Models
 {
     public abstract partial class PerformanceMeasureDataSourceType
     {
-        public virtual List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(PerformanceMeasure performanceMeasure, List<Project> projects)
+        public virtual List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(PerformanceMeasure performanceMeasure, List<Project> projects, bool projectsIntentionallyEmpty)
         {
             List<PerformanceMeasureActual> performanceMeasureActualsFiltered;
-            if (projects == null || !projects.Any())
+            // this can get called with an empty list from the Performance Measure detail page not just when there are no projects,
+            // but also when there are no projects that should be visible to the user (e.g. proposal/pending projects). In that case we should not show all Performance Measure Actuals
+            if (projects == null || (!projects.Any() && projectsIntentionallyEmpty))
             {
                 performanceMeasureActualsFiltered = performanceMeasure.PerformanceMeasureActuals.ToList();
             }

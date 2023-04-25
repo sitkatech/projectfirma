@@ -116,7 +116,10 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {            
             var projectIDs = HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Where(x => x.OrganizationID == organizationID).Select(x => x.ProjectID).ToList();
             var projects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDs.Contains(x.ProjectID)).ToList();
-
+            if (!MultiTenantHelpers.ShowProposalsToThePublic())
+            {
+                projects = projects.Where(x => !x.IsProposal() && !x.IsPendingProject()).ToList();
+            }
             return projects
                 .Select(x => new WebServiceProject(x))
                     .OrderBy(x => x.ProjectID)

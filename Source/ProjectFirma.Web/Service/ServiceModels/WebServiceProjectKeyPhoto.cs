@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -48,6 +49,10 @@ namespace ProjectFirma.Web.Service.ServiceModels
         public static List<WebServiceProjectKeyPhoto> GetProjectKeyPhoto(int projectID)
         {
             var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
+            if (!MultiTenantHelpers.ShowProposalsToThePublic() && project.IsProposal() || project.IsPendingProject())
+            {
+                throw new SitkaRecordNotAuthorizedException($"You do not have permission to view project #{projectID}");
+            }
             var projectKeyPhoto = new WebServiceProjectKeyPhoto(project);
             return new List<WebServiceProjectKeyPhoto> { projectKeyPhoto };
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
@@ -26,6 +27,10 @@ namespace ProjectFirma.Web.Service.ServiceModels
         public static List<WebServiceProjectGeometry> GetProjectGeometries(int projectID)
         {
             var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID);
+            if (!MultiTenantHelpers.ShowProposalsToThePublic() && project.IsProposal() || project.IsPendingProject())
+            {
+                throw new SitkaRecordNotAuthorizedException($"You do not have permission to view project #{projectID}");
+            }
             return project.GetProjectLocationDetailedAsProjectLocations(false).Select(x => new WebServiceProjectGeometry(x)).ToList();
         }
     }

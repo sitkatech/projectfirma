@@ -47,10 +47,11 @@ namespace ProjectFirma.Web.Service.ServiceModels
 
         public static List<WebServiceProjectSimpleLocationCoordinates> GetProjectSimpleLocationCoordinates()
         {
-            var projects =
-                    HttpRequestStorage.DatabaseEntities.Projects
-                        .Where(x => x.ProjectStageID != ProjectStage.Proposal.ProjectStageID && x.ProjectApprovalStatusID == ProjectApprovalStatus.Approved.ProjectApprovalStatusID)
-                        .ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            if (!MultiTenantHelpers.ShowProposalsToThePublic())
+            {
+                projects = projects.Where(x => !x.IsProposal() && !x.IsPendingProject()).ToList();
+            }
             return
                 projects
                     .Select(x => new WebServiceProjectSimpleLocationCoordinates(x))
