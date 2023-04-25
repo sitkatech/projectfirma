@@ -27,6 +27,8 @@ namespace ProjectFirma.Web.Models
                     return new HtmlString($"A {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} proposal {GetNotificationProjectDisplayNameAsHrefs(notification)} was approved");
                 case NotificationTypeEnum.ProjectReturned:
                     return new HtmlString($"A {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} proposal {GetNotificationProjectDisplayNameAsHrefs(notification)} was returned for additional information");
+                case NotificationTypeEnum.ProjectRejected:
+                    return new HtmlString($"A {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} proposal {GetNotificationProjectDisplayNameAsHrefs(notification)} was rejected");
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -52,6 +54,8 @@ namespace ProjectFirma.Web.Models
                     return "Proposal was approved.";
                 case NotificationTypeEnum.ProjectReturned:
                     return "Proposal was returned.";
+                case NotificationTypeEnum.ProjectRejected:
+                    return "Proposal was rejected.";
                 default:
                     throw new ArgumentOutOfRangeException();
             }

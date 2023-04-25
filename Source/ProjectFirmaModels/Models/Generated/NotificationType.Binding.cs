@@ -27,6 +27,7 @@ namespace ProjectFirmaModels.Models
         public static readonly NotificationTypeProjectSubmitted ProjectSubmitted = NotificationTypeProjectSubmitted.Instance;
         public static readonly NotificationTypeProjectApproved ProjectApproved = NotificationTypeProjectApproved.Instance;
         public static readonly NotificationTypeProjectReturned ProjectReturned = NotificationTypeProjectReturned.Instance;
+        public static readonly NotificationTypeProjectRejected ProjectRejected = NotificationTypeProjectRejected.Instance;
 
         public static readonly List<NotificationType> All;
         public static readonly ReadOnlyDictionary<int, NotificationType> AllLookupDictionary;
@@ -36,7 +37,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static NotificationType()
         {
-            All = new List<NotificationType> { ProjectUpdateReminder, ProjectUpdateSubmitted, ProjectUpdateReturned, ProjectUpdateApproved, Custom, ProjectSubmitted, ProjectApproved, ProjectReturned };
+            All = new List<NotificationType> { ProjectUpdateReminder, ProjectUpdateSubmitted, ProjectUpdateReturned, ProjectUpdateApproved, Custom, ProjectSubmitted, ProjectApproved, ProjectReturned, ProjectRejected };
             AllLookupDictionary = new ReadOnlyDictionary<int, NotificationType>(All.ToDictionary(x => x.NotificationTypeID));
         }
 
@@ -110,6 +111,8 @@ namespace ProjectFirmaModels.Models
                     return Custom;
                 case NotificationTypeEnum.ProjectApproved:
                     return ProjectApproved;
+                case NotificationTypeEnum.ProjectRejected:
+                    return ProjectRejected;
                 case NotificationTypeEnum.ProjectReturned:
                     return ProjectReturned;
                 case NotificationTypeEnum.ProjectSubmitted:
@@ -137,7 +140,8 @@ namespace ProjectFirmaModels.Models
         Custom = 5,
         ProjectSubmitted = 6,
         ProjectApproved = 7,
-        ProjectReturned = 8
+        ProjectReturned = 8,
+        ProjectRejected = 9
     }
 
     public partial class NotificationTypeProjectUpdateReminder : NotificationType
@@ -186,5 +190,11 @@ namespace ProjectFirmaModels.Models
     {
         private NotificationTypeProjectReturned(int notificationTypeID, string notificationTypeName, string notificationTypeDisplayName) : base(notificationTypeID, notificationTypeName, notificationTypeDisplayName) {}
         public static readonly NotificationTypeProjectReturned Instance = new NotificationTypeProjectReturned(8, @"ProjectReturned", @"Project Returned");
+    }
+
+    public partial class NotificationTypeProjectRejected : NotificationType
+    {
+        private NotificationTypeProjectRejected(int notificationTypeID, string notificationTypeName, string notificationTypeDisplayName) : base(notificationTypeID, notificationTypeName, notificationTypeDisplayName) {}
+        public static readonly NotificationTypeProjectRejected Instance = new NotificationTypeProjectRejected(9, @"ProjectRejected", @"Project Rejected");
     }
 }

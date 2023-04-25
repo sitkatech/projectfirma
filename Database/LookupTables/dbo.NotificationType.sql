@@ -9,4 +9,5 @@ values
 (5, 'Custom', 'Custom Notification'),
 (6, 'ProjectSubmitted', 'Project Submitted'),
 (7, 'ProjectApproved', 'Project Approved'),
-(8, 'ProjectReturned', 'Project Returned')
+(8, 'ProjectReturned', 'Project Returned'),
+(9, 'ProjectRejected', 'Project Rejected')
