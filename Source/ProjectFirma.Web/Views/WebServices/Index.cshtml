@@ -37,7 +37,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div>
     <ul style="list-style: none;">
-        @if (ViewDataTyped.CurrentFirmaSession.IsAnonymousOrUnassigned())
+        @if (ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
         {
             <li class="disabled">View Access Token (disabled; you must be logged into request an Access Token)</li>
             <li class="disabled">List of Web Services (disabled; you must first request an Access Token)</li>
