@@ -243,6 +243,6 @@ namespace ProjectFirmaModels.Models
     public partial class TenantSSMPProjectTracker : Tenant
     {
         private TenantSSMPProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantSSMPProjectTracker Instance = new TenantSSMPProjectTracker(13, @"SSMPProjectTracker", @"SaltonSeaProjects.localhost.projectfirma.com", @"SaltonSeaProjects.qa.projectfirma.com", @"SaltonSeaProjects.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
+        public static readonly TenantSSMPProjectTracker Instance = new TenantSSMPProjectTracker(13, @"SSMPProjectTracker", @"SaltonSeaProjects.localhost.projectfirma.com", @"SaltonSeaProjects.qa.projectfirma.com", @"projects.saltonsea.ca.gov", DateTime.Parse("01/01/1990"), false, false, false, false, false, true);
     }
 }
