@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.WebServicesIndex.GetFirmaPage();
             var webServicesListUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.List());
-            var getWebServiceAccessTokenUrl = !CurrentFirmaSession.IsAnonymousOrUnassigned() ? SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.GetWebServiceAccessToken(CurrentPerson)) : null;
+            var getWebServiceAccessTokenUrl = !CurrentFirmaSession.IsAnonymousUser() ? SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.GetWebServiceAccessToken(CurrentPerson)) : null;
             var viewData = new IndexViewData(CurrentFirmaSession, CurrentPerson?.WebServiceAccessToken, webServicesListUrl, getWebServiceAccessTokenUrl, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }

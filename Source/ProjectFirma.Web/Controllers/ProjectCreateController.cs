@@ -1866,6 +1866,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Rejected.ProjectApprovalStatusID;
+            project.ReviewedByPerson = CurrentPerson;
+            NotificationProjectModelExtensions.SendRejectedMessage(project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was rejected.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }

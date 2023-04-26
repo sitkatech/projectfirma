@@ -362,6 +362,50 @@ Thank you,<br />
             SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, NotificationType.ProjectReturned);
         }
 
+        public static void SendRejectedMessage(Project project)
+        {
+            var submitterPerson = project.ProposingPerson;
+            var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+            var subject = $@"Your {fieldDefinitionLabelProject} ""{project.GetDisplayName().ToEllipsifiedString(80)}"" was not approved";
+            var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
+            var message = $@"
+<p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} has been rejected.</p>
+<p>The {fieldDefinitionLabelProject} was rejected by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}. If you have questions please email: {project.ReviewedByPerson.Email}.</p>
+<a href=""{basicsUrl}"">View this {fieldDefinitionLabelProject}</a></p>
+<p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}</p>
+<p>{$"- {MultiTenantHelpers.GetToolDisplayName()} team"}<br/><br/><img src=""cid:tool-logo"" width=""160"" /></p>
+";
+
+            var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
+
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var toolLogo = tenantAttribute.TenantSquareLogoFileResourceInfo ??
+                           tenantAttribute.TenantBannerLogoFileResourceInfo;
+            var htmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
+            htmlView.LinkedResources.Add(
+                new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            mailMessage.AlternateViews.Add(htmlView);
+
+            var emailsToSendTo = new List<string> { submitterPerson.Email };
+            var primaryContactPerson = project.PrimaryContactPerson;
+            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
+            {
+                emailsToSendTo.Add(primaryContactPerson.Email);
+            }
+            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
+            {
+                if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    emailsToSendTo.Add(contact.Email);
+                }
+            }
+            var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
+            var emailsToCc = project.GetProjectStewardPeople().Select(x => x.Email).ToList();
+            SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, NotificationType.ProjectRejected);
+        }
+
         private static List<Notification> SendMessageAndLogNotification(Project project,
             MailMessage mailMessage,
             List<string> emailsToSendTo,
