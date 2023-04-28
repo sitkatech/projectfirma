@@ -116,7 +116,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
                 "PerformanceMeasureID",
                 $scope.PerformanceMeasureToAdd);
             var newPerformanceMeasureExpected = $scope.createNewRow(performanceMeasureToAdd);
-            $scope.AngularModel.PerformanceMeasureExpecteds.push(newPerformanceMeasureExpected);
+            $scope.AngularModel.PerformanceMeasureExpecteds.unshift(newPerformanceMeasureExpected);
         }
     };
 

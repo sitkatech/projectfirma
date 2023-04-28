@@ -47,7 +47,7 @@ angular.module("ProjectFirmaApp")
 
             $scope.addSubcategory = function()
             {
-                $scope.AngularModel.PerformanceMeasureSubcategorySimples.push({
+                $scope.AngularModel.PerformanceMeasureSubcategorySimples.unshift({
                     PerformanceMeasureSubcategoryID: $scope.nextSubcategoryID--,
                     PerformanceMeasureSubcategoryOptions: []
                 });
