@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
 
         public bool HasRealSubcategories()
         {
-            return PerformanceMeasureSubcategories.Any(x => x.PerformanceMeasureSubcategoryOptions.Count > 1);
+            return PerformanceMeasureSubcategories.Any(x => x.PerformanceMeasureSubcategoryOptions.Count > 1 || x.PerformanceMeasureSubcategoryOptions.Count == 1 && x.PerformanceMeasureSubcategoryOptions.Single().PerformanceMeasureSubcategoryOptionName != "Default");
         }
 
         public int GetRealSubcategoryCount()

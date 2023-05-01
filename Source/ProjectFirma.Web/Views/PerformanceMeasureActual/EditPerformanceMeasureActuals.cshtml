@@ -44,17 +44,21 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <style>
     .panel-heading a.collapsePanel:after {
-        font-family: 'Glyphicons Halflings';
-        content: "\e114";
+        font-style: italic;
+        content: "Collapse Section";
         float: right;
     }
 
     .panel-heading a.collapsePanel.collapsed:after {
-        content: "\e080";
+        content: "Expand Section";
     }
 
     .modal {
         overflow: scroll;
+    }
+
+    .table>tbody>tr>td {
+        border: none;
     }
 </style>
 
@@ -110,17 +114,16 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="panel-group" id="accordion">
             <div ng-repeat="performanceMeasureGroup in groupedPerformanceMeasures()">
                 <div class="panel panelFirma" style="margin: 10px 10px 0;">
-                    <div class="panel-heading panelTitle">
+                    <div class="panel-heading">
                         <span class="panel-heading-left">
                             <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
-                                  ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">                                            
+                                  ng-mouseover="performanceMeasureTooltip(performanceMeasureGroup)">
                             </span>
                         </span>
-                        <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsed collapsePanel">
-                            <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)"></span>
-                        </a>
+                        <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)"></span>
+                        <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsePanel"></a>
                     </div>
-                    <div id="collapse{{$index}}" class="panel-collapse collapse">
+                    <div id="collapse{{$index}}" class="collapse in">
                         <div class="panel-body" style="padding: 0 30px;">
                             <table class="table">
                                 <thead>
