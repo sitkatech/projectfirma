@@ -220,9 +220,9 @@ namespace ProjectFirma.Web.Models
             return organization.GetAllAssociatedProjects().GetProposalsVisibleToUser(firmaSession);
         }
 
-        public static List<Project> GetAllPendingProjects(this Organization organization, Person person)
+        public static List<Project> GetAllPendingProjects(this Organization organization, FirmaSession firmaSession)
         {
-            return organization.GetAllAssociatedProjects().GetPendingProjects(person.CanViewPendingProjects());
+            return organization.GetAllAssociatedProjects().GetPendingProjectsVisibleToUser(firmaSession);
         }
 
         public static List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(this Organization organization, FirmaSession firmaSession)

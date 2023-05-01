@@ -590,19 +590,9 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> PendingGridJsonData()
         {
             var gridSpec = new PendingGridSpec(CurrentFirmaSession);
-            var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects());
-            List<Project> filteredPendingProjects;
-            if (CurrentFirmaSession.Role == Role.Normal)
-            {
-                filteredPendingProjects = pendingProjects.Where(x =>
-                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID) || (x.ProposingPersonID.HasValue && x.ProposingPersonID == CurrentFirmaSession.PersonID))
-                    .ToList();
-            }
-            else
-            {
-                filteredPendingProjects = pendingProjects;
-            }
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredPendingProjects, gridSpec);
+            var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjectsVisibleToUser(CurrentFirmaSession);
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(pendingProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -628,7 +618,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                .GetPendingProjects(CurrentPerson.CanViewPendingProjects()),
+                .GetPendingProjectsVisibleToUser(CurrentFirmaSession),
                 "Pending Projects");
         }
 

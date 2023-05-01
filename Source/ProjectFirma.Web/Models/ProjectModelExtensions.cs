@@ -581,11 +581,6 @@ namespace ProjectFirma.Web.Models
             return projects.Where(x => x.IsPendingProject() && new ProjectViewFeature().HasPermission(firmaSession, x).HasPermission).ToList();
         }
 
-        public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)
-        {
-            return showPendingProjects ? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.GetDisplayName()).ToList() : new List<Project>();
-        }
-
         public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForBackgroundJob(this IQueryable<Project> projects, int tenantID)
         {
             return projects.GetUpdatableProjectsForBackgroundJob(tenantID).Where(x => x.GetLatestUpdateState() != ProjectUpdateState.Submitted).ToList();
