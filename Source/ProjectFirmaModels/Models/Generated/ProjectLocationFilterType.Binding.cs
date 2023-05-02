@@ -155,7 +155,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectLocationFilterTypeClassification : ProjectLocationFilterType
     {
         private ProjectLocationFilterTypeClassification(int projectLocationFilterTypeID, string projectLocationFilterTypeName, string projectLocationFilterTypeNameWithIdentifier, string projectLocationFilterTypeDisplayName, int sortOrder, int displayGroup) : base(projectLocationFilterTypeID, projectLocationFilterTypeName, projectLocationFilterTypeNameWithIdentifier, projectLocationFilterTypeDisplayName, sortOrder, displayGroup) {}
-        public static readonly ProjectLocationFilterTypeClassification Instance = new ProjectLocationFilterTypeClassification(4, @"Classification", @"ClassificationID", @"Classification", 40, 3);
+        public static readonly ProjectLocationFilterTypeClassification Instance = new ProjectLocationFilterTypeClassification(4, @"Classification", @"ClassificationID", @"Classification", 40, 2);
     }
 
     public partial class ProjectLocationFilterTypeProjectStage : ProjectLocationFilterType

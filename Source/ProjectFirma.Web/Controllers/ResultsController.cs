@@ -355,7 +355,7 @@ namespace ProjectFirma.Web.Controllers
 
             foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
             {
-                var classificationsAsSelectList = classificationSystem.Classifications.ToSelectList(
+                var classificationsAsSelectList = classificationSystem.Classifications.OrderBy(x => x.GetSortOrder()).ThenBy(x => x.GetDisplayName()).ToSelectList(
                     x => x.ClassificationID.ToString(CultureInfo.InvariantCulture),
                     x => x.GetDisplayName());
 
