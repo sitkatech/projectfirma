@@ -42,12 +42,12 @@ namespace ProjectFirma.Web.Controllers
             SortOrder = projectLocationFilterType.SortOrder;
         }
 
-        public ProjectLocationFilterTypeSimple(ProjectLocationFilterType projectLocationFilterType, string displayName)
+        public ProjectLocationFilterTypeSimple(ProjectLocationFilterType projectLocationFilterType, string displayName, string extraIdentifier)
         {
             DisplayName = displayName;
             ProjectLocationFilterTypeName = projectLocationFilterType.ProjectLocationFilterTypeName;
             ProjectLocationFilterTypeNameWithIdentifier =
-                projectLocationFilterType.ProjectLocationFilterTypeNameWithIdentifier;
+                projectLocationFilterType.ProjectLocationFilterTypeNameWithIdentifier + extraIdentifier;
             DisplayGroup = projectLocationFilterType.DisplayGroup;
             SortOrder = projectLocationFilterType.SortOrder;
         }
