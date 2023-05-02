@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v29/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v34/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
@@ -419,6 +419,9 @@ table.summaryLayout th,
 .panelFirma .panelTitle h2 .glyphicon,
 .panelFirma .panelTitle h3 .glyphicon {
   color: #fff;
+}
+.panel-group .panel.panelFirma {
+  border-radius: 0px;
 }
 #contentForTOC .panelFirma {
   border-color: #738c1f;

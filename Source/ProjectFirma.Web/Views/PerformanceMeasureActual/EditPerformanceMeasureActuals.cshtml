@@ -53,6 +53,10 @@ Source code is available upon request via <support@sitkatech.com>.
         content: "Expand Section";
     }
 
+    .panel-heading a.collapsePanel {
+        cursor: pointer;
+    }
+
     .modal {
         overflow: scroll;
     }
@@ -121,7 +125,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             </span>
                         </span>
                         <span ng-bind="getPerformanceMeasureName(performanceMeasureGroup)"></span>
-                        <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsePanel"></a>
+                        <a data-toggle="collapse" data-target="#collapse{{$index}}" class="collapsePanel"></a>
                     </div>
                     <div id="collapse{{$index}}" class="collapse in">
                         <div class="panel-body" style="padding: 0 30px;">
