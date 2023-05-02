@@ -317,6 +317,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 var filterPropertyNameSelected = option.value;
                 var filterPropertyValueDropdown = jQuery("#" + filterPropertyNameSelected);
 
+                // remove any trailing identifier (used for Classification filters)
+                filterPropertyNameSelected = filterPropertyNameSelected.split("_")[0];
+
                 filterPropertyValueDropdown.attr("data-selected-text-format", "count>1");
                 filterPropertyValueDropdown.attr("data-count-selected-text", "{0} of {1} selected");
                 filterPropertyValueDropdown.attr("data-actions-box", "true");

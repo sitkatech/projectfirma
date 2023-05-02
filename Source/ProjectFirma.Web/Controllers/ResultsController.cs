@@ -353,8 +353,14 @@ namespace ProjectFirma.Web.Controllers
             projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyLeaf),
                 taxonomyLeafsAsSelectListItems);
 
-            var classificationsAsSelectList = MultiTenantHelpers.GetClassificationSystems().SelectMany(x => x.Classifications).ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => MultiTenantHelpers.GetClassificationSystems().Count > 1 ? $"{x.ClassificationSystem.ClassificationSystemName} - {x.GetDisplayName()}" : x.GetDisplayName());
-            projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.Classification, string.Join(" & ", MultiTenantHelpers.GetClassificationSystems().Select(x => x.ClassificationSystemName).ToList())), classificationsAsSelectList);
+            foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
+            {
+                var classificationsAsSelectList = classificationSystem.Classifications.ToSelectList(
+                    x => x.ClassificationID.ToString(CultureInfo.InvariantCulture),
+                    x => x.GetDisplayName());
+
+                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.Classification, classificationSystem.ClassificationSystemName, $"_{classificationSystem.ClassificationSystemID}"), classificationsAsSelectList);
+            }
 
             var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(showProposals).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.ProjectStage), projectStagesAsSelectListItems);
