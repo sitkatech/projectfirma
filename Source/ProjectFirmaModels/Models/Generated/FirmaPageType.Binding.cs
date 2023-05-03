@@ -204,6 +204,7 @@ namespace ProjectFirmaModels.Models
         ManagePerformanceMeasures = 87,
         PerformanceMeasureExpectedAccomplishments = 88,
         PerformanceMeasureReportedAccomplishments = 89,
-        PerformanceMeasureTargetsTabIntro = 90
+        PerformanceMeasureTargetsTabIntro = 90,
+        ProgressDashboardIntro = 91
     }
 }

@@ -1,0 +1,95 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProgressDashboard.cshtml" company="Tahoe Regional Planning Agency & Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency & Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.Results.ProgressDashboard
+
+<style>
+    .progessDashboardIcon img {
+        margin: auto;
+        max-width: 128px;
+    }
+
+    .progressDashboardNumber {
+        font-weight: bold;
+        font-size: 36px;
+        margin-bottom: 5px;
+    }
+
+    .progressDashboardLabel {
+        text-transform: uppercase;
+    }
+
+    .progressDashboardLabel div {
+        max-width: 200px;
+        margin: auto;
+    }
+</style>
+<style type="text/css" media="only screen and (min-width: 768px)">
+    .progressDashboardLabel div {
+        max-width: 150px;
+        margin: auto;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-12" style="margin-bottom: 20px;">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    </div>
+
+</div>
+<div class="row" style="text-align: center; margin: auto">
+    <div class="col-xs-6 col-sm-3">
+        <div class="progessDashboardIcon">
+            <img class="img-responsive" src="~/Content/img/SSMPProjectTracker/progress-dashboard-checklist.png"/>
+        </div>
+        <div class="progressDashboardNumber">@ViewDataTyped.ProjectCount</div>
+        <div class="progressDashboardLabel">
+            <div>Projects</div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+        <div class="progessDashboardIcon">
+            <img class="img-responsive" src="~/Content/img/SSMPProjectTracker/progress-dashboard-money-tree.png" />
+        </div>
+        <div class="progressDashboardNumber">@ViewDataTyped.FundsCommittedToProgram M</div>
+        <div class="progressDashboardLabel">
+            <div>Funds Committed to Program</div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+        <div class="progessDashboardIcon">
+            <img class="img-responsive" src="~/Content/img/SSMPProjectTracker/progress-dashboard-partnership.png" />
+        </div>
+        <div class="progressDashboardNumber">@ViewDataTyped.PartnershipCount</div>
+        <div class="progressDashboardLabel">
+            <div>Partnerships</div>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+        <div class="progessDashboardIcon">
+            <img class="img-responsive" src="~/Content/img/SSMPProjectTracker/progress-dashboard-group.png" />
+        </div>
+        <div class="progressDashboardNumber">@ViewDataTyped.CommunityEngagementCount</div>
+        <div class="progressDashboardLabel">
+            <div>Community Engagement Meetings</div>
+        </div>
+    </div>
+</div>

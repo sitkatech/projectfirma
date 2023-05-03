@@ -415,6 +415,19 @@ namespace ProjectFirma.Web.Common
             }
         }
 
+        public static bool UsesCustomProgressDashboardPage(FirmaSession currentFirmaSession)
+        {
+            return currentFirmaSession.Tenant == Tenant.SSMPProjectTracker;
+        }
+
+        public static void AddProgressDashboardMenuItem(LtInfoMenuItem resultsMenu, FirmaSession currentFirmaSession)
+        {
+            if (UsesCustomProgressDashboardPage(currentFirmaSession))
+            {
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProgressDashboard()), currentFirmaSession, "Progress Dashboard"));
+            }
+        }
+
         public static ProjectStewardshipAreaType GetProjectStewardshipAreaType()
         {
             return GetTenantAttributeFromCache().ProjectStewardshipAreaType;

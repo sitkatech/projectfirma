@@ -426,6 +426,8 @@
     <Compile Include="Views\Reports\ReportTemplateGridSpec.cs" />
     <Compile Include="Views\Reports\Index.cs" />
     <Compile Include="Views\Reports\IndexViewData.cs" />
+    <Compile Include="Views\Results\ProgressDashboard.cs" />
+    <Compile Include="Views\Results\ProgressDashboardViewData.cs" />
     <Compile Include="Views\Results\FundingSummary.cs" />
     <Compile Include="Views\Results\FundingSummaryViewData.cs" />
     <Compile Include="Views\Results\SimpleAccomplishmentsDashboard.cs" />
@@ -680,6 +682,10 @@
     <Content Include="Content\img\SSMPProjectTracker\favicon-96x96.png" />
     <Content Include="Content\img\SSMPProjectTracker\favicon.ico" />
     <Content Include="Content\img\SSMPProjectTracker\favicon.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-checklist.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-group.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-money-tree.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-partnership.png" />
     <Content Include="Content\jquery.fancybox-buttons.css" />
     <Content Include="Content\jquery.fancybox-thumbs.css" />
     <Content Include="Content\jquery.fancybox.css" />
@@ -1966,6 +1972,7 @@
     <Content Include="Views\Results\FundingSummary.cshtml" />
     <Content Include="Views\TrainingVideo\ManageTrainingVideos.cshtml" />
     <Content Include="Views\TrainingVideo\Edit.cshtml" />
+    <Content Include="Views\Results\ProgressDashboard.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

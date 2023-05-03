@@ -32,6 +32,7 @@ using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -552,6 +553,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult FundingStatus()
         {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomFundingStatusPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.FundingStatusHeader.GetFirmaPage();
             var firmaPageFooter = FirmaPageTypeEnum.FundingStatusFooter.GetFirmaPage();
             
@@ -584,6 +586,25 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new FundingStatusViewData(CurrentFirmaSession, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
             return RazorView<FundingStatus, FundingStatusViewData>(viewData);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public ViewResult ProgressDashboard()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProgressDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            var firmaPage = FirmaPageTypeEnum.ProgressDashboardIntro.GetFirmaPage();
+
+            var projectCount = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Count(x => x.ProjectStageID != ProjectStage.Terminated.ProjectStageID && x.ProjectStageID != ProjectStage.Deferred.ProjectStageID);
+            var fundsCommittedToProgramDecimal = HttpRequestStorage.DatabaseEntities.FundingSources.Sum(x => x.FundingSourceAmount);
+            var fundsCommittedToProgram =
+                fundsCommittedToProgramDecimal.HasValue ? Math.Round(fundsCommittedToProgramDecimal.Value / 1000000) : 0;
+            var partnershipsCount = HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count();
+            // PerformanceMeasureID = 3733 is the Outcome "Community Engagement Meetings Held"
+            var meetingsHeldActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(x => x.PerformanceMeasureID == 3733);
+            var communityEngagementCount = meetingsHeldActuals.Any() ? meetingsHeldActuals.Sum(x => x.ActualValue) : 0;
+
+            var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipsCount, communityEngagementCount);
+            return RazorView<ProgressDashboard, ProgressDashboardViewData>(viewData);
         }
     }
 }
