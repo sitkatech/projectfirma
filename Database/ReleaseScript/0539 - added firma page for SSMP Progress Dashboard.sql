@@ -1,7 +1,9 @@
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
 values
-(91, 'ProgressDashboardIntro', 'Progress Dashboard Intro', 1)
+(91, 'ProgressDashboardIntro', 'Progress Dashboard Intro', 1),
+(92, 'ProgressDashboardAcresControlledIntro', 'Acres Controlled Intro', 1)
 
 insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
 values
-(13, 91, 'Progress Dashboard Intro')
+(13, 91, 'Progress Dashboard Intro'),
+(13, 92, 'acres Controlled Intro')

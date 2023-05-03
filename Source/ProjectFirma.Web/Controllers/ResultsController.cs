@@ -594,17 +594,38 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProgressDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.ProgressDashboardIntro.GetFirmaPage();
 
+            var activeProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.ProjectStageID != ProjectStage.Terminated.ProjectStageID && x.ProjectStageID != ProjectStage.Deferred.ProjectStageID).ToList();
+
             var projectCount = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Count(x => x.ProjectStageID != ProjectStage.Terminated.ProjectStageID && x.ProjectStageID != ProjectStage.Deferred.ProjectStageID);
             var fundsCommittedToProgramDecimal = HttpRequestStorage.DatabaseEntities.FundingSources.Sum(x => x.FundingSourceAmount);
-            var fundsCommittedToProgram =
-                fundsCommittedToProgramDecimal.HasValue ? Math.Round(fundsCommittedToProgramDecimal.Value / 1000000) : 0;
-            var partnershipsCount = HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Select(x => x.OrganizationID).Distinct().Count();
+            var fundsCommittedToProgram = fundsCommittedToProgramDecimal.HasValue ? Math.Round(fundsCommittedToProgramDecimal.Value / 1000000) : 0;
+            var partnershipCount = activeProjects.SelectMany(x => x.GetAssociatedOrganizations()).Distinct().Count();
             // PerformanceMeasureID = 3733 is the Outcome "Community Engagement Meetings Held"
-            var meetingsHeldActuals = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(x => x.PerformanceMeasureID == 3733);
-            var communityEngagementCount = meetingsHeldActuals.Any() ? meetingsHeldActuals.Sum(x => x.ActualValue) : 0;
+            var communityEngagementCount = GetPerformanceMeasureActualsSumForPerformanceMeasure(3733);
 
-            var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipsCount, communityEngagementCount);
+            // PerformanceMeasureID = 3757 is the Outcome "Total Acres Controlled"
+            var totalAcresControlled = GetPerformanceMeasureActualsSumForPerformanceMeasure(3757);
+            // PerformanceMeasureID = 3731 is the Outcome "Area Treated for Dust Suppression"
+            var areaTreatedForDustSuppression = GetPerformanceMeasureActualsSumForPerformanceMeasure(3731);
+            // PerformanceMeasureID = 3736 is "Area Treated for Vegetation Enhancement"
+            var areaTreatedForVegetationEnhancement = GetPerformanceMeasureActualsSumForPerformanceMeasure(3736);
+            // PerformanceMeasureID = 3737 "Area of Aquatic Habitat Created"
+            var aquaticHabitatCreated = GetPerformanceMeasureActualsSumForPerformanceMeasure(3737);
+            // PerformanceMeasureID = 3750 is "Area of Endangered & Special Status Species Habitat Created"
+            var endangeredSpeciesHabitatCreated = GetPerformanceMeasureActualsSumForPerformanceMeasure(3750);
+
+            var acresControlledIntroFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledIntro.GetFirmaPage();
+
+            var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount, communityEngagementCount,
+                totalAcresControlled, areaTreatedForDustSuppression, areaTreatedForVegetationEnhancement, aquaticHabitatCreated, endangeredSpeciesHabitatCreated, acresControlledIntroFirmaPage);
             return RazorView<ProgressDashboard, ProgressDashboardViewData>(viewData);
+        }
+
+        private double GetPerformanceMeasureActualsSumForPerformanceMeasure(int performanceMeasureID)
+        {
+            return HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Any(x => x.PerformanceMeasureID == performanceMeasureID)
+                ? HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(x => x.PerformanceMeasureID == performanceMeasureID).Sum(x => x.ActualValue)
+                : 0;
         }
     }
 }

@@ -398,7 +398,7 @@ namespace ProjectFirma.Web.Common
 
         public static bool UsesCustomResultsPages(FirmaSession currentFirmaSession)
         {
-            return HttpRequestStorage.DatabaseEntities.CustomPages.Any(x => x.FirmaMenuItemID == FirmaMenuItem.Results.FirmaMenuItemID) || UsesCustomFundingStatusPage(currentFirmaSession);
+            return HttpRequestStorage.DatabaseEntities.CustomPages.Any(x => x.FirmaMenuItemID == FirmaMenuItem.Results.FirmaMenuItemID) || UsesCustomFundingStatusPage(currentFirmaSession) || UsesCustomProgressDashboardPage(currentFirmaSession);
         }
 
         // TODO make this into a check to see if the tenant uses custom funding status pages. For now, it's just the Action Agenda for PSP, so check if the 2 firma page types needed for their custom results page are present for the tenant

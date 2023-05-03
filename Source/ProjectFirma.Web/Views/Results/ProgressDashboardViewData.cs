@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
@@ -30,13 +32,39 @@ namespace ProjectFirma.Web.Views.Results
         public int PartnershipCount { get; }
         public double CommunityEngagementCount { get; }
 
-        public ProgressDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, int projectCount, decimal fundsCommittedToProgram, int partnershipCount, double communityEngagementCount) : base(currentFirmaSession, firmaPage)
+        public double TotalAcresControlled { get; }
+        public int AcresControlledTarget { get; }
+        public double AcresControlledPercent { get; }
+        public double AreaTreatedForDustSuppression { get; }
+        public double AreaTreatedForVegetationEnhancement { get; }
+        public double AquaticHabitatCreated { get; }
+        public double EndangeredSpeciesHabitatCreated { get; }
+        public ViewPageContentViewData AcresControlledViewPageContentViewData { get; }
+
+        public ProgressDashboardViewData(FirmaSession currentFirmaSession,
+            ProjectFirmaModels.Models.FirmaPage firmaPage,
+            int projectCount, decimal fundsCommittedToProgram, int partnershipCount, double communityEngagementCount,
+            double totalAcresControlled, double areaTreatedForDustSuppression, double areaTreatedForVegetationEnhancement,
+            double aquaticHabitatCreated, double endangeredSpeciesHabitatCreated,
+            ProjectFirmaModels.Models.FirmaPage acresControlledIntroFirmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Progress Overview";
+            // progress overview
             ProjectCount = projectCount;
             FundsCommittedToProgram = fundsCommittedToProgram;
             PartnershipCount = partnershipCount;
             CommunityEngagementCount = communityEngagementCount;
+            // acres controlled
+            TotalAcresControlled = totalAcresControlled;
+            AcresControlledTarget = FirmaWebConfiguration.SSMPAcresControlledTarget;
+            AcresControlledPercent = totalAcresControlled / AcresControlledTarget * 100;
+
+            AreaTreatedForDustSuppression = areaTreatedForDustSuppression;
+            AreaTreatedForVegetationEnhancement = areaTreatedForVegetationEnhancement;
+            AquaticHabitatCreated = aquaticHabitatCreated;
+            EndangeredSpeciesHabitatCreated = endangeredSpeciesHabitatCreated;
+
+
         }
     }
 }
