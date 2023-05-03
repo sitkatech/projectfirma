@@ -206,7 +206,7 @@ angular.module("ProjectFirmaApp")
                             .map("PerformanceMeasureSubcategoryOptions")
                             .value();
 
-                    if ($scope.AngularModel.PerformanceMeasureSubcategorySimples.length > 0 &&
+                    if ($scope.AngularModel.PerformanceMeasureSubcategorySimples.length === 0 || $scope.AngularModel.PerformanceMeasureSubcategorySimples.length > 0 &&
                         _.reduce(subcategoryOptions, function(a, b) { return a && (b.length > 0) }, true) > 0 &&
                         !_.some($scope.AngularModel.PerformanceMeasureSubcategorySimples,
                             $scope.showSubcategoryValidationWarnings) &&

@@ -70,7 +70,7 @@
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures)
                     {
                         <td style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
-                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? (performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName: string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : string.Empty)
+                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? (performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName: string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : "N/A")
                         </td>
                     }
                     <th style="@fixedWidthStyleForYearTotalAndUnits @fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
@@ -150,7 +150,7 @@
                     @foreach (var calendarYear in ViewDataTyped.CalendarYearsForPerformanceMeasures)
                     {
                         <td style="@fixedWidthStyleForYearTotalAndUnits text-align: center">
-                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? (performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : string.Empty)
+                            @(subcategoriesReportedValue.CalendarYearReportedValue.ContainsKey(calendarYear.CalendarYear) ? (performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue[calendarYear.CalendarYear].ToGroupedNumeric() : "N/A")
                         </td>
                     }
                     <th style="@fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
