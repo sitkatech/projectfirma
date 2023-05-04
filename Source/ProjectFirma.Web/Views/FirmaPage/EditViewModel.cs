@@ -51,10 +51,11 @@ namespace ProjectFirma.Web.Views.FirmaPage
                 ? firmaPage.FirmaPageImages.ToList()
                 : firmaPage.FirmaPageImages.Where(x => !FirmaPageContentHtmlString.ToString().ContainsCaseInsensitive(x.FileResourceInfo.GetFileResourceGUIDAsString())).ToList();
 
-            foreach (var image in imagesToDelete)
+            var fileResourceInfosToDelete = imagesToDelete.Select(x => x.FileResourceInfo).Distinct().ToList();
+            foreach (var fileResourceInfo in fileResourceInfosToDelete)
             {
                 // will cascade delete the FirmaPageImage
-                image.FileResourceInfo.DeleteFull(databaseEntities);
+                fileResourceInfo.DeleteFull(databaseEntities);
             }
             firmaPage.FirmaPageContentHtmlString = FirmaPageContentHtmlString == null || string.IsNullOrWhiteSpace(FirmaPageContentHtmlString.ToString()) ? null : FirmaPageContentHtmlString;
         }
