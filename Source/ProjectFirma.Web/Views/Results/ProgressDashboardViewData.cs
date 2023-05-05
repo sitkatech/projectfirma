@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Results
         public double AreaTreatedForVegetationEnhancement { get; }
         public double AquaticHabitatCreated { get; }
         public double EndangeredSpeciesHabitatCreated { get; }
-        public ViewPageContentViewData AcresControlledViewPageContentViewData { get; }
+        public ViewPageContentViewData AcresControlledIntroViewPageContentViewData { get; }
 
         public ProgressDashboardViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
@@ -54,6 +54,7 @@ namespace ProjectFirma.Web.Views.Results
             FundsCommittedToProgram = fundsCommittedToProgram;
             PartnershipCount = partnershipCount;
             CommunityEngagementCount = communityEngagementCount;
+            
             // acres controlled
             TotalAcresControlled = totalAcresControlled;
             AcresControlledTarget = FirmaWebConfiguration.SSMPAcresControlledTarget;
@@ -64,7 +65,7 @@ namespace ProjectFirma.Web.Views.Results
             AquaticHabitatCreated = aquaticHabitatCreated;
             EndangeredSpeciesHabitatCreated = endangeredSpeciesHabitatCreated;
 
-
+            AcresControlledIntroViewPageContentViewData = new ViewPageContentViewData(acresControlledIntroFirmaPage, currentFirmaSession);
         }
     }
 }
