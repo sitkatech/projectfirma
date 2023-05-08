@@ -38,5 +38,13 @@ namespace ProjectFirma.Web.Views.Shared
             Left = left;
             Top = top;
         }
+
+        public GoogleChartConfigurationArea(string width, string height, int left, int top)
+        {
+            Width = width;
+            Height = height;
+            Left = left;
+            Top = top;
+        }
     }
 }

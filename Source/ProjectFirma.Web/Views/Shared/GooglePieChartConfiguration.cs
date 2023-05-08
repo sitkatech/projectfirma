@@ -14,20 +14,32 @@ namespace ProjectFirma.Web.Views.Shared
         public GoogleChartTextStyle PieSliceTextStyle { get; set; }
         [JsonProperty(PropertyName = "pieSliceText")]
         public string PieSliceText { get; set; }
+        [JsonProperty(PropertyName = "pieHole")]
+        public double PieHole { get; set; }
 
         public GooglePieChartConfiguration(string chartTitle,
             MeasurementUnitTypeEnum measurementUnitTypeEnum,
             List<GooglePieChartSlice> googlePieChartSlices,
             GoogleChartType googleChartType,
-            GoogleChartDataTable googleChartDataTable) : base(chartTitle,
+            GoogleChartDataTable googleChartDataTable) : this(chartTitle, measurementUnitTypeEnum, googlePieChartSlices, googleChartType, googleChartDataTable, new GoogleChartTextStyle("black"), new GoogleChartConfigurationArea(10, 10))
+        {
+        }
+
+        public GooglePieChartConfiguration(string chartTitle,
+            MeasurementUnitTypeEnum measurementUnitTypeEnum,
+            List<GooglePieChartSlice> googlePieChartSlices,
+            GoogleChartType googleChartType,
+            GoogleChartDataTable googleChartDataTable,
+            GoogleChartTextStyle googleChartTextStyle,
+            GoogleChartConfigurationArea googleChartConfigurationArea) : base(chartTitle,
             true,
             googleChartType,
             googleChartDataTable,
             new GoogleChartAxis("Year", null, null),
             new List<GoogleChartAxis> {new GoogleChartAxis(null, measurementUnitTypeEnum, null)})
         {
-            PieSliceTextStyle = new GoogleChartTextStyle("black");
-            ChartArea = new GoogleChartConfigurationArea(10, 10);
+            PieSliceTextStyle = googleChartTextStyle;
+            ChartArea = googleChartConfigurationArea;
             Slices = googlePieChartSlices;
         }
 
