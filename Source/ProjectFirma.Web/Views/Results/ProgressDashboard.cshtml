@@ -72,13 +72,7 @@
         height: 30px;
     }
 
-    .acresControlledCardRow {
-        width: 85%;
-        margin-right: auto;
-        margin-left: auto;
-        margin-bottom: 25px;
-        font-size: 24px;
-    }
+
 
     .acresControlledCardWrapper {
         margin-right: auto;
@@ -94,7 +88,7 @@
         background-color: #0E3F77;*@
         @*background-color: #00849C;*@
         background-color: #666FAF;
-        height: 180px;
+        height: 150px;
         border-radius: 4px;
         padding: 0 20px;
         display: flex;
@@ -103,12 +97,12 @@
         text-align: center;
         align-items: center;
     }
-        .acresControlledCard div {
-            display: flex;
-            align-items: center;
-            margin: auto;
-            flex-basis: 25%;
-        }
+    .acresControlledCard div {
+        display: flex;
+        align-items: center;
+        margin: auto;
+        flex-basis: 33%;
+    }
 
     .acresControlledCardLabel {
         flex-basis: 40% !important;
@@ -118,7 +112,6 @@
         font-weight: bold;
         font-size: 50px;
         line-height: 50px;
-        flex-basis: 35% !important;
         align-items: flex-start !important;
     }
 
@@ -133,28 +126,28 @@
         margin-left: 5px;
     }
 
-        .acresControlledLegend div {
-            padding: 0;
-        }
+    .acresControlledLegend div {
+        padding: 0;
+    }
 
-        .acresControlledLegend .acresCompletedLegend, .acresControlledLegend .acresInConstructionLegend, .acresControlledLegend .acresPlannedLegend {
-            height: 15px;
-            width: 20px;
-            display: inline-block;
-            margin-right: 5px;
-        }
+    .acresControlledLegend .acresCompletedLegend, .acresControlledLegend .acresInConstructionLegend, .acresControlledLegend .acresPlannedLegend {
+        height: 15px;
+        width: 20px;
+        display: inline-block;
+        margin-right: 5px;
+    }
 
-        .acresControlledLegend .col-xs-3 {
-            text-align: right;
-        }
+    .acresControlledLegend .col-xs-3 {
+        text-align: right;
+    }
 
-        .acresControlledLegend br {
-            display: none;
-        }
+    .acresControlledLegend br {
+        display: none;
+    }
 
-        .acresCompletedLegend {
-            background-color: #00849C;
-        }
+    .acresCompletedLegend {
+        background-color: #00849C;
+    }
 
     .acresInConstructionLegend {
         background-color: #30ACBB;
@@ -195,6 +188,15 @@
     }
 
 </style>
+
+<style type="text/css" media="only screen and (min-width: 452px)">
+    .acresControlledCardRow, .acresControlledChartRow {
+        width: 85%;
+        margin: auto;
+    }
+
+</style>
+
 <style type="text/css" media="only screen and (min-width: 768px)">
     .progressOverviewLabel div {
         max-width: 150px;
@@ -204,6 +206,18 @@
     .acresControlledLegend br {
         display: block;
     }
+
+    .acresControlledCard {
+        height: 180px;
+    }
+
+    .acresControlledCard div {
+        display: flex;
+        align-items: center;
+        margin: auto;
+        flex-basis: 25%;
+    }
+
 </style>
 <style type="text/css" media="only screen and (max-width: 992px)">
     .pageTitle span {
@@ -240,6 +254,16 @@
 
 </style>
 
+<style type="text/css" media="only screen and (min-width: 768px) and (max-width: 992px)">
+    .acresControlledCardLabel {
+        flex-basis: 50% !important;
+    }
+
+    .acresControlledCardNumber {
+        flex-basis: 25% !important;
+    }
+</style>
+
 <div class="row">
     <div class="col-xs-12" style="margin-bottom: 20px;">
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
@@ -258,7 +282,7 @@
     </div>
     <div class="col-xs-6 col-sm-3">
         <div class="progressOverviewIcon">
-            <img class="img-responsive" src="~/Content/img/SSMPProjectTracker/progress-dashboard-money-tree.png" />
+            <img class="img-responsive" style="padding: 10px" src="~/Content/img/SSMPProjectTracker/progress-dashboard-money-tree.png" />
         </div>
         <div class="progressOverviewNumber">@ViewDataTyped.FundsCommittedToProgram M</div>
         <div class="progressOverviewLabel">
@@ -267,7 +291,7 @@
     </div>
     <div class="col-xs-6 col-sm-3">
         <div class="progressOverviewIcon">
-            <img class="img-responsive" src="~/Content/img/SSMPProjectTracker/progress-dashboard-partnership.png" />
+            <img class="img-responsive" style="padding: 15px" src="~/Content/img/SSMPProjectTracker/progress-dashboard-partnership.png" />
         </div>
         <div class="progressOverviewNumber">@ViewDataTyped.PartnershipCount</div>
         <div class="progressOverviewLabel">
@@ -276,7 +300,7 @@
     </div>
     <div class="col-xs-6 col-sm-3">
         <div class="progressOverviewIcon">
-            <img class="img-responsive" src="~/Content/img/SSMPProjectTracker/progress-dashboard-group.png" />
+            <img class="img-responsive" style="padding: 10px" src="~/Content/img/SSMPProjectTracker/progress-dashboard-group.png" />
         </div>
         <div class="progressOverviewNumber">@ViewDataTyped.CommunityEngagementCount</div>
         <div class="progressOverviewLabel">
@@ -311,7 +335,7 @@
 </div>
 
 <div>
-    <div class="row" style="width: 85%; margin: auto">
+    <div class="row acresControlledCardRow">
         <div class="col-xs-12 col-sm-6 acresControlledCardWrapper">
             <div class="acresControlledCard">
                 <div class="acresControlledCardLabel">Area Treated for Dust Suppression</div>
@@ -344,7 +368,7 @@
 </div>
 
 <div style="margin-top: 75px">
-    <div class="row" style="width: 85%; margin: auto">
+    <div class="row acresControlledChartRow">
         <div class="col-xs-12">
             <div class="col-md-6 leftHandChart topRowChart" >
                 <div class="chartPanel acresControlledChartWrapper">
