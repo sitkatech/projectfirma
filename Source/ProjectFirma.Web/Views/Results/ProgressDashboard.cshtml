@@ -187,6 +187,22 @@
         padding-bottom: 15px;
     }
 
+    .chartWithOverlay {
+        position: relative;
+        
+    }
+    .overlay {
+        width: 100%;
+        height: 100px;
+        position: absolute;
+        top: 200px;
+        left: 0;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        padding-left: 10px;
+    }
+
 </style>
 
 <style type="text/css" media="only screen and (min-width: 452px)">
@@ -374,7 +390,20 @@
                 <div class="chartPanel acresControlledChartWrapper">
                     @if (ViewDataTyped.DustSuppressionHasData)
                     {
-                        { ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.DustSuppressionViewGoogleChartViewData); }
+                        <div class="chartWithOverlay">
+                            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.DustSuppressionViewGoogleChartViewData); }
+                            <div class="overlay">
+                                @if (ViewDataTyped.DustSuppressionValues.All(x => x > 0) 
+                                     || (ViewDataTyped.DustSuppressionValues[0] > 0 && ViewDataTyped.DustSuppressionValues[1] > 0)
+                                     || (ViewDataTyped.DustSuppressionValues[0] > 0 && ViewDataTyped.DustSuppressionValues[2] > 0)
+                                     || (ViewDataTyped.DustSuppressionValues[1] > 0 && ViewDataTyped.DustSuppressionValues[2] > 0))
+                                {
+                                    <div>Total</div>
+                                    <div>@(ViewDataTyped.DustSuppressionValues.Sum().ToGroupedNumeric())</div>
+                                }
+                            </div>
+                        </div>
+                        
                         <div class="row acresControlledLegend">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="col-xs-3"><span class="acresCompletedLegend"></span></div>
@@ -402,7 +431,20 @@
                 <div class="chartPanel acresControlledChartWrapper">
                     @if (ViewDataTyped.VegetationEnhancementHasData)
                     {
-                        { ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.VegetationEnhancementViewGoogleChartViewData); }
+                        <div class="chartWithOverlay">
+                            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.VegetationEnhancementViewGoogleChartViewData); }
+                            <div class="overlay">
+                                @if (ViewDataTyped.VegetationEnhancementValues.All(x => x > 0) 
+                                     || (ViewDataTyped.VegetationEnhancementValues[0] > 0 && ViewDataTyped.VegetationEnhancementValues[1] > 0)
+                                     || (ViewDataTyped.VegetationEnhancementValues[0] > 0 && ViewDataTyped.VegetationEnhancementValues[2] > 0)
+                                     || (ViewDataTyped.VegetationEnhancementValues[1] > 0 && ViewDataTyped.VegetationEnhancementValues[2] > 0))
+                                {
+                                    <div>Total</div>
+                                    <div>@(ViewDataTyped.VegetationEnhancementValues.Sum().ToGroupedNumeric())</div>
+                                }
+                            </div>
+
+                        </div>
                         <div class="row acresControlledLegend">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="col-xs-3"><span class="acresCompletedLegend"></span></div>
@@ -432,7 +474,19 @@
                 <div class="chartPanel acresControlledChartWrapper">
                     @if (ViewDataTyped.AquaticHabitatCreatedHasData)
                     {
-                        { ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.AquaticHabitatCreatedViewGoogleChartViewData); }
+                        <div class="chartWithOverlay">
+                            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.AquaticHabitatCreatedViewGoogleChartViewData); }
+                            <div class="overlay">
+                                @if (ViewDataTyped.AquaticHabitatCreatedValues.All(x => x > 0) 
+                                     || (ViewDataTyped.AquaticHabitatCreatedValues[0] > 0 && ViewDataTyped.AquaticHabitatCreatedValues[1] > 0)
+                                     || (ViewDataTyped.AquaticHabitatCreatedValues[0] > 0 && ViewDataTyped.AquaticHabitatCreatedValues[2] > 0)
+                                     || (ViewDataTyped.AquaticHabitatCreatedValues[1] > 0 && ViewDataTyped.AquaticHabitatCreatedValues[2] > 0))
+                                {
+                                    <div>Total</div>
+                                    <div>@(ViewDataTyped.AquaticHabitatCreatedValues.Sum().ToGroupedNumeric())</div>
+                                }
+                            </div>
+                        </div>
                         <div class="row acresControlledLegend">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="col-xs-3"><span class="acresCompletedLegend"></span></div>
@@ -460,7 +514,19 @@
                 <div class="chartPanel acresControlledChartWrapper">
                     @if (ViewDataTyped.EndangeredSpeciesHabitatCreatedHasData)
                     {
-                        { ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.EndangeredSpeciesHabitatCreatedViewGoogleChartViewData); }
+                        <div class="chartWithOverlay">
+                            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.EndangeredSpeciesHabitatCreatedViewGoogleChartViewData); }
+                            <div class="overlay">
+                                @if (ViewDataTyped.EndangeredSpeciesHabitatCreatedValues.All(x => x > 0) 
+                                     || (ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[0] > 0 && ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[1] > 0)
+                                     || (ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[0] > 0 && ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[2] > 0)
+                                     || (ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[1] > 0 && ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[2] > 0))
+                                {
+                                    <div>Total</div>
+                                    <div>@(ViewDataTyped.EndangeredSpeciesHabitatCreatedValues.Sum().ToGroupedNumeric())</div>
+                                }
+                            </div>
+                        </div>
                         <div class="row acresControlledLegend">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="col-xs-3"><span class="acresCompletedLegend"></span></div>
