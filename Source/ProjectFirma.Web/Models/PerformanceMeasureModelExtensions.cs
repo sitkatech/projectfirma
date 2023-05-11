@@ -386,5 +386,70 @@ namespace ProjectFirma.Web.Models
             bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID) || performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
             return hasTargets;
         }
+
+        public static List<GooglePieChartSlice> GetProgressDashboardPieChartSlices(this PerformanceMeasure performanceMeasure, List<double> progressDashboardPieChartValues)
+        {
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+
+            var blues = new List<string> { "#0075A4", "#72ADCF", "#BFE8FF" };
+            var teals = new List<string> { "#00849C", "#30ACBB", "#A3D6D7" };
+            var multi = new List<string> { "#5D69B1", "#009FB4", "#FEC51A" };
+
+            var colorsToUse = teals;
+
+            googlePieChartSlices.Add(new GooglePieChartSlice("Acres Completed", progressDashboardPieChartValues[0], sortOrder++, colorsToUse[0]));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Acres In Construction", progressDashboardPieChartValues[1], sortOrder++, colorsToUse[1]));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Acres Planned", progressDashboardPieChartValues[2], sortOrder, colorsToUse[2]));
+            return googlePieChartSlices;
+        }
+
+        public static List<double> GetProgressDashboardPieChartValues(this PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID, int acresInConstructionSubcategoryOptionID)
+        {
+            var acresCompleted = GetTotalActualsForPerformanceMeasureSubcategoryOption(performanceMeasure, acresCompletedSubcategoryOptionID);
+            var acresInConstruction = GetTotalActualsForPerformanceMeasureSubcategoryOption(performanceMeasure, acresInConstructionSubcategoryOptionID);
+            var acresPlanned = GetTotalExpectedsForPerformanceMeasureSubcategoryOption(performanceMeasure) - (acresCompleted + acresInConstruction);
+            acresPlanned = acresPlanned < 0 ? 0 : acresPlanned;
+            return new List<double> {acresCompleted, acresInConstruction, acresPlanned};
+        }
+
+        private static double GetTotalActualsForPerformanceMeasureSubcategoryOption(PerformanceMeasure performanceMeasure, int subcategoryOptionID)
+        {
+            return performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x =>
+                x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID)
+                ? performanceMeasure.PerformanceMeasureActualSubcategoryOptions
+                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID)
+                    .Sum(x => x.PerformanceMeasureActual.ActualValue)
+                : 0;
+        }
+
+        private static double GetTotalExpectedsForPerformanceMeasureSubcategoryOption(PerformanceMeasure performanceMeasure)
+        {
+            return performanceMeasure.PerformanceMeasureExpecteds.Any()
+                ? performanceMeasure.PerformanceMeasureExpecteds.Sum(x => x.ExpectedValue ?? 0)
+                : 0;
+        }
+
+        public static GoogleChartDataTable GetProgressDashboardGoogleChartDataTable(List<GooglePieChartSlice> googlePieChartSlices)
+        {
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn($"Completion Status", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn($"Amount", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+
+            };
+
+            var chartRowCs = googlePieChartSlices.Select(x =>
+            {
+                var fundingTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = x.Value.ToGroupedNumeric();
+                var amountRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { fundingTypeRowV, amountRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
     }
 }

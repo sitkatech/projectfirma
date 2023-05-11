@@ -77,6 +77,42 @@ namespace ProjectFirma.Web.Views.Shared
             }
         }
 
+        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle, bool isPieChart, bool canConfigureChart) : this(googleChartJson == null ? new List<GoogleChartJson>() : new List<GoogleChartJson> { googleChartJson },
+            chartTitle,
+            chartHeight,
+            null,
+            chartTitle.Replace(" ", ""),
+            canConfigureChart,
+            SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadChartData()),
+            showChartTitle,
+            true,
+            null,
+            false)
+        {
+            if (isPieChart)
+            {
+                ChartPopupUrl = SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.GooglePieChartPopup());
+            }
+        }
+
+        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, string chartUniqueName, int chartHeight, bool showChartTitle, bool isPieChart, bool canConfigureChart) : this(googleChartJson == null ? new List<GoogleChartJson>() : new List<GoogleChartJson> { googleChartJson },
+            chartTitle,
+            chartHeight,
+            null,
+            chartUniqueName,
+            canConfigureChart,
+            SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadChartData()),
+            showChartTitle,
+            true,
+            null,
+            false)
+        {
+            if (isPieChart)
+            {
+                ChartPopupUrl = SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.GooglePieChartPopup());
+            }
+        }
+
         public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons,
             string chartTitle,
             int chartHeight,
