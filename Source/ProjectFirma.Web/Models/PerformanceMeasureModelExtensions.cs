@@ -430,7 +430,7 @@ namespace ProjectFirma.Web.Models
                 : 0;
         }
 
-        public static GoogleChartDataTable GetProgressDashboardGoogleChartDataTable(List<GooglePieChartSlice> googlePieChartSlices)
+        public static GoogleChartDataTable GetProgressDashboardPieChartDataTable(List<GooglePieChartSlice> googlePieChartSlices)
         {
             var googleChartColumns = new List<GoogleChartColumn>
             {
@@ -451,5 +451,100 @@ namespace ProjectFirma.Web.Models
             var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
             return googleChartDataTable;
         }
+
+        public static Tuple<GoogleChartDataTable, Dictionary<string, string>> GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(this PerformanceMeasure performanceMeasure,
+                                          ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods,
+                                          List<IGrouping<Project, PerformanceMeasureActualSubcategoryOption>> groupedByProject,
+                                          List<string> chartColumns,
+                                          bool showCumulativeResults)
+        {
+            var googleChartRowCs = new List<GoogleChartRowC>();
+
+            foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear))
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) };
+
+                googleChartRowVs.AddRange(groupedByProject.OrderBy(x => x.Key.ProjectName).Select(x =>
+                {
+                    double calendarYearReportedValue;
+                    if (showCumulativeResults)
+                    {
+                        calendarYearReportedValue = x.Any(pmsorv =>
+                            pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
+                            performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear) ?
+                            x.Where(pmsorv =>
+                                pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
+                                performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                            .Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue) : 0;
+                    }
+                    else
+                    {
+                        calendarYearReportedValue = x.Where(pmsorv =>
+                                pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear ==
+                                performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                            .Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue);
+                    }
+
+                    return new GoogleChartRowV(calendarYearReportedValue, GoogleChartJson.GetFormattedValue(calendarYearReportedValue, performanceMeasure.MeasurementUnitType));
+                }));
+
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            // reporting period is going to be the first column and it will be our horizontal axis
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Reporting Period", GoogleChartColumnDataType.String) };
+
+            // all the project values are individual columns and series and they will be on the vertical axis
+            var projectToColorDictionary = new Dictionary<string, string>();
+            for (int i = 0; i < chartColumns.Count; i++)
+            {
+                projectToColorDictionary.Add(chartColumns[i], ColorSeriesForProgressDashboard[i % 36]);
+                googleChartColumns.Add(new GoogleChartColumn(chartColumns[i], chartColumns[i], GoogleChartColumnDataType.Number.ToString(), new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, ColorSeriesForProgressDashboard[i % 36], null, null)));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return new Tuple<GoogleChartDataTable, Dictionary<string, string>>(googleChartDataTable, projectToColorDictionary) ;
+        }
+        public static List<string> ColorSeriesForProgressDashboard = new List<string>()
+        {
+            "#3366CC",
+            "#DC3912",
+            "#FF9900",
+            "#109618",
+            "#990099",
+            "#0099C6",
+            "#DD4477",
+            "#66AA00",
+            "#B82E2E",
+            "#316395",
+            "#994499",
+            "#22AA99",
+            "#AAAA11",
+            "#6633CC",
+            "#E67300",
+            "#8B0707",
+            "#651067",
+            "#329262",
+            "#5574A6",
+            "#3B3EAC",
+            "#B77322",
+            "#16D620",
+            "#B91383",
+            "#F4359E",
+            "#9C5935",
+            "#A9C413",
+            "#2A778D",
+            "#668D1C",
+            "#BEA413",
+            "#0C5922",
+            "#743411",
+            "#B322F7",
+            "#59E59A",
+            "#E582B5",
+            "#8080FC",
+            "#FF8282"
+        };
     }
+
+
 }
