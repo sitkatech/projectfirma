@@ -77,25 +77,13 @@ namespace ProjectFirma.Web.Views.Shared
             }
         }
 
-        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle, bool isPieChart, bool canConfigureChart) : this(googleChartJson == null ? new List<GoogleChartJson>() : new List<GoogleChartJson> { googleChartJson },
-            chartTitle,
-            chartHeight,
-            null,
-            chartTitle.Replace(" ", ""),
-            canConfigureChart,
-            SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadChartData()),
-            showChartTitle,
-            true,
-            null,
-            false)
+        public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons, string chartTitle, int chartHeight,
+            bool showChartTitle, bool isPieChart, bool canConfigureChart, bool canBeChartedCumulatively) : this(googleChartJsons, chartTitle,
+            chartTitle.Replace(" ", ""), chartHeight, showChartTitle, isPieChart, canConfigureChart, canBeChartedCumulatively)
         {
-            if (isPieChart)
-            {
-                ChartPopupUrl = SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.GooglePieChartPopup());
-            }
         }
 
-        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, string chartUniqueName, int chartHeight, bool showChartTitle, bool isPieChart, bool canConfigureChart) : this(googleChartJson == null ? new List<GoogleChartJson>() : new List<GoogleChartJson> { googleChartJson },
+        public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons, string chartTitle, string chartUniqueName, int chartHeight, bool showChartTitle, bool isPieChart, bool canConfigureChart, bool canBeChartedCumulatively) : this(googleChartJsons,
             chartTitle,
             chartHeight,
             null,
@@ -111,6 +99,8 @@ namespace ProjectFirma.Web.Views.Shared
             {
                 ChartPopupUrl = SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.GooglePieChartPopup());
             }
+
+            CanBeChartedCumulatively = canBeChartedCumulatively;
         }
 
         public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons,

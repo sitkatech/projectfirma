@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
@@ -41,11 +42,12 @@ namespace ProjectFirma.Web.Views.Results
         public double AreaTreatedForVegetationEnhancement { get; }
         public double AquaticHabitatCreated { get; }
         public double EndangeredSpeciesHabitatCreated { get; }
-        public ViewPageContentViewData AcresControlledIntroViewPageContentViewData { get; }
-        public ViewGoogleChartViewData DustSuppressionViewGoogleChartViewData { get; }
-        public ViewGoogleChartViewData VegetationEnhancementViewGoogleChartViewData { get; }
-        public ViewGoogleChartViewData AquaticHabitatCreatedViewGoogleChartViewData { get; }
-        public ViewGoogleChartViewData EndangeredSpeciesHabitatCreatedViewGoogleChartViewData { get; }
+        public ViewPageContentViewData AcresControlledByTheNumbersViewPageContentViewData { get; }
+        public ViewPageContentViewData AcresControlledPieChartViewPageContentViewData { get; }
+        public ViewGoogleChartViewData DustSuppressionPieChart { get; }
+        public ViewGoogleChartViewData VegetationEnhancementPieChart { get; }
+        public ViewGoogleChartViewData AquaticHabitatCreatedPieChart { get; }
+        public ViewGoogleChartViewData EndangeredSpeciesHabitatCreatedPieChart { get; }
         public List<double> DustSuppressionValues { get; }
         public List<double> VegetationEnhancementValues { get; }
         public List<double> AquaticHabitatCreatedValues { get; }
@@ -54,21 +56,38 @@ namespace ProjectFirma.Web.Views.Results
         public bool VegetationEnhancementHasData { get; }
         public bool AquaticHabitatCreatedHasData { get; }
         public bool EndangeredSpeciesHabitatCreatedHasData { get; }
-
+        public ViewGoogleChartViewData DustSuppressionColumnChart { get; }
+        public Dictionary<string, Tuple<string, double>> DustSuppressionProjectToColorAndValue { get; }
+        public ViewGoogleChartViewData VegetationEnhancementColumnChart { get; }
+        public Dictionary<string, Tuple<string, double>> VegetationEnhancementProjectToColorAndValue { get; }
+        public ViewGoogleChartViewData AquaticHabitatCreatedColumnChart { get; }
+        public Dictionary<string, Tuple<string, double>> AquaticHabitatCreatedProjectToColorAndValue { get; }
+        public ViewGoogleChartViewData EndangeredSpeciesHabitatCreatedColumnChart { get; }
+        public Dictionary<string, Tuple<string, double>> EndangeredSpeciesHabitatCreatedProjectToColorAndValue { get; }
 
         public ProgressDashboardViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
             int projectCount, decimal fundsCommittedToProgram, int partnershipCount, double communityEngagementCount,
             double totalAcresControlled,
-            ProjectFirmaModels.Models.FirmaPage acresControlledIntroFirmaPage,
-            GoogleChartJson areaTreatedForDustSuppressionGoogleChart,
-            GoogleChartJson areaTreatedForVegetationEnhancementGoogleChart,
-            GoogleChartJson aquaticHabitatCreatedGoogleChart,
-            GoogleChartJson endangeredSpeciesHabitatCreatedGoogleChart,
+            ProjectFirmaModels.Models.FirmaPage acresControlledByTheNumbersFirmaPage,
+            ProjectFirmaModels.Models.FirmaPage acresControlledPieChartFirmaPage,
+            GoogleChartJson dustSuppressionPieChart,
+            GoogleChartJson vegetationEnhancementPieChart,
+            GoogleChartJson aquaticHabitatCreatedPieChart,
+            GoogleChartJson endangeredSpeciesHabitatCreatedPieChart,
             List<double> dustSuppressionValues,
             List<double> vegetationEnhancementValues,
             List<double> aquaticHabitatCreatedValues,
-            List<double> endangeredSpeciesHabitatCreatedValues) : base(currentFirmaSession, firmaPage)
+            List<double> endangeredSpeciesHabitatCreatedValues,
+            List<GoogleChartJson> dustSuppressionColumnCharts,
+            Dictionary<string, Tuple<string, double>> dustSuppressionProjectToColorAndValue,
+            List<GoogleChartJson> vegetationEnhancementColumnCharts,
+            Dictionary<string, Tuple<string, double>> vegetationEnhancementProjectToColorAndValue,
+            List<GoogleChartJson> aquaticHabitatCreatedColumnCharts,
+            Dictionary<string, Tuple<string, double>> aquaticHabitatCreatedProjectToColorAndValue,
+            List<GoogleChartJson> endangeredSpeciesHabitatCreatedColumnCharts,
+            Dictionary<string, Tuple<string, double>> endangeredSpeciesHabitatCreatedProjectToColorAndValue
+            ) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Progress Overview";
             // progress overview
@@ -87,17 +106,23 @@ namespace ProjectFirma.Web.Views.Results
             AquaticHabitatCreated = aquaticHabitatCreatedValues[0];
             EndangeredSpeciesHabitatCreated = endangeredSpeciesHabitatCreatedValues[0];
 
-            AcresControlledIntroViewPageContentViewData = new ViewPageContentViewData(acresControlledIntroFirmaPage, currentFirmaSession);
+            AcresControlledByTheNumbersViewPageContentViewData = new ViewPageContentViewData(acresControlledByTheNumbersFirmaPage, currentFirmaSession);
+            AcresControlledPieChartViewPageContentViewData = new ViewPageContentViewData(acresControlledPieChartFirmaPage, currentFirmaSession);
 
-            DustSuppressionViewGoogleChartViewData = new ViewGoogleChartViewData(areaTreatedForDustSuppressionGoogleChart, areaTreatedForDustSuppressionGoogleChart.GoogleChartConfiguration.Title, 366, true, true, true);
-            
-            
-            VegetationEnhancementViewGoogleChartViewData = new ViewGoogleChartViewData(areaTreatedForVegetationEnhancementGoogleChart, areaTreatedForVegetationEnhancementGoogleChart.GoogleChartConfiguration.Title, 366, true, true, true);
-            AquaticHabitatCreatedViewGoogleChartViewData = new ViewGoogleChartViewData(aquaticHabitatCreatedGoogleChart, aquaticHabitatCreatedGoogleChart.GoogleChartConfiguration.Title, 366, true, true, true);
-            EndangeredSpeciesHabitatCreatedViewGoogleChartViewData = new ViewGoogleChartViewData(
-                endangeredSpeciesHabitatCreatedGoogleChart,
-                endangeredSpeciesHabitatCreatedGoogleChart.GoogleChartConfiguration.Title,
-                endangeredSpeciesHabitatCreatedGoogleChart.ChartContainerID, 366, true, true, true);
+            DustSuppressionPieChart = new ViewGoogleChartViewData(
+                new List<GoogleChartJson> {dustSuppressionPieChart},
+                dustSuppressionPieChart.GoogleChartConfiguration.Title, 366, true, true, true, false);
+            VegetationEnhancementPieChart = new ViewGoogleChartViewData(
+                new List<GoogleChartJson> {vegetationEnhancementPieChart},
+                vegetationEnhancementPieChart.GoogleChartConfiguration.Title, 366, true, true, true,
+                false);
+            AquaticHabitatCreatedPieChart = new ViewGoogleChartViewData(
+                new List<GoogleChartJson> {aquaticHabitatCreatedPieChart},
+                aquaticHabitatCreatedPieChart.GoogleChartConfiguration.Title, 366, true, true, true, false);
+            EndangeredSpeciesHabitatCreatedPieChart = new ViewGoogleChartViewData(
+                new List<GoogleChartJson> { endangeredSpeciesHabitatCreatedPieChart },
+                endangeredSpeciesHabitatCreatedPieChart.GoogleChartConfiguration.Title,
+                endangeredSpeciesHabitatCreatedPieChart.ChartContainerID, 366, true, true, true, false);
 
 
             DustSuppressionValues = dustSuppressionValues;
@@ -110,6 +135,18 @@ namespace ProjectFirma.Web.Views.Results
             AquaticHabitatCreatedHasData = aquaticHabitatCreatedValues.Any(x => x > 0);
             EndangeredSpeciesHabitatCreatedHasData = endangeredSpeciesHabitatCreatedValues.Any(x => x > 0);
 
+
+            DustSuppressionColumnChart = new ViewGoogleChartViewData(dustSuppressionColumnCharts, "Completed Acres", "dustSuppressionAcresCompleted", 366, true, true, true, true);
+            DustSuppressionProjectToColorAndValue = dustSuppressionProjectToColorAndValue;
+
+            VegetationEnhancementColumnChart = new ViewGoogleChartViewData(vegetationEnhancementColumnCharts, "Completed Acres", "vegetationEnhancementAcresCompleted", 366, true, true, true, true);
+            VegetationEnhancementProjectToColorAndValue = vegetationEnhancementProjectToColorAndValue;
+
+            AquaticHabitatCreatedColumnChart = new ViewGoogleChartViewData(aquaticHabitatCreatedColumnCharts, "Completed Acres", "aquaticHabitatCreatedAcresCompleted", 366, true, true, true, true);
+            AquaticHabitatCreatedProjectToColorAndValue = aquaticHabitatCreatedProjectToColorAndValue;
+
+            EndangeredSpeciesHabitatCreatedColumnChart = new ViewGoogleChartViewData(endangeredSpeciesHabitatCreatedColumnCharts, "Completed Acres", "endangeredSpeciesHabitatCreatedAcresCompleted", 366, true, true, true, true);
+            EndangeredSpeciesHabitatCreatedProjectToColorAndValue = endangeredSpeciesHabitatCreatedProjectToColorAndValue;
         }
     }
 }

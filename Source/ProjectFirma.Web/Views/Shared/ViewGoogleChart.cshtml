@@ -132,19 +132,19 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labeledby="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" style="list-style: none; background: #fff;">
                             <li>
-                                <a onclick="GoogleCharts.enlargeChart(@((googleChartJson.ChartContainerID + "_enlargeChartDataForm").ToJS()))" href="#">
+                                <a onclick="GoogleCharts.enlargeChart(@((googleChartJson.ChartContainerID + "_enlargeChartDataForm").ToJS()))" style="cursor: pointer">
                                     <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
                                 </a>
                             </li>
                             <li>
-                                <a href="#" onclick="document.getElementById('@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm').submit();">
+                                <a style="cursor: pointer" onclick="document.getElementById('@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm').submit();">
                                     <span class="glyphicon glyphicon-download" style="margin-right: 5px;"></span>Download Chart Data
                                 </a>
                             </li>
                             @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.SaveConfigurationUrl))
                             {
                                 <li>
-                                    <a href="#" onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl', this)">
+                                    <a style="cursor: pointer" onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl', this)">
                                         <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
                                     </a>
                                 </li>

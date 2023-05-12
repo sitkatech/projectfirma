@@ -615,71 +615,42 @@ namespace ProjectFirma.Web.Controllers
             var aquaticHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3737);
             // PerformanceMeasureID = 3750 is "Area of Endangered & Special Status Species Habitat Created"
             var endangeredSpeciesHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3750);
-            var acresControlledIntroFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledIntro.GetFirmaPage();
+            var acresControlledByTheNumbersFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledByTheNumbers.GetFirmaPage();
 
             /* Acres Controlled pie charts */
-            var pieSliceTextStyle = new GoogleChartTextStyle("black") { IsBold = true, FontSize = 20 };
-
-            // 80% will give space to show google charts legend
-            //var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
-
-            // 90% is enough space for our custom legend
-            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
-
-            var areaTreatedForDustSuppressionChartTitle = "Area Treated for Dust Suppression";
-            var areaTreatedForDustSuppressionContainerID = areaTreatedForDustSuppressionChartTitle.Replace(" ", "");
+            var acresControlledPieChartFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledPieCharts.GetFirmaPage();
+            var areaTreatedForDustSuppressionPieChartTitle = "Area Treated for Dust Suppression";
             var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardPieChartValues(6114, 6254);
-            var dustSuppressionGooglePieChartSlices = dustSuppressionPerformanceMeasure.GetProgressDashboardPieChartSlices(dustSuppressionValues);
-            var dustSuppressionGoogleChartDataTable = PerformanceMeasureModelExtensions.GetProgressDashboardGoogleChartDataTable(dustSuppressionGooglePieChartSlices);
-            var areaTreatedForDustSuppressionConfiguration = new GooglePieChartConfiguration(
-                    areaTreatedForDustSuppressionChartTitle, MeasurementUnitTypeEnum.Acres, dustSuppressionGooglePieChartSlices,
-                    GoogleChartType.PieChart, dustSuppressionGoogleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea)
-                {PieSliceText = "value", PieHole = 0.4};
-            areaTreatedForDustSuppressionConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
-            var areaTreatedForDustSuppressionGoogleChart = new GoogleChartJson(areaTreatedForDustSuppressionChartTitle, areaTreatedForDustSuppressionContainerID, areaTreatedForDustSuppressionConfiguration, GoogleChartType.PieChart, dustSuppressionGoogleChartDataTable, null);
-
+            var areaTreatedForDustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, areaTreatedForDustSuppressionPieChartTitle, dustSuppressionValues);
 
             var areaTreatedForVegetationEnhancementChartTitle = "Area Treated for Vegetation Enhancement";
-            var areaTreatedForVegetationEnhancementContainerID = areaTreatedForVegetationEnhancementChartTitle.Replace(" ", "");
             var vegetationEnhancementValues = vegetationEnhancementPerformanceMeasure.GetProgressDashboardPieChartValues(6122, 6253);
-            var vegetationEnhancementGooglePieChartSlices = vegetationEnhancementPerformanceMeasure.GetProgressDashboardPieChartSlices(vegetationEnhancementValues);
-            var vegetationEnhancementGoogleChartDataTable = PerformanceMeasureModelExtensions.GetProgressDashboardGoogleChartDataTable(vegetationEnhancementGooglePieChartSlices);
-            var areaTreatedForVegetationEnhancementConfiguration = new GooglePieChartConfiguration(
-                    areaTreatedForVegetationEnhancementChartTitle, MeasurementUnitTypeEnum.Acres, vegetationEnhancementGooglePieChartSlices,
-                    GoogleChartType.PieChart, vegetationEnhancementGoogleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea)
-                { PieSliceText = "value", PieHole = 0.4 };
-            areaTreatedForVegetationEnhancementConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
-            var areaTreatedForVegetationEnhancementGoogleChart = new GoogleChartJson(areaTreatedForVegetationEnhancementChartTitle, areaTreatedForVegetationEnhancementContainerID, areaTreatedForVegetationEnhancementConfiguration, GoogleChartType.PieChart, vegetationEnhancementGoogleChartDataTable, null);
+            var areaTreatedForVegetationEnhancementGoogleChart = MakeGoogleChartJsonForProgressDashboardPieChart(vegetationEnhancementPerformanceMeasure, areaTreatedForVegetationEnhancementChartTitle, vegetationEnhancementValues);
 
-            var aquaticHabitatCreatedChartTitle = "Aquatic Habitat Created";
-            var aquaticHabitatCreatedContainerID = aquaticHabitatCreatedChartTitle.Replace(" ", "");
+            var aquaticHabitatCreatedPieChartTitle = "Aquatic Habitat Created";
             var aquaticHabitatCreatedValues = aquaticHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartValues(6123, 6189);
-            var aquaticHabitatCreatedGooglePieChartSlices = aquaticHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartSlices(aquaticHabitatCreatedValues);
-            var aquaticHabitatCreatedGoogleChartDataTable = PerformanceMeasureModelExtensions.GetProgressDashboardGoogleChartDataTable(aquaticHabitatCreatedGooglePieChartSlices);
-            var aquaticHabitatCreatedConfiguration = new GooglePieChartConfiguration(
-                    aquaticHabitatCreatedChartTitle, MeasurementUnitTypeEnum.Acres, aquaticHabitatCreatedGooglePieChartSlices,
-                    GoogleChartType.PieChart, aquaticHabitatCreatedGoogleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea)
-                { PieSliceText = "value", PieHole = 0.4 };
-            aquaticHabitatCreatedConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
-            var aquaticHabitatCreatedGoogleChart = new GoogleChartJson(aquaticHabitatCreatedChartTitle, aquaticHabitatCreatedContainerID, aquaticHabitatCreatedConfiguration, GoogleChartType.PieChart, aquaticHabitatCreatedGoogleChartDataTable, null);
+            var aquaticHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(aquaticHabitatCreatedPerformanceMeasure, aquaticHabitatCreatedPieChartTitle, aquaticHabitatCreatedValues);
 
-            var endangeredSpeciesHabitatCreatedChartTitle = "Endangered & Special Status Species Habitat Created";
-            var endangeredSpeciesHabitatCreatedContainerID = endangeredSpeciesHabitatCreatedChartTitle.Replace(" ", "").Replace("&", "");
+
+            var endangeredSpeciesHabitatCreatedPieChartTitle = "Endangered & Special Status Species Habitat Created";
             var endangeredSpeciesHabitatCreatedValues = endangeredSpeciesHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartValues(6255, 6256);
-            var endangeredSpeciesHabitatCreatedGooglePieChartSlices = endangeredSpeciesHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartSlices(endangeredSpeciesHabitatCreatedValues);
-            var endangeredSpeciesHabitatCreatedGoogleChartDataTable = PerformanceMeasureModelExtensions.GetProgressDashboardGoogleChartDataTable(endangeredSpeciesHabitatCreatedGooglePieChartSlices);
-            var endangeredSpeciesHabitatCreatedConfiguration = new GooglePieChartConfiguration(
-                    endangeredSpeciesHabitatCreatedChartTitle, MeasurementUnitTypeEnum.Acres, endangeredSpeciesHabitatCreatedGooglePieChartSlices,
-                    GoogleChartType.PieChart, endangeredSpeciesHabitatCreatedGoogleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea)
-                { PieSliceText = "value", PieHole = 0.4 };
-            endangeredSpeciesHabitatCreatedConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
-            var endangeredSpeciesHabitatCreatedGoogleChart = new GoogleChartJson(endangeredSpeciesHabitatCreatedChartTitle, endangeredSpeciesHabitatCreatedContainerID, endangeredSpeciesHabitatCreatedConfiguration, GoogleChartType.PieChart, endangeredSpeciesHabitatCreatedGoogleChartDataTable, null);
+            var endangeredSpeciesHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, endangeredSpeciesHabitatCreatedPieChartTitle, endangeredSpeciesHabitatCreatedValues);
+
+
+            var dustSuppressionChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(dustSuppressionPerformanceMeasure, 6114);
+            var vegetationEnhancementChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(vegetationEnhancementPerformanceMeasure, 6122);
+            var aquaticHabitatCreatedChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(aquaticHabitatCreatedPerformanceMeasure, 6123);
+            var endangeredSpeciesHabitatChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, 6255);
 
 
             var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount, communityEngagementCount,
-                totalAcresControlled, acresControlledIntroFirmaPage, 
-                areaTreatedForDustSuppressionGoogleChart, areaTreatedForVegetationEnhancementGoogleChart, aquaticHabitatCreatedGoogleChart, endangeredSpeciesHabitatCreatedGoogleChart,
-                dustSuppressionValues, vegetationEnhancementValues, aquaticHabitatCreatedValues, endangeredSpeciesHabitatCreatedValues);
+                totalAcresControlled, acresControlledByTheNumbersFirmaPage, acresControlledPieChartFirmaPage,
+                areaTreatedForDustSuppressionPieChart, areaTreatedForVegetationEnhancementGoogleChart, aquaticHabitatCreatedPieChart, endangeredSpeciesHabitatCreatedPieChart,
+                dustSuppressionValues, vegetationEnhancementValues, aquaticHabitatCreatedValues, endangeredSpeciesHabitatCreatedValues,
+                dustSuppressionChartJsonsAndProjectColors.Item1, dustSuppressionChartJsonsAndProjectColors.Item2,
+                vegetationEnhancementChartJsonsAndProjectColors.Item1, vegetationEnhancementChartJsonsAndProjectColors.Item2,
+                aquaticHabitatCreatedChartJsonsAndProjectColors.Item1, aquaticHabitatCreatedChartJsonsAndProjectColors.Item2,
+                endangeredSpeciesHabitatChartJsonsAndProjectColors.Item1, endangeredSpeciesHabitatChartJsonsAndProjectColors.Item2);
             return RazorView<ProgressDashboard, ProgressDashboardViewData>(viewData);
         }
 
@@ -688,6 +659,101 @@ namespace ProjectFirma.Web.Controllers
             return HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Any(x => x.PerformanceMeasureID == performanceMeasureID)
                 ? HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(x => x.PerformanceMeasureID == performanceMeasureID).Sum(x => x.ActualValue)
                 : 0;
+        }
+
+        private GoogleChartJson MakeGoogleChartJsonForProgressDashboardPieChart(PerformanceMeasure performanceMeasure, string chartTitle, List<double> values)
+        {
+            var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+
+            // 80% will give space to show google charts legend
+            //var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+
+            // 90% is enough space for our custom legend
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
+
+            var googleChartContainerID = chartTitle.Replace(" ", "").Replace("&", "");
+            var googlePieChartSlices = performanceMeasure.GetProgressDashboardPieChartSlices(values);
+            var googleChartDataTable = PerformanceMeasureModelExtensions.GetProgressDashboardPieChartDataTable(googlePieChartSlices);
+            var googlePieChartConfiguration = new GooglePieChartConfiguration(
+                    chartTitle, MeasurementUnitTypeEnum.Acres, googlePieChartSlices,
+                    GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea)
+                { PieSliceText = "value", PieHole = 0.4 };
+            googlePieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            return new GoogleChartJson(chartTitle, googleChartContainerID, googlePieChartConfiguration, GoogleChartType.PieChart, googleChartDataTable, null);
+
+        }
+
+        private Tuple<List<GoogleChartJson>, Dictionary<string, Tuple<string, double>>> MakeGoogleChartJsonsForProgressDashboardBarChart(PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID)
+        {
+            var googleChartJsons = new List<GoogleChartJson>();
+            var projectToColorAndValue = new Dictionary<string, Tuple<string, double>>();
+            var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals();
+
+            var groupedByProject = new List<IGrouping<Project, PerformanceMeasureActualSubcategoryOption>>();
+            var chartColumns = new List<string>();
+            if (performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x => x.PerformanceMeasureSubcategoryOptionID == acresCompletedSubcategoryOptionID))
+            {
+                groupedByProject = performanceMeasure.PerformanceMeasureActualSubcategoryOptions
+                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == acresCompletedSubcategoryOptionID).GroupBy(x => x.PerformanceMeasureActual.Project).ToList();
+                chartColumns = groupedByProject.Select(x => x.Key.ProjectName).OrderBy(x => x).ToList();
+
+                var tuple = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, false);
+                var googleChartDataTable = tuple.Item1;
+
+                var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcres";
+
+                var googleChartAxisHorizontal = new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+                var googleChartAxis = new GoogleChartAxis("Completed Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
+                var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+
+                var chartConfiguration = new GoogleChartConfiguration(chartName, true, GoogleChartType.ColumnChart,
+                    googleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+
+                chartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+                chartConfiguration.SetSeriesIgnoringNullGoogleChartSeries(googleChartDataTable);
+
+                var googleChartJson = new GoogleChartJson("Completed Acres", chartName, chartConfiguration,
+                    GoogleChartType.ColumnChart, googleChartDataTable,
+                    chartColumns, null, null, false);
+                googleChartJson.CanConfigureChart = false;
+
+                googleChartJsons.Add(googleChartJson);
+
+                tuple = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, true);
+                var googleChartDataTableCumulative = tuple.Item1;
+
+                var chartNameCumulative = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcresCumulative";
+
+                var googleChartAxisHorizontalCumulative = new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+                var googleChartAxisCumulative = new GoogleChartAxis("Completed Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
+                var googleChartAxisVerticalsCumulative = new List<GoogleChartAxis> { googleChartAxisCumulative };
+
+                var chartConfigurationCumulative = new GoogleChartConfiguration(chartNameCumulative, true, GoogleChartType.ColumnChart,
+                    googleChartDataTableCumulative, googleChartAxisHorizontalCumulative, googleChartAxisVerticalsCumulative);
+
+                chartConfigurationCumulative.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+                chartConfigurationCumulative.SetSeriesIgnoringNullGoogleChartSeries(googleChartDataTableCumulative);
+
+                var googleChartJsonCumulative = new GoogleChartJson("Completed Acres", chartNameCumulative, chartConfigurationCumulative,
+                    GoogleChartType.ColumnChart, googleChartDataTableCumulative,
+                    chartColumns, null, null, true);
+                googleChartJsonCumulative.CanConfigureChart = false;
+
+                googleChartJsons.Add(googleChartJsonCumulative);
+
+
+                groupedByProject.OrderBy(x => x.Key.ProjectName).Select(x =>
+                {
+                    var calendarYearReportedValue = x.Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue);
+                    return calendarYearReportedValue;
+                });
+
+                var projectToColor = tuple.Item2;
+                projectToColorAndValue = groupedByProject.OrderBy(x => x.Key.ProjectName).ToDictionary(x => x.Key.ProjectName,
+                    x => new Tuple<string, double>(projectToColor[x.Key.ProjectName], x.Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue)) );
+            }
+
+            return new Tuple<List<GoogleChartJson>, Dictionary<string, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
         }
     }
 }
