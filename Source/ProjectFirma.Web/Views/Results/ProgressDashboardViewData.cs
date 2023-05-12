@@ -42,7 +42,8 @@ namespace ProjectFirma.Web.Views.Results
         public double AreaTreatedForVegetationEnhancement { get; }
         public double AquaticHabitatCreated { get; }
         public double EndangeredSpeciesHabitatCreated { get; }
-        public ViewPageContentViewData AcresControlledIntroViewPageContentViewData { get; }
+        public ViewPageContentViewData AcresControlledByTheNumbersViewPageContentViewData { get; }
+        public ViewPageContentViewData AcresControlledPieChartViewPageContentViewData { get; }
         public ViewGoogleChartViewData DustSuppressionPieChart { get; }
         public ViewGoogleChartViewData VegetationEnhancementPieChart { get; }
         public ViewGoogleChartViewData AquaticHabitatCreatedPieChart { get; }
@@ -68,7 +69,8 @@ namespace ProjectFirma.Web.Views.Results
             ProjectFirmaModels.Models.FirmaPage firmaPage,
             int projectCount, decimal fundsCommittedToProgram, int partnershipCount, double communityEngagementCount,
             double totalAcresControlled,
-            ProjectFirmaModels.Models.FirmaPage acresControlledIntroFirmaPage,
+            ProjectFirmaModels.Models.FirmaPage acresControlledByTheNumbersFirmaPage,
+            ProjectFirmaModels.Models.FirmaPage acresControlledPieChartFirmaPage,
             GoogleChartJson dustSuppressionPieChart,
             GoogleChartJson vegetationEnhancementPieChart,
             GoogleChartJson aquaticHabitatCreatedPieChart,
@@ -104,7 +106,8 @@ namespace ProjectFirma.Web.Views.Results
             AquaticHabitatCreated = aquaticHabitatCreatedValues[0];
             EndangeredSpeciesHabitatCreated = endangeredSpeciesHabitatCreatedValues[0];
 
-            AcresControlledIntroViewPageContentViewData = new ViewPageContentViewData(acresControlledIntroFirmaPage, currentFirmaSession);
+            AcresControlledByTheNumbersViewPageContentViewData = new ViewPageContentViewData(acresControlledByTheNumbersFirmaPage, currentFirmaSession);
+            AcresControlledPieChartViewPageContentViewData = new ViewPageContentViewData(acresControlledPieChartFirmaPage, currentFirmaSession);
 
             DustSuppressionPieChart = new ViewGoogleChartViewData(
                 new List<GoogleChartJson> {dustSuppressionPieChart},

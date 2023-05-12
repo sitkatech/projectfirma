@@ -360,7 +360,7 @@
             </div>
         </div>
         <div class="col-xs-12" style="margin-top: 40px; margin-bottom: 25px">
-            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AcresControlledIntroViewPageContentViewData); }
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AcresControlledByTheNumbersViewPageContentViewData); }
         </div>
     </div>
 </div>
@@ -400,6 +400,11 @@
 
 <div style="margin-top: 75px">
     <h2 class="pageTitle" style="margin-bottom: 25px">Acres Controlled</h2>
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: 20px;">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AcresControlledPieChartViewPageContentViewData); }
+        </div>
+    </div>
     <div class="row acresControlledChartRow">
         <div class="col-xs-12">
             <div class="col-md-6 leftHandChart topRowChart">

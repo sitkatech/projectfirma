@@ -615,9 +615,10 @@ namespace ProjectFirma.Web.Controllers
             var aquaticHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3737);
             // PerformanceMeasureID = 3750 is "Area of Endangered & Special Status Species Habitat Created"
             var endangeredSpeciesHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3750);
-            var acresControlledIntroFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledIntro.GetFirmaPage();
+            var acresControlledByTheNumbersFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledByTheNumbers.GetFirmaPage();
 
             /* Acres Controlled pie charts */
+            var acresControlledPieChartFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledPieCharts.GetFirmaPage();
             var areaTreatedForDustSuppressionPieChartTitle = "Area Treated for Dust Suppression";
             var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardPieChartValues(6114, 6254);
             var areaTreatedForDustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, areaTreatedForDustSuppressionPieChartTitle, dustSuppressionValues);
@@ -643,7 +644,7 @@ namespace ProjectFirma.Web.Controllers
 
 
             var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount, communityEngagementCount,
-                totalAcresControlled, acresControlledIntroFirmaPage, 
+                totalAcresControlled, acresControlledByTheNumbersFirmaPage, acresControlledPieChartFirmaPage,
                 areaTreatedForDustSuppressionPieChart, areaTreatedForVegetationEnhancementGoogleChart, aquaticHabitatCreatedPieChart, endangeredSpeciesHabitatCreatedPieChart,
                 dustSuppressionValues, vegetationEnhancementValues, aquaticHabitatCreatedValues, endangeredSpeciesHabitatCreatedValues,
                 dustSuppressionChartJsonsAndProjectColors.Item1, dustSuppressionChartJsonsAndProjectColors.Item2,
