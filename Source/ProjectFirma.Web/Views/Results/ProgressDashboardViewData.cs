@@ -57,13 +57,13 @@ namespace ProjectFirma.Web.Views.Results
         public bool AquaticHabitatCreatedHasData { get; }
         public bool EndangeredSpeciesHabitatCreatedHasData { get; }
         public ViewGoogleChartViewData DustSuppressionColumnChart { get; }
-        public Dictionary<string, Tuple<string, double>> DustSuppressionProjectToColorAndValue { get; }
+        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> DustSuppressionProjectToColorAndValue { get; }
         public ViewGoogleChartViewData VegetationEnhancementColumnChart { get; }
-        public Dictionary<string, Tuple<string, double>> VegetationEnhancementProjectToColorAndValue { get; }
+        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> VegetationEnhancementProjectToColorAndValue { get; }
         public ViewGoogleChartViewData AquaticHabitatCreatedColumnChart { get; }
-        public Dictionary<string, Tuple<string, double>> AquaticHabitatCreatedProjectToColorAndValue { get; }
+        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> AquaticHabitatCreatedProjectToColorAndValue { get; }
         public ViewGoogleChartViewData EndangeredSpeciesHabitatCreatedColumnChart { get; }
-        public Dictionary<string, Tuple<string, double>> EndangeredSpeciesHabitatCreatedProjectToColorAndValue { get; }
+        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> EndangeredSpeciesHabitatCreatedProjectToColorAndValue { get; }
 
         public ProgressDashboardViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
@@ -80,16 +80,16 @@ namespace ProjectFirma.Web.Views.Results
             List<double> aquaticHabitatCreatedValues,
             List<double> endangeredSpeciesHabitatCreatedValues,
             List<GoogleChartJson> dustSuppressionColumnCharts,
-            Dictionary<string, Tuple<string, double>> dustSuppressionProjectToColorAndValue,
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> dustSuppressionProjectToColorAndValue,
             List<GoogleChartJson> vegetationEnhancementColumnCharts,
-            Dictionary<string, Tuple<string, double>> vegetationEnhancementProjectToColorAndValue,
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> vegetationEnhancementProjectToColorAndValue,
             List<GoogleChartJson> aquaticHabitatCreatedColumnCharts,
-            Dictionary<string, Tuple<string, double>> aquaticHabitatCreatedProjectToColorAndValue,
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> aquaticHabitatCreatedProjectToColorAndValue,
             List<GoogleChartJson> endangeredSpeciesHabitatCreatedColumnCharts,
-            Dictionary<string, Tuple<string, double>> endangeredSpeciesHabitatCreatedProjectToColorAndValue
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> endangeredSpeciesHabitatCreatedProjectToColorAndValue
             ) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = "Progress Overview";
+            ContainerFluid = true;
             // progress overview
             ProjectCount = projectCount;
             FundsCommittedToProgram = fundsCommittedToProgram;

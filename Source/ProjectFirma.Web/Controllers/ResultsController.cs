@@ -683,10 +683,10 @@ namespace ProjectFirma.Web.Controllers
 
         }
 
-        private Tuple<List<GoogleChartJson>, Dictionary<string, Tuple<string, double>>> MakeGoogleChartJsonsForProgressDashboardBarChart(PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID)
+        private Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>> MakeGoogleChartJsonsForProgressDashboardBarChart(PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID)
         {
             var googleChartJsons = new List<GoogleChartJson>();
-            var projectToColorAndValue = new Dictionary<string, Tuple<string, double>>();
+            var projectToColorAndValue = new Dictionary<Project, Tuple<string, double>>();
             var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals();
 
             var groupedByProject = new List<IGrouping<Project, PerformanceMeasureActualSubcategoryOption>>();
@@ -697,12 +697,12 @@ namespace ProjectFirma.Web.Controllers
                     .Where(x => x.PerformanceMeasureSubcategoryOptionID == acresCompletedSubcategoryOptionID).GroupBy(x => x.PerformanceMeasureActual.Project).ToList();
                 chartColumns = groupedByProject.Select(x => x.Key.ProjectName).OrderBy(x => x).ToList();
 
-                var tuple = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, false);
-                var googleChartDataTable = tuple.Item1;
+                var chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, false);
+                var googleChartDataTable = chartAndProjectToColorDictionary.Item1;
 
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcres";
 
-                var googleChartAxisHorizontal = new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+                var googleChartAxisHorizontal = new GoogleChartAxis("Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
                 var googleChartAxis = new GoogleChartAxis("Completed Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
                 var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
 
@@ -719,12 +719,12 @@ namespace ProjectFirma.Web.Controllers
 
                 googleChartJsons.Add(googleChartJson);
 
-                tuple = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, true);
-                var googleChartDataTableCumulative = tuple.Item1;
+                chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, true);
+                var googleChartDataTableCumulative = chartAndProjectToColorDictionary.Item1;
 
                 var chartNameCumulative = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcresCumulative";
 
-                var googleChartAxisHorizontalCumulative = new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+                var googleChartAxisHorizontalCumulative = new GoogleChartAxis("Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
                 var googleChartAxisCumulative = new GoogleChartAxis("Completed Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
                 var googleChartAxisVerticalsCumulative = new List<GoogleChartAxis> { googleChartAxisCumulative };
 
@@ -748,12 +748,13 @@ namespace ProjectFirma.Web.Controllers
                     return calendarYearReportedValue;
                 });
 
-                var projectToColor = tuple.Item2;
-                projectToColorAndValue = groupedByProject.OrderBy(x => x.Key.ProjectName).ToDictionary(x => x.Key.ProjectName,
+                var projectToColor = chartAndProjectToColorDictionary.Item2;
+
+                projectToColorAndValue = groupedByProject.OrderBy(x => x.Key.ProjectName).ToDictionary(x => x.Key,
                     x => new Tuple<string, double>(projectToColor[x.Key.ProjectName], x.Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue)) );
             }
 
-            return new Tuple<List<GoogleChartJson>, Dictionary<string, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
+            return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
         }
     }
 }
