@@ -33,17 +33,18 @@
     }
 
     .stickyHeaderNavBar {
-        background-color: #446a7c;
-        color: white;
+
         text-transform: uppercase;
         text-align: center;
-        display: flex;
+        @*display: flex;*@
         padding-left: 0;
         padding-right: 0;
     }
 
     .stickyHeaderNavBar ul {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     .progressDashboardNavBar .nav li a {
@@ -51,9 +52,13 @@
     }
 
     .progressDashboardNavBar .nav li {
+        background-color: #446a7c;
         color: white;
         display: flex;
         flex-grow: 1;
+        align-self: center;
+        justify-content: center;
+        border: 1px #1C2329 solid;
     }
 
         .progressDashboardNavBar .nav li.active {
@@ -65,17 +70,17 @@
                 color: #446a7c;
             }
 
-    .progressDashboardNavBar .nav li a:hover {
-        color: #446a7c;
-        background-color: #edf6fb;
-        text-decoration: none;
-    }
+        .progressDashboardNavBar .nav li:hover, .progressDashboardNavBar .nav li a:hover {
+            color: #446a7c;
+            background-color: #edf6fb;
+            text-decoration: none;
+        }
 
     .pageTitle {
         text-transform: uppercase;
         font-weight: bold;
         font-size: 35px;
-        scroll-margin-top: 100px;
+        scroll-margin-top: 125px;
     }
 
     .progressOverviewIcon img {
@@ -324,6 +329,15 @@
 
     .bottomRowChart {
         padding-top: 15px;
+    }
+
+    .stickyHeaderNavBar ul {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .pageTitle {
+        scroll-margin-top: 100px;
     }
 </style>
 
