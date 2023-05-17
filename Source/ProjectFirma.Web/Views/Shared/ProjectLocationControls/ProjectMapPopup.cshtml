@@ -89,8 +89,12 @@
                     }
                     <dt><strong>@ViewDataTyped.TaxonomyLeafDisplayName:</strong></dt>
                     <dd>@ViewDataTyped.TaxonomyLeaf.TaxonomyLeafName</dd>
-                    <dt><strong>@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel():</strong></dt>
-                    <dd>@ViewDataTyped.EstimatedTotalCost</dd>
+                    @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        <dt><strong>@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel():</strong></dt>
+                        <dd>@ViewDataTyped.EstimatedTotalCost</dd>
+                    }
+                    
                     @foreach (var classificationSystem in ViewDataTyped.ClassificationsBySystem)
                     {
                         <dt><strong>@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem.Key):</strong></dt>

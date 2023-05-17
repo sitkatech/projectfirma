@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
             OfferFactSheetLink = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
             FactSheetUrl = project.GetFactSheetUrl();
-            DetailLinkDescriptor = project.IsProposal() ? $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} expenditures & results, see the";
+            DetailLinkDescriptor = project.IsProposal() ? $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {(MultiTenantHelpers.ReportFinancialsAtProjectLevel() ? "expenditures & results" : "results")}, see the";
             InitializeDisplayNames();
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 
