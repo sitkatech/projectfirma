@@ -272,6 +272,7 @@
         display: none;
     }
 
+
 </style>
 
 <style type="text/css" media="only screen and (min-width: 452px)">
@@ -279,14 +280,29 @@
         width: 85%;
         margin: auto;
     }
+
     .acresControlledChartRow {
         margin-bottom: 15px;
     }
+
     .detailedNumberRow {
         margin-top: 25px;
         margin-bottom: 25px;
     }
 </style>
+
+<style type="text/css" media="only screen and (min-width: 533px) and (max-width: 580px)">
+    .nav > li > a.vegetationNavLink, .navbar-nav > li > a.vegetationNavLink {
+        padding: 10px 10px 10px 10px;
+    }
+</style>
+
+<style type="text/css" media="only screen and  (min-width: 581px)">
+    .nav > li > a.vegetationNavLink, .navbar-nav > li > a.vegetationNavLink {
+        padding: 20px 10px 20px 10px;
+    }
+</style>
+
 
 <style type="text/css" media="only screen and (min-width: 768px)">
     .progressOverviewLabel div {
@@ -311,6 +327,10 @@
 
     .legendSpacer {
         min-height: 98px;
+    }
+
+    .nav > li > a.endangeredNavLink, .navbar-nav > li > a.endangeredNavLink, .nav > li > a.vegetationNavLink, .navbar-nav > li > a.vegetationNavLink {
+        padding: 5px 0 5px 0;
     }
 </style>
 
@@ -339,6 +359,14 @@
     .pageTitle {
         scroll-margin-top: 100px;
     }
+
+    .nav > li > a.endangeredNavLink, .navbar-nav > li > a.endangeredNavLink {
+        padding: 5px 0 5px 0;
+    }
+
+    .nav > li > a.vegetationNavLink, .navbar-nav > li > a.vegetationNavLink {
+        padding: 15px 10px 15px 10px;
+    }
 </style>
 
 <style type="text/css" media="only screen and (min-width: 768px) and (max-width: 992px)">
@@ -351,15 +379,22 @@
     }
 </style>
 
+
+<style type="text/css" media="only screen and  (max-width: 532px)">
+    .progressDashboardNavBar > nav > ul > li {
+        width: 100%;
+    }
+</style>
+
 <div class="progressDashboardNavBar container-fluid">
     <nav class="stickyHeaderNavBar container">
         <ul class="nav navbar-nav ">
-            <li><a href="#progressOverview">Progress Overview</a></li>
-            <li><a href="#acresControlled">Acres Controlled</a></li>
-            <li><a href="#dustSuppression">Dust Suppression</a></li>
-            <li><a href="#aquaticHabitat">Aquatic Habitat</a></li>
-            <li><a href="#vegetationEnhancement">Vegetation Enhancement</a></li>
-            <li><a href="#endangeredSpecies">Endangered & Special Status Species</a></li>
+            <li class="col-md-2 col-sm-4 col-xs-3"><a href="#progressOverview">Progress Overview</a></li>
+            <li class="col-md-2 col-sm-4 col-xs-3"><a href="#acresControlled">Acres Controlled</a></li>
+            <li class="col-md-2 col-sm-4 col-xs-3"><a href="#dustSuppression">Dust Suppression</a></li>
+            <li class="col-md-2 col-sm-4 col-xs-3"><a href="#aquaticHabitat" class="aquaticNavLink">Aquatic Habitat</a></li>
+            <li class="col-md-2 col-sm-4 col-xs-6"><a href="#vegetationEnhancement" class="vegetationNavLink">Vegetation Enhancement</a></li>
+            <li class="col-md-2 col-sm-4 col-xs-6"><a href="#endangeredSpecies" class="endangeredNavLink">Endangered & Special Status Species</a></li>
         </ul>
     </nav>
 </div>
