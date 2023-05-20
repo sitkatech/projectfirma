@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditExternalMapLayer(viewModel);
             }
             var externalMapLayer = ExternalMapLayer.CreateNewBlank();
-            viewModel.UpdateModel(externalMapLayer);
+            viewModel.UpdateModel(externalMapLayer, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllExternalMapLayers.Add(externalMapLayer);
             SetMessageForDisplay($"External map layer {externalMapLayer.DisplayName} successfully created.");
             return new ModalDialogFormJsonResult();
@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditExternalMapLayer(viewModel);
             }
-            viewModel.UpdateModel(externalMapLayer);
+            viewModel.UpdateModel(externalMapLayer, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

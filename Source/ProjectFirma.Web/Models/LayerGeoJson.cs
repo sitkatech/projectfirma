@@ -43,6 +43,7 @@ namespace ProjectFirmaModels.Models
         public LayerInitialVisibility.LayerInitialVisibilityEnum LayerInitialVisibility { get; }
         [JsonConverter(typeof(StringEnumConverter))]
         public LayerGeoJsonType LayerType { get; }
+        public string LayerIconImageLocation { get; }
         public bool HasCustomPopups { get; }
 
         /// <summary>
@@ -71,6 +72,21 @@ namespace ProjectFirmaModels.Models
             LayerOpacity = layerOpacity;
             LayerInitialVisibility = layerInitialVisibility;
             LayerType = LayerGeoJsonType.Wms;
+        }
+
+        /// <summary>
+        /// Constructor for LayerGeoJson with WMS Type
+        /// </summary>
+        public LayerGeoJson(string layerName, string mapServerUrl, string mapServerLayerName, string layerColor, decimal layerOpacity, LayerInitialVisibility.LayerInitialVisibilityEnum layerInitialVisibility, string mapLayerIconImageLocation)
+        {
+            LayerName = layerName;
+            MapServerUrl = mapServerUrl;
+            MapServerLayerName = mapServerLayerName;
+            LayerColor = layerColor;
+            LayerOpacity = layerOpacity;
+            LayerInitialVisibility = layerInitialVisibility;
+            LayerType = LayerGeoJsonType.Wms;
+            LayerIconImageLocation = mapLayerIconImageLocation;
         }
 
         public string GetGeoJsonFeatureCollectionAsJsonString()

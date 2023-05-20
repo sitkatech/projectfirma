@@ -28,11 +28,13 @@ namespace ProjectFirmaModels.Models
             this.ClassificationsWhereYouAreTheKeyImageFileResourceInfo = new HashSet<Classification>();
             this.CustomPageImages = new HashSet<CustomPageImage>();
             this.DocumentLibraryDocuments = new HashSet<DocumentLibraryDocument>();
+            this.ExternalMapLayersWhereYouAreTheMapLegendImageFileResourceInfo = new HashSet<ExternalMapLayer>();
             this.FieldDefinitionDataImages = new HashSet<FieldDefinitionDataImage>();
             this.FileResourceDatas = new HashSet<FileResourceData>();
             this.FirmaHomePageImages = new HashSet<FirmaHomePageImage>();
             this.FirmaPageImages = new HashSet<FirmaPageImage>();
             this.GeospatialAreaImages = new HashSet<GeospatialAreaImage>();
+            this.GeospatialAreaTypesWhereYouAreTheMapLegendImageFileResourceInfo = new HashSet<GeospatialAreaType>();
             this.OrganizationsWhereYouAreTheLogoFileResourceInfo = new HashSet<Organization>();
             this.OrganizationImages = new HashSet<OrganizationImage>();
             this.PerformanceMeasureGroupsWhereYouAreTheIconFileResourceInfo = new HashSet<PerformanceMeasureGroup>();
@@ -109,7 +111,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationsWhereYouAreTheKeyImageFileResourceInfo.Any() || CustomPageImages.Any() || DocumentLibraryDocuments.Any() || FieldDefinitionDataImages.Any() || FileResourceDatas.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || GeospatialAreaImages.Any() || OrganizationsWhereYouAreTheLogoFileResourceInfo.Any() || OrganizationImages.Any() || PerformanceMeasureGroupsWhereYouAreTheIconFileResourceInfo.Any() || PerformanceMeasureImages.Any() || ProjectAttachmentsWhereYouAreTheAttachment.Any() || ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ReportTemplates.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResourceInfo.Any() || TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResourceInfo.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResourceInfo.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResourceInfo.Any();
+            return ClassificationsWhereYouAreTheKeyImageFileResourceInfo.Any() || CustomPageImages.Any() || DocumentLibraryDocuments.Any() || ExternalMapLayersWhereYouAreTheMapLegendImageFileResourceInfo.Any() || FieldDefinitionDataImages.Any() || FileResourceDatas.Any() || FirmaHomePageImages.Any() || FirmaPageImages.Any() || GeospatialAreaImages.Any() || GeospatialAreaTypesWhereYouAreTheMapLegendImageFileResourceInfo.Any() || OrganizationsWhereYouAreTheLogoFileResourceInfo.Any() || OrganizationImages.Any() || PerformanceMeasureGroupsWhereYouAreTheIconFileResourceInfo.Any() || PerformanceMeasureImages.Any() || ProjectAttachmentsWhereYouAreTheAttachment.Any() || ProjectAttachmentUpdatesWhereYouAreTheAttachment.Any() || ProjectImages.Any() || ProjectImageUpdates.Any() || ReportTemplates.Any() || TenantAttributesWhereYouAreTheTenantBannerLogoFileResourceInfo.Any() || TenantAttributesWhereYouAreTheTenantFactSheetLogoFileResourceInfo.Any() || TenantAttributesWhereYouAreTheTenantSquareLogoFileResourceInfo.Any() || TenantAttributesWhereYouAreTheTenantStyleSheetFileResourceInfo.Any();
         }
 
         /// <summary>
@@ -132,6 +134,11 @@ namespace ProjectFirmaModels.Models
             if(DocumentLibraryDocuments.Any())
             {
                 dependentObjects.Add(typeof(DocumentLibraryDocument).Name);
+            }
+
+            if(ExternalMapLayersWhereYouAreTheMapLegendImageFileResourceInfo.Any())
+            {
+                dependentObjects.Add(typeof(ExternalMapLayer).Name);
             }
 
             if(FieldDefinitionDataImages.Any())
@@ -157,6 +164,11 @@ namespace ProjectFirmaModels.Models
             if(GeospatialAreaImages.Any())
             {
                 dependentObjects.Add(typeof(GeospatialAreaImage).Name);
+            }
+
+            if(GeospatialAreaTypesWhereYouAreTheMapLegendImageFileResourceInfo.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaType).Name);
             }
 
             if(OrganizationsWhereYouAreTheLogoFileResourceInfo.Any())
@@ -229,7 +241,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResourceInfo).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(DocumentLibraryDocument).Name, typeof(FieldDefinitionDataImage).Name, typeof(FileResourceData).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(GeospatialAreaImage).Name, typeof(Organization).Name, typeof(OrganizationImage).Name, typeof(PerformanceMeasureGroup).Name, typeof(PerformanceMeasureImage).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ReportTemplate).Name, typeof(TenantAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FileResourceInfo).Name, typeof(Classification).Name, typeof(CustomPageImage).Name, typeof(DocumentLibraryDocument).Name, typeof(ExternalMapLayer).Name, typeof(FieldDefinitionDataImage).Name, typeof(FileResourceData).Name, typeof(FirmaHomePageImage).Name, typeof(FirmaPageImage).Name, typeof(GeospatialAreaImage).Name, typeof(GeospatialAreaType).Name, typeof(Organization).Name, typeof(OrganizationImage).Name, typeof(PerformanceMeasureGroup).Name, typeof(PerformanceMeasureImage).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectImage).Name, typeof(ProjectImageUpdate).Name, typeof(ReportTemplate).Name, typeof(TenantAttribute).Name};
 
 
         /// <summary>
@@ -269,6 +281,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in ExternalMapLayersWhereYouAreTheMapLegendImageFileResourceInfo.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in FieldDefinitionDataImages.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -290,6 +307,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in GeospatialAreaImages.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in GeospatialAreaTypesWhereYouAreTheMapLegendImageFileResourceInfo.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -375,11 +397,13 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<Classification> ClassificationsWhereYouAreTheKeyImageFileResourceInfo { get; set; }
         public virtual ICollection<CustomPageImage> CustomPageImages { get; set; }
         public virtual ICollection<DocumentLibraryDocument> DocumentLibraryDocuments { get; set; }
+        public virtual ICollection<ExternalMapLayer> ExternalMapLayersWhereYouAreTheMapLegendImageFileResourceInfo { get; set; }
         public virtual ICollection<FieldDefinitionDataImage> FieldDefinitionDataImages { get; set; }
         public virtual ICollection<FileResourceData> FileResourceDatas { get; set; }
         public virtual ICollection<FirmaHomePageImage> FirmaHomePageImages { get; set; }
         public virtual ICollection<FirmaPageImage> FirmaPageImages { get; set; }
         public virtual ICollection<GeospatialAreaImage> GeospatialAreaImages { get; set; }
+        public virtual ICollection<GeospatialAreaType> GeospatialAreaTypesWhereYouAreTheMapLegendImageFileResourceInfo { get; set; }
         public virtual ICollection<Organization> OrganizationsWhereYouAreTheLogoFileResourceInfo { get; set; }
         public virtual ICollection<OrganizationImage> OrganizationImages { get; set; }
         public virtual ICollection<PerformanceMeasureGroup> PerformanceMeasureGroupsWhereYouAreTheIconFileResourceInfo { get; set; }

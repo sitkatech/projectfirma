@@ -26,9 +26,10 @@ namespace ProjectFirmaModels.Models
             Property(x => x.OnByDefaultOnProjectMap).HasColumnName(@"OnByDefaultOnProjectMap").HasColumnType("bit").IsRequired();
             Property(x => x.OnByDefaultOnOtherMaps).HasColumnName(@"OnByDefaultOnOtherMaps").HasColumnType("bit").IsRequired();
             Property(x => x.ServiceUrl).HasColumnName(@"ServiceUrl").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.MapLegendImageFileResourceInfoID).HasColumnName(@"MapLegendImageFileResourceInfoID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-
+            HasOptional(a => a.MapLegendImageFileResourceInfo).WithMany(b => b.GeospatialAreaTypesWhereYouAreTheMapLegendImageFileResourceInfo).HasForeignKey(c => c.MapLegendImageFileResourceInfoID).WillCascadeOnDelete(false); // FK_GeospatialAreaType_FileResourceInfo_MapLegendImageFileResourceInfoID_FileResourceInfoID
         }
     }
 }
