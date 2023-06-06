@@ -35,18 +35,18 @@ namespace ProjectFirma.Web.Models
         public BoundingBox BoundingBox;
         public int ZoomLevel;
         public List<LayerGeoJson> Layers;
-        public List<ExternalMapLayer> ExternalMapLayers;
+        public List<ExternalMapLayerSimple> ExternalMapLayerSimples;
         public readonly bool TurnOnFeatureIdentify;
         public bool AllowFullScreen = true;
         public bool DisablePopups = false;
         public string RequestSupportUrl;
 
-        public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayer> externalMapLayers, BoundingBox boundingBox, bool turnOnFeatureIdentify)
+        public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayerSimple> externalMapLayers, BoundingBox boundingBox, bool turnOnFeatureIdentify)
         {
             MapDivID = mapDivID;
             ZoomLevel = zoomLevel;
             Layers = layers;
-            ExternalMapLayers = externalMapLayers;
+            ExternalMapLayerSimples = externalMapLayers;
             BoundingBox = boundingBox;
             TurnOnFeatureIdentify = turnOnFeatureIdentify;
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestSupport());
@@ -55,18 +55,18 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Summary maps with no editing should use this constructor
         /// </summary>
-        public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayer> externalMapLayers, BoundingBox boundingBox) : this(mapDivID, zoomLevel, layers, externalMapLayers, boundingBox, true)
+        public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayerSimple> externalMapLayers, BoundingBox boundingBox) : this(mapDivID, zoomLevel, layers, externalMapLayers, boundingBox, true)
         {
         }
 
-        public static List<ExternalMapLayer> GetExternalMapLayers()
+        public static List<ExternalMapLayerSimple> GetExternalMapLayerSimples()
         {
-            return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive && x.DisplayOnAllProjectMaps).ToList();
+            return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive && x.DisplayOnAllProjectMaps).ToList().Select(x => new ExternalMapLayerSimple(x)).ToList();
         }
 
-        public static List<ExternalMapLayer> GetExternalMapLayersForFullProjectMap()
+        public static List<ExternalMapLayerSimple> GetExternalMapLayerSimplesForFullProjectMap()
         {
-            return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive).ToList();
+            return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive).ToList().Select(x => new ExternalMapLayerSimple(x)).ToList();
         }
 
         public static List<LayerGeoJson> GetConfiguredGeospatialAreaMapLayers(bool alwaysHideLayers = false)

@@ -25,8 +25,11 @@ using ProjectFirmaModels.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
+using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Organization;
 
 namespace ProjectFirma.Web.Views.MapLayer
@@ -49,6 +52,10 @@ namespace ProjectFirma.Web.Views.MapLayer
         [DisplayName("Service Url")]
         [StringLength(GeospatialAreaType.FieldLengths.ServiceUrl)] public string ServiceUrl { get; set; }
 
+        [DisplayName("Image File")]
+        [SitkaFileExtensions("jpg|jpeg|gif|png")]
+        public HttpPostedFileBase FileResourceData { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -65,12 +72,19 @@ namespace ProjectFirma.Web.Views.MapLayer
             ServiceUrl = geospatialAreaType.ServiceUrl;
         }
 
-        public void UpdateModel(GeospatialAreaType geospatialAreaType)
+        public void UpdateModel(GeospatialAreaType geospatialAreaType, FirmaSession currentFirmaSession)
         {
             geospatialAreaType.DisplayOnAllProjectMaps = DisplayOnAllMaps;
             geospatialAreaType.OnByDefaultOnProjectMap = LayerIsOnByDefaultOnProjectMap;
             geospatialAreaType.OnByDefaultOnOtherMaps = LayerIsOnByDefaultOnOtherMaps;
             geospatialAreaType.ServiceUrl = ServiceUrl;
+
+            if (FileResourceData != null)
+            {
+                geospatialAreaType.MapLegendImageFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
+
+            }
+
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -83,6 +97,13 @@ namespace ProjectFirma.Web.Views.MapLayer
                     "Service Url is required when externally-sourced geospatial areas is enabled",
                     x => x.ServiceUrl));
             }
+
+            if (FileResourceData != null)
+            {
+                FileResourceModelExtensions.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData), FileResourceModelExtensions.MaxUploadImageSizeInBytes);
+
+            }
+
 
             return errors;
         }

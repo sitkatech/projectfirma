@@ -91,7 +91,8 @@ namespace ProjectFirma.Web.Models
             string layerColor, decimal layerOpacity,
             LayerInitialVisibility.LayerInitialVisibilityEnum layerInitialVisibility)
         {
-            return new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeNamePluralized,
+            var layerName = geospatialAreaType.MapLegendImageFileResourceInfoID.HasValue ? $"<span><img src='{geospatialAreaType.MapLegendImageFileResourceInfo.GetFileResourceUrl()}' height='20px' /> {geospatialAreaType.GeospatialAreaTypeNamePluralized}</span>" : geospatialAreaType.GeospatialAreaTypeNamePluralized;
+            return new LayerGeoJson(layerName,
                 geospatialAreaType.MapServiceUrl(),
                 geospatialAreaType.GeospatialAreaLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor,
                 layerOpacity,

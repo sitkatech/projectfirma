@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Map
         public ProjectLocationsMapInitJson(LayerGeoJson projectLocationsLayerGeoJson, ProjectMapCustomization customization, string mapDivID, bool isFullProjectMap)
             : base(mapDivID, DefaultZoomLevel, 
                 isFullProjectMap? GetAllGeospatialAreaMapLayersForFullProjectMap() : GetConfiguredGeospatialAreaMapLayers(), 
-                isFullProjectMap ? GetExternalMapLayersForFullProjectMap() : GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox())
+                isFullProjectMap ? GetExternalMapLayerSimplesForFullProjectMap() : GetExternalMapLayerSimples(), BoundingBox.MakeNewDefaultBoundingBox())
         {
             ProjectMapCustomization = customization;
             ProjectLocationsLayerGeoJson = projectLocationsLayerGeoJson;

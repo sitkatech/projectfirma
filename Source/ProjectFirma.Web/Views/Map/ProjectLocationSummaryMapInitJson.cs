@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Map
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, 
             FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool userCanViewPrivateLocations, bool alwaysHideGeospatialAreaLayers = false) 
             : base(mapDivID, DefaultZoomLevel, GetConfiguredGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), 
-                callGetExternalMapLayers ? GetExternalMapLayers() : new List<ExternalMapLayer>(), 
+                callGetExternalMapLayers ? GetExternalMapLayerSimples() : new List<ExternalMapLayerSimple>(), 
                 GetProjectBoundingBox(iProject, userCanViewPrivateLocations))
         {
             HasViewableSimpleLocation = iProject.HasProjectLocationPoint(userCanViewPrivateLocations);

@@ -83,6 +83,7 @@
     <Compile Include="GridToExcel\ExcelXmlParser.cs" />
     <Compile Include="GridToExcel\RGBColor.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
+    <Compile Include="Models\ExternalMapLayerSimple.cs" />
     <Compile Include="Models\TrainingVideoModelExtensions.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />

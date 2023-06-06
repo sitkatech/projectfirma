@@ -25,9 +25,10 @@ namespace ProjectFirmaModels.Models
             Property(x => x.LayerIsOnByDefault).HasColumnName(@"LayerIsOnByDefault").HasColumnType("bit").IsRequired();
             Property(x => x.IsActive).HasColumnName(@"IsActive").HasColumnType("bit").IsRequired();
             Property(x => x.IsTiledMapService).HasColumnName(@"IsTiledMapService").HasColumnType("bit").IsRequired();
+            Property(x => x.MapLegendImageFileResourceInfoID).HasColumnName(@"MapLegendImageFileResourceInfoID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-
+            HasOptional(a => a.MapLegendImageFileResourceInfo).WithMany(b => b.ExternalMapLayersWhereYouAreTheMapLegendImageFileResourceInfo).HasForeignKey(c => c.MapLegendImageFileResourceInfoID).WillCascadeOnDelete(false); // FK_ExternalMapLayer_FileResourceInfo_MapLegendImageFileResourceInfoID_FileResourceInfoID
         }
     }
 }

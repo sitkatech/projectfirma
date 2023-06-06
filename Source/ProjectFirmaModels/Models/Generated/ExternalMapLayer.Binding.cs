@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ExternalMapLayer(int externalMapLayerID, string displayName, string layerUrl, string layerDescription, string featureNameField, bool displayOnAllProjectMaps, bool layerIsOnByDefault, bool isActive, bool isTiledMapService) : this()
+        public ExternalMapLayer(int externalMapLayerID, string displayName, string layerUrl, string layerDescription, string featureNameField, bool displayOnAllProjectMaps, bool layerIsOnByDefault, bool isActive, bool isTiledMapService, int? mapLegendImageFileResourceInfoID) : this()
         {
             this.ExternalMapLayerID = externalMapLayerID;
             this.DisplayName = displayName;
@@ -42,6 +42,7 @@ namespace ProjectFirmaModels.Models
             this.LayerIsOnByDefault = layerIsOnByDefault;
             this.IsActive = isActive;
             this.IsTiledMapService = isTiledMapService;
+            this.MapLegendImageFileResourceInfoID = mapLegendImageFileResourceInfoID;
         }
 
         /// <summary>
@@ -122,10 +123,12 @@ namespace ProjectFirmaModels.Models
         public bool LayerIsOnByDefault { get; set; }
         public bool IsActive { get; set; }
         public bool IsTiledMapService { get; set; }
+        public int? MapLegendImageFileResourceInfoID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ExternalMapLayerID; } set { ExternalMapLayerID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual FileResourceInfo MapLegendImageFileResourceInfo { get; set; }
 
         public static class FieldLengths
         {

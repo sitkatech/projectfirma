@@ -286,7 +286,7 @@ namespace ProjectFirma.Web.Controllers
             //layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             //BoundingBox boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var boundingBox = new BoundingBox(organization.OrganizationBoundary);
-            var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox)
+            var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayerSimples(), boundingBox)
             {
                 AllowFullScreen = false,
                 DisablePopups = true
@@ -639,7 +639,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = new BoundingBox(dbGeometries);
 
-            return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
+            return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayerSimples(), boundingBox);
         }
 
         private static MapInitJson GetOrganizationAreaOfInterestMapInitJson(Organization organization)
@@ -671,7 +671,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = new BoundingBox(dbGeometries);
 
-            return new MapInitJson($"organization_{organization.OrganizationID}_area_of_interest_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
+            return new MapInitJson($"organization_{organization.OrganizationID}_area_of_interest_Map", 10, layers, MapInitJson.GetExternalMapLayerSimples(), boundingBox);
         }
 
         private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(Organization organization)
@@ -1066,7 +1066,7 @@ namespace ProjectFirma.Web.Controllers
                 x.FeatureClassName, x.ToGeoJsonFeatureCollection(),
                 FirmaHelpers.DefaultColorRange[index], 0.8m,
                 index == 0 ? LayerInitialVisibility.LayerInitialVisibilityEnum.Show : LayerInitialVisibility.LayerInitialVisibilityEnum.Hide)).ToList();
-            var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
+            var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, MapInitJson.GetExternalMapLayerSimples(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
 
             var viewData = new ApproveUploadGisViewData(CurrentFirmaSession, organization, mapInitJson);
             return RazorPartialView<ApproveUploadGis, ApproveUploadGisViewData, ApproveUploadGisViewModel>(viewData, viewModel);

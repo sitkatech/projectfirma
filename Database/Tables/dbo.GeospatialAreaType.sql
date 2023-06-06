@@ -14,6 +14,7 @@ CREATE TABLE [dbo].[GeospatialAreaType](
 	[OnByDefaultOnProjectMap] [bit] NOT NULL,
 	[OnByDefaultOnOtherMaps] [bit] NOT NULL,
 	[ServiceUrl] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MapLegendImageFileResourceInfoID] [int] NULL,
  CONSTRAINT [PK_GeospatialAreaType_GeospatialAreaTypeID] PRIMARY KEY CLUSTERED 
 (
 	[GeospatialAreaTypeID] ASC
@@ -35,6 +36,9 @@ CREATE TABLE [dbo].[GeospatialAreaType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD FOREIGN KEY([MapLegendImageFileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
 ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

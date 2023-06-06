@@ -26,8 +26,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.MapLayer
 {
@@ -69,6 +72,10 @@ namespace ProjectFirma.Web.Views.MapLayer
         [DisplayName("Internal Layer Description")]
         public string LayerDescription { get; set; }
 
+        [DisplayName("Image File")]
+        [SitkaFileExtensions("jpg|jpeg|gif|png")]
+        public HttpPostedFileBase FileResourceData { get; set; }
+
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -90,7 +97,7 @@ namespace ProjectFirma.Web.Views.MapLayer
             LayerDescription = externalMapLayer.LayerDescription;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.ExternalMapLayer externalMapLayer)
+        public void UpdateModel(ProjectFirmaModels.Models.ExternalMapLayer externalMapLayer, FirmaSession currentFirmaSession)
         {
             externalMapLayer.DisplayName = DisplayName;
             externalMapLayer.LayerUrl = LayerUrl;
@@ -100,6 +107,11 @@ namespace ProjectFirma.Web.Views.MapLayer
             externalMapLayer.IsTiledMapService = IsTiledMapService;
             externalMapLayer.FeatureNameField = FeatureNameField;
             externalMapLayer.LayerDescription = LayerDescription;
+
+            if (FileResourceData != null)
+            {
+                externalMapLayer.MapLegendImageFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -117,6 +129,13 @@ namespace ProjectFirma.Web.Views.MapLayer
             {
                 validationResults.Add(new SitkaValidationResult<EditExternalMapLayerViewModel, string>("Feature popups are not supported for tiled map services, please do not provide a feature name field.", x => x.FeatureNameField));
             }
+
+            if (FileResourceData != null)
+            {
+                FileResourceModelExtensions.ValidateFileSize(FileResourceData, validationResults, GeneralUtility.NameOf(() => FileResourceData), FileResourceModelExtensions.MaxUploadImageSizeInBytes);
+
+            }
+
             return validationResults;
         }
 
