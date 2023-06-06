@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditGeospatialAreaMapLayer(geospatialAreaType, viewModel);
             }
-            viewModel.UpdateModel(geospatialAreaType);
+            viewModel.UpdateModel(geospatialAreaType, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

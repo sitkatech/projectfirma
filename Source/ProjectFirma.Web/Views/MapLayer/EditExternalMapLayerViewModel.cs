@@ -108,7 +108,10 @@ namespace ProjectFirma.Web.Views.MapLayer
             externalMapLayer.FeatureNameField = FeatureNameField;
             externalMapLayer.LayerDescription = LayerDescription;
 
-            externalMapLayer.MapLegendImageFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
+            if (FileResourceData != null)
+            {
+                externalMapLayer.MapLegendImageFileResourceInfo = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -127,7 +130,11 @@ namespace ProjectFirma.Web.Views.MapLayer
                 validationResults.Add(new SitkaValidationResult<EditExternalMapLayerViewModel, string>("Feature popups are not supported for tiled map services, please do not provide a feature name field.", x => x.FeatureNameField));
             }
 
-            FileResourceModelExtensions.ValidateFileSize(FileResourceData, validationResults, GeneralUtility.NameOf(() => FileResourceData));
+            if (FileResourceData != null)
+            {
+                FileResourceModelExtensions.ValidateFileSize(FileResourceData, validationResults, GeneralUtility.NameOf(() => FileResourceData), FileResourceModelExtensions.MaxUploadImageSizeInBytes);
+
+            }
 
             return validationResults;
         }
