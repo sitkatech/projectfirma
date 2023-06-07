@@ -370,32 +370,6 @@ namespace ProjectFirma.Web.Common
             return reportingYear.ToString();
         }
 
-        
-        public static bool UsesTechnicalAssistanceParameters()
-        {
-            return HttpRequestStorage.Tenant.UsesTechnicalAssistanceParameters;
-        }
-
-        public static void AddTechnicalAssistanceParametersMenuItem(LtInfoMenuItem manageMenu, FirmaSession currentFirmaSession, string menuGroupName)
-        {
-            if (UsesTechnicalAssistanceParameters() && new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
-            {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Technical Assistance Parameters",
-                    ModalDialogFormHelper.ModalDialogFormLink("Technical Assistance Parameters",
-                        SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.TechnicalAssistanceParameters()),
-                        "Technical Assistance Parameters", 800,
-                        "Save", "Cancel", new List<string>(), null, null).ToString(), menuGroupName));
-            }
-        }
-
-        public static void AddTechnicalAssistanceReportMenuItem(LtInfoMenuItem resultsMenu, FirmaSession currentFirmaSession)
-        {
-            if (UsesTechnicalAssistanceParameters() && new TechnicalAssistanceRequestsViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
-            {
-                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TechnicalAssistanceRequestController>(c => c.TechnicalAssistanceReport()), currentFirmaSession, "Technical Assistance Report"));
-            }
-        }
-
         public static bool UsesCustomResultsPages(FirmaSession currentFirmaSession)
         {
             return HttpRequestStorage.DatabaseEntities.CustomPages.Any(x => x.FirmaMenuItemID == FirmaMenuItem.Results.FirmaMenuItemID) || UsesCustomFundingStatusPage(currentFirmaSession) || UsesCustomProgressDashboardPage(currentFirmaSession);

@@ -917,9 +917,6 @@
     <Compile Include="Models\ReportTemplateModelType.cs" />
     <Compile Include="Models\Solicitation.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
-    <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />
-    <Compile Include="Models\TechnicalAssistanceRequest.cs" />
-    <Compile Include="Models\TechnicalAssistanceRequestSimple.cs" />
     <Compile Include="Models\ProjectNoFundingSourceIdentified.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeRole.cs" />
     <Compile Include="Models\ReleaseNote.cs" />

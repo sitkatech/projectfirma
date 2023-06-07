@@ -106,7 +106,6 @@
     <Compile Include="Controllers\ProjectStatusController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
-    <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
@@ -144,7 +143,6 @@
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectImageModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectStatusModel.cs" />
-    <Compile Include="ReportTemplates\Models\ReportTemplateProjectTechnicalAssistanceRequestModel.cs" />
     <Compile Include="ReportTemplates\ProjectFirmaDocxDocument.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateBaseModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectModel.cs" />
@@ -262,8 +260,6 @@
     <Compile Include="Models\TaxonomyTierHelpers.cs" />
     <Compile Include="Models\TaxonomyTierSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
-    <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
-    <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
@@ -295,7 +291,6 @@
     <Compile Include="Security\ReportTemplateGenerateReportsFeature.cs" />
     <Compile Include="Security\ReportTemplateManageFeature.cs" />
     <Compile Include="Security\ReportTemplateViewListFeature.cs" />
-    <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Security\UserAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectSimpleLocationCoordinates.cs" />
@@ -540,9 +535,6 @@
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewModel.cs" />
-    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
-    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
@@ -615,10 +607,6 @@
     <Compile Include="Views\Home\TrainingVideo.cs" />
     <Compile Include="Views\Home\ReleaseNotesViewData.cs" />
     <Compile Include="Views\Home\TrainingVideoViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cs" />
-    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameterSimple.cs" />
-    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewModel.cs" />
     <Compile Include="ScheduledJobs\ProjectUpdateNotificationHelper.cs" />
     <Content Include="..\NuGetPackages\PhantomJS.2.0.0\tools\phantomjs\phantomjs.exe">
       <Link>phantomjs.exe</Link>
@@ -787,7 +775,6 @@
     <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
-    <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
     <Content Include="Views\Help\RequestSupport.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributeType\Detail.cshtml" />
@@ -949,7 +936,6 @@
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnual.cshtml" />
-    <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\ProjectCreate\Contacts.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cshtml" />
@@ -1041,14 +1027,6 @@
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewData.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewModel.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequestsViewModel.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReportGridSpec.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequestsViewData.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReportViewData.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetailViewData.cs" />
     <Compile Include="Views\TrainingVideo\ManageTrainingVideos.cs" />
     <Compile Include="Views\TrainingVideo\ManageTrainingVideosGridSpec.cs" />
     <Compile Include="Views\TrainingVideo\ManageTrainingVideosViewData.cs" />
@@ -1898,7 +1876,6 @@
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasController.js" />
     <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasController.js" />
-    <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
     <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
@@ -1944,7 +1921,6 @@
     <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
     <Content Include="Views\Tenant\EditBudgetTypeController.js" />
     <Content Include="Views\Tenant\EditTenantLogoAndStylesheet.cshtml" />
-    <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWithCents.cshtml" />
     <Content Include="Views\Home\StyleGuide.cshtml" />
     <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreas.cshtml" />
@@ -1952,9 +1928,6 @@
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewData.cs" />
     <Content Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cshtml" />
-    <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
-    <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
-    <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />

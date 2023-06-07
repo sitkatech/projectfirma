@@ -686,57 +686,6 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        [HttpGet]
-        [FirmaAdminFeature]
-        public PartialViewResult TechnicalAssistanceParameters()
-        {
-            Check.Assert(MultiTenantHelpers.UsesTechnicalAssistanceParameters(), "This feature is not available.");
-            var technicalAssistanceParameterSimples = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters
-                .ToList()
-                .Select(x => new TechnicalAssistanceParameterSimple(x)).ToList();
-            // add blank TAPSes for the years that don't already have stuff in the DB
-            var reportingYearsForUserInputAsIntegers = FirmaDateUtilities.ReportingYearsForUserInputAsIntegers();
-            var nextTwoYears = new List<int>()
-                {reportingYearsForUserInputAsIntegers.Max() + 1, reportingYearsForUserInputAsIntegers.Max() + 2};
-            reportingYearsForUserInputAsIntegers.AddRange(nextTwoYears);
-            technicalAssistanceParameterSimples.AddRange(reportingYearsForUserInputAsIntegers
-                .Where(year => !technicalAssistanceParameterSimples.Select(x => x.Year).ToList().Contains(year))
-                .Select(year => new TechnicalAssistanceParameterSimple(year)));
-
-            var viewModel = new TechnicalAssistanceParametersViewModel(technicalAssistanceParameterSimples);
-            return ViewTechnicalAssistanceParameters(viewModel);
-        }
-
-        private PartialViewResult ViewTechnicalAssistanceParameters(TechnicalAssistanceParametersViewModel viewModel)
-        {
-            var viewData = new TechnicalAssistanceParametersViewData();
-            return RazorPartialView<TechnicalAssistanceParameters, TechnicalAssistanceParametersViewData,
-                TechnicalAssistanceParametersViewModel>(viewData, viewModel);
-        }
-
-        [HttpPost]
-        [FirmaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult TechnicalAssistanceParameters(TechnicalAssistanceParametersViewModel viewModel)
-        {
-            Check.Assert(MultiTenantHelpers.UsesTechnicalAssistanceParameters(), "This feature is not available.");
-            if (!ModelState.IsValid)
-            {
-                return ViewTechnicalAssistanceParameters(viewModel);
-            }
-
-            HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.Load();
-
-
-            var currentTechnicalAssistanceParameters =
-                HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            var allTechnicalAssistanceParameters =
-                HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceParameters.Local;
-
-            viewModel.UpdateModel(currentTechnicalAssistanceParameters, allTechnicalAssistanceParameters);
-            return new ModalDialogFormJsonResult();
-        }
-
 
         [HttpGet]
         [FirmaAdminFeature]
