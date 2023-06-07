@@ -47,7 +47,6 @@ namespace ProjectFirmaModels.Models
             this.ProjectUpdates = new HashSet<ProjectUpdate>();
             this.ProjectUpdateBatchClassificationSystems = new HashSet<ProjectUpdateBatchClassificationSystem>();
             this.ProjectUpdateHistories = new HashSet<ProjectUpdateHistory>();
-            this.TechnicalAssistanceRequestUpdates = new HashSet<TechnicalAssistanceRequestUpdate>();
         }
 
         /// <summary>
@@ -139,7 +138,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || ProjectAttachmentUpdates.Any() || ProjectClassificationUpdates.Any() || ProjectContactUpdates.Any() || ProjectCustomAttributeUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any() || ProjectGeospatialAreaUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoFundingSourceIdentifiedUpdates.Any() || ProjectNoteUpdates.Any() || ProjectOrganizationUpdates.Any() || ProjectRelevantCostTypeUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateBatchClassificationSystems.Any() || ProjectUpdateHistories.Any() || TechnicalAssistanceRequestUpdates.Any();
+            return PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || ProjectAttachmentUpdates.Any() || ProjectClassificationUpdates.Any() || ProjectContactUpdates.Any() || ProjectCustomAttributeUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any() || ProjectGeospatialAreaUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoFundingSourceIdentifiedUpdates.Any() || ProjectNoteUpdates.Any() || ProjectOrganizationUpdates.Any() || ProjectRelevantCostTypeUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateBatchClassificationSystems.Any() || ProjectUpdateHistories.Any();
         }
 
         /// <summary>
@@ -258,18 +257,13 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(ProjectUpdateHistory).Name);
             }
-
-            if(TechnicalAssistanceRequestUpdates.Any())
-            {
-                dependentObjects.Add(typeof(TechnicalAssistanceRequestUpdate).Name);
-            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectClassificationUpdate).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectCustomAttributeUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name, typeof(ProjectGeospatialAreaUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoFundingSourceIdentifiedUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatchClassificationSystem).Name, typeof(ProjectUpdateHistory).Name, typeof(TechnicalAssistanceRequestUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectClassificationUpdate).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectCustomAttributeUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name, typeof(ProjectGeospatialAreaUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoFundingSourceIdentifiedUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatchClassificationSystem).Name, typeof(ProjectUpdateHistory).Name};
 
 
         /// <summary>
@@ -403,11 +397,6 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
-
-            foreach(var x in TechnicalAssistanceRequestUpdates.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
         }
 
         [Key]
@@ -534,7 +523,6 @@ namespace ProjectFirmaModels.Models
         public ProjectUpdate ProjectUpdate { get { return ProjectUpdates.SingleOrDefault(); } set { ProjectUpdates = new List<ProjectUpdate>{value};} }
         public virtual ICollection<ProjectUpdateBatchClassificationSystem> ProjectUpdateBatchClassificationSystems { get; set; }
         public virtual ICollection<ProjectUpdateHistory> ProjectUpdateHistories { get; set; }
-        public virtual ICollection<TechnicalAssistanceRequestUpdate> TechnicalAssistanceRequestUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual Person LastUpdatePerson { get; set; }

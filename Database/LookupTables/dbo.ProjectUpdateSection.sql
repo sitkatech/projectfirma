@@ -13,7 +13,6 @@ values
 (9, 'Photos', 'Photos', 120, 0, 5),
 (10, 'ExternalLinks', 'External Links', 135, 0, 5),
 (12, 'ExpectedAccomplishments', 'Expected Accomplishments', 70, 1, 3),
-(13, 'TechnicalAssistanceRequests', 'Technical Assistance Requests', 110, 0, 5),
 (14, 'Contacts', 'Contacts', 50, 1, 1),
 (15, 'AttachmentsAndNotes', 'Attachments and Notes', 130, 0, 5),
 (16, 'CustomAttributes', 'Custom Attributes', 25, 1, 1),

@@ -29,7 +29,6 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionPhotos Photos = ProjectUpdateSectionPhotos.Instance;
         public static readonly ProjectUpdateSectionExternalLinks ExternalLinks = ProjectUpdateSectionExternalLinks.Instance;
         public static readonly ProjectUpdateSectionExpectedAccomplishments ExpectedAccomplishments = ProjectUpdateSectionExpectedAccomplishments.Instance;
-        public static readonly ProjectUpdateSectionTechnicalAssistanceRequests TechnicalAssistanceRequests = ProjectUpdateSectionTechnicalAssistanceRequests.Instance;
         public static readonly ProjectUpdateSectionContacts Contacts = ProjectUpdateSectionContacts.Instance;
         public static readonly ProjectUpdateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectUpdateSectionAttachmentsAndNotes.Instance;
         public static readonly ProjectUpdateSectionCustomAttributes CustomAttributes = ProjectUpdateSectionCustomAttributes.Instance;
@@ -45,7 +44,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Expenditures, Photos, ExternalLinks, ExpectedAccomplishments, TechnicalAssistanceRequests, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation, PartnerFinder, Classifications };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Expenditures, Photos, ExternalLinks, ExpectedAccomplishments, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation, PartnerFinder, Classifications };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -153,8 +152,6 @@ namespace ProjectFirmaModels.Models
                     return Photos;
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
                     return ReportedAccomplishments;
-                case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
-                    return TechnicalAssistanceRequests;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -173,7 +170,6 @@ namespace ProjectFirmaModels.Models
         Photos = 9,
         ExternalLinks = 10,
         ExpectedAccomplishments = 12,
-        TechnicalAssistanceRequests = 13,
         Contacts = 14,
         AttachmentsAndNotes = 15,
         CustomAttributes = 16,
@@ -240,12 +236,6 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectUpdateSectionExpectedAccomplishments(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectUpdateSectionExpectedAccomplishments Instance = new ProjectUpdateSectionExpectedAccomplishments(12, @"ExpectedAccomplishments", @"Expected Accomplishments", 70, true, 3);
-    }
-
-    public partial class ProjectUpdateSectionTechnicalAssistanceRequests : ProjectUpdateSection
-    {
-        private ProjectUpdateSectionTechnicalAssistanceRequests(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionTechnicalAssistanceRequests Instance = new ProjectUpdateSectionTechnicalAssistanceRequests(13, @"TechnicalAssistanceRequests", @"Technical Assistance Requests", 110, false, 5);
     }
 
     public partial class ProjectUpdateSectionContacts : ProjectUpdateSection

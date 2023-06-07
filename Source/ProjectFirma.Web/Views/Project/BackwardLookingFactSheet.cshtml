@@ -304,7 +304,7 @@
              @if (ViewDataTyped.ShowExpectedPerformanceMeasures)
              {
                  <h4>Targeted @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()</h4>
-                 if (ViewDataTyped.PerformanceMeasureExpectedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
+                 if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
                  {
                      <ul>
                          @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
@@ -339,13 +339,6 @@
                                  }
                              }
                          }
-                         @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
-                         {
-                             <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
-                         }
                      </ul>
                  }
                  else
@@ -356,7 +349,7 @@
              else
              {
                  <h4>Key Accomplishments</h4>
-                 if (ViewDataTyped.PerformanceMeasureReportedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
+                 if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
                  {
                      <ul>
                          @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
@@ -384,13 +377,6 @@
                                      }
                                  }
                              }
-                         }
-                         @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
-                         {
-                             <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
                          }
                      </ul>
                  }

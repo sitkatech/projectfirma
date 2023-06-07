@@ -148,9 +148,6 @@ namespace ProjectFirma.Web.Models
             //Classifications
             ProjectClassificationsUpdateModelExtensions.CreateFromProject(projectUpdateBatch, HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList());
 
-            // Technical Assistance Requests - for Idaho
-            TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-
             return projectUpdateBatch;
         }
 
@@ -181,15 +178,6 @@ namespace ProjectFirma.Web.Models
             foreach (var fileResourceInfo in fileResources)
             {
                 fileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
-            }
-        }
-
-        public static void DeleteTechnicalAssistanceRequestsUpdates(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            var technicalAssistanceRequestUpdates = projectUpdateBatch.TechnicalAssistanceRequestUpdates.ToList();
-            foreach (var technicalAssistanceRequestUpdate in technicalAssistanceRequestUpdates)
-            {
-                technicalAssistanceRequestUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 
@@ -715,9 +703,6 @@ namespace ProjectFirma.Web.Models
 
             // Project Custom Attributes
             ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
-
-            // Technical Assistance Requests - for Idaho
-            TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
 
             //Project Classifications
             ProjectClassificationsUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);

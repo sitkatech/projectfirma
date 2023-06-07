@@ -209,11 +209,7 @@ namespace ProjectFirma.Web.Models
                     var additionalDataProjectUpdateSections = projectWorkflowSectionGrouping.ProjectUpdateSections.ToList();
 
                     var sections = GetProjectUpdateSectionsImpl(projectUpdateBatch, additionalDataProjectUpdateSections, projectUpdateStatus, ignoreStatus);
-                    // Remove Technical Assistance Requests for all tenants except Idaho
-                    if (!MultiTenantHelpers.UsesTechnicalAssistanceParameters())
-                    {
-                        sections = sections.Where(x => x.SectionDisplayName != ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName).ToList();
-                    }
+
                     return sections;
 
                 // Partner Finder
