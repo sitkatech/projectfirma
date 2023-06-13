@@ -32,7 +32,7 @@ namespace LtInfo.Common.MvcResults
 {
     public class GridJsonNetJObjectResult<T> : JsonResult
     {
-        private readonly JObject _data;
+        private readonly JArray _data;
 
         private readonly GridSpec<T> _gridSpec;
         public GridSpec<T> GridSpec
@@ -73,14 +73,39 @@ namespace LtInfo.Common.MvcResults
             _gridSpec = gridSpec;
             _modelList = modelList;
             var list = rowLimit.HasValue ? modelList.Take(rowLimit.Value) : modelList;
+            var rows = new List<string>();
 
-            var anonymousObject = new
+            //_gridSpec.colu
+            foreach (var model in _modelList)
             {
-                rows = list.Select((t, i) => t.ToDhtmlxGridJsonRow(uniqueIDFunc?.Compile()(t) ?? i + 1, _gridSpec)).ToList()
-            };
+                // { columnSpec.Name : model.ToAgGrid }
+                 //var columnValues = gridSpec.Select(columnSpec => new object{ columnSpec .Co } ).ToList();
 
-            _data = JObject.FromObject(anonymousObject);
+                 var thisRow = new List<object>();
+                 foreach (var columnSpec in _gridSpec)
+                 {
+                     var data = model.ToAgGridJsonCellData(columnSpec);
+                     var columnName = columnSpec.ColumnNameForJavascript;
+                     thisRow.Add($"'{columnName}':{data}");
+                 }
+
+
+                 rows.Add($"{{{string.Join(", ", thisRow)}}}");
+            }
+            
+
+            //var anonymousObject = new
+            //{
+            //    rows = list.Select((t, i) => t.ToDhtmlxGridJsonRow(uniqueIDFunc?.Compile()(t) ?? i + 1, _gridSpec)).ToList()
+
+            //};
+
+            //_data = JObject.FromObject(new {rows});
+            _data = new JArray(rows);
         }
+
+
+        
 
         public override void ExecuteResult(ControllerContext context)
         {

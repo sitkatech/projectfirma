@@ -72,22 +72,66 @@ namespace LtInfo.Common.DhtmlWrappers
             string styleString, int? splitAtColumn, string metaDivHtml, DhtmlxGridResizeType dhtmlxGridResizeType,
             string saveGridSettingsUrl)
         {
-            const string template =
-                @"
-<div id =""{0}ContainerDivID"" style=""position:relative;"">
-    <div id=""{0}LoadingBar"" class=""project-firma-loading-bar"" style=""display:none"">{1}</div>
-    <div id=""{0}MetaDivID"" class=""DhtmlxGridMeta"">{2}</div>
-    <div id=""{0}DivID"" style=""{3}""></div>
+//            const string template =
+//                @"
+//<div id =""{0}ContainerDivID"" style=""position:relative;"">
+//    <div id=""{0}LoadingBar"" class=""project-firma-loading-bar"" style=""display:none"">{1}</div>
+//    <div id=""{0}MetaDivID"" class=""DhtmlxGridMeta"">{2}</div>
+//    <div id=""{0}DivID"" style=""{3}""></div>
+//    <script type=""text/javascript"">
+//    // <![CDATA[
+//        {4}
+//    // ]]>
+//    </script>
+//</div>";
+
+            const string template = @"    <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
+    <!-- The gid will be the size that this element is given. -->
+    <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""height: 500px""></div>
     <script type=""text/javascript"">
-    // <![CDATA[
-        {4}
-    // ]]>
-    </script>
-</div>";
+        // Function to demonstrate calling grid's API
+        function deselect(){{
+            gridOptions.api.deselectAll()
+        }}
+
+        // Grid Options are properties passed to the grid
+        const gridOptions = {{
+
+          // each entry here represents one column
+          columnDefs: [
+            {{ field: ""id"" }},
+            {{ field: ""data"" }}
+          ],
+
+          // default col def properties get applied to all columns
+          defaultColDef: {{sortable: true, filter: true}},
+
+          rowSelection: 'multiple', // allow rows to be selected
+          animateRows: true, // have rows animate to new positions when sorted
+
+          // example event handler
+          onCellClicked: params => {{
+            console.log('cell was clicked', params)
+          }}
+        }};
+
+        // get div to host the grid
+        const eGridDiv = document.getElementById(""{0}DivID"");
+        // new grid instance, passing in the hosting DIV and Grid Options
+        new agGrid.Grid(eGridDiv, gridOptions);
+
+        // Fetch data from server
+        fetch(""{1}"")
+        .then(response => response.json())
+        .then(data => {{
+          // load fetched data into grid
+          gridOptions.api.setRowData(data);
+        }});
+    </script>";
             var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
                 splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
 
-            return String.Format(template, gridName, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            return String.Format(template, gridName, optionalGridDataUrl);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
         /// <summary>
