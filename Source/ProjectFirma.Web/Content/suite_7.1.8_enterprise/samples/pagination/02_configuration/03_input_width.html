@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Input width - DHTMLX Pagination</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Pagination to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/pagination.css?v=7.1.8">
+		<script type="text/javascript" src="../common/dataset.js?v=7.1.8"></script>
+		<!-- custom sample head -->
+		<script type="text/javascript" src="../common/dataview/dataview.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../common/dataview/dataview.css?v=7.1.8">
+		<style>
+			.dhx_form-group--inline {
+				max-width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Pagination samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Input width</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Input width.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline">
+				<label for="inputWidth" class="dhx_label">Input width: </label>
+				<input type="number" id="inputWidth" class="dhx_input" value="40">
+			</div>
+			<button id="setButton" class="dhx_sample-btn dhx_sample-btn--flat">Set input width</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="pagination"></div>
+			<div class="dhx_sample-container__widget" id="widget"></div>
+		</section>
+		<script>
+			const dataview = new dhx.DataView("widget", {
+				css: "dhx_widget--bordered dhx_widget--no-border_top",
+				itemsInRow: 4,
+				keyNavigation: true,
+				itemHeight: 80,
+				gap: 8
+			});
+
+			dataview.data.parse(dataview_data);
+
+			let pagination;
+			function initPagination() {
+				if (pagination) {
+					pagination.destructor();
+				}
+				const inputWidth = +document.getElementById("inputWidth").value;
+				pagination = new dhx.Pagination("pagination", {
+					css: "dhx_widget--bordered",
+					data: dataview.data,
+					inputWidth: inputWidth
+				});
+			}
+
+			initPagination();
+
+			document.getElementById("setButton").addEventListener("click", function() {
+				initPagination();
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Set properties - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/form.css?v=7.1.8">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				padding: 0 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Set properties</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Set properties.
+					</div>
+				</h1>
+			</div>        
+		</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="setProps()">Set properties</button>
+		</section>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<textarea style="height: 300px; width: 300px; resize: none;" id="output" readonly></textarea>
+		</section>
+		<script>
+			const props = {
+				labelPosition: "left",
+				required: true,
+				helpMessage: "help"
+			}
+
+			const buttonProps = {
+				color:"success",
+				full: true
+			}
+
+			const form = new dhx.Form("form-sample", {
+				css: "dhx_layout-cell--bordered",
+				padding: 20,
+				width: 300,
+				height: 300,
+				rows: [
+					{
+						type: "input",
+						label: "Name",
+						value: "John Doe",
+						placeholder: "John Doe",
+						name: "name"
+					},
+					{
+						type: "input",
+						label: "Email",
+						value: "jd@mail.name",
+						placeholder: "jd@mail.name",
+						name: "email"
+					},
+					{
+						type: "checkbox",
+						text: "I agree",
+						checked: true,
+						value: "checkboxvalue",
+						name: "agree"
+					},
+					{
+						type: "spacer"
+					},
+					{
+						type: "button",
+						text: "Send",
+						submit: true,
+						size: "medium",
+						view: "flat",
+						color: "primary",
+						name: "button"
+					},
+				]
+			});
+
+			document.querySelector("#output").value = JSON.stringify(props, null, 4);
+
+			function setProps() {
+				form.setProperties("name", props);
+				form.setProperties({ "email": props });
+				form.getItem("button").setProperties(buttonProps);
+			}
+		</script>
+	</body>
+</html>

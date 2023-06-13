@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Localization - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/form.css?v=7.1.8">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Localization</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Localization.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" checked name="lang" id="english" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_sample-label">English </span>
+			</label>
+			<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+				<input type="radio" name="lang" id="deutsch" class="dhx_radiobutton__input">
+				<span class="dhx_radiobutton__visual-input"></span>
+				<span class="dhx_sample-label">Deutsch</span>
+			</label>
+		</section>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+		</section>
+		<script>
+			var locale = {
+				en: {
+					fname: "First Name",
+					lname: "Last Name",
+					title: "Upload your CV",
+					position: "Position",
+					positionItems: {
+						front: "Frontend developer",
+						back: "Backend developer",
+						ux: "UX designer"
+					},
+					simpleVaultText: "Drag & drop files or folders here or",
+					simpleVaultLabel: "browse files",
+					send: "Send",
+				},
+				de: {
+					fname: "Voornaam",
+					lname: "Achternaam",
+					title: "Upload je CV",
+					position: "Positie",
+					positionItems: {
+						front: "Frontend ontwikkelaar",
+						back: "Backend ontwikkelaar",
+						ux: "UX-ontwerper"
+					},
+					simpleVaultText: "Drag & drop dateien oder odner hier oder",
+					simpleVaultLabel: "Suchen Sie Dateien durch",
+					send: "Sturen",
+				}
+			};
+
+			function getDate(currentLocale) {
+				return {
+					css: "dhx_widget--bordered",
+					padding: 20,
+					title: locale[currentLocale].title,
+					rows: [
+						{
+							type: "input",
+							placeholder: locale[currentLocale].fname,
+							name: "firstname"
+						},
+						{
+							type: "input",
+							placeholder: locale[currentLocale].lname,
+							name: "lastname"
+						},
+						{
+							type: "combo",
+							placeholder: locale[currentLocale].position,
+							name: "position",
+							data: [
+								{
+									value: locale[currentLocale].positionItems.front,
+									label: locale[currentLocale].positionItems.front,
+								},
+								{
+									value: locale[currentLocale].positionItems.back,
+									label: locale[currentLocale].positionItems.back,
+								},
+								{
+									value: locale[currentLocale].positionItems.ux,
+									label: locale[currentLocale].positionItems.ux,
+								},
+							]
+						},
+						{
+							type: "simpleVault",
+							name: "vault"
+						},
+						{
+							align: "end",
+							cols: [
+								{
+									type: "button",
+									submit: true,
+									text: locale[currentLocale].send
+								}
+							]
+						}
+					]
+				}
+			};
+
+			var form;
+
+			function createForm (locate) {
+				if (form) {
+					form.destructor();
+				}
+				form = new dhx.Form("form-sample", getDate(locate));
+			}
+
+			document.querySelector("#english").addEventListener("change", function(){
+				dhx.i18n.setLocale("form", locale["en"]);
+				currentLocale = "en";
+				createForm("en");
+			});
+			document.querySelector("#deutsch").addEventListener("change", function(){
+				dhx.i18n.setLocale("form", locale["de"]);
+				currentLocale = "de";
+				createForm("de");
+			});
+
+			createForm("en");
+		</script>
+	</body>
+</html>

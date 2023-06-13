@@ -1,0 +1,48 @@
+import { EventSystem } from "../../ts-common/events";
+import { Toolbar } from "../../ts-toolbar";
+import { IWindowConfig, WindowEvents, IWindow, ISize, IPosition, IWindowEventHandlersMap } from "./types";
+export declare class Window implements IWindow {
+    config: IWindowConfig;
+    events: EventSystem<WindowEvents, IWindowEventHandlersMap>;
+    header: Toolbar;
+    footer: Toolbar;
+    private _popup;
+    private _uid;
+    private _handlers;
+    private _layout;
+    private _isActive;
+    private _blocker;
+    private _keyManager;
+    private _fullScreen;
+    private _oldSizes;
+    private _oldPosition;
+    constructor(config: IWindowConfig);
+    paint(): void;
+    isFullScreen(): boolean;
+    setFullScreen(): void;
+    unsetFullScreen(): void;
+    setSize(width: number, height: number): void;
+    getSize(): ISize;
+    setPosition(left: number, top: number): void;
+    getPosition(): IPosition;
+    show(left?: number, top?: number): void;
+    hide(): void;
+    private _hide;
+    isVisible(): boolean;
+    getWidget(): any;
+    getContainer(): HTMLElement;
+    attach(name: any, config?: any): void;
+    attachHTML(html: string): void;
+    getRootView(): any;
+    destructor(): void;
+    /** @deprecated See a documentation: https://docs.dhtmlx.com/ */
+    fullScreen(): void;
+    protected _initHandlers(): void;
+    private _initUI;
+    private _drawResizers;
+    private _startDrag;
+    private _startResize;
+    private _blockScreen;
+    private _notInNode;
+    private _getContainerParams;
+}

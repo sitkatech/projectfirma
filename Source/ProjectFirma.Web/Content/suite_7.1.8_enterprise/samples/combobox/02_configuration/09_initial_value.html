@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Initial value - DHTMLX Combobox</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Combobox to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/combobox.css?v=7.1.8">
+		<script type="text/javascript" src="../common/dataset.js?v=7.1.8"></script>
+		<!-- custom sample head -->
+	
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Combobox samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Initial value</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Initial value.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="combobox"></div>
+		</section>
+		<script>
+			var data = [
+				{
+					"id": "austria",
+					"value": "Austria",
+					"src": "../common/flags/at.png"
+				},
+				{
+					"id": "belgium",
+					"value": "Belgium",
+					"src": "../common/flags/be.png"
+				},
+				{
+					"id": "bulgaria",
+					"value": "Bulgaria",
+					"src": "../common/flags/bg.png"
+				},
+				{
+					"id": "cyprus",
+					"value": "Cyprus",
+					"src": "../common/flags/cy.png"
+				},
+				{
+					"id": "czech Republic",
+					"value": "Czech Republic",
+					"src": "../common/flags/cz.png"
+				},
+				{
+					"id": "denmark",
+					"value": "Denmark",
+					"src": "../common/flags/dk.png"
+				},
+				{
+					"id": "estonia",
+					"value": "Estonia",
+					"src": "../common/flags/ee.png"
+				},
+				{
+					"id": "finland",
+					"value": "Finland",
+					"src": "../common/flags/fi.png"
+				},
+				{
+					"id": "france",
+					"value": "France",
+					"src": "../common/flags/fr.png"
+				},
+				{
+					"id": "germany",
+					"value": "Germany",
+					"src": "../common/flags/de.png"
+				},
+				{
+					"id": "greece",
+					"value": "Greece",
+					"src": "../common/flags/gr.png"
+				},
+				{
+					"id": "hungary",
+					"value": "Hungary",
+					"src": "../common/flags/hu.png"
+				}
+			];
+
+			var combobox = new dhx.Combobox("combobox", {
+				multiselection: true,
+				value: ["austria", "estonia"],
+				data: data
+			});
+
+		</script>
+	</body>
+</html>

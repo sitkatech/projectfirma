@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Inputs - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/form.css?v=7.1.8">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				width: 1000px;
+			}
+
+			.dhx_sample-container__widget {
+				padding: 0 25px;
+				height: 100%;
+				max-width: 450px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Inputs</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Inputs.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<form class="dhx_sample-container__widget" id="form-settings"></form>
+		</section>
+		<script>
+			var inputConfig = {
+				type: "input",
+				icon: "dxi dxi-magnify",
+				value: "",
+				placeholder: "i am input",
+				label: "i am label",
+				labelWidth: "100px",
+				labelPosition: "left",
+				disabled: false,
+				required: false,
+				readOnly: false,
+				autocomplete: false,
+				hidden: false,
+				helpMessage: "",
+				preMessage: "",
+				successMessage: "",
+				errorMessage: "",
+			};
+
+			var formSettings = new dhx.Form("form-settings", {
+				css: "dhx_widget--bordered",
+				rows: [
+					{
+						type: "input",
+						label: "value",
+						name: "value",
+						value: inputConfig.value,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "maxlength",
+						name: "maxlength",
+						value: inputConfig.maxlength,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "icon",
+						name: "icon",
+						value: inputConfig.icon,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "placeholder",
+						name: "placeholder",
+						value: inputConfig.placeholder,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "label",
+						name: "label",
+						value: inputConfig.label,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "labelWidth",
+						name: "labelWidth",
+						value: inputConfig.labelWidth,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "select",
+						name: "labelPosition",
+						label: "labelPosition",
+						labelPosition: "left",
+						labelWidth: "120px",
+						options: [
+							{ content: "left", value: "left" },
+							{ content: "top", value: "top" },
+						]
+					},
+					{
+						align: "start",
+						padding: "0 0 0 140px",
+						cols: [
+							{
+								type: "checkbox",
+								text: "disabled",
+								name: "disabled",
+								checked: inputConfig.disabled,
+								width: "50%"
+							},
+							{
+								type: "checkbox",
+								text: "required",
+								name: "required",
+								checked: inputConfig.required,
+								width: "50%"
+							}
+						]
+					},
+					{
+						align: "start",
+						padding: "0 0 0 140px",
+						cols: [
+							{
+								type: "checkbox",
+								text: "autocomplete",
+								name: "autocomplete",
+								checked: inputConfig.autocomplete,
+								width: "50%"
+							},
+							{
+								type: "checkbox",
+								text: "hidden",
+								name: "hidden",
+								checked: inputConfig.hidden,
+								width: "50%"
+							}
+						]
+					},
+					{
+						align: "start",
+						padding: "0 0 0 140px",
+						cols: [
+							{
+								type: "checkbox",
+								text: "readOnly",
+								name: "readOnly",
+								checked: inputConfig.readOnly,
+							}
+						]
+					},
+					{
+						type: "combo",
+						readOnly: true,
+						name: "validation",
+						label: "validation",
+						labelPosition: "left",
+						labelWidth: "120px",
+						data: [
+							{ id: "", value: "" },
+							{ id: "email", value: "email" },
+							{ id: "integer", value: "integer" },
+							{ id: "numeric", value: "numeric" },
+							{ id: "alphanumeric", value: "alphanumeric" },
+							{ id: "IPv4", value: "IPv4" }
+						]
+					},
+					{
+						type: "input",
+						label: "helpMessage",
+						name: "helpMessage",
+						value: inputConfig.helpMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "preMessage",
+						name: "preMessage",
+						value: inputConfig.preMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "successMessage",
+						name: "successMessage",
+						value: inputConfig.successMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "errorMessage",
+						name: "errorMessage",
+						value: inputConfig.errorMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					}
+				]
+			});
+
+			formSettings.events.on("change", function (name, value) {
+				inputConfig[name] = value;
+				createForm();
+			});
+
+			var form;
+
+			function createForm() {
+				if (form) {
+					form.destructor();
+				}
+				form = new dhx.Form("form-sample", {
+					css: "dhx_widget--bordered",
+					rows: [
+						inputConfig
+					]
+				});
+			}
+
+			createForm();
+		</script>
+	</body>
+</html>

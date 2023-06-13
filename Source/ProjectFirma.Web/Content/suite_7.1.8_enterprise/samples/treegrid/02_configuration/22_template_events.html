@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Handling events in template - DHTMLX TreeGrid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX TreeGrid to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/treegrid.css?v=7.1.8">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container__sidebar {
+				min-width: 350px;
+			}
+			.cell__template {
+				font-weight: 500;
+				color: green;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">TreeGrid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Handling events in template</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Handling events in template.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="treegrid"></div>
+			<div class="dhx_sample-container__sidebar"></div>
+		</section>
+		<script>
+			const data = [
+				{
+					"name": "Bestsellers",
+					"id": "b.1"
+				},
+				{
+					"name": "John Grisham",
+					"id": "c.1",
+					"parent": "b.1"
+				},
+				{
+					"name": "A Time to Kill",
+					"price": "12.25",
+					"cover": "Hardcover",
+					"ships": "12 hours",
+					"inStock": "<div class='cell__html'><input type='checkbox' checked />80</div>",
+					"parent": "c.1"
+				},
+				{
+					"name": "The Firm",
+					"price": "6.00",
+					"cover": "Paperback",
+					"ships": "24 hours",
+					"inStock": "<div class='cell__html'><input type='checkbox' />0</div>",
+					"parent": "c.1"
+				},
+				{
+					"name": "Classics",
+					"id": "b.2"
+				},
+				{
+					"name": "Pushkin",
+					"id": "c.3",
+					"parent": "b.2"
+				},
+				{
+					"name": "Eugene Onegin : A Novel in Verse",
+					"price": "14.40",
+					"cover": "Hardcover",
+					"ships": "24 hours",
+					"inStock": "<div class='cell__html'><input type='checkbox' checked />55</div>",
+					"parent": "c.3"
+				},
+				{
+					"name": "Boris Godunov",
+					"price": "8.10",
+					"cover": "Paperback",
+					"ships": "24 hours",
+					"inStock": "<div class='cell__html'><input type='checkbox' checked />1</div>",
+					"parent": "c.3"
+				},
+				{
+					"name": "For Children",
+					"id": "b.3"
+				},
+				{
+					"name": "Rudyard Kipling",
+					"parent": "b.3",
+					"id": "c.5"
+				},
+				{
+					"price": "4.80",
+					"cover": "Paperback",
+					"ships": "1 hour",
+					"inStock": "<div class='cell__html'><input type='checkbox' />0</div>",
+					"name": "Jungle Book",
+					"parent": "c.5"
+				},
+				{
+					"name": "Lewis Carroll",
+					"parent": "b.3",
+					"id": "c.6"
+				},
+				{
+					"price": "4.75",
+					"cover": "Paperback",
+					"ships": "24 hours",
+					"inStock": "<div class='cell__html'><input type='checkbox' checked />50</div>",
+					"name": "Alice in Wonderland",
+					"parent": "c.6",
+					"id": "d.3"
+				}
+			];
+
+			function display(string) {
+				const eventsContainer = document.querySelector(".dhx_sample-container__sidebar");
+				eventsContainer.insertAdjacentHTML("afterbegin", "<div class='dhx_sample-event'>" + string +"</div>");
+			}
+					
+			const treeGrid = new dhx.TreeGrid("treegrid", {
+				columns: [
+					{ width: 280, id: "name", header: [{ text: "Book Name" }] },
+					{
+						width: 160, id: "price", type: "string", header: [{ text: "Terms and conditions", colspan: 2 }, { text: "Price" }],
+						htmlEnable: true,
+						template: function (text, row, col) {
+							return text ? "<div class='cell__template'>$ " + text + "</div>" : "";
+						}
+					},
+					{ width: 160, id: "cover", type: "string", header: [{}, { text: "Cover" }] },
+					{ width: 160, id: "ships", type: "string", header: [{ text: "Ships in" }] },
+					{ width: 160, id: "inStock", type: "string", header: [{ text: "In stock" }], htmlEnable: true }
+				],
+				data: data,
+				eventHandlers: {
+					onmouseover: {
+						cell__html: function(event, data) {
+							display(JSON.stringify(data.col, null, 2));
+						},
+						cell__template: function(event, data) {
+							display(JSON.stringify(data.row, null, 2));
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

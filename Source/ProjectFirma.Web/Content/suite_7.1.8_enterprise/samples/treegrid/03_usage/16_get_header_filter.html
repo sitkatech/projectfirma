@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Get header filter - DHTMLX TreeGrid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX TreeGrid to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/treegrid.css?v=7.1.8">
+		<script type="text/javascript" src="../common/dataset.js?v=7.1.8"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">TreeGrid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Get header filter</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						You can get header filter using the getHeaderFilter method.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="form-select">
+				<label for="columns" class="dhx_sample-label">Select column:</label>
+				<select name="columns" class="dhx_select dhx_sample-input" id="columns">
+					<option value="name" selected>Name</option>
+					<option value="native">Native name</option>
+					<option value="capital">Capital</option>
+				</select>
+			</div>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="focusFilter()">Focus</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="blurFilter()">Blur</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="changeFilterValue()">Change value</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="resetFilterValue()">Reset value</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="treegrid"></div>
+
+		</section>
+		<script>
+			var changeEvent = document.createEvent("HTMLEvents");
+			changeEvent.initEvent("change", true, true);
+
+			var inputEvent = document.createEvent("HTMLEvents");
+			inputEvent.initEvent("input", true, true);
+
+			var colId = "name";
+			var filter = "comboFilter";
+			var treeGrid = new dhx.TreeGrid("treegrid", {
+				columns: [
+					{ id: "name", header: [{ text: "Name" }, { content: "comboFilter" }] },
+					{ id: "native", type: "string", header: [{ text: "Native name" }, { content: "selectFilter"}] },
+					{ id: "capital", type: "string", header: [{ text: "Capital" }, { content: "inputFilter" }] },
+				],
+				data: dataset,
+				autoWidth: true
+			});
+
+			document.getElementById("form-select").addEventListener("change", function(e) {
+				colId = e.target.value;
+				switch (colId) {
+					case "native":
+						filter = "selectFilter";
+						break;
+					case "capital":
+						filter = "inputFilter";
+						break;
+					case "name":
+						filter = "comboFilter";
+						break;
+				}
+			});
+
+			function focusFilter() {
+				treeGrid.getHeaderFilter(colId).focus();
+			}
+
+			function blurFilter() {
+				if (filter !== "comboFilter") {
+					treeGrid.getHeaderFilter(colId).blur();
+				}
+			}
+
+			function changeFilterValue() {
+				var headerFilter = treeGrid.getHeaderFilter(colId);
+				var element;
+				switch (filter) {
+					case "selectFilter":
+						console.log(filter, colId);
+						element = headerFilter.querySelector("select");
+						element.value = "Angola";
+						element.dispatchEvent(changeEvent);
+						break;
+					case "inputFilter":
+						element = headerFilter.querySelector("input");
+						element.value = "Bangui";
+						element.dispatchEvent(inputEvent);
+						break;
+					case "comboFilter":
+						element = headerFilter;
+						element.setValue(element.data.getId(3));
+						break;
+				}
+			}
+
+			function resetFilterValue() {
+				var headerFilter = treeGrid.getHeaderFilter(colId);
+				var element;
+				switch (filter) {
+					case "selectFilter":
+						element = headerFilter.querySelector("select");
+						element.value = "";
+						element.dispatchEvent(changeEvent);
+						break;
+					case "inputFilter":
+						element = headerFilter.querySelector("input");
+						element.value = "";
+						element.dispatchEvent(inputEvent);
+						break;
+					case "comboFilter":
+						element = headerFilter;
+						element.clear();
+						treeGrid.events.fire("filterChange", ["", colId, filter]);
+						break;
+				}
+			}
+		</script>
+	</body>
+</html>

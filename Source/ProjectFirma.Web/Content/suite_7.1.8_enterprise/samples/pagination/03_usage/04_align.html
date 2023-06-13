@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Elements align - DHTMLX Pagination</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Pagination to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/pagination.css?v=7.1.8">
+		<script type="text/javascript" src="../common/dataset.js?v=7.1.8"></script>
+		<!-- custom sample head -->
+		<script type="text/javascript" src="../common/dataview/dataview.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../common/dataview/dataview.css?v=7.1.8">
+		<script type="text/javascript" src="../common/layout/layout.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../common/layout/layout.css?v=7.1.8">
+		<script type="text/javascript" src="../common/form/form.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../common/form/form.css?v=7.1.8">
+		<style>
+			.dhx_sample-container__widget:first-child {
+				margin-bottom: 24px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Pagination samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Elements align</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Elements align.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section>
+			<form class="dhx_sample-controls" id="form-controls">
+				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+					<input type="radio" name="align" id="start" value="start" class="dhx_radiobutton__input">
+					<span class="dhx_radiobutton__visual-input"></span>
+					<span class="dhx_label">Start </span>
+				</label>
+				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+					<input type="radio" name="align" checked id="center" value="center" class="dhx_radiobutton__input">
+					<span class="dhx_radiobutton__visual-input"></span>
+					<span class="dhx_label">Center</span>
+				</label>
+				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+					<input type="radio" name="align" id="end" value="end" class="dhx_radiobutton__input">
+					<span class="dhx_radiobutton__visual-input"></span>
+					<span class="dhx_label">End</span>
+				</label>
+				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+					<input type="radio" name="align" id="between" value="between" class="dhx_radiobutton__input">
+					<span class="dhx_radiobutton__visual-input"></span>
+					<span class="dhx_label">Between</span>
+				</label>
+				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+					<input type="radio" name="align" id="around" value="around" class="dhx_radiobutton__input">
+					<span class="dhx_radiobutton__visual-input"></span>
+					<span class="dhx_label">Around</span>
+				</label>
+				<label class="dhx_form-group dhx_radiobutton dhx_form-group--inline dhx_form-group--no-message-holder dhx_sample-input__wrapper--pl-16">
+					<input type="radio" name="align" id="evenly" value="evenly" class="dhx_radiobutton__input">
+					<span class="dhx_radiobutton__visual-input"></span>
+					<span class="dhx_label">Evenly</span>
+				</label>
+			</form>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="first-pagination-holder"></div>
+			<div class="dhx_sample-container__widget" id="second-pagination-holder"></div>
+		</section>
+		<script>
+			const layoutConfig = {
+				css: "dhx_widget--bordered",
+				align: "center",
+			}
+
+			let firstLayout;
+			let secondLayout
+
+			let firstPagination;
+			let secondPagination;
+
+			let form;
+
+			const dataview = new dhx.DataView(null);
+			dataview.data.parse(dataview_data);
+
+			function initPagination() {
+				if (firstLayout && secondLayout) {
+					firstLayout.destructor();
+					secondLayout.destructor();
+				}
+
+				firstLayout = new dhx.Layout("first-pagination-holder", {
+					...layoutConfig,
+					cols: [
+						{
+							id: "pagination",
+							width: "content"
+						},
+						{
+							id: "button",
+							width: "content"
+						}
+					]
+				});
+
+				firstPagination = new dhx.Pagination(null, {
+					data: dataview.data,
+				});
+
+				secondLayout = new dhx.Layout("second-pagination-holder", {
+					...layoutConfig,
+					cols: [
+						{
+							id: "pagination",
+							width: "content"
+						}
+					]
+				});
+
+				secondPagination = new dhx.Pagination(null, {
+					data: dataview.data,
+				});
+
+				form = new dhx.Form(null, {
+					align: "center",
+					padding: 0,
+					rows: [
+						{
+							type: "button",
+							text: "YOUR BUTTON",
+							view: "link",
+							circle: true,
+						}
+					]
+				})
+
+				firstLayout.getCell("pagination").attach(firstPagination);
+				firstLayout.getCell("button").attach(form);
+				secondLayout.getCell("pagination").attach(secondPagination);
+			}
+
+			initPagination();
+
+			document.getElementById("form-controls").addEventListener("change", function (e) {
+				layoutConfig.align = e.target.value;
+				initPagination();
+			});
+		</script>
+	</body>
+</html>

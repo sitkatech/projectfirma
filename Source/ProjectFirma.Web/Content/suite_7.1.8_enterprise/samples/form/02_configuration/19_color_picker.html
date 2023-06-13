@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>ColorPicker - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its configuration and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/form.css?v=7.1.8">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				width: 1000px;
+			}
+			.dhx_sample-container__widget {
+				padding: 0 25px;
+				height: 100%;
+				max-width: 450px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Configuration</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">ColorPicker</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						ColorPicker.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<form class="dhx_sample-container__widget" id="form-settings"></form>
+		</section>
+
+		<script>
+				var colorPickerConfig = {
+				value:"#0288D1",
+				type: "colorpicker",
+				placeholder: "Choose a color",
+				label: "Color",
+				labelWidth: "100px",
+				labelPosition: "left",
+				disabled: false,
+				required: false,
+				editable: false,
+				grayShades: false,
+				helpMessage: "",
+				preMessage: "",
+				successMessage: "",
+				errorMessage: "",
+				mode: "palette",
+				customColors: ["#ec9875","#8ac5d9","#7a8523"]
+			};
+			var formSettings = new dhx.Form("form-settings", {
+				css: "dhx_widget--bordered",
+				rows: [
+					{
+						type: "input",
+						label: "value",
+						name: "value",
+						value: colorPickerConfig.value,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "customColors",
+						name: "customColors",
+						value: colorPickerConfig.customColors,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "icon",
+						name: "icon",
+						value: colorPickerConfig.icon,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "select",
+						readonly: true,
+						name: "mode",
+						label: "mode",
+						labelPosition: "left",
+						labelWidth: "120px",
+						options: [
+							{content: "palette", value: "palette"},
+							{content: "picker", value: "picker"},
+						]
+					},
+					{
+						type: "input",
+						label: "placeholder",
+						name: "placeholder",
+						value: colorPickerConfig.placeholder,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "label",
+						name: "label",
+						value: colorPickerConfig.label,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "labelWidth",
+						name: "labelWidth",
+						value: colorPickerConfig.labelWidth,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "select",
+						name: "labelPosition",
+						label: "labelPosition",
+						labelPosition: "left",
+						labelWidth: "120px",
+						options: [
+							{content: "left", value: "left"},
+							{content: "top", value: "top"},
+						]
+					},
+					{
+						align: "start",
+						padding: "0 0 0 140px",
+						cols: [
+							{
+								type: "checkbox",
+								text: "required",
+								name: "required",
+								checked: colorPickerConfig.required,
+								width: "50%"
+							},
+							{
+								type: "checkbox",
+								text: "editable",
+								name: "editable",
+								checked: colorPickerConfig.editable,
+							}
+						]
+					},
+					{
+						align: "start",
+						padding: "0 0 0 140px",
+						cols: [
+							{
+								type: "checkbox",
+								text: "disabled",
+								name: "disabled",
+								checked: colorPickerConfig.disabled,
+								width: "50%"
+							},
+							{
+								type: "checkbox",
+								text: "grayShades",
+								name: "grayShades",
+								checked: colorPickerConfig.grayShades,
+							}
+						]
+					},
+					{
+						type: "input",
+						label: "helpMessage",
+						name: "helpMessage",
+						value: colorPickerConfig.helpMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "preMessage",
+						name: "preMessage",
+						value: colorPickerConfig.preMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "successMessage",
+						name: "successMessage",
+						value: colorPickerConfig.successMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					},
+					{
+						type: "input",
+						label: "errorMessage",
+						name: "errorMessage",
+						value: colorPickerConfig.errorMessage,
+						labelWidth: "120px",
+						labelPosition: "left"
+					}
+				]
+			});
+			formSettings.events.on("change", function(name, value) {
+				if (name === "customColors") {
+					colorPickerConfig[name] = value.split(",")
+				} else {
+					colorPickerConfig[name] = value;
+				}
+				createForm();
+			});
+			var form;
+			function createForm() {
+				if (form) {
+					form.destructor();
+				};
+				form = new dhx.Form("form-sample", {
+					css: "dhx_widget--bordered",
+					rows: [
+						colorPickerConfig
+					]
+				});
+			};
+			createForm();
+		</script>
+
+	</body>
+</html>

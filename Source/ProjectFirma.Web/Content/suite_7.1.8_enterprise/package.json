@@ -1,0 +1,13 @@
+{
+  "name": "dhx-suite-package",
+  "version": "7.1.8",
+  "description": "dhtmlxSuite widget",
+  "homepage": "https://docs.dhtmlx.com",
+  "private": true,
+  "bugs": {
+    "url": "https://forum.dhtmlx.com",
+    "email": "support@dhtmlx.com"
+  },
+  "main": "codebase/suite.js",
+  "types": "codebase/suite.d.ts"
+}

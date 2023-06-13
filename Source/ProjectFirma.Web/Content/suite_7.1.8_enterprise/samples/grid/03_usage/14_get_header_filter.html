@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Get header filter - DHTMLX Grid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Grid to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/grid.css?v=7.1.8">
+		<script type="text/javascript" src="../common/dataset.js?v=7.1.8"></script>
+		<!-- custom sample head -->
+		<style>
+			.dhx_form-group {
+				width: 250px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Grid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Get header filter</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						You can get header filter using the getHeaderFilter method.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<div class="dhx_form-group dhx_form-group--inline dhx_form-group--no-message-holder" id="form-select">
+				<label for="columns" class="dhx_sample-label">Select column:</label>
+				<select name="columns" class="dhx_select dhx_sample-input" id="columns">
+					<option value="country" selected>Country</option>
+					<option value="yearlyChange">Yearly Change</option>
+					<option value="density">Density (P/Km²)</option>
+				</select>
+			</div>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="focusFilter()">Focus</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="blurFilter()">Blur</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="changeFilterValue()">Change value</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="resetFilterValue()">Reset value</button>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="grid"></div>
+		</section>
+		<script>
+			var changeEvent = document.createEvent("HTMLEvents");
+			changeEvent.initEvent("change", true, true);
+
+			var inputEvent = document.createEvent("HTMLEvents");
+			inputEvent.initEvent("input", true, true);
+
+			var colId = "country";
+			var filter = "selectFilter";
+			var grid = new dhx.Grid("grid", {
+				columns: [
+					{ width: 200, id: "country", header: [{ text: "Country" }, { content: "selectFilter" }] },
+					{ width: 160, id: "population", header: [{ text: "Population" }] },
+					{ width: 160, id: "yearlyChange", header: [{ text: "Yearly Change" }, { content: "inputFilter" }] },
+					{ width: 160, id: "netChange", header: [{ text: "Net Change" }] },
+					{ width: 160, id: "density", header: [{ text: "Density (P/Km²)" }, { content: "comboFilter", filterConfig: { placeholder: "Type something", virtual: true }, }], },
+				],
+				data: dataset,
+				autoWidth: true,
+			});
+
+			document.getElementById("form-select").addEventListener("change", function(e) {
+				colId = e.target.value;
+				switch (colId) {
+					case "country":
+						filter = "selectFilter";
+						break;
+					case "yearlyChange":
+						filter = "inputFilter";
+						break;
+					case "density":
+						filter = "comboFilter";
+						break;
+				}
+			});
+
+			function focusFilter() {
+				grid.getHeaderFilter(colId).focus();
+			}
+
+			function blurFilter() {
+				if (filter !== "comboFilter") {
+					grid.getHeaderFilter(colId).blur();
+				}
+			}
+
+			function changeFilterValue() {
+				var headerFilter = grid.getHeaderFilter(colId);
+				var element;
+				switch (filter) {
+					case "selectFilter":
+						element = headerFilter.querySelector("select");
+						element.value = "Albania";
+						element.dispatchEvent(changeEvent);
+						break;
+					case "inputFilter":
+						element = headerFilter.querySelector("input");
+						element.value = "0.0108";
+						element.dispatchEvent(inputEvent);
+						break;
+					case "comboFilter":
+						element = headerFilter;
+						element.setValue(element.data.getId(3));
+						break;
+				}
+			}
+
+			function resetFilterValue() {
+				var headerFilter = grid.getHeaderFilter(colId);
+				var element;
+				switch (filter) {
+					case "selectFilter":
+						element = headerFilter.querySelector("select");
+						element.value = "";
+						element.dispatchEvent(changeEvent);
+						break;
+					case "inputFilter":
+						element = headerFilter.querySelector("input");
+						element.value = "";
+						element.dispatchEvent(inputEvent);
+						break;
+					case "comboFilter":
+						element = headerFilter;
+						element.clear();
+						grid.events.fire("filterChange", ["", colId, filter]);
+						break;
+				}
+			}
+		</script>
+	</body>
+</html>

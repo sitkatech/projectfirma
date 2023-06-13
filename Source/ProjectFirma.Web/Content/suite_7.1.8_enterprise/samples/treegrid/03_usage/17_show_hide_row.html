@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Show/Hide row - DHTMLX TreeGrid</title>
+		<meta name="description" content="Check interactive samples of DHTMLX TreeGrid to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/treegrid.css?v=7.1.8">
+		<script type="text/javascript" src="../common/dataset.js?v=7.1.8"></script>
+		<!-- custom sample head -->
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">TreeGrid samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Show/Hide row</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						It is possible to show and hide row in the grid via the showRow() and hideRow() methods.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-controls">
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="showRow()">Show</button>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="hideRow()">Hide</button>
+			<input type="text" id="value" class="dhx_sample-input" readonly>
+			<button class="dhx_sample-btn dhx_sample-btn--flat" onclick="isHidden()">is Hidden</button>
+			<input type="text" id="output" class="dhx_sample-input" readonly>
+		</section>
+		<section class="dhx_sample-container dhx_sample-container--treegrid">
+			<div class="dhx_sample-container__widget" id="treegrid"></div>
+		</section>
+		<script>
+			const treeGrid = new dhx.TreeGrid("treegrid", {
+				columns: [
+					{ id: "name", header: [{ text: "Name" }], gravity: 1.5 },
+					{ id: "native", type: "string", header: [{ text: "Native name" }] },
+					{ id: "capital", type: "string", header: [{ text: "Capital" }] },
+					{ id: "currency", type: "string", header: [{ text: "Currency" }] }
+				],
+				data: dataset,
+				selection: "row",
+				autoWidth: true
+			});
+
+			treeGrid.selection.events.on("afterSelect", function(row) {
+				document.getElementById("value").value = row.id;
+			});
+
+			treeGrid.selection.setCell("AF");
+
+			function getSellectionId() {
+				return treeGrid.selection.getCell().row.id;
+			}
+			function showRow() {
+				treeGrid.showRow(getSellectionId());
+			}
+			function hideRow() {
+				treeGrid.hideRow(getSellectionId());
+			}
+			function isHidden() {
+				document.getElementById("output").value = treeGrid.isRowHidden(getSellectionId());
+			}
+		</script>
+	</body>
+</html>

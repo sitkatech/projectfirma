@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Events - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/form.css?v=7.1.8">
+		
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				width: 1000px;
+			}
+			.dhx_sample-container__widget {
+				padding: 0 50px;
+				height: 100%;
+			}
+			.dhx_sample-container__sidebar {
+				height: 450px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Events</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Events.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-controls">
+			<button onclick="show()" class="dhx_sample-btn dhx_sample-btn--flat">Show Form</button>
+			<button onclick="hide()" class="dhx_sample-btn dhx_sample-btn--flat">Hide Form</button>
+			<button onclick="clearEvents()" class="dhx_sample-btn dhx_sample-btn--flat">Clear events</button>
+		</section>
+		<section class="dhx_sample-container">
+			<form class="dhx_sample-container__widget" id="form-sample"></form>
+			<div class="dhx_sample-container__sidebar" id="events"> </div>
+		</section>
+
+		<script>
+			var form = new dhx.Form("form-sample", {
+				css: "dhx_widget--bordered",
+				padding: "30px",
+				rows: [
+					{
+						name: "input",
+						type: "input",
+						label: "Input",
+						labelPosition: "left",
+						icon: "dxi dxi-magnify",
+						labelWidth: 140,
+						required: true,
+					},
+					{
+						name: "combo",
+						type: "combo",
+						label: "Combo",
+						required: true,
+						labelPosition: "left",
+						labelWidth: 140,
+						multiselection: true,
+						value: ["1", "4"],
+						data: [
+							{ value: "1", id: "1" },
+							{ value: "2", id: "2" },
+							{ value: "3", id: "3" },
+							{ value: "4", id: "4" },
+							{ value: "5", id: "5" },
+						],
+					},
+					{
+						name: "slider",
+						type: "slider",
+						label: "Slider",
+						labelPosition: "left",
+						labelWidth: 140,
+						min: 0,
+						max: 100,
+					},
+					{
+						name: "datepicker",
+						type: "datepicker",
+						label: "Date Picker",
+						required: true,
+						labelPosition: "left",
+						labelWidth: 140,
+					},
+					{
+						name: "timepicker",
+						type: "timepicker",
+						label: "Time Picker",
+						required: true,
+						labelPosition: "left",
+						labelWidth: 140,
+						controls: true
+					},
+					{
+						type: "select",
+						label: "Select",
+						labelPosition: "left",
+						labelWidth: 140,
+						validation: function(value) {
+							return value !== "";
+						},
+						name: "select",
+						options: [
+							{
+								value: "",
+								content: ""
+							},
+							{
+								value: "1",
+								content: "1"
+							},
+							{
+								value: "2",
+								content: "2"
+							},
+							{
+								value: "3",
+								content: "3"
+							},
+							{
+								value: "4",
+								content: "4"
+							}
+						],
+					},
+					{
+						name: "textarea",
+						type: "textarea",
+						label: "Textarea",
+						required: true,
+						labelPosition: "left",
+						labelWidth: 140,
+					},
+					{
+						name: "simplevault",
+						type: "simpleVault",
+						required: true,
+						label: "Simple Vault",
+						labelPosition: "left",
+						labelWidth: 140,
+						target: "https://docs.dhtmlx.com/suite/backend/upload",
+						value: [
+							{
+								id: "image",
+								name: "image.png",
+								link: "/backend/upload/files/image.png",
+								status: "uploaded",
+
+							}
+						]
+					},
+					{
+						name: "text",
+						type: "text",
+						label: "Text",
+						labelPosition: "left",
+						labelWidth: 140,
+						inputType: "number",
+						value: 10e2,
+					},
+					{
+						name: "radiogroup",
+						type: "radioGroup",
+						required: true,
+						label: "Radio Group",
+						labelWidth: 140,
+						labelPosition: "left",
+						options: {
+							rows: [
+								{
+									id: "first",
+									type: "radioButton",
+									text: "Select 1",
+									value: "1",
+								},
+								{
+									id: "second",
+									type: "radioButton",
+									text: "Select 2",
+									value: "2"
+								},
+							]
+						},
+					},
+					{
+						name: "checkboxGroup",
+						type: "checkboxGroup",						
+						required: true,
+						label: "Checkbox Group",
+						labelWidth: 140,
+						labelPosition: "left",
+						options: {
+							rows: [
+								{
+									id: "first",
+									type: "checkbox",
+									text: "Select 1",
+								},
+								{
+									id: "second",
+									type: "checkbox",
+									text: "Select 2",
+								},
+							]
+						}
+					},
+					{
+						name: "checkbox",
+						type: "checkbox",
+						label: "Checkbox",
+						text: "I agree",
+						labelWidth: 140,
+						labelPosition: "left",
+						required: true,
+					},
+					{
+						name: "colorpicker",
+						type: "colorpicker",
+						labelPosition: "left",
+						label: "Color Picker",
+						required: true,
+						labelWidth: 140,
+					},
+					{
+						type: "spacer",
+						id: "spacer",
+					},
+					{
+						name: "button",
+						type: "button",
+						submit: true,
+						text: "Send",
+						size: "medium",
+						view: "flat",
+						color: "primary",
+						full: true,
+						url: "https://docs.dhtmlx.com/suite/backend/formData/",
+					}
+				]
+			});
+			var events = [
+				 "change",
+				 "click",
+				 "beforeShow",
+				 "afterShow",
+				 "beforeHide",
+				 "afterHide",
+				 "afterValidate",
+				 "beforeValidate",
+				 "beforesend",
+				 "aftersend",
+				 "beforeChangeProperties",
+				 "afterChangeProperties",
+			];
+			var eventsContainer = document.querySelector(".dhx_sample-container__sidebar")
+			var counter = 1;
+			events.forEach(function (event) {
+				form.events.on(event, function () {
+					eventsContainer.insertAdjacentHTML('afterbegin', getEvent(event, arguments));
+				});
+			});
+			function getEvent(event, args) {
+				var argsList = "<div class='arguments'>Arguments:</div>";
+				for (var i = 0; i < args.length; i++) {
+
+					argsList += "<div>" + args[i] + "</div>";
+				}
+				return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
+			};
+			function show() {
+				form.show();
+			}
+			function hide() {
+				form.hide();
+			}
+			function clearEvents() {
+				eventsContainer.innerHTML = "";
+				counter = 1;
+			}
+		</script>
+	</body>
+</html>

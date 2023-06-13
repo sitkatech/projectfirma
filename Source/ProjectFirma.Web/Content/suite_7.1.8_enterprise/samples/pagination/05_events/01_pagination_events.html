@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Pagination events - DHTMLX Pagination</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Pagination to explore its events and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/pagination.css?v=7.1.8">
+		<script type="text/javascript" src="../common/dataset.js?v=7.1.8"></script>
+		<!-- custom sample head -->
+		<script type="text/javascript" src="../common/list/list.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../common/list/list.css?v=7.1.8">
+		<style>
+			.dhx_sample-container {
+				justify-content: center;
+				flex-direction: row;
+				max-width: 1000px;
+			}
+			.dhx_sample-container__widget {
+				height: 600px;
+			}
+			.dhx_sample-container__sidebar {
+				background-color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Pagination samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Events</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Pagination events</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Pagination events.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="pagination"></div>
+			<div class="dhx_sample-container__sidebar"> </div>
+		</section>
+
+		<script>
+			const data = new dhx.DataCollection();
+			data.parse(list_data);
+
+			const pagination = new dhx.Pagination("pagination", {
+				css: "dhx_widget--bordered",
+				data: data
+			});
+
+			const events = [
+				"change"
+			];
+
+			const eventsContainer = document.querySelector(".dhx_sample-container__sidebar");
+			let counter = 1;
+
+			events.forEach(function (event) {
+				pagination.events.on(event, function () {
+					eventsContainer.insertAdjacentHTML("afterbegin", getEvent(event, arguments));
+				});
+			});
+
+			function getEvent(event, args) {
+				let argsList = "<div class='arguments'>Arguments:</div>";
+				for (let i = 0; i < args.length; i++) {
+					argsList += "<div>" + args[i] + "</div>";
+				}
+				return "<div class=\"dhx_sample-event\">Event " + counter++ + ": " + event + argsList + "</div>";
+			}
+		</script>
+	</body>
+</html>

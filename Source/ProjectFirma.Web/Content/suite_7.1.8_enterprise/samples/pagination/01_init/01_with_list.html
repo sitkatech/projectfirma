@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Pagination with List - DHTMLX Pagination</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Pagination to explore its initialization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/pagination.css?v=7.1.8">
+		<script type="text/javascript" src="../common/dataset.js?v=7.1.8"></script>
+		<!-- custom sample head -->
+		<script type="text/javascript" src="../common/list/list.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../common/list/list.css?v=7.1.8">
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Pagination samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Initialization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Pagination with List</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Pagination with List.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="widget"></div>
+			<div class="dhx_sample-container__widget" id="pagination"></div>
+		</section>
+
+		<script>
+			const list = new dhx.List("widget", {
+				css: "dhx_widget--bordered dhx_widget--no-border_bottom",
+				keyNavigation: true
+			});
+
+			list.data.parse(list_data);
+
+			const pagination = new dhx.Pagination("pagination", {
+				css: "dhx_widget--bordered",
+				data: list.data
+			});
+		</script>
+	</body>
+</html>

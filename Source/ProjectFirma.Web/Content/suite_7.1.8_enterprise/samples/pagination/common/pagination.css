@@ -1,0 +1,28 @@
+body {
+	background-color: #f2f2f2;
+}
+
+.dhx_sample-container {
+	flex-direction: column;
+	justify-content: unset;
+}
+
+.dhx_sample-container__widget {
+	flex: unset;
+}
+
+.dhx_sample-container__widget:first-child .dhx_widget, .dhx_sample-controls {
+	background-color: white;
+}
+
+.dhx_sample-container__widget > .dhx_widget:not(.dhx_pagination):not(.dhx_layout) {
+	height: 500px;
+}
+
+.dhx_form-group--inline {
+	max-width: 200px;
+}
+
+.dhx_sample-controls > *:not(:last-child) {
+	margin-right: 16px;
+}

@@ -1,0 +1,8 @@
+.dhx_sample-container {
+	width: 800px;
+	height: 600px;
+}
+
+.dhx_sample-container__widget {
+	width: 100%;
+}

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Set Focus on control - DHTMLX Form</title>
+		<meta name="description" content="Check interactive samples of DHTMLX Form to explore its usage and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+		<link rel="stylesheet" href="../common/form.css?v=7.1.8">
+		
+		<!-- custom sample head -->
+		<style>
+			.form_control .dhx_form-group {
+				margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">Form samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Usage</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Set Focus on control</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Set Focus on control.
+					</div>
+				</h1>
+			</div>
+		</header>
+		<section class="dhx_sample-controls">
+			<div id="control_form_container"></div>
+		</section>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="form"></div>
+		</section>
+		<script>
+			const form = new dhx.Form("form", {
+				css: "dhx_widget--bg_white dhx_widget--bordered",
+				padding: 20,
+				rows: [
+					{
+						type: "input",
+						label: "Name",
+						labelPosition: "left",
+						icon: "dxi dxi-magnify",
+						labelWidth: 130,
+						placeholder: "John Doe",
+						name: "input"
+					},
+					{
+						type: "combo",
+						label: "count",
+						labelPosition: "left",
+						helpMessage: "Help information",
+						labelWidth: 130,
+						name: "combo",
+						data: [
+							{ value: "1", id: "1" },
+							{ value: "2", id: "2" },
+							{ value: "3", id: "3" },
+							{ value: "4", id: "4" },
+							{ value: "5", id: "5" },
+						]
+					},
+					{
+						type: "datepicker",
+						label: "date",
+						labelPosition: "left",
+						labelWidth: 130,
+						name: "datepicker"
+					},
+					{
+						type: "timepicker",
+						controls: "true",
+						label: "time",
+						labelPosition: "left",
+						labelWidth: 130,
+						name: "timepicker"
+					},
+					{
+						type: "select",
+						label: "select",
+						labelPosition: "left",
+						labelWidth: 130,
+						value: "2",
+						validation: function (value) {
+							return value !== "";
+						},
+						name: "select",
+						options: [
+							{ value: "", content: "" },
+							{ value: "1", content: "1" },
+							{ value: "2", content: "2" },
+							{ value: "3", content: "3" },
+							{ value: "4", content: "4" }
+						]
+					},
+					{
+						type: "textarea",
+						label: "textarea",
+						helpMessage: "Help information",
+						labelPosition: "left",
+						labelWidth: 130,
+						value: "I am textarea!",
+						name: "textarea",
+					},
+					{
+						type: "radioGroup",
+						label: "radioGroup",
+						labelWidth: 130,
+						labelPosition: "left",
+						helpMessage: "Help information",
+						options: {
+							rows: [
+								{
+									type: "radioButton",
+									text: "Select 1",
+									id: "radio_1"
+								},
+								{
+									type: "radioButton",
+									text: "Select 2",
+									id: "radio_2"
+								}
+							]
+						},
+						name: "radiogroup",
+					},
+					{
+						type: "checkboxGroup",
+						label: "checkboxGroup",
+						labelWidth: 130,
+						labelPosition: "left",
+						helpMessage: "Help information",
+						options: {
+							rows: [
+								{
+									type: "checkbox",
+									text: "First check",
+									id: "checkbox_1"
+								},
+								{
+									type: "checkbox",
+									text: "Second check",
+									id: "checkbox_2"
+								}
+							]
+						},
+						name: "checkboxgroup",
+					},
+					{
+						labelPosition: "left",
+						label: "Choose your color",
+						labelWidth: "130px",
+						type: "colorpicker",
+						name: "colorpicker"
+					},
+					{
+						align: "end",
+						cols: [
+							{
+								type: "button",
+								text: "Send",
+								size: "medium",
+								view: "flat",
+								color: "primary",
+								name: "button",
+								url: "https://docs.dhtmlx.com/suite/backend/formData/"
+							}
+						]
+					}
+				]
+			});
+
+			const controlForm = new dhx.Form("control_form_container", {
+				padding: 0,
+				width: 250,
+				css: "form_control",
+				cols: [
+					{
+						type: "select",
+						value: "input",
+						name: "select",
+						options: [
+							{ value: "input", content: "input" },
+							{ value: "combo", content: "combo" },
+							{ value: "datepicker", content: "datepicker" },
+							{ value: "timepicker", content: "timepicker" },
+							{ value: "select", content: "select" },
+							{ value: "textarea", content: "textarea" },
+							{ value: "radiogroup", content: "radio group" },
+							{ value: "radio_1", content: "radio 1" },
+							{ value: "radio_2", content: "radio 2" },
+							{ value: "checkboxgroup", content: "checkbox group" },
+							{ value: "checkbox_1", content: "checkbox 1" },
+							{ value: "checkbox_2", content: "checkbox 2" },
+							{ value: "colorpicker", content: "colorpicker" },
+						]
+					},
+					{
+						type: "spacer",
+					},
+					{
+						type: "button",
+						text: "Set Focus",
+						name: "button",
+					}
+				]
+			});
+
+			controlForm.events.on("click", function () {
+				const selectedId = controlForm.getValue()["select"];
+				form.setFocus(selectedId);
+			});
+		</script>
+	</body>
+</html>

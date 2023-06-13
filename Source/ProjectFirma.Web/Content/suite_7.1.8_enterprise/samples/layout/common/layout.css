@@ -1,0 +1,15 @@
+html, body {
+    height: 100%;
+}
+
+.dhx_layout-cell-content:not(.dhx_layout-cell) {
+    padding: 12px;
+}
+
+.dhx_sample-container__widget {
+    height: calc(100% - 61px);
+}
+
+.dhx_form-group--inline {
+    max-width: 200px;
+}

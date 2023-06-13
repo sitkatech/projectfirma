@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- meta block -->
+		<title>Handling events in template - DHTMLX List</title>
+		<meta name="description" content="Check interactive samples of DHTMLX List to explore its customization and other details.">
+		<!-- end meta block -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+		<script type="text/javascript" src="../../../codebase/suite.js?v=7.1.8"></script>
+		<link rel="stylesheet" href="../../../codebase/suite.css?v=7.1.8">
+		<link rel="stylesheet" href="../../common/index.css?v=7.1.8">
+
+
+		<!-- custom sample head -->
+		<style>
+			.dhx_sample-container {
+				width: 800px;
+                height: 600px;
+			}
+			.dhx_sample-container__sidebar {
+				min-width: 350px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="dhx_sample-header">
+			<div class="dhx_sample-header__main">
+				<nav class="dhx_sample-header__breadcrumbs">
+					<ul class="dhx_sample-header-breadcrumbs">
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../../index.html" class="dhx_sample-header-breadcrumbs__link">Suite samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="../index.html" class="dhx_sample-header-breadcrumbs__link">List samples</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<a href="./index.html" class="dhx_sample-header-breadcrumbs__link">Customization</a>
+						</li>
+						<li class="dhx_sample-header-breadcrumbs__item">
+							<span class="dhx_sample-header-breadcrumbs__link">Handling events in template</span>
+						</li>
+					</ul>
+				</nav>
+				<h1 class="dhx_sample-header__title">
+					<div class="dhx_sample-header__content">
+						Handling events in template.
+					</div>
+				</h1>
+			</div>
+</header>
+		<section class="dhx_sample-container">
+			<div class="dhx_sample-container__widget" id="list"></div>
+			<div class="dhx_sample-container__sidebar"> </div>
+		</section>
+		<script>
+			function template(item) {
+				let template = "<div class='list_item'>";
+					template += "<div class='item_name'>"+item.value;
+					template+="<span class='item_author'> by "
+					template += item.authors.filter(function(item){return item}).join(", ");
+					template += item.publishedDate ? ", " + new Date(item.publishedDate.$date).getFullYear() : "";
+					template += "</span>";
+					template += "</div>";
+					template += "<span class='item_categories'>"+item.categories.join(", ")+"</span>";
+					template += "</div>";
+				return template;
+			}
+
+			function display(string) {
+				const eventsContainer = document.querySelector(".dhx_sample-container__sidebar");
+				eventsContainer.insertAdjacentHTML("afterbegin", "<div class='dhx_sample-event'>" + string +"</div>");
+			}
+
+			const list = new dhx.List("list", {
+				css: "dhx_widget--bordered",
+				template: template,
+				itemHeight: 72,
+				eventHandlers: {
+					onclick: {
+						list_item: function(event) {
+							display("You clicked on " + event.target.tagName);
+						},
+					},
+					onmouseover: {
+						list_item: function(event, id) {
+							display(list.data.getItem(id).value);
+						},
+					}
+				}
+			});
+
+			list.data.load("../common/books.json");
+		</script>
+	</body>
+</html>
