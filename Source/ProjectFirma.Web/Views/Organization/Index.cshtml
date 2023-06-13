@@ -1,33 +1,33 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
-Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
-<author>Environmental Science Associates</author>
-</copyright>
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
-@using ProjectFirma.Web.Views
-@using ProjectFirma.Web.Views.Shared
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Organization.Index
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ DhxGridIncludes.RenderPartialView(Html); }
 }
 
 @section RightOfPageTitle
@@ -44,8 +44,9 @@ Source code is available upon request via <support@sitkatech.com>.
     @Html.DropDownList("ShowOnlyActiveOrBothActiveAndInactive", ViewDataTyped.ActiveOrAllOrganizationsSelectListItems, new { id = @ViewDataTyped.ShowOnlyActiveOrAll, onchange = "changeGridUrl()", })
 </div>
 
-<div style="margin-top: 10px;">
-    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+<div id="grid_container" style="margin-top: 10px;">
+    @*@Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)*@
+    @Html.DhxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
 
@@ -53,4 +54,22 @@ Source code is available upon request via <support@sitkatech.com>.
     var changeGridUrl = function () {
         Sitka.@(ViewDataTyped.GridName).load(jQuery("#@ViewDataTyped.ShowOnlyActiveOrAll").val());
     }
+
 </script>
+
+@*<script>
+
+    // creating DHTMLX Grid
+    const grid = new dhx.Grid("grid_container", {
+        columns: [
+            { width: 100, id: "a", header: [{ text: "#" }] },
+            { width: 100, id: "b", header: [{ text: "Title" }] },
+            { width: 200, id: "c", header: [{ text: "Name" }] },
+            { width: 200, id: "d", header: [{ text: "Address" }] }
+        ],
+        headerRowHeight: 50,
+    });
+
+
+
+</script>*@

@@ -36,7 +36,7 @@ namespace LtInfo.Common.DhtmlWrappers
             InitWidthsByPercentage = false;
             SkinRowHeight = DhtmlxGridHtmlHelpers.SkinRowHeight;
         }
-
+        
         public bool InitWidthsByPercentage { get; set; }
         public int SkinRowHeight { get; set; }
         public string LoadingBarHtml { get; set; }

@@ -52,5 +52,11 @@
     "inputFiles": [
       "ScriptsCustom/sitka.js"
     ]
+  },
+  {
+    "outputFileName": "ScriptsCustom/sitka.dhx_grid.min.js",
+    "inputFiles": [
+      "ScriptsCustom/sitka.dhx_grid.js"
+    ]
   }
 ]

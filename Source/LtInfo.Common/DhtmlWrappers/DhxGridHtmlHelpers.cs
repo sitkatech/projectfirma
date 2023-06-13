@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridHtmlHelpers.cs" company="Environmental Science Associates">
+<copyright file="DhxGridHtmlHelpers.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -29,12 +29,12 @@ using LtInfo.Common.ModalDialog;
 namespace LtInfo.Common.DhtmlWrappers
 {
     /// <summary>
-    ///     Helper class for DhtmlxGrid expects following content to be set up in local project
-    ///     /Content/css/dhtmlxgrid_skin.css
+    ///     Helper class for DhxGrid expects following content to be set up in local project
+    ///     /Content/css/Dhxgrid_skin.css
     ///     /Content/img/bg-edit-single.png
     ///     /Content/img/bg-delete-single.png
     /// </summary>
-    public static class DhtmlxGridHtmlHelpers
+    public static class DhxGridHtmlHelpers
     {
         public static readonly HtmlString PlusIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus-sign gi-1x blue");
         public static readonly HtmlString UndoIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-regular undo gi-1x blue");
@@ -58,25 +58,25 @@ namespace LtInfo.Common.DhtmlWrappers
         /// <param name="optionalGridDataUrl"></param>
         /// <param name="styleString"></param>
         /// <returns></returns>
-        public static HtmlString DhtmlxGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
+        public static HtmlString DhxGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return new HtmlString(DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, DhtmlxGridResizeType.None, ""));
+            return new HtmlString(DhxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, DhxGridResizeType.None, ""));
         }
 
-        public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn)
+        public static string DhxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn)
         {
-            return DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, DhtmlxGridResizeType.None,"");
+            return DhxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, DhxGridResizeType.None,"");
         }
 
-        public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl,
-            string styleString, int? splitAtColumn, string metaDivHtml, DhtmlxGridResizeType dhtmlxGridResizeType,
+        public static string DhxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl,
+            string styleString, int? splitAtColumn, string metaDivHtml, DhxGridResizeType DhxGridResizeType,
             string saveGridSettingsUrl)
         {
             const string template =
                 @"
 <div id =""{0}ContainerDivID"" style=""position:relative;"">
     <div id=""{0}LoadingBar"" class=""project-firma-loading-bar"" style=""display:none"">{1}</div>
-    <div id=""{0}MetaDivID"" class=""DhtmlxGridMeta"">{2}</div>
+    <div id=""{0}MetaDivID"" class=""DhxGridMeta"">{2}</div>
     <div id=""{0}DivID"" style=""{3}""></div>
     <script type=""text/javascript"">
     // <![CDATA[
@@ -85,7 +85,7 @@ namespace LtInfo.Common.DhtmlWrappers
     </script>
 </div>";
             var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
-                splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
+                splitAtColumn, DhxGridResizeType, saveGridSettingsUrl);
 
             return String.Format(template, gridName, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
@@ -97,9 +97,9 @@ namespace LtInfo.Common.DhtmlWrappers
     jQuery(document).ready(function ()
     {{
         // Initialize Grid
-        Sitka.{0} = new Sitka.Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2}, ""{14}"");
+        Sitka.{0} = new Sitka.DHX_Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2}, ""{14}"");
         // Initialize Grid Columns
-        Sitka.{0}.setGridColumns(
+        Sitka.{0}.setColumns(
         [
 {3}
         ]);
@@ -110,7 +110,7 @@ namespace LtInfo.Common.DhtmlWrappers
         Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9}, {15});
 
         // Show loading bar
-        jQuery(""#{0}LoadingBar"").show();
+        //jQuery(""#{0}LoadingBar"").show();
         var showFilterBar = {10};
         if(showFilterBar)
         {{
@@ -118,50 +118,67 @@ namespace LtInfo.Common.DhtmlWrappers
             Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
             Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
         }}
-        Sitka.{0}.grid.attachEvent(""onXLE"", function (gridObj, count){{
-            Sitka.{0}.unfilteredRowCount = Sitka.{0}.grid.getRowsNum();
-            jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
-            jQuery(""#{0}UnfilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
-            jQuery(""#{0}LoadingBar"").hide();
-            jQuery(""#{0}DivID"").show();
-            // if there are no rows, don't show grid and show a ""No records available"" message
-            if(Sitka.{0}.unfilteredRowCount > 0)
-            {{
-                Sitka.{0}.showHideFilterRow(showFilterBar);
-                Sitka.{0}.hideGridInstructions();
-            }}
-            else
-            {{
-                Sitka.{0}.showHideFilterRow(false);
-                Sitka.{0}.setGridInstructions(""<div style=\""padding:10px; font-weight:bold\"">{11}</div>"", true);
-            }}
-        }});
+       
     
-        Sitka.{0}.grid.attachEvent(""onCheckbox"", function(rId,cInd,state) {{
-            Sitka.{0}.updateSelectedCheckboxCount();
-        }});
         
-        Sitka.{0}.grid.attachEvent(""onFilterEnd"", function() {{
-            Sitka.{0}.updateSelectedCheckboxCount();
-        }});
 
         {12}
         {13}
     }});";
 
-        /// <summary>
-        /// Renders the jQuery(document).ready part of the grid
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="gridSpec"></param>
-        /// <param name="gridName"></param>
-        /// <param name="optionalGridDataUrl"></param>
-        /// <param name="splitAtColumn"></param>
-        /// <param name="dhtmlxGridResizeType"></param>
-        /// <param name="saveGridSettingsUrl"></param>
-        /// <returns></returns>
-        private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName,
-            string optionalGridDataUrl, int? splitAtColumn, DhtmlxGridResizeType dhtmlxGridResizeType,
+
+        //Sitka.{0}.grid.attachEvent(""onXLE"", function(gridObj, count)
+        //{
+        //    {
+        //        Sitka.{ 0}.unfilteredRowCount = Sitka.{ 0}.grid.getRowsNum();
+        //        jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
+        //        jQuery(""#{0}UnfilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
+        //        jQuery(""#{0}LoadingBar"").hide();
+        //        jQuery(""#{0}DivID"").show();
+        //        // if there are no rows, don't show grid and show a ""No records available"" message
+        //        if (Sitka.{ 0}.unfilteredRowCount > 0)
+        //        {
+        //            {
+        //                Sitka.{ 0}.showHideFilterRow(showFilterBar);
+        //                Sitka.{ 0}.hideGridInstructions();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            {
+        //                Sitka.{ 0}.showHideFilterRow(false);
+        //                Sitka.{ 0}.setGridInstructions("" < div style =\""padding: 10px; font - weight:bold\"" >{ 11}</ div > "", true);
+        //            }
+        //        }
+        //    }
+        //});
+
+        //Sitka.{0}.grid.attachEvent(""onCheckbox"", function(rId, cInd, state)
+        //{
+        //    {
+        //        Sitka.{ 0}.updateSelectedCheckboxCount();
+        //    }
+        //});
+        
+        //Sitka.{0}.grid.attachEvent(""onFilterEnd"", function() {
+        //    {
+        //        Sitka.{ 0}.updateSelectedCheckboxCount();
+        //    }
+        //});
+
+/// <summary>
+/// Renders the jQuery(document).ready part of the grid
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="gridSpec"></param>
+/// <param name="gridName"></param>
+/// <param name="optionalGridDataUrl"></param>
+/// <param name="splitAtColumn"></param>
+/// <param name="DhxGridResizeType"></param>
+/// <param name="saveGridSettingsUrl"></param>
+/// <returns></returns>
+private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName,
+            string optionalGridDataUrl, int? splitAtColumn, DhxGridResizeType DhxGridResizeType,
             string saveGridSettingsUrl)
         {
             const string indent = "            ";
@@ -169,12 +186,15 @@ namespace LtInfo.Common.DhtmlWrappers
             var dataUrlReadyForJavascript = String.IsNullOrWhiteSpace(optionalGridDataUrl) ? "null" : $"\"{optionalGridDataUrl}\"";
             var useSmartRendering = IsUsingSmartRendering(gridSpec);
             var splitAtColumnJavascriptVariable = (splitAtColumn != null) ? splitAtColumn.ToString() : "null";
-            
-            var resizeGridFunction = dhtmlxGridResizeType == DhtmlxGridResizeType.VerticalFillHorizontalAutoFit
-                ? GenerateVerticalFillResizeGridFunction(gridName)
-                : string.Empty;
 
-            var verticalResizeFunction = dhtmlxGridResizeType == DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit 
+            //var resizeGridFunction = DhxGridResizeType == DhxGridResizeType.VerticalFillHorizontalAutoFit
+            //    ? GenerateVerticalFillResizeGridFunction(gridName)
+            //    : string.Empty;
+
+
+            var resizeGridFunction = string.Empty;
+
+            var verticalResizeFunction = DhxGridResizeType == DhxGridResizeType.VerticalResizableHorizontalAutoFit 
                 ? GenerateVerticallyResizableFunction(gridName) 
                 : string.Empty;
 
@@ -233,7 +253,7 @@ namespace LtInfo.Common.DhtmlWrappers
             return string.Format(template, gridName);
         }
 
-        public static string BuildDhtmlxGridHeader<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
+        public static string BuildDhxGridHeader<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
         {
             var filteredStateHtml = CreateFilteredStateHtml(gridName, gridSpec.ShowFilterBar);
             var gridHeaderIconsHtml = CreateGridHeaderIconsHtml(gridSpec, gridName, excelDownloadUrl);
@@ -515,7 +535,7 @@ namespace LtInfo.Common.DhtmlWrappers
             return String.Join(",\r\n",
                 gridSpec.Select(
                     (column, i) =>
-                        $@"{indent}new Sitka.Grid.Class.GridColumn(""{
+                        $@"{indent}new Sitka.DHX_Grid.Class.GridColumn(""{
                                 (String.IsNullOrWhiteSpace(column.ColumnNameForJavascript)
                                     ? $"Column{i}"
                                     : column.ColumnNameForJavascript)
@@ -529,27 +549,6 @@ namespace LtInfo.Common.DhtmlWrappers
                                 column.DhtmlxGridColumnFilterType
                             }"", {$"\"{column.DhtmlxGridColumnFormatType.ColumnFormatType}\""})"));
         }
-
-        /// <summary>
-        /// Builds the javascript for adding the columns to the sitkaGrid
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="gridSpec"></param>
-        /// <param name="indent"></param>
-        /// <returns></returns>
-        //public static string BuildGridColumns<T>(IEnumerable<ColumnSpec<T>> gridSpec, string indent)
-        //{
-        //    return String.Join(",\r\n",
-        //        gridSpec.Select(
-        //            (column, i) =>
-        //                $@"{indent}new Sitka.Grid.Class.GridColumn(""
-                            
-        //                    {(string.IsNullOrWhiteSpace(column.ColumnName) ? "\"\"" : column.ColumnName.ToJS())},
-        //                    ""{column.GridWidth.ToString(CultureInfo.InvariantCulture)}"", 
-        //                    ""{column.DhtmlxGridColumnDataType}"", 
-        //                    ""{column.DhtmlxGridColumnSortType.SortingType}"", 
-        //                {$"\"{column.DhtmlxGridColumnFormatType.ColumnFormatType}\""})"));
-        //}
 
         /// <summary>
         /// For making an edit icon on the grid that goes to a new page
@@ -738,7 +737,7 @@ namespace LtInfo.Common.DhtmlWrappers
         }
     }
 
-    public enum DhtmlxGridResizeType
+    public enum DhxGridResizeType
     {
         VerticalResizableHorizontalAutoFit,
         VerticalFillHorizontalAutoFit,

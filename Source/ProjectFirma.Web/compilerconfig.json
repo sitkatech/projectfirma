@@ -58,5 +58,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/ssmp.theme.css",
     "inputFile": "Content/Bootstrap/firma/ssmp.theme.less"
+  },
+  {
+    "outputFile": "ScriptsCustom/sitka.dhx_grid.es5.js",
+    "inputFile": "ScriptsCustom/sitka.dhx_grid.js"
   }
 ]
