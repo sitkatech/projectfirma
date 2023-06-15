@@ -732,13 +732,13 @@
     <Content Include="Content\Training\ProjectFirma-Example.gdb.zip" />
     <Content Include="Content\Bootstrap\firma\ncrp.theme.less" />
     <Content Include="Content\Bootstrap\firma\ssmp.theme.less" />
-    <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\combo-tree\comboTreePlugin.js" />
-    <Content Include="Scripts\jquery-1.11.0.js" />
-    <Content Include="Scripts\jquery-1.11.0.min.js" />
+    <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
     <Content Include="Scripts\jquery.fancybox-buttons.js" />
@@ -747,6 +747,7 @@
     <Content Include="Scripts\jquery.fancybox.js" />
     <Content Include="Scripts\jquery.fancybox.pack.js" />
     <Content Include="Scripts\jquery.mousewheel-3.0.6.pack.js" />
+    <Content Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -802,7 +803,6 @@
     <Content Include="Views\AttachmentType\EditAttachmentType.cshtml" />
     <Content Include="Views\Organization\EditPrimaryContact.cshtml" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\DocumentLibrary\Index.cshtml" />
     <Content Include="Views\DocumentLibrary\Edit.cshtml" />
     <Content Include="Views\DocumentLibrary\Detail.cshtml" />
@@ -2909,7 +2909,6 @@
     <Content Include="Content\bootstrap-typeahead\bootstrap3-typeahead.min.js.map">
       <DependentUpon>bootstrap3-typeahead.min.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-1.11.0.min.js.map" />
     <Content Include="Scripts\jquery.form.min.js">
       <DependentUpon>jquery.form.js</DependentUpon>
     </Content>
