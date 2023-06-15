@@ -201,7 +201,7 @@ dhtmlXGridObject.prototype._in_header_formatted_numeric_filter = function (a, b)
 };
 
 function getCheckboxCellValue(a) {
-    var elem = jQuery(jQuery(a).find("[type='checkbox']")[0]).attr('selected');
+    var elem = jQuery(jQuery(a).find("[type='checkbox']")[0]).prop('selected');
 
     var result = 2;
     if (elem != 'undefined') {
