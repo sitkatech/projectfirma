@@ -22,14 +22,14 @@
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.FirmaIncludes
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134855355-1"></script>
+<!-- Google tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MS96FEG26P"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'UA-134855355-1');
+    gtag('config', 'G-MS96FEG26P');
     @if (!MultiTenantHelpers.GetTenantGoogleAnalyticsTrackingCode().IsNullOrWhiteSpace())
     {
         @Html.Raw(String.Format("gtag('config', '{0}');", MultiTenantHelpers.GetTenantGoogleAnalyticsTrackingCode()))
