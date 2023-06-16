@@ -706,7 +706,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         jQuery('#' + theGridElement).css('cursor', 'wait');
         // Disable grid selectors
         var selector = "#" + theGridElement + " input";
-        jQuery(selector).each(function (i, item) { jQuery(item).attr("disabled", "disabled"); });
+        jQuery(selector).each(function (i, item) { jQuery(item).prop("disabled", true); });
         return true;
     };
     var setDefaultCursor = function () {
@@ -714,7 +714,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         jQuery('#' + theGridElement).css('cursor', 'default');
         var selector = "#" + theGridElement + " input";
         // Re-enable grid selectors
-        jQuery(selector).each(function (i, item) { jQuery(item).removeAttr("disabled"); });
+        jQuery(selector).each(function (i, item) { jQuery(item).prop("disabled", false); });
         return true;
     };
 
@@ -731,7 +731,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
     // this closes the dropdown if you click over to a different filter
     this.grid.attachEvent("onXLE", function () {
-        jQuery("#" + theGridElement).find("table.hdr tbody tr td").click(function (e) {
+        jQuery("#" + theGridElement).find("table.hdr tbody tr td").on("click",function (e) {
             if (jQuery(e.target).hasClass("dropdown-toggle") === false) {
                 closeAllOpenMultiSelectsInGrid();
             }

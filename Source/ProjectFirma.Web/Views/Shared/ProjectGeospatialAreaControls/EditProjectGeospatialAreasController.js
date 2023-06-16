@@ -36,7 +36,7 @@ angular.module("ProjectFirmaApp")
                         });
                     });
 
-                jQuery(typeaheadSelectorButton).click(function () { $scope.selectFirstSuggestionFunction(finder); });
+                jQuery(typeaheadSelectorButton).on("click",function () { $scope.selectFirstSuggestionFunction(finder); });
 
                 finder.keypress(function (e) {
                     if (e.which === 13) {

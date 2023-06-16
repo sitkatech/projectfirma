@@ -261,7 +261,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 };
 
                 var pfFinder = jQuery("#@SearchResults.ProjectSearchInputTextboxID");
-                jQuery("#searchButton").click(function()
+                jQuery("#searchButton").on("click",function()
                 {
                     search(pfFinder[0], 1);
                 });

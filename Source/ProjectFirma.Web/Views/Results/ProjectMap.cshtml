@@ -378,7 +378,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
             updateCustomUrlPopover();
 
-            jQuery('#showBasinwideProjectsToast').click(function()
+            jQuery('#showBasinwideProjectsToast').on("click",function()
             {
                 jQuery("#mapPanel").removeClass("col-md-12");
                 jQuery("#mapPanel").addClass("col-md-8");
@@ -395,7 +395,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 projectFirmaMap.map.invalidateSize();
             });
 
-            jQuery('#hideBasinwideProjectsToast').click(function()
+            jQuery('#hideBasinwideProjectsToast').on("click",function()
             {
                 jQuery("#mapPanel").removeClass("col-md-8");
                 jQuery("#mapPanel").addClass("col-md-12");

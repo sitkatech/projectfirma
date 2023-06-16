@@ -55,7 +55,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     jQuery("#secondaryProjectTaxonomyLeafSelectionContainer");
                 var secondaryProjectTaxonomyLeafNameMap =
                     @Html.Raw(JObject.FromObject(ViewDataTyped.TaxonomyLeafs.ToDictionary(x => int.Parse(x.Value), x => x.Text)));
-                jQuery("#addSecondaryProjectTaxonomyLeafButton").click(function() {
+                jQuery("#addSecondaryProjectTaxonomyLeafButton").on("click",function() {
                     if (!secondaryProjectTaxonomyLeafSelectionDropdown.val() ||
                         jQuery("#secondaryProjectTaxonomyLeafSelection_" +
                             secondaryProjectTaxonomyLeafSelectionDropdown.val()).length) {

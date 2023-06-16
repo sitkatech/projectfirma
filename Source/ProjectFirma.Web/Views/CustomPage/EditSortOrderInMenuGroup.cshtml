@@ -130,7 +130,7 @@
             allSortableLists.push(sortable);
         });
 
-        jQuery('#ltinfo-modal-dialog-save-button-id').click(function () {
+        jQuery('#ltinfo-modal-dialog-save-button-id').on("click",function () {
 
             var itemCount = 0;
             jQuery.each(allSortableLists, function (index, value) {

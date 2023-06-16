@@ -132,7 +132,7 @@
         {
             var projectLocationStagingId = projectLocationStagingIDs[j];
             jQuery("#SelectedProperty_" + projectLocationStagingId).change(updateFeatureCollectionJson);
-            jQuery("#ShouldImport_" + projectLocationStagingId).click(updateFeatureCollectionJson);
+            jQuery("#ShouldImport_" + projectLocationStagingId).on("click",updateFeatureCollectionJson);
         }
     });
 </script>
