@@ -24,7 +24,7 @@
     "inputFile": "Content/qtip/jquery.qtip.validation.js"
   },
   {
-    "outputFile": "Content/qtip/jquery.qtip.es5.js",
+    "outputFile": "Content/qtip/jquery.qtip.min.js",
     "inputFile": "Content/qtip/jquery.qtip.js"
   },
   {

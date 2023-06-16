@@ -1,4 +1,8 @@
 /*
+ * 
+ * 6/15/23 TK - This has been modified by Sitka/ESA employees and is no longer consistent with the qtip v2.2.1 on github, which is no longer maintained.
+ * 
+ * 
  * qTip2 - Pretty powerful tooltips - v2.2.1
  * http://qtip2.com
  *
@@ -2991,7 +2995,7 @@ OVERLAY = function()
 	// http://code.jquery.com/ui/1.10.0/jquery-ui.js
 	function focusable(element) {
 		// Use the defined focusable checker when possible
-		if($.expr[':'].focusable) { return $.expr[':'].focusable; }
+		if ($.expr.pseudos[":"].focusable) { return $.expr.pseudos[":"].focusable; }
 
 		var isTabIndexNotNaN = !isNaN($.attr(element, 'tabindex')),
 			nodeName = element.nodeName && element.nodeName.toLowerCase(),
