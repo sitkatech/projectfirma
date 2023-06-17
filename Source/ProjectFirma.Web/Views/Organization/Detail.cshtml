@@ -486,7 +486,7 @@
                                                     firmaMap.initializeProjectLocations(mapInitJson);
 
                                                     var clusterLocationsCheckbox = jQuery("#ClusterLocations");
-                                                    clusterLocationsCheckbox.change(function() {
+                                                    clusterLocationsCheckbox.on("change",function() {
                                                         firmaMap.changeClustering(clusterLocationsCheckbox.is(":checked"));
                                                     });
 

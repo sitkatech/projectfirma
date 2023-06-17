@@ -98,6 +98,6 @@ Source code is available upon request via <support@sitkatech.com>.
             });
         }
         jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", true);
-        jQuery("#" + "@Html.IdFor(x => x.FileResourceData)").change(uploadGisFile);
+        jQuery("#" + "@Html.IdFor(x => x.FileResourceData)").on("change",uploadGisFile);
     });
 </script>

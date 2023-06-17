@@ -191,7 +191,7 @@ else
             }
 
             //Create on-change event
-            jQuery(checkBox).change(function () {
+            jQuery(checkBox).on("change",function () {
                 var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
                 var charactersRemainingFunction =
                     jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");

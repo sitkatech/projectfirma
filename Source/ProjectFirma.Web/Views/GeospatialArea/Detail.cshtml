@@ -313,7 +313,7 @@ Source code is available upon request via <support@sitkatech.com>.
         map.initializeProjectLocations(mapInitJson);
 
         var clusterLocationsCheckbox = jQuery("#ClusterLocations");
-        clusterLocationsCheckbox.change(function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+        clusterLocationsCheckbox.on("change",function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
         jQuery("#overviewTab").on("shown.bs.tab", function() {
             map.map.invalidateSize();

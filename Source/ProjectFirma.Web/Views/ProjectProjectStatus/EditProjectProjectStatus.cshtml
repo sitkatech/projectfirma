@@ -203,7 +203,7 @@
             return projectStatuses[optionVal].Color;
         }
 
-        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]').change(function () {
+        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]').on("change",function () {
             var value = false;
 
             if (this.value == 'True') {
@@ -263,7 +263,7 @@
             }
         }
 
-        projectStatusInput.change(function() {
+        projectStatusInput.on("change",function() {
             setColorOfStatusDropdown();
         });
 

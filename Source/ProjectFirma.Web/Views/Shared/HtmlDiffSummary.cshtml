@@ -76,7 +76,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         var htmlDiffResultsContainer = jQuery("#htmlDiffResults");
         jQuery("a", htmlDiffResultsContainer).removeAttr("href");
-        jQuery("#show-deletions").change(function ()
+        jQuery("#show-deletions").on("change",function ()
         {
             if (this.checked)
             {

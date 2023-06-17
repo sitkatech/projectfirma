@@ -121,7 +121,7 @@
         }
         
 
-        jQuery('#@Html.IdFor(m => m.MatchmakerCash)').change(function () {
+        jQuery('#@Html.IdFor(m => m.MatchmakerCash)').on("change",function () {
             if (this.checked) {
                 jQuery('#@Html.IdFor(m => m.MatchmakerCashDescription)').attr("readonly", false);
             } else {
@@ -129,7 +129,7 @@
             }
         });
 
-        jQuery('#@Html.IdFor(m => m.MatchmakerInKindServices)').change(function () {
+        jQuery('#@Html.IdFor(m => m.MatchmakerInKindServices)').on("change",function () {
             if (this.checked) {
                 jQuery('#@Html.IdFor(m => m.MatchmakerInKindServicesDescription)').attr("readonly", false);
             } else {
@@ -137,7 +137,7 @@
             }
         });
 
-        jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServices)').change(function () {
+        jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServices)').on("change",function () {
             if (this.checked) {
                 jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServicesDescription)').attr("readonly", false);
             } else {
