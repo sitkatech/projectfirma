@@ -508,7 +508,7 @@ var sitkaGridLocallyDefinedMultiSelectFilter = function (t, i) {
     jSelect.selectpicker(sitkaGridFilterSelectpickerOptions);
 
     // we turn off the click event to prevent sorting the table when clicking in the multi's container td, this is for the thin area around the button
-    tObj.click(function (e) {
+    tObj.on("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -537,7 +537,7 @@ var sitkaGridLocallyDefinedMultiSelectFilter = function (t, i) {
     var firstTimeMultiselectClicked = true;
     var toggleBtn = tObj.find("button.dropdown-toggle");
     toggleBtn.css("padding", "2px");
-    toggleBtn.click(function (e) {
+    toggleBtn.on("click",function (e) {
         // stop propagation so will not trigger column sort
         e.stopPropagation();
         // There is some jack-assery wrt the grid and multiselect click events, you need to manually toggle the multi drop down once then it seems good.  Not sure what tragic comedy causes this junk.
@@ -865,7 +865,7 @@ Sitka.Grid.Class.Grid.prototype.hasSavedFilters = function () {
     // one of the filters is set to something.
     var filterValues = this.getFilterValuesFromGrid();
     var filterString = filterValues.join('');
-    var filterTrimmed = jQuery.trim(filterString);
+    var filterTrimmed = filterString.trim();
 
     return filterTrimmed.length > 0;
 };

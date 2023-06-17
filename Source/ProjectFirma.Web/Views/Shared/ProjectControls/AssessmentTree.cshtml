@@ -257,7 +257,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     {
                         var match = jQuery(this).val();
 
-                        if (e && e.which === $.ui.keyCode.ESCAPE || jQuery.trim(match) === "")
+                        if (e && e.which === $.ui.keyCode.ESCAPE || match.trim() === "")
                         {
                             resetButton.click();
                             return;
