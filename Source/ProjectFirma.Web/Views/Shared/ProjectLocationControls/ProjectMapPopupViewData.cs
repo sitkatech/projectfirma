@@ -40,6 +40,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string ClassificationDisplayNamePluralized { get; private set; }
 
         public string DisplayName { get; set; }
+
+        public string PrimaryContactOrganizationRelationshipType { get; set; }
+        public ProjectFirmaModels.Models.Organization PrimaryContactOrganization { get; set; }
         public ProjectFirmaModels.Models.ProjectImage KeyPhoto { get; set; }
         public string Duration { get; set; }
         public ProjectStage ProjectStage { get; set; }
@@ -61,6 +64,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             KeyPhoto = project.GetKeyPhoto();
             Duration = project.GetDuration();
             ProjectStage = project.ProjectStage;
+            PrimaryContactOrganization = project.GetPrimaryContactOrganization();
+            PrimaryContactOrganizationRelationshipType = project.GetPrimaryContactOrganizationRelationShipType();
+
             TaxonomyLeaf = project.TaxonomyLeaf;
             EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "Unknown";
             
