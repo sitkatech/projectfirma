@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Globalization;
@@ -37,6 +39,10 @@ namespace ProjectFirmaModels.Models
         public Organization GetPrimaryContactOrganization()
         {
             return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
+        }
+        public String GetPrimaryContactOrganizationRelationShipType()
+        {
+            return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.OrganizationRelationshipType.OrganizationRelationshipTypeName;
         }
 
         public FileResourceInfo GetPrimaryContactOrganizationLogo()
