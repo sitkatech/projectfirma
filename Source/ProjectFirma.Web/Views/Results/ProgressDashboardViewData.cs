@@ -33,8 +33,6 @@ namespace ProjectFirma.Web.Views.Results
         public int ProjectCount { get; }
         public decimal FundsCommittedToProgram { get; }
         public int PartnershipCount { get; }
-        public double CommunityEngagementCount { get; }
-
         public double TotalAcresControlled { get; }
         public int AcresControlledTarget { get; }
         public double AcresControlledPercent { get; }
@@ -67,7 +65,7 @@ namespace ProjectFirma.Web.Views.Results
 
         public ProgressDashboardViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
-            int projectCount, decimal fundsCommittedToProgram, int partnershipCount, double communityEngagementCount,
+            int projectCount, decimal fundsCommittedToProgram, int partnershipCount,
             double totalAcresControlled,
             ProjectFirmaModels.Models.FirmaPage acresControlledByTheNumbersFirmaPage,
             ProjectFirmaModels.Models.FirmaPage acresControlledPieChartFirmaPage,
@@ -94,7 +92,6 @@ namespace ProjectFirma.Web.Views.Results
             ProjectCount = projectCount;
             FundsCommittedToProgram = fundsCommittedToProgram;
             PartnershipCount = partnershipCount;
-            CommunityEngagementCount = communityEngagementCount;
             
             // acres controlled
             TotalAcresControlled = totalAcresControlled;
