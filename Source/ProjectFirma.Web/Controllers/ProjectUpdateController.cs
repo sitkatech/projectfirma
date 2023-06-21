@@ -3789,7 +3789,7 @@ namespace ProjectFirma.Web.Controllers
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var contactsValidationResult = projectUpdateBatch.ValidateContacts();
 
-            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameLastFirst()).ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive).ToList().OrderBy(p => p.GetFullNameLastFirst()).ToList();
             if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);

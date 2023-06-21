@@ -1968,7 +1968,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewContacts(Project project, ContactsViewModel viewModel)
         {
-            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive).ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
 
             if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
