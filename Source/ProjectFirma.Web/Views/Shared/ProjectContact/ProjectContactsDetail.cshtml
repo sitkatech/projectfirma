@@ -72,7 +72,7 @@
             @if (ViewDataTyped.PrimaryContactPerson != null)
             {
                 <span>
-                    @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLast() (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
+                    @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl(ViewDataTyped.CurrentFirmaSession) (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
                 </span>
             }
             else

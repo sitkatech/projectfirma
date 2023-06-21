@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditContacts(FirmaSession currentFirmaSession, EditContactsViewModel viewModel, Project project)
         {
-            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive).ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
             if (!allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);
