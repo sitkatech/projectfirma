@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.Basics:
                     return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 case ProjectCreateSectionEnum.CustomAttributes:
-                    return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ProjectCustomAttributes(project.ProjectID));
+                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ProjectCustomAttributes(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.LocationSimple:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Organizations:
@@ -157,9 +157,9 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.BulkSetSpatialInformation:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.BulkSetSpatialInformation(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.PartnerFinder:
-                    return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PartnerFinder(project));
+                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PartnerFinder(project)) : null;
                 case ProjectCreateSectionEnum.ExternalLinks:
-                    return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExternalLinks(project));
+                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExternalLinks(project)) : null;
 
                 default:
                     throw new ArgumentOutOfRangeException($"IsComplete(): Unhandled ProjectCreateSection Enum: {projectCreateSection.ToEnum}");
