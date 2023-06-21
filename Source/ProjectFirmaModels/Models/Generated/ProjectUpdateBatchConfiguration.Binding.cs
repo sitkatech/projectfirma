@@ -51,6 +51,9 @@ namespace ProjectFirmaModels.Models
             Property(x => x.IsSimpleLocationUpdated).HasColumnName(@"IsSimpleLocationUpdated").HasColumnType("bit").IsOptional();
             Property(x => x.IsDetailedLocationUpdated).HasColumnName(@"IsDetailedLocationUpdated").HasColumnType("bit").IsOptional();
             Property(x => x.IsSpatialInformationUpdated).HasColumnName(@"IsSpatialInformationUpdated").HasColumnType("bit").IsOptional();
+            Property(x => x.PhotosComment).HasColumnName(@"PhotosComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.AttachmentsAndNotesComment).HasColumnName(@"AttachmentsAndNotesComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.ExternalLinksComment).HasColumnName(@"ExternalLinksComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectUpdateBatches).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectUpdateBatch_Project_ProjectID

@@ -38,6 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string DiffUrl { get; }
         public string NextSectionUrl { get; }
         public ProjectAttachmentsDetailViewData ProjectAttachmentsViewData { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
 
         public AttachmentsAndNotesViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, string diffUrl) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.AttachmentsAndNotes.ProjectUpdateSectionDisplayName)
         {
@@ -59,6 +60,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(ProjectUpdateSection.AttachmentsAndNotes.ProjectUpdateSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
             NextSectionUrl = nextProjectUpdateSection?.SectionUrl;
+
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.AttachmentsAndNotesComment, projectUpdateBatch.IsReturned());
+
         }
     }
 }

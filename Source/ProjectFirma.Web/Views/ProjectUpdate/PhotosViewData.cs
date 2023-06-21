@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
         public string ContinueUrl { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+
 
         public PhotosViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.Photos.ProjectUpdateSectionDisplayName)
         {
@@ -53,6 +55,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPhotos(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPhotos(projectUpdateBatch.Project));
             ContinueUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.AttachmentsAndNotes(projectUpdateBatch.Project));
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.PhotosComment, projectUpdateBatch.IsReturned());
+
         }
     }
 }
