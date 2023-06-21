@@ -683,7 +683,6 @@
     <Content Include="Content\img\SSMPProjectTracker\favicon.ico" />
     <Content Include="Content\img\SSMPProjectTracker\favicon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-checklist.png" />
-    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-community-icon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-funds-icon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-group.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-money-tree.png" />
