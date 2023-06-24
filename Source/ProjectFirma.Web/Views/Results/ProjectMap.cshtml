@@ -288,7 +288,7 @@ Source code is available upon request via <support@sitkatech.com>.
             colorPropertyNameDropdown.selectpicker();
             colorPropertyNameDropdown.selectpicker('val', initialCustomization.ColorByPropertyName);
 
-            colorPropertyNameDropdown.change(function()
+            colorPropertyNameDropdown.on("change",function()
             {
                 map.changePropertyToColorProjectLocationsBy(this.value);
                 jQuery("#ColorByHelpIcon").html(colorPropertyNameDropdown.find("option:selected").data("displayname"));
@@ -301,7 +301,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
             var filterPropertyNameOptions = jQuery("option", filterPropertyNameDropdown);
 
-            filterPropertyNameDropdown.change(function()
+            filterPropertyNameDropdown.on("change",function()
             {
                 filterPropertyNameOptions.each(function(index, option)
                 {
@@ -328,7 +328,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 filterPropertyValueDropdown.selectpicker('hide');
                 filterPropertyValueDropdown.selectpicker('selectAll');
 
-                filterPropertyValueDropdown.change(function()
+                filterPropertyValueDropdown.on("change",function()
                 {
                     var filterPropertyValueSelected = filterPropertyValueDropdown.val();
 
@@ -351,7 +351,7 @@ Source code is available upon request via <support@sitkatech.com>.
             displayProjectsWithLocationArea(initialCustomization);
         }
 
-        jQuery(document).ready(function()
+        jQuery(function()
         {
             var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None)),
                 projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
@@ -362,7 +362,7 @@ Source code is available upon request via <support@sitkatech.com>.
             buildAndInitializeDropdowns(projectFirmaMap, projectLocationsMapInitJson.ProjectMapCustomization);
 
             var clusterLocationsCheckbox = jQuery("#ClusterLocations");
-            clusterLocationsCheckbox.change(function() { projectFirmaMap.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+            clusterLocationsCheckbox.on("change",function() { projectFirmaMap.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
             jQuery('#customUrlPopover').popover({
                 container: "body",
@@ -378,7 +378,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
             updateCustomUrlPopover();
 
-            jQuery('#showBasinwideProjectsToast').click(function()
+            jQuery('#showBasinwideProjectsToast').on("click",function()
             {
                 jQuery("#mapPanel").removeClass("col-md-12");
                 jQuery("#mapPanel").addClass("col-md-8");
@@ -395,7 +395,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 projectFirmaMap.map.invalidateSize();
             });
 
-            jQuery('#hideBasinwideProjectsToast').click(function()
+            jQuery('#hideBasinwideProjectsToast').on("click",function()
             {
                 jQuery("#mapPanel").removeClass("col-md-8");
                 jQuery("#mapPanel").addClass("col-md-12");

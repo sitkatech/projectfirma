@@ -24,7 +24,7 @@
     "inputFile": "Content/qtip/jquery.qtip.validation.js"
   },
   {
-    "outputFile": "Content/qtip/jquery.qtip.es5.js",
+    "outputFile": "Content/qtip/jquery.qtip.min.js",
     "inputFile": "Content/qtip/jquery.qtip.js"
   },
   {
@@ -58,5 +58,13 @@
   {
     "outputFile": "Content/Bootstrap/firma/ssmp.theme.css",
     "inputFile": "Content/Bootstrap/firma/ssmp.theme.less"
+  },
+  {
+    "outputFile": "ScriptsCustom/sitka.grid.min.js",
+    "inputFile": "ScriptsCustom/sitka.grid.js"
+  },
+  {
+    "outputFile": "ScriptsCustom/sitkaAjax.min.js",
+    "inputFile": "ScriptsCustom/sitkaAjax.js"
   }
 ]

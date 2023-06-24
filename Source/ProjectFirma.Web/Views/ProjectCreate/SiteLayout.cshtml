@@ -32,8 +32,8 @@
 @section JavascriptAndStylesContent
 {
     <script type="text/javascript">
-        jQuery(document).ready(function () {
-            jQuery(".workflowSectionGroup").not(".active").not(" #instructions").click(function (event) {
+        jQuery(function () {
+            jQuery(".workflowSectionGroup").not(".active").not(" #instructions").on("click",function (event) {
                 if (jQuery(this).hasClass("expanded")) {
                     if (!jQuery(event.target).is('a')) {
                         jQuery(this).removeClass("expanded");

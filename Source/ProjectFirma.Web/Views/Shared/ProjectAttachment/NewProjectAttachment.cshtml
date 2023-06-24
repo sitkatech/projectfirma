@@ -14,7 +14,7 @@
                 AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
             };
         });
-        jQuery(document).ready(function ()
+        jQuery(function()
         {
             angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp", "app.Components.InputTypeFile", "ngMessages"]);
 
@@ -23,7 +23,7 @@
             // 8/14/2019 TK - this forces angular to rip out the undefined select option allowing the user to submit the form with the default selected option without having to touch the dropdown
             var firstElementText = jQuery("select.attachmentDropdown option:first").text();
             if (firstElementText == null || firstElementText == "") {
-                jQuery("select.attachmentDropdown").change();
+                jQuery("select.attachmentDropdown").trigger("change");
             }
         });
         // ]]>

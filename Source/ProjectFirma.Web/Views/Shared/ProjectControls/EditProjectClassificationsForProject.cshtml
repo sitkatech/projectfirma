@@ -75,7 +75,7 @@
 <script type="text/javascript">
     // <![CDATA[
 
-    jQuery(document).ready(function () {
+    jQuery(function() {
         @for (var i = 0; i < ViewDataTyped.ClassificationSystem.Classifications.OrderBy(y => y.GetDisplayName()).ToList().Count; i++)
         {
             <text>
@@ -97,7 +97,7 @@
         }
 
         //Create on-change event
-        jQuery(checkBox).change(function () {
+        jQuery(checkBox).on("change",function () {
             var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
             var charactersRemainingFunction =
                 jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");

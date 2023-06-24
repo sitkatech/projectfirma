@@ -38,10 +38,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <script type="text/javascript">
     // <![CDATA[
-    jQuery(document).ready(function()
+    jQuery(function()
     {
         var galleryScope = jQuery("#@ViewDataTyped.GalleryName");
-        galleryScope.find(".keyPhotoButton").click(function() {
+        galleryScope.find(".keyPhotoButton").on("click",function() {
             var selectKeyPhotoButton = jQuery(this);
             var selectKeyPhotoButtonLabel = jQuery(".keyPhotoButtonLabel");
             var selectionMode = selectKeyPhotoButtonLabel.html() == "Done";

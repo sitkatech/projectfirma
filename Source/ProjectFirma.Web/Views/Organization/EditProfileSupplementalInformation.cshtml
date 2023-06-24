@@ -106,7 +106,7 @@
     @Html.HiddenFor(m => m.OrganizationID)
 }
 <script type="text/javascript">
-    jQuery(document).ready(function () {
+    jQuery(function () {
         var checkBoxCash = jQuery("#@Html.IdFor(x => x.MatchmakerCash)");
         var checkBoxInKind = jQuery("#@Html.IdFor(x => x.MatchmakerInKindServices)");
         var checkBoxCommercial = jQuery("#@Html.IdFor(x => x.MatchmakerCommercialServices)");
@@ -121,7 +121,7 @@
         }
         
 
-        jQuery('#@Html.IdFor(m => m.MatchmakerCash)').change(function () {
+        jQuery('#@Html.IdFor(m => m.MatchmakerCash)').on("change",function () {
             if (this.checked) {
                 jQuery('#@Html.IdFor(m => m.MatchmakerCashDescription)').attr("readonly", false);
             } else {
@@ -129,7 +129,7 @@
             }
         });
 
-        jQuery('#@Html.IdFor(m => m.MatchmakerInKindServices)').change(function () {
+        jQuery('#@Html.IdFor(m => m.MatchmakerInKindServices)').on("change",function () {
             if (this.checked) {
                 jQuery('#@Html.IdFor(m => m.MatchmakerInKindServicesDescription)').attr("readonly", false);
             } else {
@@ -137,7 +137,7 @@
             }
         });
 
-        jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServices)').change(function () {
+        jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServices)').on("change",function () {
             if (this.checked) {
                 jQuery('#@Html.IdFor(m => m.MatchmakerCommercialServicesDescription)').attr("readonly", false);
             } else {

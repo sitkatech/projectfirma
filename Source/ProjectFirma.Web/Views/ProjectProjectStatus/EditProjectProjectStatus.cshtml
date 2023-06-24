@@ -193,7 +193,7 @@
 }
 
 <script type="text/javascript">
-    jQuery(document).ready(function() {
+    jQuery(function() {
         var projectStatuses = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectStatusJsonList.ProjectStatusJsons).ToString(Formatting.None));
         var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
         var projectStatusInputElement = document.getElementById("@Html.IdFor(m => m.ProjectStatusID)");
@@ -203,7 +203,7 @@
             return projectStatuses[optionVal].Color;
         }
 
-        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]').change(function () {
+        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]').on("change",function () {
             var value = false;
 
             if (this.value == 'True') {
@@ -263,7 +263,7 @@
             }
         }
 
-        projectStatusInput.change(function() {
+        projectStatusInput.on("change",function() {
             setColorOfStatusDropdown();
         });
 

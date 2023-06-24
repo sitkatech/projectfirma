@@ -201,7 +201,7 @@ dhtmlXGridObject.prototype._in_header_formatted_numeric_filter = function (a, b)
 };
 
 function getCheckboxCellValue(a) {
-    var elem = jQuery(jQuery(a).find("[type='checkbox']")[0]).attr('selected');
+    var elem = jQuery(jQuery(a).find("[type='checkbox']")[0]).prop('selected');
 
     var result = 2;
     if (elem != 'undefined') {
@@ -464,14 +464,13 @@ Sitka.Grid.Class.Grid.prototype.strictHtmlFilter = function (t, i) {
             if (val && (!col[i]._childIndexes || col[i]._childIndexes[column] != col[i]._childIndexes[column - 1])) {
                 c[decodeHtml(val)] = true;
             }
-        }
-        ;
+        };
         this.dma(false);
 
         var vals = this.combos[column];
-        for (d in c)
-            if (c[d] === true)
-                f.push(vals ? (vals.get(d) || d) : d);
+        for (var dTest in c)
+            if (c[dTest] === true)
+                f.push(vals ? (vals.get(dTest) || dTest) : dTest);
         return f.sort();
     };
 
@@ -508,7 +507,7 @@ var sitkaGridLocallyDefinedMultiSelectFilter = function (t, i) {
     jSelect.selectpicker(sitkaGridFilterSelectpickerOptions);
 
     // we turn off the click event to prevent sorting the table when clicking in the multi's container td, this is for the thin area around the button
-    tObj.click(function (e) {
+    tObj.on("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -537,7 +536,7 @@ var sitkaGridLocallyDefinedMultiSelectFilter = function (t, i) {
     var firstTimeMultiselectClicked = true;
     var toggleBtn = tObj.find("button.dropdown-toggle");
     toggleBtn.css("padding", "2px");
-    toggleBtn.click(function (e) {
+    toggleBtn.on("click",function (e) {
         // stop propagation so will not trigger column sort
         e.stopPropagation();
         // There is some jack-assery wrt the grid and multiselect click events, you need to manually toggle the multi drop down once then it seems good.  Not sure what tragic comedy causes this junk.
@@ -706,7 +705,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         jQuery('#' + theGridElement).css('cursor', 'wait');
         // Disable grid selectors
         var selector = "#" + theGridElement + " input";
-        jQuery(selector).each(function (i, item) { jQuery(item).attr("disabled", "disabled"); });
+        jQuery(selector).each(function (i, item) { jQuery(item).prop("disabled", true); });
         return true;
     };
     var setDefaultCursor = function () {
@@ -714,7 +713,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
         jQuery('#' + theGridElement).css('cursor', 'default');
         var selector = "#" + theGridElement + " input";
         // Re-enable grid selectors
-        jQuery(selector).each(function (i, item) { jQuery(item).removeAttr("disabled"); });
+        jQuery(selector).each(function (i, item) { jQuery(item).prop("disabled", false); });
         return true;
     };
 
@@ -731,7 +730,7 @@ Sitka.Grid.Class.Grid.prototype.buildWithArguments = function (hideHeader, group
     // dhtmlx wants to take over all the click events so you have to sneak in an event handler where its not looking
     // this closes the dropdown if you click over to a different filter
     this.grid.attachEvent("onXLE", function () {
-        jQuery("#" + theGridElement).find("table.hdr tbody tr td").click(function (e) {
+        jQuery("#" + theGridElement).find("table.hdr tbody tr td").on("click",function (e) {
             if (jQuery(e.target).hasClass("dropdown-toggle") === false) {
                 closeAllOpenMultiSelectsInGrid();
             }
@@ -865,7 +864,7 @@ Sitka.Grid.Class.Grid.prototype.hasSavedFilters = function () {
     // one of the filters is set to something.
     var filterValues = this.getFilterValuesFromGrid();
     var filterString = filterValues.join('');
-    var filterTrimmed = jQuery.trim(filterString);
+    var filterTrimmed = filterString.trim();
 
     return filterTrimmed.length > 0;
 };

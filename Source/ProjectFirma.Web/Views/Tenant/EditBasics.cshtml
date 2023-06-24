@@ -364,7 +364,7 @@
 <script type="text/javascript">
     // <![CDATA[
 
-    jQuery(document).ready(function () {
+    jQuery(function() {
 
         var trackAccomplishmentsCheckbox = jQuery("#@Html.IdFor(x => x.TrackAccomplishments)");
         var enableAccomplishmentsDashboardCheckbox = jQuery("#@Html.IdFor(x => x.EnableAccomplishmentsDashboard)");
@@ -379,7 +379,7 @@
             associatePerformanceMeasureTaxonomyLevelDropdown.attr("title", "Disabled because Track Accomplishments is not selected.");
         }
 
-        jQuery(trackAccomplishmentsCheckbox).change(function () {
+        jQuery(trackAccomplishmentsCheckbox).on("change",function () {
             var enableAccomplishmentsDashboardCheckboxForCheckboxFunction = jQuery("#@Html.IdFor(x => x.EnableAccomplishmentsDashboard)");
             var associatePerformanceMeasureTaxonomyLevelDropdownForCheckboxFunction = jQuery("#@Html.IdFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID)");
 

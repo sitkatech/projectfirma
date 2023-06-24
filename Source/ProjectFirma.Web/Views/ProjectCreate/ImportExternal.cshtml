@@ -20,7 +20,7 @@
             });
             jQuery("#fetchUri").trigger("input");
 
-            jQuery("#fetchButton").click(function(event) {
+            jQuery("#fetchButton").on("click",function(event) {
                 jQuery(event.target).prop("disabled", true);
                 jQuery("#fetchProgressBar").show();
                 jQuery("#fetchJsonDataAlert").hide();
