@@ -464,14 +464,13 @@ Sitka.Grid.Class.Grid.prototype.strictHtmlFilter = function (t, i) {
             if (val && (!col[i]._childIndexes || col[i]._childIndexes[column] != col[i]._childIndexes[column - 1])) {
                 c[decodeHtml(val)] = true;
             }
-        }
-        ;
+        };
         this.dma(false);
 
         var vals = this.combos[column];
-        for (d in c)
-            if (c[d] === true)
-                f.push(vals ? (vals.get(d) || d) : d);
+        for (var dTest in c)
+            if (c[dTest] === true)
+                f.push(vals ? (vals.get(dTest) || dTest) : dTest);
         return f.sort();
     };
 
