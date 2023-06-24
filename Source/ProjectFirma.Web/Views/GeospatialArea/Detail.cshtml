@@ -306,7 +306,7 @@ Source code is available upon request via <support@sitkatech.com>.
         return layer;
     };
 
-    jQuery(document).ready(function()
+    jQuery(function()
     {
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
         var map = new ProjectFirmaMaps.Map(mapInitJson);

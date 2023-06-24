@@ -52,7 +52,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <script>
-    jQuery(document).ready(function()
+    jQuery(function()
     {
         var chartJson = @Html.Raw(JObject.FromObject(ViewDataTyped.GoogleChartJson).ToString(Formatting.None));        
         GoogleCharts.drawCharts([chartJson]);

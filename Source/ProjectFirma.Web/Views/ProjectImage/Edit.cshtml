@@ -53,7 +53,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 }
 <script>
-    jQuery(document).ready(function() {
+    jQuery(function() {
         var checkbox = jQuery('#@Html.IdFor(x => x.IncludeInFactSheet)');
         if ('@ViewDataTyped.ProjectImage.IsKeyPhoto' === 'True') {
             checkbox.attr('disabled', 'disabled');

@@ -351,7 +351,7 @@ Source code is available upon request via <support@sitkatech.com>.
             displayProjectsWithLocationArea(initialCustomization);
         }
 
-        jQuery(document).ready(function()
+        jQuery(function()
         {
             var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None)),
                 projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);

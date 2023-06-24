@@ -85,7 +85,7 @@
          * and seeing as how we're already using jQuery on this page, I felt it was most efficient to do it like this.
          * If anyone at all has any comments or suggestions, feel free to contact me! - SMG <stewart.gordon@sitkatech.com>
          */
-        jQuery(document).ready(function () {
+        jQuery(function () {
             var factSheetCustomAttributeInput = jQuery('#FactSheetContainsCustomAttributes');
             var customAttributesRow = jQuery('#CustomAttributesRow');
 
@@ -430,7 +430,7 @@
              </div>
              
             <script type="text/javascript">
-                    jQuery(document).ready(function()
+                    jQuery(function()
                     {
                         var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
                         var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);

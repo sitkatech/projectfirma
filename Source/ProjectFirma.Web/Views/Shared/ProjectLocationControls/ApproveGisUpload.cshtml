@@ -94,7 +94,7 @@
 </div>
 <div id="gisDataToPost"></div>
 <script type="text/javascript" language="javascript">
-    jQuery(document).ready(function()
+    jQuery(function()
     {
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
         var map = new ProjectFirmaMaps.Map(mapInitJson);

@@ -115,7 +115,7 @@
          * Toggle to save the Matchmaker Opt-in/Opt-out status.
          * Based on toggle on the ForwardLookingFactSheet.cshtml and BackwardLookingFactSheet.cshtml
          */
-        jQuery(document).ready(function () {
+        jQuery(function () {
             var matchmakerToggle = jQuery('#MatchmakerToggle');
             var projectFinderButton = jQuery('#ProjectFinderButton');
             var projectFinderButtonDisabled = jQuery('#ProjectFinderButtonDisabled');
@@ -479,7 +479,7 @@
                                                     };
 
 
-                                                jQuery(document).ready(function() {
+                                                jQuery(function() {
                                                     var mapInitJson =
                                                         @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
                                                     var firmaMap = new ProjectFirmaMaps.Map(mapInitJson);
@@ -856,7 +856,7 @@
                                             <div id="@ViewDataTyped.AreaOfInterestMapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0"></div>
                                             <span class="alert" style="font-size: 12px">To zoom, hold down Shift and drag a rectangle.</span>
                                             <script type="text/javascript">
-                                            jQuery(document).ready(function() {
+                                            jQuery(function() {
                                                 var areaOfInterestMapInitJson =
                                                     @Html.Raw(JObject.FromObject(ViewDataTyped.AreaOfInterestMapInitJson).ToString(Formatting.None));
                                                 var areaOfInterestMap =
@@ -1143,7 +1143,7 @@
     </div>
 </div>
 <script>
-    jQuery(document).ready(function() {
+    jQuery(function() {
         $('#organizationDetailsTabs a[href="#@ViewDataTyped.ActiveTab.ToString()"]').tab('show');
     });
 </script>

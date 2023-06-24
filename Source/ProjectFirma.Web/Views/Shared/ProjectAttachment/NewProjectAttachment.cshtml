@@ -14,7 +14,7 @@
                 AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
             };
         });
-        jQuery(document).ready(function ()
+        jQuery(function()
         {
             angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp", "app.Components.InputTypeFile", "ngMessages"]);
 

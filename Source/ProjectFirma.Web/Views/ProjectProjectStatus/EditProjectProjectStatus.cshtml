@@ -193,7 +193,7 @@
 }
 
 <script type="text/javascript">
-    jQuery(document).ready(function() {
+    jQuery(function() {
         var projectStatuses = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectStatusJsonList.ProjectStatusJsons).ToString(Formatting.None));
         var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
         var projectStatusInputElement = document.getElementById("@Html.IdFor(m => m.ProjectStatusID)");
