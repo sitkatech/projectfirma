@@ -385,6 +385,7 @@
     <Compile Include="Views\PerformanceMeasureGroup\PerformanceMeasureGroupGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\Manage.cs" />
     <Compile Include="Views\PerformanceMeasure\ManageViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ExternalLinksViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExternalLinks.cs" />
     <Compile Include="Views\ProjectCreate\ExternalLinksViewData.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
@@ -403,10 +404,13 @@
     <Compile Include="Views\ProjectFinder\ProjectFinderOrganization.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderOrganizationViewData.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderGridSpec.cs" />
+    <Compile Include="Views\ProjectUpdate\PhotosViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\Classifications.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ExternalLinksViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
@@ -672,7 +676,6 @@
     <Content Include="Content\img\SSMPProjectTracker\favicon.ico" />
     <Content Include="Content\img\SSMPProjectTracker\favicon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-checklist.png" />
-    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-community-icon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-funds-icon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-group.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-money-tree.png" />

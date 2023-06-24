@@ -1081,7 +1081,28 @@ namespace ProjectFirma.Web.Controllers
             }
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new PhotosViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus);
-            return RazorView<Photos, PhotosViewData>(viewData);
+            var viewModel = new PhotosViewModel(projectUpdateBatch);
+            return RazorView<Photos, PhotosViewData, PhotosViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Photos(ProjectPrimaryKey projectPrimaryKey, PhotosViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.PhotosComment = viewModel.Comments;
+                SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Photos successfully saved.");
+            }
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Photos.ProjectUpdateSectionDisplayName);
         }
 
         [HttpGet]
@@ -1919,6 +1940,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         #region "Attachments And Notes"
+        [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult AttachmentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -1931,7 +1953,28 @@ namespace ProjectFirma.Web.Controllers
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffNotesAndAttachments(projectPrimaryKey));
             var viewData = new AttachmentsAndNotesViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, diffUrl);
-            return RazorView<AttachmentsAndNotes, AttachmentsAndNotesViewData>(viewData);
+            var viewModel = new AttachmentsAndNotesViewModel(projectUpdateBatch);
+            return RazorView<AttachmentsAndNotes, AttachmentsAndNotesViewData, AttachmentsAndNotesViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult AttachmentsAndNotes(ProjectPrimaryKey projectPrimaryKey, AttachmentsAndNotesViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.AttachmentsAndNotesComment = viewModel.Comments;
+                SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Attachment and Notes successfully saved.");
+            }
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.AttachmentsAndNotes.ProjectUpdateSectionDisplayName);
         }
 
         [HttpGet]
@@ -2101,7 +2144,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var viewModel =
-                new EditProjectExternalLinksViewModel(
+                new ExternalLinksViewModel(projectUpdateBatch,
                     projectUpdateBatch.ProjectExternalLinkUpdates.Select(
                         x => new ProjectExternalLinkSimple(x.ProjectExternalLinkUpdateID, x.ProjectUpdateBatchID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList());
             return ViewExternalLinks(projectUpdateBatch, viewModel);
@@ -2110,7 +2153,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey, EditProjectExternalLinksViewModel viewModel)
+        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey, ExternalLinksViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
@@ -2126,12 +2169,16 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinkUpdates.Load();
             var allProjectExternalLinkUpdates = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinkUpdates.Local;
             viewModel.UpdateModel(currentProjectExternalLinkUpdates, allProjectExternalLinkUpdates);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ExternalLinksComment = viewModel.Comments;
+            }
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} External Links successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.ExternalLinks.ProjectUpdateSectionDisplayName);
         }
 
-        private ViewResult ViewExternalLinks(ProjectUpdateBatch projectUpdateBatch, EditProjectExternalLinksViewModel viewModel)
+        private ViewResult ViewExternalLinks(ProjectUpdateBatch projectUpdateBatch, ExternalLinksViewModel viewModel)
         {
             var refreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExternalLinks(projectUpdateBatch.Project));
             var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExternalLinks(projectUpdateBatch.Project));
@@ -2145,7 +2192,7 @@ namespace ProjectFirma.Web.Controllers
                 entityExternalLinksViewData,
                 refreshUrl,
                 diffUrl);
-            return RazorView<ExternalLinks, ExternalLinksViewData, EditProjectExternalLinksViewModel>(viewData, viewModel);
+            return RazorView<ExternalLinks, ExternalLinksViewData, ExternalLinksViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -3742,7 +3789,7 @@ namespace ProjectFirma.Web.Controllers
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var contactsValidationResult = projectUpdateBatch.ValidateContacts();
 
-            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameLastFirst()).ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive).ToList().OrderBy(p => p.GetFullNameLastFirst()).ToList();
             if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);

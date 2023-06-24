@@ -22,7 +22,7 @@ using ProjectFirma.Web.Views.ProjectExternalLink;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class ExternalLinks : LtInfo.Common.Mvc.TypedWebViewPage<ExternalLinksViewData, EditProjectExternalLinksViewModel>
+    public abstract class ExternalLinks : LtInfo.Common.Mvc.TypedWebViewPage<ExternalLinksViewData, ExternalLinksViewModel>
     {
     }
 }
