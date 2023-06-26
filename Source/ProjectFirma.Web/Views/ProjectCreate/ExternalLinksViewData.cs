@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             ViewDataForAngular = viewDataForAngular;
             EntityExternalLinksViewData = entityExternalLinksViewData;
-            ShowCommentsSection = project.IsPendingApproval() || (project.ContactsComment != null &&
+            ShowCommentsSection = project.IsPendingApproval() || (project.ExternalLinksComment != null &&
                                                                   project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
             CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
 
