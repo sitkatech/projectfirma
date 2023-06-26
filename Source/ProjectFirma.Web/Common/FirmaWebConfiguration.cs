@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Common
 
         public static readonly string NCRPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("NCRPHomeUrl");
         public static readonly string SSMPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("SSMPHomeUrl");
-        public static readonly int SSMPAcresControlledTarget = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("SSMPAcresControlledTarget"));
+        public static readonly int SSMPAcresConstructedTarget = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("SSMPAcresConstructedTarget"));
 
         // Feature Flag Settings
         // FeatureMatchMakerEnabled now has shipped, but leaving this in place so we can see readily how to set up the next Feature.

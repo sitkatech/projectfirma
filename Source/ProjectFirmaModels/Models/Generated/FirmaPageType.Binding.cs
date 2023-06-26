@@ -206,7 +206,7 @@ namespace ProjectFirmaModels.Models
         PerformanceMeasureReportedAccomplishments = 89,
         PerformanceMeasureTargetsTabIntro = 90,
         ProgressDashboardIntro = 91,
-        ProgressDashboardAcresControlledByTheNumbers = 92,
-        ProgressDashboardAcresControlledPieCharts = 93
+        ProgressDashboardAcresConstructedByTheNumbers = 92,
+        ProgressDashboardAcresConstructedPieCharts = 93
     }
 }

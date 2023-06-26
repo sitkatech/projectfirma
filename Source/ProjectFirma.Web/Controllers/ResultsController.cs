@@ -604,9 +604,9 @@ namespace ProjectFirma.Web.Controllers
             // PerformanceMeasureID = 3733 is the Outcome "Community Engagement Meetings Held"
             var communityEngagementCount = GetPerformanceMeasureActualsSumForPerformanceMeasure(3733);
 
-            /* Acres Controlled | By The Numbers section numbers*/
-            // PerformanceMeasureID = 3757 is the Outcome "Total Acres Controlled"
-            var totalAcresControlled = GetPerformanceMeasureActualsSumForPerformanceMeasure(3757);
+            /* Acres Constructed | By The Numbers section numbers*/
+            // PerformanceMeasureID = 3757 is the Outcome "Total Acres Constructed"
+            var totalAcresConstructed = GetPerformanceMeasureActualsSumForPerformanceMeasure(3757);
             // PerformanceMeasureID = 3731 is the Outcome "Area Treated for Dust Suppression"
             var dustSuppressionPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3731);
             // PerformanceMeasureID = 3736 is "Area Treated for Vegetation Enhancement"
@@ -615,10 +615,10 @@ namespace ProjectFirma.Web.Controllers
             var aquaticHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3737);
             // PerformanceMeasureID = 3750 is "Area of Endangered & Special Status Species Habitat Created"
             var endangeredSpeciesHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3750);
-            var acresControlledByTheNumbersFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledByTheNumbers.GetFirmaPage();
+            var acresConstructedByTheNumbersFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresConstructedByTheNumbers.GetFirmaPage();
 
-            /* Acres Controlled pie charts */
-            var acresControlledPieChartFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledPieCharts.GetFirmaPage();
+            /* Acres Constructed pie charts */
+            var acresConstructedPieChartFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresConstructedPieCharts.GetFirmaPage();
             var areaTreatedForDustSuppressionPieChartTitle = "Area Treated for Dust Suppression";
             var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardPieChartValues(6114, 6254);
             var areaTreatedForDustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, areaTreatedForDustSuppressionPieChartTitle, dustSuppressionValues);
@@ -644,7 +644,7 @@ namespace ProjectFirma.Web.Controllers
 
 
             var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount,
-                totalAcresControlled, acresControlledByTheNumbersFirmaPage, acresControlledPieChartFirmaPage,
+                totalAcresConstructed, acresConstructedByTheNumbersFirmaPage, acresConstructedPieChartFirmaPage,
                 areaTreatedForDustSuppressionPieChart, areaTreatedForVegetationEnhancementGoogleChart, aquaticHabitatCreatedPieChart, endangeredSpeciesHabitatCreatedPieChart,
                 dustSuppressionValues, vegetationEnhancementValues, aquaticHabitatCreatedValues, endangeredSpeciesHabitatCreatedValues,
                 dustSuppressionChartJsonsAndProjectColors.Item1, dustSuppressionChartJsonsAndProjectColors.Item2,
