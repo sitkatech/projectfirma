@@ -406,14 +406,14 @@ namespace ProjectFirma.Web.Models
 
         public static List<double> GetProgressDashboardPieChartValues(this PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID, int acresInConstructionSubcategoryOptionID)
         {
-            var acresCompleted = GetTotalActualsForPerformanceMeasureSubcategoryOption(performanceMeasure, acresCompletedSubcategoryOptionID);
-            var acresInConstruction = GetTotalActualsForPerformanceMeasureSubcategoryOption(performanceMeasure, acresInConstructionSubcategoryOptionID);
+            var acresCompleted = performanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(acresCompletedSubcategoryOptionID);
+            var acresInConstruction = performanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(acresInConstructionSubcategoryOptionID);
             var acresPlanned = GetTotalExpectedsForPerformanceMeasureSubcategoryOption(performanceMeasure) - (acresCompleted + acresInConstruction);
             acresPlanned = acresPlanned < 0 ? 0 : acresPlanned;
             return new List<double> {acresCompleted, acresInConstruction, acresPlanned};
         }
 
-        private static double GetTotalActualsForPerformanceMeasureSubcategoryOption(PerformanceMeasure performanceMeasure, int subcategoryOptionID)
+        public static double GetTotalActualsForPerformanceMeasureSubcategoryOption(this PerformanceMeasure performanceMeasure, int subcategoryOptionID)
         {
             return performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x =>
                 x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID)
