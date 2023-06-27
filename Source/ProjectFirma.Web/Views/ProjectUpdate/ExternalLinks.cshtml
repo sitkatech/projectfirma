@@ -21,7 +21,9 @@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ProjectUpdate
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.ExternalLinks
 
@@ -89,33 +91,46 @@
     </div>
     @if (ViewDataTyped.IsEditable)
     {
-        <hr />
-        <table class="summaryLayout" style="width: 100%">
-            <tr>
-                <td>
-                    @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
-                    @if (ViewDataTyped.ProjectUpdateStatus.IsExternalLinksUpdated)
-                    {
-                        @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
-                    }
-                </td>
-                <td style="text-align: right; white-space: nowrap">
-                    @using (Html.BeginForm())
-                    {
+        using (Html.BeginForm())
+        {
+            if (ViewDataTyped.ShowApproveAndReturnButton)
+            {
+                <hr/>
+                <div class="row form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(x => x.Comments, new {style = "width: 100%", @class = "form-control"})
+                    </div>
+                </div>
+            }
+            <hr/>
+            SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
+            <table class="summaryLayout" style="width: 100%">
+                <tr>
+                    <td>
+                        @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null, null, "Undo all changes on this page")
+                        @if (ViewDataTyped.ProjectUpdateStatus.IsExternalLinksUpdated)
+                        {
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), 800, "hidden-save-button", string.Empty, "Close", new List<string> {"btn btn-xs btn-firma"}, null, null, null)
+                        }
+                    </td>
+                    <td style="text-align: right; white-space: nowrap">
+
                         <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
                         <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ProjectID}}">
                         <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ExternalLinkLabel).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ExternalLinkLabel}}">
                         <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ExternalLinkUrl).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ExternalLinkUrl}}">
-                    }
-                </td>
-            </tr>
-        </table>
+
+                    </td>
+                </tr>
+            </table>
+        }
     }
 
 </div>
 
 <script type="text/javascript">
     //<![CDATA[
-    jQuery(document).ready(function () { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
+    jQuery(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
     // ]]>
 </script>

@@ -29,14 +29,14 @@ angular.module("ProjectFirmaApp")
                         limit: Number.MAX_VALUE
                     });
 
-                finder.bind("typeahead:select",
+                finder.on("typeahead:select",
                     function (event, suggestion) {
                         $scope.toggleGeospatialArea(suggestion.GeospatialAreaID, suggestion.GeospatialAreaShortName, function() {
                             $scope.$apply();
                         });
                     });
 
-                jQuery(typeaheadSelectorButton).click(function () { $scope.selectFirstSuggestionFunction(finder); });
+                jQuery(typeaheadSelectorButton).on("click",function () { $scope.selectFirstSuggestionFunction(finder); });
 
                 finder.keypress(function (e) {
                     if (e.which === 13) {

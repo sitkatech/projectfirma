@@ -386,7 +386,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var viewModel =
-                new EditProjectExternalLinksViewModel(
+                new ExternalLinksViewModel(project,
                     project.ProjectExternalLinks.Select(
                         x => new ProjectExternalLinkSimple(x.ProjectExternalLinkID, x.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList());
             return ViewExternalLinks(project, viewModel);
@@ -395,7 +395,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey, EditProjectExternalLinksViewModel viewModel)
+        public ActionResult ExternalLinks(ProjectPrimaryKey projectPrimaryKey, ExternalLinksViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -405,12 +405,12 @@ namespace ProjectFirma.Web.Controllers
             var currentProjectExternalLinks = project.ProjectExternalLinks.ToList();
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
             var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinks.Local;
-            viewModel.UpdateModel(currentProjectExternalLinks, allProjectExternalLinks);
+            viewModel.UpdateModel(project, currentProjectExternalLinks, allProjectExternalLinks);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} External Links successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.ExternalLinks.ProjectCreateSectionDisplayName);
         }
 
-        private ViewResult ViewExternalLinks(Project project, EditProjectExternalLinksViewModel viewModel)
+        private ViewResult ViewExternalLinks(Project project, ExternalLinksViewModel viewModel)
         {
           
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
@@ -421,7 +421,7 @@ namespace ProjectFirma.Web.Controllers
                 proposalSectionsStatus,
                 viewDataForAngularClass,
                 entityExternalLinksViewData);
-            return RazorView<Views.ProjectCreate.ExternalLinks, Views.ProjectCreate.ExternalLinksViewData, EditProjectExternalLinksViewModel>(viewData, viewModel);
+            return RazorView<Views.ProjectCreate.ExternalLinks, Views.ProjectCreate.ExternalLinksViewData, ExternalLinksViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -1968,7 +1968,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewContacts(Project project, ContactsViewModel viewModel)
         {
-            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive).ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
 
             if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {

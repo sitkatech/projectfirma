@@ -62,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <script type="text/javascript">
-    jQuery(document).ready(function()
+    jQuery(function()
     {
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
         window.Sitka.map = new ProjectFirmaMaps.Map(mapInitJson);

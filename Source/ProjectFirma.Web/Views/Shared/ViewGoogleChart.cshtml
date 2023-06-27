@@ -222,7 +222,7 @@
             GoogleCharts.drawCharts(googleCharts_@(ViewDataTyped.ChartUniqueName));
         }
 
-    jQuery(document).ready(function()
+    jQuery(function()
     {
 
         function chartSetup_@(ViewDataTyped.ChartUniqueName)()
@@ -236,7 +236,7 @@
             var itemCount = jQuery("#subcategoryDropdownFor" + chartName + " option").length;
             if (itemCount > 1)
             {
-                templateDropdown.change(chartSelector_@(ViewDataTyped.ChartUniqueName));
+                templateDropdown.on("change",chartSelector_@(ViewDataTyped.ChartUniqueName));
             }
             else
             {
@@ -245,7 +245,7 @@
             }
             if ("@ViewDataTyped.CanBeChartedCumulatively" === "True")
             {
-                cumulativeToggle.change(chartSelector_@(ViewDataTyped.ChartUniqueName));
+                cumulativeToggle.on("change",chartSelector_@(ViewDataTyped.ChartUniqueName));
             }
             // Call function to show appropriate chart
             chartSelector_@(ViewDataTyped.ChartUniqueName)();

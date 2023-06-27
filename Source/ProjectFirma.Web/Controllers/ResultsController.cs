@@ -643,7 +643,7 @@ namespace ProjectFirma.Web.Controllers
             var endangeredSpeciesHabitatChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, 6255);
 
 
-            var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount, communityEngagementCount,
+            var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount,
                 totalAcresControlled, acresControlledByTheNumbersFirmaPage, acresControlledPieChartFirmaPage,
                 areaTreatedForDustSuppressionPieChart, areaTreatedForVegetationEnhancementGoogleChart, aquaticHabitatCreatedPieChart, endangeredSpeciesHabitatCreatedPieChart,
                 dustSuppressionValues, vegetationEnhancementValues, aquaticHabitatCreatedValues, endangeredSpeciesHabitatCreatedValues,

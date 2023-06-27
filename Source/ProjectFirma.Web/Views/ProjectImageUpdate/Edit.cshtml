@@ -53,7 +53,7 @@
     </div>
 }
 <script>
-    jQuery(document).ready(function() {
+    jQuery(function() {
         var checkbox = jQuery('#@Html.IdFor(x => x.IncludeInFactSheet)');
         if ('@ViewDataTyped.ProjectImageUpdate.IsKeyPhoto' === 'True') {
             checkbox.attr('disabled', 'disabled');

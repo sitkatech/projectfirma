@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
 
@@ -29,12 +30,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly EntityExternalLinksViewData EntityExternalLinksViewData;
         public readonly ViewDataForAngularClass ViewDataForAngular;
+        public bool ShowCommentsSection { get; }
+        public bool CanEditComments { get; }
 
         public ExternalLinksViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ProposalSectionsStatus proposalSectionsStatus, ViewDataForAngularClass viewDataForAngular, EntityExternalLinksViewData entityExternalLinksViewData)
             : base(currentFirmaSession, project, ProjectCreateSection.ExternalLinks.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ViewDataForAngular = viewDataForAngular;
             EntityExternalLinksViewData = entityExternalLinksViewData;
+            ShowCommentsSection = project.IsPendingApproval() || (project.ExternalLinksComment != null &&
+                                                                  project.ProjectApprovalStatus == ProjectApprovalStatus.Returned);
+            CanEditComments = project.IsPendingApproval() && new ProjectEditAsAdminRegardlessOfStageFeature().HasPermission(currentFirmaSession, project).HasPermission;
+
         }
 
         public class ViewDataForAngularClass

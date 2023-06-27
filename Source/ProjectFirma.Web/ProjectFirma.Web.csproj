@@ -385,6 +385,7 @@
     <Compile Include="Views\PerformanceMeasureGroup\PerformanceMeasureGroupGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\Manage.cs" />
     <Compile Include="Views\PerformanceMeasure\ManageViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ExternalLinksViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExternalLinks.cs" />
     <Compile Include="Views\ProjectCreate\ExternalLinksViewData.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
@@ -403,10 +404,13 @@
     <Compile Include="Views\ProjectFinder\ProjectFinderOrganization.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderOrganizationViewData.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderGridSpec.cs" />
+    <Compile Include="Views\ProjectUpdate\PhotosViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\Classifications.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ExternalLinksViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
@@ -672,7 +676,6 @@
     <Content Include="Content\img\SSMPProjectTracker\favicon.ico" />
     <Content Include="Content\img\SSMPProjectTracker\favicon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-checklist.png" />
-    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-community-icon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-funds-icon.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-group.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-money-tree.png" />
@@ -701,9 +704,17 @@
     <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
     <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
     <Content Include="Content\themes\base\menu.css" />
     <Content Include="Content\themes\base\progressbar.css" />
     <Content Include="Content\themes\base\resizable.css" />
@@ -732,21 +743,25 @@
     <Content Include="Content\Training\ProjectFirma-Example.gdb.zip" />
     <Content Include="Content\Bootstrap\firma\ncrp.theme.less" />
     <Content Include="Content\Bootstrap\firma\ssmp.theme.less" />
-    <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\combo-tree\comboTreePlugin.js" />
-    <Content Include="Scripts\jquery-1.11.0.js" />
-    <Content Include="Scripts\jquery-1.11.0.min.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.7.0.js" />
+    <Content Include="Scripts\jquery-3.7.0.min.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
+    <Content Include="Scripts\jquery-ui-1.13.2.js" />
+    <Content Include="Scripts\jquery-ui-1.13.2.min.js" />
     <Content Include="Scripts\jquery.fancybox-buttons.js" />
     <Content Include="Scripts\jquery.fancybox-media.js" />
     <Content Include="Scripts\jquery.fancybox-thumbs.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
     <Content Include="Scripts\jquery.fancybox.pack.js" />
     <Content Include="Scripts\jquery.mousewheel-3.0.6.pack.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.7.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -802,7 +817,6 @@
     <Content Include="Views\AttachmentType\EditAttachmentType.cshtml" />
     <Content Include="Views\Organization\EditPrimaryContact.cshtml" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\DocumentLibrary\Index.cshtml" />
     <Content Include="Views\DocumentLibrary\Edit.cshtml" />
     <Content Include="Views\DocumentLibrary\Detail.cshtml" />
@@ -1198,12 +1212,6 @@
     <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\safari-pinned-tab.svg" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
-    <Content Include="Content\qtip\jquery.qtip.es5.js">
-      <DependentUpon>jquery.qtip.js</DependentUpon>
-    </Content>
-    <Content Include="Content\qtip\jquery.qtip.es5.min.js">
-      <DependentUpon>jquery.qtip.es5.js</DependentUpon>
-    </Content>
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
       <DependentUpon>jquery.qtip.validation.js</DependentUpon>
     </Content>
@@ -1240,10 +1248,6 @@
     <Content Include="Content\Bootstrap\firma\base.theme.less" />
     <Content Include="Content\img\RCDProjectTracker\manifest.json" />
     <Content Include="Content\Bootstrap\firma\rcd.theme.less" />
-    <None Include="compilerconfig.json" />
-    <None Include="compilerconfig.json.defaults">
-      <DependentUpon>compilerconfig.json</DependentUpon>
-    </None>
     <Content Include="Content\Bootstrap\firma\clackamas.less" />
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
@@ -2909,7 +2913,6 @@
     <Content Include="Content\bootstrap-typeahead\bootstrap3-typeahead.min.js.map">
       <DependentUpon>bootstrap3-typeahead.min.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-1.11.0.min.js.map" />
     <Content Include="Scripts\jquery.form.min.js">
       <DependentUpon>jquery.form.js</DependentUpon>
     </Content>

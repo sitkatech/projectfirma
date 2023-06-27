@@ -128,7 +128,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <script type="text/javascript">
-    jQuery(document).ready(function()
+    jQuery(function()
     {
         var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
         var projectFirmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson, jQuery("#projectLocationInformationContainer"));
