@@ -117,9 +117,41 @@
         font-size: 24px;
         font-weight: bold;
     }
-    .progress-bar {
-        @*background-color: #5D69B1;*@
+
+    .progress-bar-in-construction {
+        background-color: #FEC51F;
+    }
+
+    .progress-bar-completed {
         background-color: #0E3F77;
+    }
+
+    .progressBarLegendPanel.inConstruction {
+        border-color: #FEC51F;
+        border-radius: 0;
+    }
+    .progressBarLegendPanel.completed {
+        border-color: #0E3F77;
+        border-radius: 0;
+    }
+
+    .progressBarLegendPanel .panel-heading {
+        padding: 6px 0;
+        border-radius: 0;
+    }
+
+    .progressBarLegendPanel .inConstruction {
+        background-color: #FEC51F;
+        border-color: #FEC51F;
+    }
+
+    .progressBarLegendPanel .completed {
+        background-color: #0E3F77;
+        border-color: #0E3F77;
+    }
+
+    .progressBarLegendPanel .panel-body {
+        padding: 10px 5px;
     }
 
     .acresConstructedCardWrapper {
@@ -446,13 +478,44 @@
         </div>
         <div class="col-xs-12 col-sm-9">
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: @(ViewDataTyped.AcresConstructedPercent)%" aria-valuenow="@ViewDataTyped.TotalAcresConstructed"
+                <div class="progress-bar progress-bar-completed" role="progressbar" style="width: @(ViewDataTyped.AcresConstructedCompletedPercent)%" aria-valuenow="@ViewDataTyped.TotalAcresConstructedCompleted"
                      aria-valuemin="0" aria-valuemax="@ViewDataTyped.AcresConstructedTarget"></div>
-
+                <div class="progress-bar progress-bar-in-construction" role="progressbar" style="width: @(ViewDataTyped.AcresConstructedInConstructionPercent)%" aria-valuenow="@ViewDataTyped.TotalAcresConstructedInConstruction"
+                     aria-valuemin="0" aria-valuemax="@ViewDataTyped.AcresConstructedTarget"></div>
             </div>
             <div class="progressBarMinMaxNumbers">
                 <span>0</span>
                 <span class="pull-right">@ViewDataTyped.AcresConstructedTarget.ToGroupedNumeric()</span>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-offset-3 col-sm-9">
+            <div class="row" style="margin-top: 15px; text-align: center">
+                <div class="col-xs-6 col-sm-5 col-sm-offset-1 col-md-offset-2 col-md-4">
+                    <div class="panel progressBarLegendPanel completed">
+                        <div class="panel-heading panelTitle completed"></div>
+                        <div class="panel-body">
+                            <div>
+                                <div class="progressBarMinMaxNumbers">@ViewDataTyped.TotalAcresConstructedCompleted.ToGroupedNumeric()</div>
+                                <div style="text-transform: uppercase">
+                                    <div>Construction Complete</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-5 col-md-4">
+                    <div class="panel progressBarLegendPanel inConstruction">
+                        <div class="panel-heading panelTitle inConstruction"></div>
+                        <div class="panel-body">
+                            <div>
+                                <div class="progressBarMinMaxNumbers">@ViewDataTyped.TotalAcresConstructedInConstruction.ToGroupedNumeric()</div>
+                                <div style="text-transform: uppercase">
+                                    <div>In Construction</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-xs-12" style="margin-top: 40px; margin-bottom: 25px">
@@ -717,7 +780,7 @@
                                 <div style="background-color: @(projectColorAndValue.Value.Item1); height: 15px; width: 20px; margin-top: 3px;"></div>
                             </td>
                             <td>@projectColorAndValue.Key.GetDisplayNameAsUrl()</td>
-                            <td>@projectColorAndValue.Value.Item2 acres</td>
+                            <td>@projectColorAndValue.Value.Item2.ToGroupedNumeric() acres</td>
                         </tr>
                     }
                     </tbody>
@@ -773,7 +836,7 @@
                                 <div style="background-color: @(projectColorAndValue.Value.Item1); height: 15px; width: 20px; margin-top: 3px;"></div>
                             </td>
                             <td>@projectColorAndValue.Key.GetDisplayNameAsUrl()</td>
-                            <td>@projectColorAndValue.Value.Item2 acres</td>
+                            <td>@projectColorAndValue.Value.Item2.ToGroupedNumeric() acres</td>
                         </tr>
                     }
                     </tbody>
@@ -827,7 +890,7 @@
                                 <div style="background-color: @(projectColorAndValue.Value.Item1); height: 15px; width: 20px; margin-top: 3px;"></div>
                             </td>
                             <td>@projectColorAndValue.Key.GetDisplayNameAsUrl()</td>
-                            <td>@projectColorAndValue.Value.Item2 acres</td>
+                            <td>@projectColorAndValue.Value.Item2.ToGroupedNumeric() acres</td>
                         </tr>
                     }
                     </tbody>
@@ -882,7 +945,7 @@
                                     <div style="background-color: @(projectColorAndValue.Value.Item1); height: 15px; width: 20px; margin-top: 3px;"></div>
                                 </td>
                                 <td>@projectColorAndValue.Key.GetDisplayNameAsUrl()</td>
-                                <td>@projectColorAndValue.Value.Item2 acres</td>
+                                <td>@projectColorAndValue.Value.Item2.ToGroupedNumeric() acres</td>
                             </tr>
                         }
                     </tbody>

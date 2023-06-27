@@ -34,8 +34,11 @@ namespace ProjectFirma.Web.Views.Results
         public decimal FundsCommittedToProgram { get; }
         public int PartnershipCount { get; }
         public double TotalAcresConstructed { get; }
+        public double TotalAcresConstructedInConstruction { get; }
+        public double TotalAcresConstructedCompleted { get; }
         public int AcresConstructedTarget { get; }
-        public double AcresConstructedPercent { get; }
+        public double AcresConstructedInConstructionPercent { get; }
+        public double AcresConstructedCompletedPercent { get; }
         public double AreaTreatedForDustSuppression { get; }
         public double AreaTreatedForVegetationEnhancement { get; }
         public double AquaticHabitatCreated { get; }
@@ -66,7 +69,7 @@ namespace ProjectFirma.Web.Views.Results
         public ProgressDashboardViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
             int projectCount, decimal fundsCommittedToProgram, int partnershipCount,
-            double totalAcresConstructed,
+            double totalAcresConstructedInConstruction, double totalAcresConstructedCompleted,
             ProjectFirmaModels.Models.FirmaPage acresConstructedByTheNumbersFirmaPage,
             ProjectFirmaModels.Models.FirmaPage acresConstructedPieChartFirmaPage,
             GoogleChartJson dustSuppressionPieChart,
@@ -94,9 +97,12 @@ namespace ProjectFirma.Web.Views.Results
             PartnershipCount = partnershipCount;
             
             // acres controlled
-            TotalAcresConstructed = totalAcresConstructed;
+            TotalAcresConstructed = totalAcresConstructedInConstruction + totalAcresConstructedCompleted;
+            TotalAcresConstructedInConstruction = totalAcresConstructedInConstruction;
+            TotalAcresConstructedCompleted = totalAcresConstructedCompleted;
             AcresConstructedTarget = FirmaWebConfiguration.SSMPAcresConstructedTarget;
-            AcresConstructedPercent = totalAcresConstructed / AcresConstructedTarget * 100;
+            AcresConstructedInConstructionPercent = totalAcresConstructedInConstruction / AcresConstructedTarget * 100;
+            AcresConstructedCompletedPercent = totalAcresConstructedCompleted / AcresConstructedTarget * 100;
 
             AreaTreatedForDustSuppression = dustSuppressionValues[0];
             AreaTreatedForVegetationEnhancement = vegetationEnhancementValues[0];

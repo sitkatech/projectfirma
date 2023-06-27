@@ -601,12 +601,13 @@ namespace ProjectFirma.Web.Controllers
             var fundsCommittedToProgramDecimal = HttpRequestStorage.DatabaseEntities.FundingSources.Sum(x => x.FundingSourceAmount);
             var fundsCommittedToProgram = fundsCommittedToProgramDecimal.HasValue ? Math.Round(fundsCommittedToProgramDecimal.Value / 1000000) : 0;
             var partnershipCount = activeProjects.SelectMany(x => x.GetAssociatedOrganizations()).Distinct().Count();
-            // PerformanceMeasureID = 3733 is the Outcome "Community Engagement Meetings Held"
-            var communityEngagementCount = GetPerformanceMeasureActualsSumForPerformanceMeasure(3733);
 
             /* Acres Constructed | By The Numbers section numbers*/
             // PerformanceMeasureID = 3757 is the Outcome "Total Acres Constructed"
-            var totalAcresConstructed = GetPerformanceMeasureActualsSumForPerformanceMeasure(3757);
+            var acresConstructedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3757);
+            var totalAcresConstructedInConstruction = acresConstructedPerformanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(6293);
+            var totalAcresConstructedCompleted = acresConstructedPerformanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(6282);
+
             // PerformanceMeasureID = 3731 is the Outcome "Area Treated for Dust Suppression"
             var dustSuppressionPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3731);
             // PerformanceMeasureID = 3736 is "Area Treated for Vegetation Enhancement"
@@ -644,7 +645,7 @@ namespace ProjectFirma.Web.Controllers
 
 
             var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount,
-                totalAcresConstructed, acresConstructedByTheNumbersFirmaPage, acresConstructedPieChartFirmaPage,
+                totalAcresConstructedInConstruction, totalAcresConstructedCompleted, acresConstructedByTheNumbersFirmaPage, acresConstructedPieChartFirmaPage,
                 areaTreatedForDustSuppressionPieChart, areaTreatedForVegetationEnhancementGoogleChart, aquaticHabitatCreatedPieChart, endangeredSpeciesHabitatCreatedPieChart,
                 dustSuppressionValues, vegetationEnhancementValues, aquaticHabitatCreatedValues, endangeredSpeciesHabitatCreatedValues,
                 dustSuppressionChartJsonsAndProjectColors.Item1, dustSuppressionChartJsonsAndProjectColors.Item2,
@@ -652,13 +653,6 @@ namespace ProjectFirma.Web.Controllers
                 aquaticHabitatCreatedChartJsonsAndProjectColors.Item1, aquaticHabitatCreatedChartJsonsAndProjectColors.Item2,
                 endangeredSpeciesHabitatChartJsonsAndProjectColors.Item1, endangeredSpeciesHabitatChartJsonsAndProjectColors.Item2);
             return RazorView<ProgressDashboard, ProgressDashboardViewData>(viewData);
-        }
-
-        private double GetPerformanceMeasureActualsSumForPerformanceMeasure(int performanceMeasureID)
-        {
-            return HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Any(x => x.PerformanceMeasureID == performanceMeasureID)
-                ? HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(x => x.PerformanceMeasureID == performanceMeasureID).Sum(x => x.ActualValue)
-                : 0;
         }
 
         private GoogleChartJson MakeGoogleChartJsonForProgressDashboardPieChart(PerformanceMeasure performanceMeasure, string chartTitle, List<double> values)
