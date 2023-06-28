@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.ModalDialog;
@@ -99,8 +100,7 @@ namespace LtInfo.Common.DhtmlWrappers
 
           // each entry here represents one column
           columnDefs: [
-            {{ field: ""id"" }},
-            {{ field: ""data"" }}
+            {2}
           ],
 
           // default col def properties get applied to all columns
@@ -111,6 +111,7 @@ namespace LtInfo.Common.DhtmlWrappers
 
           // example event handler
           onCellClicked: params => {{
+            //debugger;
             console.log('cell was clicked', params)
           }}
         }};
@@ -131,7 +132,26 @@ namespace LtInfo.Common.DhtmlWrappers
             var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
                 splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
 
-            return String.Format(template, gridName, optionalGridDataUrl);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            //{{ field: ""Watershed"" }},
+            //{{ field: ""NumofProjects"" }}
+            var columnDefinitionStringBuilder = new StringBuilder();
+            var isFirstLoop = true;
+            foreach (var columnSpec in gridSpec)
+            {
+                if (isFirstLoop)
+                {
+                    isFirstLoop = false;
+                }
+                else
+                {
+                    columnDefinitionStringBuilder.Append(",");
+                }
+
+                columnDefinitionStringBuilder.AppendFormat("{{ field: \"{0}\" }}", columnSpec.ColumnNameForJavascript);
+            }
+
+
+            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
         /// <summary>

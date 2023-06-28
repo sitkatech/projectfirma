@@ -73,7 +73,7 @@ namespace LtInfo.Common.MvcResults
             _gridSpec = gridSpec;
             _modelList = modelList;
             var list = rowLimit.HasValue ? modelList.Take(rowLimit.Value) : modelList;
-            var rows = new List<string>();
+            var rows = new List<object>();
 
             //_gridSpec.colu
             foreach (var model in _modelList)
@@ -81,18 +81,19 @@ namespace LtInfo.Common.MvcResults
                 // { columnSpec.Name : model.ToAgGrid }
                  //var columnValues = gridSpec.Select(columnSpec => new object{ columnSpec .Co } ).ToList();
 
-                 var thisRow = new List<object>();
+                 var thisRow = new Dictionary<string,object>();
                  foreach (var columnSpec in _gridSpec)
                  {
                      var data = model.ToAgGridJsonCellData(columnSpec);
                      var columnName = columnSpec.ColumnNameForJavascript;
-                     thisRow.Add($"'{columnName}':{data}");
+                    thisRow.Add(columnName, data);
+
                  }
 
-
-                 rows.Add($"{{{string.Join(", ", thisRow)}}}");
+                 rows.Add(thisRow);
+                 //rows.Add($"{string.Join(", ", thisRow)}");
             }
-            
+
 
             //var anonymousObject = new
             //{
@@ -100,8 +101,9 @@ namespace LtInfo.Common.MvcResults
 
             //};
 
-            //_data = JObject.FromObject(new {rows});
-            _data = new JArray(rows);
+            //_data = JObject.FromObject(rows);
+            //_data = new JArray(rows);
+            _data = JArray.FromObject(rows);
         }
 
 
