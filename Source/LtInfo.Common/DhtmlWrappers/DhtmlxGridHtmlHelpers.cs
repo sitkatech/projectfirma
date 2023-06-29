@@ -147,7 +147,14 @@ namespace LtInfo.Common.DhtmlWrappers
                     columnDefinitionStringBuilder.Append(",");
                 }
 
-                columnDefinitionStringBuilder.AppendFormat("{{ field: \"{0}\" }}", columnSpec.ColumnNameForJavascript);
+                columnDefinitionStringBuilder.Append("{ ");
+                columnDefinitionStringBuilder.AppendFormat("field: \"{0}\"", columnSpec.ColumnNameForJavascript);
+                if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.ReadOnlyHtmlText)
+                {
+                    columnDefinitionStringBuilder.Append(", cellRenderer: function(params) { return params.value ? params.value: ''; } ");
+                }
+
+                columnDefinitionStringBuilder.Append(" }");
             }
 
 
