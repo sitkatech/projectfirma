@@ -11,12 +11,18 @@ CREATE TABLE [dbo].[ProjectCustomGridConfiguration](
 	[GeospatialAreaTypeID] [int] NULL,
 	[IsEnabled] [bit] NOT NULL,
 	[SortOrder] [int] NULL,
+	[ClassificationSystemID] [int] NULL,
  CONSTRAINT [PK_ProjectCustomGridConfiguration_ProjectCustomGridConfigurationID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectCustomGridConfigurationID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_ClassificationSystem_ClassificationSystemID] FOREIGN KEY([ClassificationSystemID])
+REFERENCES [dbo].[ClassificationSystem] ([ClassificationSystemID])
+GO
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_ClassificationSystem_ClassificationSystemID]
 GO
 ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID] FOREIGN KEY([GeospatialAreaTypeID])
 REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])

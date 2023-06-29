@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         {
         }
 
-        public EditProjectCustomGridViewModel(int projectCustomGridTypeID, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+        public EditProjectCustomGridViewModel(int projectCustomGridTypeID, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems)
         {
             var projectCustomGridConfigurationSimples = new List<ProjectCustomGridConfigurationSimple>();
             var projectCustomGridColumns = GeneralUtility.EnumGetValues<ProjectCustomGridColumnEnum>();
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     {
                         var enabled = projectCustomGridConfigurations.Any(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID && x.ProjectCustomGridColumnID == (int)projectCustomGridColumn && x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID && x.IsEnabled);
                         var sortOrder = projectCustomGridConfigurations.SingleOrDefault(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID && x.ProjectCustomGridColumnID == (int)projectCustomGridColumn && x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID && x.IsEnabled)?.SortOrder;
-                        projectCustomGridConfigurationSimples.Add(new ProjectCustomGridConfigurationSimple(projectCustomGridTypeID, ProjectCustomGridColumn.ToType(projectCustomGridColumn), projectCustomAttributeType, null, enabled, sortOrder));
+                        projectCustomGridConfigurationSimples.Add(new ProjectCustomGridConfigurationSimple(projectCustomGridTypeID, ProjectCustomGridColumn.ToType(projectCustomGridColumn), projectCustomAttributeType, null, null, enabled, sortOrder));
                     }
                 }
 
@@ -109,7 +109,17 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     {
                         var enabled = projectCustomGridConfigurations.Any(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID && x.ProjectCustomGridColumnID == (int)projectCustomGridColumn && x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID && x.IsEnabled);
                         var sortOrder = projectCustomGridConfigurations.SingleOrDefault(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID && x.ProjectCustomGridColumnID == (int)projectCustomGridColumn && x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID && x.IsEnabled)?.SortOrder;
-                        projectCustomGridConfigurationSimples.Add(new ProjectCustomGridConfigurationSimple(projectCustomGridTypeID, ProjectCustomGridColumn.ToType(projectCustomGridColumn), null, geospatialAreaType, enabled, sortOrder));
+                        projectCustomGridConfigurationSimples.Add(new ProjectCustomGridConfigurationSimple(projectCustomGridTypeID, ProjectCustomGridColumn.ToType(projectCustomGridColumn), null, geospatialAreaType, null, enabled, sortOrder));
+                    }
+                }
+                
+                else if (projectCustomGridColumn == ProjectCustomGridColumnEnum.ClassificationSystem)
+                {
+                    foreach (var classificationSystem in classificationSystems)
+                    {
+                        var enabled = projectCustomGridConfigurations.Any(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID && x.ProjectCustomGridColumnID == (int)projectCustomGridColumn && x.ClassificationSystemID == classificationSystem.ClassificationSystemID && x.IsEnabled);
+                        var sortOrder = projectCustomGridConfigurations.SingleOrDefault(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID && x.ProjectCustomGridColumnID == (int)projectCustomGridColumn && x.ClassificationSystemID == classificationSystem.ClassificationSystemID && x.IsEnabled)?.SortOrder;
+                        projectCustomGridConfigurationSimples.Add(new ProjectCustomGridConfigurationSimple(projectCustomGridTypeID, ProjectCustomGridColumn.ToType(projectCustomGridColumn), null, null, classificationSystem, enabled, sortOrder));
                     }
                 }
 
@@ -117,7 +127,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 {
                     var enabled = projectCustomGridConfigurations.Any(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID && x.ProjectCustomGridColumnID == (int) projectCustomGridColumn && x.IsEnabled);
                     var sortOrder = projectCustomGridConfigurations.SingleOrDefault(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID && x.ProjectCustomGridColumnID == (int) projectCustomGridColumn && x.IsEnabled)?.SortOrder;
-                    projectCustomGridConfigurationSimples.Add(new ProjectCustomGridConfigurationSimple(projectCustomGridTypeID, ProjectCustomGridColumn.ToType(projectCustomGridColumn), null, null, enabled, sortOrder));
+                    projectCustomGridConfigurationSimples.Add(new ProjectCustomGridConfigurationSimple(projectCustomGridTypeID, ProjectCustomGridColumn.ToType(projectCustomGridColumn), null, null, null, enabled, sortOrder));
                 }
             }
             ProjectCustomGridConfigurationSimples = projectCustomGridConfigurationSimples;
@@ -127,10 +137,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         {
             var databaseEntities = HttpRequestStorage.DatabaseEntities;
             var incomingProjectCustomGridConfigurations = ProjectCustomGridConfigurationSimples.Select(x =>
-                new ProjectCustomGridConfiguration(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), x.ProjectCustomGridTypeID, x.ProjectCustomGridColumnID, x.ProjectCustomAttributeTypeID, x.GeospatialAreaTypeID, x.IsEnabled, x.SortOrder)).ToList();
+                new ProjectCustomGridConfiguration(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), x.ProjectCustomGridTypeID, x.ProjectCustomGridColumnID, x.ProjectCustomAttributeTypeID, x.GeospatialAreaTypeID, x.IsEnabled, x.SortOrder, x.ClassificationSystemID)).ToList();
             existingProjectCustomGridConfiguration.Merge(incomingProjectCustomGridConfigurations,
                 allProjectCustomGridConfigurations,
-                (x, y) => x.ProjectCustomGridTypeID == y.ProjectCustomGridTypeID && x.ProjectCustomGridColumnID == y.ProjectCustomGridColumnID && x.ProjectCustomAttributeTypeID == y.ProjectCustomAttributeTypeID && x.GeospatialAreaTypeID == y.GeospatialAreaTypeID,
+                (x, y) => x.ProjectCustomGridTypeID == y.ProjectCustomGridTypeID && x.ProjectCustomGridColumnID == y.ProjectCustomGridColumnID && x.ProjectCustomAttributeTypeID == y.ProjectCustomAttributeTypeID && x.GeospatialAreaTypeID == y.GeospatialAreaTypeID && x.ClassificationSystemID == y.ClassificationSystemID,
                 (x, y) => x.SetEnabledAndSortOrder(y.IsEnabled, y.SortOrder),
                 databaseEntities);
         }

@@ -15,6 +15,9 @@ angular.module("ProjectFirmaApp")
                 if (projectCustomGridConfigurationSimple.GeospatialAreaTypeName) {
                     return projectCustomGridConfigurationSimple.GeospatialAreaTypeName;
                 }
+                if (projectCustomGridConfigurationSimple.ClassificationSystemName) {
+                    return projectCustomGridConfigurationSimple.ClassificationSystemName;
+                }
                 return projectCustomGridConfigurationSimple.ProjectCustomGridColumnName;
             }
 
@@ -53,6 +56,9 @@ angular.module("ProjectFirmaApp")
                 }
                 if (projectCustomGridConfigurationSimple.GeospatialAreaTypeID) {
                     id += "_geo_" + projectCustomGridConfigurationSimple.GeospatialAreaTypeID;
+                }
+                if (projectCustomGridConfigurationSimple.ClassificationSystemID) {
+                    id += "_cs_" + projectCustomGridConfigurationSimple.ClassificationSystemID;
                 }
                 return id;
             }

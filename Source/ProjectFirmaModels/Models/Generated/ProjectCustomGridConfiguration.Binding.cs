@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomGridConfiguration(int projectCustomGridConfigurationID, int projectCustomGridTypeID, int projectCustomGridColumnID, int? projectCustomAttributeTypeID, int? geospatialAreaTypeID, bool isEnabled, int? sortOrder) : this()
+        public ProjectCustomGridConfiguration(int projectCustomGridConfigurationID, int projectCustomGridTypeID, int projectCustomGridColumnID, int? projectCustomAttributeTypeID, int? geospatialAreaTypeID, bool isEnabled, int? sortOrder, int? classificationSystemID) : this()
         {
             this.ProjectCustomGridConfigurationID = projectCustomGridConfigurationID;
             this.ProjectCustomGridTypeID = projectCustomGridTypeID;
@@ -40,6 +40,7 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
             this.IsEnabled = isEnabled;
             this.SortOrder = sortOrder;
+            this.ClassificationSystemID = classificationSystemID;
         }
 
         /// <summary>
@@ -126,6 +127,7 @@ namespace ProjectFirmaModels.Models
         public int? GeospatialAreaTypeID { get; set; }
         public bool IsEnabled { get; set; }
         public int? SortOrder { get; set; }
+        public int? ClassificationSystemID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomGridConfigurationID; } set { ProjectCustomGridConfigurationID = value; } }
 
@@ -134,6 +136,7 @@ namespace ProjectFirmaModels.Models
         public ProjectCustomGridColumn ProjectCustomGridColumn { get { return ProjectCustomGridColumn.AllLookupDictionary[ProjectCustomGridColumnID]; } }
         public virtual ProjectCustomAttributeType ProjectCustomAttributeType { get; set; }
         public virtual GeospatialAreaType GeospatialAreaType { get; set; }
+        public virtual ClassificationSystem ClassificationSystem { get; set; }
 
         public static class FieldLengths
         {

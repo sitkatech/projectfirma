@@ -703,6 +703,15 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NaString);
         }
 
+        public static HtmlString GetProjectClassificationsAsHyperlinks(this Project project, ClassificationSystem classificationSystem, Dictionary<int, Classification> classificationDictionary, Dictionary<int, List<ProjectClassification>> projectClassificationDictionary)
+        {
+            var areThereAny = projectClassificationDictionary.ContainsKey(project.ProjectID);
+            var projectClassifications = areThereAny ? projectClassificationDictionary[project.ProjectID].Where(x => classificationDictionary[x.ClassificationID].ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList() : new List<ProjectClassification>();
+            return new HtmlString(projectClassifications.Any()
+                ? String.Join(", ", projectClassifications.OrderBy(x => classificationDictionary[x.ClassificationID].DisplayName).Select(x => classificationDictionary[x.ClassificationID].GetDisplayNameAsUrl()))
+                : ViewUtilities.NaString);
+        }
+
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this Project project)
         {
             var performanceMeasures = project.PerformanceMeasureActuals.Select(x => x.PerformanceMeasure).ToList();

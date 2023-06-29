@@ -23,10 +23,12 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GeospatialAreaTypeID).HasColumnName(@"GeospatialAreaTypeID").HasColumnType("int").IsOptional();
             Property(x => x.IsEnabled).HasColumnName(@"IsEnabled").HasColumnType("bit").IsRequired();
             Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsOptional();
+            Property(x => x.ClassificationSystemID).HasColumnName(@"ClassificationSystemID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.ProjectCustomAttributeType).WithMany(b => b.ProjectCustomGridConfigurations).HasForeignKey(c => c.ProjectCustomAttributeTypeID).WillCascadeOnDelete(false); // FK_ProjectCustomGridConfiguration_ProjectCustomAttributeType_ProjectCustomAttributeTypeID
             HasOptional(a => a.GeospatialAreaType).WithMany(b => b.ProjectCustomGridConfigurations).HasForeignKey(c => c.GeospatialAreaTypeID).WillCascadeOnDelete(false); // FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID
+            HasOptional(a => a.ClassificationSystem).WithMany(b => b.ProjectCustomGridConfigurations).HasForeignKey(c => c.ClassificationSystemID).WillCascadeOnDelete(false); // FK_ProjectCustomGridConfiguration_ClassificationSystem_ClassificationSystemID
         }
     }
 }
