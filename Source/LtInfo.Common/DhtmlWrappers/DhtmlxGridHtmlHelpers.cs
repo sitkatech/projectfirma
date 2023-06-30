@@ -87,7 +87,7 @@ namespace LtInfo.Common.DhtmlWrappers
 //</div>";
 
             const string template = @"    <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
-    <!-- The gid will be the size that this element is given. -->
+    <!-- The grid will be the size that this element is given. -->
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""height: 500px""></div>
     <script type=""text/javascript"">
         // Function to demonstrate calling grid's API
@@ -149,6 +149,19 @@ namespace LtInfo.Common.DhtmlWrappers
 
                 columnDefinitionStringBuilder.Append("{ ");
                 columnDefinitionStringBuilder.AppendFormat("field: \"{0}\"", columnSpec.ColumnNameForJavascript);
+
+                columnDefinitionStringBuilder.Append("headerComponentParams: { template: '<div class=\"ag-cell-label-container\" role=\"presentation\">' +");
+                columnDefinitionStringBuilder.Append("'<span ref=\"eMenu\" class=\"ag-header-icon ag-header-cell-menu-button\"></span>' +");
+                columnDefinitionStringBuilder.Append("'<div ref=\"eLabel\" class=\"ag-header-cell-label\" role=\"presentation\">' +");
+                columnDefinitionStringBuilder.Append("'<span ref=\"eSortOrder\" class=\"ag-header-icon ag-sort-order\" ></span>' +");
+                columnDefinitionStringBuilder.Append("'<span ref=\"eSortAsc\" class=\"ag-header-icon ag-sort-ascending-icon\" ></span>' +");
+                columnDefinitionStringBuilder.Append("'<span ref=\"eSortDesc\" class=\"ag-header-icon ag-sort-descending-icon\" ></span>' +");
+                columnDefinitionStringBuilder.Append("'<span ref=\"eSortNone\" class=\"ag-header-icon ag-sort-none-icon\" ></span>' +");
+                columnDefinitionStringBuilder.Append("'<span ref=\"eText\" class=\"ag-header-cell-text\" role=\"columnheader\"></span>' +");
+                columnDefinitionStringBuilder.Append("'<span ref=\"eFilter\" class=\"ag-header-icon ag-filter-icon\"></span>' +");
+                columnDefinitionStringBuilder.Append("'</div></div>' }, ");
+
+
                 if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.ReadOnlyHtmlText)
                 {
                     columnDefinitionStringBuilder.Append(", cellRenderer: function(params) { return params.value ? params.value: ''; } ");

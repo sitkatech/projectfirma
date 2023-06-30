@@ -390,10 +390,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     if (userHasDeletePermissions)
                     {
-                        Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30,
+                        Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30,
                             DhtmlxGridColumnFilterType.None);
                     }
-                    Add(string.Empty,
+                    Add("download fact sheet",
                         x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(),
                             FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString() +
                             $"<span class=\"sr-only\">Download the Fact Sheet for {x.ProjectName}</span>"), 30,
