@@ -251,7 +251,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
                 function autoAdvance() {
                     var element = jQuery(this);
-                    this.preventDefault();
+                    //this.preventDefault();
                     if (element.attr('type') == 'submit') {
                         jQuery(window).off("beforeunload");
                         var autoAdvanceValue = element.attr('value') || "true";
