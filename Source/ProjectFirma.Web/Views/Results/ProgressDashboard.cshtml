@@ -88,7 +88,7 @@
         max-width: 85px;
     }
 
-    .progressOverviewNumber, .acresControlledCardNumber, .arcesControlledDetailNumber {
+    .progressOverviewNumber, .acresConstructedCardNumber, .arcesConstructedDetailNumber {
         font-weight: bold;
         font-size: 45px;
     }
@@ -117,19 +117,51 @@
         font-size: 24px;
         font-weight: bold;
     }
-    .progress-bar {
-        @*background-color: #5D69B1;*@
+
+    .progress-bar-in-construction {
+        background-color: #FEC51F;
+    }
+
+    .progress-bar-completed {
         background-color: #0E3F77;
     }
 
-    .acresControlledCardWrapper {
+    .progressBarLegendPanel.inConstruction {
+        border-color: #FEC51F;
+        border-radius: 0;
+    }
+    .progressBarLegendPanel.completed {
+        border-color: #0E3F77;
+        border-radius: 0;
+    }
+
+    .progressBarLegendPanel .panel-heading {
+        padding: 6px 0;
+        border-radius: 0;
+    }
+
+    .progressBarLegendPanel .inConstruction {
+        background-color: #FEC51F;
+        border-color: #FEC51F;
+    }
+
+    .progressBarLegendPanel .completed {
+        background-color: #0E3F77;
+        border-color: #0E3F77;
+    }
+
+    .progressBarLegendPanel .panel-body {
+        padding: 10px 5px;
+    }
+
+    .acresConstructedCardWrapper {
         margin-right: auto;
         margin-left: auto;
         margin-bottom: 25px;
         font-size: 24px;
     }
 
-    .acresControlledCard {
+    .acresConstructedCard {
         color: white;
         @*background-color: #446a7c;*@
         @*background-color: #0F4075;
@@ -146,58 +178,58 @@
         align-items: center;
     }
 
-        a.acresControlledCard {
+        a.acresConstructedCard {
             color: white;
         }
 
-        .acresControlledCard div {
+        .acresConstructedCard div {
             display: flex;
             align-items: center;
             margin: auto;
             flex-basis: 33%;
         }
 
-    .acresControlledCardLabel {
+    .acresConstructedCardLabel {
         flex-basis: 40% !important;
     }
 
-    .acresControlledCardNumber {
+    .acresConstructedCardNumber {
         line-height: 45px;
         align-items: flex-start !important;
     }
 
-    .acresControlledPieChartWrapper, .acresControlledColumnChartWrapper {
+    .acresConstructedPieChartWrapper, .acresConstructedColumnChartWrapper {
         border: #D9D9D9 4px solid;
         padding: 5px;
         border-radius: 5px;
     }
 
 
-    .acresControlledColumnChartWrapper {
+    .acresConstructedColumnChartWrapper {
         padding-top: 20px;
     }
 
-    .acresControlledLegend {
+    .acresConstructedLegend {
         margin-right: 5px;
         margin-left: 5px;
     }
 
-    .acresControlledLegend div {
+    .acresConstructedLegend div {
         padding: 0;
     }
 
-    .acresControlledLegend .acresCompletedLegend, .acresControlledLegend .acresInConstructionLegend, .acresControlledLegend .acresPlannedLegend {
+    .acresConstructedLegend .acresCompletedLegend, .acresConstructedLegend .acresInConstructionLegend, .acresConstructedLegend .acresPlannedLegend {
         height: 15px;
         width: 20px;
         display: inline-block;
         margin-right: 5px;
     }
 
-    .acresControlledLegend .col-xs-3 {
+    .acresConstructedLegend .col-xs-3 {
         text-align: right;
     }
 
-    .acresControlledLegend br {
+    .acresConstructedLegend br {
         display: none;
     }
 
@@ -259,7 +291,7 @@
         padding-left: 10px;
     }
 
-    .arcesControlledDetailNumber {
+    .arcesConstructedDetailNumber {
         line-height: 50px
     }
 
@@ -276,12 +308,12 @@
 </style>
 
 <style type="text/css" media="only screen and (min-width: 452px)">
-    .acresControlledCardRow, .acresControlledChartRow, .detailedNumberRow {
+    .acresConstructedCardRow, .acresConstructedChartRow, .detailedNumberRow {
         width: 85%;
         margin: auto;
     }
 
-    .acresControlledChartRow {
+    .acresConstructedChartRow {
         margin-bottom: 15px;
     }
 
@@ -310,15 +342,15 @@
         margin: auto;
     }
 
-    .acresControlledLegend br {
+    .acresConstructedLegend br {
         display: block;
     }
 
-    .acresControlledCard {
+    .acresConstructedCard {
         height: 180px;
     }
 
-    .acresControlledCard div {
+    .acresConstructedCard div {
         display: flex;
         align-items: center;
         margin: auto;
@@ -370,11 +402,11 @@
 </style>
 
 <style type="text/css" media="only screen and (min-width: 768px) and (max-width: 992px)">
-    .acresControlledCardLabel {
+    .acresConstructedCardLabel {
         flex-basis: 50% !important;
     }
 
-    .acresControlledCardNumber {
+    .acresConstructedCardNumber {
         flex-basis: 25% !important;
     }
 </style>
@@ -390,7 +422,7 @@
     <nav class="stickyHeaderNavBar container">
         <ul class="nav navbar-nav ">
             <li class="col-md-2 col-sm-4 col-xs-3"><a href="#progressOverview">Progress Overview</a></li>
-            <li class="col-md-2 col-sm-4 col-xs-3"><a href="#acresControlled">Acres Controlled</a></li>
+            <li class="col-md-2 col-sm-4 col-xs-3"><a href="#acresConstructed">Acres Constructed</a></li>
             <li class="col-md-2 col-sm-4 col-xs-3"><a href="#dustSuppression">Dust Suppression</a></li>
             <li class="col-md-2 col-sm-4 col-xs-3"><a href="#aquaticHabitat" class="aquaticNavLink">Aquatic Habitat</a></li>
             <li class="col-md-2 col-sm-4 col-xs-6"><a href="#vegetationEnhancement" class="vegetationNavLink">Vegetation Enhancement</a></li>
@@ -439,55 +471,86 @@
 <div style="margin-top: 75px">
     <div class="row" style="margin-top: 40px;">
         <div class="col-xs-12 col-sm-3" style="text-align: center">
-            <div class="progressOverviewNumber">@ViewDataTyped.TotalAcresControlled.ToGroupedNumeric()</div>
+            <div class="progressOverviewNumber">@ViewDataTyped.TotalAcresConstructed.ToGroupedNumeric()</div>
             <div style="text-transform: uppercase; font-size: 20px">
-                <div>Total Acres Controlled</div>
+                <div>Total Acres Constructed</div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-9">
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: @(ViewDataTyped.AcresControlledPercent)%" aria-valuenow="@ViewDataTyped.TotalAcresControlled"
-                     aria-valuemin="0" aria-valuemax="@ViewDataTyped.AcresControlledTarget"></div>
-
+                <div class="progress-bar progress-bar-completed" role="progressbar" style="width: @(ViewDataTyped.AcresConstructedCompletedPercent)%" aria-valuenow="@ViewDataTyped.TotalAcresConstructedCompleted"
+                     aria-valuemin="0" aria-valuemax="@ViewDataTyped.AcresConstructedTarget"></div>
+                <div class="progress-bar progress-bar-in-construction" role="progressbar" style="width: @(ViewDataTyped.AcresConstructedInConstructionPercent)%" aria-valuenow="@ViewDataTyped.TotalAcresConstructedInConstruction"
+                     aria-valuemin="0" aria-valuemax="@ViewDataTyped.AcresConstructedTarget"></div>
             </div>
             <div class="progressBarMinMaxNumbers">
                 <span>0</span>
-                <span class="pull-right">@ViewDataTyped.AcresControlledTarget.ToGroupedNumeric()</span>
+                <span class="pull-right">@ViewDataTyped.AcresConstructedTarget.ToGroupedNumeric()</span>
             </div>
         </div>
-        <div class="col-xs-12" style="margin-top: 40px; margin-bottom: 25px">
-            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AcresControlledByTheNumbersViewPageContentViewData); }
+        <div class="col-xs-12 col-sm-offset-3 col-sm-9">
+            <div class="row" style="margin-top: 15px; text-align: center">
+                <div class="col-xs-6 col-sm-5 col-sm-offset-1 col-md-offset-2 col-md-4">
+                    <div class="panel progressBarLegendPanel completed">
+                        <div class="panel-heading panelTitle completed"></div>
+                        <div class="panel-body">
+                            <div>
+                                <div class="progressBarMinMaxNumbers">@ViewDataTyped.TotalAcresConstructedCompleted.ToGroupedNumeric()</div>
+                                <div style="text-transform: uppercase">
+                                    <div>Construction Complete</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-5 col-md-4">
+                    <div class="panel progressBarLegendPanel inConstruction">
+                        <div class="panel-heading panelTitle inConstruction"></div>
+                        <div class="panel-body">
+                            <div>
+                                <div class="progressBarMinMaxNumbers">@ViewDataTyped.TotalAcresConstructedInConstruction.ToGroupedNumeric()</div>
+                                <div style="text-transform: uppercase">
+                                    <div>In Construction</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12" style="margin-top: 20px; margin-bottom: 25px">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AcresConstructedByTheNumbersViewPageContentViewData); }
         </div>
     </div>
 </div>
 
 <div>
-    <div class="row acresControlledCardRow">
-        <div class="col-xs-12 col-sm-6 acresControlledCardWrapper">
-            <a class="acresControlledCard" href="#dustSuppression">
-                <div class="acresControlledCardLabel">Area Treated for Dust Suppression</div>
-                <div class="acresControlledCardNumber">@ViewDataTyped.AreaTreatedForDustSuppression.ToGroupedNumeric()</div>
+    <div class="row acresConstructedCardRow">
+        <div class="col-xs-12 col-sm-6 acresConstructedCardWrapper">
+            <a class="acresConstructedCard" href="#dustSuppression">
+                <div class="acresConstructedCardLabel">Area Treated for Dust Suppression</div>
+                <div class="acresConstructedCardNumber">@ViewDataTyped.AreaTreatedForDustSuppression.ToGroupedNumeric()</div>
                 <div>Acres</div>
             </a>
         </div>
-        <div class="col-xs-12 col-sm-6 acresControlledCardWrapper">
-            <a class="acresControlledCard" href="#vegetationEnhancement">
-                <div class="acresControlledCardLabel">Area Treated for Vegetation Enhancement</div>
-                <div class="acresControlledCardNumber">@ViewDataTyped.AreaTreatedForVegetationEnhancement.ToGroupedNumeric()</div>
+        <div class="col-xs-12 col-sm-6 acresConstructedCardWrapper">
+            <a class="acresConstructedCard" href="#vegetationEnhancement">
+                <div class="acresConstructedCardLabel">Area Treated for Vegetation Enhancement</div>
+                <div class="acresConstructedCardNumber">@ViewDataTyped.AreaTreatedForVegetationEnhancement.ToGroupedNumeric()</div>
                 <div>Acres</div>
             </a>
         </div>
-        <div class="col-xs-12 col-sm-6 acresControlledCardWrapper">
-            <a class="acresControlledCard" href="#aquaticHabitat">
-                <div class="acresControlledCardLabel">Aquatic Habitat Created</div>
-                <div class="acresControlledCardNumber">@ViewDataTyped.AquaticHabitatCreated.ToGroupedNumeric()</div>
+        <div class="col-xs-12 col-sm-6 acresConstructedCardWrapper">
+            <a class="acresConstructedCard" href="#aquaticHabitat">
+                <div class="acresConstructedCardLabel">Aquatic Habitat Created</div>
+                <div class="acresConstructedCardNumber">@ViewDataTyped.AquaticHabitatCreated.ToGroupedNumeric()</div>
                 <div>Acres</div>
             </a>
         </div>
-        <div class="col-xs-12 col-sm-6 acresControlledCardWrapper">
-            <a class="acresControlledCard" href="#endangeredSpecies">
-                <div class="acresControlledCardLabel">Endangered & Special Status Species Habitat Created</div>
-                <div class="acresControlledCardNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreated.ToGroupedNumeric()</div>
+        <div class="col-xs-12 col-sm-6 acresConstructedCardWrapper">
+            <a class="acresConstructedCard" href="#endangeredSpecies">
+                <div class="acresConstructedCardLabel">Endangered & Special Status Species Habitat Created</div>
+                <div class="acresConstructedCardNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreated.ToGroupedNumeric()</div>
                 <div>Acres</div>
             </a>
         </div>
@@ -495,16 +558,16 @@
 </div>
 
 <div style="margin-top: 75px">
-    <h2 class="pageTitle" id="acresControlled" style="margin-bottom: 25px">Acres Controlled</h2>
+    <h2 class="pageTitle" id="acresConstructed" style="margin-bottom: 25px">Acres Constructed</h2>
     <div class="row">
         <div class="col-xs-12" style="margin-bottom: 20px;">
-            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AcresControlledPieChartViewPageContentViewData); }
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AcresConstructedPieChartViewPageContentViewData); }
         </div>
     </div>
-    <div class="row acresControlledChartRow">
+    <div class="row acresConstructedChartRow">
         <div class="col-xs-12">
             <div class="col-md-6 leftHandChart topRowChart">
-                <div class="chartPanel acresControlledPieChartWrapper">
+                <div class="chartPanel acresConstructedPieChartWrapper">
                     @if (ViewDataTyped.DustSuppressionHasData)
                     {
                         <div class="chartWithOverlay">
@@ -521,7 +584,7 @@
                             </div>
                         </div>
 
-                        <div class="row acresControlledLegend">
+                        <div class="row acresConstructedLegend">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="col-xs-3"><span class="acresCompletedLegend"></span></div>
                                 <div class="col-xs-9"><span style="font-weight: bold;">Acres Completed</span><br /> @ViewDataTyped.DustSuppressionValues[0].ToGroupedNumeric() acres</div>
@@ -545,7 +608,7 @@
                 </div>
             </div>
             <div class="col-md-6 rightHandChart topRowChart">
-                <div class="chartPanel acresControlledPieChartWrapper">
+                <div class="chartPanel acresConstructedPieChartWrapper">
                     @if (ViewDataTyped.VegetationEnhancementHasData)
                     {
                         <div class="chartWithOverlay">
@@ -562,7 +625,7 @@
                             </div>
 
                         </div>
-                        <div class="row acresControlledLegend">
+                        <div class="row acresConstructedLegend">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="col-xs-3"><span class="acresCompletedLegend"></span></div>
                                 <div class="col-xs-9"><span style="font-weight: bold;">Acres Completed</span><br /> @ViewDataTyped.VegetationEnhancementValues[0].ToGroupedNumeric() acres</div>
@@ -588,7 +651,7 @@
         </div>
         <div class="col-xs-12">
             <div class="col-md-6 leftHandChart bottomRowChart">
-                <div class="chartPanel acresControlledPieChartWrapper">
+                <div class="chartPanel acresConstructedPieChartWrapper">
                     @if (ViewDataTyped.AquaticHabitatCreatedHasData)
                     {
                         <div class="chartWithOverlay">
@@ -604,7 +667,7 @@
                                 }
                             </div>
                         </div>
-                        <div class="row acresControlledLegend">
+                        <div class="row acresConstructedLegend">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="col-xs-3"><span class="acresCompletedLegend"></span></div>
                                 <div class="col-xs-9"><span style="font-weight: bold;">Acres Completed</span><br /> @ViewDataTyped.AquaticHabitatCreatedValues[0].ToGroupedNumeric() acres</div>
@@ -628,7 +691,7 @@
                 </div>
             </div>
             <div class="col-md-6 rightHandChart bottomRowChart">
-                <div class="chartPanel acresControlledPieChartWrapper">
+                <div class="chartPanel acresConstructedPieChartWrapper">
                     @if (ViewDataTyped.EndangeredSpeciesHabitatCreatedHasData)
                     {
                         <div class="chartWithOverlay">
@@ -644,7 +707,7 @@
                                 }
                             </div>
                         </div>
-                        <div class="row acresControlledLegend">
+                        <div class="row acresConstructedLegend">
                             <div class="col-xs-12 col-sm-4">
                                 <div class="col-xs-3"><span class="acresCompletedLegend"></span></div>
                                 <div class="col-xs-9"><span style="font-weight: bold;">Acres Completed</span><br /> @ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[0].ToGroupedNumeric() acres</div>
@@ -677,21 +740,21 @@
     <div class="row detailedNumberRow" style="text-align: center">
         <div class="col-sm-4 col-xs-6">
             <div>Completed</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.DustSuppressionValues[0].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.DustSuppressionValues[0].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
         <div class="col-sm-4 col-xs-6">
             <div>In Construction</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.DustSuppressionValues[1].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.DustSuppressionValues[1].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
         <div class="col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3">
             <div>Planned</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.DustSuppressionValues[2].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.DustSuppressionValues[2].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
     </div>
-    <div class="row acresControlledColumnChartWrapper">
+    <div class="row acresConstructedColumnChartWrapper">
         <div class="col-sm-6">
             <div id="@(ViewDataTyped.DustSuppressionColumnChart.ChartUniqueName)" >
                 <div >
@@ -717,7 +780,7 @@
                                 <div style="background-color: @(projectColorAndValue.Value.Item1); height: 15px; width: 20px; margin-top: 3px;"></div>
                             </td>
                             <td>@projectColorAndValue.Key.GetDisplayNameAsUrl()</td>
-                            <td>@projectColorAndValue.Value.Item2 acres</td>
+                            <td>@projectColorAndValue.Value.Item2.ToGroupedNumeric() acres</td>
                         </tr>
                     }
                     </tbody>
@@ -733,21 +796,21 @@
     <div class="row detailedNumberRow" style="text-align: center">
         <div class="col-sm-4 col-xs-6">
             <div>Completed</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.AquaticHabitatCreatedValues[0].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.AquaticHabitatCreatedValues[0].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
         <div class="col-sm-4 col-xs-6">
             <div>In Construction</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.AquaticHabitatCreatedValues[1].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.AquaticHabitatCreatedValues[1].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
         <div class="col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3">
             <div>Planned</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.AquaticHabitatCreatedValues[2].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.AquaticHabitatCreatedValues[2].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
     </div>
-    <div class="row acresControlledColumnChartWrapper">
+    <div class="row acresConstructedColumnChartWrapper">
         <div class="col-sm-6">
             <div id="@(ViewDataTyped.AquaticHabitatCreatedColumnChart.ChartUniqueName)">
                 <div>
@@ -773,7 +836,7 @@
                                 <div style="background-color: @(projectColorAndValue.Value.Item1); height: 15px; width: 20px; margin-top: 3px;"></div>
                             </td>
                             <td>@projectColorAndValue.Key.GetDisplayNameAsUrl()</td>
-                            <td>@projectColorAndValue.Value.Item2 acres</td>
+                            <td>@projectColorAndValue.Value.Item2.ToGroupedNumeric() acres</td>
                         </tr>
                     }
                     </tbody>
@@ -787,21 +850,21 @@
     <div class="row detailedNumberRow" style="text-align: center">
         <div class="col-sm-4 col-xs-6">
             <div>Completed</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.VegetationEnhancementValues[0].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.VegetationEnhancementValues[0].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
         <div class="col-sm-4 col-xs-6">
             <div>In Construction</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.VegetationEnhancementValues[1].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.VegetationEnhancementValues[1].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
         <div class="col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3">
             <div>Planned</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.VegetationEnhancementValues[2].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.VegetationEnhancementValues[2].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
     </div>
-    <div class="row acresControlledColumnChartWrapper">
+    <div class="row acresConstructedColumnChartWrapper">
         <div class="col-sm-6">
             <div id="@(ViewDataTyped.VegetationEnhancementColumnChart.ChartUniqueName)">
                 <div>
@@ -827,7 +890,7 @@
                                 <div style="background-color: @(projectColorAndValue.Value.Item1); height: 15px; width: 20px; margin-top: 3px;"></div>
                             </td>
                             <td>@projectColorAndValue.Key.GetDisplayNameAsUrl()</td>
-                            <td>@projectColorAndValue.Value.Item2 acres</td>
+                            <td>@projectColorAndValue.Value.Item2.ToGroupedNumeric() acres</td>
                         </tr>
                     }
                     </tbody>
@@ -842,21 +905,21 @@
     <div class="row detailedNumberRow" style="text-align: center">
         <div class="col-sm-4 col-xs-6">
             <div>Completed</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[0].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[0].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
         <div class="col-sm-4 col-xs-6">
             <div>In Construction</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[1].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[1].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
         <div class="col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3">
             <div>Planned</div>
-            <div class="arcesControlledDetailNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[2].ToGroupedNumeric()</div>
+            <div class="arcesConstructedDetailNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreatedValues[2].ToGroupedNumeric()</div>
             <div>Acres</div>
         </div>
     </div>
-    <div class="row acresControlledColumnChartWrapper">
+    <div class="row acresConstructedColumnChartWrapper">
         <div class="col-sm-6">
             <div id="@(ViewDataTyped.EndangeredSpeciesHabitatCreatedColumnChart.ChartUniqueName)">
                 <div>
@@ -882,7 +945,7 @@
                                     <div style="background-color: @(projectColorAndValue.Value.Item1); height: 15px; width: 20px; margin-top: 3px;"></div>
                                 </td>
                                 <td>@projectColorAndValue.Key.GetDisplayNameAsUrl()</td>
-                                <td>@projectColorAndValue.Value.Item2 acres</td>
+                                <td>@projectColorAndValue.Value.Item2.ToGroupedNumeric() acres</td>
                             </tr>
                         }
                     </tbody>

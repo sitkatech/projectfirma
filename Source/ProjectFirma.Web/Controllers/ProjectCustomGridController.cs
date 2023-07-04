@@ -57,7 +57,8 @@ namespace ProjectFirma.Web.Controllers
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.ProjectCustomGridTypeID == projectCustomGridTypeID).ToList();
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.OrderBy(x => x.ProjectCustomAttributeTypeName).ToList();
-            var viewModel = new EditProjectCustomGridViewModel(projectCustomGridTypeID, projectCustomGridConfigurations, geospatialAreaTypes, projectCustomAttributeTypes);
+            var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).ToList();
+            var viewModel = new EditProjectCustomGridViewModel(projectCustomGridTypeID, projectCustomGridConfigurations, geospatialAreaTypes, projectCustomAttributeTypes, classificationSystems);
             return ViewEditProjectCustomGrid(viewModel);
         }
 

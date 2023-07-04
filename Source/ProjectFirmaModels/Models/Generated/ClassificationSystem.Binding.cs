@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected ClassificationSystem()
         {
             this.Classifications = new HashSet<Classification>();
+            this.ProjectCustomGridConfigurations = new HashSet<ProjectCustomGridConfiguration>();
             this.ProjectUpdateBatchClassificationSystems = new HashSet<ProjectUpdateBatchClassificationSystem>();
         }
 
@@ -66,7 +67,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Classifications.Any() || ProjectUpdateBatchClassificationSystems.Any();
+            return Classifications.Any() || ProjectCustomGridConfigurations.Any() || ProjectUpdateBatchClassificationSystems.Any();
         }
 
         /// <summary>
@@ -81,6 +82,11 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(Classification).Name);
             }
 
+            if(ProjectCustomGridConfigurations.Any())
+            {
+                dependentObjects.Add(typeof(ProjectCustomGridConfiguration).Name);
+            }
+
             if(ProjectUpdateBatchClassificationSystems.Any())
             {
                 dependentObjects.Add(typeof(ProjectUpdateBatchClassificationSystem).Name);
@@ -91,7 +97,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ClassificationSystem).Name, typeof(Classification).Name, typeof(ProjectUpdateBatchClassificationSystem).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ClassificationSystem).Name, typeof(Classification).Name, typeof(ProjectCustomGridConfiguration).Name, typeof(ProjectUpdateBatchClassificationSystem).Name};
 
 
         /// <summary>
@@ -117,6 +123,11 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in Classifications.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectCustomGridConfigurations.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -149,6 +160,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ClassificationSystemID; } set { ClassificationSystemID = value; } }
 
         public virtual ICollection<Classification> Classifications { get; set; }
+        public virtual ICollection<ProjectCustomGridConfiguration> ProjectCustomGridConfigurations { get; set; }
         public virtual ICollection<ProjectUpdateBatchClassificationSystem> ProjectUpdateBatchClassificationSystems { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
