@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
         {
             ExternalMapLayerID = externalMapLayer.ExternalMapLayerID;
             TenantID = externalMapLayer.TenantID;
-            DisplayName = externalMapLayer.MapLegendImageFileResourceInfoID.HasValue ? $"<span><img src='{externalMapLayer.MapLegendImageFileResourceInfo.GetFileResourceUrl()}' height='20px' /> {externalMapLayer.DisplayName}</span>" : externalMapLayer.DisplayName;
+            DisplayName = externalMapLayer.MapLegendImageFileResourceInfoID.HasValue ? $"<span>{externalMapLayer.DisplayName} <img src='{externalMapLayer.MapLegendImageFileResourceInfo.GetFileResourceUrl()}' height='20px' /></span>" : externalMapLayer.DisplayName;
             LayerUrl = externalMapLayer.LayerUrl;
             LayerDescription = externalMapLayer.LayerDescription;
             FeatureNameField = externalMapLayer.FeatureNameField;
