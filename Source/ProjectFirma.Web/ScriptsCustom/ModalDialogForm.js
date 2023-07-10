@@ -102,8 +102,17 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
     dialogDiv.draggable({ handle: ".modal-header" });
 
     var saveButton = jQuery("#" + saveButtonId);
-    saveButton.click(function () {
+    saveButton.on("click" ,function () {
         saveButton.attr('disabled', true);
+
+        for (var i in CKEDITOR.instances) {
+            var ckEditorForDiv = CKEDITOR.instances[i];
+            var id = ckEditorForDiv.name;
+            var ckEditorHtml = ckEditorForDiv.getData();
+            debugger;
+            jQuery("#" + id).val(ckEditorHtml);
+        }
+
         // Manually submit the form
         var form = findBootstrapDialogForm(optionalDialogFormId, dialogDiv);
         // Do not submit if the form

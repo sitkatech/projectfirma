@@ -18,18 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-CKEDITOR.disableAutoInline = true;
+//CKEDITOR.disableAutoInline = true;
 
-jQuery(document).ready(function ()
-{
-    jQuery("form").on("submit", function () {
+//jQuery(document).ready(function ()
+//{
+//    jQuery("form").on("submit", function () {
 
-        for (var i in CKEDITOR.instances)
-        {
-            var ckEditorForDiv = CKEDITOR.instances[i];
-            var id = ckEditorForDiv.name;
-            var ckEditorHtml = ckEditorForDiv.getData();
-            jQuery("#" + id).val(ckEditorHtml);
-        }
-    });
-});
+//        for (var i in CKEDITOR.instances)
+//        {
+//            var ckEditorForDiv = CKEDITOR.instances[i];
+//            var id = ckEditorForDiv.name;
+//            var ckEditorHtml = ckEditorForDiv.getData();
+//            debugger;
+//            jQuery("#" + id).val(ckEditorHtml);
+//        }
+//    });
+//});
