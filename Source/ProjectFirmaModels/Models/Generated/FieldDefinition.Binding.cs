@@ -333,6 +333,7 @@ namespace ProjectFirmaModels.Models
         ProjectsMenu = 383,
         ProgramInfoMenu = 384,
         ResultsMenu = 385,
-        ReportsMenu = 386
+        ReportsMenu = 386,
+        EnableSimpleAccomplishmentsDashboard = 387
     }
 }
