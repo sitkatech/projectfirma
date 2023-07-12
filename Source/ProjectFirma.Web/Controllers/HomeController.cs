@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Training()
         {
             var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
-            List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList().SortByOrderThenName().ToList();
+            List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession)).ToList().SortByOrderThenName().ToList();
             var viewData = new TrainingVideoViewData(CurrentFirmaSession, firmaPage, trainingVideos);
             return RazorView<Views.Home.TrainingVideo, TrainingVideoViewData>(viewData);
         }

@@ -208,4 +208,5 @@ VALUES
 (384, N'ProgramInfoMenu', N'Program Info'),
 (385, N'ResultsMenu', N'Results'),
 (386, N'ReportsMenu', N'Reports'),
-(387, N'EnableSimpleAccomplishmentsDashboard', N'Enable Simple Accomplishments Dashboard')
+(387, N'EnableSimpleAccomplishmentsDashboard', N'Enable Simple Accomplishments Dashboard'),
+(388, N'TrainingVideoViewableBy', N'Training Video Viewable By')

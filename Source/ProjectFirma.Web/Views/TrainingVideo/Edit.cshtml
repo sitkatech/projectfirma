@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.TrainingVideo
+@using ProjectFirmaModels.Models
 @inherits Edit
 
 @using (Html.BeginForm())
@@ -56,6 +58,18 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(x => x.VideoUploadDate)
         </div>
     </div>
-
+    <div class="row form-group">
+        <div class="col-md-4"></div>
+        <div class="col-md-8"><p class="systemText">Please select all applicable roles.</p></div>
+        <div class="col-md-4 control-label">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.TrainingVideoViewableBy.ToType(), "Viewable By")
+        </div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.ViewableByAnonymous) @Html.LabelFor(x => x.ViewableByAnonymous, new {style = "font-weight : normal; padding-right : 10px;"}, true)
+            @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new {style = "font-weight : normal; padding-right : 10px;"}, true)
+            @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new {style = "font-weight : normal; padding-right : 10px;"}, true)
+            @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new {style = "font-weight : normal; padding-right : 10px;"}, true)
+        </div>
+    </div>
 </div>
 }

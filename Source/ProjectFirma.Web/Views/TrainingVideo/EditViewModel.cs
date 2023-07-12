@@ -20,10 +20,13 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.TrainingVideo
@@ -51,6 +54,18 @@ namespace ProjectFirma.Web.Views.TrainingVideo
         [StringLength(ProjectFirmaModels.Models.TrainingVideo.FieldLengths.VideoURL)]
         public string VideoURL { get; set; }
 
+        [DisplayName("Anonymous (Public)")]
+        public bool ViewableByAnonymous { get; set; }
+
+        [DisplayName("Unassigned")]
+        public bool ViewableByUnassigned { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.NormalUser)]
+        public bool ViewableByNormal { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
+        public bool ViewableByProjectSteward { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -65,14 +80,53 @@ namespace ProjectFirma.Web.Views.TrainingVideo
             VideoDescription = trainingVideo.VideoDescription;
             VideoUploadDate = trainingVideo.VideoUploadDate == default(DateTime) ? (DateTime?)null : trainingVideo.VideoUploadDate;
             VideoURL = trainingVideo.VideoURL;
+
+            ViewableByAnonymous = trainingVideo.TrainingVideoRoles.Any(x => x.RoleID == null);
+            ViewableByUnassigned = trainingVideo.TrainingVideoRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
+            ViewableByNormal = trainingVideo.TrainingVideoRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
+            ViewableByProjectSteward = trainingVideo.TrainingVideoRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
+
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.TrainingVideo trainingVideo)
+        public void UpdateModel(ProjectFirmaModels.Models.TrainingVideo trainingVideo, ICollection<TrainingVideoRole> allTrainingVideoRoles)
         {
             trainingVideo.VideoName = VideoName;
             trainingVideo.VideoDescription = VideoDescription;
             trainingVideo.VideoUploadDate = VideoUploadDate.HasValue ? VideoUploadDate.Value : DateTime.Today;
             trainingVideo.VideoURL = VideoURL;
+
+            var newTrainingVideoRoles = new List<TrainingVideoRole>();
+
+            if (ViewableByAnonymous)
+            {
+                newTrainingVideoRoles.Add(new TrainingVideoRole(trainingVideo.TrainingVideoID));
+            }
+            if (ViewableByUnassigned)
+            {
+                newTrainingVideoRoles.Add(new TrainingVideoRole(trainingVideo.TrainingVideoID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Unassigned.RoleID
+                });
+            }
+            if (ViewableByNormal)
+            {
+                newTrainingVideoRoles.Add(new TrainingVideoRole(trainingVideo.TrainingVideoID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Normal.RoleID
+                });
+            }
+            if (ViewableByProjectSteward)
+            {
+                newTrainingVideoRoles.Add(new TrainingVideoRole(trainingVideo.TrainingVideoID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.ProjectSteward.RoleID
+                });
+            }
+
+            trainingVideo.TrainingVideoRoles.Merge(newTrainingVideoRoles,
+                allTrainingVideoRoles,
+                (x, y) => x.TrainingVideoID == y.TrainingVideoID && x.RoleID == y.RoleID,
+                HttpRequestStorage.DatabaseEntities);
         }
     }
 }
