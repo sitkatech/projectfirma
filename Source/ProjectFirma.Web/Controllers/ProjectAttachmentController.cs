@@ -20,7 +20,8 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ProjectAttachmentIndex()
         {
-            var viewData = new ProjectAttachmentIndexViewData(CurrentFirmaSession);
+            var firmaPage = FirmaPageTypeEnum.ProjectAttachmentList.GetFirmaPage();
+            var viewData = new ProjectAttachmentIndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<ProjectAttachmentIndex, ProjectAttachmentIndexViewData>(viewData);
         }
 

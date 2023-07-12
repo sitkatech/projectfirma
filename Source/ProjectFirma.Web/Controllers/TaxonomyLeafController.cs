@@ -137,7 +137,8 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
-            var performanceMeasures = taxonomyLeaf.TaxonomyLeafPerformanceMeasures.Select(x => x.PerformanceMeasure)
+            // order by Sort Order and then by Display Name because Sort Order can be null
+            var performanceMeasures = taxonomyLeaf.TaxonomyLeafPerformanceMeasures.Select(x => x.PerformanceMeasure).OrderBy(x => x.GetSortOrder()).ThenBy(x => x.GetDisplayName())
                 .ToList();
             var primaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
                 x => x.PerformanceMeasureID,

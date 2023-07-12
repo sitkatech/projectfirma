@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Enable Accomplishments Dashboard")]
         public bool EnableAccomplishmentsDashboard { get; set; }
 
-        [DisplayName("Enable Simple Accomplishments Dashboard")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableSimpleAccomplishmentsDashboard)]
         public bool EnableSimpleAccomplishmentsDashboard { get; set; }
 
         [DisplayName("Enable Secondary Project Taxonomy Leaf")]

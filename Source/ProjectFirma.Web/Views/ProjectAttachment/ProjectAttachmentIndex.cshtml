@@ -27,10 +27,11 @@
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
-<br />
-<div>
-    <h4>Attachments</h4>
+
+<div style="padding-top: 10px;">
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
+
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.ProjectAttachmentGridSpec, ViewDataTyped.ProjectAttachmentGridName, ViewDataTyped.ProjectAttachmentGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>

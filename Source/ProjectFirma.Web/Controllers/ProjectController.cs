@@ -212,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var projectBasicsViewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project);
-            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.PerformanceMeasureSortOrder)));
+            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.GetSortOrder()).ThenBy(x => x.PerformanceMeasure.GetDisplayName())));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
             // Budget - conditional based on BudgetType
             var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentFirmaSession, project);

@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.PerformanceMeasureDisplayName),
                 300,
                 DhtmlxGridColumnFilterType.Text);
-            if (new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            if (new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession) && MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
             {
                 Add($"{FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()}", a => a.PerformanceMeasureGroup?.PerformanceMeasureGroupName, 200);
             }
