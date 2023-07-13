@@ -620,28 +620,29 @@ namespace ProjectFirma.Web.Controllers
 
             /* Acres Constructed pie charts */
             var acresConstructedPieChartFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresConstructedPieCharts.GetFirmaPage();
-            var areaTreatedForDustSuppressionPieChartTitle = "Area Treated for Dust Suppression";
             var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardPieChartValues(6114, 6254);
-            var areaTreatedForDustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, areaTreatedForDustSuppressionPieChartTitle, dustSuppressionValues);
+            var areaTreatedForDustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, dustSuppressionValues);
 
-            var areaTreatedForVegetationEnhancementChartTitle = "Area Treated for Vegetation Enhancement";
             var vegetationEnhancementValues = vegetationEnhancementPerformanceMeasure.GetProgressDashboardPieChartValues(6122, 6253);
-            var areaTreatedForVegetationEnhancementGoogleChart = MakeGoogleChartJsonForProgressDashboardPieChart(vegetationEnhancementPerformanceMeasure, areaTreatedForVegetationEnhancementChartTitle, vegetationEnhancementValues);
+            var areaTreatedForVegetationEnhancementGoogleChart = MakeGoogleChartJsonForProgressDashboardPieChart(vegetationEnhancementPerformanceMeasure, vegetationEnhancementValues);
 
-            var aquaticHabitatCreatedPieChartTitle = "Aquatic Habitat Created";
             var aquaticHabitatCreatedValues = aquaticHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartValues(6123, 6189);
-            var aquaticHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(aquaticHabitatCreatedPerformanceMeasure, aquaticHabitatCreatedPieChartTitle, aquaticHabitatCreatedValues);
+            var aquaticHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(aquaticHabitatCreatedPerformanceMeasure, aquaticHabitatCreatedValues);
 
 
-            var endangeredSpeciesHabitatCreatedPieChartTitle = "Endangered & Special Status Species Habitat Created";
             var endangeredSpeciesHabitatCreatedValues = endangeredSpeciesHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartValues(6255, 6256);
-            var endangeredSpeciesHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, endangeredSpeciesHabitatCreatedPieChartTitle, endangeredSpeciesHabitatCreatedValues);
+            var endangeredSpeciesHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, endangeredSpeciesHabitatCreatedValues);
 
 
             var dustSuppressionChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(dustSuppressionPerformanceMeasure, 6114);
             var vegetationEnhancementChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(vegetationEnhancementPerformanceMeasure, 6122);
             var aquaticHabitatCreatedChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(aquaticHabitatCreatedPerformanceMeasure, 6123);
             var endangeredSpeciesHabitatChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, 6255);
+
+            var dustSuppressionDisplayName = dustSuppressionPerformanceMeasure.GetDisplayName();
+            var vegetationEnhancementDisplayName = vegetationEnhancementPerformanceMeasure.GetDisplayName();
+            var aquaticHabitatDisplayName = aquaticHabitatCreatedPerformanceMeasure.GetDisplayName();
+            var endangeredSpeciesHabitatDisplayName = endangeredSpeciesHabitatCreatedPerformanceMeasure.GetDisplayName();
 
 
             var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount,
@@ -651,12 +652,14 @@ namespace ProjectFirma.Web.Controllers
                 dustSuppressionChartJsonsAndProjectColors.Item1, dustSuppressionChartJsonsAndProjectColors.Item2,
                 vegetationEnhancementChartJsonsAndProjectColors.Item1, vegetationEnhancementChartJsonsAndProjectColors.Item2,
                 aquaticHabitatCreatedChartJsonsAndProjectColors.Item1, aquaticHabitatCreatedChartJsonsAndProjectColors.Item2,
-                endangeredSpeciesHabitatChartJsonsAndProjectColors.Item1, endangeredSpeciesHabitatChartJsonsAndProjectColors.Item2);
+                endangeredSpeciesHabitatChartJsonsAndProjectColors.Item1, endangeredSpeciesHabitatChartJsonsAndProjectColors.Item2,
+                dustSuppressionDisplayName, vegetationEnhancementDisplayName, aquaticHabitatDisplayName, endangeredSpeciesHabitatDisplayName);
             return RazorView<ProgressDashboard, ProgressDashboardViewData>(viewData);
         }
 
-        private GoogleChartJson MakeGoogleChartJsonForProgressDashboardPieChart(PerformanceMeasure performanceMeasure, string chartTitle, List<double> values)
+        private GoogleChartJson MakeGoogleChartJsonForProgressDashboardPieChart(PerformanceMeasure performanceMeasure, List<double> values)
         {
+            var chartTitle = performanceMeasure.GetDisplayName();
             var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
 
             // 80% will give space to show google charts legend

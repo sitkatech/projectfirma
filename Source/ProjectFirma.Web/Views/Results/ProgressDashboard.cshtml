@@ -528,28 +528,28 @@
     <div class="row acresConstructedCardRow">
         <div class="col-xs-12 col-sm-6 acresConstructedCardWrapper">
             <a class="acresConstructedCard" href="#dustSuppression">
-                <div class="acresConstructedCardLabel">Area Treated for Dust Suppression</div>
+                <div class="acresConstructedCardLabel">@ViewDataTyped.DustSuppressionDisplayName</div>
                 <div class="acresConstructedCardNumber">@ViewDataTyped.AreaTreatedForDustSuppression.ToGroupedNumeric()</div>
                 <div>Acres</div>
             </a>
         </div>
         <div class="col-xs-12 col-sm-6 acresConstructedCardWrapper">
             <a class="acresConstructedCard" href="#vegetationEnhancement">
-                <div class="acresConstructedCardLabel">Area Treated for Vegetation Enhancement</div>
+                <div class="acresConstructedCardLabel">@ViewDataTyped.VegetationEnhancementDisplayName</div>
                 <div class="acresConstructedCardNumber">@ViewDataTyped.AreaTreatedForVegetationEnhancement.ToGroupedNumeric()</div>
                 <div>Acres</div>
             </a>
         </div>
         <div class="col-xs-12 col-sm-6 acresConstructedCardWrapper">
             <a class="acresConstructedCard" href="#aquaticHabitat">
-                <div class="acresConstructedCardLabel">Aquatic Habitat Created</div>
+                <div class="acresConstructedCardLabel">@ViewDataTyped.AquaticHabitatDisplayName</div>
                 <div class="acresConstructedCardNumber">@ViewDataTyped.AquaticHabitatCreated.ToGroupedNumeric()</div>
                 <div>Acres</div>
             </a>
         </div>
         <div class="col-xs-12 col-sm-6 acresConstructedCardWrapper">
             <a class="acresConstructedCard" href="#endangeredSpecies">
-                <div class="acresConstructedCardLabel">Endangered & Special Status Species Habitat Created</div>
+                <div class="acresConstructedCardLabel">@ViewDataTyped.EndangeredSpeciesHabitatDisplayName</div>
                 <div class="acresConstructedCardNumber">@ViewDataTyped.EndangeredSpeciesHabitatCreated.ToGroupedNumeric()</div>
                 <div>Acres</div>
             </a>
@@ -602,7 +602,7 @@
                     else
                     {
                         <div class="text-center">
-                            <p class="systemText">No Area Treated for Dust Suppression</p>
+                            <p class="systemText">No @ViewDataTyped.DustSuppressionDisplayName</p>
                         </div>
                     }
                 </div>
@@ -643,7 +643,7 @@
                     else
                     {
                         <div class="text-center">
-                            <p class="systemText">No Area Treated for Vegetation Enhancement</p>
+                            <p class="systemText">No @ViewDataTyped.VegetationEnhancementDisplayName</p>
                         </div>
                     }
                 </div>
@@ -685,7 +685,7 @@
                     else
                     {
                         <div class="text-center">
-                            <p class="systemText">No Aquatic Habitat Created</p>
+                            <p class="systemText">No @ViewDataTyped.AquaticHabitatDisplayName</p>
                         </div>
                     }
                 </div>
@@ -725,7 +725,7 @@
                     else
                     {
                         <div class="text-center">
-                            <p class="systemText">No Endangered & Special Status Species Habitat Created</p>
+                            <p class="systemText">No @ViewDataTyped.EndangeredSpeciesHabitatDisplayName</p>
                         </div>
                     }
 
@@ -736,7 +736,7 @@
 </div>
 
 <div style="margin-top: 75px;">
-    <h2 class="pageTitle" id="dustSuppression">Area Treated for Dust Suppression</h2>
+    <h2 class="pageTitle" id="dustSuppression">@ViewDataTyped.DustSuppressionDisplayName</h2>
     <div class="row detailedNumberRow" style="text-align: center">
         <div class="col-sm-4 col-xs-6">
             <div>Completed</div>
@@ -792,7 +792,7 @@
 
 
 <div style="margin-top: 75px;">
-    <h2 class="pageTitle" id="aquaticHabitat">Aquatic Habitat Created</h2>
+    <h2 class="pageTitle" id="aquaticHabitat">@ViewDataTyped.AquaticHabitatDisplayName</h2>
     <div class="row detailedNumberRow" style="text-align: center">
         <div class="col-sm-4 col-xs-6">
             <div>Completed</div>
@@ -846,7 +846,7 @@
     </div>
 </div>
 <div style="margin-top: 75px;">
-    <h2 class="pageTitle" id="vegetationEnhancement">Area Treated for Vegetation Enhancement</h2>
+    <h2 class="pageTitle" id="vegetationEnhancement">@ViewDataTyped.VegetationEnhancementDisplayName</h2>
     <div class="row detailedNumberRow" style="text-align: center">
         <div class="col-sm-4 col-xs-6">
             <div>Completed</div>
@@ -901,7 +901,7 @@
 </div>
 
 <div style="margin-top: 75px;">
-    <h2 class="pageTitle" id="endangeredSpecies">Endangered & Special Status Species Habitat Created</h2>
+    <h2 class="pageTitle" id="endangeredSpecies">@ViewDataTyped.EndangeredSpeciesHabitatDisplayName</h2>
     <div class="row detailedNumberRow" style="text-align: center">
         <div class="col-sm-4 col-xs-6">
             <div>Completed</div>
