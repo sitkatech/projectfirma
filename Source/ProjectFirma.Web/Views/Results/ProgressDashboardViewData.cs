@@ -65,6 +65,10 @@ namespace ProjectFirma.Web.Views.Results
         public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> AquaticHabitatCreatedProjectToColorAndValue { get; }
         public ViewGoogleChartViewData EndangeredSpeciesHabitatCreatedColumnChart { get; }
         public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> EndangeredSpeciesHabitatCreatedProjectToColorAndValue { get; }
+        public string DustSuppressionDisplayName { get; }
+        public string VegetationEnhancementDisplayName { get; }
+        public string AquaticHabitatDisplayName { get; }
+        public string EndangeredSpeciesHabitatDisplayName { get; }
 
         public ProgressDashboardViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
@@ -87,8 +91,11 @@ namespace ProjectFirma.Web.Views.Results
             List<GoogleChartJson> aquaticHabitatCreatedColumnCharts,
             Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> aquaticHabitatCreatedProjectToColorAndValue,
             List<GoogleChartJson> endangeredSpeciesHabitatCreatedColumnCharts,
-            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> endangeredSpeciesHabitatCreatedProjectToColorAndValue
-            ) : base(currentFirmaSession, firmaPage)
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> endangeredSpeciesHabitatCreatedProjectToColorAndValue,
+            string dustSuppressionDisplayName,
+            string vegetationEnhancementDisplayName,
+            string aquaticHabitatDisplayName,
+            string endangeredSpeciesHabitatDisplayName) : base(currentFirmaSession, firmaPage)
         {
             ContainerFluid = true;
             // progress overview
@@ -150,6 +157,11 @@ namespace ProjectFirma.Web.Views.Results
 
             EndangeredSpeciesHabitatCreatedColumnChart = new ViewGoogleChartViewData(endangeredSpeciesHabitatCreatedColumnCharts, "Completed Acres", "endangeredSpeciesHabitatCreatedAcresCompleted", 366, true, true, true, true);
             EndangeredSpeciesHabitatCreatedProjectToColorAndValue = endangeredSpeciesHabitatCreatedProjectToColorAndValue;
+
+            DustSuppressionDisplayName = dustSuppressionDisplayName;
+            VegetationEnhancementDisplayName = vegetationEnhancementDisplayName;
+            AquaticHabitatDisplayName = aquaticHabitatDisplayName;
+            EndangeredSpeciesHabitatDisplayName = endangeredSpeciesHabitatDisplayName;
         }
     }
 }

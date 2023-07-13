@@ -25,7 +25,33 @@
 @using ProjectFirma.Web.Views.Shared.ProjectContact
 @inherits ProjectContactsDetail
 
-@if (ViewDataTyped.AllProjectContacts.Any())
+ @if (ViewDataTyped.PrimaryContactPerson != null)
+ {
+
+     <div class="row">
+         <div class="col-xs-3">
+             @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectPrimaryContact.ToType())
+         </div>
+         <div class="col-xs-9">
+             @if (ViewDataTyped.PrimaryContactPerson != null)
+             {
+                 <span>
+                     @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl(ViewDataTyped.CurrentFirmaSession) (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
+                 </span>
+             }
+             else
+             {
+                 <span>@ViewUtilities.NoneString</span>
+             }
+         </div>
+     </div>
+     if (ViewDataTyped.AllProjectContacts.Any())
+     {
+         <hr/>
+     }
+ }
+
+ @if (ViewDataTyped.AllProjectContacts.Any())
 {
     <table class="summaryLayout table table-condensed table-striped">
         <tr>
@@ -57,30 +83,6 @@
             </tr>
         }
     </table>
-}
-@if (ViewDataTyped.PrimaryContactPerson != null)
-{
-    if (ViewDataTyped.AllProjectContacts.Any())
-     {
-         <hr/>
-     }
-    <div class="row">
-        <div class="col-xs-3">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectPrimaryContact.ToType())
-        </div>
-        <div class="col-xs-9">
-            @if (ViewDataTyped.PrimaryContactPerson != null)
-            {
-                <span>
-                    @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl(ViewDataTyped.CurrentFirmaSession) (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
-                </span>
-            }
-            else
-            {
-                <span>@ViewUtilities.NoneString</span>
-            }
-        </div>
-    </div>
 }
 
 @if(!ViewDataTyped.AllProjectContacts.Any() && ViewDataTyped.PrimaryContactPerson == null)
