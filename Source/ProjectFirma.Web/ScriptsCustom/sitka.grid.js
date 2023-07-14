@@ -480,7 +480,7 @@ Sitka.Grid.Class.Grid.prototype.strictHtmlFilter = function (t, i) {
     jSelectElement._filter = function () {
         return function (value) {
             var allVals = jSelect.val();
-            if (allVals == null) {
+            if (allVals == null || allVals == undefined || allVals.length == 0) {
                 return true;
             }
             var textToSearch = decodeHtml((value.toString().replace(/<[^>]*>/g, "")));
@@ -517,11 +517,10 @@ var sitkaGridLocallyDefinedMultiSelectFilter = function (t, i) {
 
     this.makeFilter(selectElement, i);
     var combos = this.combos;
-
     selectElement._filter = function () {
         return function (val) {
             var allVals = jSelect.val();
-            if (allVals == null) {
+            if (allVals == null || allVals == undefined || allVals.length == 0) {
                 return true;
             }
             function insensitiveEqual(element, index, array) {
