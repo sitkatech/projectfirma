@@ -113,6 +113,7 @@
             <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].ProjectCustomGridColumnID).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.ProjectCustomGridColumnID}}">
             <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].ProjectCustomAttributeTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.ProjectCustomAttributeTypeID}}">
             <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].GeospatialAreaTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.GeospatialAreaTypeID}}">
+            <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].ClassificationSystemID).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.ClassificationSystemID}}">
             <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].IsEnabled).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.IsEnabled}}">
             <input ng-if="projectCustomGridConfigurationSimple.IsEnabled" type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].SortOrder).ToString().Replace("0", "{{$index}}")" value="{{getSortOrder(projectCustomGridConfigurationSimple)}}">
         </div>

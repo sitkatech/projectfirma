@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[TrainingVideo]
+//  Source Table: [dbo].[TrainingVideoRole]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,51 +16,57 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[TrainingVideo] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[TrainingVideo]")]
-    public partial class TrainingVideo : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[TrainingVideoRole] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[TrainingVideoRole]")]
+    public partial class TrainingVideoRole : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected TrainingVideo()
+        protected TrainingVideoRole()
         {
-            this.TrainingVideoRoles = new HashSet<TrainingVideoRole>();
+
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TrainingVideo(int trainingVideoID, string videoName, string videoDescription, DateTime videoUploadDate, string videoURL, int? sortOrder) : this()
+        public TrainingVideoRole(int trainingVideoRoleID, int trainingVideoID, int? roleID) : this()
         {
+            this.TrainingVideoRoleID = trainingVideoRoleID;
             this.TrainingVideoID = trainingVideoID;
-            this.VideoName = videoName;
-            this.VideoDescription = videoDescription;
-            this.VideoUploadDate = videoUploadDate;
-            this.VideoURL = videoURL;
-            this.SortOrder = sortOrder;
+            this.RoleID = roleID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TrainingVideo(string videoName, DateTime videoUploadDate, string videoURL) : this()
+        public TrainingVideoRole(int trainingVideoID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.TrainingVideoID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TrainingVideoRoleID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.VideoName = videoName;
-            this.VideoUploadDate = videoUploadDate;
-            this.VideoURL = videoURL;
+            this.TrainingVideoID = trainingVideoID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public TrainingVideoRole(TrainingVideo trainingVideo) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.TrainingVideoRoleID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TrainingVideoID = trainingVideo.TrainingVideoID;
+            this.TrainingVideo = trainingVideo;
+            trainingVideo.TrainingVideoRoles.Add(this);
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static TrainingVideo CreateNewBlank()
+        public static TrainingVideoRole CreateNewBlank(TrainingVideo trainingVideo)
         {
-            return new TrainingVideo(default(string), default(DateTime), default(string));
+            return new TrainingVideoRole(trainingVideo);
         }
 
         /// <summary>
@@ -69,7 +75,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return TrainingVideoRoles.Any();
+            return false;
         }
 
         /// <summary>
@@ -79,17 +85,13 @@ namespace ProjectFirmaModels.Models
         {
             var dependentObjects = new List<string>();
             
-            if(TrainingVideoRoles.Any())
-            {
-                dependentObjects.Add(typeof(TrainingVideoRole).Name);
-            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TrainingVideo).Name, typeof(TrainingVideoRole).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TrainingVideoRole).Name};
 
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllTrainingVideos.Remove(this);
+            dbContext.AllTrainingVideoRoles.Remove(this);
         }
         
         /// <summary>
@@ -105,40 +107,25 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            DeleteChildren(dbContext);
+            
             Delete(dbContext);
-        }
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteChildren(DatabaseEntities dbContext)
-        {
-
-            foreach(var x in TrainingVideoRoles.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
         }
 
         [Key]
-        public int TrainingVideoID { get; set; }
+        public int TrainingVideoRoleID { get; set; }
         public int TenantID { get; set; }
-        public string VideoName { get; set; }
-        public string VideoDescription { get; set; }
-        public DateTime VideoUploadDate { get; set; }
-        public string VideoURL { get; set; }
-        public int? SortOrder { get; set; }
+        public int TrainingVideoID { get; set; }
+        public int? RoleID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return TrainingVideoID; } set { TrainingVideoID = value; } }
+        public int PrimaryKey { get { return TrainingVideoRoleID; } set { TrainingVideoRoleID = value; } }
 
-        public virtual ICollection<TrainingVideoRole> TrainingVideoRoles { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual TrainingVideo TrainingVideo { get; set; }
+        public Role Role { get { return RoleID.HasValue ? Role.AllLookupDictionary[RoleID.Value] : null; } }
 
         public static class FieldLengths
         {
-            public const int VideoName = 100;
-            public const int VideoDescription = 1000;
-            public const int VideoURL = 100;
+
         }
     }
 }

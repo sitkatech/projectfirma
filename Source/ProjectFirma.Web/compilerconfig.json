@@ -20,7 +20,7 @@
     "inputFile": "Content/Bootstrap/firma/clackamas.less"
   },
   {
-    "outputFile": "Content/qtip/jquery.qtip.validation.es5.js",
+    "outputFile": "Content/qtip/jquery.qtip.validation.min.js",
     "inputFile": "Content/qtip/jquery.qtip.validation.js"
   },
   {

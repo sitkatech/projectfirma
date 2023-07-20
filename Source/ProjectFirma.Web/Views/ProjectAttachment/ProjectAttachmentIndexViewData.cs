@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
         public string ProjectAttachmentGridDataUrl { get; }
         public bool HasManagePermissions { get; }
 
-        public ProjectAttachmentIndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
+        public ProjectAttachmentIndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"Manage {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Attachments";
 

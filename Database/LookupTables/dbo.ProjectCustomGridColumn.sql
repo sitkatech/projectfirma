@@ -33,4 +33,5 @@ values
 (28, 'NumberOfExpectedPerformanceMeasureRecords', '# of Expected Performance Measures Records', 1),
 (29, 'Solicitation', 'Solicitation', 1),
 (30, 'FundingSources', 'Funding Sources', 1),
-(31, 'Organizations', 'Organizations', 1)
+(31, 'Organizations', 'Organizations', 1),
+(32, 'ClassificationSystem', 'Classification System', 1)

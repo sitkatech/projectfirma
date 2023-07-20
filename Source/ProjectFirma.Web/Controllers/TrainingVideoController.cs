@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
@@ -76,7 +77,10 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditTrainingVideo(viewModel);
             }
 
-            viewModel.UpdateModel(trainingVideo);
+            HttpRequestStorage.DatabaseEntities.TrainingVideoRoles.Load();
+            var trainingVideoRoles = HttpRequestStorage.DatabaseEntities.AllTrainingVideoRoles.Local;
+
+            viewModel.UpdateModel(trainingVideo, trainingVideoRoles);
             HttpRequestStorage.DatabaseEntities.AllTrainingVideos.Add(trainingVideo);
 
             return new ModalDialogFormJsonResult();
@@ -103,7 +107,10 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditTrainingVideo(viewModel);
             }
 
-            viewModel.UpdateModel(trainingVideo);
+            HttpRequestStorage.DatabaseEntities.TrainingVideoRoles.Load();
+            var trainingVideoRoles = HttpRequestStorage.DatabaseEntities.AllTrainingVideoRoles.Local;
+
+            viewModel.UpdateModel(trainingVideo, trainingVideoRoles);
 
             return new ModalDialogFormJsonResult();
         }

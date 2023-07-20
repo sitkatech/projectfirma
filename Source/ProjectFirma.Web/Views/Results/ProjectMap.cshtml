@@ -299,7 +299,7 @@ Source code is available upon request via <support@sitkatech.com>.
             filterPropertyNameDropdown.selectpicker();
             filterPropertyNameDropdown.selectpicker('val', initialCustomization.FilterPropertyName);
 
-            var filterPropertyNameOptions = jQuery("option", filterPropertyNameDropdown);
+            var filterPropertyNameOptions = jQuery("option[value]", filterPropertyNameDropdown);
 
             filterPropertyNameDropdown.on("change",function()
             {
@@ -312,9 +312,11 @@ Source code is available upon request via <support@sitkatech.com>.
                 filterPropertyValueDropdown.trigger("change");
             });
 
-            filterPropertyNameOptions.each(function(index, option)
-            {
+            filterPropertyNameOptions.each(function(index, option) {
                 var filterPropertyNameSelected = option.value;
+                if (!filterPropertyNameSelected) {
+                    return;
+                }
                 var filterPropertyValueDropdown = jQuery("#" + filterPropertyNameSelected);
 
                 // remove any trailing identifier (used for Classification filters)

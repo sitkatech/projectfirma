@@ -33,6 +33,9 @@ namespace ProjectFirmaModels.Models
         public int? GeospatialAreaTypeID { get; set; }
         public string GeospatialAreaTypeName { get; set; }
 
+        public int? ClassificationSystemID { get; set; }
+        public string ClassificationSystemName { get; set; }
+
         public bool IsEnabled { get; set; }
         public bool IsOptional { get; }
         public int? SortOrder { get; set; }
@@ -41,7 +44,7 @@ namespace ProjectFirmaModels.Models
         {
         }
 
-        public ProjectCustomGridConfigurationSimple(int projectCustomGridTypeID, ProjectCustomGridColumn projectCustomGridColumn, ProjectCustomAttributeType projectCustomAttributeType, GeospatialAreaType geospatialAreaType, bool isEnabled, int? sortOrder)
+        public ProjectCustomGridConfigurationSimple(int projectCustomGridTypeID, ProjectCustomGridColumn projectCustomGridColumn, ProjectCustomAttributeType projectCustomAttributeType, GeospatialAreaType geospatialAreaType, ClassificationSystem classificationSystem,  bool isEnabled, int? sortOrder)
         {
             ProjectCustomGridTypeID = projectCustomGridTypeID;
             ProjectCustomGridColumnID = projectCustomGridColumn.ProjectCustomGridColumnID;
@@ -50,6 +53,8 @@ namespace ProjectFirmaModels.Models
             ProjectCustomAttributeTypeName = projectCustomAttributeType?.ProjectCustomAttributeTypeName;
             GeospatialAreaTypeID = geospatialAreaType?.GeospatialAreaTypeID;
             GeospatialAreaTypeName = geospatialAreaType?.GeospatialAreaTypeName;
+            ClassificationSystemID = classificationSystem?.ClassificationSystemID;
+            ClassificationSystemName = classificationSystem?.ClassificationSystemName;
             IsEnabled = !projectCustomGridColumn.IsOptional || isEnabled;
             IsOptional = projectCustomGridColumn.IsOptional;
             SortOrder = sortOrder;

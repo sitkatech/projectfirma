@@ -1224,7 +1224,6 @@
     </Content>
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
-    <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
     <Content Include="ScriptsCustom\DatePickerReady.min.js.map" />
     <Content Include="ScriptsCustom\FancyboxReady.min.js.map" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map" />
@@ -1266,8 +1265,6 @@
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.js" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.js" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js" />
-    <Content Include="ScriptsCustom\CkEditorReady.js" />
-    <Content Include="ScriptsCustom\CkEditorReady.min.js" />
     <Content Include="ScriptsCustom\DatePickerReady.js" />
     <Content Include="ScriptsCustom\DatePickerReady.min.js" />
     <Content Include="ScriptsCustom\FancyboxReady.js" />

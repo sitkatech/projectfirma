@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Enable Accomplishments Dashboard")]
         public bool EnableAccomplishmentsDashboard { get; set; }
 
-        [DisplayName("Enable Simple Accomplishments Dashboard")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableSimpleAccomplishmentsDashboard)]
         public bool EnableSimpleAccomplishmentsDashboard { get; set; }
 
         [DisplayName("Enable Secondary Project Taxonomy Leaf")]
@@ -265,7 +265,7 @@ namespace ProjectFirma.Web.Views.Tenant
             // Ensure that the Google Analytics code is a valid format since this is being displayed raw in the header of the website
             if (!GoogleAnalyticsTrackingCode.IsNullOrWhiteSpace())
             {
-                Regex regexPattern = new Regex(@"^(?i)ua(?-i)-\d{4,9}-\d{1,4}$");
+                Regex regexPattern = new Regex(@"^(?i)g(?i)-[a-z0-9]{4,10}$");
                 if (!regexPattern.IsMatch(GoogleAnalyticsTrackingCode))
                 {
                     errors.Add(new SitkaValidationResult<EditBasicsViewModel, string>($"The Google Analytics tracking code provided is invalid.", m => m.GoogleAnalyticsTrackingCode));

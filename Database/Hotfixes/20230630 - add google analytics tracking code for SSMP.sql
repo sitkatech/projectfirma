@@ -1,0 +1,1 @@
+update dbo.TenantAttribute set GoogleAnalyticsTrackingCode = 'G-7E8JBFMK42' where TenantID = 13
