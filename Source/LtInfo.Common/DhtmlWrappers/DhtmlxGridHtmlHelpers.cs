@@ -147,27 +147,41 @@ namespace LtInfo.Common.DhtmlWrappers
                     columnDefinitionStringBuilder.Append(",");
                 }
 
-                columnDefinitionStringBuilder.Append("{ ");
-                columnDefinitionStringBuilder.AppendFormat("field: \"{0}\"", columnSpec.ColumnNameForJavascript);
+                columnDefinitionStringBuilder.Append("{ ");//open this column spec
+                columnDefinitionStringBuilder.AppendFormat("\"field\": \"{0}\"", columnSpec.ColumnNameForJavascript);
 
-                columnDefinitionStringBuilder.Append("headerComponentParams: { template: '<div class=\"ag-cell-label-container\" role=\"presentation\">' +");
-                columnDefinitionStringBuilder.Append("'<span ref=\"eMenu\" class=\"ag-header-icon ag-header-cell-menu-button\"></span>' +");
-                columnDefinitionStringBuilder.Append("'<div ref=\"eLabel\" class=\"ag-header-cell-label\" role=\"presentation\">' +");
-                columnDefinitionStringBuilder.Append("'<span ref=\"eSortOrder\" class=\"ag-header-icon ag-sort-order\" ></span>' +");
-                columnDefinitionStringBuilder.Append("'<span ref=\"eSortAsc\" class=\"ag-header-icon ag-sort-ascending-icon\" ></span>' +");
-                columnDefinitionStringBuilder.Append("'<span ref=\"eSortDesc\" class=\"ag-header-icon ag-sort-descending-icon\" ></span>' +");
-                columnDefinitionStringBuilder.Append("'<span ref=\"eSortNone\" class=\"ag-header-icon ag-sort-none-icon\" ></span>' +");
-                columnDefinitionStringBuilder.Append("'<span ref=\"eText\" class=\"ag-header-cell-text\" role=\"columnheader\"></span>' +");
-                columnDefinitionStringBuilder.Append("'<span ref=\"eFilter\" class=\"ag-header-icon ag-filter-icon\"></span>' +");
-                columnDefinitionStringBuilder.Append("'</div></div>' }, ");
+                columnDefinitionStringBuilder.Append(", \"headerComponentParams\": { \"template\": \"<div class=\\\"ag-cell-label-container\\\" role=\\\"presentation\\\">");
+                columnDefinitionStringBuilder.Append("<span ref=\\\"eMenu\\\" class=\\\"ag-header-icon ag-header-cell-menu-button\\\"></span>");
+                columnDefinitionStringBuilder.Append("<div ref=\\\"eLabel\\\" class=\\\"ag-header-cell-label\\\" role=\\\"presentation\\\">");
+                columnDefinitionStringBuilder.Append("<span ref=\\\"eSortOrder\\\" class=\\\"ag-header-icon ag-sort-order\\\" ></span>");
+                columnDefinitionStringBuilder.Append("<span ref=\\\"eSortAsc\\\" class=\\\"ag-header-icon ag-sort-ascending-icon\\\" ></span>");
+                columnDefinitionStringBuilder.Append("<span ref=\\\"eSortDesc\\\" class=\\\"ag-header-icon ag-sort-descending-icon\\\" ></span>");
+                columnDefinitionStringBuilder.Append("<span ref=\\\"eSortNone\\\" class=\\\"ag-header-icon ag-sort-none-icon\\\" ></span>");
+                columnDefinitionStringBuilder.Append("<span ref=\\\"eText\\\" class=\\\"ag-header-cell-text\\\" role=\\\"columnheader\\\"></span>");
+                columnDefinitionStringBuilder.Append("<span ref=\\\"eFilter\\\" class=\\\"ag-header-icon ag-filter-icon\\\"></span>");
+                columnDefinitionStringBuilder.Append("</div></div>\" }");//close headerComponentParams object
+
+                bool resizable = !(columnSpec.GridWidth < 35);// most cols with a width < 35px are icon buttons (like edit, delete, download fact sheet)  
+                columnDefinitionStringBuilder.AppendFormat(", \"resizable\": {0}", resizable.ToString().ToLower());
+
+                //hide column or set grid width
+                if (columnSpec.GridWidth == 0)
+                {
+                    columnDefinitionStringBuilder.Append(", \"hide\": true");
+
+                }
+                else
+                {
+                    columnDefinitionStringBuilder.AppendFormat(", \"initialWidth\": {0}", columnSpec.GridWidth);
+                }
 
 
                 if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.ReadOnlyHtmlText)
                 {
-                    columnDefinitionStringBuilder.Append(", cellRenderer: function(params) { return params.value ? params.value: ''; } ");
+                    columnDefinitionStringBuilder.Append(", \"cellRenderer\": function(params) { return params.value ? params.value: ''; } ");
                 }
 
-                columnDefinitionStringBuilder.Append(" }");
+                columnDefinitionStringBuilder.Append(" }");//close this column spec
             }
 
 
