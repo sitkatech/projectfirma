@@ -35,14 +35,14 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.RadioButtonFor(m => m.CreateType, ProjectTypeSelectionViewModel.ProjectCreateType.Proposal)
                 <strong>Add a @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel() for a future @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</strong>
             </label>
-            <div class="radioExplanationText">This will create a new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() in @ProjectStage.ToType(ProjectStageEnum.Proposal).GetProjectStageDisplayName() stage. When a @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel() is reviewed and selected for implementation an administrator can advance the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to the @ProjectStage.ToType(ProjectStageEnum.PlanningDesign).GetProjectStageDisplayName() stage.</div>
+            <div class="radioExplanationText">This will create a new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() in @ProjectStage.Proposal.GetProjectStageDisplayName() stage. When a @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel() is reviewed and selected for implementation an administrator can advance the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to the @ProjectStage.PlanningDesign.GetProjectStageDisplayName() stage.</div>
         </div>
         <div class="radio" style="margin-top: 10px;">
             <label>
                 @Html.RadioButtonFor(m => m.CreateType, ProjectTypeSelectionViewModel.ProjectCreateType.Existing)
                 <strong>Enter an existing @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is already underway or complete</strong>
             </label>
-            <div class="radioExplanationText">This will create a new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() record for an existing @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You will be asked to select the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() stage (e.g. @ProjectStage.ToType(ProjectStageEnum.PlanningDesign).GetProjectStageDisplayName(), @ProjectStage.ToType(ProjectStageEnum.Implementation).GetProjectStageDisplayName(), or @ProjectStage.ToType(ProjectStageEnum.Completed).GetProjectStageDisplayName()). An administrator will review the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() before it becomes publicly visible.</div>
+            <div class="radioExplanationText">This will create a new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() record for an existing @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You will be asked to select the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() stage (e.g. @ProjectStage.PlanningDesign.GetProjectStageDisplayName(), @ProjectStage.Implementation.GetProjectStageDisplayName(), or @ProjectStage.Completed.GetProjectStageDisplayName()). An administrator will review the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() before it becomes publicly visible.</div>
         </div>
         @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled)
         {

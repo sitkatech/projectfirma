@@ -287,11 +287,11 @@
                    <div class="panel-body">
                       @if (ViewDataTyped.Project.IsProposal())
                       {
-                         <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+                       <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.Proposal.GetProjectStageDisplayName() stage.</p>
                       }
                       else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
                       {
-                         <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
+                   <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.PlanningDesign.GetProjectStageDisplayName() stage.</p>
                       }
                       else
                       {
@@ -336,7 +336,7 @@
                   <div class="panel-body">
                      @if (ViewDataTyped.Project.IsProposal())
                      {
-                        <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+                      <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.Proposal.GetProjectStageDisplayName() stage.</p>
                      }
                      else if (ViewDataTyped.ReportFinancialsByCostType)
                      {

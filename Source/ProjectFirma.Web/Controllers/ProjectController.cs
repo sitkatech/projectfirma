@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
                         finalStatusReport.GetDeleteProjectProjectStatusUrl(), new List<string> { "btn", "btn-firma" }, true);
 
                     SetWarningForDisplay(
-                        $"The {projectEntityName} stage has been changed from Completed to {project.ProjectStage.GetProjectStageDisplayName()}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update here; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
+                        $"The {projectEntityName} stage has been changed from {ProjectStage.Completed.GetProjectStageDisplayName()} to {project.ProjectStage.GetProjectStageDisplayName()}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update here; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
                 }
             }
 
