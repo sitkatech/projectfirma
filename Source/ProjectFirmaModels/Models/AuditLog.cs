@@ -29,6 +29,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirmaModels.UnitTestCommon;
 
 namespace ProjectFirmaModels.Models
 {
@@ -422,6 +423,7 @@ namespace ProjectFirmaModels.Models
                 var oldPrimaryKeyValue = (int) originalValue;
                 oldProjectStageName = ProjectStage.AllLookupDictionary[oldPrimaryKeyValue].ProjectStageDisplayName;
             }
+
             var newProjectStageName = ProjectStage.AllLookupDictionary[(int) currentValue].ProjectStageDisplayName;
             return auditLogEventType.GetAuditStringForOperationType("Project Stage", oldProjectStageName, newProjectStageName);
         }

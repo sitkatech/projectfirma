@@ -34,7 +34,7 @@ namespace ProjectFirmaModels.Models
         public abstract bool IsStageIncludedInCostCalculations();
         public abstract bool ShouldShowOnMap();
         public abstract bool ShouldIncludeInMatchmaker();
-
+       
         public abstract IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo();
 
         // ReSharper disable once InconsistentNaming
@@ -91,6 +91,8 @@ namespace ProjectFirmaModels.Models
         {
             return new List<ProjectStage>();
         }
+
+
     }
 
 

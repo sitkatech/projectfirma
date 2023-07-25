@@ -1,4 +1,6 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using ProjectFirmaModels.Models;
+
+namespace ProjectFirma.Web.Models
 {
     public class ProjectStageSimple
     {
@@ -8,7 +10,7 @@
         public ProjectStageSimple(ProjectStage projectStage)
         {
             ProjectStageID = projectStage.ProjectStageID;
-            DisplayName = projectStage.ProjectStageDisplayName;
+            DisplayName = projectStage.GetProjectStageDisplayName();
         }
 
         public ProjectStageSimple(int projectStageID, string displayName)

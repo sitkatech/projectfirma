@@ -123,7 +123,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.DropDownListFor(m => m.SolicitationID, ViewDataTyped.SolicitationOptions, new { @class = "form-control", style = "width: auto;" })
                     @Html.ValidationMessageFor(m => m.SolicitationID)
                     <span class="smallExplanationText">
-                        The @FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel() cannot be changed after a proposal is accepted.
+                        The @FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel() cannot be changed after a @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel() is accepted.
                     </span>
                 </div>
             </div>
@@ -213,7 +213,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                     else
                     {
-                        @ViewDataTyped.ProjectStage.ProjectStageDisplayName
+                        @ViewDataTyped.ProjectStage.GetProjectStageDisplayName()
                     }
                 </div>
             </div>
@@ -270,7 +270,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.EnumDropDownListFor(m => m.ProjectCategoryEnum, new {@class = "form-control"})
                     @Html.ValidationMessageFor(m => m.ProjectCategoryEnum)
                     <span class="smallExplanationText">
-                        The @FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel() cannot be changed after a proposal is accepted.
+                        The @FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel() cannot be changed after a @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel() is accepted.
                     </span>
                 </div>
             </div>

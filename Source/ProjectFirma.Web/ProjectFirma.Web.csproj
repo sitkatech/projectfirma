@@ -67,6 +67,7 @@
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\DocumentLibraryController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
+    <Compile Include="Controllers\ProjectStageCustomLabelController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\TrainingVideoController.cs" />
@@ -84,6 +85,8 @@
     <Compile Include="GridToExcel\RGBColor.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
     <Compile Include="Models\ExternalMapLayerSimple.cs" />
+    <Compile Include="Models\ProjectStageModelExtensions.cs" />
+    <Compile Include="Models\ProjectStageSimple.cs" />
     <Compile Include="Models\TrainingVideoModelExtensions.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
@@ -338,6 +341,10 @@
     <Compile Include="Views\Evaluation\Index.cs" />
     <Compile Include="Views\Evaluation\IndexGridSpec.cs" />
     <Compile Include="Views\Evaluation\IndexViewData.cs" />
+    <Compile Include="Views\ProjectStageCustomLabel\Edit.cs" />
+    <Compile Include="Views\ProjectStageCustomLabel\EditViewData.cs" />
+    <Compile Include="Views\ProjectStageCustomLabel\EditViewModel.cs" />
+    <Compile Include="Views\ProjectStageCustomLabel\ProjectStageGridSpec.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
@@ -837,6 +844,7 @@
     <Content Include="Views\CustomPage\EditSortOrderInMenuGroup.cshtml" />
     <Content Include="Views\PerformanceMeasure\Manage.cshtml" />
     <Content Include="Views\PerformanceMeasureGroup\Edit.cshtml" />
+    <Content Include="Views\ProjectStageCustomLabel\Edit.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

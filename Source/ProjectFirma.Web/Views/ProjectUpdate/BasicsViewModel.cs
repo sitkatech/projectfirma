@@ -99,12 +99,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (ProjectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
             {
-                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Completed stage, the Completion year is required", m => m.CompletionYear);
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the {ProjectStage.Completed.GetProjectStageDisplayName()} stage, the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} is required", m => m.CompletionYear);
             }
 
             if (ProjectStageID == ProjectStage.PostImplementation.ProjectStageID && !CompletionYear.HasValue)
             {
-                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Post-Implementation stage, the Completion year is required", m => m.CompletionYear);
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the {ProjectStage.PostImplementation.GetProjectStageDisplayName()} stage, the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} is required", m => m.CompletionYear);
             }
 
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             if (isCompletedOrPostImplementation && CompletionYear > currentYear)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(
-                    $"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in Completed or Post-Implementation stage; the Completion Year must be less than or equal to the current year",
+                    $"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in {ProjectStage.Completed.GetProjectStageDisplayName()} or {ProjectStage.PostImplementation.GetProjectStageDisplayName()} stage; the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} must be less than or equal to the current year",
                     m => m.CompletionYear);
             }
         }

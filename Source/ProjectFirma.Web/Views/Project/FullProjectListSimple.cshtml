@@ -49,7 +49,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <td>%nbsp;</td>
             }
             <td><a href="@project.GetDetailUrl()">@project.ProjectName</a></td>
-            <td style="white-space: nowrap">@project.ProjectStage.ProjectStageDisplayName</td>
+            <td style="white-space: nowrap">@project.ProjectStage.GetProjectStageDisplayName()</td>
             <td style="text-align: right">@project.ImplementationStartYear</td>
             <td style="text-align: right">@project.CompletionYear</td>
         </tr>
