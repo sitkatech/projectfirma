@@ -41,6 +41,10 @@ namespace ProjectFirma.Web.Views.ProjectStageCustomLabel
             Add("Custom Label", a => a.HasCustomLabel() ? a.GetProjectStageDisplayName() : string.Empty, 200);
             Add("Default Label", a => a.ProjectStageDisplayName, 200);
             Add("Has Custom Stage Name?", a => a.HasCustomLabel().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Custom Color", a => a.HasCustomColor() ? a.GetProjectStageColor() : string.Empty, 200);
+            Add("Default Color", a => a.ProjectStageColor, 200);
+            Add("Has Custom Stage Color?", a => a.HasCustomColor().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
         }
     }
 }

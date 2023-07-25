@@ -18,7 +18,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectStageCustomLabelID).HasColumnName(@"ProjectStageCustomLabelID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectStageID).HasColumnName(@"ProjectStageID").HasColumnType("int").IsRequired();
-            Property(x => x.ProjectStageLabel).HasColumnName(@"ProjectStageLabel").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.ProjectStageLabel).HasColumnName(@"ProjectStageLabel").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(300);
+            Property(x => x.ProjectStageColor).HasColumnName(@"ProjectStageColor").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(20);
 
             // Foreign keys
 

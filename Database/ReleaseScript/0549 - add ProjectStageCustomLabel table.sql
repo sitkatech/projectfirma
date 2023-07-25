@@ -3,7 +3,8 @@ CREATE TABLE [dbo].[ProjectStageCustomLabel](
 	[ProjectStageCustomLabelID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[ProjectStageID] [int] NOT NULL,
-	[ProjectStageLabel] [varchar](300) NOT NULL,
+	[ProjectStageLabel] [varchar](300) NULL,
+	[ProjectStageColor] [varchar](20) null
  CONSTRAINT [PK_ProjectStageCustomLabel_ProjectStageCustomLabelID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectStageCustomLabelID] ASC

@@ -6,7 +6,8 @@ CREATE TABLE [dbo].[ProjectStageCustomLabel](
 	[ProjectStageCustomLabelID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[ProjectStageID] [int] NOT NULL,
-	[ProjectStageLabel] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ProjectStageLabel] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ProjectStageColor] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectStageCustomLabel_ProjectStageCustomLabelID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectStageCustomLabelID] ASC

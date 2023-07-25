@@ -15,11 +15,6 @@ namespace ProjectFirma.Web.Models
             return EditUrlTemplate.ParameterReplace(projectStage.ProjectStageID);
         }
 
-        public static ProjectStage ToType(this ProjectStageEnum projectStageEnum)
-        {
-            return ToType(projectStageEnum);
-        }
-
         public static string GetProjectStageDisplayName(this ProjectStage projectStage)
         {
             var projectStageCustomLabel = projectStage.GetProjectStageCustomLabel();
@@ -55,6 +50,22 @@ namespace ProjectFirma.Web.Models
         {
             var projectStageCustomLabel = projectStage.GetProjectStageCustomLabelForBackgroundJob(tenantID);
             return projectStage.GetProjectStageLabelImpl(projectStageCustomLabel);
+        }
+
+        public static string GetProjectStageColor(this ProjectStage projectStage)
+        {
+            var projectStageCustomLabel = projectStage.GetProjectStageCustomLabel();
+            if (projectStageCustomLabel != null && !string.IsNullOrWhiteSpace(projectStageCustomLabel.ProjectStageColor))
+            {
+                return projectStageCustomLabel.ProjectStageColor;
+            }
+            return projectStage.ProjectStageColor;
+        }
+
+        public static bool HasCustomColor(this ProjectStage projectStage)
+        {
+            var projectStageCustomLabel = projectStage.GetProjectStageCustomLabel();
+            return projectStageCustomLabel != null && !string.IsNullOrWhiteSpace(projectStageCustomLabel.ProjectStageColor);
         }
     }
 }

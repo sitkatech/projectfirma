@@ -34,11 +34,14 @@ namespace ProjectFirma.Web.Views.ProjectStageCustomLabel
     public class EditViewModel : FormViewModel, IValidatableObject
     {
         public int ProjectStageID { get; set; }
-
-        [Required]
+        
         [DisplayName("Custom Label")]
         [StringLength(ProjectFirmaModels.Models.ProjectStageCustomLabel.FieldLengths.ProjectStageLabel)]
         public string ProjectStageCustomLabel { get; set; }
+
+        [DisplayName("Custom Color")]
+        [StringLength(ProjectFirmaModels.Models.ProjectStageCustomLabel.FieldLengths.ProjectStageColor)]
+        public string ProjectStageColor { get; set; }
 
 
         /// <summary>
@@ -52,11 +55,13 @@ namespace ProjectFirma.Web.Views.ProjectStageCustomLabel
         {
             ProjectStageID = projectStageID;
             ProjectStageCustomLabel = projectStageCustomLabel?.ProjectStageLabel;
+            ProjectStageColor = projectStageCustomLabel?.ProjectStageColor;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectStageCustomLabel projectStageCustomLabel)
         {
             projectStageCustomLabel.ProjectStageLabel = ProjectStageCustomLabel;
+            projectStageCustomLabel.ProjectStageColor = ProjectStageColor;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

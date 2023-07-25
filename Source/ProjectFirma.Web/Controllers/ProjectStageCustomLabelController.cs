@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
             var projectStageCustomLabel = HttpRequestStorage.DatabaseEntities.ProjectStageCustomLabels.GetProjectStageCustomLabelByProjectStage(projectStagePrimaryKey);
             if (projectStageCustomLabel == null)
             {
-                projectStageCustomLabel = new ProjectStageCustomLabel(projectStagePrimaryKey.EntityObject, string.Empty);
+                projectStageCustomLabel = new ProjectStageCustomLabel(projectStagePrimaryKey.EntityObject);
                 HttpRequestStorage.DatabaseEntities.AllProjectStageCustomLabels.Add(projectStageCustomLabel);
             }
 

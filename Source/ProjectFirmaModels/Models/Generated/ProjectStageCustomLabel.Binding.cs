@@ -31,34 +31,33 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectStageCustomLabel(int projectStageCustomLabelID, int projectStageID, string projectStageLabel) : this()
+        public ProjectStageCustomLabel(int projectStageCustomLabelID, int projectStageID, string projectStageLabel, string projectStageColor) : this()
         {
             this.ProjectStageCustomLabelID = projectStageCustomLabelID;
             this.ProjectStageID = projectStageID;
             this.ProjectStageLabel = projectStageLabel;
+            this.ProjectStageColor = projectStageColor;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectStageCustomLabel(int projectStageID, string projectStageLabel) : this()
+        public ProjectStageCustomLabel(int projectStageID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectStageCustomLabelID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectStageID = projectStageID;
-            this.ProjectStageLabel = projectStageLabel;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectStageCustomLabel(ProjectStage projectStage, string projectStageLabel) : this()
+        public ProjectStageCustomLabel(ProjectStage projectStage) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectStageCustomLabelID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectStageID = projectStage.ProjectStageID;
-            this.ProjectStageLabel = projectStageLabel;
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ProjectStageCustomLabel CreateNewBlank(ProjectStage projectStage)
         {
-            return new ProjectStageCustomLabel(projectStage, default(string));
+            return new ProjectStageCustomLabel(projectStage);
         }
 
         /// <summary>
@@ -116,6 +115,7 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int ProjectStageID { get; set; }
         public string ProjectStageLabel { get; set; }
+        public string ProjectStageColor { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectStageCustomLabelID; } set { ProjectStageCustomLabelID = value; } }
 
@@ -125,6 +125,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int ProjectStageLabel = 300;
+            public const int ProjectStageColor = 20;
         }
     }
 }
