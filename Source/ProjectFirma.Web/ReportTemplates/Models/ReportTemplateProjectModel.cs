@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             ProjectName = Project.ProjectName;
             ProjectUrl = GetProjectUrlForReport(project);
             PrimaryContactOrganization = Project.GetPrimaryContactOrganization() != null ? new ReportTemplateOrganizationModel(Project.GetPrimaryContactOrganization()) : null;
-            ProjectStage = Project.ProjectStage.ProjectStageDisplayName;
+            ProjectStage = Project.ProjectStage.GetProjectStageDisplayName();
             NumberOfReportedPerformanceMeasures = Project.PerformanceMeasureActuals.Count;
             ProjectPrimaryContact = Project.GetPrimaryContact() != null ? new ReportTemplatePersonModel(Project.GetPrimaryContact()) : null;
             PlanningDesignStartYear = ProjectModelExtensions.GetPlanningDesignStartYear(Project);

@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             Add(string.Empty, pe => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
 
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var evaluationCriteriaColumn in evaluation.EvaluationCriterias)
             {
                 Add(evaluationCriteriaColumn.EvaluationCriteriaName, a => GetCriteriaValueIfAvailable(a, evaluationCriteriaColumn), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);

@@ -1,0 +1,48 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.ProjectStageCustomLabel.Edit
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(x => x.ProjectStageCustomLabel, new {@class = "col-md-2 control-label"})
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.ProjectStageCustomLabel, new {@class = "form-control"})
+            </div>
+            @Html.ValidationMessageFor(x => x.ProjectStageCustomLabel)
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label">Default Label</label>
+            <div class="col-md-10">@ViewDataTyped.ProjectStage.ProjectStageDisplayName</div>
+        </div>
+        @Html.HiddenFor(x => x.ProjectStageID)
+    </div>
+    @* <div class="pull-right" style="padding-bottom: 15px;"> *@
+    @*     <hr /> *@
+    @*     <button type="submit" class="btn btn-firma">Save</button> *@
+    @*     <a href="@ViewDataTyped.CancelUrl" class="btn btn-firma">Cancel</a> *@
+    @* </div> *@
+}

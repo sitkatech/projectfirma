@@ -150,7 +150,7 @@
             arrowClass = "singleArrow";
          }
 
-         <div class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.ProjectStageDisplayName</div>
+         <div class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.GetProjectStageDisplayName()</div>
       }
    </div>
 </div>

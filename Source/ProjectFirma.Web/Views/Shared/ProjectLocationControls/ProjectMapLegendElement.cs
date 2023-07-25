@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
                 {
                     ProjectColorByType.ProjectStage.ProjectColorByTypeNameWithIdentifier,
                     ProjectMapCustomization.GetProjectStagesForMap(showProposals)
-                        .Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.ProjectStageDisplayName)).ToList()
+                        .Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.GetProjectStageDisplayName())).ToList()
                 }
             };
 

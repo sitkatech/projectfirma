@@ -26,6 +26,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectStageCustomLabel;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
@@ -35,6 +36,10 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public string GridName { get; }
         public string GridDataUrl { get; }
         public List<CustomFieldDefinitionConflicts> FieldDefinitionsWithConflict { get; }
+
+        public ProjectStageGridSpec ProjectStageGridSpec { get; }
+        public string ProjectStageGridName { get; }
+        public string ProjectStageGridDataUrl { get; }
 
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
@@ -62,6 +67,15 @@ namespace ProjectFirma.Web.Views.FieldDefinition
                 FieldDefinitionsWithConflict.AddRange(itemsWithCollision);
             }
 
+
+            ProjectStageGridSpec = new ProjectStageGridSpec(new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                ObjectNameSingular = $"{FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()}",
+                SaveFiltersInCookie = true
+            };
+            ProjectStageGridName = "projectStagesGrid";
+            ProjectStageGridDataUrl = SitkaRoute<ProjectStageCustomLabelController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
         }
     }
 

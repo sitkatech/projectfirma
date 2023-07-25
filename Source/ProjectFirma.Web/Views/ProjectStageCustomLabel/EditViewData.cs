@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditContactRelationshipTypeViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -18,24 +18,21 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ContactRelationshipType
+namespace ProjectFirma.Web.Views.ProjectStageCustomLabel
 {
-    public class EditContactRelationshipTypeViewData : FirmaUserControlViewData
+    public class EditViewData : FirmaViewData
     {
-        public List<SelectListItem> ProjectStageSelectListItems;
+        public ProjectStage ProjectStage { get; }
+        public string CancelUrl { get; }
 
-        public EditContactRelationshipTypeViewData()
+        public EditViewData(FirmaSession currentFirmaSession, ProjectStage projectStage) : base(currentFirmaSession)
         {
-            ProjectStageSelectListItems = ProjectStage.AllLookupDictionary.ToSelectListWithEmptyFirstRow(psk => psk.Key.ToString(CultureInfo.InvariantCulture), psk => psk.Value.GetProjectStageDisplayName()).ToList();
+            ProjectStage = projectStage;
+            CancelUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 }
