@@ -306,7 +306,7 @@ namespace ProjectFirmaModels.Models
                 }
             }
 
-            var enumsToHumanReadableString = ConvertEnumsToHumanReadableString(propertyName, objectStateEntry, auditLogEventType);
+            var enumsToHumanReadableString = ConvertEnumsToHumanReadableString(propertyName, objectStateEntry, auditLogEventType, dbContext);
             return enumsToHumanReadableString;
         }
 
@@ -388,12 +388,12 @@ namespace ProjectFirmaModels.Models
             return auditableEntity;
         }
 
-        private static string ConvertEnumsToHumanReadableString(string propertyName, ObjectStateEntry objectStateEntry, AuditLogEventType auditLogEventType)
+        private static string ConvertEnumsToHumanReadableString(string propertyName, ObjectStateEntry objectStateEntry, AuditLogEventType auditLogEventType, DatabaseEntities dbContext)
         {
             switch (propertyName)
             {
                 case PropertyNameProjectStageID:
-                    return ConvertProjectStageEnumToHumanReadableString(objectStateEntry, auditLogEventType);
+                    return ConvertProjectStageEnumToHumanReadableString(objectStateEntry, auditLogEventType, dbContext);
                 case PropertyNameProjectImageTimingID:
                     return ConvertProjectImageTimingEnumToHumanReadableString(objectStateEntry, auditLogEventType);
                 case PropertyNameProjectLocationAreaID:
@@ -407,7 +407,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// TODO: should be able to refactor these convert enum to human readable string functions to one call
         /// </summary>
-        private static string ConvertProjectStageEnumToHumanReadableString(ObjectStateEntry objectStateEntry, AuditLogEventType auditLogEventType)
+        private static string ConvertProjectStageEnumToHumanReadableString(ObjectStateEntry objectStateEntry, AuditLogEventType auditLogEventType, DatabaseEntities dbContext)
         {
             string oldProjectStageName;
 
@@ -421,10 +421,14 @@ namespace ProjectFirmaModels.Models
             else
             {
                 var oldPrimaryKeyValue = (int) originalValue;
-                oldProjectStageName = ProjectStage.AllLookupDictionary[oldPrimaryKeyValue].ProjectStageDisplayName;
+                var oldProjectStageCustomLabel =
+                    dbContext.ProjectStageCustomLabels.SingleOrDefault(x => x.ProjectStageID == oldPrimaryKeyValue);
+                oldProjectStageName = oldProjectStageCustomLabel != null ? $"{ProjectStage.AllLookupDictionary[oldPrimaryKeyValue].ProjectStageDisplayName} ({oldProjectStageCustomLabel.ProjectStageLabel})" : ProjectStage.AllLookupDictionary[oldPrimaryKeyValue].ProjectStageDisplayName;
             }
 
-            var newProjectStageName = ProjectStage.AllLookupDictionary[(int) currentValue].ProjectStageDisplayName;
+            var newProjectStageCustomLabel =
+                dbContext.ProjectStageCustomLabels.SingleOrDefault(x => x.ProjectStageID == (int)currentValue);
+            var newProjectStageName = newProjectStageCustomLabel != null ? $"{ProjectStage.AllLookupDictionary[(int)currentValue].ProjectStageDisplayName} ({newProjectStageCustomLabel.ProjectStageLabel})" : ProjectStage.AllLookupDictionary[(int) currentValue].ProjectStageDisplayName;
             return auditLogEventType.GetAuditStringForOperationType("Project Stage", oldProjectStageName, newProjectStageName);
         }
 
