@@ -27,7 +27,7 @@ SitkaAjax.ajax = function (config, callback, errorHandler) {
 
     jQuery
        .ajax(config)
-       .success(function(data, textStatus, jqXhr) { SitkaAjax.handleLoginRedirect(data, textStatus, jqXhr, callback); })
+       .done(function(data, textStatus, jqXhr) { SitkaAjax.handleLoginRedirect(data, textStatus, jqXhr, callback); })
        .fail(errorHandler);
 };
 

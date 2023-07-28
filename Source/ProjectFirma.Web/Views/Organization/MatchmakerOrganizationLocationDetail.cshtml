@@ -123,7 +123,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     var projectFirmaMap;
     var drawControl;
-    jQuery(document).ready(function() {
+    jQuery(function() {
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
        // The colors and many options set in the backend don't appear to actually affect the layers on the map
        var organizationBoundaryFeatureJsonObject = @Html.Raw(JObject.FromObject(ViewDataTyped.OrganizationBoundaryLayerGeoJson).ToString(Formatting.None));

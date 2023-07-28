@@ -24,6 +24,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ContactRelationshipType
@@ -34,7 +35,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
 
         public EditContactRelationshipTypeViewData()
         {
-            ProjectStageSelectListItems = ProjectStage.AllLookupDictionary.ToSelectListWithEmptyFirstRow(psk => psk.Key.ToString(CultureInfo.InvariantCulture), psk => psk.Value.ProjectStageDisplayName).ToList();
+            ProjectStageSelectListItems = ProjectStage.AllLookupDictionary.ToSelectListWithEmptyFirstRow(psk => psk.Key.ToString(CultureInfo.InvariantCulture), psk => psk.Value.GetProjectStageDisplayName()).ToList();
         }
     }
 }

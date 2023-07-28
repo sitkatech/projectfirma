@@ -24,27 +24,37 @@
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.EditProjectUpdateConfiguration
 
+<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js"></script>
 
-<script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>
 <script>
-    jQuery(document).ready(function () {
-        $('.sitkaDatePicker').datepicker({
+    //jQuery(function() {
+    //    $('.sitkaDatePicker').datepicker({
+    //        changeMonth: true,
+    //        changeYear: false,
+    //        dateFormat: 'M dd'
+    //    });
+    //});
+    jQuery(function () {
+        jQuery('.sitkaDatePicker').datepicker({
             changeMonth: true,
             changeYear: false,
-            dateFormat: 'M dd'
+            dateFormat: 'mm/dd/yy'
+        });
+
+        jQuery.datepicker.setDefaults({
+            dateFormat: 'mm/dd/yy'
         });
     });
-//    jQuery(document).ready(function () {
-//        $('.datepicker').datepicker();
-//    });
 </script>
 <style>
     .form-group .radio-inline {
         padding-top: 0;
     }
+
     .form-group input[type=text] {
         margin-top: -5px;
     }
+
     span.ui-datepicker-year {
         display: none;
     }
@@ -60,12 +70,14 @@
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateKickOffDate)</div>
             <div class="col-xs-8">
                 @Html.EditorFor(m => m.ProjectUpdateKickOffDate, "DateTimeNoYear")
+                <p class="smallExplanationText">Note - Reporting Period dates automatically carry over to future years.</p>
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateCloseOutDate)</div>
             <div class="col-xs-8">
                 @Html.EditorFor(m => m.ProjectUpdateCloseOutDate, "DateTimeNoYear")
+                <p class="smallExplanationText">Note - Reporting Period dates automatically carry over to future years.</p>
             </div>
         </div>
         <div class="form-group">
@@ -87,7 +99,7 @@
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateKickOffIntroContent)</div>
             <div class="col-xs-8">
                 @Html.CkEditorFor(m => m.ProjectUpdateKickOffIntroContent, CkEditorExtension.CkEditorToolbar.All, true, true, null)
-                <br/>
+                <br />
                 <p>The reminder email will also include a list of the recipient’s @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()) that require an update and do not have an update submitted yet. </p>
             </div>
         </div>
@@ -109,7 +121,7 @@
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectUpdateReminderInterval)</div>
             <div class="col-xs-8">
-                @Html.TextBoxFor(m => m.ProjectUpdateReminderInterval, new {@class = "form-control", style = "width:185px;"})
+                @Html.TextBoxFor(m => m.ProjectUpdateReminderInterval, new { @class = "form-control", style = "width:185px;" })
             </div>
         </div>
         <div class="form-group">
@@ -136,7 +148,7 @@
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.DaysBeforeCloseOutDateForReminder)</div>
             <div class="col-xs-8">
-                @Html.TextBoxFor(m => m.DaysBeforeCloseOutDateForReminder, new {@class = "form-control", style = "width:185px;"})
+                @Html.TextBoxFor(m => m.DaysBeforeCloseOutDateForReminder, new { @class = "form-control", style = "width:185px;" })
             </div>
         </div>
         <div class="form-group">

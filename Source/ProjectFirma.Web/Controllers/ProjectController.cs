@@ -37,7 +37,6 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
@@ -112,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
                         finalStatusReport.GetDeleteProjectProjectStatusUrl(), new List<string> { "btn", "btn-firma" }, true);
 
                     SetWarningForDisplay(
-                        $"The {projectEntityName} stage has been changed from Completed to {project.ProjectStage.ProjectStageDisplayName}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update here; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
+                        $"The {projectEntityName} stage has been changed from {ProjectStage.Completed.GetProjectStageDisplayName()} to {project.ProjectStage.GetProjectStageDisplayName()}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update here; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
                 }
             }
 
@@ -224,9 +223,6 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresSummaryViewData = !reportFinancialsByCostType ? BuildProjectExpendituresDetailViewData(project) : null;
             var projectExpendituresByCostTypeSummaryViewData = reportFinancialsByCostType ? BuildProjectExpendituresByCostTypeDetailViewData(project) : null;
 
-            var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            var technicalAssistanceRequestViewData = new TechnicalAssistanceRequestsDetailViewData(CurrentFirmaSession, project, canViewNotes, technicalAssistanceParameters);
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentFirmaSession);
             var projectNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(project.ProjectNotes),
@@ -300,7 +296,6 @@ namespace ProjectFirma.Web.Controllers
                 projectBudgetSummaryViewData,
                 projectBudgetsAnnualViewData,
                 projectBudgetsAnnualByCostTypeViewData,
-                technicalAssistanceRequestViewData,
                 performanceMeasureExpectedsSummaryViewData,
                 performanceMeasureReportedValuesGroupedViewData,
                 projectExpendituresSummaryViewData,
@@ -501,9 +496,8 @@ namespace ProjectFirma.Web.Controllers
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
                 googleChartType, googleChartDataTable, null);
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
-            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
             var viewData = new BackwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
-                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes, factSheetPdfEnum);
+                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, withCustomAttributes, factSheetPdfEnum);
             return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
         }
 
@@ -528,10 +522,9 @@ namespace ProjectFirma.Web.Controllers
                 googleChartType,
                 googleChartDataTable, null);
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
-            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
 
             var viewData = new ForwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
-                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes, factSheetPdfEnum);
+                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, withCustomAttributes, factSheetPdfEnum);
             return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
 
@@ -1079,7 +1072,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var proposalLabel = FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
-                ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {proposalLabel} through this page because it is pending approval. You can <a href='{projectCreateUrl}'>review, edit, or approve</a> the proposal."
+                ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {proposalLabel} through this page because it is pending approval. You can <a href='{projectCreateUrl}'>review, edit, or approve</a> the {proposalLabel}."
                 : $"You don't have permission to edit this {proposalLabel}.";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, false);

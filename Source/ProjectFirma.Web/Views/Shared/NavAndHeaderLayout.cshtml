@@ -243,15 +243,15 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             }
 
-            jQuery(document).ready(function () {
+            jQuery(function() {
                 
                 jQuery(".btn-firma").each(function () {
                     this.addEventListener('click', autoAdvance);
                 });
 
-                function autoAdvance() {
+                function autoAdvance(event) {
                     var element = jQuery(this);
-                    this.preventDefault();
+
                     if (element.attr('type') == 'submit') {
                         jQuery(window).off("beforeunload");
                         var autoAdvanceValue = element.attr('value') || "true";
@@ -261,7 +261,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 };
 
                 var pfFinder = jQuery("#@SearchResults.ProjectSearchInputTextboxID");
-                jQuery("#searchButton").click(function()
+                jQuery("#searchButton").on("click",function()
                 {
                     search(pfFinder[0], 1);
                 });

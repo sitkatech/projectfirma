@@ -27,14 +27,14 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <script type="text/javascript">
     // <![CDATA[
-    jQuery(document).ready(function () {
+    jQuery(function () {
         
 
         var evaluationStatusInputID = @Html.IdFor(x => x.EvaluationStatusID);
         var evaluationStatusDraftID = @((int)EvaluationStatusEnum.Draft);
         console.log("evaluationStatusDraftID:" + evaluationStatusDraftID);
            
-        jQuery(evaluationStatusInputID).change(function () {
+        jQuery(evaluationStatusInputID).on("change", function () {
             console.log("changeEven:" + JSON.stringify(jQuery(this)));
 
             console.log("thisVal:" + jQuery(this).val());
@@ -47,7 +47,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 jQuery(".conditionallyRequiredDateLabel").find("label sup").show();
             }
 
-        }).change();
+        }).trigger("change");
 
         
 

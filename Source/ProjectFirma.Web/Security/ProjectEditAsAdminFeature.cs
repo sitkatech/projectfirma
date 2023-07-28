@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Security
             if (isProposal)
             {
                 return new PermissionCheckResult(
-                    $"You cannot edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it is in the Proposal stage.");
+                    $"You cannot edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it is in the {ProjectStage.Proposal.GetProjectStageDisplayName()} stage.");
             }
             if (isPending)
             {

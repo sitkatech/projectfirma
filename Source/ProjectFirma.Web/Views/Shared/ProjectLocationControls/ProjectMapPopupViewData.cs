@@ -40,6 +40,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string ClassificationDisplayNamePluralized { get; private set; }
 
         public string DisplayName { get; set; }
+
+        public string PrimaryContactOrganizationRelationshipType { get; set; }
+        public ProjectFirmaModels.Models.Organization PrimaryContactOrganization { get; set; }
         public ProjectFirmaModels.Models.ProjectImage KeyPhoto { get; set; }
         public string Duration { get; set; }
         public ProjectStage ProjectStage { get; set; }
@@ -61,6 +64,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             KeyPhoto = project.GetKeyPhoto();
             Duration = project.GetDuration();
             ProjectStage = project.ProjectStage;
+            PrimaryContactOrganization = project.GetPrimaryContactOrganization();
+            PrimaryContactOrganizationRelationshipType = project.GetPrimaryContactOrganizationRelationShipType();
+
             TaxonomyLeaf = project.TaxonomyLeaf;
             EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "Unknown";
             
@@ -70,7 +76,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
             OfferFactSheetLink = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
             FactSheetUrl = project.GetFactSheetUrl();
-            DetailLinkDescriptor = project.IsProposal() ? $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {(MultiTenantHelpers.ReportFinancialsAtProjectLevel() ? "expenditures & results" : "results")}, see the";
+            DetailLinkDescriptor = project.IsProposal() ? $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is a {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}. For description and expected results, see the" : $"For {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {(MultiTenantHelpers.ReportFinancialsAtProjectLevel() ? "expenditures & results" : "results")}, see the";
             InitializeDisplayNames();
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 

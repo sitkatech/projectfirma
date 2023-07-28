@@ -47,6 +47,19 @@ namespace ProjectFirma.Web.Models
             return UrlTemplate.MakeHrefString(mapServiceUri.ToString(), mapServiceUri.ToString());
         }
 
+        public static string GetLegendGraphicJsonUrl(this GeospatialAreaType geospatialAreaType)
+        {
+            var mapServiceUri = new UriBuilder(geospatialAreaType.MapServiceUrl());
+
+            NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+            queryString["request"] = "GetLegendGraphic";
+            queryString["layer"] = geospatialAreaType.GeospatialAreaLayerName;
+            queryString["format"] = "application/json";
+            mapServiceUri.Query = queryString.ToString();
+
+            return mapServiceUri.ToString();
+        }
+
         public static readonly UrlTemplate<int> EditMapLayerUrlTemplate = new UrlTemplate<int>(SitkaRoute<MapLayerController>.BuildUrlFromExpression(t => t.EditGeospatialAreaMapLayer(UrlTemplate.Parameter1Int)));
         public static string GetEditMapLayerUrl(this GeospatialAreaType geospatialAreaType)
         {

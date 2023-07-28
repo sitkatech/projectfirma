@@ -16,7 +16,6 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         private List<ProjectContact> ProjectContacts { get; set; }
         private List<ProjectOrganization> ProjectOrganizations { get; set; }
         private List<ProjectImage> ProjectImages { get; set; }
-        private List<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; set; }
 
 
         public string ProjectName { get; set; }
@@ -55,7 +54,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             ProjectName = Project.ProjectName;
             ProjectUrl = GetProjectUrlForReport(project);
             PrimaryContactOrganization = Project.GetPrimaryContactOrganization() != null ? new ReportTemplateOrganizationModel(Project.GetPrimaryContactOrganization()) : null;
-            ProjectStage = Project.ProjectStage.ProjectStageDisplayName;
+            ProjectStage = Project.ProjectStage.GetProjectStageDisplayName();
             NumberOfReportedPerformanceMeasures = Project.PerformanceMeasureActuals.Count;
             ProjectPrimaryContact = Project.GetPrimaryContact() != null ? new ReportTemplatePersonModel(Project.GetPrimaryContact()) : null;
             PlanningDesignStartYear = ProjectModelExtensions.GetPlanningDesignStartYear(Project);
@@ -181,13 +180,6 @@ namespace ProjectFirma.Web.ReportTemplates.Models
                 .ToList();
         }
 
-        public List<ReportTemplateProjectTechnicalAssistanceRequestModel> GetProjectTechnicalAssistanceRequests()
-        {
-            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            return Project.TechnicalAssistanceRequests.Select(x => new ReportTemplateProjectTechnicalAssistanceRequestModel(x, technicalAssistanceParameters))
-                .OrderByDescending(x => x.FiscalYear)
-                .ToList();
-        }
 
         private DateTime GetStartOfWeek(DateTime dt, DayOfWeek startOfWeek)
         {

@@ -21,5 +21,5 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @model DateTime?
 @{
-    @Html.TextBox("", "", Model.HasValue ? Model.Value.ToStringDateMonthDay() : null, new {@class = "sitkaDatePicker form-control", style="width:auto;"})
+    @Html.TextBox("", "", Model.HasValue ? Model.Value.ToStringDate() : null, new {@class = "sitkaDatePicker form-control", style="width:auto;"})
 }

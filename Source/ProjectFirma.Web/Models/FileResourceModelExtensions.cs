@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Models
     public static class FileResourceModelExtensions
     {
         public static int MaxUploadFileSizeInBytes = FirmaWebConfiguration.MaximumAllowedUploadFileSize;
+        public static int MaxUploadImageSizeInBytes = FirmaWebConfiguration.MaximumAllowedUploadImageSize;
+
 
         public static readonly UrlTemplate<string> FileResourceByGuidUrlTemplate =
             new UrlTemplate<string>(SitkaRoute<FileResourceController>.BuildUrlFromExpression(t => t.DisplayResource(UrlTemplate.Parameter1String)));

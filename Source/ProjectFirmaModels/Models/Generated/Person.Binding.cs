@@ -63,8 +63,6 @@ namespace ProjectFirmaModels.Models
             this.ReleaseNotesWhereYouAreTheCreatePerson = new HashSet<ReleaseNote>();
             this.ReleaseNotesWhereYouAreTheUpdatePerson = new HashSet<ReleaseNote>();
             this.SupportRequestLogsWhereYouAreTheRequestPerson = new HashSet<SupportRequestLog>();
-            this.TechnicalAssistanceRequests = new HashSet<TechnicalAssistanceRequest>();
-            this.TechnicalAssistanceRequestUpdates = new HashSet<TechnicalAssistanceRequestUpdate>();
             this.TenantAttributesWhereYouAreThePrimaryContactPerson = new HashSet<TenantAttribute>();
         }
 
@@ -146,7 +144,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AuditLogs.Any() || DocumentLibraryDocumentsWhereYouAreTheLastUpdatePerson.Any() || EvaluationsWhereYouAreTheCreatePerson.Any() || FileResourceInfosWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || (PersonLoginAccount != null) || PersonSettingGridColumnSettings.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectsWhereYouAreTheSubmittedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
+            return AuditLogs.Any() || DocumentLibraryDocumentsWhereYouAreTheLastUpdatePerson.Any() || EvaluationsWhereYouAreTheCreatePerson.Any() || FileResourceInfosWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || (PersonLoginAccount != null) || PersonSettingGridColumnSettings.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectsWhereYouAreTheSubmittedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
         }
 
         /// <summary>
@@ -346,16 +344,6 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(SupportRequestLog).Name);
             }
 
-            if(TechnicalAssistanceRequests.Any())
-            {
-                dependentObjects.Add(typeof(TechnicalAssistanceRequest).Name);
-            }
-
-            if(TechnicalAssistanceRequestUpdates.Any())
-            {
-                dependentObjects.Add(typeof(TechnicalAssistanceRequestUpdate).Name);
-            }
-
             if(TenantAttributesWhereYouAreThePrimaryContactPerson.Any())
             {
                 dependentObjects.Add(typeof(TenantAttribute).Name);
@@ -366,7 +354,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(DocumentLibraryDocument).Name, typeof(Evaluation).Name, typeof(FileResourceInfo).Name, typeof(FirmaSession).Name, typeof(ImportExternalProjectStaging).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(PersonLoginAccount).Name, typeof(PersonSettingGridColumnSetting).Name, typeof(PersonStewardGeospatialArea).Name, typeof(PersonStewardOrganization).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(Project).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ReleaseNote).Name, typeof(SupportRequestLog).Name, typeof(TechnicalAssistanceRequest).Name, typeof(TechnicalAssistanceRequestUpdate).Name, typeof(TenantAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(DocumentLibraryDocument).Name, typeof(Evaluation).Name, typeof(FileResourceInfo).Name, typeof(FirmaSession).Name, typeof(ImportExternalProjectStaging).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(PersonLoginAccount).Name, typeof(PersonSettingGridColumnSetting).Name, typeof(PersonStewardGeospatialArea).Name, typeof(PersonStewardOrganization).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(Project).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ReleaseNote).Name, typeof(SupportRequestLog).Name, typeof(TenantAttribute).Name};
 
 
         /// <summary>
@@ -581,16 +569,6 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in TechnicalAssistanceRequests.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in TechnicalAssistanceRequestUpdates.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
             foreach(var x in TenantAttributesWhereYouAreThePrimaryContactPerson.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -658,8 +636,6 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ReleaseNote> ReleaseNotesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<ReleaseNote> ReleaseNotesWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<SupportRequestLog> SupportRequestLogsWhereYouAreTheRequestPerson { get; set; }
-        public virtual ICollection<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; set; }
-        public virtual ICollection<TechnicalAssistanceRequestUpdate> TechnicalAssistanceRequestUpdates { get; set; }
         public virtual ICollection<TenantAttribute> TenantAttributesWhereYouAreThePrimaryContactPerson { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }

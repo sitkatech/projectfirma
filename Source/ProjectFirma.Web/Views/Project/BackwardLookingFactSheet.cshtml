@@ -86,7 +86,7 @@
          * and seeing as how we're already using jQuery on this page, I felt it was most efficient to do it like this.
          * If anyone at all has any comments or suggestions, feel free to contact me! - SMG <stewart.gordon@sitkatech.com>
          */
-        jQuery(document).ready(function () {
+        jQuery(function () {
             var factSheetCustomAttributeInput = jQuery('#FactSheetContainsCustomAttributes');
             var customAttributesRow = jQuery('#CustomAttributesRow');
 
@@ -227,7 +227,7 @@
                <strong>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()</strong>
             </div>
             <div class="col-xs-12 col-sm-8 col-md-9">
-               @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
+               @ViewDataTyped.Project.ProjectStage.GetProjectStageDisplayName()
             </div>
          </div>
          <div class="row">
@@ -304,7 +304,7 @@
              @if (ViewDataTyped.ShowExpectedPerformanceMeasures)
              {
                  <h4>Targeted @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()</h4>
-                 if (ViewDataTyped.PerformanceMeasureExpectedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
+                 if (ViewDataTyped.PerformanceMeasureExpectedValues.Any())
                  {
                      <ul>
                          @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
@@ -339,13 +339,6 @@
                                  }
                              }
                          }
-                         @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
-                         {
-                             <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
-                         }
                      </ul>
                  }
                  else
@@ -356,7 +349,7 @@
              else
              {
                  <h4>Key Accomplishments</h4>
-                 if (ViewDataTyped.PerformanceMeasureReportedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
+                 if (ViewDataTyped.PerformanceMeasureReportedValues.Any())
                  {
                      <ul>
                          @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
@@ -384,13 +377,6 @@
                                      }
                                  }
                              }
-                         }
-                         @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
-                         {
-                             <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
                          }
                      </ul>
                  }
@@ -461,7 +447,7 @@
                    }
                </div>
                <script type="text/javascript">
-                   jQuery(document).ready(function()
+                   jQuery(function()
                    {
                        var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
                        var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);

@@ -35,7 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <script type="text/javascript">
             // <![CDATA[
-            jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
+            jQuery(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
             // ]]>
         </script>
     }
@@ -44,7 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row">
     <div class="col-xs-12">
         <p>
-            Update your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s basic information here. If this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() is complete, be sure to set the stage to "Complete" or "Post-Implementation"
+            Update your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s basic information here. If this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() is complete, be sure to set the stage to "@ProjectStage.Completed.GetProjectStageDisplayName()" or "@ProjectStage.PostImplementation.GetProjectStageDisplayName()"
             from the @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel() dropdown. Changes made here will not take effect until a review approves your updates.
         </p>
     </div>
@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                @ViewDataTyped.ProjectUpdate.ProjectStage.ProjectStageDisplayName
+                @ViewDataTyped.ProjectUpdate.ProjectStage.GetProjectStageDisplayName()
             }
             <div>
                 <p class="systemText">To change the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() stage to a stage not listed, @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null).</p>

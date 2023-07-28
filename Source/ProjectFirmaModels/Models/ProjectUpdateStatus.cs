@@ -37,7 +37,6 @@ namespace ProjectFirmaModels.Models
         public bool IsOrganizationsUpdated { get; }
         public bool IsContactsUpdated { get; }
         public bool IsExpectedPerformanceMeasuresUpdated { get; }
-        public bool IsTechnicalAssistanceRequestsUpdated { get;  }
         public bool IsCustomAttributesUpdated { get; }
         public Dictionary<int, bool> ClassificationSystemIsUpdated { get; }
         public bool IsBulkSetSpatialInformationUpdated { get; }
@@ -53,7 +52,6 @@ namespace ProjectFirmaModels.Models
             bool isNotesUpdated,
             bool isOrganizationsUpdated, 
             bool isExpectedPerformanceMeasuresUpdated,
-            bool isTechnicalAssistanceRequestsUpdated,
             bool isContactsUpdated,
             bool isCustomAttributesUpdated,
             Dictionary<int, bool> classificationSystemIsUpdated)
@@ -69,7 +67,6 @@ namespace ProjectFirmaModels.Models
             IsNotesUpdated = isNotesUpdated;
             IsOrganizationsUpdated = isOrganizationsUpdated;
             IsExpectedPerformanceMeasuresUpdated = isExpectedPerformanceMeasuresUpdated;
-            IsTechnicalAssistanceRequestsUpdated = isTechnicalAssistanceRequestsUpdated;
             IsContactsUpdated = isContactsUpdated;
             IsCustomAttributesUpdated = isCustomAttributesUpdated;
             ClassificationSystemIsUpdated = classificationSystemIsUpdated;

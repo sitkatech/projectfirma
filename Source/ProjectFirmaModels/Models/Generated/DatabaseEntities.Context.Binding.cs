@@ -180,6 +180,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectStageCustomLabelConfiguration());
             modelBuilder.Configurations.Add(new ProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectTagConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateConfiguration());
@@ -198,11 +199,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new TaxonomyLeafPerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new TaxonomyTrunkConfiguration());
-            modelBuilder.Configurations.Add(new TechnicalAssistanceParameterConfiguration());
-            modelBuilder.Configurations.Add(new TechnicalAssistanceRequestConfiguration());
-            modelBuilder.Configurations.Add(new TechnicalAssistanceRequestUpdateConfiguration());
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
+            modelBuilder.Configurations.Add(new TrainingVideoRoleConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
@@ -487,6 +486,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get { return AllProjectRelevantCostTypeUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectStageCustomLabel> AllProjectStageCustomLabels { get; set; }
+        public virtual IQueryable<ProjectStageCustomLabel> ProjectStageCustomLabels { get { return AllProjectStageCustomLabels.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectStatus> AllProjectStatuses { get; set; }
         public virtual IQueryable<ProjectStatus> ProjectStatuses { get { return AllProjectStatuses.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
@@ -522,14 +523,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<TaxonomyLeaf> TaxonomyLeafs { get { return AllTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TaxonomyTrunk> AllTaxonomyTrunks { get; set; }
         public virtual IQueryable<TaxonomyTrunk> TaxonomyTrunks { get { return AllTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<TechnicalAssistanceParameter> AllTechnicalAssistanceParameters { get; set; }
-        public virtual IQueryable<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get { return AllTechnicalAssistanceParameters.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<TechnicalAssistanceRequest> AllTechnicalAssistanceRequests { get; set; }
-        public virtual IQueryable<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get { return AllTechnicalAssistanceRequests.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<TechnicalAssistanceRequestUpdate> AllTechnicalAssistanceRequestUpdates { get; set; }
-        public virtual IQueryable<TechnicalAssistanceRequestUpdate> TechnicalAssistanceRequestUpdates { get { return AllTechnicalAssistanceRequestUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<TrainingVideoRole> AllTrainingVideoRoles { get; set; }
+        public virtual IQueryable<TrainingVideoRole> TrainingVideoRoles { get { return AllTrainingVideoRoles.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
@@ -1150,6 +1147,9 @@ namespace ProjectFirmaModels.Models
                 case "Project":
                     return Projects.GetProject(primaryKey);
 
+                case "ProjectStageCustomLabel":
+                    return ProjectStageCustomLabels.GetProjectStageCustomLabel(primaryKey);
+
                 case "ProjectStage":
                     var projectStage = ProjectStage.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectStage, "ProjectStage", primaryKey);
@@ -1254,20 +1254,6 @@ namespace ProjectFirmaModels.Models
                 case "TaxonomyTrunk":
                     return TaxonomyTrunks.GetTaxonomyTrunk(primaryKey);
 
-                case "TechnicalAssistanceParameter":
-                    return TechnicalAssistanceParameters.GetTechnicalAssistanceParameter(primaryKey);
-
-                case "TechnicalAssistanceRequest":
-                    return TechnicalAssistanceRequests.GetTechnicalAssistanceRequest(primaryKey);
-
-                case "TechnicalAssistanceRequestUpdate":
-                    return TechnicalAssistanceRequestUpdates.GetTechnicalAssistanceRequestUpdate(primaryKey);
-
-                case "TechnicalAssistanceType":
-                    var technicalAssistanceType = TechnicalAssistanceType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(technicalAssistanceType, "TechnicalAssistanceType", primaryKey);
-                    return technicalAssistanceType;
-
                 case "TenantAttribute":
                     return TenantAttributes.GetTenantAttribute(primaryKey);
 
@@ -1275,6 +1261,9 @@ namespace ProjectFirmaModels.Models
                     var tenant = Tenant.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(tenant, "Tenant", primaryKey);
                     return tenant;
+
+                case "TrainingVideoRole":
+                    return TrainingVideoRoles.GetTrainingVideoRole(primaryKey);
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);

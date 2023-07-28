@@ -45,8 +45,6 @@ namespace ProjectFirma.Web.Models
                     return true;
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return true;
-                case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
-                    return true;
                 case ProjectUpdateSectionEnum.BulkSetSpatialInformation:
                     return true;
                 case ProjectUpdateSectionEnum.PartnerFinder:
@@ -101,8 +99,6 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.AttachmentsAndNotes(project));
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedPerformanceMeasures(project));
-                case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
-                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.TechnicalAssistanceRequests(project));
                 case ProjectUpdateSectionEnum.BulkSetSpatialInformation:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.BulkSetSpatialInformation(project));
                 case ProjectUpdateSectionEnum.PartnerFinder:

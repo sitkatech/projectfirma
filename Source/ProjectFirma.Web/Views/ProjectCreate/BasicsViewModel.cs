@@ -209,18 +209,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ImplementationStartYear == null && ProjectStageID != ProjectStage.Terminated.ProjectStageID && ProjectStageID != ProjectStage.Deferred.ProjectStageID)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(
-                    $"Implementation year is required when the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} stage is not Deferred or Terminated",
+                    $"Implementation year is required when the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} stage is not {ProjectStage.Deferred.GetProjectStageDisplayName()} or {ProjectStage.Terminated.GetProjectStageDisplayName()}",
                     m => m.ImplementationStartYear);
             }
 
             if (ProjectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
             {
-                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Completed stage, the Completion year is required", m => m.CompletionYear);
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the {ProjectStage.Completed.GetProjectStageDisplayName()} stage, the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} is required", m => m.CompletionYear);
             }
 
             if (ProjectStageID == ProjectStage.PostImplementation.ProjectStageID && !CompletionYear.HasValue)
             {
-                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Post-Implementation stage, the Completion year is required", m => m.CompletionYear);
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the {ProjectStage.PostImplementation.GetProjectStageDisplayName()} stage, the {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} is required", m => m.CompletionYear);
             }
 
             if ((ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && CompletionYear > currentYear)
@@ -231,7 +231,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ProjectStageID == ProjectStage.PlanningDesign.ProjectStageID && PlanningDesignStartYear > currentYear)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(
-                    $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Planning / Design stage, the Planning / Design start year must be less than or equal to the current year",
+                    $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the {ProjectStage.PlanningDesign.GetProjectStageDisplayName()} stage, the {FieldDefinitionEnum.PlanningDesignStartYear.ToType().GetFieldDefinitionLabel()} must be less than or equal to the current year",
                     m => m.PlanningDesignStartYear);
             }
 

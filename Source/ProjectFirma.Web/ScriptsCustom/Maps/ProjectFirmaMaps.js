@@ -29,7 +29,7 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     this.MapDivId = mapInitJson.MapDivID;
 
     firmaMap.mapLayers = [];
-    firmaMap.externalFeatureLayers = mapInitJson.ExternalMapLayers.filter(function(x) {
+    firmaMap.externalFeatureLayers = mapInitJson.ExternalMapLayerSimples.filter(function(x) {
         return !x.IsTiledMapService;
     });
 
@@ -91,16 +91,16 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     // Add layers and map controls
 
     // Add external tile layers from ArcGIS Online
-    for (var i = 0; i < mapInitJson.ExternalMapLayers.length; ++i) {
-        var layerConfig = mapInitJson.ExternalMapLayers[i];
+    for (var i = 0; i < mapInitJson.ExternalMapLayerSimples.length; ++i) {
+        var layerConfig = mapInitJson.ExternalMapLayerSimples[i];
         if (layerConfig.IsTiledMapService) {
             firmaMap.addTiledLayerFromAGOL(layerConfig, overlayLayers);
         }
     }
 
     // Add external vector layers from ArcGIS Online 
-    for (var i = 0; i < mapInitJson.ExternalMapLayers.length; ++i) {
-        var layerConfig = mapInitJson.ExternalMapLayers[i];
+    for (var i = 0; i < mapInitJson.ExternalMapLayerSimples.length; ++i) {
+        var layerConfig = mapInitJson.ExternalMapLayerSimples[i];
         if (!layerConfig.IsTiledMapService) {
             firmaMap.addVectorLayerFromAGOL(layerConfig, overlayLayers);
         }

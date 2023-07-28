@@ -74,7 +74,10 @@
                     <dt><strong>Duration:</strong></dt>
                     <dd>@ViewDataTyped.Duration</dd>
                     <dt><strong>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel():</strong></dt>
-                    <dd>@ViewDataTyped.ProjectStage.ProjectStageDisplayName</dd>
+                    <dd>@ViewDataTyped.ProjectStage.GetProjectStageDisplayName()</dd>
+                    <dt><strong>@ViewDataTyped.PrimaryContactOrganizationRelationshipType:</strong></dt>
+                    <dd>@ViewDataTyped.PrimaryContactOrganization.GetDisplayName()</dd>
+
                     @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Trunk)
                     {
                         <dt><strong>@ViewDataTyped.TaxonomyTrunkDisplayName:</strong></dt>
@@ -94,7 +97,7 @@
                         <dt><strong>@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel():</strong></dt>
                         <dd>@ViewDataTyped.EstimatedTotalCost</dd>
                     }
-                    
+
                     @foreach (var classificationSystem in ViewDataTyped.ClassificationsBySystem)
                     {
                         <dt><strong>@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem.Key):</strong></dt>

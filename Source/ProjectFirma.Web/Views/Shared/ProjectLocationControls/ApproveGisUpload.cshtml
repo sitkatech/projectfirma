@@ -94,7 +94,7 @@
 </div>
 <div id="gisDataToPost"></div>
 <script type="text/javascript" language="javascript">
-    jQuery(document).ready(function()
+    jQuery(function()
     {
         var mapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.MapInitJson).ToString(Formatting.None));
         var map = new ProjectFirmaMaps.Map(mapInitJson);
@@ -131,8 +131,8 @@
         for (var j = 0; j < projectLocationStagingIDs.length; ++j)
         {
             var projectLocationStagingId = projectLocationStagingIDs[j];
-            jQuery("#SelectedProperty_" + projectLocationStagingId).change(updateFeatureCollectionJson);
-            jQuery("#ShouldImport_" + projectLocationStagingId).click(updateFeatureCollectionJson);
+            jQuery("#SelectedProperty_" + projectLocationStagingId).on("change",updateFeatureCollectionJson);
+            jQuery("#ShouldImport_" + projectLocationStagingId).on("click",updateFeatureCollectionJson);
         }
     });
 </script>

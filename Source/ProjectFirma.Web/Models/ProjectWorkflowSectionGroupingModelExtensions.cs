@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
             return classificationSystems.Select((classificationSystem, i) => new ProjectSectionSimple(
                 classificationSystem.ClassificationSystemNamePluralized, ProjectCreateSection.Classifications.SortOrder + i, project != null,
                 ProjectWorkflowSectionGrouping.Classifications,
-                ProjectCreateSection.Classifications.GetSectionUrl(project, classificationSystem.ClassificationSystemID),
+                ProjectCreateSection.Basics.IsComplete(project) ? ProjectCreateSection.Classifications.GetSectionUrl(project, classificationSystem.ClassificationSystemID) : null,
                 !ignoreStatus && ProjectCreateSection.Classifications.IsComplete(project, classificationSystem.ClassificationSystemID),
                 false)).ToList();
         }
@@ -127,8 +127,7 @@ namespace ProjectFirma.Web.Models
                                 new ProjectSectionSimple(geospatialAreaType.GeospatialAreaTypeNamePluralized,
                                     maxSortOrder + index + 1,
                                     true, projectWorkflowSectionGrouping,
-                                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(y =>
-                                        y.EditGeospatialArea(project, geospatialAreaType)),
+                                    ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(y => y.EditGeospatialArea(project, geospatialAreaType)) : null,
                                     !ignoreStatus && geospatialAreaType.IsProjectGeospatialAreaValid(project), false));
 
                     }
@@ -209,11 +208,7 @@ namespace ProjectFirma.Web.Models
                     var additionalDataProjectUpdateSections = projectWorkflowSectionGrouping.ProjectUpdateSections.ToList();
 
                     var sections = GetProjectUpdateSectionsImpl(projectUpdateBatch, additionalDataProjectUpdateSections, projectUpdateStatus, ignoreStatus);
-                    // Remove Technical Assistance Requests for all tenants except Idaho
-                    if (!MultiTenantHelpers.UsesTechnicalAssistanceParameters())
-                    {
-                        sections = sections.Where(x => x.SectionDisplayName != ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName).ToList();
-                    }
+
                     return sections;
 
                 // Partner Finder

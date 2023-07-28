@@ -31,6 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
         public readonly ViewDataForAngularClass ViewDataForAngular;
+        public SectionCommentsViewData SectionCommentsViewData { get; }
 
         public ExternalLinksViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, ViewDataForAngularClass viewDataForAngular, EntityExternalLinksViewData entityExternalLinksViewData, string refreshUrl, string diffUrl)
             : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.ExternalLinks.ProjectUpdateSectionDisplayName)
@@ -39,6 +40,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EntityExternalLinksViewData = entityExternalLinksViewData;
             RefreshUrl = refreshUrl;
             DiffUrl = diffUrl;
+
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExternalLinksComment, projectUpdateBatch.IsReturned());
         }
 
         public class ViewDataForAngularClass

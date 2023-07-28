@@ -67,6 +67,7 @@
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\DocumentLibraryController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
+    <Compile Include="Controllers\ProjectStageCustomLabelController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\TrainingVideoController.cs" />
@@ -83,6 +84,9 @@
     <Compile Include="GridToExcel\ExcelXmlParser.cs" />
     <Compile Include="GridToExcel\RGBColor.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
+    <Compile Include="Models\ExternalMapLayerSimple.cs" />
+    <Compile Include="Models\ProjectStageModelExtensions.cs" />
+    <Compile Include="Models\ProjectStageSimple.cs" />
     <Compile Include="Models\TrainingVideoModelExtensions.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
@@ -105,7 +109,6 @@
     <Compile Include="Controllers\ProjectStatusController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
-    <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
@@ -143,7 +146,6 @@
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectImageModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectStatusModel.cs" />
-    <Compile Include="ReportTemplates\Models\ReportTemplateProjectTechnicalAssistanceRequestModel.cs" />
     <Compile Include="ReportTemplates\ProjectFirmaDocxDocument.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateBaseModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectModel.cs" />
@@ -261,8 +263,6 @@
     <Compile Include="Models\TaxonomyTierHelpers.cs" />
     <Compile Include="Models\TaxonomyTierSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
-    <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
-    <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
@@ -294,7 +294,6 @@
     <Compile Include="Security\ReportTemplateGenerateReportsFeature.cs" />
     <Compile Include="Security\ReportTemplateManageFeature.cs" />
     <Compile Include="Security\ReportTemplateViewListFeature.cs" />
-    <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Security\UserAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectSimpleLocationCoordinates.cs" />
@@ -342,6 +341,10 @@
     <Compile Include="Views\Evaluation\Index.cs" />
     <Compile Include="Views\Evaluation\IndexGridSpec.cs" />
     <Compile Include="Views\Evaluation\IndexViewData.cs" />
+    <Compile Include="Views\ProjectStageCustomLabel\Edit.cs" />
+    <Compile Include="Views\ProjectStageCustomLabel\EditViewData.cs" />
+    <Compile Include="Views\ProjectStageCustomLabel\EditViewModel.cs" />
+    <Compile Include="Views\ProjectStageCustomLabel\ProjectStageGridSpec.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
@@ -389,6 +392,7 @@
     <Compile Include="Views\PerformanceMeasureGroup\PerformanceMeasureGroupGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\Manage.cs" />
     <Compile Include="Views\PerformanceMeasure\ManageViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ExternalLinksViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExternalLinks.cs" />
     <Compile Include="Views\ProjectCreate\ExternalLinksViewData.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
@@ -407,10 +411,13 @@
     <Compile Include="Views\ProjectFinder\ProjectFinderOrganization.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderOrganizationViewData.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderGridSpec.cs" />
+    <Compile Include="Views\ProjectUpdate\PhotosViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\Classifications.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ExternalLinksViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
@@ -539,9 +546,6 @@
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewModel.cs" />
-    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
-    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
@@ -614,10 +618,6 @@
     <Compile Include="Views\Home\TrainingVideo.cs" />
     <Compile Include="Views\Home\ReleaseNotesViewData.cs" />
     <Compile Include="Views\Home\TrainingVideoViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cs" />
-    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameterSimple.cs" />
-    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewModel.cs" />
     <Compile Include="ScheduledJobs\ProjectUpdateNotificationHelper.cs" />
     <Content Include="..\NuGetPackages\PhantomJS.2.0.0\tools\phantomjs\phantomjs.exe">
       <Link>phantomjs.exe</Link>
@@ -711,9 +711,17 @@
     <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
     <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
     <Content Include="Content\themes\base\menu.css" />
     <Content Include="Content\themes\base\progressbar.css" />
     <Content Include="Content\themes\base\resizable.css" />
@@ -742,21 +750,25 @@
     <Content Include="Content\Training\ProjectFirma-Example.gdb.zip" />
     <Content Include="Content\Bootstrap\firma\ncrp.theme.less" />
     <Content Include="Content\Bootstrap\firma\ssmp.theme.less" />
-    <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\combo-tree\comboTreePlugin.js" />
-    <Content Include="Scripts\jquery-1.11.0.js" />
-    <Content Include="Scripts\jquery-1.11.0.min.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.js" />
-    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.7.0.js" />
+    <Content Include="Scripts\jquery-3.7.0.min.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
+    <Content Include="Scripts\jquery-ui-1.13.2.js" />
+    <Content Include="Scripts\jquery-ui-1.13.2.min.js" />
     <Content Include="Scripts\jquery.fancybox-buttons.js" />
     <Content Include="Scripts\jquery.fancybox-media.js" />
     <Content Include="Scripts\jquery.fancybox-thumbs.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
     <Content Include="Scripts\jquery.fancybox.pack.js" />
     <Content Include="Scripts\jquery.mousewheel-3.0.6.pack.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.7.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -785,7 +797,6 @@
     <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
-    <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
     <Content Include="Views\Help\RequestSupport.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributeType\Detail.cshtml" />
@@ -813,7 +824,6 @@
     <Content Include="Views\AttachmentType\EditAttachmentType.cshtml" />
     <Content Include="Views\Organization\EditPrimaryContact.cshtml" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\DocumentLibrary\Index.cshtml" />
     <Content Include="Views\DocumentLibrary\Edit.cshtml" />
     <Content Include="Views\DocumentLibrary\Detail.cshtml" />
@@ -834,6 +844,7 @@
     <Content Include="Views\CustomPage\EditSortOrderInMenuGroup.cshtml" />
     <Content Include="Views\PerformanceMeasure\Manage.cshtml" />
     <Content Include="Views\PerformanceMeasureGroup\Edit.cshtml" />
+    <Content Include="Views\ProjectStageCustomLabel\Edit.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -947,7 +958,6 @@
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnual.cshtml" />
-    <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\ProjectCreate\Contacts.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cshtml" />
@@ -1039,14 +1049,6 @@
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewData.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewModel.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequestsViewModel.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReportGridSpec.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequestsViewData.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReportViewData.cs" />
-    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetailViewData.cs" />
     <Compile Include="Views\TrainingVideo\ManageTrainingVideos.cs" />
     <Compile Include="Views\TrainingVideo\ManageTrainingVideosGridSpec.cs" />
     <Compile Include="Views\TrainingVideo\ManageTrainingVideosViewData.cs" />
@@ -1218,12 +1220,6 @@
     <Content Include="Content\img\WashingtonDepartmentOfNaturalResources\safari-pinned-tab.svg" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.css" />
     <Content Include="Content\leaflet\leaflet.groupedlayercontrol\leaflet.groupedlayercontrol.min.js" />
-    <Content Include="Content\qtip\jquery.qtip.es5.js">
-      <DependentUpon>jquery.qtip.js</DependentUpon>
-    </Content>
-    <Content Include="Content\qtip\jquery.qtip.es5.min.js">
-      <DependentUpon>jquery.qtip.es5.js</DependentUpon>
-    </Content>
     <Content Include="Content\qtip\jquery.qtip.validation.min.js">
       <DependentUpon>jquery.qtip.validation.js</DependentUpon>
     </Content>
@@ -1236,7 +1232,6 @@
     </Content>
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
-    <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
     <Content Include="ScriptsCustom\DatePickerReady.min.js.map" />
     <Content Include="ScriptsCustom\FancyboxReady.min.js.map" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map" />
@@ -1260,10 +1255,6 @@
     <Content Include="Content\Bootstrap\firma\base.theme.less" />
     <Content Include="Content\img\RCDProjectTracker\manifest.json" />
     <Content Include="Content\Bootstrap\firma\rcd.theme.less" />
-    <None Include="compilerconfig.json" />
-    <None Include="compilerconfig.json.defaults">
-      <DependentUpon>compilerconfig.json</DependentUpon>
-    </None>
     <Content Include="Content\Bootstrap\firma\clackamas.less" />
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
@@ -1282,8 +1273,6 @@
     <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.js" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.js" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js" />
-    <Content Include="ScriptsCustom\CkEditorReady.js" />
-    <Content Include="ScriptsCustom\CkEditorReady.min.js" />
     <Content Include="ScriptsCustom\DatePickerReady.js" />
     <Content Include="ScriptsCustom\DatePickerReady.min.js" />
     <Content Include="ScriptsCustom\FancyboxReady.js" />
@@ -1896,7 +1885,6 @@
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasController.js" />
     <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasController.js" />
-    <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
     <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
@@ -1942,7 +1930,6 @@
     <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
     <Content Include="Views\Tenant\EditBudgetTypeController.js" />
     <Content Include="Views\Tenant\EditTenantLogoAndStylesheet.cshtml" />
-    <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWithCents.cshtml" />
     <Content Include="Views\Home\StyleGuide.cshtml" />
     <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreas.cshtml" />
@@ -1950,9 +1937,6 @@
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewData.cs" />
     <Content Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cshtml" />
-    <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
-    <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
-    <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
@@ -2934,7 +2918,6 @@
     <Content Include="Content\bootstrap-typeahead\bootstrap3-typeahead.min.js.map">
       <DependentUpon>bootstrap3-typeahead.min.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\jquery-1.11.0.min.js.map" />
     <Content Include="Scripts\jquery.form.min.js">
       <DependentUpon>jquery.form.js</DependentUpon>
     </Content>

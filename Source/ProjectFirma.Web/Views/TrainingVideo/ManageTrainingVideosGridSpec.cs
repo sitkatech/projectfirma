@@ -41,8 +41,10 @@ namespace ProjectFirma.Web.Views.TrainingVideo
             Add("Video Title", a => a.VideoName, 250);
             Add("Video Description", a => a.VideoDescription, 300);
             Add(FieldDefinitionEnum.TrainingVideoUploadDate.ToType().ToGridHeaderString(), a => a.VideoUploadDate, 130, DhtmlxGridColumnFormatType.DateTime);
-            Add(FieldDefinitionEnum.TrainingVideoUrl.ToType().ToGridHeaderString(), a => a.VideoURL, 300);
+            Add(FieldDefinitionEnum.TrainingVideoUrl.ToType().ToGridHeaderString(), a => a.VideoURL, 250);
             Add("Sort Order", a => a.SortOrder, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
+            Add(FieldDefinitionEnum.TrainingVideoViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
+
         }
 
 

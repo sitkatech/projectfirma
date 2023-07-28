@@ -10,7 +10,6 @@ CREATE TABLE [dbo].[Tenant](
 	[CanonicalHostNameProd] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[FiscalYearStartDate] [datetime] NOT NULL,
 	[UseFiscalYears] [bit] NOT NULL,
-	[UsesTechnicalAssistanceParameters] [bit] NOT NULL,
 	[ArePerformanceMeasuresExternallySourced] [bit] NOT NULL,
 	[AreOrganizationsExternallySourced] [bit] NOT NULL,
 	[AreFundingSourcesExternallySourced] [bit] NOT NULL,
@@ -24,8 +23,3 @@ CREATE TABLE [dbo].[Tenant](
 	[TenantName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
-
-GO
-ALTER TABLE [dbo].[Tenant]  WITH CHECK ADD  CONSTRAINT [CK_OnlyIdahoUsesTechnicalAssistanceParameters] CHECK  (([UsesTechnicalAssistanceParameters]=(0) OR [TenantID]=(9)))
-GO
-ALTER TABLE [dbo].[Tenant] CHECK CONSTRAINT [CK_OnlyIdahoUsesTechnicalAssistanceParameters]

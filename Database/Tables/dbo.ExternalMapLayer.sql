@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[ExternalMapLayer](
 	[LayerIsOnByDefault] [bit] NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[IsTiledMapService] [bit] NOT NULL,
+	[MapLegendImageFileResourceInfoID] [int] NULL,
  CONSTRAINT [PK_ExternalMapLayer_ExternalMapLayerID] PRIMARY KEY CLUSTERED 
 (
 	[ExternalMapLayerID] ASC
@@ -29,6 +30,9 @@ CREATE TABLE [dbo].[ExternalMapLayer](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD FOREIGN KEY([MapLegendImageFileResourceInfoID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
 ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD  CONSTRAINT [FK_ExternalMapLayer_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

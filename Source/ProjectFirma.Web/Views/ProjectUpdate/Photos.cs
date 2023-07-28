@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public abstract class Photos : LtInfo.Common.Mvc.TypedWebViewPage<PhotosViewData>
+    public abstract class Photos : LtInfo.Common.Mvc.TypedWebViewPage<PhotosViewData, PhotosViewModel>
     {
     }
 }

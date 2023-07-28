@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Results
         public SpendingByPerformanceMeasureByProjectGridSpec(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.ProjectUrl, a.ProjectName), 350, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
             {
                 Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
