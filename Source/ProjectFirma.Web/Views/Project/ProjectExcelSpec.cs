@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact()?.Email);
             AddColumn($"Non-Lead Implementing {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
                 x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.GetDisplayName())));
-            AddColumn(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
+            AddColumn(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.ProjectStage.GetProjectStageDisplayName());
             MultiTenantHelpers.GetClassificationSystems().ForEach(y =>
                 {
                     AddColumn(ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(y), x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.GetDisplayName())));

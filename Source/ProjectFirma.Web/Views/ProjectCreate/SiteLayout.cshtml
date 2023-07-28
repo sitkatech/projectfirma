@@ -96,7 +96,7 @@
             @if (ViewDataTyped.Project != null)
             {
                 <li>
-                    <a href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>Proposal Details</a>
+                    <a href="@ViewDataTyped.ProposalDetailUrl"><span class="glyphicon glyphicon-chevron-left"></span>@FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel() Details</a>
                 </li>
             }
             @if (ViewDataTyped.CurrentPersonCanWithdraw && ViewDataTyped.Project != null && ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)

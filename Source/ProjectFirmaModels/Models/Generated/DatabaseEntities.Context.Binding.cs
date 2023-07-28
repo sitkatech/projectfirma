@@ -180,6 +180,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectStageCustomLabelConfiguration());
             modelBuilder.Configurations.Add(new ProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectTagConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateConfiguration());
@@ -485,6 +486,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get { return AllProjectRelevantCostTypeUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectStageCustomLabel> AllProjectStageCustomLabels { get; set; }
+        public virtual IQueryable<ProjectStageCustomLabel> ProjectStageCustomLabels { get { return AllProjectStageCustomLabels.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectStatus> AllProjectStatuses { get; set; }
         public virtual IQueryable<ProjectStatus> ProjectStatuses { get { return AllProjectStatuses.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
@@ -1143,6 +1146,9 @@ namespace ProjectFirmaModels.Models
 
                 case "Project":
                     return Projects.GetProject(primaryKey);
+
+                case "ProjectStageCustomLabel":
+                    return ProjectStageCustomLabels.GetProjectStageCustomLabel(primaryKey);
 
                 case "ProjectStage":
                     var projectStage = ProjectStage.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

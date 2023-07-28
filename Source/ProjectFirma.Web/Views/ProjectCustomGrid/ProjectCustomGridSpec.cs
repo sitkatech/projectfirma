@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         x => OrganizationModelExtensions.GetShortNameAsUrl(projectDetailsDictionary[x.ProjectID].PrimaryContactOrganizationID, projectDetailsDictionary[x.ProjectID].PrimaryContactOrganizationDisplayName), 150, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStage:
-                    Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfExpectedPerformanceMeasureRecords:
                     Add($"# Of Expected {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureExpectedCount, 100, DhtmlxGridColumnFormatType.Integer);

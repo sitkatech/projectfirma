@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditContactRelationshipTypeViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="Edit.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -19,23 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
 using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ContactRelationshipType
+namespace ProjectFirma.Web.Views.ProjectStageCustomLabel
 {
-    public class EditContactRelationshipTypeViewData : FirmaUserControlViewData
+    public abstract class Edit : TypedWebPartialViewPage<EditViewData, EditViewModel>
     {
-        public List<SelectListItem> ProjectStageSelectListItems;
-
-        public EditContactRelationshipTypeViewData()
-        {
-            ProjectStageSelectListItems = ProjectStage.AllLookupDictionary.ToSelectListWithEmptyFirstRow(psk => psk.Key.ToString(CultureInfo.InvariantCulture), psk => psk.Value.GetProjectStageDisplayName()).ToList();
-        }
     }
 }

@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             bool hasMinimumProjectStageSet = contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage != null;
             if (hasMinimumProjectStageSet && currentProjectStage.SortOrder >= contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.SortOrder)
             {
-                return $"Project Stage is at or beyond {contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.ProjectStageDisplayName}, when the {contactRelationshipType.ContactRelationshipTypeName} must be set.";
+                return $"Project Stage is at or beyond {contactRelationshipType.IsContactRelationshipRequiredMinimumProjectStage.GetProjectStageDisplayName()}, when the {contactRelationshipType.ContactRelationshipTypeName} must be set.";
             }
 
             return string.Empty;

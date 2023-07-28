@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
                         finalStatusReport.GetDeleteProjectProjectStatusUrl(), new List<string> { "btn", "btn-firma" }, true);
 
                     SetWarningForDisplay(
-                        $"The {projectEntityName} stage has been changed from Completed to {project.ProjectStage.ProjectStageDisplayName}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update here; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
+                        $"The {projectEntityName} stage has been changed from {ProjectStage.Completed.GetProjectStageDisplayName()} to {project.ProjectStage.GetProjectStageDisplayName()}. Please confirm that the Final Status Update saved on {finalStatusReport.ProjectProjectStatusUpdateDate.ToShortDateString()} is still accurate. If needed, you can delete the update here; you will be prompted to add a new Final Status Update when this {projectEntityName} is identified as Completed. </br></br> {deleteIconAsModalDialogLinkBootstrap}");
                 }
             }
 
@@ -1072,7 +1072,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var proposalLabel = FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
-                ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {proposalLabel} through this page because it is pending approval. You can <a href='{projectCreateUrl}'>review, edit, or approve</a> the proposal."
+                ? $"Although you are a {projectStewardLabel}, you do not have permission to edit this {proposalLabel} through this page because it is pending approval. You can <a href='{projectCreateUrl}'>review, edit, or approve</a> the {proposalLabel}."
                 : $"You don't have permission to edit this {proposalLabel}.";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, false);

@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Security
             if (contextModelObject.ProjectStage == ProjectStage.PlanningDesign)
             {
                 return new PermissionCheckResult(
-                    $"Reported {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} are not relevant for projects in the Planning/Design stage.");
+                    $"Reported {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} are not relevant for projects in the {ProjectStage.PlanningDesign.GetProjectStageDisplayName()} stage.");
             }
             return base.HasPermission(firmaSession, contextModelObject);
         }

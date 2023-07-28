@@ -32,7 +32,7 @@
 @inherits ReportedPerformanceMeasures
 
 @{
-    Check.Assert(ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign, "Performance Measures can't be edited for projects in the Planning/Design stage.");
+    Check.Assert(ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign, string.Format("Performance Measures can't be edited for projects in the {0} stage.", ProjectStage.PlanningDesign.GetProjectStageDisplayName()));
 }
 
 @section JavascriptAndStylesContent
