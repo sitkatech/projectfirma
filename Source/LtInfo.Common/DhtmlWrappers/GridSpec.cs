@@ -370,7 +370,7 @@ namespace LtInfo.Common.DhtmlWrappers
             Func<T, string> titleFunction,
             DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("date"), new DhtmlxGridColumnFilterType("#date_range_filter"), dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("date"),  DhtmlxGridColumnFilterType.DateRange, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -394,7 +394,7 @@ namespace LtInfo.Common.DhtmlWrappers
             Func<T, string> titleFunction,
             DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("date"), new DhtmlxGridColumnFilterType("#date_range_filter"), dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("date"), DhtmlxGridColumnFilterType.DateRange, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }

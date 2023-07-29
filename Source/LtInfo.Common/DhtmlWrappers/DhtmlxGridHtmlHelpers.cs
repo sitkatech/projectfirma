@@ -26,6 +26,7 @@ using System.Text;
 using System.Web;
 using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Views;
 
 namespace LtInfo.Common.DhtmlWrappers
 {
@@ -104,7 +105,7 @@ namespace LtInfo.Common.DhtmlWrappers
           ],
 
           // default col def properties get applied to all columns
-          defaultColDef: {{sortable: true, filter: true}},
+          defaultColDef: {{sortable: true, filter: true, floatingFilter:true }},
 
           rowSelection: 'multiple', // allow rows to be selected
           animateRows: true, // have rows animate to new positions when sorted
@@ -147,6 +148,8 @@ namespace LtInfo.Common.DhtmlWrappers
                     columnDefinitionStringBuilder.Append(",");
                 }
 
+               
+
                 columnDefinitionStringBuilder.Append("{ ");//open this column spec
                 columnDefinitionStringBuilder.AppendFormat("\"field\": \"{0}\"", columnSpec.ColumnNameForJavascript);
 
@@ -176,10 +179,32 @@ namespace LtInfo.Common.DhtmlWrappers
                 }
 
 
+
                 if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.ReadOnlyHtmlText)
                 {
                     columnDefinitionStringBuilder.Append(", \"cellRenderer\": function(params) { return params.value ? params.value: ''; } ");
                 }
+
+                switch (columnSpec.DhtmlxGridColumnFilterType)
+                {
+                    case DhtmlxGridColumnFilterType.None:
+                        columnDefinitionStringBuilder.Append(", \"filter\": false");
+                        break;
+                    case DhtmlxGridColumnFilterType.FormattedNumeric:
+                    case DhtmlxGridColumnFilterType.Numeric:
+                        columnDefinitionStringBuilder.Append(", \"filter\": \"agNumberColumnFilter\"");
+                        break;
+                    case DhtmlxGridColumnFilterType.DateRange:
+                        columnDefinitionStringBuilder.Append(", \"filter\": \"agDateColumnFilter\"");
+                        break;
+                    case DhtmlxGridColumnFilterType.Html:
+                    case DhtmlxGridColumnFilterType.Text:
+                        columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
+                        break;
+                    default:
+                        break;
+                }
+
 
                 columnDefinitionStringBuilder.Append(" }");//close this column spec
             }
