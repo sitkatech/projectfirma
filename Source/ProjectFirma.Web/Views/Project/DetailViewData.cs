@@ -401,7 +401,7 @@ namespace ProjectFirma.Web.Views.Project
             ShowFactSheetButton = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
 
             QuickAccessAttachment =
-                project.ProjectAttachments.SingleOrDefault(x => x.AttachmentType.IsQuickAccessAttachment);
+                project.ProjectAttachments.SingleOrDefault(x => x.AttachmentType.IsQuickAccessAttachment && x.AttachmentType.HasViewPermission(currentFirmaSession));
 
             RevertApprovedProjectButtonText = $"Revert {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} to Pending Approval";
             RevertApprovedProjectUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.RevertProjectToPendingApproval(project));

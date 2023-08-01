@@ -72,7 +72,10 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AttachmentTypeTaxonomyTrunks.Load();
             var attachmentTypeTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.AllAttachmentTypeTaxonomyTrunks.Local;
 
-            viewModel.UpdateModel(attachmentType, attachmentTypeFileResourceMimeTypes, attachmentTypeTaxonomyTrunks);
+            HttpRequestStorage.DatabaseEntities.AttachmentTypeRoles.Load();
+            var attachmentTypeRoles = HttpRequestStorage.DatabaseEntities.AllAttachmentTypeRoles.Local;
+
+            viewModel.UpdateModel(attachmentType, attachmentTypeFileResourceMimeTypes, attachmentTypeTaxonomyTrunks, attachmentTypeRoles);
             
             SetMessageForDisplay(
                 $"New {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} {attachmentType.AttachmentTypeName} successfully created!");
@@ -105,7 +108,10 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AttachmentTypeTaxonomyTrunks.Load();
             var attachmentTypeTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.AllAttachmentTypeTaxonomyTrunks.Local;
 
-            viewModel.UpdateModel(attachmentType, attachmentTypeFileResourceMimeTypes, attachmentTypeTaxonomyTrunks);
+            HttpRequestStorage.DatabaseEntities.AttachmentTypeRoles.Load();
+            var attachmentTypeRoles = HttpRequestStorage.DatabaseEntities.AllAttachmentTypeRoles.Local;
+
+            viewModel.UpdateModel(attachmentType, attachmentTypeFileResourceMimeTypes, attachmentTypeTaxonomyTrunks, attachmentTypeRoles);
 
             return new ModalDialogFormJsonResult();
         }

@@ -64,6 +64,18 @@ namespace ProjectFirma.Web.Views.AttachmentType
         [FieldDefinitionDisplay(FieldDefinitionEnum.QuickAccessAttachment)]
         public bool IsQuickAccessAttachment { get; set; }
 
+        [DisplayName("Anonymous (Public)")]
+        public bool ViewableByAnonymous { get; set; }
+
+        [DisplayName("Unassigned")]
+        public bool ViewableByUnassigned { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.NormalUser)]
+        public bool ViewableByNormal { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
+        public bool ViewableByProjectSteward { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -95,11 +107,18 @@ namespace ProjectFirma.Web.Views.AttachmentType
             FileResourceMimeTypeIDs = attachmentType.AttachmentTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeTypeID).ToList();
             TaxonomyTrunkIDs = attachmentType.AttachmentTypeTaxonomyTrunks.Select(x => x.TaxonomyTrunkID).ToList();
             IsQuickAccessAttachment = attachmentType.IsQuickAccessAttachment;
+
+            ViewableByAnonymous = attachmentType.AttachmentTypeRoles.Any(x => x.RoleID == null);
+            ViewableByUnassigned = attachmentType.AttachmentTypeRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
+            ViewableByNormal = attachmentType.AttachmentTypeRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
+            ViewableByProjectSteward = attachmentType.AttachmentTypeRoles.Any(x => x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
+
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.AttachmentType attachmentType, 
                                 ICollection<AttachmentTypeFileResourceMimeType> allAttachmentTypeFileResourceMimeTypes,
-                                ICollection<AttachmentTypeTaxonomyTrunk> allAttachmentTypeTaxonomyTrunks)
+                                ICollection<AttachmentTypeTaxonomyTrunk> allAttachmentTypeTaxonomyTrunks,
+                                ICollection<AttachmentTypeRole> allAttachmentTypeRoles)
         {
             attachmentType.AttachmentTypeName = AttachmentTypeName;
 
@@ -120,6 +139,39 @@ namespace ProjectFirma.Web.Views.AttachmentType
                 (x, y) => x.AttachmentTypeID == y.AttachmentTypeID && x.TaxonomyTrunkID == y.TaxonomyTrunkID, HttpRequestStorage.DatabaseEntities);
 
             attachmentType.IsQuickAccessAttachment = IsQuickAccessAttachment;
+
+            var newAttachmentTypeRoles = new List<AttachmentTypeRole>();
+
+            if (ViewableByAnonymous)
+            {
+                newAttachmentTypeRoles.Add(new AttachmentTypeRole(attachmentType.AttachmentTypeID));
+            }
+            if (ViewableByUnassigned)
+            {
+                newAttachmentTypeRoles.Add(new AttachmentTypeRole(attachmentType.AttachmentTypeID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Unassigned.RoleID
+                });
+            }
+            if (ViewableByNormal)
+            {
+                newAttachmentTypeRoles.Add(new AttachmentTypeRole(attachmentType.AttachmentTypeID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Normal.RoleID
+                });
+            }
+            if (ViewableByProjectSteward)
+            {
+                newAttachmentTypeRoles.Add(new AttachmentTypeRole(attachmentType.AttachmentTypeID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.ProjectSteward.RoleID
+                });
+            }
+
+            attachmentType.AttachmentTypeRoles.Merge(newAttachmentTypeRoles,
+                allAttachmentTypeRoles,
+                (x, y) => x.AttachmentTypeID == y.AttachmentTypeID && x.RoleID == y.RoleID,
+                HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

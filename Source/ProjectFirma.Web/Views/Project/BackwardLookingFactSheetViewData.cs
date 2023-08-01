@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectLocationIsProvided = project.ProjectLocationPoint != null || project.ProjectLocations.Any();
 
             QuickAccessAttachment =
-                project.ProjectAttachments.SingleOrDefault(x => x.AttachmentType.IsQuickAccessAttachment);
+                project.ProjectAttachments.SingleOrDefault(x => x.AttachmentType.IsQuickAccessAttachment && x.AttachmentType.HasViewPermission(currentFirmaSession));
         }
     }
 }
