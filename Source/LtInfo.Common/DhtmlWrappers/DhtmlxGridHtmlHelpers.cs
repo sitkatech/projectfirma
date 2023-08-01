@@ -18,15 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.BootstrapWrappers;
+using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Views;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
-using LtInfo.Common.BootstrapWrappers;
-using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Views;
 
 namespace LtInfo.Common.DhtmlWrappers
 {
@@ -130,8 +130,8 @@ namespace LtInfo.Common.DhtmlWrappers
           gridOptions.api.setRowData(data);
         }});
     </script>";
-            var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
-                splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
+            //var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
+            //    splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
 
             //{{ field: ""Watershed"" }},
             //{{ field: ""NumofProjects"" }}
@@ -153,6 +153,8 @@ namespace LtInfo.Common.DhtmlWrappers
                 columnDefinitionStringBuilder.Append("{ ");//open this column spec
                 columnDefinitionStringBuilder.AppendFormat("\"field\": \"{0}\"", columnSpec.ColumnNameForJavascript);
 
+                columnDefinitionStringBuilder.AppendFormat(", \"headerName\": \"{0}\"", columnSpec.ColumnNameInnerText);
+
                 columnDefinitionStringBuilder.Append(", \"headerComponentParams\": { \"template\": \"<div class=\\\"ag-cell-label-container\\\" role=\\\"presentation\\\">");
                 columnDefinitionStringBuilder.Append("<span ref=\\\"eMenu\\\" class=\\\"ag-header-icon ag-header-cell-menu-button\\\"></span>");
                 columnDefinitionStringBuilder.Append("<div ref=\\\"eLabel\\\" class=\\\"ag-header-cell-label\\\" role=\\\"presentation\\\">");
@@ -160,7 +162,10 @@ namespace LtInfo.Common.DhtmlWrappers
                 columnDefinitionStringBuilder.Append("<span ref=\\\"eSortAsc\\\" class=\\\"ag-header-icon ag-sort-ascending-icon\\\" ></span>");
                 columnDefinitionStringBuilder.Append("<span ref=\\\"eSortDesc\\\" class=\\\"ag-header-icon ag-sort-descending-icon\\\" ></span>");
                 columnDefinitionStringBuilder.Append("<span ref=\\\"eSortNone\\\" class=\\\"ag-header-icon ag-sort-none-icon\\\" ></span>");
-                columnDefinitionStringBuilder.Append("<span ref=\\\"eText\\\" class=\\\"ag-header-cell-text\\\" role=\\\"columnheader\\\"></span>");
+                columnDefinitionStringBuilder.Append("<span ref=\\\"eText2\\\" class=\\\"ag-header-cell-text\\\" role=\\\"columnheader\\\">");
+                // 7/31/2023 TK - Not sure if I like this, it works with the current setup of helpers but feels a bit hacky
+                //todo: come up with a better method to get field definition popups in header cells
+                columnDefinitionStringBuilder.AppendFormat("{0}</span>", columnSpec.ColumnName.ToJSON());
                 columnDefinitionStringBuilder.Append("<span ref=\\\"eFilter\\\" class=\\\"ag-header-icon ag-filter-icon\\\"></span>");
                 columnDefinitionStringBuilder.Append("</div></div>\" }");//close headerComponentParams object
 
