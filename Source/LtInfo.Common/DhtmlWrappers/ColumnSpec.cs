@@ -146,7 +146,7 @@ namespace LtInfo.Common.DhtmlWrappers
             DhtmlxGridColumnSortType = dhtmlxGridColumnSortType;
             DhtmlxGridColumnFilterType = dhtmlxGridColumnFilterType;
             GridColumnAggregationType = dhtmlxGridColumnAggregationType;
-            DhtmlxGridColumnFormatType = dhtmlxGridColumnFormatType ?? DhtmlxGridColumnFormatType.None;
+            DhtmlxGridColumnFormatType = dhtmlxGridColumnFormatType;// ?? DhtmlxGridColumnFormatType.None;
             DhtmlxGridColumnAlignType = dhtmlxGridColumnAlignType;
             _cssClassFunction = cssClassFunction;
             _titleFunction = titleFunction;

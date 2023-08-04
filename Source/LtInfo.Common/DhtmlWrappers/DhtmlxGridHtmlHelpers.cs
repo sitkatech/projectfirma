@@ -247,6 +247,16 @@ namespace LtInfo.Common.DhtmlWrappers
                         break;
                 }
 
+                switch (columnSpec.DhtmlxGridColumnFormatType)
+                {
+                    case DhtmlxGridColumnFormatType.Currency:
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": currencyFormatter");
+                        break;
+                    default:
+                        break;
+                }
+
+
                 if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.Checkbox)
                 {
                     columnDefinitionStringBuilder.Append(", \"checkboxSelection\": true");
@@ -697,7 +707,7 @@ namespace LtInfo.Common.DhtmlWrappers
                                 column.DhtmlxGridColumnDataType
                             }"", ""{column.DhtmlxGridColumnSortType.SortingType}"", ""{
                                 column.DhtmlxGridColumnFilterType
-                            }"", {$"\"{column.DhtmlxGridColumnFormatType.ColumnFormatType}\""})"));
+                            }"", {$"\"{column.DhtmlxGridColumnFormatType}\""})"));
         }
 
         /// <summary>
