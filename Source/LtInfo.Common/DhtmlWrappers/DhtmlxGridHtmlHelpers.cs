@@ -91,6 +91,41 @@ namespace LtInfo.Common.DhtmlWrappers
     <!-- The grid will be the size that this element is given. -->
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""height: 500px""></div>
     <script type=""text/javascript"">
+
+            function generatePinnedBottomData(){{
+                // generate a row-data with null values
+                var result = {{}};
+
+                gridOptions.columnApi.getAllGridColumns().forEach(item => {{
+                    result[item.colId] = null;
+                }});
+                return calculatePinnedBottomData(result);
+            }}
+            function calculatePinnedBottomData(target){{
+                //console.log(target);
+                //list of columns fo aggregation
+                var columnsWithAggregation = [""SecuredFunding"",""EstimatedTotalCost""]
+                columnsWithAggregation.forEach(element => {{
+                  console.log('element', element);
+                    gridOptions.api.forEachNodeAfterFilter((rowNode) => {{
+                        if (rowNode.data[element]){{
+                            if(target[element]){{
+                                target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element])).toFixed(2);
+                            }}else{{
+                                target[element] = Number.parseFloat(rowNode.data[element]).toFixed(2);
+                            }}
+                            
+                        }}
+                    }});
+                    if (target[element]){{
+                        target[element] = target[element];//.toFixed(2);
+                    }}
+                }})
+
+                return target;
+            }}
+
+
         // Function to demonstrate calling grid's API
         function deselect(){{
             gridOptions.api.deselectAll()
@@ -126,8 +161,10 @@ namespace LtInfo.Common.DhtmlWrappers
         fetch(""{1}"")
         .then(response => response.json())
         .then(data => {{
-          // load fetched data into grid
-          gridOptions.api.setRowData(data);
+            // load fetched data into grid
+            gridOptions.api.setRowData(data);
+            //var pinnedBottomData = generatePinnedBottomData();
+            //gridOptions.api.setPinnedBottomRowData([pinnedBottomData]);
         }});
     </script>";
             //var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
@@ -208,6 +245,11 @@ namespace LtInfo.Common.DhtmlWrappers
                         break;
                     default:
                         break;
+                }
+
+                if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.Checkbox)
+                {
+                    columnDefinitionStringBuilder.Append(", \"checkboxSelection\": true");
                 }
 
 
