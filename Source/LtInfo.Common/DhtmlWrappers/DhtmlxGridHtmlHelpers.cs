@@ -222,10 +222,6 @@ namespace LtInfo.Common.DhtmlWrappers
 
 
 
-                if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.ReadOnlyHtmlText)
-                {
-                    columnDefinitionStringBuilder.Append(", \"cellRenderer\": function(params) { return params.value ? params.value: ''; } ");
-                }
 
                 switch (columnSpec.DhtmlxGridColumnFilterType)
                 {
@@ -252,10 +248,20 @@ namespace LtInfo.Common.DhtmlWrappers
                     case DhtmlxGridColumnFormatType.Currency:
                         columnDefinitionStringBuilder.Append(", \"valueFormatter\": currencyFormatter");
                         break;
+                    case DhtmlxGridColumnFormatType.Integer:
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": integerFormatter");
+                        columnDefinitionStringBuilder.Append(", \"cellDataType\": \"number\"");
+                        break;
                     default:
                         break;
                 }
 
+
+
+                if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.ReadOnlyHtmlText)
+                {
+                    columnDefinitionStringBuilder.Append(", \"cellRenderer\": function(params) { return params.value ? params.value: ''; } ");
+                }
 
                 if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.Checkbox)
                 {
