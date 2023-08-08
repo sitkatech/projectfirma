@@ -15,7 +15,7 @@
             DialogLinkText = dialogLinkText;
             DialogTitle = dialogTitle;
             CheckboxColumnIndex = 0;
-            ValueColumnName = "ProjectID";
+            ValueColumnName = "ProjectIDForModal";
             ReturnListName = "ProjectIDList";
         }
     }

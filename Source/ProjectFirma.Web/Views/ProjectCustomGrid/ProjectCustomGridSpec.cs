@@ -405,7 +405,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     if (userHasTagManagePermissions)
                     {
                         AddCheckBoxColumn();
-                        Add("ProjectID", x => x.ProjectID, 0);
+                        Add("ProjectIDForModal", x => x.ProjectID, 0);
                     }
                     if (userHasDeletePermissions)
                     {
@@ -426,7 +426,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                                 x.SelectReportToGenerateFromSelectedProjects()), $"Generate Reports", $"Confirm Report Generation");
                     }
                     AddCheckBoxColumn();
-                    Add("ProjectID", x => x.ProjectID, 0);
+                    Add("ProjectIDForModal", x => x.ProjectID, 0);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(projectCustomGridTypeEnum), projectCustomGridTypeEnum, null);

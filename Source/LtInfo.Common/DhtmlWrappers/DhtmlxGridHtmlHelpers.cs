@@ -89,8 +89,16 @@ namespace LtInfo.Common.DhtmlWrappers
 
             const string template = @"    <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
     <!-- The grid will be the size that this element is given. -->
+    <div>
+        <div ><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0); onclick=""{0}ClearFilters()"">(clear filters)</a></div>
+      </div>
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""height: 500px""></div>
     <script type=""text/javascript"">
+
+            function {0}ClearFilters(){{
+                gridOptions.api.setFilterModel(null);
+                document.getElementById(""{0}ClearFilters"").style.display = ""none"";
+            }}
 
             function generatePinnedBottomData(){{
                 // generate a row-data with null values
@@ -140,15 +148,20 @@ namespace LtInfo.Common.DhtmlWrappers
           ],
 
           // default col def properties get applied to all columns
-          defaultColDef: {{sortable: true, filter: true, floatingFilter:true }},
-
+          defaultColDef: {{sortable: true, filter: true, floatingFilter:true, wrapHeaderText: true, autoHeaderHeight: true, }},
           rowSelection: 'multiple', // allow rows to be selected
           animateRows: true, // have rows animate to new positions when sorted
+
+          onFilterChanged: function() {{
+            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+gridOptions.api.getDisplayedRowCount()+ "" out of "" + totalRowCount + "" {3}"";
+            document.getElementById(""{0}ClearFilters"").style.display = ""inline-block"";
+          }},
 
           // example event handler
           onCellClicked: params => {{
             //debugger;
             console.log('cell was clicked', params)
+
           }}
         }};
 
@@ -156,13 +169,15 @@ namespace LtInfo.Common.DhtmlWrappers
         const eGridDiv = document.getElementById(""{0}DivID"");
         // new grid instance, passing in the hosting DIV and Grid Options
         new agGrid.Grid(eGridDiv, gridOptions);
-
+        var totalRowCount = 0;
         // Fetch data from server
         fetch(""{1}"")
         .then(response => response.json())
         .then(data => {{
             // load fetched data into grid
             gridOptions.api.setRowData(data);
+            totalRowCount = data.length;
+            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+gridOptions.api.getDisplayedRowCount()+ "" out of "" + totalRowCount + "" {3}""; 
             //var pinnedBottomData = generatePinnedBottomData();
             //gridOptions.api.setPinnedBottomRowData([pinnedBottomData]);
         }});
@@ -209,15 +224,25 @@ namespace LtInfo.Common.DhtmlWrappers
                 bool resizable = !(columnSpec.GridWidth < 35);// most cols with a width < 35px are icon buttons (like edit, delete, download fact sheet)  
                 columnDefinitionStringBuilder.AppendFormat(", \"resizable\": {0}", resizable.ToString().ToLower());
 
+                if (!resizable)
+                {
+                    // hide the ellipsis 
+                    columnDefinitionStringBuilder.Append(", \"cellStyle\": { \"text-overflow\" : \"clip\"}");
+                }
+
                 //hide column or set grid width
                 if (columnSpec.GridWidth == 0)
                 {
                     columnDefinitionStringBuilder.Append(", \"hide\": true");
 
                 }
-                else
+                else if (columnSpec.GridWidth < 35)
                 {
                     columnDefinitionStringBuilder.AppendFormat(", \"initialWidth\": {0}", columnSpec.GridWidth);
+                }
+                else
+                {
+                    columnDefinitionStringBuilder.AppendFormat(", \"initialWidth\": {0}", columnSpec.GridWidth + 30); // 8/8/2023 SB add to the width instead of editing every hard coded column in every GridSpec class
                 }
 
 
@@ -249,8 +274,8 @@ namespace LtInfo.Common.DhtmlWrappers
                         columnDefinitionStringBuilder.Append(", \"valueFormatter\": currencyFormatter");
                         break;
                     case DhtmlxGridColumnFormatType.Integer:
-                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": integerFormatter");
-                        columnDefinitionStringBuilder.Append(", \"cellDataType\": \"number\"");
+                        // columnDefinitionStringBuilder.Append(", \"valueFormatter\": integerFormatter");
+                        // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"number\"");
                         break;
                     default:
                         break;
@@ -273,7 +298,7 @@ namespace LtInfo.Common.DhtmlWrappers
             }
 
 
-            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
         /// <summary>

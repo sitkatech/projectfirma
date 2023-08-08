@@ -457,5 +457,35 @@ namespace LtInfo.Common.DhtmlWrappers
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public object CalculateNumericOrStringValue(T dataObject)
+        {
+            switch (_funcType)
+            {
+
+                case FuncType.Int:
+                    return _intValueFunc(dataObject);
+                case FuncType.NullableInt:
+                    return _nullableIntValueFunc(dataObject);
+                case FuncType.Decimal:
+                    return _decimalValueFunc(dataObject);
+                case FuncType.NullableDecimal:
+                    return _nullableDecimalValueFunc(dataObject);
+                case FuncType.Double:
+                    return _doubleValueFunc(dataObject);
+                case FuncType.NullableDouble:
+                    return _nullableDoubleValueFunc(dataObject);
+                case FuncType.Short:
+                    return _shortValueFunc(dataObject);
+                case FuncType.NullableShort:
+                    return _nullableShortValueFunc(dataObject);
+                case FuncType.Byte:
+                    return _byteValueFunc(dataObject);
+                case FuncType.NullableByte:
+                    return _nullableByteValueFunc(dataObject);
+                default:
+                    return CalculateStringValue(dataObject);
+            }
+        }
     }
 }
