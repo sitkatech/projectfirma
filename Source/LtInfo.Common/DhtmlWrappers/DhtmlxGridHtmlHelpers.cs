@@ -90,21 +90,46 @@ namespace LtInfo.Common.DhtmlWrappers
             const string template = @"    <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
     <!-- The grid will be the size that this element is given. -->
     <div>
-        <div ><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0); onclick=""{0}ClearFilters()"">(clear filters)</a></div>
+        <div ><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
       </div>
-    <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""height: 500px""></div>
+    <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
     <script type=""text/javascript"">
 
             function {0}ClearFilters(){{
-                gridOptions.api.setFilterModel(null);
+                {0}GridOptions.api.setFilterModel(null);
                 document.getElementById(""{0}ClearFilters"").style.display = ""none"";
             }}
+
+            function getOffsetTop(element) {{
+              let offsetTop = 0;
+              while(element) {{
+                offsetTop += element.offsetTop;
+                element = element.offsetParent;
+              }}
+              return offsetTop;
+            }}
+
+            function {0}ResizeGridWithVerticalFill(){{
+                var top = getOffsetTop(document.getElementById(""{0}DivID""));
+                var heightOffset = top + 50;
+                var windowHeight = window.innerHeight;
+                var gridHeight = windowHeight - heightOffset;
+                gridHeight = Math.max(gridHeight, 300); //Enforce minimum height
+                document.getElementById(""{0}DivID"").style.height = gridHeight+""px""
+            }}
+            addEventListener(""resize"", (event) => {{ {4} }}); ; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
+
+            function {0}MakeGridVerticallyResizable() {{
+                document.getElementById(""{0}DivID"").style.resize = ""vertical"";
+                document.getElementById(""{0}DivID"").style.overflow = ""auto"";
+            }}
+            {5} // insert method to make grid vertically resizable if the grid resize type is VerticalResizableHorizontalAutoFit
 
             function generatePinnedBottomData(){{
                 // generate a row-data with null values
                 var result = {{}};
 
-                gridOptions.columnApi.getAllGridColumns().forEach(item => {{
+                {0}GridOptions.columnApi.getAllGridColumns().forEach(item => {{
                     result[item.colId] = null;
                 }});
                 return calculatePinnedBottomData(result);
@@ -115,7 +140,7 @@ namespace LtInfo.Common.DhtmlWrappers
                 var columnsWithAggregation = [""SecuredFunding"",""EstimatedTotalCost""]
                 columnsWithAggregation.forEach(element => {{
                   console.log('element', element);
-                    gridOptions.api.forEachNodeAfterFilter((rowNode) => {{
+                    {0}GridOptions.api.forEachNodeAfterFilter((rowNode) => {{
                         if (rowNode.data[element]){{
                             if(target[element]){{
                                 target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element])).toFixed(2);
@@ -136,11 +161,11 @@ namespace LtInfo.Common.DhtmlWrappers
 
         // Function to demonstrate calling grid's API
         function deselect(){{
-            gridOptions.api.deselectAll()
+            {0}GridOptions.api.deselectAll()
         }}
 
         // Grid Options are properties passed to the grid
-        const gridOptions = {{
+        const {0}GridOptions = {{
 
           // each entry here represents one column
           columnDefs: [
@@ -153,8 +178,10 @@ namespace LtInfo.Common.DhtmlWrappers
           animateRows: true, // have rows animate to new positions when sorted
 
           onFilterChanged: function() {{
-            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+gridOptions.api.getDisplayedRowCount()+ "" out of "" + totalRowCount + "" {3}"";
-            document.getElementById(""{0}ClearFilters"").style.display = ""inline-block"";
+            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}"";
+            if(Object.keys({0}GridOptions.api.getFilterModel()).length !== 0){{
+                document.getElementById(""{0}ClearFilters"").style.display = ""inline-block"";
+            }}
           }},
 
           // example event handler
@@ -166,20 +193,21 @@ namespace LtInfo.Common.DhtmlWrappers
         }};
 
         // get div to host the grid
-        const eGridDiv = document.getElementById(""{0}DivID"");
+        const {0}GridDiv = document.getElementById(""{0}DivID"");
         // new grid instance, passing in the hosting DIV and Grid Options
-        new agGrid.Grid(eGridDiv, gridOptions);
-        var totalRowCount = 0;
+        new agGrid.Grid({0}GridDiv, {0}GridOptions);
+        var {0}TotalRowCount = 0;
         // Fetch data from server
         fetch(""{1}"")
         .then(response => response.json())
         .then(data => {{
             // load fetched data into grid
-            gridOptions.api.setRowData(data);
-            totalRowCount = data.length;
-            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+gridOptions.api.getDisplayedRowCount()+ "" out of "" + totalRowCount + "" {3}""; 
+            {0}GridOptions.api.setRowData(data);
+            {0}TotalRowCount = data.length;
+            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
+            {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit           
             //var pinnedBottomData = generatePinnedBottomData();
-            //gridOptions.api.setPinnedBottomRowData([pinnedBottomData]);
+            //{0}GridOptions.api.setPinnedBottomRowData([pinnedBottomData]);
         }});
     </script>";
             //var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
@@ -297,8 +325,20 @@ namespace LtInfo.Common.DhtmlWrappers
                 columnDefinitionStringBuilder.Append(" }");//close this column spec
             }
 
+            var resizeGridFunction = dhtmlxGridResizeType == DhtmlxGridResizeType.VerticalFillHorizontalAutoFit
+                ? $"{gridName}ResizeGridWithVerticalFill()"
+                : string.Empty;
 
-            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            var makeVerticalResizable = dhtmlxGridResizeType == DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit
+                ? $"{gridName}MakeGridVerticallyResizable()"
+                : string.Empty;
+
+            if (string.IsNullOrWhiteSpace(styleString) || !styleString.ToLower().Contains("height"))
+            {
+                styleString = styleString == null ? "height: 500px;" : styleString + "; height: 500px";
+            }
+
+            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
         /// <summary>
