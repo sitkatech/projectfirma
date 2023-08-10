@@ -118,7 +118,6 @@ namespace LtInfo.Common.DhtmlWrappers
             function {0}GeneratePinnedBottomData(){{
                 // generate a row-data with null values
                 var result = {{}};
-                var columnsWithAggregation = [];
 
                 {0}GridOptions.columnApi.getAllGridColumns().forEach(item => {{
                     result[item.colId] = null;
@@ -126,11 +125,13 @@ namespace LtInfo.Common.DhtmlWrappers
                         columnsWithAggregation.push(item.colId);
                     }}
                 }});
+                var columnsWithAggregation = [{7}];
                 if(columnsWithAggregation.length === 0){{ return false;}}
                 return {0}CalculatePinnedBottomData(result, columnsWithAggregation);
             }}
             function {0}CalculatePinnedBottomData(target, columnsWithAggregation){{
                 //console.log(target);
+                
                 columnsWithAggregation.forEach(element => {{
                   //console.log('element', element);
                     {0}GridOptions.api.forEachNodeAfterFilter((rowNode) => {{
@@ -218,6 +219,7 @@ namespace LtInfo.Common.DhtmlWrappers
             //{{ field: ""Watershed"" }},
             //{{ field: ""NumofProjects"" }}
             var columnDefinitionStringBuilder = new StringBuilder();
+            var columnsWithAggregationStringBuilder = new StringBuilder();
             var isFirstLoop = true;
             foreach (var columnSpec in gridSpec)
             {
@@ -229,8 +231,6 @@ namespace LtInfo.Common.DhtmlWrappers
                 {
                     columnDefinitionStringBuilder.Append(",");
                 }
-
-               
 
                 columnDefinitionStringBuilder.Append("{ ");//open this column spec
                 columnDefinitionStringBuilder.AppendFormat("\"field\": \"{0}\"", columnSpec.ColumnNameForJavascript);
@@ -315,7 +315,8 @@ namespace LtInfo.Common.DhtmlWrappers
                 switch (columnSpec.GridColumnAggregationType)
                 {
                     case DhtmlxGridColumnAggregationType.Total:
-                        columnDefinitionStringBuilder.Append(", \"aggregationType\": \"total\""); // 8/9/2023 SB: this isn't a usual AG grid property, but it seems we can set an custom ones we want like this
+                        columnsWithAggregationStringBuilder.Append(columnsWithAggregationStringBuilder.Length > 0 ? ", " : string.Empty); 
+                        columnsWithAggregationStringBuilder.AppendFormat("\"{0}\"",columnSpec.ColumnNameForJavascript); 
                         break;
                     default:
                         break;
@@ -357,7 +358,7 @@ namespace LtInfo.Common.DhtmlWrappers
                 styleString = styleString == null ? "height: 500px;" : styleString + "; height: 500px";
             }
 
-            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
         /// <summary>
