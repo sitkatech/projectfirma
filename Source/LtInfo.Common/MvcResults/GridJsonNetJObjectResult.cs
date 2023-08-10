@@ -84,7 +84,7 @@ namespace LtInfo.Common.MvcResults
                  var thisRow = new Dictionary<string,object>();
                  foreach (var columnSpec in _gridSpec)
                  {
-                     var data = model.ToAgGridJsonCellDataTest(columnSpec);
+                     var data = model.ToAgGridJsonCellData(columnSpec);
                      var columnName = columnSpec.ColumnNameForJavascript;
                     thisRow.Add(columnName, data);
 

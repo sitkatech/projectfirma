@@ -34,13 +34,13 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProposalsGridSpec(FirmaSession firmaSession)
         {
-            Add(string.Empty, x =>
+            Add("delete", x =>
             {
                 var userHasDeletePermission = new ProjectDeleteProposalFeature().HasPermission(firmaSession, x).HasPermission;
                 return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteProposalUrl(),
                         userHasDeletePermission, true);
             }, 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty,
+            Add("edit",
                 x => DhtmlxGridHtmlHelpers.MakeEditIconAsHyperlinkBootstrap(x.GetProjectCreateUrl(),
                     new ProjectCreateFeature().HasPermission(firmaSession, x).HasPermission &&
                     !(x.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval &&

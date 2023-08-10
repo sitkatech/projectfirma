@@ -11,8 +11,8 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public EvaluationCriteriaGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, ec => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, ec => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
+            Add("delete", ec => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
+            Add("edit", ec => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
 
             Add("Name", a => a.EvaluationCriteriaName, 170, DhtmlxGridColumnFilterType.Text);
             Add("Definition", a => a.EvaluationCriteriaDefinition, 170, DhtmlxGridColumnFilterType.Text);

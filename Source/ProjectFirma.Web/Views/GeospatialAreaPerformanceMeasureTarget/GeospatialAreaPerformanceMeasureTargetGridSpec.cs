@@ -16,8 +16,8 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 
             if (userHasManagePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), true), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), $"Edit {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} Target for {x.GeospatialAreaShortName}", 1000, true, null), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), true), 30, DhtmlxGridColumnFilterType.None);
+                Add("edit", x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), $"Edit {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} Target for {x.GeospatialAreaShortName}", 1000, true, null), 30, DhtmlxGridColumnFilterType.None);
             }
 
             Add("Geospatial Layer", x => x.GeospatialAreaType.GeospatialAreaTypeName, 200, DhtmlxGridColumnFilterType.SelectFilterStrict);

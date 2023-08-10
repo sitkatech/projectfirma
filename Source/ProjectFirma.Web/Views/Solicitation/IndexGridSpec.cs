@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Views.Solicitation
         {
             if (hasEditPermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.DeleteSolicitation(x)), true), 30);
+                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.DeleteSolicitation(x)), true), 30);
 
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.Edit(x)), $"Edit {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()}"), 30);
+                Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.Edit(x)), $"Edit {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()}"), 30);
             }
 
             Add($"{FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()} Name", a => a.SolicitationName, 200, DhtmlxGridColumnFilterType.Text);

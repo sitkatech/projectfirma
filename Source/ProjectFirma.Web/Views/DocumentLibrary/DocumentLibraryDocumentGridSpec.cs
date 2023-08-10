@@ -33,10 +33,10 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
         {
             if (hasDeletePermissions)
             {
-                Add(string.Empty,
+                Add("delete",
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
                     30,DhtmlxGridColumnFilterType.None);
-                Add(string.Empty,
+                Add("edit",
                     x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document {x.DocumentTitle}", true),
                     30, DhtmlxGridColumnFilterType.None);
             }
