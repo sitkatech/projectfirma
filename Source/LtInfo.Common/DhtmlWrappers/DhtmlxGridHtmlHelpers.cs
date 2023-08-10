@@ -100,22 +100,12 @@ namespace LtInfo.Common.DhtmlWrappers
                 document.getElementById(""{0}ClearFilters"").style.display = ""none"";
             }}
 
-            function getOffsetTop(element) {{
-              let offsetTop = 0;
-              while(element) {{
-                offsetTop += element.offsetTop;
-                element = element.offsetParent;
-              }}
-              return offsetTop;
-            }}
+
 
             function {0}ResizeGridWithVerticalFill(){{
                 var top = getOffsetTop(document.getElementById(""{0}DivID""));
-                var heightOffset = top + 50;
-                var windowHeight = window.innerHeight;
-                var gridHeight = windowHeight - heightOffset;
-                gridHeight = Math.max(gridHeight, 300); //Enforce minimum height
-                document.getElementById(""{0}DivID"").style.height = gridHeight+""px""
+                gridHeight =getGridHeight(top);
+                document.getElementById(""{0}DivID"").style.height = gridHeight+""px"";
             }}
             addEventListener(""resize"", (event) => {{ {4} }}); ; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
 
@@ -125,21 +115,24 @@ namespace LtInfo.Common.DhtmlWrappers
             }}
             {5} // insert method to make grid vertically resizable if the grid resize type is VerticalResizableHorizontalAutoFit
 
-            function generatePinnedBottomData(){{
+            function {0}GeneratePinnedBottomData(){{
                 // generate a row-data with null values
                 var result = {{}};
+                var columnsWithAggregation = [];
 
                 {0}GridOptions.columnApi.getAllGridColumns().forEach(item => {{
                     result[item.colId] = null;
+                    if(item.colDef.aggregationType === ""total"") {{
+                        columnsWithAggregation.push(item.colId);
+                    }}
                 }});
-                return calculatePinnedBottomData(result);
+                if(columnsWithAggregation.length === 0){{ return false;}}
+                return {0}CalculatePinnedBottomData(result, columnsWithAggregation);
             }}
-            function calculatePinnedBottomData(target){{
+            function {0}CalculatePinnedBottomData(target, columnsWithAggregation){{
                 //console.log(target);
-                //list of columns fo aggregation
-                var columnsWithAggregation = [""SecuredFunding"",""EstimatedTotalCost""]
                 columnsWithAggregation.forEach(element => {{
-                  console.log('element', element);
+                  //console.log('element', element);
                     {0}GridOptions.api.forEachNodeAfterFilter((rowNode) => {{
                         if (rowNode.data[element]){{
                             if(target[element]){{
@@ -177,6 +170,11 @@ namespace LtInfo.Common.DhtmlWrappers
           rowSelection: 'multiple', // allow rows to be selected
           animateRows: true, // have rows animate to new positions when sorted
 
+          dataTypeDefinitions: {{
+            dateString: getDateStringDataTypeDefinition()
+          }},
+
+
           onFilterChanged: function() {{
             document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}"";
             if(Object.keys({0}GridOptions.api.getFilterModel()).length !== 0){{
@@ -205,11 +203,15 @@ namespace LtInfo.Common.DhtmlWrappers
             {0}GridOptions.api.setRowData(data);
             {0}TotalRowCount = data.length;
             document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
-            {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit           
-            //var pinnedBottomData = generatePinnedBottomData();
-            //{0}GridOptions.api.setPinnedBottomRowData([pinnedBottomData]);
+            {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
+            var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
+            if({0}PinnedBottomData){{
+                {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
+            }}
         }});
     </script>";
+
+
             //var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
             //    splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
 
@@ -232,7 +234,7 @@ namespace LtInfo.Common.DhtmlWrappers
 
                 columnDefinitionStringBuilder.Append("{ ");//open this column spec
                 columnDefinitionStringBuilder.AppendFormat("\"field\": \"{0}\"", columnSpec.ColumnNameForJavascript);
-
+                
                 columnDefinitionStringBuilder.AppendFormat(", \"headerName\": \"{0}\"", columnSpec.ColumnNameInnerText);
 
                 columnDefinitionStringBuilder.Append(", \"headerComponentParams\": { \"template\": \"<div class=\\\"ag-cell-label-container\\\" role=\\\"presentation\\\">");
@@ -275,7 +277,6 @@ namespace LtInfo.Common.DhtmlWrappers
 
 
 
-
                 switch (columnSpec.DhtmlxGridColumnFilterType)
                 {
                     case DhtmlxGridColumnFilterType.None:
@@ -287,6 +288,8 @@ namespace LtInfo.Common.DhtmlWrappers
                         break;
                     case DhtmlxGridColumnFilterType.DateRange:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agDateColumnFilter\"");
+                        columnDefinitionStringBuilder.Append(", \"comparator\": dateStringComparator");//comparator: dateComparator
+                        // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"dateString\"");
                         break;
                     case DhtmlxGridColumnFilterType.Html:
                     case DhtmlxGridColumnFilterType.Text:
@@ -309,7 +312,23 @@ namespace LtInfo.Common.DhtmlWrappers
                         break;
                 }
 
+                switch (columnSpec.GridColumnAggregationType)
+                {
+                    case DhtmlxGridColumnAggregationType.Total:
+                        columnDefinitionStringBuilder.Append(", \"aggregationType\": \"total\""); // 8/9/2023 SB: this isn't a usual AG grid property, but it seems we can set an custom ones we want like this
+                        break;
+                    default:
+                        break;
+                }
 
+                switch (columnSpec.DhtmlxGridColumnAlignType)
+                {
+                    case DhtmlxGridColumnAlignType.Right:
+                        columnDefinitionStringBuilder.Append(", \"cellClass\": \"ag-right-aligned-cell\"");
+                        break;
+                    default:
+                        break;
+                }
 
                 if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.ReadOnlyHtmlText)
                 {
