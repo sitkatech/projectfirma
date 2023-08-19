@@ -178,7 +178,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         private void AddEditAndOrViewColumn()
         {
 
-            Add(String.Empty,
+            Add("Update Actions",
                 x =>
                 {
                     var latestUpdateState = x.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
@@ -198,7 +198,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
                     return UrlTemplate.MakeHrefString(x.GetProjectUpdateUrl(), linkText, new Dictionary<string, string> {{"class", "btn btn-xs btn-firma"}});
                 },
-                60);
+                60, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
         }
 
         private static HtmlString MakeAlertButton(string alertDialogTitle, string alertDialogText, string alertDialogButtonText, string gridButtonHtml)
