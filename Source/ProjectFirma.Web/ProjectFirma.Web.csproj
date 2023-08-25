@@ -437,7 +437,9 @@
     <Compile Include="Views\Results\ProgressDashboardViewData.cs" />
     <Compile Include="Views\Results\FundingSummary.cs" />
     <Compile Include="Views\Results\FundingSummaryViewData.cs" />
+    <Compile Include="Views\Results\ProjectDashboard.cs" />
     <Compile Include="Views\Results\SimpleAccomplishmentsDashboard.cs" />
+    <Compile Include="Views\Results\ProjectDashboardViewData.cs" />
     <Compile Include="Views\Results\SimpleAccomplishmentsDashboardViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
@@ -1959,6 +1961,7 @@
     <Content Include="Views\TrainingVideo\ManageTrainingVideos.cshtml" />
     <Content Include="Views\TrainingVideo\Edit.cshtml" />
     <Content Include="Views\Results\ProgressDashboard.cshtml" />
+    <Content Include="Views\Results\ProjectDashboard.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

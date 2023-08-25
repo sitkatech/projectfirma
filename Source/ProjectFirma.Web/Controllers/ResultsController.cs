@@ -38,6 +38,7 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
@@ -752,6 +753,67 @@ namespace ProjectFirma.Web.Controllers
             }
 
             return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
+        }
+
+        // Allow admin access only for now
+        [FirmaAdminFeature]
+        public ViewResult ProjectDashboard()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
+            var projectStages = new List<int>()
+            {
+                ProjectStage.PlanningDesign.ProjectStageID,
+                ProjectStage.Implementation.ProjectStageID,
+                ProjectStage.PostImplementation.ProjectStageID,
+                ProjectStage.Completed.ProjectStageID
+            };
+            var projects = HttpRequestStorage.DatabaseEntities.Projects
+                .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
+
+            var projectSponsors = HttpRequestStorage.DatabaseEntities.Organizations
+                .Where(x => x.ProjectOrganizations.Any(y => y.OrganizationRelationshipType.IsPrimaryContact)).Distinct()
+                .ToList();
+            var geospatialAreaNames = new List<string>()
+            {
+                "Disadvantaged Community",
+                "Severely Disadvantaged Community"
+            };
+            var projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
+
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
+                .ProjectCustomGridConfigurations
+                .Where(x => x.IsEnabled &&
+                            x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID)
+                .OrderBy(x => x.SortOrder).ToList();
+            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
+
+
+            var viewData =
+                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects, projectSponsors,
+                    projectsInUnderservedCommunities, projectCustomDefaultGridConfigurations, projectDetails);
+            return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
+        }
+
+        // Allow admin access only for now
+        [FirmaAdminFeature]
+        public GridJsonNetJObjectResult<Project> ProjectDashboardProjectsGridJsonData()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentTenant);
+            var projectStages = new List<int>()
+            {
+                ProjectStage.PlanningDesign.ProjectStageID,
+                ProjectStage.Implementation.ProjectStageID,
+                ProjectStage.PostImplementation.ProjectStageID,
+                ProjectStage.Completed.ProjectStageID
+            };
+            var projects = HttpRequestStorage.DatabaseEntities.Projects
+                .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
+            return gridJsonNetJObjectResult;
         }
     }
 }

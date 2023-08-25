@@ -1,0 +1,119 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectDashboard.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using MoreLinq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Results
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Results.ProjectDashboard
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    <style>
+        .pageTitle {
+            display: none;
+        }
+        .subSectionName {
+               margin-bottom: 20px
+            }
+            div.logo:after {
+                content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
+            }
+
+        .counterSection {
+            padding-bottom: 10px;
+        }
+
+        #accomplishmentsDashboard .counterHeader h4 {
+            font-size: 24px;
+
+        }
+    </style>
+    <script src="/Scripts/waypoints.min.js"></script>
+    <script src="/Scripts/jquery.counterup.min.js"></script>
+}
+
+<div id="accomplishmentsDashboard">
+    <div class="homepageHeader">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
+                <div class="intro-text">
+                    <h1 class="subSectionName">Project Dashboard</h1>
+                    <div class="logo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" style="margin-top: 20px; margin-bottom: 20px;">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+        </div>
+
+    </div>
+
+    <div class="row counterHeader">
+        <div class="col-xs-12 text-center">
+            <h4>@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Summary</h4>
+        </div>
+    </div>
+
+    <div class="row counterSection">
+        <div class="col-xs-12 text-center">
+            <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Total Projects
+        </div>
+    </div>
+    <div class="row counterSection">
+        <div class="col-xs-12 text-center">
+            <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Partners
+        </div>
+    </div>
+    <div class="row counterSection">
+        <div class="col-xs-12 text-center">
+            <span id="totalUnderservedCommunities" class="counter">@ViewDataTyped.TotalProjectsInUnderservedCommunities.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Projects in Underserved Communities
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-12">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
+                </div>
+                <div class="panel-body">
+                    @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    jQuery(function() {
+        jQuery('.counter').counterUp({
+            delay: 10,
+            time: 1000
+        });
+    });
+</script>
