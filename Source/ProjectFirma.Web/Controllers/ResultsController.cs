@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -824,9 +825,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var projects = GetProjectsForProjectDashboard();
 
-            var projectSponsors = HttpRequestStorage.DatabaseEntities.Organizations
-                .Where(x => x.ProjectOrganizations.Any(y => y.OrganizationRelationshipType.IsPrimaryContact)).Distinct()
-                .ToList();
+            var projectSponsors = projects
+                .SelectMany(x => x.ProjectOrganizations).Where(x => x.OrganizationRelationshipType.IsPrimaryContact).Select(x => x.Organization).Distinct().ToList();
             var geospatialAreaNames = new List<string>()
             {
                 "Disadvantaged Community",
@@ -843,7 +843,7 @@ namespace ProjectFirma.Web.Controllers
             var projectStages = GetProjectStagesForProjectDashboard();
             var solutions = GetSolutionsForProjectDashboard();
 
-            var projects = HttpRequestStorage.DatabaseEntities.Projects
+            var projects = GetProjectEnumerableWithIncludesForPerformance()
                 .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
             if (solutions.Count > 0)
             {
@@ -853,6 +853,19 @@ namespace ProjectFirma.Web.Controllers
             }
 
             return projects;
+        }
+
+        private static List<Project> GetProjectEnumerableWithIncludesForPerformance()
+        {
+            var projects = HttpRequestStorage.DatabaseEntities.Projects
+                .Include(x => x.ProjectFundingSourceBudgets)
+                .Include(x => x.SecondaryProjectTaxonomyLeafs)
+                .Include(x => x.ProjectTags.Select(y => y.Tag))
+                .Include(x => x.ProjectNoFundingSourceIdentifieds)
+                .Include(x => x.ProjectProjectStatuses)
+                .ToList();
+
+            return projects.GetActiveProjects();
         }
 
         private List<int> GetProjectStagesForProjectDashboard()
