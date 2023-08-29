@@ -20,7 +20,6 @@
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
-@using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
@@ -74,46 +73,168 @@
     </div>
 
     <div class="row counterHeader">
+        <div class="col-xs-12 ">
+            <h4>Filter @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() By:</h4>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; vertical-align: middle; margin-top: 10px">
+        <select id="solutionDropdown" onchange="reloadWithNewDropdowns()" class="selectpicker" data-live-search="true" data-width="auto" multiple="multiple">
+            @foreach (var solution in ViewDataTyped.Solutions)
+            {
+                <option value="@solution.Value">@solution.Text</option>
+            }
+        </select>
+        <select id="projectStageDropdown" onchange="reloadWithNewDropdowns()" class="selectpicker" data-live-search="true" data-width="auto" multiple="multiple">
+            @foreach (var projectStage in ViewDataTyped.ProjectStages)
+            {
+                <option value="@projectStage.ProjectStageID">@projectStage.ProjectStageDisplayName</option>
+            }
+        </select>
+        <button type="button" class="btn btn-firma" onclick="clearFilters()">Clear Filters</button>
+    </div>
+    <div class="row counterHeader">
         <div class="col-xs-12 text-center">
             <h4>@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Summary</h4>
         </div>
     </div>
 
-    <div class="row counterSection">
-        <div class="col-xs-12 text-center">
-            <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Total Projects
-        </div>
-    </div>
-    <div class="row counterSection">
-        <div class="col-xs-12 text-center">
-            <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Partners
-        </div>
-    </div>
-    <div class="row counterSection">
-        <div class="col-xs-12 text-center">
-            <span id="totalUnderservedCommunities" class="counter">@ViewDataTyped.TotalProjectsInUnderservedCommunities.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Projects in Underserved Communities
-        </div>
-    </div>
-
-    <div class="row" style="margin-top: 20px">
-        <div class="col-md-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
+    <div id="projectDashboard" class="contentWrapper">
+        <div class="row counterSection">
+            <div class="col-sm-12 text-center">
+                <div id="counterLoader" style="display: none">
+                    <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
                 </div>
-                <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                <div id="counterNumbers">
+                    <div class="row counterSection">
+                        <div class="col-xs-12 text-center">
+                            <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Total Projects
+                        </div>
+                    </div>
+                    <div class="row counterSection">
+                        <div class="col-xs-12 text-center">
+                            <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Partners
+                        </div>
+                    </div>
+                    <div class="row counterSection">
+                        <div class="col-xs-12 text-center">
+                            <span id="totalUnderservedCommunities" class="counter">@ViewDataTyped.TotalProjectsInUnderservedCommunities.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Projects in Underserved Communities
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px">
+            <div class="col-md-12">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
+                    </div>
+                    <div class="panel-body">
+                        @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+
 </div>
 <script>
-    jQuery(function() {
-        jQuery('.counter').counterUp({
-            delay: 10,
-            time: 1000
+
+    // <![CDATA[
+    function loadProjectSummary()
+    {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var solutions = jQuery("#solutionDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ProjectDashboardSummaryUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs).replace("@ProjectDashboardViewData.SolutionsQueryStringValuePlaceholder", solutions);
+
+        var errorHandler = function (jqXHR, textStatus, errorThrown) {
+            jQuery(".homepageHeader").prepend("<div class=\"alert alert-danger\" role=\"alert\">" +
+                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>" +
+                "Cannot sync with Keystone. Organization not found in Keystone or unable to connect to Keystone.</div>");
+        };
+
+
+        SitkaAjax.get(newUrl, function (result) {
+            jQuery("#totalProjects").html(result.ProjectCount);
+            jQuery("#totalPartners").html(result.PartnerCount);
+            jQuery("#totalUnderservedCommunities").html(result.ProjectsInUnderservedCommunitiesCount);
+
+            jQuery("#counterLoader").hide();
+            jQuery("#counterNumbers").show();
+        }, errorHandler);
+    };
+
+
+    function hideGridLoadingBar() {
+        jQuery("#" + "@ViewDataTyped.ProjectCustomDefaultGridName" + "LoadingBar").hide();
+    }
+
+    function loadProjectGrid() {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var solutions = jQuery("#solutionDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ReloadProjectGridDataUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs).replace("@ProjectDashboardViewData.SolutionsQueryStringValuePlaceholder", solutions);
+        jQuery("#" + "@ViewDataTyped.ProjectCustomDefaultGridName" + "LoadingBar").show();
+        Sitka.@(ViewDataTyped.ProjectCustomDefaultGridName).load(newUrl, hideGridLoadingBar);
+    }
+
+    function reloadWithNewDropdowns() {
+        jQuery("#counterLoader").show();
+        jQuery("#counterNumbers").hide();
+        loadProjectSummary();
+        loadProjectGrid();
+    }
+
+    function clearFilters() {
+        $(".selectpicker").val('default');
+        $(".selectpicker").selectpicker("refresh");
+        reloadWithNewDropdowns();
+    }
+
+    jQuery(document).ready(function () {
+        var projectStageSelectpickerOptions = {
+            container: "body",
+            width: "250px",
+            noneSelectedText: "All @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()",
+            actionsBox: true,
+            selectedTextFormat: "count > 1",
+            countSelectedText:  function (numSelected, numTotal) {
+                if (numSelected === numTotal) {
+                    return "All @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()";
+                }
+                return numSelected + " of " + numTotal + " @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()";
+            }
+        }
+
+        var solutionsSelectpickerOptions = {
+            container: "body",
+            noneSelectedText: "No Solutions selected",
+            actionsBox: true,
+            selectedTextFormat: "count > 1",
+            countSelectedText:  function (numSelected, numTotal) {
+                if (numSelected === numTotal) {
+                    return "All Solutions";
+                }
+                return numSelected + " of " + numTotal + " Solutions";
+            }
+        }
+
+        var projectStagesDropdown = jQuery("#projectStageDropdown");
+        var solutionsDropdown = jQuery("#solutionDropdown");
+        projectStagesDropdown.selectpicker(projectStageSelectpickerOptions);
+        solutionsDropdown.selectpicker(solutionsSelectpickerOptions);
+
+        jQuery(function() {
+            jQuery('.counter').counterUp({
+                delay: 10,
+                time: 1000
+            });
         });
     });
+
+    // ]]>
 </script>

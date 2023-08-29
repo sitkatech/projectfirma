@@ -36,6 +36,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
@@ -761,15 +762,67 @@ namespace ProjectFirma.Web.Controllers
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
-            var projectStages = new List<int>()
+
+            GetProjectSummaryData(out var projectCount, out var partnerCount, out var projectsInUnderservedCommunitiesCount);
+
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
+                .ProjectCustomGridConfigurations
+                .Where(x => x.IsEnabled &&
+                            x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID)
+                .OrderBy(x => x.SortOrder).ToList();
+            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
+            var projectGridSpec =
+                new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations,
+                    ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentFirmaSession.Tenant)
+                {
+                    ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
+                    SaveFiltersInCookie = true
+                };
+
+            var tempIDToSolutionValue = GetSolutionsDictionaryForProjectDashboard();
+            var solutionsSelectList = tempIDToSolutionValue.ToSelectList(x => x.Key.ToString(CultureInfo.InvariantCulture), x => x.Value).ToList();
+            
+            var viewData =
+                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, partnerCount,
+                    projectsInUnderservedCommunitiesCount, projectGridSpec, solutionsSelectList);
+            return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
+        }
+
+
+
+        // Allow admin access only for now
+        [FirmaAdminFeature]
+        public GridJsonNetJObjectResult<Project> ProjectDashboardProjectsGridJsonData()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentTenant);
+
+            var projects = GetProjectsForProjectDashboard();
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [FirmaAdminFeature]
+        public JsonNetJObjectResult ProjectDashboardProjectSummary()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            GetProjectSummaryData(out var projectCount, out var partnerCount, out var projectsInUnderservedCommunitiesCount);
+            return new JsonNetJObjectResult(new
             {
-                ProjectStage.PlanningDesign.ProjectStageID,
-                ProjectStage.Implementation.ProjectStageID,
-                ProjectStage.PostImplementation.ProjectStageID,
-                ProjectStage.Completed.ProjectStageID
-            };
-            var projects = HttpRequestStorage.DatabaseEntities.Projects
-                .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
+                ProjectCount = projectCount.ToGroupedNumeric(),
+                PartnerCount = partnerCount.ToGroupedNumeric(),
+                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunitiesCount.ToGroupedNumeric()
+            });
+        }
+
+        private void GetProjectSummaryData(out int projectCount, out int partnerCount, out int projectsInUnderservedCommunitiesCount)
+        {
+            var projects = GetProjectsForProjectDashboard();
 
             var projectSponsors = HttpRequestStorage.DatabaseEntities.Organizations
                 .Where(x => x.ProjectOrganizations.Any(y => y.OrganizationRelationshipType.IsPrimaryContact)).Distinct()
@@ -780,40 +833,83 @@ namespace ProjectFirma.Web.Controllers
                 "Severely Disadvantaged Community"
             };
             var projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
-
-            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
-                .ProjectCustomGridConfigurations
-                .Where(x => x.IsEnabled &&
-                            x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID)
-                .OrderBy(x => x.SortOrder).ToList();
-            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
-
-
-            var viewData =
-                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects, projectSponsors,
-                    projectsInUnderservedCommunities, projectCustomDefaultGridConfigurations, projectDetails);
-            return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
+            projectCount = projects.Count;
+            partnerCount = projectSponsors.Count;
+            projectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count;
         }
 
-        // Allow admin access only for now
-        [FirmaAdminFeature]
-        public GridJsonNetJObjectResult<Project> ProjectDashboardProjectsGridJsonData()
+        private List<Project> GetProjectsForProjectDashboard()
         {
-            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
-            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentTenant);
-            var projectStages = new List<int>()
+            var projectStages = GetProjectStagesForProjectDashboard();
+            var solutions = GetSolutionsForProjectDashboard();
+
+            var projects = HttpRequestStorage.DatabaseEntities.Projects
+                .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
+            if (solutions.Count > 0)
+            {
+                projects = projects.Where(x => x.ProjectCustomAttributes.Any(y =>
+                    y.ProjectCustomAttributeTypeID == 121
+                    && y.ProjectCustomAttributeValues.Any(z => solutions.Contains(z.AttributeValue)))).ToList();
+            }
+
+            return projects;
+        }
+
+        private List<int> GetProjectStagesForProjectDashboard()
+        {
+            var projectStages = new List<int>
             {
                 ProjectStage.PlanningDesign.ProjectStageID,
                 ProjectStage.Implementation.ProjectStageID,
                 ProjectStage.PostImplementation.ProjectStageID,
                 ProjectStage.Completed.ProjectStageID
             };
-            var projects = HttpRequestStorage.DatabaseEntities.Projects
-                .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
-            return gridJsonNetJObjectResult;
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectStagesQueryStringParameter]))
+            {
+
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectStagesQueryStringParameter]
+                    .Split(',');
+                projectStages = filterValuesAsString.Select(int.Parse).ToList();
+            }
+            return projectStages;
+        }
+
+        private List<string> GetSolutionsForProjectDashboard()
+        {
+            var solutionTempIDs = new List<int>();
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.SolutionsQueryStringParameter]))
+            {
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.SolutionsQueryStringParameter]
+                    .Split(',');
+                solutionTempIDs = filterValuesAsString.Select(int.Parse).ToList();
+            }
+            var tempIDToSolutionValue = GetSolutionsDictionaryForProjectDashboard();
+            var solutions = tempIDToSolutionValue.Where(x => solutionTempIDs.Contains(x.Key)).Select(x => x.Value).ToList();
+            return solutions;
+        }
+
+        private Dictionary<int, string> GetSolutionsDictionaryForProjectDashboard()
+        {
+            var tempIDToSolutionValue = new Dictionary<int, string>();
+            var solutionCustomAttribute = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == 121);
+            
+            if (solutionCustomAttribute != null && solutionCustomAttribute.ProjectCustomAttributeTypeOptionsSchema != null)
+            {
+                var solutions = JsonConvert.DeserializeObject<List<string>>(solutionCustomAttribute.ProjectCustomAttributeTypeOptionsSchema);
+                if (solutions == null)
+                {
+                    return tempIDToSolutionValue;
+                }
+                var orderedSolutions = solutions.OrderBy(x => x).ToList();
+                for (int i = 0;  i < orderedSolutions.Count; i++)
+                {
+                    // make tempID start at 1 instead of 0
+                    tempIDToSolutionValue[i + 1] = solutions[i];
+                }
+            }
+
+            return tempIDToSolutionValue;
+
         }
     }
 }
