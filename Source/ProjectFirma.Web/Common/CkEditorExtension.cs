@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Common
             var ckEditorID = String.Format("CkEditorFor{0}", modelID);
 
             var wireUpJsForImageUploader = String.Empty;
-            if (ckEditorToolbarJavascript.HasImageToolbarButton)// && !string.IsNullOrWhiteSpace(filebrowserImageUploadUrl))
+            if (ckEditorToolbarJavascript.HasImageToolbarButton)
             {
                 wireUpJsForImageUploader = @"file_picker_callback: (cb, value, meta) => {
                               const input = document.createElement(""input"")
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Common
 
             //var allowedContentString = allowAllContent ? "\r\n           , allowedContent: true" : string.Empty;
 
-            //var heightString = height.HasValue ? string.Format("\r\n           , height: {0}", height.Value) : string.Empty;
+            var heightString = height.HasValue ? string.Format("\r\n           height: {0}", height.Value) : string.Empty;
 
             //tag.InnerHtml = String.Format(@"
             //    // <![CDATA[
@@ -157,15 +157,16 @@ namespace ProjectFirma.Web.Common
                             menubar: false,
                             toolbar: '{1}',
                             plugins: '{2}',
-
+                            toolbar_mode: '{4}',
+                            browser_spellcheck: true,
                             file_picker_types: 'image',
                             images_file_types: 'jpg,svg,webp,gif',
                             image_title: true,
-                            {3}
+                            {3}{5}
                     }});
                 }});
                 // ]]>
-            ", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar, ckEditorToolbarJavascript.plugins, wireUpJsForImageUploader);
+            ", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar, ckEditorToolbarJavascript.Plugins, wireUpJsForImageUploader, ckEditorToolbarJavascript.ToolbarMode, heightString);
 
 
             return tag.ToString(TagRenderMode.Normal);
@@ -175,13 +176,15 @@ namespace ProjectFirma.Web.Common
         {
             public readonly string JavascriptForToolbar;
             public readonly bool HasImageToolbarButton;
-            public readonly string plugins;
+            public readonly string Plugins;
+            public readonly string ToolbarMode;
 
-            public CkEditorToolbarJavascript(string javascriptForToolbar, bool hasImageToolbarButton, string plugins)
+            public CkEditorToolbarJavascript(string javascriptForToolbar, bool hasImageToolbarButton, string plugins, string toolbarMode)
             {
                 JavascriptForToolbar = javascriptForToolbar;
                 HasImageToolbarButton = hasImageToolbarButton;
-                this.plugins = plugins;
+                Plugins = plugins;
+                ToolbarMode = toolbarMode;
             }
         }
 
@@ -190,52 +193,59 @@ namespace ProjectFirma.Web.Common
             bool hasImageToolbarButton;
             string toolbarSettings;
             string plugins;
+            string toolbarMode;
             switch (ckEditorToolbarMode)
             {
                 case CkEditorToolbar.All:
-                    plugins = "";
+                    plugins = "code lists link image table code help wordcount charmap anchor fullscreen";
                     toolbarSettings =
-                        @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
-            { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
-            { name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
-            { name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-            '/',
-            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-            { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-            { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-            { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-            { name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }";
+                        "code | styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily | fullscreen ";
+                    toolbarMode = "wrap";
+                    //            @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
+                    //{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
+                    //{ name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
+                    //{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
+                    //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                    //'/',
+                    //{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
+                    //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
+                    //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+                    //{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                    //{ name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }";
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.AllOnOneRow:
-                    plugins = "";
+                    plugins = "AllOnOneRow";
+                    toolbarMode = "floating";
                     toolbarSettings =
-                        @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
-            { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
-            { name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
-            { name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-            { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-            { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-            { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-            { name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }";
+                        "styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ";
+                    //            @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
+                    //{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
+                    //{ name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
+                    //{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
+                    //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                    //{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
+                    //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
+                    //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+                    //{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                    //{ name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }";
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.AllOnOneRowNoMaximize:
-                    plugins = "";
+                   plugins = "lists link image table code help wordcount charmap anchor";
+                   toolbarMode = "floating";
                     toolbarSettings =
-                        @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
-            { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
-            { name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
-            { name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-            { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-            { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-            { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-            { name: 'tools', items: [ 'UIColor', 'ShowBlocks' ] }";
+                        "styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ";
+                    //            @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
+                    //{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
+                    //{ name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
+                    //{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
+                    //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+                    //{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
+                    //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
+                    //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+                    //{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                    //{ name: 'tools', items: [ 'UIColor', 'ShowBlocks' ] }";
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.Minimal:
@@ -246,6 +256,7 @@ namespace ProjectFirma.Web.Common
                         //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
                         "styleselect | bold italic removeformat | bullist numlist outdent indent | styles | fontfamily | link unlink anchor ";
                     plugins = "lists link code help wordcount anchor";
+                    toolbarMode = "floating";
                     hasImageToolbarButton = false;
                     break;
                 case CkEditorToolbar.MinimalWithImages:
@@ -256,18 +267,19 @@ namespace ProjectFirma.Web.Common
             //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
             " styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor";
                     plugins = "lists link image table code help wordcount charmap anchor";
-
+                    toolbarMode = "floating";
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.None:
                     toolbarSettings = String.Empty;
                     hasImageToolbarButton = false;
-                    plugins = "";
+                    toolbarMode = "floating";
+                    plugins = string.Empty;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("ckEditorToolbarMode");
             }
-            return new CkEditorToolbarJavascript(toolbarSettings, hasImageToolbarButton, plugins);
+            return new CkEditorToolbarJavascript(toolbarSettings, hasImageToolbarButton, plugins, toolbarMode);
         }
     }
 }
