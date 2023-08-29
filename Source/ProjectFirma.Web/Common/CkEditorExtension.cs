@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Common
             var filebrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource(firmaPageID, null));
             return CkEditorFor(helper, expression, ckEditorToolbarMode, editable, false, filebrowserImageUploadUrl, height);
         }
-        
+
         public static HtmlString CkEditorFor<TModel, TValue>(this HtmlHelper<TModel> helper,
             Expression<Func<TModel, TValue>> expression,
             CkEditorToolbar ckEditorToolbarMode,
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Common
             int? height) where TModel : FormViewModel
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, helper.ViewData);
-            var modelValue = (HtmlString) metadata.Model;
+            var modelValue = (HtmlString)metadata.Model;
             if (!editable)
             {
                 return modelValue;
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Common
 
             var textAreaID = string.Format("CkEditorFor{0}", modelID);
 
-            var htmlAttributes = new Dictionary<string, object>() {{"id", textAreaID}, {"contentEditable", "true"}, {"data-cke-editor-id", modelID}};
+            var htmlAttributes = new Dictionary<string, object>() { { "id", textAreaID }, { "contentEditable", "true" }, { "data-cke-editor-id", modelID } };
 
             var generateJavascript = GenerateJavascript(modelID, ckEditorToolbarMode, filebrowserImageUploadUrl, allowAllContent, height);
             var textAreaHtmlString = helper.TextAreaFor(expression, htmlAttributes);
@@ -97,32 +97,48 @@ namespace ProjectFirma.Web.Common
             var tag = new TagBuilder("script");
             tag.Attributes.Add("type", "text/javascript");
             tag.Attributes.Add("language", "javascript");
+
             var ckEditorToolbarJavascript = GenerateToolbarSettings(ckEditorToolbarMode);
             var ckEditorID = String.Format("CkEditorFor{0}", modelID);
 
             var wireUpJsForImageUploader = String.Empty;
-            if (ckEditorToolbarJavascript.HasImageToolbarButton && !string.IsNullOrWhiteSpace(filebrowserImageUploadUrl))
-            {
-                wireUpJsForImageUploader = String.Format("\r\n           , filebrowserImageUploadUrl: {0}", filebrowserImageUploadUrl.ToJS());
-            }
+            //if (ckEditorToolbarJavascript.HasImageToolbarButton && !string.IsNullOrWhiteSpace(filebrowserImageUploadUrl))
+            //{
+            //    wireUpJsForImageUploader = String.Format("\r\n           , filebrowserImageUploadUrl: {0}", filebrowserImageUploadUrl.ToJS());
+            //}
 
             var allowedContentString = allowAllContent ? "\r\n           , allowedContent: true" : string.Empty;
 
             var heightString = height.HasValue ? string.Format("\r\n           , height: {0}", height.Value) : string.Empty;
 
+            //tag.InnerHtml = String.Format(@"
+            //    // <![CDATA[
+            //    jQuery(document).ready(function ()
+            //    {{
+            //        CKEDITOR.replace(""{0}"", {{
+            //           toolbar:
+            //           [
+            //{1}
+            //           ]{2}{3}{4}
+            //        }});
+            //    }});
+            //    // ]]>
+            //", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar, allowedContentString, wireUpJsForImageUploader, heightString);
+
             tag.InnerHtml = String.Format(@"
-    // <![CDATA[
-    jQuery(document).ready(function ()
-    {{
-        CKEDITOR.replace(""{0}"", {{
-           toolbar:
-           [
-{1}
-           ]{2}{3}{4}
-        }});
-    }});
-    // ]]>
-", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar, allowedContentString, wireUpJsForImageUploader, heightString);
+                // <![CDATA[
+                jQuery(document).ready(function ()
+                {{
+                   tinymce.init({{
+                            selector: '#{0}',
+                            menubar: false,
+                            toolbar: '{1}',
+                            plugins: 'lists link image media table code help wordcount charmap anchor'
+                    }});
+                }});
+                // ]]>
+            ", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar);
+
 
             return tag.ToString(TagRenderMode.Normal);
         }
@@ -189,17 +205,21 @@ namespace ProjectFirma.Web.Common
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.Minimal:
-                    toolbarSettings = @"            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-            { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-            { name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
+                    toolbarSettings =
+                        //            @"            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
+                        //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
+                        //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+                        //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
+                        "styleselect | bold italic removeformat | bullist numlist outdent indent | styles | fontfamily | link unlink anchor ";
                     hasImageToolbarButton = false;
                     break;
                 case CkEditorToolbar.MinimalWithImages:
-                    toolbarSettings = @"            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-            { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-            { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
-            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
+                    toolbarSettings =
+            //            @"            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
+            //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
+            //{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
+            //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
+            " styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor";
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.None:
