@@ -28,6 +28,8 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
+using DocumentFormat.OpenXml.Office2010.PowerPoint;
+using System.Data.Linq;
 
 namespace ProjectFirma.Web.Common
 {
@@ -102,14 +104,35 @@ namespace ProjectFirma.Web.Common
             var ckEditorID = String.Format("CkEditorFor{0}", modelID);
 
             var wireUpJsForImageUploader = String.Empty;
-            //if (ckEditorToolbarJavascript.HasImageToolbarButton && !string.IsNullOrWhiteSpace(filebrowserImageUploadUrl))
-            //{
-            //    wireUpJsForImageUploader = String.Format("\r\n           , filebrowserImageUploadUrl: {0}", filebrowserImageUploadUrl.ToJS());
-            //}
+            if (ckEditorToolbarJavascript.HasImageToolbarButton)// && !string.IsNullOrWhiteSpace(filebrowserImageUploadUrl))
+            {
+                wireUpJsForImageUploader = @"file_picker_callback: (cb, value, meta) => {
+                              const input = document.createElement(""input"")
+                              input.setAttribute(""type"", ""file"")
+                              input.setAttribute(""accept"", ""image/*"")
+                              input.addEventListener(""change"", e => {
+                                const file = e.target.files[0];
 
-            var allowedContentString = allowAllContent ? "\r\n           , allowedContent: true" : string.Empty;
+                                const reader = new FileReader();
+                                reader.addEventListener(""load"", () => {
+                                  const id = ""blobid"" + new Date().getTime();
+                                  const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                                  const base64 = reader.result.split("","")[1];
+                                  const blobInfo = blobCache.create(id, file, base64);
+                                  blobCache.add(blobInfo);
 
-            var heightString = height.HasValue ? string.Format("\r\n           , height: {0}", height.Value) : string.Empty;
+                                  /* call the callback and populate the Title field with the file name */
+                                  cb(blobInfo.blobUri(), { title: file.name });
+                                });
+                                reader.readAsDataURL(file)
+                              })
+                              input.click()
+                            },";
+            }
+
+            //var allowedContentString = allowAllContent ? "\r\n           , allowedContent: true" : string.Empty;
+
+            //var heightString = height.HasValue ? string.Format("\r\n           , height: {0}", height.Value) : string.Empty;
 
             //tag.InnerHtml = String.Format(@"
             //    // <![CDATA[
@@ -133,11 +156,16 @@ namespace ProjectFirma.Web.Common
                             selector: '#{0}',
                             menubar: false,
                             toolbar: '{1}',
-                            plugins: 'lists link image media table code help wordcount charmap anchor'
+                            plugins: '{2}',
+
+                            file_picker_types: 'image',
+                            images_file_types: 'jpg,svg,webp,gif',
+                            image_title: true,
+                            {3}
                     }});
                 }});
                 // ]]>
-            ", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar);
+            ", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar, ckEditorToolbarJavascript.plugins, wireUpJsForImageUploader);
 
 
             return tag.ToString(TagRenderMode.Normal);
@@ -147,11 +175,13 @@ namespace ProjectFirma.Web.Common
         {
             public readonly string JavascriptForToolbar;
             public readonly bool HasImageToolbarButton;
+            public readonly string plugins;
 
-            public CkEditorToolbarJavascript(string javascriptForToolbar, bool hasImageToolbarButton)
+            public CkEditorToolbarJavascript(string javascriptForToolbar, bool hasImageToolbarButton, string plugins)
             {
                 JavascriptForToolbar = javascriptForToolbar;
                 HasImageToolbarButton = hasImageToolbarButton;
+                this.plugins = plugins;
             }
         }
 
@@ -159,9 +189,11 @@ namespace ProjectFirma.Web.Common
         {
             bool hasImageToolbarButton;
             string toolbarSettings;
+            string plugins;
             switch (ckEditorToolbarMode)
             {
                 case CkEditorToolbar.All:
+                    plugins = "";
                     toolbarSettings =
                         @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
             { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
@@ -177,6 +209,7 @@ namespace ProjectFirma.Web.Common
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.AllOnOneRow:
+                    plugins = "";
                     toolbarSettings =
                         @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
             { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
@@ -191,6 +224,7 @@ namespace ProjectFirma.Web.Common
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.AllOnOneRowNoMaximize:
+                    plugins = "";
                     toolbarSettings =
                         @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
             { name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
@@ -211,6 +245,7 @@ namespace ProjectFirma.Web.Common
                         //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
                         //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
                         "styleselect | bold italic removeformat | bullist numlist outdent indent | styles | fontfamily | link unlink anchor ";
+                    plugins = "lists link code help wordcount anchor";
                     hasImageToolbarButton = false;
                     break;
                 case CkEditorToolbar.MinimalWithImages:
@@ -220,16 +255,19 @@ namespace ProjectFirma.Web.Common
             //{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
             //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
             " styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor";
+                    plugins = "lists link image table code help wordcount charmap anchor";
+
                     hasImageToolbarButton = true;
                     break;
                 case CkEditorToolbar.None:
                     toolbarSettings = String.Empty;
                     hasImageToolbarButton = false;
+                    plugins = "";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("ckEditorToolbarMode");
             }
-            return new CkEditorToolbarJavascript(toolbarSettings, hasImageToolbarButton);
+            return new CkEditorToolbarJavascript(toolbarSettings, hasImageToolbarButton, plugins);
         }
     }
 }
