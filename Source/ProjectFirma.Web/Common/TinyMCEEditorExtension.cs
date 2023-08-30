@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Common
 
             var textAreaID = string.Format("TinyMCEEditorFor{0}", modelID);
 
-            var htmlAttributes = new Dictionary<string, object>() { { "id", textAreaID }, { "contentEditable", "true" }, { "data-cke-editor-id", modelID } };
+            var htmlAttributes = new Dictionary<string, object>() { { "id", textAreaID }, { "contentEditable", "true" }, { "data-editor-id", modelID } };
 
             var generateJavascript = GenerateJavascript(modelID, tinyMceToolbarStyleMode, allowAllContent, height);
             var textAreaHtmlString = helper.TextAreaFor(expression, htmlAttributes);

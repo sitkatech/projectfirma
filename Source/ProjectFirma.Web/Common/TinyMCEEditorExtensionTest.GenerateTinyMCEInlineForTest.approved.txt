@@ -1,4 +1,4 @@
-﻿<div contenteditable="true" data-cke-editor-id="ProgramPageContent" id="TinyMCEEditorForProgramPageContent">
+﻿<div contenteditable="true" data-editor-id="ProgramPageContent" id="TinyMCEEditorForProgramPageContent">
 Some html text
 </div>
 <script language="javascript" type="text/javascript">

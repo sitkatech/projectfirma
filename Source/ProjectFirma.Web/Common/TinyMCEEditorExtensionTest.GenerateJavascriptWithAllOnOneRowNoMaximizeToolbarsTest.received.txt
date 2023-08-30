@@ -5,10 +5,10 @@
                    tinymce.init({
                             selector: '#TinyMCEEditorForProgramPageContent',
                             menubar: false,
-                            toolbar: 'code | styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily | fullscreen ',
+                            toolbar: 'styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ',
                             entity_encoding: 'named+numeric',
-                            plugins: 'code lists link image table code help wordcount charmap anchor fullscreen',
-                            toolbar_mode: 'wrap',
+                            plugins: 'lists link image table code help wordcount charmap anchor',
+                            toolbar_mode: 'floating',
                             browser_spellcheck: true,
                             file_picker_types: 'image',
                             images_file_types: 'jpg,svg,webp,gif',
@@ -37,5 +37,5 @@
                             },
                     });
                 });
-    // ]]>
-</script>
+                // ]]>
+            </script>

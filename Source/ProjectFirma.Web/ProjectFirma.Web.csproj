@@ -2524,8 +2524,8 @@
     <Content Include="WebServices.svc" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateCkEditorInlineDivTest.approved.txt" />
-    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateCkEditorInlineForTest.approved.txt" />
+    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateTinyMCEInlineDivTest.approved.txt" />
+    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateTinyMCEInlineForTest.approved.txt" />
     <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithAllToolbarsTest.approved.txt" />
     <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithMinimalToolbarTest.approved.txt" />
     <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithMinimalWithImagesToolbarTest.approved.txt" />
