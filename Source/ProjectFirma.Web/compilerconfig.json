@@ -66,5 +66,13 @@
   {
     "outputFile": "ScriptsCustom/sitkaAjax.min.js",
     "inputFile": "ScriptsCustom/sitkaAjax.js"
+  },
+  {
+    "outputFile": "ScriptsCustom/bootstrap-ckeditor-fix.es5.js",
+    "inputFile": "ScriptsCustom/bootstrap-ckeditor-fix.js"
+  },
+  {
+    "outputFile": "ScriptsCustom/ModalDialogForm.es5.js",
+    "inputFile": "ScriptsCustom/ModalDialogForm.js"
   }
 ]

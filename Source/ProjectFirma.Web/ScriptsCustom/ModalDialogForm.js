@@ -135,9 +135,10 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
     dialogDiv.on("hidden.bs.modal", function () {
         // It turns out that closing a bootstrap UI dialog
         // does not actually remove the element from the
-        // page but just hides it. For the server side 
+        // page but just hides it. For the server side
         // validation tooltips to show up you need to
         // remove the original form the page
+        tinymce.remove("#" + dialogDivId + " textarea");
         jQuery("#" + dialogDivId).remove();
     });
 

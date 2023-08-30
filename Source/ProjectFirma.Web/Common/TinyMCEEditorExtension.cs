@@ -118,21 +118,7 @@ namespace ProjectFirma.Web.Common
             //var allowedContentString = allowAllContent ? "\r\n           , allowedContent: true" : string.Empty;
 
             var heightString = height.HasValue ? string.Format("\r\n           height: {0}", height.Value) : string.Empty;
-
-            //tag.InnerHtml = String.Format(@"
-            //    // <![CDATA[
-            //    jQuery(document).ready(function ()
-            //    {{
-            //        CKEDITOR.replace(""{0}"", {{
-            //           toolbar:
-            //           [
-            //{1}
-            //           ]{2}{3}{4}
-            //        }});
-            //    }});
-            //    // ]]>
-            //", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar, allowedContentString, wireUpJsForImageUploader, heightString);
-
+            
             tag.InnerHtml = String.Format(@"
                 // <![CDATA[
                 jQuery(document).ready(function ()
