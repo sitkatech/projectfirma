@@ -109,10 +109,10 @@ else
             function sendPreviewEmail()
             {
                 var editorId = "@("TinyMCEEditorFor" + Html.IdFor(x => x.NotificationContent))";
-                var ckEditor = CKEDITOR.instances[editorId];
+                var editorData = tinymce.get(editorId).getContent();
                 var subject = jQuery("#@Html.IdFor(x => x.Subject)");
                 var postData = {
-                    NotificationContent: ckEditor.getData(),
+                    NotificationContent: editorData,
                     Subject: subject.val()
                 };
                 SitkaAjax.post(@Html.Raw(ViewDataTyped.SendPreviewEmailUrl.ToJS()), postData,
