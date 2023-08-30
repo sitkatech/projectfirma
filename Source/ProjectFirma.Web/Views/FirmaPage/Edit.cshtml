@@ -22,22 +22,6 @@
 @inherits ProjectFirma.Web.Views.FirmaPage.Edit
 
 
-@*@section JavascriptAndStylesContent
-{
-    <script type="text/javascript">
-       // Prevent Bootstrap dialog from blocking focusin
-    $(document).on('focusin', function(e) {
-      if ($(e.target).closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root").length) {
-        e.stopImmediatePropagation();
-      }
-    });
-
-        $('#modalOne').on('hide.bs.modal', function () {
-            tinyMCE.editors = [];
-        });
-    </script>
-}*@
-
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary()

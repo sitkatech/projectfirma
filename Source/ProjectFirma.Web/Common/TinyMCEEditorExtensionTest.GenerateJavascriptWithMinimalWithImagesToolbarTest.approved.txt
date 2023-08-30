@@ -1,7 +1,7 @@
 ﻿<script language="javascript" type="text/javascript">
-    // <![CDATA[
-    jQuery(document).ready(function ()
-    {
+                // <![CDATA[
+                jQuery(document).ready(function ()
+                {
                    tinymce.init({
                             selector: '#TinyMCEEditorForProgramPageContent',
                             menubar: false,
@@ -35,6 +35,15 @@
                               })
                               input.click()
                             },
+                            setup: function (editor) {
+                                editor.on('FullscreenStateChanged', function (e) {
+                                    if (e.state) {
+                                        $('.modal-dialog').attr('style', 'transform: none !important');
+                                    } else {
+                                        $('.modal-dialog').attr('style', 'transform: translate(0,0)');
+                                    }
+                                });
+                            }
                     });
                 });
                 // ]]>

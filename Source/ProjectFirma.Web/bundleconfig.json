@@ -52,11 +52,5 @@
     "inputFiles": [
       "ScriptsCustom/sitka.js"
     ]
-  },
-  {
-    "outputFileName": "ScriptsCustom/bootstrap-ckeditor-fix.min.js",
-    "inputFiles": [
-      "ScriptsCustom/bootstrap-ckeditor-fix.js"
-    ]
   }
 ]

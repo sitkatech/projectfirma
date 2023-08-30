@@ -115,8 +115,6 @@ namespace ProjectFirma.Web.Common
                             },";
             }
 
-            //var allowedContentString = allowAllContent ? "\r\n           , allowedContent: true" : string.Empty;
-
             var heightString = height.HasValue ? string.Format("\r\n           height: {0}", height.Value) : string.Empty;
             
             tag.InnerHtml = String.Format(@"
@@ -135,6 +133,15 @@ namespace ProjectFirma.Web.Common
                             images_file_types: 'jpg,svg,webp,gif',
                             image_title: true,
                             {3}{5}
+                            setup: function (editor) {{
+                                editor.on('FullscreenStateChanged', function (e) {{
+                                    if (e.state) {{
+                                        $('.modal-dialog').attr('style', 'transform: none !important');
+                                    }} else {{
+                                        $('.modal-dialog').attr('style', 'transform: translate(0,0)');
+                                    }}
+                                }});
+                            }}
                     }});
                 }});
                 // ]]>
@@ -157,6 +164,7 @@ namespace ProjectFirma.Web.Common
                 HasImageToolbarButton = hasImageToolbarButton;
                 Plugins = plugins;
                 ToolbarMode = toolbarMode;
+
             }
         }
 
@@ -173,17 +181,6 @@ namespace ProjectFirma.Web.Common
                     toolbarSettings =
                         "code | styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily | fullscreen ";
                     toolbarMode = "wrap";
-                    //            @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
-                    //{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
-                    //{ name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
-                    //{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-                    //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-                    //'/',
-                    //{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-                    //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-                    //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-                    //{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                    //{ name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }";
                     hasImageToolbarButton = true;
                     break;
                 case TinyMCEToolbarStyle.AllOnOneRow:
@@ -191,16 +188,7 @@ namespace ProjectFirma.Web.Common
                     toolbarMode = "floating";
                     toolbarSettings =
                         "styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ";
-                    //            @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
-                    //{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
-                    //{ name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
-                    //{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-                    //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-                    //{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-                    //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-                    //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-                    //{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                    //{ name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }";
+                    
                     hasImageToolbarButton = true;
                     break;
                 case TinyMCEToolbarStyle.AllOnOneRowNoMaximize:
@@ -208,24 +196,11 @@ namespace ProjectFirma.Web.Common
                    toolbarMode = "floating";
                     toolbarSettings =
                         "styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ";
-                    //            @"            { name: 'document',    groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', 'Templates', 'document' ] },
-                    //{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', 'SelectAll', 'Scayt' ] },
-                    //{ name: 'insert', items: [ 'CreatePlaceholder', 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'InsertPre' ] },
-                    //{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-                    //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-                    //{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-                    //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-                    //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-                    //{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-                    //{ name: 'tools', items: [ 'UIColor', 'ShowBlocks' ] }";
+                    
                     hasImageToolbarButton = true;
                     break;
                 case TinyMCEToolbarStyle.Minimal:
                     toolbarSettings =
-                        //            @"            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-                        //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-                        //{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-                        //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
                         "styleselect | bold italic removeformat | bullist numlist outdent indent | styles | fontfamily | link unlink anchor ";
                     plugins = "lists link code help wordcount anchor";
                     toolbarMode = "floating";
@@ -233,11 +208,7 @@ namespace ProjectFirma.Web.Common
                     break;
                 case TinyMCEToolbarStyle.MinimalWithImages:
                     toolbarSettings =
-            //            @"            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
-            //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
-            //{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
-            //{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] }";
-            " styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor";
+                        " styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor";
                     plugins = "lists link image table code help wordcount charmap anchor";
                     toolbarMode = "floating";
                     hasImageToolbarButton = true;

@@ -1339,7 +1339,6 @@
     <Content Include="Content\typeahead\typeahead.min.js">
       <DependentUpon>typeahead.js</DependentUpon>
     </Content>
-    <Content Include="ScriptsCustom\bootstrap-ckeditor-fix.min.js.map" />
     <Content Include="ScriptsCustom\BootstrapModalAlert.min.js.map" />
     <Content Include="ScriptsCustom\DatePickerReady.min.js.map" />
     <Content Include="ScriptsCustom\FancyboxReady.min.js.map" />
@@ -2525,7 +2524,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Common\TinyMCEEditorExtensionTest.GenerateTinyMCEInlineDivTest.approved.txt" />
-    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateTinyMCEInlineForTest.approved.txt" />
     <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithAllToolbarsTest.approved.txt" />
     <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithMinimalToolbarTest.approved.txt" />
     <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithMinimalWithImagesToolbarTest.approved.txt" />
