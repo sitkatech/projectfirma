@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
@@ -34,42 +35,52 @@ namespace ProjectFirma.Web.Views.Results
 {
     public class ProjectDashboardViewData : FirmaViewData
     {
-        public List<ProjectFirmaModels.Models.Project> Projects { get; }
+        public const string ProjectStagesQueryStringParameter = "ProjectStages";
+        public static string ProjectStagesQueryStringValuePlaceholder = "ProjectStagesPlaceholder";
+        public const string SolutionsQueryStringParameter = "Solutions";
+        public static string SolutionsQueryStringValuePlaceholder = "SolutionsPlaceholder";
+
+        public List<SelectListItem> Solutions { get; }
+        public List<ProjectStage> ProjectStages { get; }
         public int TotalProjects { get; }
         public int TotalPartners { get; }
         public int TotalProjectsInUnderservedCommunities { get; }
         public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
         public string ProjectCustomDefaultGridName { get; }
         public string ProjectCustomDefaultGridDataUrl { get; }
-        public bool HasSitkaAdminPermissions { get; set; }
+        public string ProjectDashboardSummaryUrl { get; }
+        public string ReloadProjectGridDataUrl { get; }
 
         public ProjectDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
-            List<ProjectFirmaModels.Models.Project> projects,
-            List<ProjectFirmaModels.Models.Organization> projectSponsors,
-            List<ProjectFirmaModels.Models.Project> projectsInUnderservedCommunities,
-            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations,
-            Dictionary<int, vProjectDetail> projectDetailsDictionary) : base(currentFirmaSession, firmaPage)
+            int projectCount,
+            int partnerCount,
+            int projectsInUnderservedCommunitiesCount,
+            ProjectCustomGridSpec projectGridSpec,
+            List<SelectListItem> solutionSelectListItems) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Project Dashboard";
-            Projects = projects;
 
-            TotalProjects = projects.Count;
-            TotalPartners = projectSponsors.Count;
-            TotalProjectsInUnderservedCommunities = projectsInUnderservedCommunities.Count;
+            ProjectStages = new List<ProjectStage>()
+            {
+                ProjectStage.PlanningDesign,
+                ProjectStage.Implementation,
+                ProjectStage.PostImplementation,
+                ProjectStage.Completed
+            };
+            Solutions = solutionSelectListItems;
 
-            ProjectCustomDefaultGridSpec =
-                new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations,
-                    ProjectCustomGridType.Default.ToEnum, projectDetailsDictionary, currentFirmaSession.Tenant)
-                {
-                    ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
-                    ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                    SaveFiltersInCookie = true
-                };
+            TotalProjects = projectCount;
+            TotalPartners = partnerCount;
+            TotalProjectsInUnderservedCommunities = projectsInUnderservedCommunitiesCount;
+
+            ProjectCustomDefaultGridSpec = projectGridSpec;
             ProjectCustomDefaultGridName = "projectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(tc => tc.ProjectDashboardProjectsGridJsonData());
 
-
-            HasSitkaAdminPermissions = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            ProjectDashboardSummaryUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardProjectSummary())}?" +
+                                         $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}&{SolutionsQueryStringParameter}={SolutionsQueryStringValuePlaceholder}";
+            ReloadProjectGridDataUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardProjectsGridJsonData())}?" +
+                                       $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}&{SolutionsQueryStringParameter}={SolutionsQueryStringValuePlaceholder}";
         }
     }
 }
