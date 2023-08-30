@@ -85,7 +85,7 @@ else
             <hr/>
             <div class="row">
                 <div class="col-md-12">
-                    @Html.CkEditorFor(x => x.NotificationContent, CkEditorExtension.CkEditorToolbar.All, true, true, null)
+                    @Html.TinyMCEEditorFor(x => x.NotificationContent, TinyMCEExtension.TinyMCEToolbarStyle.All, true, true, null)
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@ else
         <script>
             function sendPreviewEmail()
             {
-                var editorId = "@("CkEditorFor" + Html.IdFor(x => x.NotificationContent))";
+                var editorId = "@("TinyMCEEditorFor" + Html.IdFor(x => x.NotificationContent))";
                 var ckEditor = CKEDITOR.instances[editorId];
                 var subject = jQuery("#@Html.IdFor(x => x.Subject)");
                 var postData = {

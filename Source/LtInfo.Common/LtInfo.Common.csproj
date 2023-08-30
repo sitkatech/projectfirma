@@ -408,7 +408,6 @@
     <Compile Include="DhtmlWrappers\DhtmlxGridColumnFilterType.cs" />
     <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpers.cs" />
     <Compile Include="VersionInformation.cs" />
-    <Compile Include="Views\CKEditorWithMaxLengthAttribute.cs" />
     <Compile Include="Views\DownloadFileDescriptor.cs" />
     <Compile Include="Views\FieldTemplateMetadata.cs" />
     <Compile Include="DhtmlWrappers\GridSpec.cs" />

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="CkEditorExtension.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="TinyMCEExtension.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -25,17 +25,14 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
-using DocumentFormat.OpenXml.Office2010.PowerPoint;
-using System.Data.Linq;
+
 
 namespace ProjectFirma.Web.Common
 {
-    public static class CkEditorExtension
+    public static class TinyMCEExtension
     {
-        public enum CkEditorToolbar
+        public enum TinyMCEToolbarStyle
         {
             All,
             AllOnOneRow,
@@ -45,36 +42,24 @@ namespace ProjectFirma.Web.Common
             None
         }
 
-        public static HtmlString CkEditorFor<TModel, TValue>(this HtmlHelper<TModel> helper,
-            Expression<Func<TModel, TValue>> expression,
-            CkEditorToolbar ckEditorToolbarMode,
-            bool editable,
-            bool allowAllContent,
-            int? height) where TModel : FormViewModel
-        {
-            return CkEditorFor(helper, expression, ckEditorToolbarMode, editable, allowAllContent, null, height);
-        }
-
         /// <summary>
-        /// This is used by ckeditors for a FirmaPage
+        /// This is used by tinyMCEeditors for a FirmaPage
         /// </summary>
-        public static HtmlString CkEditorFor<TModel, TValue>(this HtmlHelper<TModel> helper,
+        public static HtmlString TinyMCEEditorFor<TModel, TValue>(this HtmlHelper<TModel> helper,
             Expression<Func<TModel, TValue>> expression,
-            CkEditorToolbar ckEditorToolbarMode,
+            TinyMCEToolbarStyle tinyMceToolbarStyleMode,
             bool editable,
             int firmaPageID,
             int? height) where TModel : FormViewModel
         {
-            var filebrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource(firmaPageID, null));
-            return CkEditorFor(helper, expression, ckEditorToolbarMode, editable, false, filebrowserImageUploadUrl, height);
+            return TinyMCEEditorFor(helper, expression, tinyMceToolbarStyleMode, editable, false, height);
         }
 
-        public static HtmlString CkEditorFor<TModel, TValue>(this HtmlHelper<TModel> helper,
+        public static HtmlString TinyMCEEditorFor<TModel, TValue>(this HtmlHelper<TModel> helper,
             Expression<Func<TModel, TValue>> expression,
-            CkEditorToolbar ckEditorToolbarMode,
+            TinyMCEToolbarStyle tinyMceToolbarStyleMode,
             bool editable,
             bool allowAllContent,
-            string filebrowserImageUploadUrl,
             int? height) where TModel : FormViewModel
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, helper.ViewData);
@@ -85,26 +70,26 @@ namespace ProjectFirma.Web.Common
             }
             var modelID = helper.IdFor(expression).ToString();
 
-            var textAreaID = string.Format("CkEditorFor{0}", modelID);
+            var textAreaID = string.Format("TinyMCEEditorFor{0}", modelID);
 
             var htmlAttributes = new Dictionary<string, object>() { { "id", textAreaID }, { "contentEditable", "true" }, { "data-cke-editor-id", modelID } };
 
-            var generateJavascript = GenerateJavascript(modelID, ckEditorToolbarMode, filebrowserImageUploadUrl, allowAllContent, height);
+            var generateJavascript = GenerateJavascript(modelID, tinyMceToolbarStyleMode, allowAllContent, height);
             var textAreaHtmlString = helper.TextAreaFor(expression, htmlAttributes);
             return MvcHtmlString.Create(string.Format(@"{0}{1}", textAreaHtmlString, generateJavascript));
         }
 
-        public static string GenerateJavascript(string modelID, CkEditorToolbar ckEditorToolbarMode, string filebrowserImageUploadUrl, bool allowAllContent, int? height)
+        public static string GenerateJavascript(string modelID, TinyMCEToolbarStyle tinyMceToolbarStyleMode, bool allowAllContent, int? height)
         {
             var tag = new TagBuilder("script");
             tag.Attributes.Add("type", "text/javascript");
             tag.Attributes.Add("language", "javascript");
 
-            var ckEditorToolbarJavascript = GenerateToolbarSettings(ckEditorToolbarMode);
-            var ckEditorID = String.Format("CkEditorFor{0}", modelID);
+            var tinyMCEEditorToolbarJavascript = GenerateToolbarSettings(tinyMceToolbarStyleMode);
+            var editorId = String.Format("TinyMCEEditorFor{0}", modelID);
 
             var wireUpJsForImageUploader = String.Empty;
-            if (ckEditorToolbarJavascript.HasImageToolbarButton)
+            if (tinyMCEEditorToolbarJavascript.HasImageToolbarButton)
             {
                 wireUpJsForImageUploader = @"file_picker_callback: (cb, value, meta) => {
                               const input = document.createElement(""input"")
@@ -156,6 +141,7 @@ namespace ProjectFirma.Web.Common
                             selector: '#{0}',
                             menubar: false,
                             toolbar: '{1}',
+                            entity_encoding: 'named+numeric',
                             plugins: '{2}',
                             toolbar_mode: '{4}',
                             browser_spellcheck: true,
@@ -166,20 +152,20 @@ namespace ProjectFirma.Web.Common
                     }});
                 }});
                 // ]]>
-            ", ckEditorID, ckEditorToolbarJavascript.JavascriptForToolbar, ckEditorToolbarJavascript.Plugins, wireUpJsForImageUploader, ckEditorToolbarJavascript.ToolbarMode, heightString);
+            ", editorId, tinyMCEEditorToolbarJavascript.JavascriptForToolbar, tinyMCEEditorToolbarJavascript.Plugins, wireUpJsForImageUploader, tinyMCEEditorToolbarJavascript.ToolbarMode, heightString);
 
 
             return tag.ToString(TagRenderMode.Normal);
         }
 
-        private class CkEditorToolbarJavascript
+        private class TinyMCEEditorToolbarJavascript
         {
             public readonly string JavascriptForToolbar;
             public readonly bool HasImageToolbarButton;
             public readonly string Plugins;
             public readonly string ToolbarMode;
 
-            public CkEditorToolbarJavascript(string javascriptForToolbar, bool hasImageToolbarButton, string plugins, string toolbarMode)
+            public TinyMCEEditorToolbarJavascript(string javascriptForToolbar, bool hasImageToolbarButton, string plugins, string toolbarMode)
             {
                 JavascriptForToolbar = javascriptForToolbar;
                 HasImageToolbarButton = hasImageToolbarButton;
@@ -188,15 +174,15 @@ namespace ProjectFirma.Web.Common
             }
         }
 
-        private static CkEditorToolbarJavascript GenerateToolbarSettings(CkEditorToolbar ckEditorToolbarMode)
+        private static TinyMCEEditorToolbarJavascript GenerateToolbarSettings(TinyMCEToolbarStyle tinyMceToolbarStyleMode)
         {
             bool hasImageToolbarButton;
             string toolbarSettings;
             string plugins;
             string toolbarMode;
-            switch (ckEditorToolbarMode)
+            switch (tinyMceToolbarStyleMode)
             {
-                case CkEditorToolbar.All:
+                case TinyMCEToolbarStyle.All:
                     plugins = "code lists link image table code help wordcount charmap anchor fullscreen";
                     toolbarSettings =
                         "code | styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily | fullscreen ";
@@ -214,7 +200,7 @@ namespace ProjectFirma.Web.Common
                     //{ name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }";
                     hasImageToolbarButton = true;
                     break;
-                case CkEditorToolbar.AllOnOneRow:
+                case TinyMCEToolbarStyle.AllOnOneRow:
                     plugins = "AllOnOneRow";
                     toolbarMode = "floating";
                     toolbarSettings =
@@ -231,7 +217,7 @@ namespace ProjectFirma.Web.Common
                     //{ name: 'tools', items: [ 'UIColor', 'Maximize', 'ShowBlocks' ] }";
                     hasImageToolbarButton = true;
                     break;
-                case CkEditorToolbar.AllOnOneRowNoMaximize:
+                case TinyMCEToolbarStyle.AllOnOneRowNoMaximize:
                    plugins = "lists link image table code help wordcount charmap anchor";
                    toolbarMode = "floating";
                     toolbarSettings =
@@ -248,7 +234,7 @@ namespace ProjectFirma.Web.Common
                     //{ name: 'tools', items: [ 'UIColor', 'ShowBlocks' ] }";
                     hasImageToolbarButton = true;
                     break;
-                case CkEditorToolbar.Minimal:
+                case TinyMCEToolbarStyle.Minimal:
                     toolbarSettings =
                         //            @"            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
                         //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
@@ -259,7 +245,7 @@ namespace ProjectFirma.Web.Common
                     toolbarMode = "floating";
                     hasImageToolbarButton = false;
                     break;
-                case CkEditorToolbar.MinimalWithImages:
+                case TinyMCEToolbarStyle.MinimalWithImages:
                     toolbarSettings =
             //            @"            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', 'RemoveFormat' ] },
             //{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', 'Outdent', 'Indent', 'CreateDiv', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'BidiLtr', 'BidiRtl' ] },
@@ -270,16 +256,16 @@ namespace ProjectFirma.Web.Common
                     toolbarMode = "floating";
                     hasImageToolbarButton = true;
                     break;
-                case CkEditorToolbar.None:
+                case TinyMCEToolbarStyle.None:
                     toolbarSettings = String.Empty;
                     hasImageToolbarButton = false;
                     toolbarMode = "floating";
                     plugins = string.Empty;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("ckEditorToolbarMode");
+                    throw new ArgumentOutOfRangeException("tinyMceToolbarStyleMode");
             }
-            return new CkEditorToolbarJavascript(toolbarSettings, hasImageToolbarButton, plugins, toolbarMode);
+            return new TinyMCEEditorToolbarJavascript(toolbarSettings, hasImageToolbarButton, plugins, toolbarMode);
         }
     }
 }

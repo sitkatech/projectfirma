@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @Html.HiddenFor(m => m.ClassificationSystemSimples[i].ClassificationSystemID)
                                 @Html.HiddenFor(m => m.ClassificationSystemSimples[i].CanDelete)
                             </td>
-                            <td>@Html.CkEditorFor(m => m.ClassificationSystemSimples[i].ClassificationSystemDefinition, CkEditorExtension.CkEditorToolbar.Minimal, true, false, null, 50)</td>
+                            <td>@Html.TinyMCEEditorFor(m => m.ClassificationSystemSimples[i].ClassificationSystemDefinition, TinyMCEExtension.TinyMCEToolbarStyle.Minimal, true, false, 50)</td>
                         </tr>
                     }
                     </tbody>

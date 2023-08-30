@@ -2281,8 +2281,8 @@
     <Compile Include="Common\FirmaHelpers.cs" />
     <Compile Include="Common\SecuredActionUrlHelper.cs" />
     <Compile Include="FirmaSetupFixture.cs" />
-    <Compile Include="Common\CkEditorExtension.cs" />
-    <Compile Include="Common\CkEditorExtensionTest.cs" />
+    <Compile Include="Common\TinyMCEEditorExtension.cs" />
+    <Compile Include="Common\TinyMCEEditorExtensionTest.cs" />
     <Compile Include="Common\FileResourceResult.cs" />
     <Compile Include="Common\PdfResult.cs" />
     <Compile Include="Models\ProjectLocationModelExtensions.cs" />
@@ -2519,12 +2519,12 @@
     <Content Include="WebServices.svc" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\CkEditorExtensionTest.GenerateCkEditorInlineDivTest.approved.txt" />
-    <Content Include="Common\CkEditorExtensionTest.GenerateCkEditorInlineForTest.approved.txt" />
-    <Content Include="Common\CkEditorExtensionTest.GenerateJavascriptWithAllToolbarsTest.approved.txt" />
-    <Content Include="Common\CkEditorExtensionTest.GenerateJavascriptWithMinimalToolbarTest.approved.txt" />
-    <Content Include="Common\CkEditorExtensionTest.GenerateJavascriptWithMinimalWithImagesToolbarTest.approved.txt" />
-    <Content Include="Common\CkEditorExtensionTest.GenerateJavascriptWithNoToolbarTest.approved.txt" />
+    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateCkEditorInlineDivTest.approved.txt" />
+    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateCkEditorInlineForTest.approved.txt" />
+    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithAllToolbarsTest.approved.txt" />
+    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithMinimalToolbarTest.approved.txt" />
+    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithMinimalWithImagesToolbarTest.approved.txt" />
+    <Content Include="Common\TinyMCEEditorExtensionTest.GenerateJavascriptWithNoToolbarTest.approved.txt" />
     <Content Include="Content\angular\angular-animate.js" />
     <Content Include="Content\angular\angular-animate.min.js" />
     <Content Include="Content\angular\angular-aria.js" />

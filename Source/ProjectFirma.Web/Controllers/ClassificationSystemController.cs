@@ -55,8 +55,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditInDialog(EditPageContentViewModel viewModel, ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
-            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.Minimal;
-            var viewData = new EditPageContentViewData(ckEditorToolbar);
+            var tinyMceToolbarStyle = TinyMCEExtension.TinyMCEToolbarStyle.Minimal;
+            var viewData = new EditPageContentViewData(tinyMceToolbarStyle);
             return RazorPartialView<EditPageContent, EditPageContentViewData, EditPageContentViewModel>(viewData, viewModel);
         }
     }

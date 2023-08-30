@@ -28,16 +28,16 @@ using NUnit.Framework;
 namespace ProjectFirma.Web.Common
 {
     [TestFixture]
-    public class CkEditorExtensionTest
+    public class TinyMCEEditorExtensionTest
     {
         [Test]
         [UseReporter(typeof(DiffReporter))]
         public void GenerateJavascriptWithMinimalToolbarTest()
         {
             const string modelID = "ProgramPageContent";
-            var result = CkEditorExtension.GenerateJavascript(modelID,
-                CkEditorExtension.CkEditorToolbar.Minimal,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource((int?)7, null)), false, null);
+            var result = TinyMCEExtension.GenerateJavascript(modelID,
+                TinyMCEExtension.TinyMCEToolbarStyle.Minimal,
+                 false, null);
             Approvals.Verify(result);
         }
 
@@ -46,9 +46,9 @@ namespace ProjectFirma.Web.Common
         public void GenerateJavascriptWithMinimalWithImagesToolbarTest()
         {
             const string modelID = "ProgramPageContent";
-            var result = CkEditorExtension.GenerateJavascript(modelID,
-                CkEditorExtension.CkEditorToolbar.MinimalWithImages,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource((int?)7, null)), false, null);
+            var result = TinyMCEExtension.GenerateJavascript(modelID,
+                TinyMCEExtension.TinyMCEToolbarStyle.MinimalWithImages,
+                 false, null);
             Approvals.Verify(result);
         }
 
@@ -57,9 +57,9 @@ namespace ProjectFirma.Web.Common
         public void GenerateJavascriptWithNoToolbarTest()
         {
             const string modelID = "ProgramPageContent";
-            var result = CkEditorExtension.GenerateJavascript(modelID,
-                CkEditorExtension.CkEditorToolbar.None,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource((int?)7, null)), false, null);
+            var result = TinyMCEExtension.GenerateJavascript(modelID,
+                TinyMCEExtension.TinyMCEToolbarStyle.None,
+                 false, null);
             Approvals.Verify(result);
         }
 
@@ -68,9 +68,9 @@ namespace ProjectFirma.Web.Common
         public void GenerateJavascriptWithAllToolbarsTest()
         {
             const string modelID = "ProgramPageContent";
-            var result = CkEditorExtension.GenerateJavascript(modelID,
-                CkEditorExtension.CkEditorToolbar.All,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource((int?)7, null)), false, null);
+            var result = TinyMCEExtension.GenerateJavascript(modelID,
+                TinyMCEExtension.TinyMCEToolbarStyle.All,
+                 false, null);
             Approvals.Verify(result);
         }
 
@@ -79,9 +79,9 @@ namespace ProjectFirma.Web.Common
         public void GenerateJavascriptWithAllOnOneRowToolbarsTest()
         {
             const string modelID = "ProgramPageContent";
-            var result = CkEditorExtension.GenerateJavascript(modelID,
-                CkEditorExtension.CkEditorToolbar.AllOnOneRow,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource((int?)7, null)), false, null);
+            var result = TinyMCEExtension.GenerateJavascript(modelID,
+                TinyMCEExtension.TinyMCEToolbarStyle.AllOnOneRow,
+                 false, null);
             Approvals.Verify(result);
         }
 
@@ -90,9 +90,9 @@ namespace ProjectFirma.Web.Common
         public void GenerateJavascriptWithAllOnOneRowNoMaximizeToolbarsTest()
         {
             const string modelID = "ProgramPageContent";
-            var result = CkEditorExtension.GenerateJavascript(modelID,
-                CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.CkEditorUploadFileResource((int?)7, null)), false, null);
+            var result = TinyMCEExtension.GenerateJavascript(modelID,
+                TinyMCEExtension.TinyMCEToolbarStyle.AllOnOneRowNoMaximize,
+                 false, null);
             Approvals.Verify(result);
         }
 

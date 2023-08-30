@@ -1,32 +1,49 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
-Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
-<author>Environmental Science Associates</author>
-</copyright>
+    <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.FirmaPage.Edit
+
+
+@*@section JavascriptAndStylesContent
+{
+    <script type="text/javascript">
+       // Prevent Bootstrap dialog from blocking focusin
+    $(document).on('focusin', function(e) {
+      if ($(e.target).closest(".tox-tinymce, .tox-tinymce-aux, .moxman-window, .tam-assetmanager-root").length) {
+        e.stopImmediatePropagation();
+      }
+    });
+
+        $('#modalOne').on('hide.bs.modal', function () {
+            tinyMCE.editors = [];
+        });
+    </script>
+}*@
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary()
     <div style="max-height: 600px; overflow-y: auto">
-        @Html.CkEditorFor(x => x.FirmaPageContentHtmlString, ViewDataTyped.CkEditorToolbar, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 600)
+        @Html.TinyMCEEditorFor(x => x.FirmaPageContentHtmlString, ViewDataTyped.TinyMceToolbarStyle, true, false, 600)
     </div>
 
-    
+
 }

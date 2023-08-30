@@ -1,0 +1,13 @@
+﻿<script language="javascript" type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function ()
+    {
+        CKEDITOR.replace("CkEditorForProgramPageContent", {
+           toolbar:
+           [
+
+           ]
+        });
+    });
+    // ]]>
+</script>
