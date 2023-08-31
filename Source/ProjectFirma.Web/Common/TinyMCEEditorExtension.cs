@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Common
                             },";
             }
 
-            var heightString = height.HasValue ? string.Format("\r\n           height: {0}", height.Value) : string.Empty;
+            var heightString = height.HasValue ? string.Format("\r\n           height: {0},", height.Value) : string.Empty;
             
             tag.InnerHtml = String.Format(@"
                 // <![CDATA[
