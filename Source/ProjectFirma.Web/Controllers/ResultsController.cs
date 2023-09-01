@@ -764,7 +764,7 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
 
-            GetProjectSummaryData(out var projectCount, out var partnerCount, out var projectsInUnderservedCommunitiesCount);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
                 .ProjectCustomGridConfigurations
@@ -783,10 +783,15 @@ namespace ProjectFirma.Web.Controllers
 
             var tempIDToSolutionValue = GetSolutionsDictionaryForProjectDashboard();
             var solutionsSelectList = tempIDToSolutionValue.ToSelectList(x => x.Key.ToString(CultureInfo.InvariantCulture), x => x.Value).ToList();
-            
+
+            var underservedCommunitiesGoogleChart =
+                GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var projectDashboardChartsViewData =
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
+
             var viewData =
-                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, partnerCount,
-                    projectsInUnderservedCommunitiesCount, projectGridSpec, solutionsSelectList);
+                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count,
+                    projectsInUnderservedCommunities.Count, projectGridSpec, solutionsSelectList, projectDashboardChartsViewData);
             return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
         }
 
@@ -812,30 +817,60 @@ namespace ProjectFirma.Web.Controllers
         public JsonNetJObjectResult ProjectDashboardProjectSummary()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            GetProjectSummaryData(out var projectCount, out var partnerCount, out var projectsInUnderservedCommunitiesCount);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
             return new JsonNetJObjectResult(new
             {
-                ProjectCount = projectCount.ToGroupedNumeric(),
-                PartnerCount = partnerCount.ToGroupedNumeric(),
-                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunitiesCount.ToGroupedNumeric()
+                ProjectCount = projects.Count.ToGroupedNumeric(),
+                PartnerCount = partners.Count.ToGroupedNumeric(),
+                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count.ToGroupedNumeric()
             });
         }
 
-        private void GetProjectSummaryData(out int projectCount, out int partnerCount, out int projectsInUnderservedCommunitiesCount)
+        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities)
         {
-            var projects = GetProjectsForProjectDashboard();
+            projects = GetProjectsForProjectDashboard();
 
-            var projectSponsors = projects
+            projectSponsors = projects
                 .SelectMany(x => x.ProjectOrganizations).Where(x => x.OrganizationRelationshipType.IsPrimaryContact).Select(x => x.Organization).Distinct().ToList();
             var geospatialAreaNames = new List<string>()
             {
                 "Disadvantaged Community",
                 "Severely Disadvantaged Community"
             };
-            var projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
-            projectCount = projects.Count;
-            partnerCount = projectSponsors.Count;
-            projectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count;
+            projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
+        }
+
+        private GoogleChartJson GetUnderservedCommunitiesPieChartForProjectDashboard(List<Project> projects,  List<Project> projectsInUnderservedCommunities)
+        {
+            var chartTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by Underserved Community Status";
+            var pieChartContainerID = chartTitle.Replace(" ", "");
+
+            var googlePieChartSlices = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardPieChartSlices(projects, projectsInUnderservedCommunities);
+            var googleChartDataTable = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardGoogleChartDataTable(googlePieChartSlices);
+
+            var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+
+            var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number,
+                googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle,
+                googleChartConfigurationArea) {PieSliceText = "value"};
+            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.Right);
+
+            var pieChart = new GoogleChartJson(chartTitle, pieChartContainerID, pieChartConfiguration,
+                GoogleChartType.PieChart, googleChartDataTable, null);
+            pieChart.CanConfigureChart = false;
+            return pieChart;
+
+        }
+
+        [FirmaAdminFeature]
+        public PartialViewResult ProjectDashboardCharts()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
+            var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
+            return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 
         private List<Project> GetProjectsForProjectDashboard()
