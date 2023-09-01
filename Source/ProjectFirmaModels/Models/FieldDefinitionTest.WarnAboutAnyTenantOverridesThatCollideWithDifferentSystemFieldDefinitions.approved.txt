@@ -1,2 +1,4 @@
 ﻿fieldDefinitionDefinitionID	DefaultSystemFieldDefinitionDisplayName	dataFieldDefinitionID	FieldDefinitionDataID	TenantID	TenantOverriddenFieldDefinitionDisplayName
 25	Primary Contact	252	1661	11	Primary Contact
+286	Contact Type	289	1969	13	Contact Type
+34	Organization Type	245	1937	13	Organization Type
