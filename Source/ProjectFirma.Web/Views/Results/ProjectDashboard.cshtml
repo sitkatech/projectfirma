@@ -92,19 +92,27 @@
     </div>
 
     <div class="projectFilters" style="display: flex; flex-wrap: wrap; gap: 20px; vertical-align: middle; margin-top: 10px">
-        <select id="solutionDropdown" onchange="" class="selectpicker projectFiltersSelect " data-live-search="true" data-width="auto" multiple="multiple">
-            @foreach (var solution in ViewDataTyped.Solutions)
-            {
-                <option value="@solution.Value">@solution.Text</option>
-            }
-        </select>
-        <select id="projectStageDropdown" class="selectpicker  projectFiltersSelect " data-live-search="true" data-width="auto" multiple="multiple">
-            @foreach (var projectStage in ViewDataTyped.ProjectStages)
-            {
-                <option value="@projectStage.ProjectStageID">@projectStage.ProjectStageDisplayName</option>
-            }
-        </select>
-        <button type="button" class="btn btn-firma btn-xs" onclick="clearFilters()">Clear Filters</button>
+        <div style="display: flex; flex-direction: column">
+            <span>Solutions:</span>
+            <select id="solutionDropdown" onchange="" class="selectpicker projectFiltersSelect " data-live-search="true" data-width="auto" multiple="multiple">
+                @foreach (var solution in ViewDataTyped.Solutions)
+                {
+                    <option value="@solution.Value">@solution.Text</option>
+                }
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: column">
+            <span>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized():</span>
+            <select id="projectStageDropdown" class="selectpicker  projectFiltersSelect " data-live-search="true" data-width="auto" multiple="multiple">
+                @foreach (var projectStage in ViewDataTyped.ProjectStages)
+                {
+                    <option value="@projectStage.ProjectStageID">@projectStage.ProjectStageDisplayName</option>
+                }
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: flex-end">
+            <button type="button" class="btn btn-firma btn-sm" onclick="clearFilters()">Clear Filters</button>
+        </div>
     </div>
     <div class="row counterHeader">
         <div class="col-xs-12 text-center">
@@ -126,7 +134,7 @@
                     </div>
                     <div class="row counterSection">
                         <div class="col-xs-12 text-center">
-                            <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Partners
+                            <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Project Sponsors
                         </div>
                     </div>
                     <div class="row counterSection">
@@ -203,7 +211,7 @@
         var projectStageSelectpickerOptions = {
             container: "body",
             width: "250px",
-            noneSelectedText: "All @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()",
+            noneSelectedText: "Select @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()",
             actionsBox: true,
             selectedTextFormat: "count > 1",
             countSelectedText:  function (numSelected, numTotal) {
@@ -216,7 +224,7 @@
 
         var solutionsSelectpickerOptions = {
             container: "body",
-            noneSelectedText: "No Solutions selected",
+            noneSelectedText: "Select Solutions",
             actionsBox: true,
             selectedTextFormat: "count > 1",
             countSelectedText:  function (numSelected, numTotal) {
