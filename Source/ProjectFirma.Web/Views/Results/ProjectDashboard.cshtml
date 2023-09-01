@@ -137,6 +137,10 @@
                 </div>
             </div>
         </div>
+        
+        <div id="projectDashboardCharts" class="contentWrapper">
+            @{ ProjectDashboardCharts.RenderPartialView(Html, ViewDataTyped.ProjectDashboardChartsViewData); }
+        </div>
 
         <div class="row" style="margin-top: 20px">
             <div class="col-md-12">
@@ -186,11 +190,22 @@
         Sitka.@(ViewDataTyped.ProjectCustomDefaultGridName).load(newUrl, hideGridLoadingBar);
     }
 
+    function loadCharts()
+    {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var solutions = jQuery("#solutionDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ProjectDashboardChartsUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs).replace("@ProjectDashboardViewData.SolutionsQueryStringValuePlaceholder", solutions);
+
+        SitkaAjax.load(jQuery("#projectDashboardCharts"), newUrl);
+    }
+
     function reloadWithNewDropdowns() {
         jQuery("#counterLoader").show();
         jQuery("#counterNumbers").hide();
         loadProjectSummary();
         loadProjectGrid();
+        loadCharts();
     }
 
     function clearFilters() {

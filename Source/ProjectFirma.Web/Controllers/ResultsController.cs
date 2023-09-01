@@ -764,7 +764,7 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
 
-            GetProjectSummaryData(out var projectCount, out var partnerCount, out var projectsInUnderservedCommunitiesCount);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
                 .ProjectCustomGridConfigurations
@@ -783,10 +783,15 @@ namespace ProjectFirma.Web.Controllers
 
             var tempIDToSolutionValue = GetSolutionsDictionaryForProjectDashboard();
             var solutionsSelectList = tempIDToSolutionValue.ToSelectList(x => x.Key.ToString(CultureInfo.InvariantCulture), x => x.Value).ToList();
-            
+
+            var underservedCommunitiesGoogleChart =
+                GetUndersercedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var projectDashboardChartsViewData =
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
+
             var viewData =
-                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, partnerCount,
-                    projectsInUnderservedCommunitiesCount, projectGridSpec, solutionsSelectList);
+                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count,
+                    projectsInUnderservedCommunities.Count, projectGridSpec, solutionsSelectList, projectDashboardChartsViewData);
             return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
         }
 
@@ -812,30 +817,104 @@ namespace ProjectFirma.Web.Controllers
         public JsonNetJObjectResult ProjectDashboardProjectSummary()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            GetProjectSummaryData(out var projectCount, out var partnerCount, out var projectsInUnderservedCommunitiesCount);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
             return new JsonNetJObjectResult(new
             {
-                ProjectCount = projectCount.ToGroupedNumeric(),
-                PartnerCount = partnerCount.ToGroupedNumeric(),
-                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunitiesCount.ToGroupedNumeric()
+                ProjectCount = projects.Count.ToGroupedNumeric(),
+                PartnerCount = partners.Count.ToGroupedNumeric(),
+                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count.ToGroupedNumeric()
             });
         }
 
-        private void GetProjectSummaryData(out int projectCount, out int partnerCount, out int projectsInUnderservedCommunitiesCount)
+        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities)
         {
-            var projects = GetProjectsForProjectDashboard();
+            projects = GetProjectsForProjectDashboard();
 
-            var projectSponsors = projects
+            projectSponsors = projects
                 .SelectMany(x => x.ProjectOrganizations).Where(x => x.OrganizationRelationshipType.IsPrimaryContact).Select(x => x.Organization).Distinct().ToList();
             var geospatialAreaNames = new List<string>()
             {
                 "Disadvantaged Community",
                 "Severely Disadvantaged Community"
             };
-            var projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
-            projectCount = projects.Count;
-            partnerCount = projectSponsors.Count;
-            projectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count;
+            projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
+        }
+
+        private GoogleChartJson GetUndersercedCommunitiesPieChartForProjectDashboard(List<Project> projects,  List<Project> projectsInUnderservedCommunities)
+        {
+
+
+            // var chartTitle = performanceMeasure.GetDisplayName();
+            // var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+            //
+            // // 80% will give space to show google charts legend
+            // //var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+            //
+            // // 90% is enough space for our custom legend
+            // var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
+            //
+            // var googleChartContainerID = chartTitle.Replace(" ", "").Replace("&", "");
+            // var googlePieChartSlices = performanceMeasure.GetProgressDashboardPieChartSlices(values);
+            // var googleChartDataTable = PerformanceMeasureModelExtensions.GetProgressDashboardPieChartDataTable(googlePieChartSlices);
+            // var googlePieChartConfiguration = new GooglePieChartConfiguration(
+            //         chartTitle, MeasurementUnitTypeEnum.Acres, googlePieChartSlices,
+            //         GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea)
+            //     { PieSliceText = "value", PieHole = 0.4 };
+            // googlePieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            // return new GoogleChartJson(chartTitle, googleChartContainerID, googlePieChartConfiguration, GoogleChartType.PieChart, googleChartDataTable, null);
+
+
+            var chartTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by Underserved Community Status";
+            var pieChartContainerID = chartTitle.Replace(" ", "");
+
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+            googlePieChartSlices.Add(new GooglePieChartSlice("Not in a Disadvantaged Community", projects.Count - projectsInUnderservedCommunities.Count, sortOrder++, "#FFE196"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Disadvantaged Community")), sortOrder++, "#FF7142"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Severely Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Severely Disadvantaged Community")), sortOrder, "#A53FFF"));
+
+
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn($"Underserved Community Status", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn($"Count", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+
+            };
+
+            var chartRowCs = googlePieChartSlices.Select(x =>
+            {
+                var fundingTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = x.Value.ToGroupedNumeric();
+                var amountRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { fundingTypeRowV, amountRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+
+            var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+
+            var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number, googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea) { PieSliceText = "value" };
+            //pieChartConfiguration.ChartArea.Top = 60;
+
+            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.Right);
+
+            var pieChart = new GoogleChartJson(chartTitle, pieChartContainerID, pieChartConfiguration,
+                GoogleChartType.PieChart, googleChartDataTable, null);
+            pieChart.CanConfigureChart = false;
+            return pieChart;
+
+        }
+
+        [FirmaAdminFeature]
+        public PartialViewResult ProjectDashboardCharts()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
+            var underservedCommunitiesGoogleChart = GetUndersercedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
+            return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 
         private List<Project> GetProjectsForProjectDashboard()
