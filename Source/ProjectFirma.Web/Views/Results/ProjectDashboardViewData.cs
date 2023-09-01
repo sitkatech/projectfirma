@@ -30,6 +30,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -50,13 +51,17 @@ namespace ProjectFirma.Web.Views.Results
         public string ProjectCustomDefaultGridDataUrl { get; }
         public string ProjectDashboardSummaryUrl { get; }
         public string ReloadProjectGridDataUrl { get; }
+        public string ProjectDashboardChartsUrl { get; }
+
+        public ProjectDashboardChartsViewData ProjectDashboardChartsViewData { get; }
 
         public ProjectDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
             int projectCount,
             int partnerCount,
             int projectsInUnderservedCommunitiesCount,
             ProjectCustomGridSpec projectGridSpec,
-            List<SelectListItem> solutionSelectListItems) : base(currentFirmaSession, firmaPage)
+            List<SelectListItem> solutionSelectListItems,
+            ProjectDashboardChartsViewData projectDashboardChartsViewData) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Project Dashboard";
 
@@ -81,6 +86,11 @@ namespace ProjectFirma.Web.Views.Results
                                          $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}&{SolutionsQueryStringParameter}={SolutionsQueryStringValuePlaceholder}";
             ReloadProjectGridDataUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardProjectsGridJsonData())}?" +
                                        $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}&{SolutionsQueryStringParameter}={SolutionsQueryStringValuePlaceholder}";
+            ProjectDashboardChartsUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardCharts())}?" +
+                                        $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}&{SolutionsQueryStringParameter}={SolutionsQueryStringValuePlaceholder}";
+
+
+            ProjectDashboardChartsViewData = projectDashboardChartsViewData;
         }
     }
 }

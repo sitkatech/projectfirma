@@ -433,6 +433,8 @@
     <Compile Include="Views\Reports\ReportTemplateGridSpec.cs" />
     <Compile Include="Views\Reports\Index.cs" />
     <Compile Include="Views\Reports\IndexViewData.cs" />
+    <Compile Include="Views\Results\ProjectDashboardCharts.cs" />
+    <Compile Include="Views\Results\ProjectDashboardChartsViewData.cs" />
     <Compile Include="Views\Results\ProgressDashboard.cs" />
     <Compile Include="Views\Results\ProgressDashboardViewData.cs" />
     <Compile Include="Views\Results\FundingSummary.cs" />
@@ -1962,6 +1964,7 @@
     <Content Include="Views\TrainingVideo\Edit.cshtml" />
     <Content Include="Views\Results\ProgressDashboard.cshtml" />
     <Content Include="Views\Results\ProjectDashboard.cshtml" />
+    <Content Include="Views\Results\ProjectDashboardCharts.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

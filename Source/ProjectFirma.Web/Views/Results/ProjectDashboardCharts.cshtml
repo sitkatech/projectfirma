@@ -1,0 +1,64 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectDashboardCharts.cshtml" company="Tahoe Regional Planning Agency & Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency & Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.Results.ProjectDashboardCharts
+
+<style>
+    .google-visualization-tooltip {
+        z-index: 10000;
+    }
+
+    .googleTooltipDiv {
+        padding-top: 5px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
+    }
+
+        .googleTooltipDiv p {
+            margin-bottom: 8px;
+            margin-left: 5px;
+        }
+
+
+    table.googleTooltipTable {
+        margin-bottom: 5px;
+    }
+
+        table.googleTooltipTable tr td {
+            margin: 0;
+            padding: 2px 4px;
+            white-space: nowrap;
+        }
+
+    .googleTooltipTableTotalRow {
+        border-top: solid 2px #666;
+    }
+</style>
+
+<div class="row">
+
+    <div class="col-xs-12">
+        <div class="chartPanel">
+            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.UnderservedCommunitiesViewGoogleChartViewData); }
+        </div>
+    </div>
+
+</div>
