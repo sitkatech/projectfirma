@@ -34,6 +34,11 @@ GO
 ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD FOREIGN KEY([MapLegendImageFileResourceInfoID])
 REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
+ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD  CONSTRAINT [FK_ExternalMapLayer_FileResourceInfo_MapLegendImageFileResourceInfoID_TenantID] FOREIGN KEY([MapLegendImageFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
+GO
+ALTER TABLE [dbo].[ExternalMapLayer] CHECK CONSTRAINT [FK_ExternalMapLayer_FileResourceInfo_MapLegendImageFileResourceInfoID_TenantID]
+GO
 ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD  CONSTRAINT [FK_ExternalMapLayer_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

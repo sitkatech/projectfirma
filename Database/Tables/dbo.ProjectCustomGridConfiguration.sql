@@ -24,6 +24,11 @@ REFERENCES [dbo].[ClassificationSystem] ([ClassificationSystemID])
 GO
 ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_ClassificationSystem_ClassificationSystemID]
 GO
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_ClassificationSystem_ClassificationSystemID_TenantID] FOREIGN KEY([ClassificationSystemID], [TenantID])
+REFERENCES [dbo].[ClassificationSystem] ([ClassificationSystemID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_ClassificationSystem_ClassificationSystemID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID] FOREIGN KEY([GeospatialAreaTypeID])
 REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
 GO
