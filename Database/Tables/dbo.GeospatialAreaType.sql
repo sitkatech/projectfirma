@@ -37,13 +37,15 @@ CREATE TABLE [dbo].[GeospatialAreaType](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD FOREIGN KEY([MapLegendImageFileResourceInfoID])
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_FileResourceInfo_MapLegendImageFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([MapLegendImageFileResourceInfoID])
 REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
 GO
-ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_FileResourceInfo_MapLegendImageFileResourceInfoID_TenantID] FOREIGN KEY([MapLegendImageFileResourceInfoID], [TenantID])
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_FileResourceInfo_MapLegendImageFileResourceInfoID_FileResourceInfoID]
+GO
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_FileResourceInfo_MapLegendImageFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([MapLegendImageFileResourceInfoID], [TenantID])
 REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
 GO
-ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_FileResourceInfo_MapLegendImageFileResourceInfoID_TenantID]
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_FileResourceInfo_MapLegendImageFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
