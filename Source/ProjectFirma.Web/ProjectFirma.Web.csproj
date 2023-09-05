@@ -3684,10 +3684,8 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
-    <Error Condition="!Exists('..\NuGetPackages\TinyMCE.6.5.1\build\TinyMCE.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\TinyMCE.6.5.1\build\TinyMCE.targets'))" />
   </Target>
   <Import Project="..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
-  <Import Project="..\NuGetPackages\TinyMCE.6.5.1\build\TinyMCE.targets" Condition="Exists('..\NuGetPackages\TinyMCE.6.5.1\build\TinyMCE.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
