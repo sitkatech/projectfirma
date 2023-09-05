@@ -1,3 +1,0 @@
-﻿<div contenteditable="true" data-cke-editor-id="ProgramPageContent" id="CkEditorForProgramPageContent">
-Some html text
-</div>

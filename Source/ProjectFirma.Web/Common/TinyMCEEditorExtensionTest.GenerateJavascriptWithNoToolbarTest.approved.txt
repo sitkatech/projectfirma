@@ -1,0 +1,29 @@
+﻿<script language="javascript" type="text/javascript">
+                // <![CDATA[
+                jQuery(document).ready(function ()
+                {
+                   tinymce.init({
+                            selector: '#TinyMCEEditorForProgramPageContent',
+                            menubar: false,
+                            toolbar: '',
+                            entity_encoding: 'named+numeric',
+                            plugins: '',
+                            toolbar_mode: 'floating',
+                            browser_spellcheck: true,
+                            file_picker_types: 'image',
+                            images_file_types: 'jpg,svg,webp,gif',
+                            image_title: true,
+                            
+                            setup: function (editor) {
+                                editor.on('FullscreenStateChanged', function (e) {
+                                    if (e.state) {
+                                        $('.modal-dialog').attr('style', 'transform: none !important');
+                                    } else {
+                                        $('.modal-dialog').attr('style', 'transform: translate(0,0)');
+                                    }
+                                });
+                            }
+                    });
+                });
+                // ]]>
+            </script>

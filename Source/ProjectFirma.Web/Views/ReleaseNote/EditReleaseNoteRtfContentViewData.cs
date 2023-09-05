@@ -24,12 +24,12 @@ namespace ProjectFirma.Web.Views.ReleaseNote
 {
     public class EditReleaseNoteRtfContentViewData : FirmaUserControlViewData
     {
-        public CkEditorExtension.CkEditorToolbar CkEditorToolbar { get; }
+        public TinyMCEExtension.TinyMCEToolbarStyle TinyMceToolbarStyle { get; }
         public string FileBrowserImageUploadUrl { get; }
 
-        public EditReleaseNoteRtfContentViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar)
+        public EditReleaseNoteRtfContentViewData(TinyMCEExtension.TinyMCEToolbarStyle tinyMceToolbarStyle)
         {
-            CkEditorToolbar = ckEditorToolbar;
+            TinyMceToolbarStyle = tinyMceToolbarStyle;
         }
     }
 }

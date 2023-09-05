@@ -56,9 +56,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditInDialog(EditViewModel viewModel, FirmaPage firmaPage)
         {
-            var ckEditorToolbar = firmaPage.FirmaPageType.FirmaPageRenderType == FirmaPageRenderType.PageContent ? CkEditorExtension.CkEditorToolbar.AllOnOneRowNoMaximize : CkEditorExtension.CkEditorToolbar.All;
-            var viewData = new EditViewData(ckEditorToolbar,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResource(firmaPage)));
+            var tinyMceToolbarStyle = firmaPage.FirmaPageType.FirmaPageRenderType == FirmaPageRenderType.PageContent ? TinyMCEExtension.TinyMCEToolbarStyle.AllOnOneRowNoMaximize : TinyMCEExtension.TinyMCEToolbarStyle.All;
+            var viewData = new EditViewData(tinyMceToolbarStyle);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
     }

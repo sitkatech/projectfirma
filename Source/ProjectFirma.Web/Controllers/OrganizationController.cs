@@ -1132,9 +1132,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditDescriptionInDialog(EditRtfContentViewModel viewModel, Organization organization)
         {
-            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.All;
-            var viewData = new EditRtfContentViewData(ckEditorToolbar,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForOrganizationDescription(organization)));
+            var tinyMceToolbarStyle = TinyMCEExtension.TinyMCEToolbarStyle.All;
+            var viewData = new EditRtfContentViewData(tinyMceToolbarStyle);
             return RazorPartialView<EditRtfContent, EditRtfContentViewData, EditRtfContentViewModel>(viewData, viewModel);
         }
     }
