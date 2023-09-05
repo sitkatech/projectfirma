@@ -18,14 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Views;
 
-namespace LtInfo.Common.DhtmlWrappers
+namespace LtInfo.Common.AgGridWrappers
 {
     public class GridSpec<T> : List<ColumnSpec<T>>
     {

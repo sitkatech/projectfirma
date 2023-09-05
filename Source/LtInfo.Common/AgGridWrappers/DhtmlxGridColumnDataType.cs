@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="AutoGridSpec.cs" company="Environmental Science Associates">
+<copyright file="DhtmlxGridColumnDataType.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -18,30 +18,25 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
-using System.Linq;
-using System.Reflection;
-using LtInfo.Common.Models;
-
-namespace LtInfo.Common.DhtmlWrappers
+namespace LtInfo.Common.AgGridWrappers
 {
-    public class AutoGridSpec<T> : GridSpec<T> where T : IStringIndexer
+    public class DhtmlxGridColumnDataType
     {
-        public AutoGridSpec()
+        public string ColumnDataType { get; private set; }
+
+        private DhtmlxGridColumnDataType(string columnDataType)
         {
-            // spin through the type T and add columns for each property/field
-            var members = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
-            foreach (var info in members.OrderBy(m => m.Name))
-            {
-                var info1 = info;
-                Add(info.Name,
-                    m =>
-                    {
-                        var value = info1.GetValue(m, null);
-                        return value != null ? value.ToString() : String.Empty;
-                    },
-                    0);
-            }
+            ColumnDataType = columnDataType;
         }
+
+        public override string ToString()
+        {
+            return ColumnDataType;
+        }
+
+        public static readonly DhtmlxGridColumnDataType Checkbox = new DhtmlxGridColumnDataType("ch");
+        public static readonly DhtmlxGridColumnDataType ReadOnlyText = new DhtmlxGridColumnDataType("rotxt");
+        public static readonly DhtmlxGridColumnDataType ReadOnlyHtmlText = new DhtmlxGridColumnDataType("ro");
+        public static readonly DhtmlxGridColumnDataType ReadOnlyNumber = new DhtmlxGridColumnDataType("ron");
     }
 }

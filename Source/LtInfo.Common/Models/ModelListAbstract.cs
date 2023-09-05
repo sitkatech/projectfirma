@@ -24,7 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.MvcResults;
 using LtInfo.Common.Views;
 

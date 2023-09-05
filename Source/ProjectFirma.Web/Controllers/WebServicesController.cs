@@ -31,7 +31,7 @@ using ProjectFirma.Web.Service.ServiceModels;
 using ProjectFirma.Web.Views.WebServices;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.MvcResults;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;

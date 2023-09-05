@@ -23,7 +23,7 @@ using System.Web;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Project;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;

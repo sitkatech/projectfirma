@@ -1,4 +1,4 @@
-﻿namespace LtInfo.Common.DhtmlWrappers
+﻿namespace LtInfo.Common.AgGridWrappers
 {
     public class SelectProjectsModalDialogForm
     {

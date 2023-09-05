@@ -18,17 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using LtInfo.Common.BootstrapWrappers;
-using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Views;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
+using LtInfo.Common.BootstrapWrappers;
+using LtInfo.Common.ModalDialog;
 
-namespace LtInfo.Common.DhtmlWrappers
+namespace LtInfo.Common.AgGridWrappers
 {
     /// <summary>
     ///     Helper class for DhtmlxGrid expects following content to be set up in local project

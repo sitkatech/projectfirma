@@ -18,14 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Views;
 using NUnit.Framework;
 
-namespace LtInfo.Common.DhtmlWrappers
+namespace LtInfo.Common.AgGridWrappers
 {
     [TestFixture]
     public class DhtmlxGridHtmlHelpersTest

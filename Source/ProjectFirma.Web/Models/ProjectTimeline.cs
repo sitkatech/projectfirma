@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.BootstrapWrappers;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
