@@ -817,6 +817,18 @@ Sitka.Grid.Class.Grid.prototype.load = function (dataUrl) {
     this.grid.load(dataUrl, "json");
 };
 
+Sitka.Grid.Class.Grid.prototype.load = function (dataUrl, callback) {
+    window.dhx4.attachEvent("onLoadXMLError", function (request, object) {
+        // status of 0 is a click away from grid (firefox errors on this, but we don't care), 200 is a-okay.
+        if (object.status !== 200 && object.status !== 0) {
+            SitkaAjax.errorHandler(object, object.status);
+        }
+        return false;
+    });
+    this.grid.clearAll();
+    this.grid.load(dataUrl, callback, "json");
+};
+
 Sitka.Grid.Class.Grid.prototype.setGridInstructions = function (instructionHtml, show) {
     var objbox = jQuery(this.grid.objBox);
     objbox.append(instructionHtml).addClass("gridInstruction");

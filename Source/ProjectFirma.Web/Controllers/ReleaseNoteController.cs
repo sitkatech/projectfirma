@@ -81,8 +81,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditReleaseNoteRtfContentViewModel viewModel)
         {
-            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.All;
-            var viewData = new EditReleaseNoteRtfContentViewData(ckEditorToolbar);
+            var tinyMceToolbarStyle = TinyMCEExtension.TinyMCEToolbarStyle.All;
+            var viewData = new EditReleaseNoteRtfContentViewData(tinyMceToolbarStyle);
             return RazorPartialView<EditReleaseNoteRtfContent, EditReleaseNoteRtfContentViewData, EditReleaseNoteRtfContentViewModel>(viewData, viewModel);
         }
 

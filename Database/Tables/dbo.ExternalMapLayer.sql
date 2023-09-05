@@ -31,8 +31,15 @@ CREATE TABLE [dbo].[ExternalMapLayer](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD FOREIGN KEY([MapLegendImageFileResourceInfoID])
+ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD  CONSTRAINT [FK_ExternalMapLayer_FileResourceInfo_MapLegendImageFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([MapLegendImageFileResourceInfoID])
 REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID])
+GO
+ALTER TABLE [dbo].[ExternalMapLayer] CHECK CONSTRAINT [FK_ExternalMapLayer_FileResourceInfo_MapLegendImageFileResourceInfoID_FileResourceInfoID]
+GO
+ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD  CONSTRAINT [FK_ExternalMapLayer_FileResourceInfo_MapLegendImageFileResourceInfoID_TenantID_FileResourceInfoID_TenantID] FOREIGN KEY([MapLegendImageFileResourceInfoID], [TenantID])
+REFERENCES [dbo].[FileResourceInfo] ([FileResourceInfoID], [TenantID])
+GO
+ALTER TABLE [dbo].[ExternalMapLayer] CHECK CONSTRAINT [FK_ExternalMapLayer_FileResourceInfo_MapLegendImageFileResourceInfoID_TenantID_FileResourceInfoID_TenantID]
 GO
 ALTER TABLE [dbo].[ExternalMapLayer]  WITH CHECK ADD  CONSTRAINT [FK_ExternalMapLayer_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

@@ -1,0 +1,282 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectDashboard.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Results
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Results.ProjectDashboard
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    <style>
+        .pageTitle {
+            display: none;
+        }
+        .subSectionName {
+               margin-bottom: 20px
+            }
+            div.logo:after {
+                content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
+            }
+
+        .counterSection {
+            padding-bottom: 10px;
+        }
+
+        #accomplishmentsDashboard .counterHeader h4 {
+            font-size: 24px;
+
+        }
+
+        .projectFilters .dropdown-menu {
+            font-size: 13px;
+            background-color: white;
+        }
+
+        .projectFiltersSelect button {
+            font-size: 13px;
+        }
+
+        #accomplishmentsDashboard .bootstrap-select .dropdown-toggle {
+            font-size: 13px;
+            font-weight: bold;
+        }
+    </style>
+    <script src="/Scripts/waypoints.min.js"></script>
+    <script src="/Scripts/jquery.counterup.min.js"></script>
+}
+
+<div id="accomplishmentsDashboard">
+    <div class="homepageHeader">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
+                <div class="intro-text">
+                    <h1 class="subSectionName">Project Dashboard</h1>
+                    <div class="logo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" style="margin-top: 20px; margin-bottom: 20px;">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 ">
+            <span style="font-weight: bold">Filter @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() By:</span>
+        </div>
+    </div>
+
+    <div class="projectFilters" style="display: flex; flex-wrap: wrap; gap: 20px; vertical-align: middle; margin-top: 10px">
+        <div style="display: flex; flex-direction: column">
+            <span>Solutions:</span>
+            <select id="solutionDropdown" onchange="" class="selectpicker projectFiltersSelect " data-live-search="true" data-width="auto" multiple="multiple">
+                @foreach (var solution in ViewDataTyped.Solutions)
+                {
+                    <option value="@solution.Value">@solution.Text</option>
+                }
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: column">
+            <span>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized():</span>
+            <select id="projectStageDropdown" class="selectpicker  projectFiltersSelect " data-live-search="true" data-width="auto" multiple="multiple">
+                @foreach (var projectStage in ViewDataTyped.ProjectStages)
+                {
+                    <option value="@projectStage.ProjectStageID">@projectStage.ProjectStageDisplayName</option>
+                }
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: column; justify-content: flex-end">
+            <button type="button" class="btn btn-firma btn-sm" onclick="clearFilters()">Clear Filters</button>
+        </div>
+    </div>
+    <div class="row counterHeader">
+        <div class="col-xs-12 text-center">
+            <h4>@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Summary</h4>
+        </div>
+    </div>
+
+    <div id="projectDashboard" class="contentWrapper">
+        <div class="row counterSection">
+            <div class="col-sm-12 text-center">
+                <div id="counterLoader" style="display: none">
+                    <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
+                </div>
+                <div id="counterNumbers">
+                    <div class="row counterSection">
+                        <div class="col-xs-12 text-center">
+                            <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Total Projects
+                        </div>
+                    </div>
+                    <div class="row counterSection">
+                        <div class="col-xs-12 text-center">
+                            <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Project Sponsors
+                        </div>
+                    </div>
+                    <div class="row counterSection">
+                        <div class="col-xs-12 text-center">
+                            <span id="totalUnderservedCommunities" class="counter">@ViewDataTyped.TotalProjectsInUnderservedCommunities.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Projects in Underserved Communities
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="projectDashboardCharts" class="contentWrapper">
+            @{ ProjectDashboardCharts.RenderPartialView(Html, ViewDataTyped.ProjectDashboardChartsViewData); }
+        </div>
+
+        <div class="row" style="margin-top: 20px">
+            <div class="col-md-12">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
+                    </div>
+                    <div class="panel-body">
+                        @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    // <![CDATA[
+    function loadProjectSummary()
+    {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var solutions = jQuery("#solutionDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ProjectDashboardSummaryUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs).replace("@ProjectDashboardViewData.SolutionsQueryStringValuePlaceholder", solutions);
+
+        SitkaAjax.get(newUrl, function (result) {
+            jQuery("#totalProjects").html(result.ProjectCount);
+            jQuery("#totalPartners").html(result.PartnerCount);
+            jQuery("#totalUnderservedCommunities").html(result.ProjectsInUnderservedCommunitiesCount);
+
+            jQuery("#counterLoader").hide();
+            jQuery("#counterNumbers").show();
+        });
+    };
+
+
+    function hideGridLoadingBar() {
+        jQuery("#" + "@ViewDataTyped.ProjectCustomDefaultGridName" + "LoadingBar").hide();
+    }
+
+    function loadProjectGrid() {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var solutions = jQuery("#solutionDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ReloadProjectGridDataUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs).replace("@ProjectDashboardViewData.SolutionsQueryStringValuePlaceholder", solutions);
+        jQuery("#" + "@ViewDataTyped.ProjectCustomDefaultGridName" + "LoadingBar").show();
+        Sitka.@(ViewDataTyped.ProjectCustomDefaultGridName).load(newUrl, hideGridLoadingBar);
+    }
+
+    function loadCharts()
+    {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var solutions = jQuery("#solutionDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ProjectDashboardChartsUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs).replace("@ProjectDashboardViewData.SolutionsQueryStringValuePlaceholder", solutions);
+
+        SitkaAjax.load(jQuery("#projectDashboardCharts"), newUrl);
+    }
+
+    function reloadWithNewDropdowns() {
+        jQuery("#counterLoader").show();
+        jQuery("#counterNumbers").hide();
+        loadProjectSummary();
+        loadProjectGrid();
+        loadCharts();
+    }
+
+    function clearFilters() {
+        $(".selectpicker").val('default');
+        $(".selectpicker").selectpicker("refresh");
+        reloadWithNewDropdowns();
+    }
+
+    jQuery(document).ready(function () {
+        var projectStageSelectpickerOptions = {
+            container: "body",
+            width: "250px",
+            noneSelectedText: "Select @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()",
+            actionsBox: true,
+            selectedTextFormat: "count > 1",
+            countSelectedText:  function (numSelected, numTotal) {
+                if (numSelected === numTotal) {
+                    return "All @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()";
+                }
+                return numSelected + " of " + numTotal + " @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()";
+            }
+        }
+
+        var solutionsSelectpickerOptions = {
+            container: "body",
+            noneSelectedText: "Select Solutions",
+            actionsBox: true,
+            selectedTextFormat: "count > 1",
+            countSelectedText:  function (numSelected, numTotal) {
+                if (numSelected === numTotal) {
+                    return "All Solutions";
+                }
+                return numSelected + " of " + numTotal + " Solutions";
+            }
+        }
+
+        var projectStagesDropdown = jQuery("#projectStageDropdown");
+        var solutionsDropdown = jQuery("#solutionDropdown");
+        projectStagesDropdown.selectpicker(projectStageSelectpickerOptions);
+        solutionsDropdown.selectpicker(solutionsSelectpickerOptions);
+
+        jQuery(function() {
+            jQuery('.counter').counterUp({
+                delay: 10,
+                time: 1000
+            });
+        });
+
+        // since we are not using the onchange event, but only want to reload if there is a change after the drop down is closed, 
+        // need to keep track of the state of the drop downs separately
+        var lastProjectStageIDs = jQuery("#projectStageDropdown").val();
+        var lastSolutions = jQuery("#solutionDropdown").val();
+        $('.bootstrap-select').on('hide.bs.dropdown', function() {
+            // check for changed lists
+            var currentProjectStageIDs = jQuery("#projectStageDropdown").val();
+            var currentSolutions = jQuery("#solutionDropdown").val();
+            if (lastProjectStageIDs.toString() !== currentProjectStageIDs.toString() || lastSolutions.toString() !== currentSolutions.toString()) {
+                reloadWithNewDropdowns();
+            }
+            lastProjectStageIDs = currentProjectStageIDs;
+            lastSolutions = currentSolutions;
+        });
+    });
+
+    // ]]>
+</script>

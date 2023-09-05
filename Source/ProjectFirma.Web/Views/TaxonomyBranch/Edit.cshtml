@@ -48,7 +48,7 @@
         <div class="form-group">
             <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyBranchDescription)</div>
             <div class="col-sm-9">
-                @Html.CkEditorFor(m => m.TaxonomyBranchDescription, CkEditorExtension.CkEditorToolbar.Minimal, true, true, 300)
+                @Html.TinyMCEEditorFor(m => m.TaxonomyBranchDescription, TinyMCEExtension.TinyMCEToolbarStyle.Minimal, true, true, 300)
                 @Html.ValidationMessageFor(m => m.TaxonomyBranchDescription)
             </div>
         </div>

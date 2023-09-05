@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
                     var pageTypeIsPresent = allFirmaPageTypeIDPresentInFirmaPages.Contains(firmaPageType.FirmaPageTypeID);
                     if (!pageTypeIsPresent)
                     {
-                        missingPageTypes += $"Could Not find Firma Page Type '{firmaPageType.FirmaPageTypeName}'({firmaPageType.FirmaPageTypeID}) in Firma Pages for Tenant {tenant.TenantName}({tenant.TenantID})\n\r";
+                        missingPageTypes += $"insert into dbo.FirmaPage(TenantID, FirmaPageTypeID) values ({tenant.TenantID},{firmaPageType.FirmaPageTypeID}) --Could Not find Firma Page Type '{firmaPageType.FirmaPageTypeName}'({firmaPageType.FirmaPageTypeID}) in Firma Pages for Tenant {tenant.TenantName}({tenant.TenantID})\n\r";
                     }
 
                 }

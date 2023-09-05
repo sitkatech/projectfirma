@@ -46,6 +46,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new AssessmentSubGoalConfiguration());
             modelBuilder.Configurations.Add(new AttachmentTypeConfiguration());
             modelBuilder.Configurations.Add(new AttachmentTypeFileResourceMimeTypeConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentTypeRoleConfiguration());
             modelBuilder.Configurations.Add(new AttachmentTypeTaxonomyTrunkConfiguration());
             modelBuilder.Configurations.Add(new AuditLogConfiguration());
             modelBuilder.Configurations.Add(new ClassificationConfiguration());
@@ -220,6 +221,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<AssessmentSubGoal> AssessmentSubGoals { get { return AllAssessmentSubGoals.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AttachmentTypeFileResourceMimeType> AllAttachmentTypeFileResourceMimeTypes { get; set; }
         public virtual IQueryable<AttachmentTypeFileResourceMimeType> AttachmentTypeFileResourceMimeTypes { get { return AllAttachmentTypeFileResourceMimeTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentTypeRole> AllAttachmentTypeRoles { get; set; }
+        public virtual IQueryable<AttachmentTypeRole> AttachmentTypeRoles { get { return AllAttachmentTypeRoles.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AttachmentType> AllAttachmentTypes { get; set; }
         public virtual IQueryable<AttachmentType> AttachmentTypes { get { return AllAttachmentTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AttachmentTypeTaxonomyTrunk> AllAttachmentTypeTaxonomyTrunks { get; set; }
@@ -581,6 +584,9 @@ namespace ProjectFirmaModels.Models
 
                 case "AttachmentTypeFileResourceMimeType":
                     return AttachmentTypeFileResourceMimeTypes.GetAttachmentTypeFileResourceMimeType(primaryKey);
+
+                case "AttachmentTypeRole":
+                    return AttachmentTypeRoles.GetAttachmentTypeRole(primaryKey);
 
                 case "AttachmentType":
                     return AttachmentTypes.GetAttachmentType(primaryKey);

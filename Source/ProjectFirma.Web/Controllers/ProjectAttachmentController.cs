@@ -29,8 +29,12 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<vProjectAttachment> ProjectAttachmentGridJsonData()
         {
             var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var attachmentTypeIDsViewableByUser = HttpRequestStorage.DatabaseEntities.AttachmentTypes.ToList()
+                .Where(x => x.HasViewPermission(CurrentFirmaSession)).Select(x => x.AttachmentTypeID).ToList();
             var gridSpec = new ProjectAttachmentGridSpec(hasManagePermissions);
-            var projectAttachments = HttpRequestStorage.DatabaseEntities.vProjectAttachments.Where(x => x.TenantID == CurrentFirmaSession.TenantID)
+            var projectAttachments = HttpRequestStorage.DatabaseEntities.vProjectAttachments.Where(x =>
+                    x.TenantID == CurrentFirmaSession.TenantID &&
+                    attachmentTypeIDsViewableByUser.Contains(x.AttachmentTypeID))
                 .ToList().OrderBy(x => x.ProjectAttachmentDisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<vProjectAttachment>(projectAttachments, gridSpec);
             return gridJsonNetJObjectResult;

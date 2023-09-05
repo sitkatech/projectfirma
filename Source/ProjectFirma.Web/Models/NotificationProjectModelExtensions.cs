@@ -274,12 +274,12 @@ Thank you,<br />
             Check.Require(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved, "Need to be in Approved state to send the Approved email!");
             var submitterPerson = project.ProposingPerson;
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
-            var subject = $"Your {fieldDefinitionLabelProject} \"{project.GetDisplayName().ToEllipsifiedString(80)}\" was approved!";
+            var subject = $"Your {fieldDefinitionLabelProject} \"{project.GetDisplayName().ToEllipsifiedString(80)}\" was Accepted to the Project Tracker!";
             var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project.ProjectID));
             var projectListUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
             var message = $@"
 <p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
-<p>The {MultiTenantHelpers.GetToolDisplayName()} {fieldDefinitionLabelProject} submitted on {project.SubmissionDate.ToStringDate()} was approved by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}.</p>
+<p>The {MultiTenantHelpers.GetToolDisplayName()} {fieldDefinitionLabelProject} submitted on {project.SubmissionDate.ToStringDate()} was accepted by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}.</p>
 <p>This {fieldDefinitionLabelProject} is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} {fieldDefinitionLabelProject} List</a> and is visible to the public via the {fieldDefinitionLabelProject} detail page.</p>
 <p><a href=""{detailUrl}"">View this {fieldDefinitionLabelProject}</a></p>
 <p>Thank you for using the {MultiTenantHelpers.GetToolDisplayName()}!</p>
@@ -322,7 +322,7 @@ Thank you,<br />
         {
             var submitterPerson = project.ProposingPerson;
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
-            var subject = $@"Your {fieldDefinitionLabelProject} ""{project.GetDisplayName().ToEllipsifiedString(80)}"" was not approved";
+            var subject = $@"Your {fieldDefinitionLabelProject} ""{project.GetDisplayName().ToEllipsifiedString(80)}"" was returned for further review";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
 <p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
