@@ -796,7 +796,7 @@ namespace LtInfo.Common.AgGridWrappers
                                 column.GridWidth.ToString(CultureInfo.InvariantCulture)
                             }"", ""{column.AgGridColumnAlignType.ToString().ToLower()}"", ""{
                                 column.AgGridColumnDataType
-                            }"", ""{column.DhtmlxGridColumnSortType.SortingType}"", ""{
+                            }"", ""{column.AgGridColumnSortType.SortingType}"", ""{
                                 column.AgGridColumnFilterType
                             }"", {$"\"{column.AgGridColumnFormatType}\""})"));
         }

@@ -21,11 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 namespace LtInfo.Common.AgGridWrappers
 {
-    public class DhtmlxGridColumnSortType
+    public class AgGridColumnSortType
     {
         public string SortingType { get; private set; }
 
-        public DhtmlxGridColumnSortType(string sortingType)
+        public AgGridColumnSortType(string sortingType)
         {
             SortingType = sortingType;
         }
