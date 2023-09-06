@@ -72,12 +72,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             if (performanceMeasure.IsSummable)
             {
-                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal,
+                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, AgGridColumnFormatType.Decimal,
                     AgGridColumnAggregationType.Total);
             }
             else
             {
-                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal);
+                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, AgGridColumnFormatType.Decimal);
             }
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {

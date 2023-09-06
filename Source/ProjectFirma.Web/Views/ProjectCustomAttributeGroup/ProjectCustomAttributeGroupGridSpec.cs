@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
                 Add(FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel(), a => a.GetProjectCategoryDisplayNamesAsCommaDelimitedList(), 150, AgGridColumnFilterType.SelectFilterStrict);
             }
 
-            Add("Sort Order", a => a.SortOrder, 60, DhtmlxGridColumnFormatType.Integer);
+            Add("Sort Order", a => a.SortOrder, 60, AgGridColumnFormatType.Integer);
         }
     }
 }

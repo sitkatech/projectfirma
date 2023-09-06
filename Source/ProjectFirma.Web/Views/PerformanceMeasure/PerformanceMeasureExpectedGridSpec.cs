@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             }
             var expectedValueColumnName = $"{FieldDefinitionEnum.ExpectedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
-            Add(expectedValueColumnName, a => a.ExpectedValue, 150, DhtmlxGridColumnFormatType.Decimal, AgGridColumnAggregationType.Total);
+            Add(expectedValueColumnName, a => a.ExpectedValue, 150, AgGridColumnFormatType.Decimal, AgGridColumnAggregationType.Total);
         }
     }
 }

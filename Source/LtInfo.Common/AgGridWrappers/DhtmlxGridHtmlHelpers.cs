@@ -299,12 +299,12 @@ namespace LtInfo.Common.AgGridWrappers
                         break;
                 }
 
-                switch (columnSpec.DhtmlxGridColumnFormatType)
+                switch (columnSpec.AgGridColumnFormatType)
                 {
-                    case DhtmlxGridColumnFormatType.Currency:
+                    case AgGridColumnFormatType.Currency:
                         columnDefinitionStringBuilder.Append(", \"valueFormatter\": currencyFormatter");
                         break;
-                    case DhtmlxGridColumnFormatType.Integer:
+                    case AgGridColumnFormatType.Integer:
                         // columnDefinitionStringBuilder.Append(", \"valueFormatter\": integerFormatter");
                         // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"number\"");
                         break;
@@ -798,7 +798,7 @@ namespace LtInfo.Common.AgGridWrappers
                                 column.AgGridColumnDataType
                             }"", ""{column.DhtmlxGridColumnSortType.SortingType}"", ""{
                                 column.AgGridColumnFilterType
-                            }"", {$"\"{column.DhtmlxGridColumnFormatType}\""})"));
+                            }"", {$"\"{column.AgGridColumnFormatType}\""})"));
         }
 
         /// <summary>

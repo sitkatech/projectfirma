@@ -129,7 +129,7 @@ namespace LtInfo.Common.AgGridWrappers
 
                 Add("Display Name", m => m.DisplayName, 200);
                 Add("Is Active", m => m.IsActive.ToYesNo(), 60, AgGridColumnFilterType.SelectFilterStrict);
-                Add("Amount", m => m.Amount, 100, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+                Add("Amount", m => m.Amount, 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
             }
         }
 
@@ -167,7 +167,7 @@ namespace LtInfo.Common.AgGridWrappers
 
                 Add("Display Name", m => m.DisplayName, 200);
                 Add("Is Active", m => m.IsActive.ToYesNo(), 60, AgGridColumnFilterType.SelectFilterStrict);
-                Add("Amount", m => m.Amount, 100, DhtmlxGridColumnFormatType.Currency);
+                Add("Amount", m => m.Amount, 100, AgGridColumnFormatType.Currency);
             }
         }
     }

@@ -56,11 +56,11 @@ namespace ProjectFirma.Web.Views.Results
 
             var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
-            Add(reportedValueColumnName, a => a.TotalReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, AgGridColumnAggregationType.Total);
-            Add(FieldDefinitionEnum.ReportedExpenditure.ToType().ToGridHeaderString(), x => x.CalculateWeightedTotalExpenditure(), 100, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+            Add(reportedValueColumnName, a => a.TotalReportedValue, 150, AgGridColumnFormatType.Decimal, AgGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.ReportedExpenditure.ToType().ToGridHeaderString(), x => x.CalculateWeightedTotalExpenditure(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
 
             var reportedValueUnitCostColumnName = $"Estimated Cost Per {performanceMeasure.MeasurementUnitType.SingularDisplayName} ";
-            Add(reportedValueUnitCostColumnName, a => a.CalculateWeightedTotalExpenditurePerPerformanceMeasure(), 100, DhtmlxGridColumnFormatType.Currency);
+            Add(reportedValueUnitCostColumnName, a => a.CalculateWeightedTotalExpenditurePerPerformanceMeasure(), 100, AgGridColumnFormatType.Currency);
 
             Add($"Other Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}",
                 a =>

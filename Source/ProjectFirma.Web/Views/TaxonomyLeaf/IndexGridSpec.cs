@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetTaxonomyLeafCodeAndName()), 350, AgGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentFirmaSession).Count, 90);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.TaxonomyLeafPerformanceMeasures.Count, 90);
-            Add("Sort Order", a => a.TaxonomyLeafSortOrder, 90, DhtmlxGridColumnFormatType.None);
+            Add("Sort Order", a => a.TaxonomyLeafSortOrder, 90, AgGridColumnFormatType.None);
             Add("Description", a => a.TaxonomyLeafDescription, 100);
         }
     }

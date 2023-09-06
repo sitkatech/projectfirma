@@ -32,8 +32,8 @@ namespace ProjectFirma.Web.Views.Organization
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.Organization.GetDetailUrl(), x.FundingSource.Organization.GetDisplayName()), 120);
             Add($"Provided by {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => (x.FundingSource.Organization == organization).ToYesOrEmpty(), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
             Add($"Received from other {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => (x.FundingSource.Organization != organization).ToYesOrEmpty(), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
-            Add(FieldDefinitionEnum.ReportingYear.ToType().ToGridHeaderString(), x => x.CalendarYear, 80, DhtmlxGridColumnFormatType.Date, AgGridColumnFilterType.SelectFilterStrict);
-            Add("Amount", x => x.ExpenditureAmount, 80, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.ReportingYear.ToType().ToGridHeaderString(), x => x.CalendarYear, 80, AgGridColumnFormatType.Date, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Amount", x => x.ExpenditureAmount, 80, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
         }
     }
 }

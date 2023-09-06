@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             foreach (var year in calendarYearsForProjectExpenditures)
             {
                 var calendarYear = year;
-                Add(calendarYear.ToString(CultureInfo.InvariantCulture), a => a.CalendarYearExpenditure[calendarYear], 100, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+                Add(calendarYear.ToString(CultureInfo.InvariantCulture), a => a.CalendarYearExpenditure[calendarYear], 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
             }
         }
     }

@@ -63,10 +63,10 @@ namespace ProjectFirma.Web.Views.Organization
             {
                 Add($"# Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
                 Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType?.FundingTypeDisplayName, 300, AgGridColumnFilterType.SelectFilterStrict);
-                Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 85, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
-                Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 85, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
-                Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), x => x.GetTargetedFunding(), 100, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
-                Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 85, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+                Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 85, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+                Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 85, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+                Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), x => x.GetTargetedFunding(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+                Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 85, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
             }
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
