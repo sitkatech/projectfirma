@@ -34,7 +34,7 @@ namespace LtInfo.Common.AgGridWrappers
             ShowFilterBar = true;
             GridInstructionsWhenEmpty = "No records available"; // default no records available message
             InitWidthsByPercentage = false;
-            SkinRowHeight = DhtmlxGridHtmlHelpers.SkinRowHeight;
+            SkinRowHeight = AgGridHtmlHelpers.SkinRowHeight;
         }
 
         public bool InitWidthsByPercentage { get; set; }

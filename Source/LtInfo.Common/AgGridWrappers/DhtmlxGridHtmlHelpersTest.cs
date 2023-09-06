@@ -38,7 +38,7 @@ namespace LtInfo.Common.AgGridWrappers
         {
             const string indent = "";
             var gridSpec = new TestGridSpec();
-            var result = DhtmlxGridHtmlHelpers.BuildGridColumns(gridSpec, indent);
+            var result = AgGridHtmlHelpers.BuildGridColumns(gridSpec, indent);
             Approvals.Verify(result);
         }
 
@@ -46,14 +46,14 @@ namespace LtInfo.Common.AgGridWrappers
         public void IsUsingSmartRenderingWithColumnsThatHaveTotalsTest()
         {
             var gridSpec = new TestGridSpec();
-            Assert.That(DhtmlxGridHtmlHelpers.IsUsingSmartRendering(gridSpec), Is.False, "Should not be using smart rendering because we have a grid spec that has a total column");
+            Assert.That(AgGridHtmlHelpers.IsUsingSmartRendering(gridSpec), Is.False, "Should not be using smart rendering because we have a grid spec that has a total column");
         }
 
         [Test]
         public void IsUsingSmartRenderingWithColumnsThatHaveNoTotalsTest()
         {
             var gridSpec = new TestGridSpecWithNoTotalColumns();
-            Assert.That(DhtmlxGridHtmlHelpers.IsUsingSmartRendering(gridSpec), Is.True, "Should be using smart rendering because we have a grid spec that has a total column");
+            Assert.That(AgGridHtmlHelpers.IsUsingSmartRendering(gridSpec), Is.True, "Should be using smart rendering because we have a grid spec that has a total column");
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace LtInfo.Common.AgGridWrappers
             testGridSpecClasses.Add(new TestGridSpecClass(5, "Five", false, 5000m));
             testGridSpecClasses.Add(new TestGridSpecClass(6, "Six", true, 6000m));
 
-            var result = DhtmlxGridHtmlHelpers.DhtmlxGrid(gridSpec,
+            var result = AgGridHtmlHelpers.DhtmlxGrid(gridSpec,
                                                           gridName,
                                                           string.Format("{0}/ListGridDataXml", TestControllerName),
                                                           "height:250px;");
@@ -112,7 +112,7 @@ namespace LtInfo.Common.AgGridWrappers
                         var contentUrl = string.Format("{0}/EditAction/{1}", TestControllerName, m.PrimaryKey);
                         var dialogTitle = string.Format("Edit this {0}", m.DisplayName);
                         var dialogForm = new ModalDialogForm(contentUrl, 350, dialogTitle);
-                        return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(dialogForm);
+                        return AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(dialogForm);
 
                     },
                     35);
@@ -122,7 +122,7 @@ namespace LtInfo.Common.AgGridWrappers
                     m =>
                     {
                         var contentUrl = string.Format("{0}/DeleteAction/{1}", TestControllerName, m.PrimaryKey);
-                        var deleteLink = DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(contentUrl, true);
+                        var deleteLink = AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(contentUrl, true);
                         return deleteLink;
                     },
                     35);
@@ -150,7 +150,7 @@ namespace LtInfo.Common.AgGridWrappers
                         var contentUrl = string.Format("{0}/EditAction/{1}", TestControllerName, m.PrimaryKey);
                         var dialogTitle = string.Format("Edit this {0}", m.DisplayName);
                         var dialogForm = new ModalDialogForm(contentUrl, 350, dialogTitle);
-                        return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(dialogForm);
+                        return AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(dialogForm);
 
                     },
                     35);
@@ -160,7 +160,7 @@ namespace LtInfo.Common.AgGridWrappers
                     m =>
                     {
                         var contentUrl = string.Format("{0}/DeleteAction/{1}", TestControllerName, m.PrimaryKey);
-                        var deleteLink = DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(contentUrl, true);
+                        var deleteLink = AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(contentUrl, true);
                         return deleteLink;
                     },
                     35);

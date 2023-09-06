@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             if (new TaxonomyLeafManageFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 Add(string.Empty,
-                    x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
+                    x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
                     30, AgGridColumnFilterType.None);
             }
 

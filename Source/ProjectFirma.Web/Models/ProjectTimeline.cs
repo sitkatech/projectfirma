@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Models
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
             if ((canEditProjectStatus && !projectProjectStatus.IsFinalStatusUpdate) || (canEditFinalStatusReport && projectProjectStatus.IsFinalStatusUpdate))
             {
-                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
+                editIconAsModalDialogLinkBootstrap = AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
                     projectProjectStatus.GetEditProjectProjectStatusUrl()
                     , $"Add {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} Details:");
             }

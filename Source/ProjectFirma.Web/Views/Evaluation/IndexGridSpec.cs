@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluation))
             {
-                return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluation.GetDeleteUrl(), true, evaluation.CanDelete());
+                return AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluation.GetDeleteUrl(), true, evaluation.CanDelete());
             }
             return new HtmlString(string.Empty);
         }

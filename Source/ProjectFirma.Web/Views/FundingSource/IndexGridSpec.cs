@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             var fundingSourceDeleteFeature = new FundingSourceDeleteFeature();
             if (fundingSourceDeleteFeature.HasPermissionByFirmaSession(currentFirmaSession))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceDeleteFeature.HasPermission(currentFirmaSession, x).HasPermission, true), 30, AgGridColumnFilterType.None);
+                Add(string.Empty, x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceDeleteFeature.HasPermission(currentFirmaSession, x).HasPermission, true), 30, AgGridColumnFilterType.None);
             }
             Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 320, AgGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization.GetDetailUrl(), a.Organization.GetDisplayName()), 300);

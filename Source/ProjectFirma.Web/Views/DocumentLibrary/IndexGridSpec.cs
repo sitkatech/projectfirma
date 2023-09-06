@@ -34,10 +34,10 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
             if (hasDeletePermissions)
             {
                 Add("delete",
-                    x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
+                    x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
                     30,AgGridColumnFilterType.None);
                 Add("delete",
-                    x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document Library {x.DocumentLibraryName}", true),
+                    x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document Library {x.DocumentLibraryName}", true),
                     30, AgGridColumnFilterType.None);
             }
 

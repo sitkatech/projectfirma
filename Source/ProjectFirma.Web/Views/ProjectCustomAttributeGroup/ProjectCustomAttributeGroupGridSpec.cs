@@ -14,8 +14,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
-            Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
-            Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()}")), 30, AgGridColumnFilterType.None);
+            Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+            Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()}")), 30, AgGridColumnFilterType.None);
             Add("Name", a => a.ProjectCustomAttributeGroupName, 300, AgGridColumnFilterType.Text);
 
             if (tenantAttribute.EnableProjectCategories)

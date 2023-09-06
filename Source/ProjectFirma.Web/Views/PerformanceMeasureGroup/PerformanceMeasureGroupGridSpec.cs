@@ -36,8 +36,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
             var hasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasManagePermission)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, AgGridColumnFilterType.None);
-                Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit '{x.PerformanceMeasureGroupName}'", true), 30, AgGridColumnFilterType.None);
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, AgGridColumnFilterType.None);
+                Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit '{x.PerformanceMeasureGroupName}'", true), 30, AgGridColumnFilterType.None);
             }
             Add(FieldDefinitionEnum.PerformanceMeasureGroup.ToType().ToGridHeaderString(),
                 a => a.PerformanceMeasureGroupName,
@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
             {
                 Add("Delete Display Image",
                     x => x.IconFileResourceInfo != null
-                        ? DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteDisplayImageUrl(), true,
+                        ? AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteDisplayImageUrl(), true,
                             x.IconFileResourceInfo != null)
                         : new HtmlString(string.Empty), 60, AgGridColumnFilterType.None);
             }

@@ -38,8 +38,8 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
 
             if (hasManagePermissions)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, AgGridColumnFilterType.None);
-                Add("edit", a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<ContactRelationshipTypeController>.BuildUrlFromExpression(t => t.EditContactRelationshipType(a)),
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, AgGridColumnFilterType.None);
+                Add("edit", a => AgGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<ContactRelationshipTypeController>.BuildUrlFromExpression(t => t.EditContactRelationshipType(a)),
                         $"Edit {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} \"{a.ContactRelationshipTypeName}\"")),
                     30, AgGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;

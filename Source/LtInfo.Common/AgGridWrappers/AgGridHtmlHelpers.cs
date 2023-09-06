@@ -36,7 +36,7 @@ namespace LtInfo.Common.AgGridWrappers
     ///     /Content/img/bg-edit-single.png
     ///     /Content/img/bg-delete-single.png
     /// </summary>
-    public static class DhtmlxGridHtmlHelpers
+    public static class AgGridHtmlHelpers
     {
         public static readonly HtmlString PlusIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus-sign gi-1x blue");
         public static readonly HtmlString UndoIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-regular undo gi-1x blue");

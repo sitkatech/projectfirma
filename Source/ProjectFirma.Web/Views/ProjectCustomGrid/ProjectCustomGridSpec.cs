@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var returnString = new HtmlString("");
             if (!isEditableToThisFirmaSession) return returnString;
 
-            editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
+            editIconAsModalDialogLinkBootstrap = AgGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
                 project.GetAddProjectProjectStatusFromGridUrl()
                 , $"Add {statusUpdateLabel}");
 
@@ -409,7 +409,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     if (userHasDeletePermissions)
                     {
-                        Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30,
+                        Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30,
                             AgGridColumnFilterType.None);
                     }
                     Add("download fact sheet",

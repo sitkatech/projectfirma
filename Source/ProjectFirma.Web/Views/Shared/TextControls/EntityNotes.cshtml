@@ -38,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             <tr class="@entityNote.DisplayCssClass">
                 <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(entityNote.GetEditUrl(), string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
-                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
+                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(AgGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
                 <td>@entityNote.GetLastUpdated().ToStringDateTime()</td>
                 <td>@entityNote.GetLastUpdatedBy()</td>
                 <td>@Html.Raw(entityNote.Note.HtmlEncodeWithBreaks())</td>

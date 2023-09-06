@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationCriteriaManageFeature.HasEvaluationCriteriaManagePermission(currentFirmaSession, evaluationCriteria))
             {
-                return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluationCriteria.GetDeleteUrl(), true, evaluationCriteria.CanDelete());
+                return AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluationCriteria.GetDeleteUrl(), true, evaluationCriteria.CanDelete());
             }
             return new HtmlString(string.Empty);
         }
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             {
                 string linkTitleText = $"Edit {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriteria.EvaluationCriteriaName}'";
                 string editDialogUrl = evaluationCriteria.GetEditUrl();
-                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(editDialogUrl, linkTitleText);
+                return AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(editDialogUrl, linkTitleText);
             }
             return new HtmlString(string.Empty);
         }

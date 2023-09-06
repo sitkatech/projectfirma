@@ -11,8 +11,8 @@ namespace ProjectFirma.Web.Views.ProjectStatus
         public ProjectStatusGridSpec()
         {
 
-            Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
-            Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Status")), 30, AgGridColumnFilterType.None);
+            Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+            Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Status")), 30, AgGridColumnFilterType.None);
             Add("Name", a => a.ProjectStatusName, 200, AgGridColumnFilterType.Html);
             Add("Display Name", a => a.ProjectStatusDisplayName, 200, AgGridColumnFilterType.Text);
             Add("Description", a => a.ProjectStatusDescription, 300);

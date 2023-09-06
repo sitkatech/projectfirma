@@ -40,8 +40,8 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
             var attachmentTypeFieldDefinitionLabel = FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel();
             if (hasManagePermissions)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, AgGridColumnFilterType.None);
-                Add("edit", a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(a.GetEditUrl(),
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, AgGridColumnFilterType.None);
+                Add("edit", a => AgGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(a.GetEditUrl(),
                         $"Edit Attachment \"{a.ProjectAttachmentDisplayName}\"")),
                     30, AgGridColumnFilterType.None);
             }

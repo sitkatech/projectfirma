@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Views.TrainingVideo
     {
         public ManageTrainingVideosGridSpec()
         {
-            Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, AgGridColumnFilterType.None);
-            Add("edit", a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<TrainingVideoController>.BuildUrlFromExpression(t => t.Edit(a)),
+            Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, AgGridColumnFilterType.None);
+            Add("edit", a => AgGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<TrainingVideoController>.BuildUrlFromExpression(t => t.Edit(a)),
                     850, "Edit")),
                 30, AgGridColumnFilterType.None);
 

@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 
             if (userHasManagePermissions)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), true), 30, AgGridColumnFilterType.None);
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), true), 30, AgGridColumnFilterType.None);
                 Add("edit", x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), $"Edit {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} Target for {x.GeospatialAreaShortName}", 1000, true, null), 30, AgGridColumnFilterType.None);
             }
 

@@ -36,9 +36,9 @@ namespace ProjectFirma.Web.Views.Project
         public PendingGridSpec(FirmaSession currentFirmaSession)
         {
             // todo: fulfill "Include standard project grid with columns for “Stage” and “Approval Status”
-            Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteProposalUrl(), new ProjectDeleteProposalFeature().HasPermission(currentFirmaSession, x).HasPermission, true), 30, AgGridColumnFilterType.None);
+            Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteProposalUrl(), new ProjectDeleteProposalFeature().HasPermission(currentFirmaSession, x).HasPermission, true), 30, AgGridColumnFilterType.None);
             Add("edit",
-                x => DhtmlxGridHtmlHelpers.MakeEditIconAsHyperlinkBootstrap(x.GetProjectCreateUrl(),
+                x => AgGridHtmlHelpers.MakeEditIconAsHyperlinkBootstrap(x.GetProjectCreateUrl(),
                     new ProjectCreateFeature().HasPermission(currentFirmaSession, x).HasPermission &&
                     !(x.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval &&
                       currentFirmaSession.Role == ProjectFirmaModels.Models.Role.Normal)), 30,

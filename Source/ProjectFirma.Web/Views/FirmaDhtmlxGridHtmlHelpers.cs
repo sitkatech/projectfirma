@@ -49,11 +49,11 @@ namespace ProjectFirma.Web.Views
         /// <returns></returns>
         public static HtmlString DhtmlxGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, DhtmlxGridResizeType dhtmlxGridResizeType)
         {
-            var dhtmlxGridHeader = DhtmlxGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, gridName, ExcelDownloadUrl);
+            var dhtmlxGridHeader = AgGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, gridName, ExcelDownloadUrl);
 
             var saveGridSettingsUrl = SitkaRoute<GridSettingsController>.BuildUrlFromExpression(c => c.SaveGridSettings());
 
-            var dhtmlxGrid = DhtmlxGridHtmlHelpers.DhtmlxGridImpl(gridSpec,
+            var dhtmlxGrid = AgGridHtmlHelpers.DhtmlxGridImpl(gridSpec,
                 gridName,
                 optionalGridDataUrl,
                 $"background-color:white;{styleString}",

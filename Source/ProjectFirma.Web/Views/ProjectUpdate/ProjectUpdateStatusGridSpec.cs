@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         if (latestNotApprovedUpdateBatch.IsReadyToSubmit())
                         {
                             var submitText = latestNotApprovedUpdateBatch.IsReturned() ? "Re-Submit" : "Submit";
-                            var submitLink = DhtmlxGridHtmlHelpers.MakeModalDialogLink(
+                            var submitLink = AgGridHtmlHelpers.MakeModalDialogLink(
                                 $"<span style=\"display:none\">Ready to</span> {submitText}",
                                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(y => y.Submit(x)),
                                 500,

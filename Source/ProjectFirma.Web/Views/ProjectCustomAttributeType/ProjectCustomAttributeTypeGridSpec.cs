@@ -13,8 +13,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public ProjectCustomAttributeTypeGridSpec()
         {
 
-            Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
-            Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute")), 30, AgGridColumnFilterType.None);           
+            Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+            Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute")), 30, AgGridColumnFilterType.None);           
             Add(FieldDefinitionEnum.ProjectCustomAttribute.ToType().ToGridHeaderString(),a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.ProjectCustomAttributeTypeName), 200, AgGridColumnFilterType.Html);      
             Add("Description", a => a.ProjectCustomAttributeTypeDescription, 300);
             Add(FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().ToGridHeaderString(), a => a.ProjectCustomAttributeGroup?.ProjectCustomAttributeGroupName ?? string.Empty, 150, AgGridColumnFilterType.SelectFilterStrict);

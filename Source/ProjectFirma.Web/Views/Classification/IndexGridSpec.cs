@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Classification
             if (hasDeletePermissions)
             {
                 Add(string.Empty,
-                    x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
+                    x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
                     30,AgGridColumnFilterType.None);
             }
 
