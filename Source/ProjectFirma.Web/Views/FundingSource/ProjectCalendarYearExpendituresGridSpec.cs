@@ -36,8 +36,8 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
                 a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.GetDisplayName()),
                 350,
-                DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
             foreach (var year in calendarYearsForProjectExpenditures)
             {
                 var calendarYear = year;

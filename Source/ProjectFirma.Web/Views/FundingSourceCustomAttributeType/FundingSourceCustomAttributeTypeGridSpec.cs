@@ -13,15 +13,15 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
         public FundingSourceCustomAttributeTypeGridSpec()
         {
 
-            Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
-            Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute")), 30, DhtmlxGridColumnFilterType.None);           
-            Add(FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().ToGridHeaderString(),a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.FundingSourceCustomAttributeTypeName), 200, DhtmlxGridColumnFilterType.Html);
+            Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+            Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute")), 30, AgGridColumnFilterType.None);           
+            Add(FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().ToGridHeaderString(),a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.FundingSourceCustomAttributeTypeName), 200, AgGridColumnFilterType.Html);
             Add("Description", a => a.FundingSourceCustomAttributeTypeDescription, 300);
-            Add(FieldDefinitionEnum.FundingSourceCustomAttributeDataType.ToType().ToGridHeaderString(), a => a.FundingSourceCustomAttributeDataType.FundingSourceCustomAttributeDataTypeDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString(), a => a.GetMeasurementUnitDisplayName(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Required?", a => a.IsRequired.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add(FieldDefinitionEnum.FundingSourceCustomAttributeTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
-            Add($"Include In {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} Grid?", a => a.IncludeInFundingSourceGrid.ToYesNo() ?? ViewUtilities.NoAnswerProvided, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.FundingSourceCustomAttributeDataType.ToType().ToGridHeaderString(), a => a.FundingSourceCustomAttributeDataType.FundingSourceCustomAttributeDataTypeDisplayName, 100, AgGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString(), a => a.GetMeasurementUnitDisplayName(), 100, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Required?", a => a.IsRequired.ToYesNo(), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.FundingSourceCustomAttributeTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, AgGridColumnFilterType.Html);
+            Add($"Include In {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} Grid?", a => a.IncludeInFundingSourceGrid.ToYesNo() ?? ViewUtilities.NoAnswerProvided, 100, AgGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

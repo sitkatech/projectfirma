@@ -41,9 +41,9 @@ namespace ProjectFirma.Web.Views.MapLayer
                     Add(string.Empty,
                         x => DhtmlxGridHtmlHelpers.MakeModalDialogLink("Sync", x.GetSyncUrl(), 400, "Sync Data",
                             true, "Sync", "Cancel", cssClasses, null, null),
-                        60, DhtmlxGridColumnFilterType.None);
+                        60, AgGridColumnFilterType.None);
                 }
-                Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditMapLayerUrl(), "Edit Geospatial Area Map Layer"), 30, DhtmlxGridColumnFilterType.None);
+                Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditMapLayerUrl(), "Edit Geospatial Area Map Layer"), 30, AgGridColumnFilterType.None);
             }
             Add("Display Name", x => x.GeospatialAreaTypeNamePluralized, 250);
             Add(FieldDefinitionEnum.GeospatialAreaMapLayerDisplayAsReferenceLayer.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 175);

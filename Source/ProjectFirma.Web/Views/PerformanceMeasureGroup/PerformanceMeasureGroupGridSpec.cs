@@ -36,13 +36,13 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
             var hasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasManagePermission)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
-                Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit '{x.PerformanceMeasureGroupName}'", true), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, AgGridColumnFilterType.None);
+                Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit '{x.PerformanceMeasureGroupName}'", true), 30, AgGridColumnFilterType.None);
             }
             Add(FieldDefinitionEnum.PerformanceMeasureGroup.ToType().ToGridHeaderString(),
                 a => a.PerformanceMeasureGroupName,
                 300,
-                DhtmlxGridColumnFilterType.Text);
+                AgGridColumnFilterType.Text);
             Add($"# of {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", a => a.PerformanceMeasures.Count, 150);
             if (hasManagePermission)
             {
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
                     x => x.IconFileResourceInfo != null
                         ? DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteDisplayImageUrl(), true,
                             x.IconFileResourceInfo != null)
-                        : new HtmlString(string.Empty), 60, DhtmlxGridColumnFilterType.None);
+                        : new HtmlString(string.Empty), 60, AgGridColumnFilterType.None);
             }
             Add("Display Image File Name", a => a.IconFileResourceInfo?.GetOriginalCompleteFileName(), 300);
         }

@@ -53,13 +53,13 @@ namespace ProjectFirma.Web.Views.FundingSource
             var fundingSourceDeleteFeature = new FundingSourceDeleteFeature();
             if (fundingSourceDeleteFeature.HasPermissionByFirmaSession(currentFirmaSession))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceDeleteFeature.HasPermission(currentFirmaSession, x).HasPermission, true), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceDeleteFeature.HasPermission(currentFirmaSession, x).HasPermission, true), 30, AgGridColumnFilterType.None);
             }
-            Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 320, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 320, AgGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization.GetDetailUrl(), a.Organization.GetDisplayName()), 300);
-            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, AgGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.FundingSourceDescription, 300);
-            Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Is Active", a => a.IsActive.ToYesNo(), 80, AgGridColumnFilterType.SelectFilterStrict);
             
             Add(FieldDefinitionEnum.FundingSourceAmount.ToType().ToGridHeaderString(), a => a.FundingSourceAmount, 80, DhtmlxGridColumnFormatType.Currency);
 
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.FundingSource
                 {
                     Add($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}"
                         , a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType, fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary)
-                        , 150, DhtmlxGridColumnFilterType.Text);
+                        , 150, AgGridColumnFilterType.Text);
                 }
             }
         }

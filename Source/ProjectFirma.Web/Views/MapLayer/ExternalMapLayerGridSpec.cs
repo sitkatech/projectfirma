@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Views.MapLayer
         {
             if (userCanManage)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
-                Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), "Edit External Map Layer"), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+                Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), "Edit External Map Layer"), 30, AgGridColumnFilterType.None);
             }
             Add(FieldDefinitionEnum.ExternalMapLayerDisplayName.ToType().ToGridHeaderString(), x => x.DisplayName, 150);
             Add(FieldDefinitionEnum.ExternalMapLayerUrl.ToType().ToGridHeaderString(), x => x.LayerUrl, 250);

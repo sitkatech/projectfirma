@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Tenant
         {
             Add("Tenant Display Name", t => t.TenantShortDisplayName, 150);
             Add("Tenant Name", t => t.Tenant.TenantName, 150);
-            Add("Tenant Domain", t => string.Format("<a href=\"http://{0}\" target=\"_blank\">{0}</a>", FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(t.Tenant)).ToHTMLFormattedString(), 200, DhtmlxGridColumnFilterType.Html);
+            Add("Tenant Domain", t => string.Format("<a href=\"http://{0}\" target=\"_blank\">{0}</a>", FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(t.Tenant)).ToHTMLFormattedString(), 200, AgGridColumnFilterType.Html);
 
             Add("Primary Contact",
                 t =>
@@ -42,9 +42,9 @@ namespace ProjectFirma.Web.Views.Tenant
                         ? new SitkaRoute<UserController>(c => c.Detail(t.PrimaryContactPerson)).BuildLinkFromExpression(t.PrimaryContactPerson.GetFullNameFirstLast()).ToHTMLFormattedString()
                         : new HtmlString(""),
                 200,
-                DhtmlxGridColumnFilterType.Html);
-            Add("Is Tenant Enabled", t => t.Tenant.TenantEnabled.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Is Tenant Active", t => t.IsActive.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                AgGridColumnFilterType.Html);
+            Add("Is Tenant Enabled", t => t.Tenant.TenantEnabled.ToYesNo(), 60, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Is Tenant Active", t => t.IsActive.ToYesNo(), 60, AgGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

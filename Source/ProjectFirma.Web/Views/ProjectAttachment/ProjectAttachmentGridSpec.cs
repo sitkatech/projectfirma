@@ -40,18 +40,18 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
             var attachmentTypeFieldDefinitionLabel = FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel();
             if (hasManagePermissions)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, AgGridColumnFilterType.None);
                 Add("edit", a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(a.GetEditUrl(),
                         $"Edit Attachment \"{a.ProjectAttachmentDisplayName}\"")),
-                    30, DhtmlxGridColumnFilterType.None);
+                    30, AgGridColumnFilterType.None);
             }
 
             Add($"Attachment Name", a => UrlTemplate.MakeHrefString(a.GetFileResourceUrl(), a.ProjectAttachmentDisplayName + " " + BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download"), new Dictionary<string, string> { { "target", "_blank" } }), 240);
             Add($"Attachment Description", a => a.ProjectAttachmentDescription, 240);
             
-            Add($"{projectFieldDefinitionLabel} Name", a => UrlTemplate.MakeHrefString(a.GetProjectDetailUrl(), a.ProjectName), 240, DhtmlxGridColumnFilterType.Text);
-            Add($"{attachmentTypeFieldDefinitionLabel}", a => a.AttachmentTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add($"File Type", a =>  FileResourceMimeType.AllLookupDictionary[a.FileResourceMimeTypeID].FileResourceMimeTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{projectFieldDefinitionLabel} Name", a => UrlTemplate.MakeHrefString(a.GetProjectDetailUrl(), a.ProjectName), 240, AgGridColumnFilterType.Text);
+            Add($"{attachmentTypeFieldDefinitionLabel}", a => a.AttachmentTypeName, 240, AgGridColumnFilterType.SelectFilterStrict);
+            Add($"File Type", a =>  FileResourceMimeType.AllLookupDictionary[a.FileResourceMimeTypeID].FileResourceMimeTypeName, 240, AgGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

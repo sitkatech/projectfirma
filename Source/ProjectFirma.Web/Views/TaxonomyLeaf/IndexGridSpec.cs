@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
-                    30, DhtmlxGridColumnFilterType.None);
+                    30, AgGridColumnFilterType.None);
             }
 
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             {
                 Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.GetDetailUrl(), a.GetTaxonomyBranchCodeAndName()), 300);
             }
-            Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetTaxonomyLeafCodeAndName()), 350, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetTaxonomyLeafCodeAndName()), 350, AgGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentFirmaSession).Count, 90);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.TaxonomyLeafPerformanceMeasures.Count, 90);
             Add("Sort Order", a => a.TaxonomyLeafSortOrder, 90, DhtmlxGridColumnFormatType.None);

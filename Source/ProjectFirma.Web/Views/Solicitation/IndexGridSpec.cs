@@ -42,9 +42,9 @@ namespace ProjectFirma.Web.Views.Solicitation
                 Add("edit", x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.Edit(x)), $"Edit {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()}"), 30);
             }
 
-            Add($"{FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()} Name", a => a.SolicitationName, 200, DhtmlxGridColumnFilterType.Text);
-            Add("Attachment Instructions", a => !string.IsNullOrEmpty(a.AttachmentInstructions) ? a.AttachmentInstructionsHtmlString : new HtmlString(string.Empty), 600, DhtmlxGridColumnFilterType.Html);
-            Add("Is Active", a => a.IsActive.ToYesNo(), 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()} Name", a => a.SolicitationName, 200, AgGridColumnFilterType.Text);
+            Add("Attachment Instructions", a => !string.IsNullOrEmpty(a.AttachmentInstructions) ? a.AttachmentInstructionsHtmlString : new HtmlString(string.Empty), 600, AgGridColumnFilterType.Html);
+            Add("Is Active", a => a.IsActive.ToYesNo(), 65, AgGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

@@ -40,8 +40,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectUpdateBatchGridSpec()
         {
             Add("Date", x => x.LastUpdateDate, 120);
-            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Status", x => x.ProjectUpdateState.ProjectUpdateStateDisplayName, 170, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Updated By", x => x.LastUpdatePerson.GetFullNameFirstLastAndOrgShortName(), 350, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Status", x => x.ProjectUpdateState.ProjectUpdateStateDisplayName, 170, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Updated By", x => x.LastUpdatePerson.GetFullNameFirstLastAndOrgShortName(), 350, AgGridColumnFilterType.SelectFilterStrict);
             Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Details",
                 pub =>
                 {

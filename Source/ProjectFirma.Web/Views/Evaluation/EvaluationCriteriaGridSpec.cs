@@ -11,12 +11,12 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public EvaluationCriteriaGridSpec(FirmaSession currentFirmaSession)
         {
-            Add("delete", ec => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
-            Add("edit", ec => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
+            Add("delete", ec => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, AgGridColumnFilterType.None);
+            Add("edit", ec => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, AgGridColumnFilterType.None);
 
-            Add("Name", a => a.EvaluationCriteriaName, 170, DhtmlxGridColumnFilterType.Text);
-            Add("Definition", a => a.EvaluationCriteriaDefinition, 170, DhtmlxGridColumnFilterType.Text);
-            Add("# of Criteria Values", a => a.GetNumberOfEvaluationCriteriaValues().ToString(), 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Name", a => a.EvaluationCriteriaName, 170, AgGridColumnFilterType.Text);
+            Add("Definition", a => a.EvaluationCriteriaDefinition, 170, AgGridColumnFilterType.Text);
+            Add("# of Criteria Values", a => a.GetNumberOfEvaluationCriteriaValues().ToString(), 70, AgGridColumnFilterType.SelectFilterStrict);
 
         }
 

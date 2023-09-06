@@ -39,10 +39,10 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
 
             if (hasManagePermissions)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, AgGridColumnFilterType.None);
                 Add("edit", a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationRelationshipType(a)),
                         $"Edit {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} \"{a.OrganizationRelationshipTypeName}\"")),
-                    30, DhtmlxGridColumnFilterType.None);
+                    30, AgGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
 

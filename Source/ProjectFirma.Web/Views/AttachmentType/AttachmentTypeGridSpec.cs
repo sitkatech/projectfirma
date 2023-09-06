@@ -38,10 +38,10 @@ namespace ProjectFirma.Web.Views.AttachmentType
 
             if (hasManagePermissions)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, AgGridColumnFilterType.None);
                 Add("edit", a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(t => t.EditAttachmentType(a)),
                         $"Edit {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} \"{a.AttachmentTypeName}\"")),
-                    30, DhtmlxGridColumnFilterType.None);
+                    30, AgGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
 
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.AttachmentType
             Add("# of Allowed Attachments", a => a.NumberOfAllowedAttachments, 80);
             Add("Maximum File Size", a => a.MaxFileSizeForDisplay, 140);
             Add(FieldDefinitionEnum.QuickAccessAttachment.ToType().ToGridHeaderString(), a => a.IsQuickAccessAttachment.ToYesNo(), 140);
-            Add(FieldDefinitionEnum.AttachmentTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.AttachmentTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, AgGridColumnFilterType.Html);
 
 
 

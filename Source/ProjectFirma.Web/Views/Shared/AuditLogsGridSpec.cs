@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Shared
         {
             Add("Date", a => a.AuditLogDate, 120);
             Add("User", a => a.Person.GetFullNameFirstLastAndOrgAsUrl(currentFirmaSession), 300);
-            Add("Section", a => a.TableName.ToProperCase(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Section", a => a.TableName.ToProperCase(), 200, AgGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.GetAuditDescriptionDisplay(), 400);
         }
     }

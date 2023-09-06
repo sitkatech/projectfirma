@@ -49,11 +49,11 @@ namespace ProjectFirma.Web.Views.Organization
 
             if (hasDeletePermissions)
             {
-                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
             }
-            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, AgGridColumnFilterType.Html);
             Add("Short Name", a => a.OrganizationShortName, 100);
-            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), x => x.OrganizationType?.GetOrganizationTypeHtmlStringWithColor(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), x => x.OrganizationType?.GetOrganizationTypeHtmlStringWithColor(), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), a => a.GetPrimaryContactPersonAsUrl(currentFirmaSession), 120);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(fundingSourceDictionary, projectFundingSourceBudgetsDictionary, projectFundingSourceExpenditureDictionary, projectDictionary).Count, 90);
             if (currentFirmaSession.CanViewProposals())
@@ -64,13 +64,13 @@ namespace ProjectFirma.Web.Views.Organization
             Add($"# of {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}", a => fundingSourceDictionary.ContainsKey(a.OrganizationID) ? fundingSourceDictionary[a.OrganizationID].Count : 0, 90);
             Add("# of Users", a =>
                 peopleDictionary.ContainsKey(a.OrganizationID) ? peopleDictionary[a.OrganizationID].Count : 0, 90);
-            Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmptyForGrid(), 70, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Has Keystone GUID", x => (x.KeystoneOrganizationGuid != null).ToCheckboxImageOrEmptyForGrid(), 70, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Is Active", a => a.IsActive.ToYesNo(), 80, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmptyForGrid(), 70, AgGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Has Keystone GUID", x => (x.KeystoneOrganizationGuid != null).ToCheckboxImageOrEmptyForGrid(), 70, AgGridColumnFilterType.SelectFilterHtmlStrict);
 
             if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker)
             {
-                Add("Matchmaker Service", a => a.GetOptInHasContentString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                Add("Matchmaker Service", a => a.GetOptInHasContentString(), 100, AgGridColumnFilterType.SelectFilterStrict);
             }
 
         }

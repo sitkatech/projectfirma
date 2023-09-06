@@ -277,22 +277,22 @@ namespace LtInfo.Common.AgGridWrappers
 
 
 
-                switch (columnSpec.DhtmlxGridColumnFilterType)
+                switch (columnSpec.AgGridColumnFilterType)
                 {
-                    case DhtmlxGridColumnFilterType.None:
+                    case AgGridColumnFilterType.None:
                         columnDefinitionStringBuilder.Append(", \"filter\": false");
                         break;
-                    case DhtmlxGridColumnFilterType.FormattedNumeric:
-                    case DhtmlxGridColumnFilterType.Numeric:
+                    case AgGridColumnFilterType.FormattedNumeric:
+                    case AgGridColumnFilterType.Numeric:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agNumberColumnFilter\"");
                         break;
-                    case DhtmlxGridColumnFilterType.DateRange:
+                    case AgGridColumnFilterType.DateRange:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agDateColumnFilter\"");
                         columnDefinitionStringBuilder.Append(", \"comparator\": dateStringComparator");//comparator: dateComparator
                         // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"dateString\"");
                         break;
-                    case DhtmlxGridColumnFilterType.Html:
-                    case DhtmlxGridColumnFilterType.Text:
+                    case AgGridColumnFilterType.Html:
+                    case AgGridColumnFilterType.Text:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
                         break;
                     default:
@@ -797,7 +797,7 @@ namespace LtInfo.Common.AgGridWrappers
                             }"", ""{column.AgGridColumnAlignType.ToString().ToLower()}"", ""{
                                 column.AgGridColumnDataType
                             }"", ""{column.DhtmlxGridColumnSortType.SortingType}"", ""{
-                                column.DhtmlxGridColumnFilterType
+                                column.AgGridColumnFilterType
                             }"", {$"\"{column.DhtmlxGridColumnFormatType}\""})"));
         }
 

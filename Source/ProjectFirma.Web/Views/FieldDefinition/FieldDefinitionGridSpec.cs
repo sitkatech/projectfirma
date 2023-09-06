@@ -39,12 +39,12 @@ namespace ProjectFirma.Web.Views.FieldDefinition
                         UrlTemplate.MakeHrefString(SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(a)),
                             DhtmlxGridHtmlHelpers.EditIconBootstrap.ToString(),
                             new Dictionary<string, string> {{"target", "_blank"}}),
-                    30, DhtmlxGridColumnFilterType.None);
+                    30, AgGridColumnFilterType.None);
             }
             Add("Custom Label", a => a.HasCustomFieldLabel() ? a.GetFieldDefinitionData().FieldDefinitionLabel : string.Empty, 200);
             Add("Default Label", a => a.FieldDefinitionDisplayName, 200);
-            Add("Has Custom Field Name?", a => a.HasCustomFieldLabel().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Has Custom Field Definition?", a => a.HasCustomFieldDefinition().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Has Custom Field Name?", a => a.HasCustomFieldLabel().ToYesNo(), 100, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Has Custom Field Definition?", a => a.HasCustomFieldDefinition().ToYesNo(), 100, AgGridColumnFilterType.SelectFilterStrict);
             Add("Custom Definition", a => a.HasCustomFieldDefinition() ? a.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString.ToString() : string.Empty, 200);
             Add("Default Definition", a => a.FieldDefinitionDefault != null ? a.FieldDefinitionDefault.DefaultDefinitionHtmlString.ToString() : "No Default Definition", 200);
         }

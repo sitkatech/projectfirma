@@ -186,7 +186,7 @@
     <Compile Include="AgGridWrappers\AgGridColumnAggregationType.cs" />
     <Compile Include="AgGridWrappers\AgGridColumnAlignType.cs" />
     <Compile Include="AgGridWrappers\AgGridColumnDataType.cs" />
-    <Compile Include="AgGridWrappers\DhtmlxGridColumnFilterType.cs" />
+    <Compile Include="AgGridWrappers\AgGridColumnFilterType.cs" />
     <Compile Include="AgGridWrappers\DhtmlxGridColumnFormatType.cs" />
     <Compile Include="AgGridWrappers\DhtmlxGridColumnSortType.cs" />
     <Compile Include="AgGridWrappers\DhtmlxGridHtmlHelpers.cs" />

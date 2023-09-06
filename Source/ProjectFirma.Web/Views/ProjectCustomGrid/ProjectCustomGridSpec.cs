@@ -80,14 +80,14 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 // Non-optional fields
                 // Project Name
                 case ProjectCustomGridColumnEnum.ProjectName:
-                    Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
+                    Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, AgGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.PrimaryContactOrganization:
                     Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), 
-                        x => OrganizationModelExtensions.GetShortNameAsUrl(projectDetailsDictionary[x.ProjectID].PrimaryContactOrganizationID, projectDetailsDictionary[x.ProjectID].PrimaryContactOrganizationDisplayName), 150, DhtmlxGridColumnFilterType.Html);
+                        x => OrganizationModelExtensions.GetShortNameAsUrl(projectDetailsDictionary[x.ProjectID].PrimaryContactOrganizationID, projectDetailsDictionary[x.ProjectID].PrimaryContactOrganizationDisplayName), 150, AgGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStage:
-                    Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfExpectedPerformanceMeasureRecords:
                     Add($"# Of Expected {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureExpectedCount, 100, DhtmlxGridColumnFormatType.Integer);
@@ -98,14 +98,14 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectsStewardOrganizationRelationshipToProject:
                     if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
                     {
-                        Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => OrganizationModelExtensions.GetShortNameAsUrl(projectDetailsDictionary[x.ProjectID].CanStewardProjectsOrganizationID, projectDetailsDictionary[x.ProjectID].CanStewardProjectsOrganizationDisplayName), 150, DhtmlxGridColumnFilterType.Html);
+                        Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => OrganizationModelExtensions.GetShortNameAsUrl(projectDetailsDictionary[x.ProjectID].CanStewardProjectsOrganizationID, projectDetailsDictionary[x.ProjectID].CanStewardProjectsOrganizationDisplayName), 150, AgGridColumnFilterType.Html);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContact:
                     Add(FieldDefinitionEnum.ProjectPrimaryContact.ToType().ToGridHeaderString(),
                         x => projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.HasValue ?
                             new UserViewFeature().HasPermissionForPersonID(currentFirmaSession, projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value, sitkaAdminPersonIDs).HasPermission ? UrlTemplate.MakeHrefString(PersonModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value), projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast) : new HtmlString(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast) : new HtmlString(""),
-                        150, DhtmlxGridColumnFilterType.Html);
+                        150, AgGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContactEmail:
                     var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByFirmaSession(currentFirmaSession);
@@ -113,29 +113,29 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     {
                         Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(),
                             x => projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.HasValue ? new HtmlString($"<a href='mailto:{projectDetailsDictionary[x.ProjectID].PrimaryContactPersonEmail}'> {projectDetailsDictionary[x.ProjectID].PrimaryContactPersonEmail}</a>") : new HtmlString(""),
-                            200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+                            200, AgGridColumnFilterType.SelectFilterHtmlStrict);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.PlanningDesignStartYear:
-                    Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.ImplementationStartYear:
-                    Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.CompletionYear:
-                    Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetCompletionYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetCompletionYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.PrimaryTaxonomyLeaf:
                     var gridHeaderString = MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf
                         ? FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().ToGridHeaderString()
                         : FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString();
-                    Add(gridHeaderString, x => UrlTemplate.MakeHrefString(TaxonomyLeafModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].TaxonomyLeafID), projectDetailsDictionary[x.ProjectID].TaxonomyLeafDisplayName), 240, DhtmlxGridColumnFilterType.Html);
+                    Add(gridHeaderString, x => UrlTemplate.MakeHrefString(TaxonomyLeafModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].TaxonomyLeafID), projectDetailsDictionary[x.ProjectID].TaxonomyLeafDisplayName), 240, AgGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf)
                     {
                         Add(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().ToGridHeaderStringPlural()
-                            , x => new HtmlString(string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => taxonomyLeafDictionary[y.TaxonomyLeafID].GetDisplayNameAsUrl().ToString()))), 300, DhtmlxGridColumnFilterType.Html);
+                            , x => new HtmlString(string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => taxonomyLeafDictionary[y.TaxonomyLeafID].GetDisplayNameAsUrl().ToString()))), 300, AgGridColumnFilterType.Html);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfReportedExpenditures:
@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.FundingType:
                     if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
                     {
-                        Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType != null ? x.FundingType.FundingTypeDisplayName : "", 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                        Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType != null ? x.FundingType.FundingTypeDisplayName : "", 300, AgGridColumnFilterType.SelectFilterStrict);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.EstimatedTotalCost:
@@ -192,7 +192,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString()
                             , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession, projectDetailsDictionary[x.ProjectID], projectLabel, hasProjectApprovalPermissionBySession, statusUpdateLabel)
                             , 100
-                            , DhtmlxGridColumnFilterType.SelectFilterHtmlStrict
+                            , AgGridColumnFilterType.SelectFilterHtmlStrict
                         );
                     }
                     break;
@@ -202,7 +202,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         Add(FieldDefinitionEnum.FinalStatusUpdateStatus.ToType().ToGridHeaderString()
                             , x => projectDetailsDictionary[x.ProjectID].FinalStatusReportStatusDescription
                             , 100
-                            , DhtmlxGridColumnFilterType.SelectFilterStrict
+                            , AgGridColumnFilterType.SelectFilterStrict
                         );
                     }
                     break;
@@ -215,23 +215,23 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectCategory:
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableProjectCategories)
                     {
-                        Add(FieldDefinitionEnum.ProjectCategory.ToType().ToGridHeaderString(), x => x.ProjectCategory.ProjectCategoryDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                        Add(FieldDefinitionEnum.ProjectCategory.ToType().ToGridHeaderString(), x => x.ProjectCategory.ProjectCategoryDisplayName, 140, AgGridColumnFilterType.SelectFilterStrict);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.Solicitation:
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableSolicitations)
                     {
-                        Add(FieldDefinitionEnum.Solicitation.ToType().ToGridHeaderString(), x => x.Solicitation != null ? x.Solicitation.SolicitationName : string.Empty, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                        Add(FieldDefinitionEnum.Solicitation.ToType().ToGridHeaderString(), x => x.Solicitation != null ? x.Solicitation.SolicitationName : string.Empty, 140, AgGridColumnFilterType.SelectFilterStrict);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.FundingSources:
                     if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
                     {
-                        Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => y.GetDisplayNameAsUrl()))), 300, DhtmlxGridColumnFilterType.Html);
+                        Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => y.GetDisplayNameAsUrl()))), 300, AgGridColumnFilterType.Html);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.Organizations:
-                    Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetAssociatedOrganizations().OrderBy(y => y.OrganizationShortName).Select(y => y.GetShortNameAsUrl()))), 300, DhtmlxGridColumnFilterType.Html);
+                    Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetAssociatedOrganizations().OrderBy(y => y.OrganizationShortName).Select(y => y.GetShortNameAsUrl()))), 300, AgGridColumnFilterType.Html);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -252,7 +252,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             }
             else
             {
-                Add($"{gridHeaderHtmlString}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType, projectCustomAttributeDictionary), 150, DhtmlxGridColumnFilterType.Text);
+                Add($"{gridHeaderHtmlString}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType, projectCustomAttributeDictionary), 150, AgGridColumnFilterType.Text);
             }
         }
 
@@ -273,13 +273,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         private void AddProjectCustomGridGeospatialAreaField(ProjectCustomGridConfiguration projectCustomGridConfiguration, Dictionary<int, vGeospatialArea> geospatialAreas, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
         {
             var geospatialAreaType = projectCustomGridConfiguration.GeospatialAreaType;
-            Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType, geospatialAreas, projectGeospatialAreaDictionary), 350, DhtmlxGridColumnFilterType.Html);
+            Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType, geospatialAreas, projectGeospatialAreaDictionary), 350, AgGridColumnFilterType.Html);
         }
 
         private void AddProjectCustomGridClassificationSystemField(ProjectCustomGridConfiguration projectCustomGridConfiguration, Dictionary<int, ProjectFirmaModels.Models.Classification> classificationsDictionary, Dictionary<int, List<ProjectClassification>> projectClassificationsDictionary)
         {
             var classificationSystem = projectCustomGridConfiguration.ClassificationSystem;
-            Add($"{classificationSystem.ClassificationSystemNamePluralized}", a => a.GetProjectClassificationsAsHyperlinks(classificationSystem, classificationsDictionary, projectClassificationsDictionary), 350, DhtmlxGridColumnFilterType.Html);
+            Add($"{classificationSystem.ClassificationSystemNamePluralized}", a => a.GetProjectClassificationsAsHyperlinks(classificationSystem, classificationsDictionary, projectClassificationsDictionary), 350, AgGridColumnFilterType.Html);
         }
 
         public ProjectCustomGridSpec(FirmaSession currentFirmaSession,
@@ -410,13 +410,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     if (userHasDeletePermissions)
                     {
                         Add("delete", x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30,
-                            DhtmlxGridColumnFilterType.None);
+                            AgGridColumnFilterType.None);
                     }
                     Add("download fact sheet",
                         x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(),
                             FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString() +
                             $"<span class=\"sr-only\">Download the Fact Sheet for {x.ProjectName}</span>"), 30,
-                        DhtmlxGridColumnFilterType.None);
+                        AgGridColumnFilterType.None);
                     break;
                 case ProjectCustomGridTypeEnum.Reports:
                     if (userHasReportDownloadPermissions)
@@ -441,7 +441,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     x => new HtmlString(!x.ProjectTags.Any()
                         ? string.Empty
                         : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100,
-                    DhtmlxGridColumnFilterType.Html);
+                    AgGridColumnFilterType.Html);
             }
         }
     }

@@ -34,14 +34,14 @@ namespace ProjectFirma.Web.Views.Reports
         {
             if (hasManagePermissions)
             {
-                Add("delete", a => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<ReportsController>.BuildUrlFromExpression(t => t.Delete(a)), true), 30, DhtmlxGridColumnFilterType.None);
-                Add("edit", a => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<ReportsController>.BuildUrlFromExpression(t => t.Edit(a)), "Edit Report Template"), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", a => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<ReportsController>.BuildUrlFromExpression(t => t.Delete(a)), true), 30, AgGridColumnFilterType.None);
+                Add("edit", a => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<ReportsController>.BuildUrlFromExpression(t => t.Edit(a)), "Edit Report Template"), 30, AgGridColumnFilterType.None);
             }
             Add("Display Name", a => a.DisplayName, 200);
             Add("Description", a => a.Description, 400);
             Add("Model", a => a.ReportTemplateModel.ReportTemplateModelDisplayName, 100);
             //Add("Model Type", a => a.ReportTemplateModelType.ReportTemplateModelTypeDisplayName, 100);
-            Add("Template File", a => a.DownloadTemplateLink(), 200, DhtmlxGridColumnFilterType.Html);
+            Add("Template File", a => a.DownloadTemplateLink(), 200, AgGridColumnFilterType.Html);
         }
     }
 }

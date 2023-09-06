@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.User
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
-                    30, DhtmlxGridColumnFilterType.None);
+                    30, AgGridColumnFilterType.None);
             }
 
             // Impersonate link
@@ -45,19 +45,19 @@ namespace ProjectFirma.Web.Views.User
             bool hasImpersonationPermission = new FirmaImpersonateUserFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (impersonationIsAllowed && hasImpersonationPermission)
             {
-                Add("Imper. User", a => ImpersonateUserButton.MakeImpersonateSinglePageHtmlLink(a), 45, DhtmlxGridColumnFilterType.Html);
+                Add("Imper. User", a => ImpersonateUserButton.MakeImpersonateSinglePageHtmlLink(a), 45, AgGridColumnFilterType.Html);
             }
 
-            Add("Last Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.LastName), 100, DhtmlxGridColumnFilterType.Html);
-            Add("First Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.FirstName), 100, DhtmlxGridColumnFilterType.Html);
+            Add("Last Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.LastName), 100, AgGridColumnFilterType.Html);
+            Add("First Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.FirstName), 100, AgGridColumnFilterType.Html);
             Add("Email", a => a.Email, 200);
             Add($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", a => a.Organization.GetShortNameAsUrl(), 200);
             Add("Phone", a => a.Phone.ToPhoneNumberString(), 100);
             Add("Username", a => a.LoginName.ToString(), 200);
             Add("Last Activity", a => a.LastActivityDate, 120);
-            Add("Role", a => a.Role.GetDisplayNameAsUrl(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Active?", a => a.IsActive.ToYesNo(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Receives Support Emails?", a => a.ReceiveSupportEmails.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Role", a => a.Role.GetDisplayNameAsUrl(), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Active?", a => a.IsActive.ToYesNo(), 75, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Receives Support Emails?", a => a.ReceiveSupportEmails.ToYesNo(), 100, AgGridColumnFilterType.SelectFilterStrict);
             Add($"{FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for Organizations", a => a.GetPrimaryContactOrganizations().Count, 120);
         }
 

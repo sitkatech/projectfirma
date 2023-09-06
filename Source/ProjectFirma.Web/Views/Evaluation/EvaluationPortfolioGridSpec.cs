@@ -15,16 +15,16 @@ namespace ProjectFirma.Web.Views.Evaluation
         public EvaluationPortfolioGridSpec(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Evaluation evaluation)
         {
 
-            Add("delete", pe => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
-            Add("edit", pe => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
+            Add("delete", pe => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, AgGridColumnFilterType.None);
+            Add("edit", pe => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, AgGridColumnFilterType.None);
 
-            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, AgGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
             foreach (var evaluationCriteriaColumn in evaluation.EvaluationCriterias)
             {
-                Add(evaluationCriteriaColumn.EvaluationCriteriaName, a => GetCriteriaValueIfAvailable(a, evaluationCriteriaColumn), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                Add(evaluationCriteriaColumn.EvaluationCriteriaName, a => GetCriteriaValueIfAvailable(a, evaluationCriteriaColumn), 75, AgGridColumnFilterType.SelectFilterStrict);
             }
-            Add("Comments", a => a.Comments, 150, DhtmlxGridColumnFilterType.Text);
+            Add("Comments", a => a.Comments, 150, AgGridColumnFilterType.Text);
 
 
         }

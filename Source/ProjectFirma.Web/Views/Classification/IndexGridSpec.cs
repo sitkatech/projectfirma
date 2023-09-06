@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Classification
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
-                    30,DhtmlxGridColumnFilterType.None);
+                    30,AgGridColumnFilterType.None);
             }
 
             Add(classificationSystem.ToGridHeaderString(), a => a.GetDisplayNameAsUrl(), 250);

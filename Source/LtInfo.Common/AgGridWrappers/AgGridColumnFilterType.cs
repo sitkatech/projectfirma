@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IndexGridSpec.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
-Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<copyright file="AgGridColumnFilterType.cs" company="Environmental Science Associates">
+Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
 
@@ -18,20 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using ProjectFirmaModels.Models;
-using LtInfo.Common.AgGridWrappers;
-using LtInfo.Common.Views;
-using ProjectFirma.Web.Models;
-
-namespace ProjectFirma.Web.Views.Role
+namespace LtInfo.Common.AgGridWrappers
 {
-    public class IndexGridSpec : GridSpec<IRole>
+    public enum AgGridColumnFilterType
     {
-        public IndexGridSpec()
-        {
-            Add("Role", x => x.GetDisplayNameWithUrl(), 200, AgGridColumnFilterType.Html);
-            Add("Count", x => x.GetPeopleWithRole().Count, 50);
-        }
+        Text,
+        Html,
+        Numeric,
+        FormattedNumeric,
+        None,
+        SelectFilterStrict,
+        SelectFilterHtmlStrict,
+        DateRange
+
     }
 }
