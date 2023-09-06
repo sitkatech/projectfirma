@@ -314,7 +314,7 @@ namespace LtInfo.Common.AgGridWrappers
 
                 switch (columnSpec.GridColumnAggregationType)
                 {
-                    case DhtmlxGridColumnAggregationType.Total:
+                    case AgGridColumnAggregationType.Total:
                         columnsWithAggregationStringBuilder.Append(columnsWithAggregationStringBuilder.Length > 0 ? ", " : string.Empty); 
                         columnsWithAggregationStringBuilder.AppendFormat("\"{0}\"",columnSpec.ColumnNameForJavascript); 
                         break;

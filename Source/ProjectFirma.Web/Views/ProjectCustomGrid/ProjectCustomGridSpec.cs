@@ -153,25 +153,25 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.EstimatedTotalCost:
                     if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
                     {
-                        Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                        Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 110, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.SecuredFunding:
                     if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
                     {
-                        Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                        Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 110, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.TargetedFunding:
                     if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
                     {
-                        Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), x => x.GetTargetedFunding(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                        Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), x => x.GetTargetedFunding(), 100, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.NoFundingSourceIdentified:
                     if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
                     {
-                        Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                        Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 110, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.ProjectDescription:
@@ -248,7 +248,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                                     + "</div>").ToHTMLFormattedString();
             if (isCurrency)
             {
-                Add($"{gridHeaderHtmlString}", a => TryParseDecimalCustomAttributeValue(a, projectCustomAttributeType, projectCustomAttributeDictionary), 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                Add($"{gridHeaderHtmlString}", a => TryParseDecimalCustomAttributeValue(a, projectCustomAttributeType, projectCustomAttributeDictionary), 150, DhtmlxGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
             }
             else
             {

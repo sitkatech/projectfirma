@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Email", a => a.Email, 170);
             Add($"Total Updateable {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 x => x.GetPrimaryContactUpdatableProjects(currentFirmaSession).Count,
-                75, DhtmlxGridColumnAggregationType.Total);
+                75, AgGridColumnAggregationType.Total);
             Add("Updates Not Started",
                 x =>
                 {
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                (latestApprovedUpdateBatch == null || latestApprovedUpdateBatch.LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate());
                     });
                 },
-                70, DhtmlxGridColumnAggregationType.Total);
+                70, AgGridColumnAggregationType.Total);
             Add("Updates In Progress",
                 x =>
                 {
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated();
                     });
                 },
-                70, DhtmlxGridColumnAggregationType.Total);
+                70, AgGridColumnAggregationType.Total);
             Add("Updates Submitted",
                 x =>
                 {
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted();
                     });
                 },
-                75, DhtmlxGridColumnAggregationType.Total);
+                75, AgGridColumnAggregationType.Total);
             Add("Updates Returned",
                 x =>
                 {
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned();
                     });
                 },
-                70, DhtmlxGridColumnAggregationType.Total);
+                70, AgGridColumnAggregationType.Total);
             Add("Updates Approved",
                 x =>
                 {
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= FirmaDateUtilities.LastReportingPeriodStartDate();
                     });
                 },
-                70, DhtmlxGridColumnAggregationType.Total);
+                70, AgGridColumnAggregationType.Total);
             Add("Reminders Sent",
                 x =>
                     x.Notifications.Count(

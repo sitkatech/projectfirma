@@ -79,15 +79,15 @@ namespace LtInfo.Common.AgGridWrappers
             return string.Format("Sitka.{0}.grid.attachFooter(\"{1}\", [{2}]);",
                 gridName,
                 string.Join(",",
-                    this.Select(x => (x.GridColumnAggregationType != DhtmlxGridColumnAggregationType.None) ? x.GridColumnAggregationType.ToString() : string.Empty)),
+                    this.Select(x => (x.GridColumnAggregationType != AgGridColumnAggregationType.None) ? x.GridColumnAggregationType.ToString() : string.Empty)),
                 string.Join(",",
-                    this.Select(x => (x.GridColumnAggregationType != DhtmlxGridColumnAggregationType.None) ? x.GetAlignmentForFooterRow() : "\"\""))
+                    this.Select(x => (x.GridColumnAggregationType != AgGridColumnAggregationType.None) ? x.GetAlignmentForFooterRow() : "\"\""))
                 );
         }
 
         public bool HasColumnTotals
         {
-            get { return this.Any(x => x.GridColumnAggregationType != DhtmlxGridColumnAggregationType.None); }
+            get { return this.Any(x => x.GridColumnAggregationType != AgGridColumnAggregationType.None); }
         }
 
         public List<string> ColumnNames
@@ -133,7 +133,7 @@ namespace LtInfo.Common.AgGridWrappers
             DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyText, DhtmlxGridColumnFormatType.None, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("str"), dhtmlxGridColumnFilterType, DhtmlxGridColumnAggregationType.None, cssClassFunction, titleFunction);
+                DhtmlxGridColumnDataType.ReadOnlyText, DhtmlxGridColumnFormatType.None, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("str"), dhtmlxGridColumnFilterType, AgGridColumnAggregationType.None, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -147,12 +147,12 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> Add(string columnName, Func<T, HtmlString> valueFunction, int gridWidth, DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFilterType, DhtmlxGridColumnAggregationType.None, DhtmlxGridColumnAlignType.Left);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFilterType, AgGridColumnAggregationType.None, DhtmlxGridColumnAlignType.Left);
         }
 
         public ColumnSpec<T> Add(string columnName, Func<T, HtmlString> valueFunction, int gridWidth, DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFilterType, DhtmlxGridColumnAggregationType.None, dhtmlxGridColumnAlignType);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFilterType, AgGridColumnAggregationType.None, dhtmlxGridColumnAlignType);
         }
 
         private ColumnSpec<T> Add(string columnName,
@@ -161,12 +161,12 @@ namespace LtInfo.Common.AgGridWrappers
             int gridWidth,
             Func<T, string> titleFunction,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
-            DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType,
+            AgGridColumnAggregationType agGridColumnAggregationType,
             DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
                 DhtmlxGridColumnDataType.ReadOnlyHtmlText, DhtmlxGridColumnFormatType.None,
-                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("htmlstring"), dhtmlxGridColumnFilterType, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("htmlstring"), dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -175,32 +175,32 @@ namespace LtInfo.Common.AgGridWrappers
         #region int
         public ColumnSpec<T> Add(string columnName, Func<T, int> valueFunction, int gridWidth)
         {
-            return Add(columnName, valueFunction, gridWidth, DhtmlxGridColumnAggregationType.None);
+            return Add(columnName, valueFunction, gridWidth, AgGridColumnAggregationType.None);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, int> valueFunction, int gridWidth, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType)
+        public ColumnSpec<T> Add(string columnName, Func<T, int> valueFunction, int gridWidth, AgGridColumnAggregationType agGridColumnAggregationType)
         {
-            return Add(columnName, valueFunction, gridWidth, DhtmlxGridColumnFormatType.Integer, dhtmlxGridColumnAggregationType);
+            return Add(columnName, valueFunction, gridWidth, DhtmlxGridColumnFormatType.Integer, agGridColumnAggregationType);
         }
 
         public ColumnSpec<T> Add(string columnName, Func<T, int> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, dhtmlxGridColumnFilterType, DhtmlxGridColumnAggregationType.None, DhtmlxGridColumnAlignType.Right);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, dhtmlxGridColumnFilterType, AgGridColumnAggregationType.None, DhtmlxGridColumnAlignType.Right);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, int> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType)
+        public ColumnSpec<T> Add(string columnName, Func<T, int> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, AgGridColumnAggregationType agGridColumnAggregationType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, DhtmlxGridColumnFilterType.Numeric, dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
         }
 
         private ColumnSpec<T> Add(string columnName, Func<T, int> valueFunction, Func<T, string> cssClassFunction,
             int gridWidth, Func<T, string> titleFunction, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
-            DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType,
+            DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType, AgGridColumnAggregationType agGridColumnAggregationType,
             DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
                 DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
-                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), dhtmlxGridColumnFilterType, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -209,32 +209,32 @@ namespace LtInfo.Common.AgGridWrappers
         #region int?
         public ColumnSpec<T> Add(string columnName, Func<T, int?> valueFunction, int gridWidth)
         {
-            return Add(columnName, valueFunction, gridWidth, DhtmlxGridColumnAggregationType.None);
+            return Add(columnName, valueFunction, gridWidth, AgGridColumnAggregationType.None);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, int?> valueFunction, int gridWidth, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType)
+        public ColumnSpec<T> Add(string columnName, Func<T, int?> valueFunction, int gridWidth, AgGridColumnAggregationType agGridColumnAggregationType)
         {
-            return Add(columnName, valueFunction, gridWidth, DhtmlxGridColumnFormatType.Integer, dhtmlxGridColumnAggregationType);
+            return Add(columnName, valueFunction, gridWidth, DhtmlxGridColumnFormatType.Integer, agGridColumnAggregationType);
         }
 
         public ColumnSpec<T> Add(string columnName, Func<T, int?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType.None);
+            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, AgGridColumnAggregationType.None);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, int?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType)
+        public ColumnSpec<T> Add(string columnName, Func<T, int?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, AgGridColumnAggregationType agGridColumnAggregationType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, DhtmlxGridColumnFilterType.Numeric, dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
         }
 
         private ColumnSpec<T> Add(string columnName, Func<T, int?> valueFunction, Func<T, string> cssClassFunction,
             int gridWidth, Func<T, string> titleFunction, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
-            DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType,
+            DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType, AgGridColumnAggregationType agGridColumnAggregationType,
             DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
                 DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
-                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), dhtmlxGridColumnFilterType, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -248,21 +248,21 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> Add(string columnName, Func<T, decimal> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType.None);
+            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, AgGridColumnAggregationType.None);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, decimal> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType)
+        public ColumnSpec<T> Add(string columnName, Func<T, decimal> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, AgGridColumnAggregationType agGridColumnAggregationType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, agGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
         }
 
         private ColumnSpec<T> Add(string columnName, Func<T, decimal> valueFunction, Func<T, string> cssClassFunction,
             int gridWidth, Func<T, string> titleFunction, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
-            DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
+            AgGridColumnAggregationType agGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
                 DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
-                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -276,21 +276,21 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> Add(string columnName, Func<T, decimal?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType.None);
+            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, AgGridColumnAggregationType.None);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, decimal?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType)
+        public ColumnSpec<T> Add(string columnName, Func<T, decimal?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, AgGridColumnAggregationType agGridColumnAggregationType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, agGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
         }
 
         private ColumnSpec<T> Add(string columnName, Func<T, decimal?> valueFunction, Func<T, string> cssClassFunction,
             int gridWidth, Func<T, string> titleFunction, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
-            DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
+            AgGridColumnAggregationType agGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
                 DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
-                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -304,21 +304,21 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> Add(string columnName, Func<T, double> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType.None);
+            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, AgGridColumnAggregationType.None);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, double> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType)
+        public ColumnSpec<T> Add(string columnName, Func<T, double> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, AgGridColumnAggregationType agGridColumnAggregationType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, agGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
         }
 
         private ColumnSpec<T> Add(string columnName, Func<T, double> valueFunction, Func<T, string> cssClassFunction,
             int gridWidth, Func<T, string> titleFunction, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
-            DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
+            AgGridColumnAggregationType agGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
                 DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
-                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -332,21 +332,21 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> Add(string columnName, Func<T, double?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType.None);
+            return Add(columnName, valueFunction, gridWidth, dhtmlxGridColumnFormatType, AgGridColumnAggregationType.None);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, double?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType)
+        public ColumnSpec<T> Add(string columnName, Func<T, double?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, AgGridColumnAggregationType agGridColumnAggregationType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
+            return Add(columnName, valueFunction, null, gridWidth, null, dhtmlxGridColumnFormatType, agGridColumnAggregationType, DhtmlxGridColumnAlignType.Right);
         }
 
         private ColumnSpec<T> Add(string columnName, Func<T, double?> valueFunction, Func<T, string> cssClassFunction,
             int gridWidth, Func<T, string> titleFunction, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
-            DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
+            AgGridColumnAggregationType agGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
                 DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
-                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+                dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -360,7 +360,7 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> Add(string columnName, Func<T, DateTime> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, DhtmlxGridColumnAggregationType.None, DhtmlxGridColumnAlignType.Right, dhtmlxGridColumnFormatType);
+            return Add(columnName, valueFunction, null, gridWidth, null, AgGridColumnAggregationType.None, DhtmlxGridColumnAlignType.Right, dhtmlxGridColumnFormatType);
         }
 
         private ColumnSpec<T> Add(string columnName,
@@ -368,9 +368,9 @@ namespace LtInfo.Common.AgGridWrappers
             Func<T, string> cssClassFunction,
             int gridWidth,
             Func<T, string> titleFunction,
-            DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
+            AgGridColumnAggregationType agGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("date"),  DhtmlxGridColumnFilterType.DateRange, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("date"),  DhtmlxGridColumnFilterType.DateRange, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -384,7 +384,7 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> Add(string columnName, Func<T, DateTime?> valueFunction, int gridWidth, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, DhtmlxGridColumnAggregationType.None, DhtmlxGridColumnAlignType.Right, dhtmlxGridColumnFormatType);
+            return Add(columnName, valueFunction, null, gridWidth, null, AgGridColumnAggregationType.None, DhtmlxGridColumnAlignType.Right, dhtmlxGridColumnFormatType);
         }
 
         private ColumnSpec<T> Add(string columnName,
@@ -392,9 +392,9 @@ namespace LtInfo.Common.AgGridWrappers
             Func<T, string> cssClassFunction,
             int gridWidth,
             Func<T, string> titleFunction,
-            DhtmlxGridColumnAggregationType dhtmlxGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
+            AgGridColumnAggregationType agGridColumnAggregationType, DhtmlxGridColumnAlignType dhtmlxGridColumnAlignType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("date"), DhtmlxGridColumnFilterType.DateRange, dhtmlxGridColumnAggregationType, cssClassFunction, titleFunction);
+            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, dhtmlxGridColumnAlignType, new DhtmlxGridColumnSortType("date"), DhtmlxGridColumnFilterType.DateRange, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -405,7 +405,7 @@ namespace LtInfo.Common.AgGridWrappers
         public ColumnSpec<T> AddCheckBoxColumn()
         {
             var columnSpec = new ColumnSpec<T>("#master_checkbox", x => 0.ToString(), 28, DhtmlxGridColumnDataType.Checkbox,
-                DhtmlxGridColumnFormatType.None, DhtmlxGridColumnAlignType.Center, new DhtmlxGridColumnSortType("ch"), DhtmlxGridColumnFilterType.None, DhtmlxGridColumnAggregationType.None, null, null);
+                DhtmlxGridColumnFormatType.None, DhtmlxGridColumnAlignType.Center, new DhtmlxGridColumnSortType("ch"), DhtmlxGridColumnFilterType.None, AgGridColumnAggregationType.None, null, null);
             Add(columnSpec);
             return columnSpec;
         }

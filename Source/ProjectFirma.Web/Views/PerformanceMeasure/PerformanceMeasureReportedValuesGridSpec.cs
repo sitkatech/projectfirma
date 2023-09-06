@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             if (performanceMeasure.IsSummable)
             {
                 Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal,
-                    DhtmlxGridColumnAggregationType.Total);
+                    AgGridColumnAggregationType.Total);
             }
             else
             {

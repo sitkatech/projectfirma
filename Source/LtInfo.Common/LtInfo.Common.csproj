@@ -183,7 +183,7 @@
     <Compile Include="AgGridWrappers\AutoGridSpec.cs" />
     <Compile Include="AgGridWrappers\BulkTagModalDialogForm.cs" />
     <Compile Include="AgGridWrappers\ColumnSpec.cs" />
-    <Compile Include="AgGridWrappers\DhtmlxGridColumnAggregationType.cs" />
+    <Compile Include="AgGridWrappers\AgGridColumnAggregationType.cs" />
     <Compile Include="AgGridWrappers\DhtmlxGridColumnAlignType.cs" />
     <Compile Include="AgGridWrappers\DhtmlxGridColumnDataType.cs" />
     <Compile Include="AgGridWrappers\DhtmlxGridColumnFilterType.cs" />
