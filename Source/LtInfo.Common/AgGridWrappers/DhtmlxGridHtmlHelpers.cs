@@ -322,9 +322,9 @@ namespace LtInfo.Common.AgGridWrappers
                         break;
                 }
 
-                switch (columnSpec.DhtmlxGridColumnAlignType)
+                switch (columnSpec.AgGridColumnAlignType)
                 {
-                    case DhtmlxGridColumnAlignType.Right:
+                    case AgGridColumnAlignType.Right:
                         columnDefinitionStringBuilder.Append(", \"cellClass\": \"ag-right-aligned-cell\"");
                         break;
                     default:
@@ -794,7 +794,7 @@ namespace LtInfo.Common.AgGridWrappers
                                 (string.IsNullOrWhiteSpace(column.ColumnName) ? "\"\"" : column.ColumnName.ToJS())
                             }, ""{
                                 column.GridWidth.ToString(CultureInfo.InvariantCulture)
-                            }"", ""{column.DhtmlxGridColumnAlignType.ToString().ToLower()}"", ""{
+                            }"", ""{column.AgGridColumnAlignType.ToString().ToLower()}"", ""{
                                 column.DhtmlxGridColumnDataType
                             }"", ""{column.DhtmlxGridColumnSortType.SortingType}"", ""{
                                 column.DhtmlxGridColumnFilterType

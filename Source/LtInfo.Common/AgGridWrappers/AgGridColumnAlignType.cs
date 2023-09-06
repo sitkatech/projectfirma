@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridColumnAlignType.cs" company="Environmental Science Associates">
+<copyright file="AgGridColumnAlignType.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace LtInfo.Common.AgGridWrappers
 {
-    public enum DhtmlxGridColumnAlignType
+    public enum AgGridColumnAlignType
     {
         Left,
         Right,
