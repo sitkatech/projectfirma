@@ -331,12 +331,12 @@ namespace LtInfo.Common.AgGridWrappers
                         break;
                 }
 
-                if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.ReadOnlyHtmlText)
+                if (columnSpec.AgGridColumnDataType == AgGridColumnDataType.ReadOnlyHtmlText)
                 {
                     columnDefinitionStringBuilder.Append(", \"cellRenderer\": function(params) { return params.value ? params.value: ''; } ");
                 }
 
-                if (columnSpec.DhtmlxGridColumnDataType == DhtmlxGridColumnDataType.Checkbox)
+                if (columnSpec.AgGridColumnDataType == AgGridColumnDataType.Checkbox)
                 {
                     columnDefinitionStringBuilder.Append(", \"checkboxSelection\": true");
                 }
@@ -795,7 +795,7 @@ namespace LtInfo.Common.AgGridWrappers
                             }, ""{
                                 column.GridWidth.ToString(CultureInfo.InvariantCulture)
                             }"", ""{column.AgGridColumnAlignType.ToString().ToLower()}"", ""{
-                                column.DhtmlxGridColumnDataType
+                                column.AgGridColumnDataType
                             }"", ""{column.DhtmlxGridColumnSortType.SortingType}"", ""{
                                 column.DhtmlxGridColumnFilterType
                             }"", {$"\"{column.DhtmlxGridColumnFormatType}\""})"));

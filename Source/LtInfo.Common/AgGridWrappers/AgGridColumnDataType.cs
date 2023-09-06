@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridColumnDataType.cs" company="Environmental Science Associates">
+<copyright file="AgGridColumnDataType.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -20,11 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace LtInfo.Common.AgGridWrappers
 {
-    public class DhtmlxGridColumnDataType
+    public class AgGridColumnDataType
     {
         public string ColumnDataType { get; private set; }
 
-        private DhtmlxGridColumnDataType(string columnDataType)
+        private AgGridColumnDataType(string columnDataType)
         {
             ColumnDataType = columnDataType;
         }
@@ -34,9 +34,9 @@ namespace LtInfo.Common.AgGridWrappers
             return ColumnDataType;
         }
 
-        public static readonly DhtmlxGridColumnDataType Checkbox = new DhtmlxGridColumnDataType("ch");
-        public static readonly DhtmlxGridColumnDataType ReadOnlyText = new DhtmlxGridColumnDataType("rotxt");
-        public static readonly DhtmlxGridColumnDataType ReadOnlyHtmlText = new DhtmlxGridColumnDataType("ro");
-        public static readonly DhtmlxGridColumnDataType ReadOnlyNumber = new DhtmlxGridColumnDataType("ron");
+        public static readonly AgGridColumnDataType Checkbox = new AgGridColumnDataType("ch");
+        public static readonly AgGridColumnDataType ReadOnlyText = new AgGridColumnDataType("rotxt");
+        public static readonly AgGridColumnDataType ReadOnlyHtmlText = new AgGridColumnDataType("ro");
+        public static readonly AgGridColumnDataType ReadOnlyNumber = new AgGridColumnDataType("ron");
     }
 }

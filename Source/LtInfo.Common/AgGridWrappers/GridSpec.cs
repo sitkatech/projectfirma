@@ -133,7 +133,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAlignType agGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyText, DhtmlxGridColumnFormatType.None, agGridColumnAlignType, new DhtmlxGridColumnSortType("str"), dhtmlxGridColumnFilterType, AgGridColumnAggregationType.None, cssClassFunction, titleFunction);
+                AgGridColumnDataType.ReadOnlyText, DhtmlxGridColumnFormatType.None, agGridColumnAlignType, new DhtmlxGridColumnSortType("str"), dhtmlxGridColumnFilterType, AgGridColumnAggregationType.None, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -165,7 +165,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAlignType agGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyHtmlText, DhtmlxGridColumnFormatType.None,
+                AgGridColumnDataType.ReadOnlyHtmlText, DhtmlxGridColumnFormatType.None,
                 agGridColumnAlignType, new DhtmlxGridColumnSortType("htmlstring"), dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
@@ -199,7 +199,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAlignType agGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
+                AgGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
                 agGridColumnAlignType, new DhtmlxGridColumnSortType("num"), dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
@@ -233,7 +233,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAlignType agGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
+                AgGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
                 agGridColumnAlignType, new DhtmlxGridColumnSortType("num"), dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
@@ -261,7 +261,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAggregationType agGridColumnAggregationType, AgGridColumnAlignType agGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
+                AgGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
                 agGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
@@ -289,7 +289,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAggregationType agGridColumnAggregationType, AgGridColumnAlignType agGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
+                AgGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
                 agGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
@@ -317,7 +317,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAggregationType agGridColumnAggregationType, AgGridColumnAlignType agGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
+                AgGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
                 agGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
@@ -345,7 +345,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAggregationType agGridColumnAggregationType, AgGridColumnAlignType agGridColumnAlignType)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
-                DhtmlxGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
+                AgGridColumnDataType.ReadOnlyNumber, dhtmlxGridColumnFormatType,
                 agGridColumnAlignType, new DhtmlxGridColumnSortType("num"), DhtmlxGridColumnFilterType.Numeric, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
@@ -370,7 +370,7 @@ namespace LtInfo.Common.AgGridWrappers
             Func<T, string> titleFunction,
             AgGridColumnAggregationType agGridColumnAggregationType, AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, agGridColumnAlignType, new DhtmlxGridColumnSortType("date"),  DhtmlxGridColumnFilterType.DateRange, agGridColumnAggregationType, cssClassFunction, titleFunction);
+            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, AgGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, agGridColumnAlignType, new DhtmlxGridColumnSortType("date"),  DhtmlxGridColumnFilterType.DateRange, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -394,7 +394,7 @@ namespace LtInfo.Common.AgGridWrappers
             Func<T, string> titleFunction,
             AgGridColumnAggregationType agGridColumnAggregationType, AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType)
         {
-            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, DhtmlxGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, agGridColumnAlignType, new DhtmlxGridColumnSortType("date"), DhtmlxGridColumnFilterType.DateRange, agGridColumnAggregationType, cssClassFunction, titleFunction);
+            var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth, AgGridColumnDataType.ReadOnlyText, dhtmlxGridColumnFormatType, agGridColumnAlignType, new DhtmlxGridColumnSortType("date"), DhtmlxGridColumnFilterType.DateRange, agGridColumnAggregationType, cssClassFunction, titleFunction);
             Add(columnSpec);
             return columnSpec;
         }
@@ -404,7 +404,7 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> AddCheckBoxColumn()
         {
-            var columnSpec = new ColumnSpec<T>("#master_checkbox", x => 0.ToString(), 28, DhtmlxGridColumnDataType.Checkbox,
+            var columnSpec = new ColumnSpec<T>("#master_checkbox", x => 0.ToString(), 28, AgGridColumnDataType.Checkbox,
                 DhtmlxGridColumnFormatType.None, AgGridColumnAlignType.Center, new DhtmlxGridColumnSortType("ch"), DhtmlxGridColumnFilterType.None, AgGridColumnAggregationType.None, null, null);
             Add(columnSpec);
             return columnSpec;

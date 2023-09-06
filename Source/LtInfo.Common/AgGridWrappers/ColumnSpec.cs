@@ -52,7 +52,7 @@ namespace LtInfo.Common.AgGridWrappers
         public readonly int GridWidth;
         public readonly DhtmlxGridColumnSortType DhtmlxGridColumnSortType;
         public readonly AgGridColumnAlignType AgGridColumnAlignType;
-        public readonly DhtmlxGridColumnDataType DhtmlxGridColumnDataType;
+        public readonly AgGridColumnDataType AgGridColumnDataType;
         public readonly DhtmlxGridColumnFilterType DhtmlxGridColumnFilterType;
         public readonly DhtmlxGridColumnFormatType DhtmlxGridColumnFormatType;
         public readonly AgGridColumnAggregationType GridColumnAggregationType;
@@ -134,14 +134,14 @@ namespace LtInfo.Common.AgGridWrappers
             HtmlString
         }
 
-        private ColumnSpec(string columnName, int gridWidth, DhtmlxGridColumnDataType dhtmlxGridColumnDataType,
+        private ColumnSpec(string columnName, int gridWidth, AgGridColumnDataType agGridColumnDataType,
             DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType, AgGridColumnAlignType agGridColumnAlignType,
             DhtmlxGridColumnSortType dhtmlxGridColumnSortType, DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
         {
             ColumnName = columnName;
-            DhtmlxGridColumnDataType = dhtmlxGridColumnDataType;
+            AgGridColumnDataType = agGridColumnDataType;
             GridWidth = gridWidth;
             DhtmlxGridColumnSortType = dhtmlxGridColumnSortType;
             DhtmlxGridColumnFilterType = dhtmlxGridColumnFilterType;
@@ -153,13 +153,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, string> stringValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -168,13 +168,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, int> intValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -183,13 +183,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, int?> nullableIntValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -198,13 +198,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, short> shortValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -213,13 +213,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, short?> nullableShortValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -228,13 +228,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, byte> byteValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -243,13 +243,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, byte?> nullableByteValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -258,13 +258,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, DateTime> dateTimeValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -273,13 +273,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, DateTime?> nullableDateTimeValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -288,13 +288,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, double> doubleValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -303,13 +303,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, double?> nullableDoubleValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -318,13 +318,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, decimal> decimalValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -333,13 +333,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, decimal?> nullableDecimalValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -348,13 +348,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, HtmlString> htmlStringValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -363,13 +363,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, bool> boolValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
@@ -378,13 +378,13 @@ namespace LtInfo.Common.AgGridWrappers
         }
 
         public ColumnSpec(string columnName, Func<T, bool?> nullableBoolValueFunc, int gridWidth,
-            DhtmlxGridColumnDataType dhtmlxGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
+            AgGridColumnDataType agGridColumnDataType, DhtmlxGridColumnFormatType dhtmlxGridColumnFormatType,
             AgGridColumnAlignType agGridColumnAlignType, DhtmlxGridColumnSortType dhtmlxGridColumnSortType,
             DhtmlxGridColumnFilterType dhtmlxGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
             Func<T, string> titleFunction)
             : this(
-                columnName, gridWidth, dhtmlxGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
+                columnName, gridWidth, agGridColumnDataType, dhtmlxGridColumnFormatType, agGridColumnAlignType,
                 dhtmlxGridColumnSortType, dhtmlxGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
                 titleFunction)
         {
