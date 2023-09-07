@@ -760,7 +760,6 @@
     <Content Include="Content\combo-tree\comboTreePlugin.js" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="ScriptsCustom\esa-ag-grid.js" />
-
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
@@ -2004,7 +2003,7 @@
     <Compile Include="Views\Shared\SupportForm.cs" />
     <Compile Include="Views\Shared\SupportFormViewData.cs" />
     <Compile Include="Views\Shared\SupportFormViewModel.cs" />
-    <Compile Include="Views\FirmaDhtmlxGridHtmlHelpers.cs" />
+    <Compile Include="Views\FirmaAgGridHtmlHelpers.cs" />
     <Compile Include="Views\FirmaDhtmlxGridHtmlHelpersTest.cs" />
     <Compile Include="Views\FirmaUserControlViewData.cs" />
     <Compile Include="Views\LtInfoMenuItem.cs" />

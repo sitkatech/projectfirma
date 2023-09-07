@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Views
         public void BuildDhtmlxGridHeaderTest()
         {
             var gridSpec = new TestGridSpec();
-            var result = AgGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, GridName, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadUrl);
+            var result = AgGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, GridName, FirmaAgGridHtmlHelpers.ExcelDownloadUrl);
             Approvals.Verify(result);
         }
 
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views
         public void CreateFilteredExcelDownloadIconHtmlTest()
         {
             const string gridName = "testGridName";
-            var result = AgGridHtmlHelpers.CreateFilteredExcelDownloadIconHtml(gridName, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadUrl);
+            var result = AgGridHtmlHelpers.CreateFilteredExcelDownloadIconHtml(gridName, FirmaAgGridHtmlHelpers.ExcelDownloadUrl);
             Approvals.Verify(result);
         }
 

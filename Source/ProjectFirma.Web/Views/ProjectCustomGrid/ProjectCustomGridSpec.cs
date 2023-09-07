@@ -414,7 +414,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     Add("download fact sheet",
                         x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(),
-                            FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString() +
+                            FirmaAgGridHtmlHelpers.FactSheetIcon.ToString() +
                             $"<span class=\"sr-only\">Download the Fact Sheet for {x.ProjectName}</span>"), 30,
                         AgGridColumnFilterType.None);
                     break;

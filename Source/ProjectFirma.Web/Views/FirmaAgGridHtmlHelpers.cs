@@ -29,12 +29,11 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views
 {
-    public static class FirmaDhtmlxGridHtmlHelpers
+    public static class FirmaAgGridHtmlHelpers
     {
         public static readonly HtmlString PlusIcon = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus-sign gi-1x blue");
         public static readonly HtmlString FactSheetIcon = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-search gi-1x blue");
-        public static readonly UrlTemplate<string> ExcelDownloadUrl =
-            new UrlTemplate<string>(SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.ExportGridToExcel(UrlTemplate.Parameter1String)));
+        public static readonly UrlTemplate<string> ExcelDownloadUrl = new UrlTemplate<string>(SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.ExportGridToExcel(UrlTemplate.Parameter1String)));
 
         /// <summary>
         /// All grids use this
@@ -47,7 +46,7 @@ namespace ProjectFirma.Web.Views
         /// <param name="styleString"></param>
         /// <param name="agGridResizeType"></param>
         /// <returns></returns>
-        public static HtmlString DhtmlxGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, AgGridResizeType agGridResizeType)
+        public static HtmlString AgGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, AgGridResizeType agGridResizeType)
         {
             var dhtmlxGridHeader = AgGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, gridName, ExcelDownloadUrl);
 

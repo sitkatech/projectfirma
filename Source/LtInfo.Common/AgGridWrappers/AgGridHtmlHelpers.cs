@@ -74,18 +74,7 @@ namespace LtInfo.Common.AgGridWrappers
             string styleString, int? splitAtColumn, string metaDivHtml, AgGridResizeType agGridResizeType,
             string saveGridSettingsUrl)
         {
-//            const string template =
-//                @"
-//<div id =""{0}ContainerDivID"" style=""position:relative;"">
-//    <div id=""{0}LoadingBar"" class=""project-firma-loading-bar"" style=""display:none"">{1}</div>
-//    <div id=""{0}MetaDivID"" class=""DhtmlxGridMeta"">{2}</div>
-//    <div id=""{0}DivID"" style=""{3}""></div>
-//    <script type=""text/javascript"">
-//    // <![CDATA[
-//        {4}
-//    // ]]>
-//    </script>
-//</div>";
+
 
             const string template = @"    <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
     <!-- The grid will be the size that this element is given. -->
@@ -212,9 +201,6 @@ namespace LtInfo.Common.AgGridWrappers
         }});
     </script>";
 
-
-            //var javascriptDocumentReadyHtml = RenderGridJavascriptDocumentReady(gridSpec, gridName, optionalGridDataUrl,
-            //    splitAtColumn, dhtmlxGridResizeType, saveGridSettingsUrl);
 
             //{{ field: ""Watershed"" }},
             //{{ field: ""NumofProjects"" }}
@@ -361,64 +347,64 @@ namespace LtInfo.Common.AgGridWrappers
             return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
-        /// <summary>
-        /// Template for <see cref="RenderGridJavascriptDocumentReady{T}"/>
-        /// </summary>
-        private const string GridJavascriptDocumentReady = @"
-    jQuery(document).ready(function ()
-    {{
-        // Initialize Grid
-        Sitka.{0} = new Sitka.Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2}, ""{14}"");
-        // Initialize Grid Columns
-        Sitka.{0}.setGridColumns(
-        [
-{3}
-        ]);
+        // <summary>
+        // Template for <see cref="RenderGridJavascriptDocumentReady{T}"/>
+        // </summary>
+//        private const string GridJavascriptDocumentReady = @"
+//    jQuery(document).ready(function ()
+//    {{
+//        // Initialize Grid
+//        Sitka.{0} = new Sitka.Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2}, ""{14}"");
+//        // Initialize Grid Columns
+//        Sitka.{0}.setGridColumns(
+//        [
+//{3}
+//        ]);
 
-        var columnFilterList = ""{4}"";
-        {5}
+//        var columnFilterList = ""{4}"";
+//        {5}
         
-        Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9}, {15});
+//        Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9}, {15});
 
-        // Show loading bar
-        jQuery(""#{0}LoadingBar"").show();
-        var showFilterBar = {10};
-        if(showFilterBar)
-        {{
-            Sitka.{0}.setupServerFilterSaving();
-            Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
-            Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
-        }}
-        Sitka.{0}.grid.attachEvent(""onXLE"", function (gridObj, count){{
-            Sitka.{0}.unfilteredRowCount = Sitka.{0}.grid.getRowsNum();
-            jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
-            jQuery(""#{0}UnfilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
-            jQuery(""#{0}LoadingBar"").hide();
-            jQuery(""#{0}DivID"").show();
-            // if there are no rows, don't show grid and show a ""No records available"" message
-            if(Sitka.{0}.unfilteredRowCount > 0)
-            {{
-                Sitka.{0}.showHideFilterRow(showFilterBar);
-                Sitka.{0}.hideGridInstructions();
-            }}
-            else
-            {{
-                Sitka.{0}.showHideFilterRow(false);
-                Sitka.{0}.setGridInstructions(""<div style=\""padding:10px; font-weight:bold\"">{11}</div>"", true);
-            }}
-        }});
+//        // Show loading bar
+//        jQuery(""#{0}LoadingBar"").show();
+//        var showFilterBar = {10};
+//        if(showFilterBar)
+//        {{
+//            Sitka.{0}.setupServerFilterSaving();
+//            Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
+//            Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
+//        }}
+//        Sitka.{0}.grid.attachEvent(""onXLE"", function (gridObj, count){{
+//            Sitka.{0}.unfilteredRowCount = Sitka.{0}.grid.getRowsNum();
+//            jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
+//            jQuery(""#{0}UnfilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
+//            jQuery(""#{0}LoadingBar"").hide();
+//            jQuery(""#{0}DivID"").show();
+//            // if there are no rows, don't show grid and show a ""No records available"" message
+//            if(Sitka.{0}.unfilteredRowCount > 0)
+//            {{
+//                Sitka.{0}.showHideFilterRow(showFilterBar);
+//                Sitka.{0}.hideGridInstructions();
+//            }}
+//            else
+//            {{
+//                Sitka.{0}.showHideFilterRow(false);
+//                Sitka.{0}.setGridInstructions(""<div style=\""padding:10px; font-weight:bold\"">{11}</div>"", true);
+//            }}
+//        }});
     
-        Sitka.{0}.grid.attachEvent(""onCheckbox"", function(rId,cInd,state) {{
-            Sitka.{0}.updateSelectedCheckboxCount();
-        }});
+//        Sitka.{0}.grid.attachEvent(""onCheckbox"", function(rId,cInd,state) {{
+//            Sitka.{0}.updateSelectedCheckboxCount();
+//        }});
         
-        Sitka.{0}.grid.attachEvent(""onFilterEnd"", function() {{
-            Sitka.{0}.updateSelectedCheckboxCount();
-        }});
+//        Sitka.{0}.grid.attachEvent(""onFilterEnd"", function() {{
+//            Sitka.{0}.updateSelectedCheckboxCount();
+//        }});
 
-        {12}
-        {13}
-    }});";
+//        {12}
+//        {13}
+//    }});";
 
         /// <summary>
         /// Renders the jQuery(document).ready part of the grid
@@ -431,78 +417,78 @@ namespace LtInfo.Common.AgGridWrappers
         /// <param name="agGridResizeType"></param>
         /// <param name="saveGridSettingsUrl"></param>
         /// <returns></returns>
-        private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName,
-            string optionalGridDataUrl, int? splitAtColumn, AgGridResizeType agGridResizeType,
-            string saveGridSettingsUrl)
-        {
-            const string indent = "            ";
-            var gridColumnsJavascriptFunctions = BuildGridColumns(gridSpec, indent);
-            var dataUrlReadyForJavascript = String.IsNullOrWhiteSpace(optionalGridDataUrl) ? "null" : $"\"{optionalGridDataUrl}\"";
-            var useSmartRendering = IsUsingSmartRendering(gridSpec);
-            var splitAtColumnJavascriptVariable = (splitAtColumn != null) ? splitAtColumn.ToString() : "null";
+        //private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName,
+        //    string optionalGridDataUrl, int? splitAtColumn, AgGridResizeType agGridResizeType,
+        //    string saveGridSettingsUrl)
+        //{
+        //    const string indent = "            ";
+        //    var gridColumnsJavascriptFunctions = BuildGridColumns(gridSpec, indent);
+        //    var dataUrlReadyForJavascript = String.IsNullOrWhiteSpace(optionalGridDataUrl) ? "null" : $"\"{optionalGridDataUrl}\"";
+        //    var useSmartRendering = IsUsingSmartRendering(gridSpec);
+        //    var splitAtColumnJavascriptVariable = (splitAtColumn != null) ? splitAtColumn.ToString() : "null";
             
-            var resizeGridFunction = agGridResizeType == AgGridResizeType.VerticalFillHorizontalAutoFit
-                ? GenerateVerticalFillResizeGridFunction(gridName)
-                : string.Empty;
+        //    var resizeGridFunction = agGridResizeType == AgGridResizeType.VerticalFillHorizontalAutoFit
+        //        ? GenerateVerticalFillResizeGridFunction(gridName)
+        //        : string.Empty;
 
-            var verticalResizeFunction = agGridResizeType == AgGridResizeType.VerticalResizableHorizontalAutoFit 
-                ? GenerateVerticallyResizableFunction(gridName) 
-                : string.Empty;
+        //    var verticalResizeFunction = agGridResizeType == AgGridResizeType.VerticalResizableHorizontalAutoFit 
+        //        ? GenerateVerticallyResizableFunction(gridName) 
+        //        : string.Empty;
 
-            var result = String.Format(GridJavascriptDocumentReady,
-                gridName,
-                Skin,
-                gridSpec.SkinRowHeight,
-                gridColumnsJavascriptFunctions,
-                gridSpec.ColumnFilterListForJavascript,
-                gridSpec.GetColumnTotals(gridName),
-                string.IsNullOrWhiteSpace(gridSpec.GroupingHeader) ? "null" : $"\"{gridSpec.GroupingHeader}\"",
-                dataUrlReadyForJavascript,
-                useSmartRendering.ToString().ToLower(),
-                splitAtColumnJavascriptVariable,
-                gridSpec.ShowFilterBar.ToString().ToLower(),
-                gridSpec.GridInstructionsWhenEmpty,
-                verticalResizeFunction,
-                resizeGridFunction, 
-                saveGridSettingsUrl,
-                gridSpec.InitWidthsByPercentage.ToString().ToLower());
+        //    var result = String.Format(GridJavascriptDocumentReady,
+        //        gridName,
+        //        Skin,
+        //        gridSpec.SkinRowHeight,
+        //        gridColumnsJavascriptFunctions,
+        //        gridSpec.ColumnFilterListForJavascript,
+        //        gridSpec.GetColumnTotals(gridName),
+        //        string.IsNullOrWhiteSpace(gridSpec.GroupingHeader) ? "null" : $"\"{gridSpec.GroupingHeader}\"",
+        //        dataUrlReadyForJavascript,
+        //        useSmartRendering.ToString().ToLower(),
+        //        splitAtColumnJavascriptVariable,
+        //        gridSpec.ShowFilterBar.ToString().ToLower(),
+        //        gridSpec.GridInstructionsWhenEmpty,
+        //        verticalResizeFunction,
+        //        resizeGridFunction, 
+        //        saveGridSettingsUrl,
+        //        gridSpec.InitWidthsByPercentage.ToString().ToLower());
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        private static string GenerateVerticallyResizableFunction(string gridName)
-        {
-            return string.Format(@"
-            var gridDiv = jQuery(""#{0}DivID"");
-            var parentDiv = gridDiv.parent();
-            gridDiv.resizable({{
-                handles: ""s"",
-                stop: function()
-                {{
-                    Sitka.{0}.grid.setSizes();
-                }},
-                resize: function(event, ui)
-                {{
-                    ui.size.width = ui.originalSize.width;
-                }}
-            }});
-            jQuery(window).resize(function()
-            {{
-                Sitka.{0}.resizeGridWidths(); 
-            }});
-            Sitka.{0}.resizeGridWidths();", gridName);
-        }
+        //private static string GenerateVerticallyResizableFunction(string gridName)
+        //{
+        //    return string.Format(@"
+        //    var gridDiv = jQuery(""#{0}DivID"");
+        //    var parentDiv = gridDiv.parent();
+        //    gridDiv.resizable({{
+        //        handles: ""s"",
+        //        stop: function()
+        //        {{
+        //            Sitka.{0}.grid.setSizes();
+        //        }},
+        //        resize: function(event, ui)
+        //        {{
+        //            ui.size.width = ui.originalSize.width;
+        //        }}
+        //    }});
+        //    jQuery(window).resize(function()
+        //    {{
+        //        Sitka.{0}.resizeGridWidths(); 
+        //    }});
+        //    Sitka.{0}.resizeGridWidths();", gridName);
+        //}
 
-        private static string GenerateVerticalFillResizeGridFunction(string gridName)
-        {
-            const string template = @"
-        Sitka.{0}.resizeGridWithVerticalFill();
-        jQuery(window).resize(function()
-        {{
-            Sitka.{0}.resizeGridWithVerticalFill();
-        }});";
-            return string.Format(template, gridName);
-        }
+        //private static string GenerateVerticalFillResizeGridFunction(string gridName)
+        //{
+        //    const string template = @"
+        //Sitka.{0}.resizeGridWithVerticalFill();
+        //jQuery(window).resize(function()
+        //{{
+        //    Sitka.{0}.resizeGridWithVerticalFill();
+        //}});";
+        //    return string.Format(template, gridName);
+        //}
 
         public static string BuildDhtmlxGridHeader<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
         {
@@ -725,16 +711,16 @@ namespace LtInfo.Common.AgGridWrappers
         /// <param name="gridName"></param>
         /// <param name="csvDownloadUrl"></param>
         /// <returns></returns>
-        public static string CreateCsvDownloadIconHtml(string gridName, string csvDownloadUrl)
-        {
-            if (!String.IsNullOrWhiteSpace(csvDownloadUrl))
-            {
-                return $@"<a class=""process download"" id=""{gridName}DownloadLink"" href=""{
-                        csvDownloadUrl
-                    }"" title=""Download this grid as a CSV file"">Download</a>";
-            }
-            return String.Empty;
-        }
+        //public static string CreateCsvDownloadIconHtml(string gridName, string csvDownloadUrl)
+        //{
+        //    if (!String.IsNullOrWhiteSpace(csvDownloadUrl))
+        //    {
+        //        return $@"<a class=""process download"" id=""{gridName}DownloadLink"" href=""{
+        //                csvDownloadUrl
+        //            }"" title=""Download this grid as a CSV file"">Download</a>";
+        //    }
+        //    return String.Empty;
+        //}
 
         public static string CreateFullDatabaseExcelDownloadIconHtml(string gridName, string excelDownloadUrl, string excelDownloadLinkText)
         {
@@ -801,28 +787,28 @@ namespace LtInfo.Common.AgGridWrappers
                             }"", {$"\"{column.AgGridColumnFormatType}\""})"));
         }
 
-        /// <summary>
-        /// For making an edit icon on the grid that goes to a new page
-        /// If insufficient permissions, returns empty string
-        /// </summary>
-        /// <param name="editUrl"></param>
-        /// <param name="hasPermission"></param>
-        /// <returns></returns>
-        public static HtmlString MakeEditIconAsHyperlink(string editUrl, bool hasPermission)
-        {
-            return hasPermission ? UrlTemplate.MakeHrefString(editUrl,
-                $"{EditIcon}<span style=\"display:none\">Edit</span>") : new HtmlString(string.Empty);
-        }
+        // <summary>
+        // For making an edit icon on the grid that goes to a new page
+        // If insufficient permissions, returns empty string
+        // </summary>
+        // <param name="editUrl"></param>
+        // <param name="hasPermission"></param>
+        // <returns></returns>
+        //public static HtmlString MakeEditIconAsHyperlink(string editUrl, bool hasPermission)
+        //{
+        //    return hasPermission ? UrlTemplate.MakeHrefString(editUrl,
+        //        $"{EditIcon}<span style=\"display:none\">Edit</span>") : new HtmlString(string.Empty);
+        //}
 
-        /// <summary>
-        /// For making an edit icon on the grid that goes to a new page
-        /// </summary>
-        /// <param name="editUrl"></param>
-        /// <returns></returns>
-        public static HtmlString MakeEditIconAsHyperlink(string editUrl)
-        {
-            return MakeEditIconAsHyperlink(editUrl, true);
-        }
+        // <summary>
+        // For making an edit icon on the grid that goes to a new page
+        // </summary>
+        // <param name="editUrl"></param>
+        // <returns></returns>
+        //public static HtmlString MakeEditIconAsHyperlink(string editUrl)
+        //{
+        //    return MakeEditIconAsHyperlink(editUrl, true);
+        //}
 
         /// <summary>
         /// For making an edit icon on the grid that goes to a new page
@@ -837,15 +823,15 @@ namespace LtInfo.Common.AgGridWrappers
                 $"{EditIconBootstrap}<span style=\"display:none\">Edit</span>") : new HtmlString(string.Empty);
         }
 
-        /// <summary>
-        /// For making an edit icon on the grid that goes to a new page
-        /// </summary>
-        /// <param name="editUrl"></param>
-        /// <returns></returns>
-        public static HtmlString MakeEditIconAsHyperlinkBootstrap(string editUrl)
-        {
-            return MakeEditIconAsHyperlinkBootstrap(editUrl, true);
-        }
+        // <summary>
+        // For making an edit icon on the grid that goes to a new page
+        // </summary>
+        // <param name="editUrl"></param>
+        // <returns></returns>
+        //public static HtmlString MakeEditIconAsHyperlinkBootstrap(string editUrl)
+        //{
+        //    return MakeEditIconAsHyperlinkBootstrap(editUrl, true);
+        //}
 
         /// <summary>
         /// For making an edit icon on the grid with an editor in a jquery ui dialog
@@ -868,13 +854,13 @@ namespace LtInfo.Common.AgGridWrappers
             return MakeModalDialogLink(linkHtml, dialogContentUrl, dialogWidth, dialogTitle, true, "Save", "Cancel", new List<string>(), onJavascriptReadyFunction, null);
         }
 
-        /// <summary>
-        /// For making an edit icon on the grid with an editor in a jquery ui dialog
-        /// </summary>
-        public static HtmlString MakeEditIconAsModalDialogLink(ModalDialogForm modalDialogForm)
-        {
-            return MakeModalDialogLink($"{EditIcon}<span style=\"display:none\">Edit</span>", modalDialogForm.ContentUrl, modalDialogForm.DialogWidth, modalDialogForm.DialogTitle, modalDialogForm.OnJavascriptReadyFunction);
-        }
+        // <summary>
+        // For making an edit icon on the grid with an editor in a jquery ui dialog
+        // </summary>
+        //public static HtmlString MakeEditIconAsModalDialogLink(ModalDialogForm modalDialogForm)
+        //{
+        //    return MakeModalDialogLink($"{EditIcon}<span style=\"display:none\">Edit</span>", modalDialogForm.ContentUrl, modalDialogForm.DialogWidth, modalDialogForm.DialogTitle, modalDialogForm.OnJavascriptReadyFunction);
+        //}
 
         /// <summary>
         /// For making an edit icon on the grid with an editor in a jquery ui dialog
@@ -936,30 +922,30 @@ namespace LtInfo.Common.AgGridWrappers
                 null);
         }
 
-        /// <summary>
-        /// For making a delete icon on the grid with a delete jquery ui dialog confirm
-        /// </summary>
-        /// <param name="deleteDialogUrl"></param>
-        /// <param name="userHasDeletePermission"></param>
-        /// <returns></returns>
-        public static HtmlString MakeDeleteIconAndLink(string deleteDialogUrl, bool userHasDeletePermission)
-        {
-            return MakeDeleteIconAndLink(deleteDialogUrl, userHasDeletePermission, true);
-        }
+        // <summary>
+        // For making a delete icon on the grid with a delete jquery ui dialog confirm
+        // </summary>
+        // <param name="deleteDialogUrl"></param>
+        // <param name="userHasDeletePermission"></param>
+        // <returns></returns>
+        //public static HtmlString MakeDeleteIconAndLink(string deleteDialogUrl, bool userHasDeletePermission)
+        //{
+        //    return MakeDeleteIconAndLink(deleteDialogUrl, userHasDeletePermission, true);
+        //}
 
-        /// <summary>
-        /// For making a delete icon on the grid with a delete jquery ui dialog confirm.
-        /// Will make a grey trash can icon if delete is not possible.
-        /// </summary>
-        /// <param name="deleteDialogUrl"></param>
-        /// <param name="userHasDeletePermission">Does the given user have permission to perform a delete?</param>
-        /// <param name="deletePossibleForObject">Is a delete possible for the given object?</param>
-        /// <returns></returns>
-        public static HtmlString MakeDeleteIconAndLink(string deleteDialogUrl, bool userHasDeletePermission, bool deletePossibleForObject)
-        {
-            var deleteIcon = deletePossibleForObject ? DeleteIcon : DeleteIconGrey;
-            return ModalDialogFormHelper.MakeDeleteLink($"{deleteIcon}<span style=\"display:none\">Delete</span>", deleteDialogUrl, new List<string>(), userHasDeletePermission);
-        }
+        // <summary>
+        // For making a delete icon on the grid with a delete jquery ui dialog confirm.
+        // Will make a grey trash can icon if delete is not possible.
+        // </summary>
+        // <param name="deleteDialogUrl"></param>
+        // <param name="userHasDeletePermission">Does the given user have permission to perform a delete?</param>
+        // <param name="deletePossibleForObject">Is a delete possible for the given object?</param>
+        // <returns></returns>
+        //public static HtmlString MakeDeleteIconAndLink(string deleteDialogUrl, bool userHasDeletePermission, bool deletePossibleForObject)
+        //{
+        //    var deleteIcon = deletePossibleForObject ? DeleteIcon : DeleteIconGrey;
+        //    return ModalDialogFormHelper.MakeDeleteLink($"{deleteIcon}<span style=\"display:none\">Delete</span>", deleteDialogUrl, new List<string>(), userHasDeletePermission);
+        //}
 
         /// <summary>
         /// For making a delete icon on the grid with a delete jquery ui dialog confirm

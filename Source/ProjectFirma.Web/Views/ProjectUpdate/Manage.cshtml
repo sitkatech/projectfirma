@@ -56,7 +56,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update Status</h2>
     </div>
     <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.ProjectsRequiringUpdateGridSpec, ViewDataTyped.ProjectsRequiringUpdateGridName, ViewDataTyped.ProjectsRequiringUpdateGridDataUrl, "height:450px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.ProjectsRequiringUpdateGridSpec, ViewDataTyped.ProjectsRequiringUpdateGridName, ViewDataTyped.ProjectsRequiringUpdateGridDataUrl, "height:450px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
 <div class="panel panelFirma">
@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <h2>@FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabelPluralized() Receiving Reminder</h2>
     </div>
     <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, "height:350px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.PeopleReceivingReminderGridSpec, ViewDataTyped.PeopleReceivingReminderGridName, ViewDataTyped.PeopleReceivingReminderGridDataUrl, "height:350px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
 @if(ViewDataTyped.CurrentFirmaSession.Person.IsAdministrator()){

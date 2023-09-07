@@ -238,7 +238,7 @@
                         <div>
                             @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ExpectedAccomplishmentsTextViewData); }
                         </div>
-                        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
 
@@ -250,7 +250,7 @@
                         <div>
                             @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ReportedAccomplishmentsTextViewData); }
                         </div>
-                        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
 
@@ -388,7 +388,7 @@
                                             </div>
                                         </div>
                                         <div class="col-xs-12">
-                                            @Html.DhtmlxGrid(ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridSpec, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridName, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                            @Html.AgGrid(ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridSpec, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridName, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                                         </div>
                                     </div>
                                 </div>
