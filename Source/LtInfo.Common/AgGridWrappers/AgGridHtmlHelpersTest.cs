@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridHtmlHelpersTest.cs" company="Environmental Science Associates">
+<copyright file="AgGridHtmlHelpersTest.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -28,7 +28,7 @@ using NUnit.Framework;
 namespace LtInfo.Common.AgGridWrappers
 {
     [TestFixture]
-    public class DhtmlxGridHtmlHelpersTest
+    public class AgGridHtmlHelpersTest
     {
         protected const string TestControllerName = "TestController";
 

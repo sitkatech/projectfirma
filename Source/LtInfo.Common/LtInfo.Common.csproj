@@ -191,7 +191,7 @@
     <Compile Include="AgGridWrappers\AgGridColumnFormatType.cs" />
     <Compile Include="AgGridWrappers\AgGridColumnSortType.cs" />
     <Compile Include="AgGridWrappers\AgGridHtmlHelpers.cs" />
-    <Compile Include="AgGridWrappers\DhtmlxGridHtmlHelpersTest.cs" />
+    <Compile Include="AgGridWrappers\AgGridHtmlHelpersTest.cs" />
     <Compile Include="AgGridWrappers\GridOutputFormat.cs" />
     <Compile Include="AgGridWrappers\GridSpec.cs" />
     <Compile Include="AgGridWrappers\SelectProjectsModalDialogForm.cs" />
