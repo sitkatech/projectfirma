@@ -60,17 +60,17 @@ namespace LtInfo.Common.AgGridWrappers
         /// <param name="optionalGridDataUrl"></param>
         /// <param name="styleString"></param>
         /// <returns></returns>
-        public static HtmlString DhtmlxGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
+        public static HtmlString AgGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return new HtmlString(DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, AgGridResizeType.None, ""));
+            return new HtmlString(AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, AgGridResizeType.None, ""));
         }
 
-        public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn)
+        public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn)
         {
-            return DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, AgGridResizeType.None,"");
+            return AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, AgGridResizeType.None,"");
         }
 
-        public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl,
+        public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl,
             string styleString, int? splitAtColumn, string metaDivHtml, AgGridResizeType agGridResizeType,
             string saveGridSettingsUrl)
         {

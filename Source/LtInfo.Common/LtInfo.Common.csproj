@@ -446,8 +446,6 @@
       <Link>phantomjs.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="AgGridWrappers\DhtmlxGridHtmlHelpersTest.BuildGridColumnsTest.approved.txt" />
-    <Content Include="AgGridWrappers\DhtmlxGridHtmlHelpersTest.VerifyJavascriptForDhtmlxGrid.approved.txt" />
     <Content Include="Copyright.txt" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

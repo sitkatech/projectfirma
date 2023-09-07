@@ -72,7 +72,7 @@ namespace LtInfo.Common.AgGridWrappers
             testGridSpecClasses.Add(new TestGridSpecClass(5, "Five", false, 5000m));
             testGridSpecClasses.Add(new TestGridSpecClass(6, "Six", true, 6000m));
 
-            var result = AgGridHtmlHelpers.DhtmlxGrid(gridSpec,
+            var result = AgGridHtmlHelpers.AgGrid(gridSpec,
                                                           gridName,
                                                           string.Format("{0}/ListGridDataXml", TestControllerName),
                                                           "height:250px;");

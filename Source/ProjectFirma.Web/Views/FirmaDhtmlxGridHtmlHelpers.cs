@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views
 
             var saveGridSettingsUrl = SitkaRoute<GridSettingsController>.BuildUrlFromExpression(c => c.SaveGridSettings());
 
-            var dhtmlxGrid = AgGridHtmlHelpers.DhtmlxGridImpl(gridSpec,
+            var dhtmlxGrid = AgGridHtmlHelpers.AgGridImpl(gridSpec,
                 gridName,
                 optionalGridDataUrl,
                 $"background-color:white;{styleString}",
