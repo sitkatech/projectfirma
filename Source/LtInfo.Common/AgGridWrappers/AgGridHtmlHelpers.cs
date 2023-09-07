@@ -62,16 +62,16 @@ namespace LtInfo.Common.AgGridWrappers
         /// <returns></returns>
         public static HtmlString DhtmlxGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return new HtmlString(DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, DhtmlxGridResizeType.None, ""));
+            return new HtmlString(DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, AgGridResizeType.None, ""));
         }
 
         public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn)
         {
-            return DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, DhtmlxGridResizeType.None,"");
+            return DhtmlxGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, AgGridResizeType.None,"");
         }
 
         public static string DhtmlxGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl,
-            string styleString, int? splitAtColumn, string metaDivHtml, DhtmlxGridResizeType dhtmlxGridResizeType,
+            string styleString, int? splitAtColumn, string metaDivHtml, AgGridResizeType agGridResizeType,
             string saveGridSettingsUrl)
         {
 //            const string template =
@@ -345,11 +345,11 @@ namespace LtInfo.Common.AgGridWrappers
                 columnDefinitionStringBuilder.Append(" }");//close this column spec
             }
 
-            var resizeGridFunction = dhtmlxGridResizeType == DhtmlxGridResizeType.VerticalFillHorizontalAutoFit
+            var resizeGridFunction = agGridResizeType == AgGridResizeType.VerticalFillHorizontalAutoFit
                 ? $"{gridName}ResizeGridWithVerticalFill()"
                 : string.Empty;
 
-            var makeVerticalResizable = dhtmlxGridResizeType == DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit
+            var makeVerticalResizable = agGridResizeType == AgGridResizeType.VerticalResizableHorizontalAutoFit
                 ? $"{gridName}MakeGridVerticallyResizable()"
                 : string.Empty;
 
@@ -428,11 +428,11 @@ namespace LtInfo.Common.AgGridWrappers
         /// <param name="gridName"></param>
         /// <param name="optionalGridDataUrl"></param>
         /// <param name="splitAtColumn"></param>
-        /// <param name="dhtmlxGridResizeType"></param>
+        /// <param name="agGridResizeType"></param>
         /// <param name="saveGridSettingsUrl"></param>
         /// <returns></returns>
         private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName,
-            string optionalGridDataUrl, int? splitAtColumn, DhtmlxGridResizeType dhtmlxGridResizeType,
+            string optionalGridDataUrl, int? splitAtColumn, AgGridResizeType agGridResizeType,
             string saveGridSettingsUrl)
         {
             const string indent = "            ";
@@ -441,11 +441,11 @@ namespace LtInfo.Common.AgGridWrappers
             var useSmartRendering = IsUsingSmartRendering(gridSpec);
             var splitAtColumnJavascriptVariable = (splitAtColumn != null) ? splitAtColumn.ToString() : "null";
             
-            var resizeGridFunction = dhtmlxGridResizeType == DhtmlxGridResizeType.VerticalFillHorizontalAutoFit
+            var resizeGridFunction = agGridResizeType == AgGridResizeType.VerticalFillHorizontalAutoFit
                 ? GenerateVerticalFillResizeGridFunction(gridName)
                 : string.Empty;
 
-            var verticalResizeFunction = dhtmlxGridResizeType == DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit 
+            var verticalResizeFunction = agGridResizeType == AgGridResizeType.VerticalResizableHorizontalAutoFit 
                 ? GenerateVerticallyResizableFunction(gridName) 
                 : string.Empty;
 
@@ -986,12 +986,5 @@ namespace LtInfo.Common.AgGridWrappers
                 : BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash gi-1x disabled").ToString();
             return ModalDialogFormHelper.MakeDeleteLink(deleteIcon, deleteDialogUrl, new List<string>(), userHasDeletePermission);
         }
-    }
-
-    public enum DhtmlxGridResizeType
-    {
-        VerticalResizableHorizontalAutoFit,
-        VerticalFillHorizontalAutoFit,
-        None
     }
 }

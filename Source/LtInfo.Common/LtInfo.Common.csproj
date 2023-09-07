@@ -180,6 +180,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgGridWrappers\AgGridResizeType.cs" />
     <Compile Include="AgGridWrappers\AutoGridSpec.cs" />
     <Compile Include="AgGridWrappers\BulkTagModalDialogForm.cs" />
     <Compile Include="AgGridWrappers\ColumnSpec.cs" />

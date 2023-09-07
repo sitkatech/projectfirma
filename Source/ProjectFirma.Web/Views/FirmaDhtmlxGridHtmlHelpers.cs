@@ -45,9 +45,9 @@ namespace ProjectFirma.Web.Views
         /// <param name="gridName"></param>
         /// <param name="optionalGridDataUrl"></param>
         /// <param name="styleString"></param>
-        /// <param name="dhtmlxGridResizeType"></param>
+        /// <param name="agGridResizeType"></param>
         /// <returns></returns>
-        public static HtmlString DhtmlxGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, DhtmlxGridResizeType dhtmlxGridResizeType)
+        public static HtmlString DhtmlxGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, AgGridResizeType agGridResizeType)
         {
             var dhtmlxGridHeader = AgGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, gridName, ExcelDownloadUrl);
 
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views
                 gridName,
                 optionalGridDataUrl,
                 $"background-color:white;{styleString}",
-                null, dhtmlxGridHeader, dhtmlxGridResizeType, saveGridSettingsUrl);
+                null, dhtmlxGridHeader, agGridResizeType, saveGridSettingsUrl);
 
             return new HtmlString(dhtmlxGrid);
         }

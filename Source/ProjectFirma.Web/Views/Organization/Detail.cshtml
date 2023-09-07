@@ -534,7 +534,7 @@
                                         @(ViewDataTyped.NumberOfProjectsContributedTo == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
                                     </li>
                                 </ul>
-                                @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                             </div>
                         </div>
                     </div>
@@ -549,7 +549,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <p></p>
-                                    @Html.DhtmlxGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.DhtmlxGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                                 </div>
                             </div>
                         </div>
@@ -565,7 +565,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <p></p>
-                                    @Html.DhtmlxGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.DhtmlxGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                                 </div>
                             </div>
                         </div>
@@ -667,7 +667,7 @@
                                 @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
-                                @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                             </div>
                         </div>
                     </div>
