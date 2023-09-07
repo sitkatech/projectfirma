@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.CustomPage
                 Add("edit", a => AgGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.Edit(a)),
                         850, "Edit")),
                     30, AgGridColumnFilterType.None);
-                Add(string.Empty, a => AgGridHtmlHelpers.MakeModalDialogLink("<span>Edit Content</span>",
+                Add("Edit Content", a => AgGridHtmlHelpers.MakeModalDialogLink("<span>Edit Content</span>",
                     SitkaRoute<CustomPageController>.BuildUrlFromExpression(y => y.EditInDialog(a)),
                     800,
                     $"Edit Content for {a.CustomPageDisplayName}",

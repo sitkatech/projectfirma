@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Tag
         {            
             if (hasManagePermissions)
             {
-                Add(string.Empty,
+                Add("Edit",
                     a => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(t => t.Edit(a.TagID)),
                         $"Edit Tag'{a.TagName}'")),
                     30);

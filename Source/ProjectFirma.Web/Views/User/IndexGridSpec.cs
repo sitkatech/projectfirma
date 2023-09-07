@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.User
             var hasDeletePermission = new UserEditFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasDeletePermission)
             {
-                Add(string.Empty,
+                Add("Delete",
                     x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
                     30, AgGridColumnFilterType.None);
             }

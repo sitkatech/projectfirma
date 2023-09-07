@@ -104,7 +104,7 @@ namespace LtInfo.Common.AgGridWrappers
                 GridInstructionsWhenEmpty = "I am empty";
 
                 // Edit SOY
-                Add(string.Empty,
+                Add("Edit",
                     m =>
                     {
                         // Edit button
@@ -118,7 +118,7 @@ namespace LtInfo.Common.AgGridWrappers
                     35);
 
                 // Delete SOY
-                Add(string.Empty,
+                Add("Delete",
                     m =>
                     {
                         var contentUrl = string.Format("{0}/DeleteAction/{1}", TestControllerName, m.PrimaryKey);
@@ -142,7 +142,7 @@ namespace LtInfo.Common.AgGridWrappers
                 GridInstructionsWhenEmpty = "I am empty";
 
                 // Edit SOY
-                Add(string.Empty,
+                Add("Edit",
                     m =>
                     {
                         // Edit button
@@ -156,7 +156,7 @@ namespace LtInfo.Common.AgGridWrappers
                     35);
 
                 // Delete SOY
-                Add(string.Empty,
+                Add("Delete",
                     m =>
                     {
                         var contentUrl = string.Format("{0}/DeleteAction/{1}", TestControllerName, m.PrimaryKey);

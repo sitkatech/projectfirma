@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectStageCustomLabel
         {            
             if (hasManagePermissions)
             {
-                Add(string.Empty,
+                Add("Edit",
                     a => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(a.GetEditUrl(), $"Edit {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()} label"),
                     30, AgGridColumnFilterType.None);
             }

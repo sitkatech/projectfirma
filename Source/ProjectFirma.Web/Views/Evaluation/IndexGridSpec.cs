@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public IndexGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, e => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, AgGridColumnFilterType.None);
+            Add("Delete", e => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, AgGridColumnFilterType.None);
             Add(FieldDefinitionEnum.EvaluationName.ToType().ToGridHeaderString(), a => MakeNameLinkToDetailIfAvailable(currentFirmaSession, a), 210, AgGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.EvaluationDefinition.ToType().ToGridHeaderString(), a => a.EvaluationDefinition, 210, AgGridColumnFilterType.Text);
             Add(FieldDefinitionEnum.EvaluationStatus.ToType().ToGridHeaderString(), a => a.GetEvaluationStatusDisplayName(), 80, AgGridColumnFilterType.SelectFilterStrict);

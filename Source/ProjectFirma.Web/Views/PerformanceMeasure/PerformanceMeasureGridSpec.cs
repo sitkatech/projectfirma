@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasDeletePermission)
             {
-                Add(string.Empty, x => x.PerformanceMeasureDataSourceType.IsCustomCalculation ? new HtmlString("") : AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+                Add("Delete", x => x.PerformanceMeasureDataSourceType.IsCustomCalculation ? new HtmlString("") : AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
             }
             Add(FieldDefinitionEnum.PerformanceMeasure.ToType().ToGridHeaderString(MultiTenantHelpers.GetPerformanceMeasureName()),
                 a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.PerformanceMeasureDisplayName),

@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.MapLayer
                 if (areGeospatialAreasExternallySourced)
                 {
                     var cssClasses = new List<string> { "btn", "btn-xs", "btn-firma" };
-                    Add(string.Empty,
+                    Add("Sync Data",
                         x => AgGridHtmlHelpers.MakeModalDialogLink("Sync", x.GetSyncUrl(), 400, "Sync Data",
                             true, "Sync", "Cancel", cssClasses, null, null),
                         60, AgGridColumnFilterType.None);
