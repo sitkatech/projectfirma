@@ -105,9 +105,10 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
     saveButton.on("click" ,function () {
         saveButton.attr('disabled', true);
 
-
-        var id = tinymce.activeEditor.id;
-        jQuery("#" + id).val(tinymce.activeEditor.getContent());
+        if (tinyMCE.activeEditor != null) {
+            var id = tinymce.activeEditor.id;
+            jQuery("#" + id).val(tinymce.activeEditor.getContent());
+        }
 
         // Manually submit the form
         var form = findBootstrapDialogForm(optionalDialogFormId, dialogDiv);
