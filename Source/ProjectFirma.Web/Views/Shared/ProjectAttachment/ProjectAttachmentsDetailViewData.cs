@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
@@ -30,13 +31,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public ProjectAttachmentsDetailViewData(List<EntityAttachment> attachments, string addAttachmentUrl, string projectName, bool canEditAttachments, List<ProjectFirmaModels.Models.AttachmentType> attachmentTypes, FirmaSession currentFirmaSession)
         {
             CurrentPerson = currentFirmaSession.Person;
-            Attachments = attachments;
+            Attachments = attachments.Where(x => x.AttachmentType.HasViewPermission(currentFirmaSession)).ToList();
             AddAttachmentUrl = addAttachmentUrl;
             ProjectName = projectName;
             CanEditAttachments = canEditAttachments;
             ShowDownload = true;
             AttachmentTypesIndexUrl = new AttachmentTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession) ? SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(x => x.Index()) : string.Empty;
-            AttachmentTypes = attachmentTypes;
+            AttachmentTypes = attachmentTypes.Where(x => x.HasViewPermission(currentFirmaSession)).ToList();
         }
 
     }

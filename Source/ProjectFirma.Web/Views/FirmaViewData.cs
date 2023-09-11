@@ -190,6 +190,12 @@ namespace ProjectFirma.Web.Views
             {
                 resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, "Accomplishments Dashboard"));
             }
+
+            if (MultiTenantHelpers.UsesCustomProjectDashboardPage(firmaSession))
+            {
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectDashboard()), firmaSession, "Project Dashboard"));
+
+            }
             MultiTenantHelpers.AddFundingStatusMenuItem(resultsMenu, firmaSession);
             MultiTenantHelpers.AddProgressDashboardMenuItem(resultsMenu, firmaSession);
 

@@ -76,4 +76,5 @@ values
 (91, 'ProgressDashboardIntro', 'Progress Dashboard Intro', 1),
 (92, 'ProgressDashboardAcresConstructedByTheNumbers', 'Acres Constructed By The Numbers', 1),
 (93, 'ProgressDashboardAcresConstructedPieCharts', 'Acres Constructed Pie Charts', 1),
-(94, 'ProjectAttachmentList', 'Project Attachment List', 1)
+(94, 'ProjectAttachmentList', 'Project Attachment List', 1),
+(95, 'NCRPProjectDashboard', 'NCRP Project Dashboard', 1)

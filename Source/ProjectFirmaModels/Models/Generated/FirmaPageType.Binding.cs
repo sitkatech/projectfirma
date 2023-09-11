@@ -208,6 +208,7 @@ namespace ProjectFirmaModels.Models
         ProgressDashboardIntro = 91,
         ProgressDashboardAcresConstructedByTheNumbers = 92,
         ProgressDashboardAcresConstructedPieCharts = 93,
-        ProjectAttachmentList = 94
+        ProjectAttachmentList = 94,
+        NCRPProjectDashboard = 95
     }
 }

@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -36,8 +37,10 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
@@ -752,6 +755,209 @@ namespace ProjectFirma.Web.Controllers
             }
 
             return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
+        }
+
+        // Allow admin access only for now
+        [FirmaAdminFeature]
+        public ViewResult ProjectDashboard()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
+
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
+
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
+                .ProjectCustomGridConfigurations
+                .Where(x => x.IsEnabled &&
+                            x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID)
+                .OrderBy(x => x.SortOrder).ToList();
+            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
+            var projectGridSpec =
+                new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations,
+                    ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentFirmaSession.Tenant)
+                {
+                    ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
+                    SaveFiltersInCookie = true
+                };
+
+            var tempIDToSolutionValue = GetSolutionsDictionaryForProjectDashboard();
+            var solutionsSelectList = tempIDToSolutionValue.ToSelectList(x => x.Key.ToString(CultureInfo.InvariantCulture), x => x.Value).ToList();
+
+            var underservedCommunitiesGoogleChart =
+                GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var projectDashboardChartsViewData =
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
+
+            var viewData =
+                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count,
+                    projectsInUnderservedCommunities.Count, projectGridSpec, solutionsSelectList, projectDashboardChartsViewData);
+            return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
+        }
+
+
+
+        // Allow admin access only for now
+        [FirmaAdminFeature]
+        public GridJsonNetJObjectResult<Project> ProjectDashboardProjectsGridJsonData()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentTenant);
+
+            var projects = GetProjectsForProjectDashboard();
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [FirmaAdminFeature]
+        public JsonNetJObjectResult ProjectDashboardProjectSummary()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
+            return new JsonNetJObjectResult(new
+            {
+                ProjectCount = projects.Count.ToGroupedNumeric(),
+                PartnerCount = partners.Count.ToGroupedNumeric(),
+                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count.ToGroupedNumeric()
+            });
+        }
+
+        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities)
+        {
+            projects = GetProjectsForProjectDashboard();
+
+            projectSponsors = projects
+                .SelectMany(x => x.ProjectOrganizations).Where(x => x.OrganizationRelationshipType.IsPrimaryContact).Select(x => x.Organization).Distinct().ToList();
+            var geospatialAreaNames = new List<string>()
+            {
+                "Disadvantaged Community",
+                "Severely Disadvantaged Community"
+            };
+            projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
+        }
+
+        private GoogleChartJson GetUnderservedCommunitiesPieChartForProjectDashboard(List<Project> projects,  List<Project> projectsInUnderservedCommunities)
+        {
+            var chartTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by Underserved Community Status";
+            var pieChartContainerID = chartTitle.Replace(" ", "");
+
+            var googlePieChartSlices = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardPieChartSlices(projects, projectsInUnderservedCommunities);
+            var googleChartDataTable = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardGoogleChartDataTable(googlePieChartSlices);
+
+            var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+
+            var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number,
+                googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle,
+                googleChartConfigurationArea) {PieSliceText = "value"};
+            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.Right);
+
+            var pieChart = new GoogleChartJson(chartTitle, pieChartContainerID, pieChartConfiguration,
+                GoogleChartType.PieChart, googleChartDataTable, null);
+            pieChart.CanConfigureChart = false;
+            return pieChart;
+
+        }
+
+        [FirmaAdminFeature]
+        public PartialViewResult ProjectDashboardCharts()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
+            var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
+            return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
+        }
+
+        private List<Project> GetProjectsForProjectDashboard()
+        {
+            var projectStages = GetProjectStagesForProjectDashboard();
+            var solutions = GetSolutionsForProjectDashboard();
+
+            var projects = GetProjectEnumerableWithIncludesForPerformance()
+                .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
+            if (solutions.Count > 0)
+            {
+                projects = projects.Where(x => x.ProjectCustomAttributes.Any(y =>
+                    y.ProjectCustomAttributeTypeID == 121
+                    && y.ProjectCustomAttributeValues.Any(z => solutions.Contains(z.AttributeValue)))).ToList();
+            }
+
+            return projects;
+        }
+
+        private static List<Project> GetProjectEnumerableWithIncludesForPerformance()
+        {
+            var projects = HttpRequestStorage.DatabaseEntities.Projects
+                .Include(x => x.ProjectFundingSourceBudgets)
+                .Include(x => x.SecondaryProjectTaxonomyLeafs)
+                .Include(x => x.ProjectTags.Select(y => y.Tag))
+                .Include(x => x.ProjectNoFundingSourceIdentifieds)
+                .Include(x => x.ProjectProjectStatuses)
+                .ToList();
+
+            return projects.GetActiveProjects();
+        }
+
+        private List<int> GetProjectStagesForProjectDashboard()
+        {
+            var projectStages = new List<int>
+            {
+                ProjectStage.PlanningDesign.ProjectStageID,
+                ProjectStage.Implementation.ProjectStageID,
+                ProjectStage.PostImplementation.ProjectStageID,
+                ProjectStage.Completed.ProjectStageID
+            };
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectStagesQueryStringParameter]))
+            {
+
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectStagesQueryStringParameter]
+                    .Split(',');
+                projectStages = filterValuesAsString.Select(int.Parse).ToList();
+            }
+            return projectStages;
+        }
+
+        private List<string> GetSolutionsForProjectDashboard()
+        {
+            var solutionTempIDs = new List<int>();
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.SolutionsQueryStringParameter]))
+            {
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.SolutionsQueryStringParameter]
+                    .Split(',');
+                solutionTempIDs = filterValuesAsString.Select(int.Parse).ToList();
+            }
+            var tempIDToSolutionValue = GetSolutionsDictionaryForProjectDashboard();
+            var solutions = tempIDToSolutionValue.Where(x => solutionTempIDs.Contains(x.Key)).Select(x => x.Value).ToList();
+            return solutions;
+        }
+
+        private Dictionary<int, string> GetSolutionsDictionaryForProjectDashboard()
+        {
+            var tempIDToSolutionValue = new Dictionary<int, string>();
+            var solutionCustomAttribute = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == 121);
+            
+            if (solutionCustomAttribute != null && solutionCustomAttribute.ProjectCustomAttributeTypeOptionsSchema != null)
+            {
+                var solutions = JsonConvert.DeserializeObject<List<string>>(solutionCustomAttribute.ProjectCustomAttributeTypeOptionsSchema);
+                if (solutions == null)
+                {
+                    return tempIDToSolutionValue;
+                }
+                var orderedSolutions = solutions.OrderBy(x => x).ToList();
+                for (int i = 0;  i < orderedSolutions.Count; i++)
+                {
+                    // make tempID start at 1 instead of 0
+                    tempIDToSolutionValue[i + 1] = solutions[i];
+                }
+            }
+
+            return tempIDToSolutionValue;
+
         }
     }
 }

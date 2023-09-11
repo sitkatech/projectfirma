@@ -274,7 +274,7 @@ namespace ProjectFirma.Web.Controllers
                 case EditRtfContent.PerformanceMeasureRichTextType.AccountingPeriodAndScale:
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
                 case EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation:
-                    viewData = new EditRtfContentViewData(CkEditorExtension.CkEditorToolbar.Minimal, null);
+                    viewData = new EditRtfContentViewData(TinyMCEExtension.TinyMCEToolbarStyle.Minimal);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException($"Unknown GuidanceType: {performanceMeasureRichTextType}");

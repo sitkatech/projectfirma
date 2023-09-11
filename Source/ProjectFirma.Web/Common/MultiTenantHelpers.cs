@@ -394,6 +394,11 @@ namespace ProjectFirma.Web.Common
             return currentFirmaSession.Tenant == Tenant.SSMPProjectTracker;
         }
 
+        public static bool UsesCustomProjectDashboardPage(FirmaSession currentFirmaSession)
+        {
+            return currentFirmaSession.Tenant == Tenant.NCRPProjectTracker;
+        }
+
         public static void AddProgressDashboardMenuItem(LtInfoMenuItem resultsMenu, FirmaSession currentFirmaSession)
         {
             if (UsesCustomProgressDashboardPage(currentFirmaSession))

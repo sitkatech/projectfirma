@@ -1081,6 +1081,38 @@ namespace ProjectFirma.Web.Models
             return html;
         }
 
+        public static List<GooglePieChartSlice> GetUnderservedCommunitiesForProjectDashboardPieChartSlices(List<Project> projects, List<Project> projectsInUnderservedCommunities)
+        {
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+            googlePieChartSlices.Add(new GooglePieChartSlice("Not in a Disadvantaged Community", projects.Count - projectsInUnderservedCommunities.Count, sortOrder++, "#FFE196"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Disadvantaged Community")), sortOrder++, "#FF7142"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Severely Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Severely Disadvantaged Community")), sortOrder, "#A53FFF"));
+
+            return googlePieChartSlices;
+        }
+
+        public static GoogleChartDataTable GetUnderservedCommunitiesForProjectDashboardGoogleChartDataTable(List<GooglePieChartSlice> googlePieChartSlices)
+        {
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn($"Underserved Community Status", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn($"Count", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+
+            };
+
+            var chartRowCs = googlePieChartSlices.Select(x =>
+            {
+                var fundingTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = x.Value.ToGroupedNumeric();
+                var amountRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { fundingTypeRowV, amountRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+        }
+
         public static ProjectCustomAttributesValidationResult ValidateCustomAttributes(this Project project, FirmaSession currentFirmaSession)
         {
             return new ProjectCustomAttributesValidationResult(project, currentFirmaSession);

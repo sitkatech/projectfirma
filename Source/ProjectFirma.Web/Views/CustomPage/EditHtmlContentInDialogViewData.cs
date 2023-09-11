@@ -25,13 +25,11 @@ namespace ProjectFirma.Web.Views.CustomPage
 {
     public class EditHtmlContentInDialogViewData : FirmaUserControlViewData
     {
-        public readonly CkEditorExtension.CkEditorToolbar CkEditorToolbar;
-        public readonly string FileBrowserImageUploadUrl;
+        public readonly TinyMCEExtension.TinyMCEToolbarStyle TinyMceToolbarStyle;
 
-        public EditHtmlContentInDialogViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar, string fileBrowserImageUploadUrl)
+        public EditHtmlContentInDialogViewData(TinyMCEExtension.TinyMCEToolbarStyle tinyMceToolbarStyle)
         {
-            CkEditorToolbar = ckEditorToolbar;
-            FileBrowserImageUploadUrl = fileBrowserImageUploadUrl;
+            TinyMceToolbarStyle = tinyMceToolbarStyle;
         }
     }
 }

@@ -25,7 +25,7 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     @Html.ValidationSummary()
     <div style="max-height: 600px; overflow-y: auto">
-        @Html.CkEditorFor(x => x.GeospatialAreaIntroContentHtmlString, ViewDataTyped.CkEditorToolbar, true, false, 600)
+        @Html.TinyMCEEditorFor(x => x.GeospatialAreaIntroContentHtmlString, ViewDataTyped.TinyMceToolbarStyle, true, false, 600)
     </div>
 
     

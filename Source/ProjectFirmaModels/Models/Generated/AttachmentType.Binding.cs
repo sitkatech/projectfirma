@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected AttachmentType()
         {
             this.AttachmentTypeFileResourceMimeTypes = new HashSet<AttachmentTypeFileResourceMimeType>();
+            this.AttachmentTypeRoles = new HashSet<AttachmentTypeRole>();
             this.AttachmentTypeTaxonomyTrunks = new HashSet<AttachmentTypeTaxonomyTrunk>();
             this.ProjectAttachments = new HashSet<ProjectAttachment>();
             this.ProjectAttachmentUpdates = new HashSet<ProjectAttachmentUpdate>();
@@ -72,7 +73,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AttachmentTypeFileResourceMimeTypes.Any() || AttachmentTypeTaxonomyTrunks.Any() || ProjectAttachments.Any() || ProjectAttachmentUpdates.Any();
+            return AttachmentTypeFileResourceMimeTypes.Any() || AttachmentTypeRoles.Any() || AttachmentTypeTaxonomyTrunks.Any() || ProjectAttachments.Any() || ProjectAttachmentUpdates.Any();
         }
 
         /// <summary>
@@ -85,6 +86,11 @@ namespace ProjectFirmaModels.Models
             if(AttachmentTypeFileResourceMimeTypes.Any())
             {
                 dependentObjects.Add(typeof(AttachmentTypeFileResourceMimeType).Name);
+            }
+
+            if(AttachmentTypeRoles.Any())
+            {
+                dependentObjects.Add(typeof(AttachmentTypeRole).Name);
             }
 
             if(AttachmentTypeTaxonomyTrunks.Any())
@@ -107,7 +113,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentType).Name, typeof(AttachmentTypeFileResourceMimeType).Name, typeof(AttachmentTypeTaxonomyTrunk).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentType).Name, typeof(AttachmentTypeFileResourceMimeType).Name, typeof(AttachmentTypeRole).Name, typeof(AttachmentTypeTaxonomyTrunk).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name};
 
 
         /// <summary>
@@ -133,6 +139,11 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in AttachmentTypeFileResourceMimeTypes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in AttachmentTypeRoles.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -165,6 +176,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return AttachmentTypeID; } set { AttachmentTypeID = value; } }
 
         public virtual ICollection<AttachmentTypeFileResourceMimeType> AttachmentTypeFileResourceMimeTypes { get; set; }
+        public virtual ICollection<AttachmentTypeRole> AttachmentTypeRoles { get; set; }
         public virtual ICollection<AttachmentTypeTaxonomyTrunk> AttachmentTypeTaxonomyTrunks { get; set; }
         public virtual ICollection<ProjectAttachment> ProjectAttachments { get; set; }
         public virtual ICollection<ProjectAttachmentUpdate> ProjectAttachmentUpdates { get; set; }

@@ -179,8 +179,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditInDialog(EditGeospatialAreaTypeIntroTextViewModel viewModel)
         {
-            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.Minimal;
-            var viewData = new EditGeospatialAreaTypeIntroTextViewData(ckEditorToolbar);
+            var tinyMceToolbarStyle = TinyMCEExtension.TinyMCEToolbarStyle.Minimal;
+            var viewData = new EditGeospatialAreaTypeIntroTextViewData(tinyMceToolbarStyle);
             return RazorPartialView<EditGeospatialAreaTypeIntroText, EditGeospatialAreaTypeIntroTextViewData, EditGeospatialAreaTypeIntroTextViewModel>(viewData, viewModel);
         }
 
@@ -209,9 +209,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditDescriptionInDialog(EditGeospatialAreaDescriptionViewModel viewModel, GeospatialArea geospatialArea)
         {
-            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.All;
-            var viewData = new EditGeospatialAreaDescriptionViewData(ckEditorToolbar,
-                SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForGeospatialAreaDescription(geospatialArea)));
+            var tinyMceToolbarStyle = TinyMCEExtension.TinyMCEToolbarStyle.All;
+            var viewData = new EditGeospatialAreaDescriptionViewData(tinyMceToolbarStyle);
             return RazorPartialView<EditGeospatialAreaDescription, EditGeospatialAreaDescriptionViewData, EditGeospatialAreaDescriptionViewModel>(viewData, viewModel);
         }
     }
