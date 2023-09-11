@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridIncludes.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="AgGridIncludes.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -23,11 +23,11 @@ using LtInfo.Common.HtmlHelperExtensions;
 
 namespace ProjectFirma.Web.Views.Shared
 {
-    public abstract class DhtmlxGridIncludes : WebViewPage
+    public abstract class AgGridIncludes : WebViewPage
     {
         public static void RenderPartialView(HtmlHelper html)
         {
-            html.RenderRazorSitkaPartial<DhtmlxGridIncludes>();
+            html.RenderRazorSitkaPartial<AgGridIncludes>();
         }
     }
 }

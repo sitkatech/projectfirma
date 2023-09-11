@@ -759,7 +759,8 @@
     </Content>
     <Content Include="Content\combo-tree\comboTreePlugin.js" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
-    <Content Include="ScriptsCustom\esa-ag-grid.js" />
+    <Content Include="ScriptsCustom\agGrid\esa-ag-grid.js" />
+    <Content Include="ScriptsCustom\agGrid\HtmlFilterComponent.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
@@ -2121,6 +2122,7 @@
     <Content Include="Views\Results\ProgressDashboard.cshtml" />
     <Content Include="Views\Results\ProjectDashboard.cshtml" />
     <Content Include="Views\Results\ProjectDashboardCharts.cshtml" />
+    <Content Include="Views\Shared\AgGridIncludes.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
@@ -2365,7 +2367,7 @@
     </Compile>
     <Compile Include="Models\FirmaTestWithContext.cs" />
     <Compile Include="Security\FirmaFeatureWithContextImpl.cs" />
-    <Compile Include="Views\Shared\DhtmlxGridIncludes.cs" />
+    <Compile Include="Views\Shared\AgGridIncludes.cs" />
     <Compile Include="Views\Shared\TextControls\EntityExternalLinks.cs" />
     <Compile Include="Views\Shared\TextControls\EntityExternalLinksViewData.cs" />
     <Content Include="Content\bootstrap-colorpicker\css\bootstrap-colorpicker.css" />
@@ -3465,7 +3467,6 @@
       <DependentUpon>jquery.validate.unobtrusive.min.js</DependentUpon>
     </Content>
     <Content Include="Scripts\jquery.validate.min.js.map" />
-    <Content Include="Views\Shared\DhtmlxGridIncludes.cshtml" />
     <Content Include="Views\Shared\TextControls\EntityExternalLinks.cshtml" />
     <Content Include="Views\Shared\SiteLayout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
