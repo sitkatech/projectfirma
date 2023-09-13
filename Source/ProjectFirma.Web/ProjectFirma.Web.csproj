@@ -787,7 +787,9 @@
     <Content Include="Scripts\tinymce\icons\default\icons.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\models\dom\model.js" />
-    <Content Include="Scripts\tinymce\models\dom\model.min.js" />
+    <Content Include="Scripts\tinymce\models\dom\model.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\tinymce\plugins\accordion\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\accordion\plugin.min.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
