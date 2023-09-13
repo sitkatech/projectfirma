@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
     {
         public IndexGridSpec(FirmaSession currentFirmaSession, GeospatialAreaType geospatialAreaType)
         {
-            Add(geospatialAreaType.GeospatialAreaTypeName, a => UrlTemplate.MakeHrefString(GeospatialAreaModelExtensions.GetDetailUrl(a.GeospatialAreaID), a.GetGeospatialAreaShortNameWithColor()), 300, DhtmlxGridColumnFilterType.Html);
+            Add(geospatialAreaType.GeospatialAreaTypeName, a => UrlTemplate.MakeHrefString(GeospatialAreaModelExtensions.GetDetailUrl(a.GeospatialAreaID), a.GetGeospatialAreaShortNameWithColor()), 300, AgGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectViewableByUserCount, 65);
         }
     }

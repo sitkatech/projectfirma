@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -38,10 +38,10 @@ namespace ProjectFirma.Web.Views.AttachmentType
 
             if (hasManagePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(t => t.EditAttachmentType(a)),
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, AgGridColumnFilterType.None);
+                Add("edit", a => AgGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(t => t.EditAttachmentType(a)),
                         $"Edit {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} \"{a.AttachmentTypeName}\"")),
-                    30, DhtmlxGridColumnFilterType.None);
+                    30, AgGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
 
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.AttachmentType
             Add("# of Allowed Attachments", a => a.NumberOfAllowedAttachments, 80);
             Add("Maximum File Size", a => a.MaxFileSizeForDisplay, 140);
             Add(FieldDefinitionEnum.QuickAccessAttachment.ToType().ToGridHeaderString(), a => a.IsQuickAccessAttachment.ToYesNo(), 140);
-            Add(FieldDefinitionEnum.AttachmentTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.AttachmentTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, AgGridColumnFilterType.Html);
 
 
 

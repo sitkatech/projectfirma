@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -30,8 +30,8 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectNotificationGridSpec(FirmaSession currentFirmaSession)
         {
             Add("Date", x => x.NotificationDate, 120);
-            Add("Notification Type", x => x.NotificationType.NotificationTypeDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Notification", x => x.NotificationType.GetFullDescriptionFromProjectPerspective(), 400, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Notification Type", x => x.NotificationType.NotificationTypeDisplayName, 140, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Notification", x => x.NotificationType.GetFullDescriptionFromProjectPerspective(), 400, AgGridColumnFilterType.SelectFilterStrict);
             Add("Person Notified", x => x.Person.GetFullNameFirstLastAndOrgAsUrl(currentFirmaSession), 400);
         }
     }

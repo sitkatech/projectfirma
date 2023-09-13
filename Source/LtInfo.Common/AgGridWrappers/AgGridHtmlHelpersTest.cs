@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridHtmlHelpersTest.cs" company="Environmental Science Associates">
+<copyright file="AgGridHtmlHelpersTest.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -18,17 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Views;
 using NUnit.Framework;
 
-namespace LtInfo.Common.DhtmlWrappers
+namespace LtInfo.Common.AgGridWrappers
 {
     [TestFixture]
-    public class DhtmlxGridHtmlHelpersTest
+    public class AgGridHtmlHelpersTest
     {
         protected const string TestControllerName = "TestController";
 
@@ -38,7 +38,7 @@ namespace LtInfo.Common.DhtmlWrappers
         {
             const string indent = "";
             var gridSpec = new TestGridSpec();
-            var result = DhtmlxGridHtmlHelpers.BuildGridColumns(gridSpec, indent);
+            var result = AgGridHtmlHelpers.BuildGridColumns(gridSpec, indent);
             Approvals.Verify(result);
         }
 
@@ -46,14 +46,14 @@ namespace LtInfo.Common.DhtmlWrappers
         public void IsUsingSmartRenderingWithColumnsThatHaveTotalsTest()
         {
             var gridSpec = new TestGridSpec();
-            Assert.That(DhtmlxGridHtmlHelpers.IsUsingSmartRendering(gridSpec), Is.False, "Should not be using smart rendering because we have a grid spec that has a total column");
+            Assert.That(AgGridHtmlHelpers.IsUsingSmartRendering(gridSpec), Is.False, "Should not be using smart rendering because we have a grid spec that has a total column");
         }
 
         [Test]
         public void IsUsingSmartRenderingWithColumnsThatHaveNoTotalsTest()
         {
             var gridSpec = new TestGridSpecWithNoTotalColumns();
-            Assert.That(DhtmlxGridHtmlHelpers.IsUsingSmartRendering(gridSpec), Is.True, "Should be using smart rendering because we have a grid spec that has a total column");
+            Assert.That(AgGridHtmlHelpers.IsUsingSmartRendering(gridSpec), Is.True, "Should be using smart rendering because we have a grid spec that has a total column");
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace LtInfo.Common.DhtmlWrappers
             testGridSpecClasses.Add(new TestGridSpecClass(5, "Five", false, 5000m));
             testGridSpecClasses.Add(new TestGridSpecClass(6, "Six", true, 6000m));
 
-            var result = DhtmlxGridHtmlHelpers.DhtmlxGrid(gridSpec,
+            var result = AgGridHtmlHelpers.AgGrid(gridSpec,
                                                           gridName,
                                                           string.Format("{0}/ListGridDataXml", TestControllerName),
                                                           "height:250px;");
@@ -104,7 +104,7 @@ namespace LtInfo.Common.DhtmlWrappers
                 GridInstructionsWhenEmpty = "I am empty";
 
                 // Edit SOY
-                Add(string.Empty,
+                Add("Edit",
                     m =>
                     {
                         // Edit button
@@ -112,24 +112,24 @@ namespace LtInfo.Common.DhtmlWrappers
                         var contentUrl = string.Format("{0}/EditAction/{1}", TestControllerName, m.PrimaryKey);
                         var dialogTitle = string.Format("Edit this {0}", m.DisplayName);
                         var dialogForm = new ModalDialogForm(contentUrl, 350, dialogTitle);
-                        return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(dialogForm);
+                        return AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(dialogForm);
 
                     },
                     35);
 
                 // Delete SOY
-                Add(string.Empty,
+                Add("Delete",
                     m =>
                     {
                         var contentUrl = string.Format("{0}/DeleteAction/{1}", TestControllerName, m.PrimaryKey);
-                        var deleteLink = DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(contentUrl, true);
+                        var deleteLink = AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(contentUrl, true);
                         return deleteLink;
                     },
                     35);
 
                 Add("Display Name", m => m.DisplayName, 200);
-                Add("Is Active", m => m.IsActive.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
-                Add("Amount", m => m.Amount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                Add("Is Active", m => m.IsActive.ToYesNo(), 60, AgGridColumnFilterType.SelectFilterStrict);
+                Add("Amount", m => m.Amount, 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
             }
         }
 
@@ -142,7 +142,7 @@ namespace LtInfo.Common.DhtmlWrappers
                 GridInstructionsWhenEmpty = "I am empty";
 
                 // Edit SOY
-                Add(string.Empty,
+                Add("Edit",
                     m =>
                     {
                         // Edit button
@@ -150,24 +150,24 @@ namespace LtInfo.Common.DhtmlWrappers
                         var contentUrl = string.Format("{0}/EditAction/{1}", TestControllerName, m.PrimaryKey);
                         var dialogTitle = string.Format("Edit this {0}", m.DisplayName);
                         var dialogForm = new ModalDialogForm(contentUrl, 350, dialogTitle);
-                        return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(dialogForm);
+                        return AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(dialogForm);
 
                     },
                     35);
 
                 // Delete SOY
-                Add(string.Empty,
+                Add("Delete",
                     m =>
                     {
                         var contentUrl = string.Format("{0}/DeleteAction/{1}", TestControllerName, m.PrimaryKey);
-                        var deleteLink = DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(contentUrl, true);
+                        var deleteLink = AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(contentUrl, true);
                         return deleteLink;
                     },
                     35);
 
                 Add("Display Name", m => m.DisplayName, 200);
-                Add("Is Active", m => m.IsActive.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
-                Add("Amount", m => m.Amount, 100, DhtmlxGridColumnFormatType.Currency);
+                Add("Is Active", m => m.IsActive.ToYesNo(), 60, AgGridColumnFilterType.SelectFilterStrict);
+                Add("Amount", m => m.Amount, 100, AgGridColumnFormatType.Currency);
             }
         }
     }

@@ -18,12 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using LtInfo.Common.Models;
 using System;
 using System.Linq;
 using System.Reflection;
-using LtInfo.Common.Models;
 
-namespace LtInfo.Common.DhtmlWrappers
+namespace LtInfo.Common.AgGridWrappers
 {
     public class AutoGridSpec<T> : GridSpec<T> where T : IStringIndexer
     {

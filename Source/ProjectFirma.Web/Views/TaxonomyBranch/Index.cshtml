@@ -20,14 +20,14 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyBranch.Index
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 
@@ -44,5 +44,5 @@
 </div>
 
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>

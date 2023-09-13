@@ -23,7 +23,7 @@ using System.Web;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Project;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;
@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.Views.Results
     {
         public SpendingByPerformanceMeasureByProjectGridSpec(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.ProjectUrl, a.ProjectName), 350, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.ProjectUrl, a.ProjectName), 350, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
             foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
             {
                 Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
@@ -51,16 +51,16 @@ namespace ProjectFirma.Web.Views.Results
                         return string.Empty;
                     },
                     120,
-                    DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    AgGridColumnFilterType.SelectFilterStrict);
             }
 
             var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
-            Add(reportedValueColumnName, a => a.TotalReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
-            Add(FieldDefinitionEnum.ReportedExpenditure.ToType().ToGridHeaderString(), x => x.CalculateWeightedTotalExpenditure(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add(reportedValueColumnName, a => a.TotalReportedValue, 150, AgGridColumnFormatType.Decimal, AgGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.ReportedExpenditure.ToType().ToGridHeaderString(), x => x.CalculateWeightedTotalExpenditure(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
 
             var reportedValueUnitCostColumnName = $"Estimated Cost Per {performanceMeasure.MeasurementUnitType.SingularDisplayName} ";
-            Add(reportedValueUnitCostColumnName, a => a.CalculateWeightedTotalExpenditurePerPerformanceMeasure(), 100, DhtmlxGridColumnFormatType.Currency);
+            Add(reportedValueUnitCostColumnName, a => a.CalculateWeightedTotalExpenditurePerPerformanceMeasure(), 100, AgGridColumnFormatType.Currency);
 
             Add($"Other Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}",
                 a =>
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.Results
                     return new HtmlString(string.Join(", ", htmlStrings));
                 },
              200,
-             DhtmlxGridColumnFilterType.Html);
+             AgGridColumnFilterType.Html);
         }
     }
 }

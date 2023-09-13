@@ -1,5 +1,5 @@
 ﻿using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -14,16 +14,16 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()}")), 30, DhtmlxGridColumnFilterType.None);
-            Add("Name", a => a.ProjectCustomAttributeGroupName, 300, DhtmlxGridColumnFilterType.Text);
+            Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+            Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()}")), 30, AgGridColumnFilterType.None);
+            Add("Name", a => a.ProjectCustomAttributeGroupName, 300, AgGridColumnFilterType.Text);
 
             if (tenantAttribute.EnableProjectCategories)
             {
-                Add(FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel(), a => a.GetProjectCategoryDisplayNamesAsCommaDelimitedList(), 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                Add(FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel(), a => a.GetProjectCategoryDisplayNamesAsCommaDelimitedList(), 150, AgGridColumnFilterType.SelectFilterStrict);
             }
 
-            Add("Sort Order", a => a.SortOrder, 60, DhtmlxGridColumnFormatType.Integer);
+            Add("Sort Order", a => a.SortOrder, 60, AgGridColumnFormatType.Integer);
         }
     }
 }

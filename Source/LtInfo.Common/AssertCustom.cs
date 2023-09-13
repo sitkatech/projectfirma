@@ -24,7 +24,7 @@ using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.MvcResults;
 using NUnit.Framework;
 

@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridIncludes.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
-Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<copyright file="AgGridColumnFormatType.cs" company="Environmental Science Associates">
+Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
 
@@ -18,16 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Web.Mvc;
-using LtInfo.Common.HtmlHelperExtensions;
-
-namespace ProjectFirma.Web.Views.Shared
+namespace LtInfo.Common.AgGridWrappers
 {
-    public abstract class DhtmlxGridIncludes : WebViewPage
+    public enum AgGridColumnFormatType
     {
-        public static void RenderPartialView(HtmlHelper html)
-        {
-            html.RenderRazorSitkaPartial<DhtmlxGridIncludes>();
-        }
+        Decimal,
+        Integer,
+        Currency,
+        Percent,
+        None,
+        DateTime,
+        Date,
+        LatLong
+
     }
 }

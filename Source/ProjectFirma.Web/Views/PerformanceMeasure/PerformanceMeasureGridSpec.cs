@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -37,19 +37,19 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasDeletePermission)
             {
-                Add(string.Empty, x => x.PerformanceMeasureDataSourceType.IsCustomCalculation ? new HtmlString("") : DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
+                Add("Delete", x => x.PerformanceMeasureDataSourceType.IsCustomCalculation ? new HtmlString("") : AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
             }
             Add(FieldDefinitionEnum.PerformanceMeasure.ToType().ToGridHeaderString(MultiTenantHelpers.GetPerformanceMeasureName()),
                 a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.PerformanceMeasureDisplayName),
                 300,
-                DhtmlxGridColumnFilterType.Text);
+                AgGridColumnFilterType.Text);
             if (new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession) && MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
             {
                 Add($"{FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()}", a => a.PerformanceMeasureGroup?.PerformanceMeasureGroupName, 200);
             }
-            Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString("Unit"), a => a.MeasurementUnitType == MeasurementUnitType.Dollars ? a.MeasurementUnitType.MeasurementUnitTypeDisplayName  : a.MeasurementUnitType.LegendDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.PerformanceMeasureType.ToType().ToGridHeaderString("Type"), a => a.PerformanceMeasureType.PerformanceMeasureTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Description", a => a.PerformanceMeasureDefinition, 400, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString("Unit"), a => a.MeasurementUnitType == MeasurementUnitType.Dollars ? a.MeasurementUnitType.MeasurementUnitTypeDisplayName  : a.MeasurementUnitType.LegendDisplayName, 80, AgGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.PerformanceMeasureType.ToType().ToGridHeaderString("Type"), a => a.PerformanceMeasureType.PerformanceMeasureTypeDisplayName, 60, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Description", a => a.PerformanceMeasureDefinition, 400, AgGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Reporting", a => a.ReportedProjectsCount(currentFirmaSession), 80);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} Expecting", a => a.ExpectedProjectsCount(currentFirmaSession), 80);

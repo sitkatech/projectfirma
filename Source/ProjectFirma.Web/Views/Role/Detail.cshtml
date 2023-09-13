@@ -22,13 +22,13 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Role.Detail
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 <div class="row">
@@ -116,7 +116,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 People with this role:
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
             </div>
         </div>
     </div>

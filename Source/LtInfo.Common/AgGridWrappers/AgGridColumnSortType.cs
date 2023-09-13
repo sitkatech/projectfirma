@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridColumnDataType.cs" company="Environmental Science Associates">
+<copyright file="DhtmlxGridColumnSortType.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -18,25 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace LtInfo.Common.DhtmlWrappers
+
+namespace LtInfo.Common.AgGridWrappers
 {
-    public class DhtmlxGridColumnDataType
+    public class AgGridColumnSortType
     {
-        public string ColumnDataType { get; private set; }
+        public string SortingType { get; private set; }
 
-        private DhtmlxGridColumnDataType(string columnDataType)
+        public AgGridColumnSortType(string sortingType)
         {
-            ColumnDataType = columnDataType;
+            SortingType = sortingType;
         }
-
-        public override string ToString()
-        {
-            return ColumnDataType;
-        }
-
-        public static readonly DhtmlxGridColumnDataType Checkbox = new DhtmlxGridColumnDataType("ch");
-        public static readonly DhtmlxGridColumnDataType ReadOnlyText = new DhtmlxGridColumnDataType("rotxt");
-        public static readonly DhtmlxGridColumnDataType ReadOnlyHtmlText = new DhtmlxGridColumnDataType("ro");
-        public static readonly DhtmlxGridColumnDataType ReadOnlyNumber = new DhtmlxGridColumnDataType("ron");
     }
 }

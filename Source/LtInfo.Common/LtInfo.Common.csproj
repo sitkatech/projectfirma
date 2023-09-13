@@ -180,6 +180,21 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgGridWrappers\AgGridResizeType.cs" />
+    <Compile Include="AgGridWrappers\AutoGridSpec.cs" />
+    <Compile Include="AgGridWrappers\BulkTagModalDialogForm.cs" />
+    <Compile Include="AgGridWrappers\ColumnSpec.cs" />
+    <Compile Include="AgGridWrappers\AgGridColumnAggregationType.cs" />
+    <Compile Include="AgGridWrappers\AgGridColumnAlignType.cs" />
+    <Compile Include="AgGridWrappers\AgGridColumnDataType.cs" />
+    <Compile Include="AgGridWrappers\AgGridColumnFilterType.cs" />
+    <Compile Include="AgGridWrappers\AgGridColumnFormatType.cs" />
+    <Compile Include="AgGridWrappers\AgGridColumnSortType.cs" />
+    <Compile Include="AgGridWrappers\AgGridHtmlHelpers.cs" />
+    <Compile Include="AgGridWrappers\AgGridHtmlHelpersTest.cs" />
+    <Compile Include="AgGridWrappers\GridOutputFormat.cs" />
+    <Compile Include="AgGridWrappers\GridSpec.cs" />
+    <Compile Include="AgGridWrappers\SelectProjectsModalDialogForm.cs" />
     <Compile Include="AssertCustom.cs" />
     <Compile Include="BootstrapWrappers\BootstrapHtmlHelpers.cs" />
     <Compile Include="CommonUtility.cs" />
@@ -194,15 +209,6 @@
     <Compile Include="DesignByContract\InvariantException.cs" />
     <Compile Include="DesignByContract\PostconditionException.cs" />
     <Compile Include="DesignByContract\PreconditionException.cs" />
-    <Compile Include="DhtmlWrappers\AutoGridSpec.cs" />
-    <Compile Include="DhtmlWrappers\BulkTagModalDialogForm.cs" />
-    <Compile Include="DhtmlWrappers\DhtmlxGridColumnAlignType.cs" />
-    <Compile Include="DhtmlWrappers\DhtmlxGridColumnDataType.cs" />
-    <Compile Include="DhtmlWrappers\DhtmlxGridColumnFormatType.cs" />
-    <Compile Include="DhtmlWrappers\DhtmlxGridColumnAggregationType.cs" />
-    <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.cs" />
-    <Compile Include="DhtmlWrappers\GridOutputFormat.cs" />
-    <Compile Include="DhtmlWrappers\SelectProjectsModalDialogForm.cs" />
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
     <Compile Include="GeoJson\GeoJsonToSqlGeometryHelper.cs" />
@@ -214,7 +220,6 @@
     <Compile Include="HtmlHelperExtensions\TextAreaForExtensions.cs" />
     <Compile Include="LoggingFilters\SemRushFilter.cs" />
     <Compile Include="ModalDialog\ModalDialogForm.cs" />
-    <Compile Include="DhtmlWrappers\ColumnSpec.cs" />
     <Compile Include="DisposableHtmlHelper.cs" />
     <Compile Include="DisposableTempDirectory.cs" />
     <Compile Include="EntityModelBinding\LtInfoEntityPrimaryKeyModelBinder.cs" />
@@ -404,13 +409,9 @@
     <Compile Include="UrlTemplateTest.cs" />
     <Compile Include="Validation.cs" />
     <Compile Include="ValidationAttributes.cs" />
-    <Compile Include="DhtmlWrappers\DhtmlxGridColumnSortType.cs" />
-    <Compile Include="DhtmlWrappers\DhtmlxGridColumnFilterType.cs" />
-    <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpers.cs" />
     <Compile Include="VersionInformation.cs" />
     <Compile Include="Views\DownloadFileDescriptor.cs" />
     <Compile Include="Views\FieldTemplateMetadata.cs" />
-    <Compile Include="DhtmlWrappers\GridSpec.cs" />
     <Compile Include="Views\TextAreaWithMaxLengthAttribute.cs" />
     <Compile Include="Views\ViewUtilities.cs" />
     <Compile Include="WebServicesErrorHandler.cs" />
@@ -446,8 +447,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Copyright.txt" />
-    <Content Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.BuildGridColumnsTest.approved.txt" />
-    <Content Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.VerifyJavascriptForDhtmlxGrid.approved.txt" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

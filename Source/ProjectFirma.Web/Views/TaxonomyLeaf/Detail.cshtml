@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared.ProjectControls
 @using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
 @using Newtonsoft.Json
@@ -36,7 +36,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
 
     <link href="@Url.Content("~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css")" rel="stylesheet" type="text/css"/>
@@ -236,13 +236,13 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">
                 @* Use custom Default project grid for Primary Leaf grid *@
                 <div id="primaryLeafDataGrid">
-                    @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                 </div>
                 @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
                 {
                     @* Not using custom Default project grid here, this one is custom *@
                     <div id="secondaryLeafDataGrid">
-                        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.SecondaryBasicProjectInfoGridName, ViewDataTyped.SecondaryBasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.SecondaryBasicProjectInfoGridName, ViewDataTyped.SecondaryBasicProjectInfoGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 }
             </div>

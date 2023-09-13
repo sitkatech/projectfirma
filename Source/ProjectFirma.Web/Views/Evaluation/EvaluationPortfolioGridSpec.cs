@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web;
 using LtInfo.Common.BootstrapWrappers;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -15,16 +15,16 @@ namespace ProjectFirma.Web.Views.Evaluation
         public EvaluationPortfolioGridSpec(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Evaluation evaluation)
         {
 
-            Add(string.Empty, pe => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, pe => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
+            Add("delete", pe => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, AgGridColumnFilterType.None);
+            Add("edit", pe => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, AgGridColumnFilterType.None);
 
-            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, AgGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
             foreach (var evaluationCriteriaColumn in evaluation.EvaluationCriterias)
             {
-                Add(evaluationCriteriaColumn.EvaluationCriteriaName, a => GetCriteriaValueIfAvailable(a, evaluationCriteriaColumn), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                Add(evaluationCriteriaColumn.EvaluationCriteriaName, a => GetCriteriaValueIfAvailable(a, evaluationCriteriaColumn), 75, AgGridColumnFilterType.SelectFilterStrict);
             }
-            Add("Comments", a => a.Comments, 150, DhtmlxGridColumnFilterType.Text);
+            Add("Comments", a => a.Comments, 150, AgGridColumnFilterType.Text);
 
 
         }
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, projectEvaluation.Evaluation))
             {
-                return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(projectEvaluation.GetDeleteUrl(), true, projectEvaluation.CanDelete());
+                return AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(projectEvaluation.GetDeleteUrl(), true, projectEvaluation.CanDelete());
             }
             return new HtmlString(string.Empty);
         }
@@ -55,10 +55,10 @@ namespace ProjectFirma.Web.Views.Evaluation
             {
                 if (projectEvaluation.Evaluation.EvaluationStatusID == (int) EvaluationStatusEnum.InProgress)
                 {
-                    return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'");
+                    return AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'");
                 }
 
-                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'", false);
+                return AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'", false);
 
             }
             return new HtmlString(string.Empty);

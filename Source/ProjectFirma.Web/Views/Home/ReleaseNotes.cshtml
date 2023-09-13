@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
@@ -31,7 +31,7 @@
 {
     @if (ViewDataTyped.CanEditNotes)
     {
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Note", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNoteUrl, "Add Release Note", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditNotes)
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Note", FirmaAgGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNoteUrl, "Add Release Note", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditNotes)
     }
 }
 <div class="row">
@@ -51,7 +51,7 @@
                 {
                     <tr>
                         <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(releaseNote.GetEditUrl(), string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
-                        <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), releaseNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
+                        <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(AgGridHtmlHelpers.DeleteIconBootstrap.ToString(), releaseNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
                         <td>@releaseNote.NoteHtmlString</td>
                     </tr>
                 }

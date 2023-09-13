@@ -1,4 +1,4 @@
-﻿namespace LtInfo.Common.DhtmlWrappers
+﻿namespace LtInfo.Common.AgGridWrappers
 {
     public class SelectProjectsModalDialogForm
     {
@@ -15,7 +15,7 @@
             DialogLinkText = dialogLinkText;
             DialogTitle = dialogTitle;
             CheckboxColumnIndex = 0;
-            ValueColumnName = "ProjectID";
+            ValueColumnName = "ProjectIDForModal";
             ReturnListName = "ProjectIDList";
         }
     }

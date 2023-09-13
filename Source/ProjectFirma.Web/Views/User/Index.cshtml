@@ -20,13 +20,13 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.User.Index
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 @section RightOfPageTitle
@@ -56,7 +56,7 @@
 
 
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
 <script>

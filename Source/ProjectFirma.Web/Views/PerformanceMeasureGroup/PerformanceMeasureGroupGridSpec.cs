@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Web;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -36,21 +36,21 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureGroup
             var hasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasManagePermission)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit '{x.PerformanceMeasureGroupName}'", true), 30, DhtmlxGridColumnFilterType.None);
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, AgGridColumnFilterType.None);
+                Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit '{x.PerformanceMeasureGroupName}'", true), 30, AgGridColumnFilterType.None);
             }
             Add(FieldDefinitionEnum.PerformanceMeasureGroup.ToType().ToGridHeaderString(),
                 a => a.PerformanceMeasureGroupName,
                 300,
-                DhtmlxGridColumnFilterType.Text);
+                AgGridColumnFilterType.Text);
             Add($"# of {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", a => a.PerformanceMeasures.Count, 150);
             if (hasManagePermission)
             {
                 Add("Delete Display Image",
                     x => x.IconFileResourceInfo != null
-                        ? DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteDisplayImageUrl(), true,
+                        ? AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteDisplayImageUrl(), true,
                             x.IconFileResourceInfo != null)
-                        : new HtmlString(string.Empty), 60, DhtmlxGridColumnFilterType.None);
+                        : new HtmlString(string.Empty), 60, AgGridColumnFilterType.None);
             }
             Add("Display Image File Name", a => a.IconFileResourceInfo?.GetOriginalCompleteFileName(), 300);
         }

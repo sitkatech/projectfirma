@@ -20,12 +20,12 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.Index
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 <div class="row">
@@ -33,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
     </div>
     <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>
 

@@ -22,7 +22,7 @@ using System.Linq;
 using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         {
             if (new TaxonomyBranchManageFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
+                Add("Delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, AgGridColumnFilterType.None);
             }
 
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
@@ -45,10 +45,10 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 Add(FieldDefinitionEnum.TaxonomyTrunk.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyTrunk.GetDetailUrl(), a.TaxonomyTrunk.TaxonomyTrunkName), 210);    
             }            
             Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetTaxonomyBranchCodeAndName()), 240);
-            Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyLeafs.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyLeafs.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 420, AgGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentFirmaSession).Count, 90);
-            Add("Sort Order", a => a.TaxonomyBranchSortOrder, 90, DhtmlxGridColumnFormatType.None);
-            Add(FieldDefinitionEnum.TaxonomyBranchDescription.ToType().ToGridHeaderString(),a => a.TaxonomyBranchDescription, 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Sort Order", a => a.TaxonomyBranchSortOrder, 90, AgGridColumnFormatType.None);
+            Add(FieldDefinitionEnum.TaxonomyBranchDescription.ToType().ToGridHeaderString(),a => a.TaxonomyBranchDescription, 200, AgGridColumnFilterType.SelectFilterHtmlStrict);
         }
     }
 }

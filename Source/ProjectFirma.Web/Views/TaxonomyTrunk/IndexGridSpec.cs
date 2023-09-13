@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -37,16 +37,16 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         {
             if (new TaxonomyTrunkManageFeature().HasPermissionByFirmaSession(firmaSession))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
+                Add("Delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, AgGridColumnFilterType.None);
             }
 
             Add(FieldDefinitionEnum.TaxonomyTrunk.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.TaxonomyTrunkName), 240);
-            Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyBranches.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 340, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyBranches.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 340, AgGridColumnFilterType.Html);
             Add("# of Projects", a => a.GetAssociatedProjects(firmaSession).Count, 90);
-            Add("Sort Order", a => a.TaxonomyTrunkSortOrder, 90, DhtmlxGridColumnFormatType.None);
+            Add("Sort Order", a => a.TaxonomyTrunkSortOrder, 90, AgGridColumnFormatType.None);
             Add(FieldDefinitionEnum.TaxonomyTrunkDescription.ToType().ToGridHeaderString(),
                 a => a.TaxonomyTrunkDescription, 200,
-                DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+                AgGridColumnFilterType.SelectFilterHtmlStrict);
         }
     }
 }

@@ -20,12 +20,12 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @inherits ProjectFirma.Web.Views.Reports.Index
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 @section RightOfPageTitle
 {
@@ -35,7 +35,7 @@
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
-@Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+@Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", AgGridResizeType.VerticalFillHorizontalAutoFit)
 
 <div class="reports-files" style="margin-top: 30px;">
     <h3>Documentation</h3>

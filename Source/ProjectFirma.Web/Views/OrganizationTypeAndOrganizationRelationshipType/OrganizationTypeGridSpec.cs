@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -38,10 +38,10 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
         {            
             if (hasManagePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(OrganizationTypeModelExtensions.GetDeleteUrl(x), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationType(a)),
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(OrganizationTypeModelExtensions.GetDeleteUrl(x), true, !x.HasDependentObjects()), 30, AgGridColumnFilterType.None);
+                Add("edit", a => AgGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationType(a)),
                         $"Edit {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()} '{a.OrganizationTypeName}'")),
-                    30, DhtmlxGridColumnFilterType.None);
+                    30, AgGridColumnFilterType.None);
             }
 
             Add($"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
             Add($"{FieldDefinitionEnum.IsDefaultOrganizationType.ToType().ToGridHeaderString()}", a => a.IsDefaultOrganizationType.ToCheckboxImageOrEmptyForGrid(), 80);
             Add($"{FieldDefinitionEnum.IsFundingType.ToType().ToGridHeaderString()}", a => a.IsFundingType.ToCheckboxImageOrEmptyForGrid(), 80);
             Add($"{FieldDefinitionEnum.ShowOnProjectMaps.ToType().ToGridHeaderString()}", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 150);
-            Add($"{FieldDefinitionEnum.LegendColor.ToType().ToGridHeaderString()}", a => ToLegendColor(a), 90, DhtmlxGridColumnFilterType.None);
+            Add($"{FieldDefinitionEnum.LegendColor.ToType().ToGridHeaderString()}", a => ToLegendColor(a), 90, AgGridColumnFilterType.None);
         }
 
         private static HtmlString ToLegendColor(OrganizationType organizationType)

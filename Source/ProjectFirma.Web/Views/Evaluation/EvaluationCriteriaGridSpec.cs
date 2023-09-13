@@ -1,5 +1,5 @@
 ﻿using System.Web;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -11,12 +11,12 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public EvaluationCriteriaGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, ec => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, ec => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
+            Add("delete", ec => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, AgGridColumnFilterType.None);
+            Add("edit", ec => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, AgGridColumnFilterType.None);
 
-            Add("Name", a => a.EvaluationCriteriaName, 170, DhtmlxGridColumnFilterType.Text);
-            Add("Definition", a => a.EvaluationCriteriaDefinition, 170, DhtmlxGridColumnFilterType.Text);
-            Add("# of Criteria Values", a => a.GetNumberOfEvaluationCriteriaValues().ToString(), 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Name", a => a.EvaluationCriteriaName, 170, AgGridColumnFilterType.Text);
+            Add("Definition", a => a.EvaluationCriteriaDefinition, 170, AgGridColumnFilterType.Text);
+            Add("# of Criteria Values", a => a.GetNumberOfEvaluationCriteriaValues().ToString(), 70, AgGridColumnFilterType.SelectFilterStrict);
 
         }
 
@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationCriteriaManageFeature.HasEvaluationCriteriaManagePermission(currentFirmaSession, evaluationCriteria))
             {
-                return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluationCriteria.GetDeleteUrl(), true, evaluationCriteria.CanDelete());
+                return AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluationCriteria.GetDeleteUrl(), true, evaluationCriteria.CanDelete());
             }
             return new HtmlString(string.Empty);
         }
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             {
                 string linkTitleText = $"Edit {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriteria.EvaluationCriteriaName}'";
                 string editDialogUrl = evaluationCriteria.GetEditUrl();
-                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(editDialogUrl, linkTitleText);
+                return AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(editDialogUrl, linkTitleText);
             }
             return new HtmlString(string.Empty);
         }

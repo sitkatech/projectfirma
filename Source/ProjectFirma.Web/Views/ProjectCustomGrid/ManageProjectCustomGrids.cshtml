@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -30,7 +30,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
     <script type="text/javascript" src="@Url.Content("~/Views/ProjectCustomGrid/EditProjectCustomGridController.js")"></script>
     <script src="~/Content/Sortable.js"></script>
 }
@@ -46,7 +46,7 @@
 <h4> Full @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName List</h4>
 
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomFullGridSpec, ViewDataTyped.ProjectCustomFullGridName, ViewDataTyped.ProjectCustomFullGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ProjectCustomFullGridSpec, ViewDataTyped.ProjectCustomFullGridName, ViewDataTyped.ProjectCustomFullGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
 <br /><br /><br />
@@ -57,7 +57,7 @@
 </div>
 <h4> Default @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName List</h4>
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
 <br /><br /><br />
@@ -69,6 +69,6 @@
     </div>
     <h4> Report Center @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName List</h4>
     <div style="margin-top: 10px">
-        @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomReportsGridSpec, ViewDataTyped.ProjectCustomReportsGridName, ViewDataTyped.ProjectCustomReportsGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.ProjectCustomReportsGridSpec, ViewDataTyped.ProjectCustomReportsGridName, ViewDataTyped.ProjectCustomReportsGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 }

@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Models;
 using Newtonsoft.Json.Linq;
 
@@ -32,7 +32,7 @@ namespace LtInfo.Common.MvcResults
 {
     public class GridJsonNetJObjectResult<T> : JsonResult
     {
-        private readonly JObject _data;
+        private readonly JArray _data;
 
         private readonly GridSpec<T> _gridSpec;
         public GridSpec<T> GridSpec
@@ -73,14 +73,41 @@ namespace LtInfo.Common.MvcResults
             _gridSpec = gridSpec;
             _modelList = modelList;
             var list = rowLimit.HasValue ? modelList.Take(rowLimit.Value) : modelList;
+            var rows = new List<object>();
 
-            var anonymousObject = new
+            //_gridSpec.colu
+            foreach (var model in _modelList)
             {
-                rows = list.Select((t, i) => t.ToDhtmlxGridJsonRow(uniqueIDFunc?.Compile()(t) ?? i + 1, _gridSpec)).ToList()
-            };
+                // { columnSpec.Name : model.ToAgGrid }
+                 //var columnValues = gridSpec.Select(columnSpec => new object{ columnSpec .Co } ).ToList();
 
-            _data = JObject.FromObject(anonymousObject);
+                 var thisRow = new Dictionary<string,object>();
+                 foreach (var columnSpec in _gridSpec)
+                 {
+                     var data = model.ToAgGridJsonCellData(columnSpec);
+                     var columnName = columnSpec.ColumnNameForJavascript;
+                    thisRow.Add(columnName, data);
+
+                 }
+
+                 rows.Add(thisRow);
+                 //rows.Add($"{string.Join(", ", thisRow)}");
+            }
+
+
+            //var anonymousObject = new
+            //{
+            //    rows = list.Select((t, i) => t.ToDhtmlxGridJsonRow(uniqueIDFunc?.Compile()(t) ?? i + 1, _gridSpec)).ToList()
+
+            //};
+
+            //_data = JObject.FromObject(rows);
+            //_data = new JArray(rows);
+            _data = JArray.FromObject(rows);
         }
+
+
+        
 
         public override void ExecuteResult(ControllerContext context)
         {

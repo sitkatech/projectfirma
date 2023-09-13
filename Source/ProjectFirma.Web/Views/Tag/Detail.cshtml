@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
@@ -31,7 +31,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 <div class="panel panelFirma">
@@ -62,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
 

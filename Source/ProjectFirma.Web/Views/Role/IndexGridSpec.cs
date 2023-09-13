@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using ProjectFirmaModels.Models;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.Role
     {
         public IndexGridSpec()
         {
-            Add("Role", x => x.GetDisplayNameWithUrl(), 200, DhtmlxGridColumnFilterType.Html);
+            Add("Role", x => x.GetDisplayNameWithUrl(), 200, AgGridColumnFilterType.Html);
             Add("Count", x => x.GetPeopleWithRole().Count, 50);
         }
     }

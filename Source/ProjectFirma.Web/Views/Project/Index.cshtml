@@ -23,14 +23,14 @@
 @using ProjectFirma.Web.Views.Project
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectCreate
 @inherits Index
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 @section RightOfPageTitle
@@ -47,5 +47,5 @@
 </div>
 
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomFullGridSpec, ViewDataTyped.ProjectCustomFullGridName, ViewDataTyped.ProjectCustomFullGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ProjectCustomFullGridSpec, ViewDataTyped.ProjectCustomFullGridName, ViewDataTyped.ProjectCustomFullGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>

@@ -68,7 +68,7 @@
     "inputFile": "ScriptsCustom/sitkaAjax.js"
   },
   {
-    "outputFile": "ScriptsCustom/ModalDialogForm.es5.js",
+    "outputFile": "ScriptsCustom/ModalDialogForm.min.js",
     "inputFile": "ScriptsCustom/ModalDialogForm.js"
   }
 ]

@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -33,20 +33,20 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
         {
             if (hasDeletePermissions)
             {
-                Add(string.Empty,
-                    x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
-                    30,DhtmlxGridColumnFilterType.None);
-                Add(string.Empty,
-                    x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document {x.DocumentTitle}", true),
-                    30, DhtmlxGridColumnFilterType.None);
+                Add("delete",
+                    x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
+                    30,AgGridColumnFilterType.None);
+                Add("edit",
+                    x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document {x.DocumentTitle}", true),
+                    30, AgGridColumnFilterType.None);
             }
 
             Add("Document Title", x => x.DocumentTitle, 150);
-            Add("File Type", x => x.FileResourceInfo.OriginalFileExtension, 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("File Type", x => x.FileResourceInfo.OriginalFileExtension, 65, AgGridColumnFilterType.SelectFilterStrict);
             Add("Description", x => x.DocumentDescription, 600);
             Add("Document Category", x => x.DocumentCategory.DocumentCategoryDisplayName, 130);
             Add(FieldDefinitionEnum.DocumentLibrary.ToType().ToGridHeaderString(), x => x.DocumentLibrary.GetDisplayNameAsUrl(), 130);
-            Add(FieldDefinitionEnum.DocumentLibraryDocumentViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.DocumentLibraryDocumentViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, AgGridColumnFilterType.Html);
             Add("Last Updated Date", x => x.LastUpdateDate, 120);
             Add("Last Updated By", x => x.LastUpdatePerson.GetFullNameFirstLast(), 130);
         }

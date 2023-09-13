@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
@@ -29,7 +29,7 @@
 @inherits ProjectFirma.Web.Views.Results.ProjectDashboard
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
     <style>
         .pageTitle {
             display: none;
@@ -157,7 +157,7 @@
                         <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
                     </div>
                     <div class="panel-body">
-                        @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
                     </div>
                 </div>
             </div>

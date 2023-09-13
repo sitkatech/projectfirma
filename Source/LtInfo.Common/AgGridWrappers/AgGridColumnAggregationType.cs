@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridColumnAlignType.cs" company="Environmental Science Associates">
+<copyright file="AgGridColumnAggregationType.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -18,13 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace LtInfo.Common.DhtmlWrappers
+namespace LtInfo.Common.AgGridWrappers
 {
-    public enum DhtmlxGridColumnAlignType
+    public enum AgGridColumnAggregationType
     {
-        Left,
-        Right,
-        Center,
-        Justify,
+        Total,
+        //Count,
+        //Min,
+        //Max,
+        //Average,
+        None
+
     }
 }

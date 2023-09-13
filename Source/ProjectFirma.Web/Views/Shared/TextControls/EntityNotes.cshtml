@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using LtInfo.Common
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
 @inherits ProjectFirma.Web.Views.Shared.TextControls.EntityNotes
@@ -28,7 +28,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @if (ViewDataTyped.CanEditNotes)
 {
 <div class="pull-right">
-    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Note", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNoteUrl, "Add Note", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditNotes)
+    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Note", FirmaAgGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNoteUrl, "Add Note", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditNotes)
 </div>
 }
 @if (ViewDataTyped.Notes.Any())
@@ -38,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             <tr class="@entityNote.DisplayCssClass">
                 <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(entityNote.GetEditUrl(), string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
-                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
+                <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(AgGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
                 <td>@entityNote.GetLastUpdated().ToStringDateTime()</td>
                 <td>@entityNote.GetLastUpdatedBy()</td>
                 <td>@Html.Raw(entityNote.Note.HtmlEncodeWithBreaks())</td>

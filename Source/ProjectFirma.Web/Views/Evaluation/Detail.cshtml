@@ -22,7 +22,7 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
@@ -30,7 +30,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
     <script type="text/javascript" src="@Url.Content("~/Views/Evaluation/EditEvaluationCriteriaController.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Views/Evaluation/AddProjectEvaluationController.js")"></script>
 }
@@ -104,7 +104,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        @Html.DhtmlxGrid(ViewDataTyped.EvaluationCriteriaGridSpec, ViewDataTyped.EvaluationCriteriaGridName, ViewDataTyped.EvaluationCriteriaGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.EvaluationCriteriaGridSpec, ViewDataTyped.EvaluationCriteriaGridName, ViewDataTyped.EvaluationCriteriaGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
             </div>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        @Html.DhtmlxGrid(ViewDataTyped.EvaluationPortfolioGridSpec, ViewDataTyped.EvaluationPortfolioGridName, ViewDataTyped.EvaluationPortfolioGridDataUrl, "height:350px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.EvaluationPortfolioGridSpec, ViewDataTyped.EvaluationPortfolioGridName, ViewDataTyped.EvaluationPortfolioGridDataUrl, "height:350px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
             </div>
