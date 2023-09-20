@@ -760,6 +760,8 @@
     <Content Include="Content\combo-tree\comboTreePlugin.js" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="ScriptsCustom\agGrid\esa-ag-grid.js" />
+    <Content Include="ScriptsCustom\agGrid\DropdownFilterComponent.js" />
+    <Content Include="ScriptsCustom\agGrid\DropdownFloatingFilterComponent.js" />
     <Content Include="ScriptsCustom\agGrid\HtmlFloatingFilterComponent.js" />
     <Content Include="ScriptsCustom\agGrid\HtmlFilterComponent.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />

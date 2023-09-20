@@ -268,6 +268,12 @@ namespace LtInfo.Common.AgGridWrappers
                     case AgGridColumnFilterType.None:
                         columnDefinitionStringBuilder.Append(", \"filter\": false");
                         break;
+                    case AgGridColumnFilterType.SelectFilterStrict:
+                    case AgGridColumnFilterType.SelectFilterHtmlStrict:
+                        columnDefinitionStringBuilder.Append(", \"floatingFilterComponent\": DropdownFloatingFilterComponent");
+                        columnDefinitionStringBuilder.AppendFormat(", \"floatingFilterComponentParams\": {{suppressFilterButton: true, field: \"{0}\"}}", columnSpec.ColumnNameForJavascript);
+                        columnDefinitionStringBuilder.Append(", \"filter\": DropdownFilterComponent");
+                        break;
                     case AgGridColumnFilterType.FormattedNumeric:
                     case AgGridColumnFilterType.Numeric:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agNumberColumnFilter\"");
