@@ -210,4 +210,5 @@ VALUES
 (386, N'ReportsMenu', N'Reports'),
 (387, N'EnableSimpleAccomplishmentsDashboard', N'Enable Simple Accomplishments Dashboard'),
 (388, N'TrainingVideoViewableBy', N'Training Video Viewable By'),
-(389, N'AttachmentTypeViewableBy', N'Attachment Type Viewable By')
+(389, N'AttachmentTypeViewableBy', N'Attachment Type Viewable By'),
+(390, N'AccomplishmentDashboardMenu', N'Accomplishment Dashboard')

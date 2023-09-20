@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Results
         public SimpleAccomplishmentsDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
             List<ProjectFirmaModels.Models.PerformanceMeasureGroup> performanceMeasureGroups) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = "Accomplishments Dashboard";
+            PageTitle = FieldDefinitionEnum.AccomplishmentDashboardMenu.ToType().GetFieldDefinitionLabel();
             PerformanceMeasureGroups = performanceMeasureGroups;
 
             PerformanceMeasureGroupsAndMeasurementUnitTypeTotals =

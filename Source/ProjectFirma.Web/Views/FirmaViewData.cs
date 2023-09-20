@@ -188,12 +188,12 @@ namespace ProjectFirma.Web.Views
             var resultsMenu = new LtInfoMenuItem(FieldDefinitionEnum.ResultsMenu.ToType().GetFieldDefinitionLabel());
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
-                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, "Accomplishments Dashboard"));
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, FieldDefinitionEnum.AccomplishmentDashboardMenu.ToType().GetFieldDefinitionLabel()));
             }
 
             if (MultiTenantHelpers.UsesCustomProjectDashboardPage(firmaSession))
             {
-                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectDashboard()), firmaSession, "Project Dashboard"));
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectDashboard()), firmaSession, "Project Summary Dashboard"));
 
             }
             MultiTenantHelpers.AddFundingStatusMenuItem(resultsMenu, firmaSession);

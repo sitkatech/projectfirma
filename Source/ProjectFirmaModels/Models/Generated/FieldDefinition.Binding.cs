@@ -336,6 +336,7 @@ namespace ProjectFirmaModels.Models
         ReportsMenu = 386,
         EnableSimpleAccomplishmentsDashboard = 387,
         TrainingVideoViewableBy = 388,
-        AttachmentTypeViewableBy = 389
+        AttachmentTypeViewableBy = 389,
+        AccomplishmentDashboardMenu = 390
     }
 }
