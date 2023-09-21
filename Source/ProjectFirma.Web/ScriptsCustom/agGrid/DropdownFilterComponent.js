@@ -4,10 +4,11 @@
     }
 
     init(params) {
-        this.filterText = null;
+        //this.filterText = null;
         this.params = params;
         this.dropdownValues = [];
-        this.filterOptions = [];
+        this.selectedValues = [];
+        this.dropdowns = [];
         this.field = null;
         console.log(params);
         if (params.colDef) {
@@ -31,24 +32,28 @@
             }
             
         });
-        console.log(this.dropdownValues);
+        //console.log(this.dropdownValues);
         this.gui = document.createElement('div');
+        this.gui.classList.add("filter-options");
 
-
-        this.dropdownValues.forEach((element) => {
-            this.gui.innerHTML += '<label><input type="checkbox" name="' + element + '" id="' + element + '" class="mr-2" />' + element + '</label><br/>';
+        this.dropdownValues.sort().forEach((element) => {
+            this.gui.innerHTML += `<label class="filter-option"><input type="checkbox" name="${element}" class="grid-filter-checkbox" />${element}</label> `;
+            //this.gui.innerHTML += '<label><input type="checkbox" name="' + element + '" id="' + element + '" class="mr-2" />' + element + '</label><br/>';
         });
 
 
 
         this.onFilterChanged = () => {
-            this.extractFilterText();
+            this.extractFilterValues();
             this.params.filterChangedCallback();
         };
 
+        this.dropdowns = this.gui.querySelectorAll('.grid-filter-checkbox');
+        this.dropdowns.forEach(checkbox => checkbox.addEventListener('change', this.onFilterChanged));
+
         //this.eFilterText = this.gui.querySelector('#filterDropdown');
         //this.eFilterText.addEventListener('input', this.onFilterChanged);
-        //this.filterOptions
+        //  this.filterOptions
     }
 
     getNodeValue(rowNode) {
@@ -70,12 +75,14 @@
     }
 
     myMethodForTakingValueFromFloatingFilter(value) {
-        this.eFilterText.value = value;
+        this.selectedValues = value;
         this.onFilterChanged();
     }
 
-    extractFilterText() {
-        this.filterText = this.eFilterText.value;
+    extractFilterValues() {
+        const dropdownArray = Array.from(this.dropdowns) ;
+        const checkedDropdowns = dropdownArray.filter(x => x.checked);
+        this.selectedValues = checkedDropdowns.map(x => x.name);
     }
 
     getGui() {
@@ -112,32 +119,49 @@
 
         //if (value == null) return false;
         //return Number(value) > Number(filterValue);
-        const filterValue = this.filterText;
-        var textToSearch = value.toString().replace(/<[^>]*>/g, "");
-        var foundInText = (textToSearch.toLowerCase().indexOf(filterValue.toLowerCase()) != -1);
-        return foundInText;
+
+        var found = this.selectedValues.includes(value.toString());
+        
+        //var textToSearch = value.toString().replace(/<[^>]*>/g, "");
+        //var foundInText = (textToSearch.toLowerCase().indexOf(filterValue.toLowerCase()) != -1);
+        return found;
     }
 
     isFilterActive() {
         return (
-            this.filterText !== null &&
-            this.filterText !== undefined &&
-            this.filterText !== ''
+            this.selectedValues !== null &&
+            this.selectedValues !== undefined &&
+            this.selectedValues.length > 0
         );
     }
 
     getModel() {
-        return this.isFilterActive() ? this.eFilterText.value : null;
+        return this.isFilterActive() ? this.selectedValues : null;
     }
 
     setModel(model) {
-        this.eFilterText.value = model;
-        this.extractFilterText();
+        if (model == null) {
+            this.dropdowns.forEach(dropdown => {
+                dropdown.checked = false;
+            });
+        }
+        this.selectedValues = model;
+        this.extractFilterValues();
     }
 
     destroy() {
-        this.eFilterText.removeEventListener('input', this.onFilterChanged);
+        this.dropdowns.removeEventListener('change', this.onFilterChanged);
     }
+
+    // If floating filters are turned on for the grid, but you have no floating filter
+    // configured for this column, then the grid will check for this method. If this
+    // method exists, then the grid will provide a read-only floating filter for you
+    // and display the results of this method. For example, if your filter is a simple
+    // filter with one string input value, you could just return the simple string
+    // value here.
+    getModelAsString(model) {
+        return this.selectedValues.join(", ");
+    }   
 }
 
 

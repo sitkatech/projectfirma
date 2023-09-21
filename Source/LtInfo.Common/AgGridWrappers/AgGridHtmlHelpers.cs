@@ -270,8 +270,8 @@ namespace LtInfo.Common.AgGridWrappers
                         break;
                     case AgGridColumnFilterType.SelectFilterStrict:
                     case AgGridColumnFilterType.SelectFilterHtmlStrict:
-                        columnDefinitionStringBuilder.Append(", \"floatingFilterComponent\": DropdownFloatingFilterComponent");
-                        columnDefinitionStringBuilder.AppendFormat(", \"floatingFilterComponentParams\": {{suppressFilterButton: true, field: \"{0}\"}}", columnSpec.ColumnNameForJavascript);
+                        //columnDefinitionStringBuilder.Append(", \"floatingFilterComponent\": DropdownFloatingFilterComponent");
+                        //columnDefinitionStringBuilder.AppendFormat(", \"floatingFilterComponentParams\": {{suppressFilterButton: false, field: \"{0}\"}}", columnSpec.ColumnNameForJavascript);
                         columnDefinitionStringBuilder.Append(", \"filter\": DropdownFilterComponent");
                         break;
                     case AgGridColumnFilterType.FormattedNumeric:
@@ -284,12 +284,6 @@ namespace LtInfo.Common.AgGridWrappers
                         // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"dateString\"");
                         break;
                     case AgGridColumnFilterType.Html:
-                    //    floatingFilterComponent: NumberFloatingFilterComponent,
-                    //    floatingFilterComponentParams:
-                    //{
-                    //    suppressFilterButton: true,
-                    //},
-                    //    filter: NumberFilterComponent,
                         columnDefinitionStringBuilder.Append(", \"floatingFilterComponent\": HtmlFloatingFilterComponent");
                         columnDefinitionStringBuilder.Append(", \"floatingFilterComponentParams\": {suppressFilterButton: true,}");
                         columnDefinitionStringBuilder.Append(", \"filter\": HtmlFilterComponent");
