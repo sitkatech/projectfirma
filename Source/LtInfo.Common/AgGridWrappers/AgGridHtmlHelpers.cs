@@ -78,15 +78,20 @@ namespace LtInfo.Common.AgGridWrappers
 
             const string template = @"    <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
     <!-- The grid will be the size that this element is given. -->
-    <div>
-        <div ><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
-      </div>
+    <div class=""row"">
+        <div class=""col-md-8""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
+        <div class=""col-md-4 text-right""><button onclick=""onBtnExport()"">Download grid as CSV file</button></div>
+    </div>
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
     <script type=""text/javascript"">
 
             function {0}ClearFilters(){{
                 {0}GridOptions.api.setFilterModel(null);
                 document.getElementById(""{0}ClearFilters"").style.display = ""none"";
+            }}
+
+            function onBtnExport() {{
+                {0}GridOptions.api.exportDataAsCsv();
             }}
 
 
@@ -146,6 +151,7 @@ namespace LtInfo.Common.AgGridWrappers
         function deselect(){{
             {0}GridOptions.api.deselectAll()
         }}
+
 
         // Grid Options are properties passed to the grid
         const {0}GridOptions = {{
