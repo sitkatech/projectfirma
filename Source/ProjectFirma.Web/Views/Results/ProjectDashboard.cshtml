@@ -35,11 +35,11 @@
             display: none;
         }
         .subSectionName {
-               margin-bottom: 20px
-            }
-            div.logo:after {
-                content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
-            }
+            margin-bottom: 20px
+        }
+        div.logo:after {
+            content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
+        }
 
         .counterSection {
             padding-bottom: 10px;
@@ -47,7 +47,7 @@
 
         #accomplishmentsDashboard .counterHeader h4 {
             font-size: 24px;
-
+            color: #2e6580;
         }
 
         .projectFilters .dropdown-menu {
@@ -73,8 +73,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
                 <div class="intro-text">
-                    <h1 class="subSectionName">Project Dashboard</h1>
-                    <div class="logo"></div>
+                    <h1 class="subSectionName">Project Summary Dashboard</h1>
                 </div>
             </div>
         </div>
@@ -111,7 +110,7 @@
             </select>
         </div>
         <div style="display: flex; flex-direction: column; justify-content: flex-end">
-            <button type="button" class="btn btn-firma btn-sm" onclick="clearFilters()">Clear Filters</button>
+            <button type="button" class="btn btn-firma btn-sm" style="background-color: #eee; color: #777;" onclick="clearFilters()">Clear Filters</button>
         </div>
     </div>
     <div class="row counterHeader">
@@ -127,21 +126,11 @@
                     <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
                 </div>
                 <div id="counterNumbers">
-                    <div class="row counterSection">
-                        <div class="col-xs-12 text-center">
-                            <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Total Projects
-                        </div>
-                    </div>
-                    <div class="row counterSection">
-                        <div class="col-xs-12 text-center">
-                            <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Project Sponsors
-                        </div>
-                    </div>
-                    <div class="row counterSection">
-                        <div class="col-xs-12 text-center">
-                            <span id="totalUnderservedCommunities" class="counter">@ViewDataTyped.TotalProjectsInUnderservedCommunities.ToGroupedNumeric()</span><span style="margin: 0 10px;">&bull;</span>Projects in Underserved Communities
-                        </div>
-                    </div>
+                    <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> Total Projects
+                    <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                    <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> Project Sponsors
+                    <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                    <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> Total Investment
                 </div>
             </div>
         </div>
@@ -177,25 +166,32 @@
         SitkaAjax.get(newUrl, function (result) {
             jQuery("#totalProjects").html(result.ProjectCount);
             jQuery("#totalPartners").html(result.PartnerCount);
-            jQuery("#totalUnderservedCommunities").html(result.ProjectsInUnderservedCommunitiesCount);
+            jQuery("#totalInvestment").html(result.TotalInvestment);
 
             jQuery("#counterLoader").hide();
             jQuery("#counterNumbers").show();
         });
     };
 
-
-    function hideGridLoadingBar() {
-        jQuery("#" + "@ViewDataTyped.ProjectCustomDefaultGridName" + "LoadingBar").hide();
-    }
-
     function loadProjectGrid() {
         var projectStageIDs = jQuery("#projectStageDropdown").val();
         var solutions = jQuery("#solutionDropdown").val();
         var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ReloadProjectGridDataUrl.ToJS());
         var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs).replace("@ProjectDashboardViewData.SolutionsQueryStringValuePlaceholder", solutions);
-        jQuery("#" + "@ViewDataTyped.ProjectCustomDefaultGridName" + "LoadingBar").show();
-        Sitka.@(ViewDataTyped.ProjectCustomDefaultGridName).load(newUrl, hideGridLoadingBar);
+        // reload grid data
+        fetch(newUrl).then(response => response.json())
+            .then(data => {
+                // load fetched data into grid
+                @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.setRowData(data);
+                @(ViewDataTyped.ProjectCustomDefaultGridName)TotalRowCount = data.length;
+                document.getElementById("@(ViewDataTyped.ProjectCustomDefaultGridName)RowCountText").innerText="Currently Viewing "+ @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.getDisplayedRowCount()+ " out of " + @(ViewDataTyped.ProjectCustomDefaultGridName)TotalRowCount + " @(ViewDataTyped.ProjectCustomDefaultGridSpec.ObjectNamePlural)";
+                @(ViewDataTyped.ProjectCustomDefaultGridName)ResizeGridWithVerticalFill(); // insert method to resize grid vertically
+                var @(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData = @(ViewDataTyped.ProjectCustomDefaultGridName)GeneratePinnedBottomData();
+                if(@(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData){
+                    @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.setPinnedBottomRowData([@(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData]);
+                }
+            });
+        @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.showLoadingOverlay();
     }
 
     function loadCharts()
@@ -262,7 +258,7 @@
             });
         });
 
-        // since we are not using the onchange event, but only want to reload if there is a change after the drop down is closed, 
+        // since we are not using the onchange event, but only want to reload if there is a change after the drop down is closed,
         // need to keep track of the state of the drop downs separately
         var lastProjectStageIDs = jQuery("#projectStageDropdown").val();
         var lastSolutions = jQuery("#solutionDropdown").val();

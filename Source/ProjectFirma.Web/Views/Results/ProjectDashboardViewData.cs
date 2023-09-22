@@ -19,18 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -45,7 +39,8 @@ namespace ProjectFirma.Web.Views.Results
         public List<ProjectStage> ProjectStages { get; }
         public int TotalProjects { get; }
         public int TotalPartners { get; }
-        public int TotalProjectsInUnderservedCommunities { get; }
+        public decimal TotalInvestment { get; }
+
         public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
         public string ProjectCustomDefaultGridName { get; }
         public string ProjectCustomDefaultGridDataUrl { get; }
@@ -58,12 +53,12 @@ namespace ProjectFirma.Web.Views.Results
         public ProjectDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
             int projectCount,
             int partnerCount,
-            int projectsInUnderservedCommunitiesCount,
+            decimal totalInvestment,
             ProjectCustomGridSpec projectGridSpec,
             List<SelectListItem> solutionSelectListItems,
             ProjectDashboardChartsViewData projectDashboardChartsViewData) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = "Project Dashboard";
+            PageTitle = "Project Summary Dashboard";
 
             ProjectStages = new List<ProjectStage>()
             {
@@ -76,7 +71,7 @@ namespace ProjectFirma.Web.Views.Results
 
             TotalProjects = projectCount;
             TotalPartners = partnerCount;
-            TotalProjectsInUnderservedCommunities = projectsInUnderservedCommunitiesCount;
+            TotalInvestment = totalInvestment;
 
             ProjectCustomDefaultGridSpec = projectGridSpec;
             ProjectCustomDefaultGridName = "projectListGrid";
@@ -91,6 +86,7 @@ namespace ProjectFirma.Web.Views.Results
 
 
             ProjectDashboardChartsViewData = projectDashboardChartsViewData;
+
         }
     }
 }

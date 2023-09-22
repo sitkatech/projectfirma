@@ -764,7 +764,7 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
 
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
                 .ProjectCustomGridConfigurations
@@ -790,8 +790,8 @@ namespace ProjectFirma.Web.Controllers
                 new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
 
             var viewData =
-                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count,
-                    projectsInUnderservedCommunities.Count, projectGridSpec, solutionsSelectList, projectDashboardChartsViewData);
+                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalInvestment,
+                    projectGridSpec, solutionsSelectList, projectDashboardChartsViewData);
             return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
         }
 
@@ -817,16 +817,17 @@ namespace ProjectFirma.Web.Controllers
         public JsonNetJObjectResult ProjectDashboardProjectSummary()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
             return new JsonNetJObjectResult(new
             {
                 ProjectCount = projects.Count.ToGroupedNumeric(),
                 PartnerCount = partners.Count.ToGroupedNumeric(),
-                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count.ToGroupedNumeric()
+                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count.ToGroupedNumeric(),
+                TotalInvestment = totalInvestment.ToGroupedNumeric()
             });
         }
 
-        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities)
+        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities, out decimal totalInvestment)
         {
             projects = GetProjectsForProjectDashboard();
 
@@ -838,6 +839,38 @@ namespace ProjectFirma.Web.Controllers
                 "Severely Disadvantaged Community"
             };
             projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
+
+
+            var fundingSourceCustomAttributeDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributes
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var fundingSourceCustomAttributeValueDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeValues
+                .GroupBy(x => x.FundingSourceCustomAttributeID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+
+            // NCRP Award custom attribute
+            var fundingSourceCustomAttributeType =
+                HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.SingleOrDefault(x =>
+                    x.FundingSourceCustomAttributeTypeName.Equals("NCRP Award"));
+            
+            totalInvestment = 0;
+            if (fundingSourceCustomAttributeType != null)
+            {
+                var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList();
+
+                var awardFundingSourceIDs = fundingSources.Where(x =>
+                    x.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType,
+                        fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary).Equals("Yes")).Select(x => x.FundingSourceID).ToList();
+
+                var matchedFundingSourceIDs = fundingSources.Where(x =>
+                    x.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType,
+                        fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary).Equals("No")).Select(x => x.FundingSourceID).ToList();
+
+
+                var totalAwarded = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(awardFundingSourceIDs) ?? 0));
+                var totalMatched = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0));
+                totalInvestment = totalAwarded + totalMatched;
+            }
         }
 
         private GoogleChartJson GetUnderservedCommunitiesPieChartForProjectDashboard(List<Project> projects,  List<Project> projectsInUnderservedCommunities)
@@ -867,7 +900,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectDashboardCharts()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
             var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
