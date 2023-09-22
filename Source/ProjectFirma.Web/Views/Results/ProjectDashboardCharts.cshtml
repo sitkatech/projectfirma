@@ -51,6 +51,11 @@
     .googleTooltipTableTotalRow {
         border-top: solid 2px #666;
     }
+    
+    .chartBody {
+        display: @(ViewDataTyped.HasData ? "inherit" : "none" )
+    }
+
 </style>
 
 <div class="row">
@@ -58,6 +63,10 @@
     <div class="col-xs-12">
         <div class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.UnderservedCommunitiesViewGoogleChartViewData); }
+            @if (!ViewDataTyped.HasData)
+            {
+                <div style="padding: 20px 5px">No Data</div>
+            }
         </div>
     </div>
 

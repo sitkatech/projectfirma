@@ -757,6 +757,12 @@ namespace ProjectFirma.Web.Controllers
             return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
         }
 
+
+        private static int ProjectTypeClassificationID = 17;
+        private static int CountyGeospatialAreaTypeID = 24;
+        private static int TribeGeospatialAreaTypeID = 22;
+        private static int NotTriballyOwnedGeospatialAreaID = 12143;
+
         // Allow admin access only for now
         [FirmaAdminFeature]
         public ViewResult ProjectDashboard()
@@ -781,8 +787,16 @@ namespace ProjectFirma.Web.Controllers
                     SaveFiltersInCookie = true
                 };
 
-            var tempIDToSolutionValue = GetSolutionsDictionaryForProjectDashboard();
-            var solutionsSelectList = tempIDToSolutionValue.ToSelectList(x => x.Key.ToString(CultureInfo.InvariantCulture), x => x.Value).ToList();
+            var projectTypes = HttpRequestStorage.DatabaseEntities.Classifications.Where(x => x.ClassificationSystemID == ProjectTypeClassificationID).OrderBy(x => x.DisplayName)
+                .ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+
+            var countiesAndTribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas
+                .Where(x =>
+                    (x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID ||
+                     x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) &&
+                    x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).OrderBy(x => x.GeospatialAreaShortName)
+                .ToSelectList(x => x.GeospatialAreaID.ToString(CultureInfo.InvariantCulture),
+                    x => x.GeospatialAreaShortName);
 
             var underservedCommunitiesGoogleChart =
                 GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
@@ -791,7 +805,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalInvestment,
-                    projectGridSpec, solutionsSelectList, projectDashboardChartsViewData);
+                    projectGridSpec, projectTypes, countiesAndTribes, projectDashboardChartsViewData);
             return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
         }
 
@@ -909,15 +923,23 @@ namespace ProjectFirma.Web.Controllers
         private List<Project> GetProjectsForProjectDashboard()
         {
             var projectStages = GetProjectStagesForProjectDashboard();
-            var solutions = GetSolutionsForProjectDashboard();
+            var projectTypes = GetProjectTypesForProjectDashboard();
+            var countiesAndTribes = GetCountiesAndTribesForProjectDashboard();
 
             var projects = GetProjectEnumerableWithIncludesForPerformance()
                 .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
-            if (solutions.Count > 0)
+            if (projectTypes.Count > 0)
             {
-                projects = projects.Where(x => x.ProjectCustomAttributes.Any(y =>
-                    y.ProjectCustomAttributeTypeID == 121
-                    && y.ProjectCustomAttributeValues.Any(z => solutions.Contains(z.AttributeValue)))).ToList();
+                projects = projects.Where(x => x.ProjectClassifications.Any(y =>
+                    y.Classification.ClassificationSystemID == ProjectTypeClassificationID && projectTypes.Contains(y.ClassificationID))).ToList();
+            }
+
+            if (countiesAndTribes.Count > 0)
+            {
+                projects = projects.Where(x => x.ProjectGeospatialAreas.Any(y =>
+                    (y.GeospatialArea.GeospatialAreaTypeID == CountyGeospatialAreaTypeID || y.GeospatialArea.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) 
+                    && y.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID
+                    && countiesAndTribes.Contains(y.GeospatialAreaID))).ToList();
             }
 
             return projects;
@@ -955,42 +977,35 @@ namespace ProjectFirma.Web.Controllers
             return projectStages;
         }
 
-        private List<string> GetSolutionsForProjectDashboard()
+        private List<int> GetProjectTypesForProjectDashboard()
         {
-            var solutionTempIDs = new List<int>();
-            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.SolutionsQueryStringParameter]))
+            var projectTypeIDs = HttpRequestStorage.DatabaseEntities.Classifications
+                .Where(x => x.ClassificationID == ProjectTypeClassificationID).Select(x => x.ClassificationID).ToList();
+
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectTypesQueryStringParameter]))
             {
-                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.SolutionsQueryStringParameter]
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectTypesQueryStringParameter]
                     .Split(',');
-                solutionTempIDs = filterValuesAsString.Select(int.Parse).ToList();
+                projectTypeIDs = filterValuesAsString.Select(int.Parse).ToList();
             }
-            var tempIDToSolutionValue = GetSolutionsDictionaryForProjectDashboard();
-            var solutions = tempIDToSolutionValue.Where(x => solutionTempIDs.Contains(x.Key)).Select(x => x.Value).ToList();
-            return solutions;
+            return projectTypeIDs;
         }
 
-        private Dictionary<int, string> GetSolutionsDictionaryForProjectDashboard()
+        private List<int> GetCountiesAndTribesForProjectDashboard()
         {
-            var tempIDToSolutionValue = new Dictionary<int, string>();
-            var solutionCustomAttribute = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == 121);
-            
-            if (solutionCustomAttribute != null && solutionCustomAttribute.ProjectCustomAttributeTypeOptionsSchema != null)
+            var geospatialAreaIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreas
+                .Where(x =>
+                    (x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID ||
+                     x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) &&
+                    x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).Select(x => x.GeospatialAreaID).ToList();
+
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.CountiesTribesQueryStringParameter]))
             {
-                var solutions = JsonConvert.DeserializeObject<List<string>>(solutionCustomAttribute.ProjectCustomAttributeTypeOptionsSchema);
-                if (solutions == null)
-                {
-                    return tempIDToSolutionValue;
-                }
-                var orderedSolutions = solutions.OrderBy(x => x).ToList();
-                for (int i = 0;  i < orderedSolutions.Count; i++)
-                {
-                    // make tempID start at 1 instead of 0
-                    tempIDToSolutionValue[i + 1] = solutions[i];
-                }
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.CountiesTribesQueryStringParameter]
+                    .Split(',');
+                geospatialAreaIDs = filterValuesAsString.Select(int.Parse).ToList();
             }
-
-            return tempIDToSolutionValue;
-
+            return geospatialAreaIDs;
         }
     }
 }

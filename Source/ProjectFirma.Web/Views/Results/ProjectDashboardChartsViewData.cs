@@ -25,10 +25,16 @@ namespace ProjectFirma.Web.Views.Results
     public class ProjectDashboardChartsViewData : FirmaUserControlViewData
     {
         public readonly ViewGoogleChartViewData UnderservedCommunitiesViewGoogleChartViewData;
+        public bool HasData { get; }
 
         public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
+            HasData = false;
+            foreach (var slice in ((GooglePieChartConfiguration)underservedCommunitiesGoogleChart.GoogleChartConfiguration).Slices)
+            {
+                HasData = HasData || slice.Value > 0;
+            }
         }
     }
 }

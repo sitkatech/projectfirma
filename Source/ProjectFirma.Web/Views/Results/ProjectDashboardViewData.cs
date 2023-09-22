@@ -32,10 +32,13 @@ namespace ProjectFirma.Web.Views.Results
     {
         public const string ProjectStagesQueryStringParameter = "ProjectStages";
         public static string ProjectStagesQueryStringValuePlaceholder = "ProjectStagesPlaceholder";
-        public const string SolutionsQueryStringParameter = "Solutions";
-        public static string SolutionsQueryStringValuePlaceholder = "SolutionsPlaceholder";
+        public const string ProjectTypesQueryStringParameter = "ProjectTypes";
+        public static string ProjectTypesQueryStringValuePlaceholder = "ProjectTypesPlaceholder";
+        public const string CountiesTribesQueryStringParameter = "CountiesAndTribes";
+        public static string CountiesTribesQueryStringValuePlaceholder = "CountiesTribesPlaceholder";
 
-        public List<SelectListItem> Solutions { get; }
+        public IEnumerable<SelectListItem> ProjectTypes { get; }
+        public IEnumerable<SelectListItem> CountiesAndTribes { get; }
         public List<ProjectStage> ProjectStages { get; }
         public int TotalProjects { get; }
         public int TotalPartners { get; }
@@ -55,7 +58,8 @@ namespace ProjectFirma.Web.Views.Results
             int partnerCount,
             decimal totalInvestment,
             ProjectCustomGridSpec projectGridSpec,
-            List<SelectListItem> solutionSelectListItems,
+            IEnumerable<SelectListItem> projectTypeSelectListItems,
+            IEnumerable<SelectListItem> countyTribeSelectListItems,
             ProjectDashboardChartsViewData projectDashboardChartsViewData) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Project Summary Dashboard";
@@ -67,7 +71,8 @@ namespace ProjectFirma.Web.Views.Results
                 ProjectStage.PostImplementation,
                 ProjectStage.Completed
             };
-            Solutions = solutionSelectListItems;
+            ProjectTypes = projectTypeSelectListItems;
+            CountiesAndTribes = countyTribeSelectListItems;
 
             TotalProjects = projectCount;
             TotalPartners = partnerCount;
@@ -78,11 +83,17 @@ namespace ProjectFirma.Web.Views.Results
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(tc => tc.ProjectDashboardProjectsGridJsonData());
 
             ProjectDashboardSummaryUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardProjectSummary())}?" +
-                                         $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}&{SolutionsQueryStringParameter}={SolutionsQueryStringValuePlaceholder}";
+                                         $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}" +
+                                         $"&{ProjectTypesQueryStringParameter}={ProjectTypesQueryStringValuePlaceholder}" +
+                                         $"&{CountiesTribesQueryStringParameter}={CountiesTribesQueryStringValuePlaceholder}";
             ReloadProjectGridDataUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardProjectsGridJsonData())}?" +
-                                       $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}&{SolutionsQueryStringParameter}={SolutionsQueryStringValuePlaceholder}";
+                                       $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}" +
+                                       $"&{ProjectTypesQueryStringParameter}={ProjectTypesQueryStringValuePlaceholder}" +
+                                       $"&{CountiesTribesQueryStringParameter}={CountiesTribesQueryStringValuePlaceholder}";
             ProjectDashboardChartsUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardCharts())}?" +
-                                        $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}&{SolutionsQueryStringParameter}={SolutionsQueryStringValuePlaceholder}";
+                                        $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}" +
+                                        $"&{ProjectTypesQueryStringParameter}={ProjectTypesQueryStringValuePlaceholder}" +
+                                        $"&{CountiesTribesQueryStringParameter}={CountiesTribesQueryStringValuePlaceholder}";
 
 
             ProjectDashboardChartsViewData = projectDashboardChartsViewData;
