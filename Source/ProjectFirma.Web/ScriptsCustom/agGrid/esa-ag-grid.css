@@ -27,3 +27,7 @@
 .filter-options label.filter-option:hover {
         background-color: #f1f5f9;
 }
+
+.gridDownloadContainer .excelbutton {
+    margin-left: 10px;
+}
