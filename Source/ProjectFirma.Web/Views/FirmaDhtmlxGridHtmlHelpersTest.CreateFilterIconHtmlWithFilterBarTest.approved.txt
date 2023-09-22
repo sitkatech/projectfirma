@@ -1,1 +1,0 @@
-﻿<a class="filter" href="javascript:void(0);" onclick="Sitka.testGridName.showHideFilterRow()" title="Show/hide filters">Show/hide filters</a>&nbsp;

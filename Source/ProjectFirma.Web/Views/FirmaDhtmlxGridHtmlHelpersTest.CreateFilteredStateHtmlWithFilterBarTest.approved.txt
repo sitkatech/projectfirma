@@ -1,1 +1,0 @@
-﻿<span id="testGridNameFilteredButton" style="display:none">(<a href="javascript:void(0);" onclick="Sitka.testGridName.clearGridFilters()">clear filters</a>)</span>

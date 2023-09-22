@@ -48,17 +48,14 @@ namespace ProjectFirma.Web.Views
         /// <returns></returns>
         public static HtmlString AgGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, AgGridResizeType agGridResizeType)
         {
-            var dhtmlxGridHeader = AgGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, gridName, ExcelDownloadUrl);
 
-            var saveGridSettingsUrl = SitkaRoute<GridSettingsController>.BuildUrlFromExpression(c => c.SaveGridSettings());
-
-            var dhtmlxGrid = AgGridHtmlHelpers.AgGridImpl(gridSpec,
+            var agGrid = AgGridHtmlHelpers.AgGridImpl(gridSpec,
                 gridName,
                 optionalGridDataUrl,
                 $"background-color:white;{styleString}",
-                null, dhtmlxGridHeader, agGridResizeType, saveGridSettingsUrl);
+                agGridResizeType);
 
-            return new HtmlString(dhtmlxGrid);
+            return new HtmlString(agGrid);
         }
     }
 }

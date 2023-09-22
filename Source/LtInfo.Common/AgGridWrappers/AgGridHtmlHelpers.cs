@@ -62,17 +62,15 @@ namespace LtInfo.Common.AgGridWrappers
         /// <returns></returns>
         public static HtmlString AgGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return new HtmlString(AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, null, string.Empty, AgGridResizeType.None, ""));
+            return new HtmlString(AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, AgGridResizeType.None));
         }
 
-        public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, int? splitAtColumn)
+        public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, splitAtColumn, string.Empty, AgGridResizeType.None,"");
+            return AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, AgGridResizeType.None);
         }
 
-        public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl,
-            string styleString, int? splitAtColumn, string metaDivHtml, AgGridResizeType agGridResizeType,
-            string saveGridSettingsUrl)
+        public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString,  AgGridResizeType agGridResizeType)
         {
 
 
@@ -365,342 +363,7 @@ namespace LtInfo.Common.AgGridWrappers
             return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
-        // <summary>
-        // Template for <see cref="RenderGridJavascriptDocumentReady{T}"/>
-        // </summary>
-//        private const string GridJavascriptDocumentReady = @"
-//    jQuery(document).ready(function ()
-//    {{
-//        // Initialize Grid
-//        Sitka.{0} = new Sitka.Grid.Class.Grid(""{0}"", ""{0}DivID"", null, ""scrollToFirst"", ""{1}"", {2}, ""{14}"");
-//        // Initialize Grid Columns
-//        Sitka.{0}.setGridColumns(
-//        [
-//{3}
-//        ]);
 
-//        var columnFilterList = ""{4}"";
-//        {5}
-        
-//        Sitka.{0}.buildWithArguments(null, {6}, columnFilterList, {7}, {8}, {9}, {15});
-
-//        // Show loading bar
-//        jQuery(""#{0}LoadingBar"").show();
-//        var showFilterBar = {10};
-//        if(showFilterBar)
-//        {{
-//            Sitka.{0}.setupServerFilterSaving();
-//            Sitka.{0}.setupFilterCountElement(""{0}FilteredRowCount"");
-//            Sitka.{0}.setFilteringButtonTagName(""{0}FilteredButton"");
-//        }}
-//        Sitka.{0}.grid.attachEvent(""onXLE"", function (gridObj, count){{
-//            Sitka.{0}.unfilteredRowCount = Sitka.{0}.grid.getRowsNum();
-//            jQuery(""#{0}FilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
-//            jQuery(""#{0}UnfilteredRowCount"").text(Sitka.{0}.unfilteredRowCount);
-//            jQuery(""#{0}LoadingBar"").hide();
-//            jQuery(""#{0}DivID"").show();
-//            // if there are no rows, don't show grid and show a ""No records available"" message
-//            if(Sitka.{0}.unfilteredRowCount > 0)
-//            {{
-//                Sitka.{0}.showHideFilterRow(showFilterBar);
-//                Sitka.{0}.hideGridInstructions();
-//            }}
-//            else
-//            {{
-//                Sitka.{0}.showHideFilterRow(false);
-//                Sitka.{0}.setGridInstructions(""<div style=\""padding:10px; font-weight:bold\"">{11}</div>"", true);
-//            }}
-//        }});
-    
-//        Sitka.{0}.grid.attachEvent(""onCheckbox"", function(rId,cInd,state) {{
-//            Sitka.{0}.updateSelectedCheckboxCount();
-//        }});
-        
-//        Sitka.{0}.grid.attachEvent(""onFilterEnd"", function() {{
-//            Sitka.{0}.updateSelectedCheckboxCount();
-//        }});
-
-//        {12}
-//        {13}
-//    }});";
-
-        /// <summary>
-        /// Renders the jQuery(document).ready part of the grid
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="gridSpec"></param>
-        /// <param name="gridName"></param>
-        /// <param name="optionalGridDataUrl"></param>
-        /// <param name="splitAtColumn"></param>
-        /// <param name="agGridResizeType"></param>
-        /// <param name="saveGridSettingsUrl"></param>
-        /// <returns></returns>
-        //private static string RenderGridJavascriptDocumentReady<T>(GridSpec<T> gridSpec, string gridName,
-        //    string optionalGridDataUrl, int? splitAtColumn, AgGridResizeType agGridResizeType,
-        //    string saveGridSettingsUrl)
-        //{
-        //    const string indent = "            ";
-        //    var gridColumnsJavascriptFunctions = BuildGridColumns(gridSpec, indent);
-        //    var dataUrlReadyForJavascript = String.IsNullOrWhiteSpace(optionalGridDataUrl) ? "null" : $"\"{optionalGridDataUrl}\"";
-        //    var useSmartRendering = IsUsingSmartRendering(gridSpec);
-        //    var splitAtColumnJavascriptVariable = (splitAtColumn != null) ? splitAtColumn.ToString() : "null";
-            
-        //    var resizeGridFunction = agGridResizeType == AgGridResizeType.VerticalFillHorizontalAutoFit
-        //        ? GenerateVerticalFillResizeGridFunction(gridName)
-        //        : string.Empty;
-
-        //    var verticalResizeFunction = agGridResizeType == AgGridResizeType.VerticalResizableHorizontalAutoFit 
-        //        ? GenerateVerticallyResizableFunction(gridName) 
-        //        : string.Empty;
-
-        //    var result = String.Format(GridJavascriptDocumentReady,
-        //        gridName,
-        //        Skin,
-        //        gridSpec.SkinRowHeight,
-        //        gridColumnsJavascriptFunctions,
-        //        gridSpec.ColumnFilterListForJavascript,
-        //        gridSpec.GetColumnTotals(gridName),
-        //        string.IsNullOrWhiteSpace(gridSpec.GroupingHeader) ? "null" : $"\"{gridSpec.GroupingHeader}\"",
-        //        dataUrlReadyForJavascript,
-        //        useSmartRendering.ToString().ToLower(),
-        //        splitAtColumnJavascriptVariable,
-        //        gridSpec.ShowFilterBar.ToString().ToLower(),
-        //        gridSpec.GridInstructionsWhenEmpty,
-        //        verticalResizeFunction,
-        //        resizeGridFunction, 
-        //        saveGridSettingsUrl,
-        //        gridSpec.InitWidthsByPercentage.ToString().ToLower());
-
-        //    return result;
-        //}
-
-        //private static string GenerateVerticallyResizableFunction(string gridName)
-        //{
-        //    return string.Format(@"
-        //    var gridDiv = jQuery(""#{0}DivID"");
-        //    var parentDiv = gridDiv.parent();
-        //    gridDiv.resizable({{
-        //        handles: ""s"",
-        //        stop: function()
-        //        {{
-        //            Sitka.{0}.grid.setSizes();
-        //        }},
-        //        resize: function(event, ui)
-        //        {{
-        //            ui.size.width = ui.originalSize.width;
-        //        }}
-        //    }});
-        //    jQuery(window).resize(function()
-        //    {{
-        //        Sitka.{0}.resizeGridWidths(); 
-        //    }});
-        //    Sitka.{0}.resizeGridWidths();", gridName);
-        //}
-
-        //private static string GenerateVerticalFillResizeGridFunction(string gridName)
-        //{
-        //    const string template = @"
-        //Sitka.{0}.resizeGridWithVerticalFill();
-        //jQuery(window).resize(function()
-        //{{
-        //    Sitka.{0}.resizeGridWithVerticalFill();
-        //}});";
-        //    return string.Format(template, gridName);
-        //}
-
-        public static string BuildDhtmlxGridHeader<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
-        {
-            var filteredStateHtml = CreateFilteredStateHtml(gridName, gridSpec.ShowFilterBar);
-            var gridHeaderIconsHtml = CreateGridHeaderIconsHtml(gridSpec, gridName, excelDownloadUrl);
-
-            return $@"
-    <span class=""record-count"">
-        {CreateViewingRowCountGridHeaderHtml(gridName, gridSpec.ObjectNamePlural)}
-        {filteredStateHtml}
-    </span>
-    <span class=""checked-checkboxes"" style=""display:none;margin-left:20px;"">
-        {CreateViewingCheckedCheckboxesCountGridHeaderHtml(gridName, gridSpec.ObjectNamePlural)}
-    </span>
-    <span class=""actions pull-right"">
-    {gridHeaderIconsHtml}
-    </span>";
-        }
-
-        private static string CreateGridHeaderIconsHtml<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
-        {
-            var filteredExcelDownloadIconHtml = CreateFilteredExcelDownloadIconHtml(gridName, excelDownloadUrl);
-            var customExcelDownloadIconHtml = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
-            var createIconHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
-            var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
-            var generateReportsIconHtml = (gridSpec.GenerateReportModalDialogForm != null) ? CreateGenerateReportUrlHtml(gridName, gridSpec.GenerateReportModalDialogForm) : null;
-            var arbitraryHtml = CreateArbitraryHtml(gridSpec.ArbitraryHtml, "    ");
-            return $@"
-            {
-                    (!string.IsNullOrWhiteSpace(arbitraryHtml)
-                        ? $"<span>{arbitraryHtml}</span>"
-                        : string.Empty)
-                }
-            {
-                    (!string.IsNullOrWhiteSpace(createIconHtml)
-                        ? $"<span>{createIconHtml}</span>"
-                        : string.Empty)
-                }
-            {(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}
-            {(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}
-            {
-                    (!string.IsNullOrWhiteSpace(filteredExcelDownloadIconHtml)
-                        ? $"<span>{filteredExcelDownloadIconHtml}</span>"
-                        : string.Empty)
-                }
-            {
-                    (!string.IsNullOrWhiteSpace(customExcelDownloadIconHtml)
-                        ? $"<span>{customExcelDownloadIconHtml}</span>"
-                        : string.Empty)
-                }";
-        }
-
-        public static string CreateTagUrlHtml(string gridName, BulkTagModalDialogForm bulkTagModalDialogForm)
-        {
-            if (bulkTagModalDialogForm == null)
-                return string.Empty;
-
-            var tagIconHtml =
-                $"<span style=\"margin-right:5px\">{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-tag")}</span>";
-
-            var getProjectIDFunctionString =
-                $"function() {{ return Sitka.{gridName}.getValuesFromCheckedGridRows({bulkTagModalDialogForm.CheckboxColumnIndex}, '{bulkTagModalDialogForm.ValueColumnName}', '{bulkTagModalDialogForm.ReturnListName}'); }}";
-
-            return
-                ModalDialogFormHelper.ModalDialogFormLink($"{tagIconHtml}{bulkTagModalDialogForm.DialogLinkText}",
-                    bulkTagModalDialogForm.DialogUrl,
-                    bulkTagModalDialogForm.DialogTitle,
-                    ModalDialogFormHelper.DefaultDialogWidth,
-                    "Save",
-                    "Cancel",
-                    new List<string>(),
-                    null,
-                    getProjectIDFunctionString).ToString();
-        }
-
-        public static string CreateGenerateReportUrlHtml(string gridName, SelectProjectsModalDialogForm modalDialogForm)
-        {
-            var tagIconHtml =
-                $"<span style=\"margin-right:5px\">{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-file")}</span>";
-            var getProjectIDFunctionString =
-                $"function() {{ return Sitka.{gridName}.getValuesFromCheckedGridRows({modalDialogForm.CheckboxColumnIndex}, '{modalDialogForm.ValueColumnName}', '{modalDialogForm.ReturnListName}'); }}";
-
-            return ModalDialogFormHelper.ModalDialogFormLink($"{tagIconHtml} Generate Reports",
-                modalDialogForm.DialogUrl,
-                modalDialogForm.DialogTitle,
-                ModalDialogFormHelper.DefaultDialogWidth,
-                "Generate",
-                "Close",
-                new List<string>(),
-                null,
-                getProjectIDFunctionString,
-                true).ToString();
-
-        }
-
-        /// <summary>
-        /// Renders the filtered state on the grid header; will not show up if ShowFilterBar is false
-        /// </summary>
-        /// <param name="gridName"></param>
-        /// <param name="showFilterBar"></param>
-        /// <returns></returns>
-        public static string CreateFilteredStateHtml(string gridName, bool showFilterBar)
-        {
-            if (showFilterBar)
-            {
-                var filteredStateText =
-                    String.Format(@"<span id=""{0}FilteredButton"" style=""display:none"">(<a href=""javascript:void(0);"" onclick=""Sitka.{0}.clearGridFilters()"">clear filters</a>)</span>", gridName);
-                return filteredStateText;
-            }
-            return String.Empty;
-        }
-
-        /// <summary>
-        /// Arbitraty html that goes up in the grid header
-        /// </summary>
-        /// <param name="arbitraryHtml"></param>
-        /// <param name="indent"></param>
-        /// <returns></returns>
-        public static string CreateArbitraryHtml(IEnumerable<string> arbitraryHtml, string indent)
-        {
-            return arbitraryHtml != null ? String.Join("\r\n", arbitraryHtml.Select(x => $"{indent}{x}")) : String.Empty;
-        }
-
-        /// <summary>
-        /// Typically, we either have a create new button that goes to a new page
-        /// or a modal dialog version of the create new record
-        /// </summary>
-        /// <param name="createUrl"></param>
-        /// <param name="createUrlClass"></param>
-        /// <param name="createPopupForm"></param>
-        /// <param name="createActionPhrase"></param>
-        /// <param name="objectNameSingular"></param>
-        /// <returns></returns>
-        public static string CreateCreateUrlHtml(string createUrl, string createUrlClass, ModalDialogForm createPopupForm, string createActionPhrase, string objectNameSingular)
-        {
-            var createString = !string.IsNullOrEmpty(createActionPhrase) ? createActionPhrase : $"Create New {objectNameSingular}";
-            var createUrlHtml = String.Empty;
-            if (!String.IsNullOrWhiteSpace(createUrl))
-            {
-                createUrlHtml = String.Format(@"<a class=""process create {0}"" href=""{1}"" title=""{2}"">{2}</a>",
-                    String.IsNullOrEmpty(createUrlClass) ? String.Empty : createUrlClass,
-                    createUrl,
-                    createString);
-            }
-            else if (createPopupForm != null)
-            {
-                createUrlHtml = MakeModalDialogLink($"{PlusIconBootstrap} {createString}",
-                    createPopupForm.ContentUrl,
-                    createPopupForm.DialogWidth,
-                    createPopupForm.DialogTitle,
-                    true,
-                    createPopupForm.SaveButtonText,
-                    createPopupForm.CancelButtonText,
-                    null,
-                    createPopupForm.OnJavascriptReadyFunction,
-                    null).ToString();
-            }
-            return createUrlHtml;
-        }
-        
-        /// <summary>
-        /// Creates the filter icon
-        /// If ShowFilterBar is false, it will return empty string
-        /// </summary>
-        /// <param name="gridName"></param>
-        /// <param name="showFilterBar"></param>
-        /// <returns></returns>
-        public static string CreateFilterIconHtml(string gridName, bool showFilterBar)
-        {
-            if (showFilterBar)
-            {
-                return $@"<a class=""filter"" href=""javascript:void(0);"" onclick=""Sitka.{
-                        gridName
-                    }.showHideFilterRow()"" title=""Show/hide filters"">Show/hide filters</a>&nbsp;";
-            }
-            return String.Empty;
-        }
-
-        /// <summary>
-        /// Creates the download to excel icon, using the filtered grid results
-        /// </summary>
-        /// <param name="gridName"></param>
-        /// <param name="excelDownloadUrl"></param>
-        /// <returns></returns>
-        public static string CreateFilteredExcelDownloadIconHtml(string gridName, UrlTemplate<string> excelDownloadUrl)
-        {
-            if (excelDownloadUrl == null) return string.Empty;
-
-            return
-                String.Format(
-                    @"<a class=""excelbutton"" id=""{0}DownloadLink"" href=""javascript:void(0)"" onclick=""Sitka.{0}.sitkaGridToExcel({1})"" title=""Download this table as an Excel file"">Download Table</a>",
-                    gridName,
-                    excelDownloadUrl.ParameterReplace(gridName).ToJS());
-        }
 
         /// <summary>
         /// Creates the download to excel icon
@@ -722,111 +385,12 @@ namespace LtInfo.Common.AgGridWrappers
             return String.Empty;
         }
 
-        /// <summary>
-        /// Creates the download to csv icon
-        /// If exceldownloadurl is null or empty, will return empty string
-        /// </summary>
-        /// <param name="gridName"></param>
-        /// <param name="csvDownloadUrl"></param>
-        /// <returns></returns>
-        //public static string CreateCsvDownloadIconHtml(string gridName, string csvDownloadUrl)
-        //{
-        //    if (!String.IsNullOrWhiteSpace(csvDownloadUrl))
-        //    {
-        //        return $@"<a class=""process download"" id=""{gridName}DownloadLink"" href=""{
-        //                csvDownloadUrl
-        //            }"" title=""Download this grid as a CSV file"">Download</a>";
-        //    }
-        //    return String.Empty;
-        //}
-
         public static string CreateFullDatabaseExcelDownloadIconHtml(string gridName, string excelDownloadUrl, string excelDownloadLinkText)
         {
             return CreateCustomExcelDownloadIconHtml(gridName, excelDownloadUrl, excelDownloadLinkText, "Download the full database as an Excel file");
         }
 
-        /// <summary>
-        /// Html that shows the grid row count "Viewing ..."
-        /// </summary>
-        /// <param name="gridName"></param>
-        /// <param name="objectNamePlural"></param>
-        /// <returns></returns>
-        public static string CreateViewingRowCountGridHeaderHtml(string gridName, string objectNamePlural)
-        {
-            return String.Format("Currently viewing <span id=\"{0}FilteredRowCount\"></span> of <span id=\"{0}UnfilteredRowCount\"></span> {1}", gridName, objectNamePlural);
-        }
 
-        /// <summary>
-        /// Html that shows the count of checked checkboxes "Number of selected rows ..."
-        /// </summary>
-        /// <param name="gridName"></param>
-        /// <param name="objectNamePlural"></param>
-        /// <returns></returns>
-        public static string CreateViewingCheckedCheckboxesCountGridHeaderHtml(string gridName, string objectNamePlural)
-        {
-            return String.Format("Selected rows: <span id=\"{0}CheckedCheckboxCount\"></span> ", gridName);
-        }
-
-        /// <summary>
-        /// Determines if the grid should be using smart rendering
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="gridSpec"></param>
-        /// <returns></returns>
-        public static bool IsUsingSmartRendering<T>(GridSpec<T> gridSpec)
-        {
-            return !gridSpec.HasColumnTotals;
-        }
-
-        /// <summary>
-        /// Builds the javascript for adding the columns to the sitkaGrid
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="gridSpec"></param>
-        /// <param name="indent"></param>
-        /// <returns></returns>
-        public static string BuildGridColumns<T>(IEnumerable<ColumnSpec<T>> gridSpec, string indent)
-        {
-            return String.Join(",\r\n",
-                gridSpec.Select(
-                    (column, i) =>
-                        $@"{indent}new Sitka.Grid.Class.GridColumn(""{
-                                (String.IsNullOrWhiteSpace(column.ColumnNameForJavascript)
-                                    ? $"Column{i}"
-                                    : column.ColumnNameForJavascript)
-                            }"", {
-                                (string.IsNullOrWhiteSpace(column.ColumnName) ? "\"\"" : column.ColumnName.ToJS())
-                            }, ""{
-                                column.GridWidth.ToString(CultureInfo.InvariantCulture)
-                            }"", ""{column.AgGridColumnAlignType.ToString().ToLower()}"", ""{
-                                column.AgGridColumnDataType
-                            }"", ""{column.AgGridColumnSortType.SortingType}"", ""{
-                                column.AgGridColumnFilterType
-                            }"", {$"\"{column.AgGridColumnFormatType}\""})"));
-        }
-
-        // <summary>
-        // For making an edit icon on the grid that goes to a new page
-        // If insufficient permissions, returns empty string
-        // </summary>
-        // <param name="editUrl"></param>
-        // <param name="hasPermission"></param>
-        // <returns></returns>
-        //public static HtmlString MakeEditIconAsHyperlink(string editUrl, bool hasPermission)
-        //{
-        //    return hasPermission ? UrlTemplate.MakeHrefString(editUrl,
-        //        $"{EditIcon}<span style=\"display:none\">Edit</span>") : new HtmlString(string.Empty);
-        //}
-
-        // <summary>
-        // For making an edit icon on the grid that goes to a new page
-        // </summary>
-        // <param name="editUrl"></param>
-        // <returns></returns>
-        //public static HtmlString MakeEditIconAsHyperlink(string editUrl)
-        //{
-        //    return MakeEditIconAsHyperlink(editUrl, true);
-        //}
 
         /// <summary>
         /// For making an edit icon on the grid that goes to a new page
@@ -841,15 +405,7 @@ namespace LtInfo.Common.AgGridWrappers
                 $"{EditIconBootstrap}<span style=\"display:none\">Edit</span>") : new HtmlString(string.Empty);
         }
 
-        // <summary>
-        // For making an edit icon on the grid that goes to a new page
-        // </summary>
-        // <param name="editUrl"></param>
-        // <returns></returns>
-        //public static HtmlString MakeEditIconAsHyperlinkBootstrap(string editUrl)
-        //{
-        //    return MakeEditIconAsHyperlinkBootstrap(editUrl, true);
-        //}
+
 
         /// <summary>
         /// For making an edit icon on the grid with an editor in a jquery ui dialog
@@ -872,13 +428,7 @@ namespace LtInfo.Common.AgGridWrappers
             return MakeModalDialogLink(linkHtml, dialogContentUrl, dialogWidth, dialogTitle, true, "Save", "Cancel", new List<string>(), onJavascriptReadyFunction, null);
         }
 
-        // <summary>
-        // For making an edit icon on the grid with an editor in a jquery ui dialog
-        // </summary>
-        //public static HtmlString MakeEditIconAsModalDialogLink(ModalDialogForm modalDialogForm)
-        //{
-        //    return MakeModalDialogLink($"{EditIcon}<span style=\"display:none\">Edit</span>", modalDialogForm.ContentUrl, modalDialogForm.DialogWidth, modalDialogForm.DialogTitle, modalDialogForm.OnJavascriptReadyFunction);
-        //}
+
 
         /// <summary>
         /// For making an edit icon on the grid with an editor in a jquery ui dialog
@@ -940,30 +490,7 @@ namespace LtInfo.Common.AgGridWrappers
                 null);
         }
 
-        // <summary>
-        // For making a delete icon on the grid with a delete jquery ui dialog confirm
-        // </summary>
-        // <param name="deleteDialogUrl"></param>
-        // <param name="userHasDeletePermission"></param>
-        // <returns></returns>
-        //public static HtmlString MakeDeleteIconAndLink(string deleteDialogUrl, bool userHasDeletePermission)
-        //{
-        //    return MakeDeleteIconAndLink(deleteDialogUrl, userHasDeletePermission, true);
-        //}
 
-        // <summary>
-        // For making a delete icon on the grid with a delete jquery ui dialog confirm.
-        // Will make a grey trash can icon if delete is not possible.
-        // </summary>
-        // <param name="deleteDialogUrl"></param>
-        // <param name="userHasDeletePermission">Does the given user have permission to perform a delete?</param>
-        // <param name="deletePossibleForObject">Is a delete possible for the given object?</param>
-        // <returns></returns>
-        //public static HtmlString MakeDeleteIconAndLink(string deleteDialogUrl, bool userHasDeletePermission, bool deletePossibleForObject)
-        //{
-        //    var deleteIcon = deletePossibleForObject ? DeleteIcon : DeleteIconGrey;
-        //    return ModalDialogFormHelper.MakeDeleteLink($"{deleteIcon}<span style=\"display:none\">Delete</span>", deleteDialogUrl, new List<string>(), userHasDeletePermission);
-        //}
 
         /// <summary>
         /// For making a delete icon on the grid with a delete jquery ui dialog confirm
