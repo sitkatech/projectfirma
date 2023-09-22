@@ -79,8 +79,8 @@ namespace LtInfo.Common.AgGridWrappers
             const string template = @"    <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
     <!-- The grid will be the size that this element is given. -->
     <div class=""row"">
-        <div class=""col-md-8""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
-        <div class=""col-md-4 text-right""><button onclick=""onBtnExport()"">Download grid as CSV file</button></div>
+        <div class=""col-md-6""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
+        <div class=""col-md-6 text-right gridDownloadContainer""><button onclick=""onBtnExport()"">Download grid as CSV file</button>{8}</div>
     </div>
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
     <script type=""text/javascript"">
@@ -360,7 +360,9 @@ namespace LtInfo.Common.AgGridWrappers
                 styleString = styleString == null ? "height: 500px;" : styleString + "; height: 500px";
             }
 
-            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            var customDownloadLink = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
+
+            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
         // <summary>
