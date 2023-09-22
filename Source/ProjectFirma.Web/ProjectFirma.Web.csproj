@@ -2010,7 +2010,6 @@
     <Compile Include="Views\Shared\SupportFormViewData.cs" />
     <Compile Include="Views\Shared\SupportFormViewModel.cs" />
     <Compile Include="Views\FirmaAgGridHtmlHelpers.cs" />
-    <Compile Include="Views\FirmaDhtmlxGridHtmlHelpersTest.cs" />
     <Compile Include="Views\FirmaUserControlViewData.cs" />
     <Compile Include="Views\LtInfoMenuItem.cs" />
     <Compile Include="Views\LtInfoMenuItemTest.cs" />
@@ -3424,14 +3423,6 @@
     <Content Include="Scripts\jssor.utils.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.BuildDhtmlxGridHeaderTest.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateArbitraryHtmlTest.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateCreateUrlHtmlTestWithCreatePopupForm.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateCreateUrlHtmlTestWithCreateUrl.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateFilteredExcelDownloadIconHtmlTest.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateFilteredStateHtmlWithFilterBarTest.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateFilterIconHtmlWithFilterBarTest.approved.txt" />
-    <Content Include="Views\FirmaDhtmlxGridHtmlHelpersTest.CreateViewingRowCountGridHeaderHtmlTest.approved.txt" />
     <Content Include="Views\User\EditRoles.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Detail.cshtml" />
