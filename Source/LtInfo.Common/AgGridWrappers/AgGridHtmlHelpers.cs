@@ -89,7 +89,7 @@ namespace LtInfo.Common.AgGridWrappers
             }}
 
             function onBtnExport() {{
-                {0}GridOptions.api.exportDataAsCsv();
+                {0}GridOptions.api.exportDataAsCsv({{ fileName: '{0}' + 'Export' }});
             }}
 
 
