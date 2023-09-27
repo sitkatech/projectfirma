@@ -1085,9 +1085,9 @@ namespace ProjectFirma.Web.Models
         {
             var sortOrder = 0;
             var googlePieChartSlices = new List<GooglePieChartSlice>();
-            googlePieChartSlices.Add(new GooglePieChartSlice("Not in a Disadvantaged Community", projects.Count - projectsInUnderservedCommunities.Count, sortOrder++, "#FFE196"));
-            googlePieChartSlices.Add(new GooglePieChartSlice("Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Disadvantaged Community")), sortOrder++, "#FF7142"));
-            googlePieChartSlices.Add(new GooglePieChartSlice("Severely Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Severely Disadvantaged Community")), sortOrder, "#A53FFF"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Not in a Disadvantaged Community", projects.Count - projectsInUnderservedCommunities.Count, sortOrder++, "#424142"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Disadvantaged Community")), sortOrder++, "#b6430f"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Severely Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Severely Disadvantaged Community")), sortOrder, "#4b5c14"));
 
             return googlePieChartSlices;
         }

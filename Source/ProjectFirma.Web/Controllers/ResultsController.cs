@@ -895,7 +895,7 @@ namespace ProjectFirma.Web.Controllers
             var googlePieChartSlices = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardPieChartSlices(projects, projectsInUnderservedCommunities);
             var googleChartDataTable = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardGoogleChartDataTable(googlePieChartSlices);
 
-            var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+            var pieSliceTextStyle = new GoogleChartTextStyle("#FFFFFF") { IsBold = true, FontSize = 20 };
             var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
 
             var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number,
