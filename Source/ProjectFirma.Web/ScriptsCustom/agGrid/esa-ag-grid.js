@@ -2,6 +2,9 @@
 
 
 function currencyFormatter(params) {
+    if (params.value === null || params.value === undefined) {
+        return null;
+    }
     var floatValue = Number.parseFloat(params.value).toFixed(2);
     return "$" + formatNumber(floatValue);
 }
