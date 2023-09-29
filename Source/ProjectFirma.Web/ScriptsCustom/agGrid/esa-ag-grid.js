@@ -16,6 +16,15 @@ function formatNumber(number) {
     return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
 
+function removeHtmlFromColumnForCVSDownload(column, value) {
+    return removeHtmlFromString(column.value);
+}
+
+function removeHtmlFromString(value) {
+    let txt = new DOMParser().parseFromString(value, "text/html");
+    return txt.documentElement.innerText;
+}
+
 function getOffsetTop(element) {
     var offsetTop = 0;
     while (element) {
