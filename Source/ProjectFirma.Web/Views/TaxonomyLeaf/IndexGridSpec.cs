@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.AgGridWrappers;
@@ -51,7 +53,8 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentFirmaSession).Count, 90);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.TaxonomyLeafPerformanceMeasures.Count, 90);
             Add("Sort Order", a => a.TaxonomyLeafSortOrder, 90, AgGridColumnFormatType.None);
-            Add("Description", a => a.TaxonomyLeafDescription, 100);
+            Add("Description", a => a.TaxonomyLeafDescriptionHtmlString != null ? a.TaxonomyLeafDescriptionHtmlString : new HtmlString(string.Empty), 100, AgGridColumnFilterType.Html);
+
         }
     }
 }

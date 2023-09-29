@@ -89,7 +89,7 @@ namespace LtInfo.Common.AgGridWrappers
             }}
 
             function onBtnExport() {{
-                {0}GridOptions.api.exportDataAsCsv({{ fileName: '{0}' + 'Export' }});
+                {0}GridOptions.api.exportDataAsCsv({{ processCellCallback: removeHtmlFromColumnForCVSDownload, fileName: '{0}' + 'Export' }});
             }}
 
 
@@ -224,7 +224,13 @@ namespace LtInfo.Common.AgGridWrappers
 
                 columnDefinitionStringBuilder.Append("{ ");//open this column spec
                 columnDefinitionStringBuilder.AppendFormat("\"field\": \"{0}\"", columnSpec.ColumnNameForJavascript);
-                
+
+                if (columnSpec.AgGridColumnSortType.SortingType.Equals("htmlstring"))
+                {
+                    // remove html for sorting
+                    columnDefinitionStringBuilder.Append(", \"comparator\":  (valueA, valueB, nodeA, nodeB, isDescending) => { var valueANoHtml = removeHtmlFromString(valueA); var valueBNoHtml = removeHtmlFromString(valueB); if (valueANoHtml == valueBNoHtml) return 0; return (valueANoHtml > valueBNoHtml) ? 1 : -1; }");
+                }
+
                 columnDefinitionStringBuilder.AppendFormat(", \"headerName\": \"{0}\"", columnSpec.ColumnNameInnerText);
 
                 columnDefinitionStringBuilder.Append(", \"headerComponentParams\": { \"template\": \"<div class=\\\"ag-cell-label-container\\\" role=\\\"presentation\\\">");

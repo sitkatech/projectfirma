@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Web;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.AgGridWrappers;
@@ -45,8 +46,8 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             Add("Default Label", a => a.FieldDefinitionDisplayName, 200);
             Add("Has Custom Field Name?", a => a.HasCustomFieldLabel().ToYesNo(), 100, AgGridColumnFilterType.SelectFilterStrict);
             Add("Has Custom Field Definition?", a => a.HasCustomFieldDefinition().ToYesNo(), 100, AgGridColumnFilterType.SelectFilterStrict);
-            Add("Custom Definition", a => a.HasCustomFieldDefinition() ? a.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString.ToString() : string.Empty, 200);
-            Add("Default Definition", a => a.FieldDefinitionDefault != null ? a.FieldDefinitionDefault.DefaultDefinitionHtmlString.ToString() : "No Default Definition", 200);
+            Add("Custom Definition", a => a.HasCustomFieldDefinition() ? a.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString : new HtmlString(string.Empty), 200);
+            Add("Default Definition", a => a.FieldDefinitionDefault != null ? a.FieldDefinitionDefault.DefaultDefinitionHtmlString : new HtmlString("No Default Definition"), 200);
         }
     }
 }

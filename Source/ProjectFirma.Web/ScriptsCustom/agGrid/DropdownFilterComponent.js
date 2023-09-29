@@ -36,6 +36,19 @@
         this.gui = document.createElement('div');
         this.gui.classList.add("filter-options");
 
+
+        var buttonsWrapper = document.createElement('div');
+        buttonsWrapper.classList.add("bs-actionsbox");
+
+        var selectDeselectButtons = document.createElement('div');
+        selectDeselectButtons.classList.add("btn-group");
+        selectDeselectButtons.classList.add("btn-group-sm");
+        selectDeselectButtons.classList.add("btn-block");
+        selectDeselectButtons.innerHTML = '<button id="SelectAll" type="button" class="actions-btn bs-select-all btn btn-default">Select All</button><button id="DeselectAll" type="button" class="actions-btn bs-deselect-all btn btn-default">Deselect All</button>'
+
+        buttonsWrapper.appendChild(selectDeselectButtons);
+        this.gui.appendChild(buttonsWrapper);
+
         this.dropdownValues.sort().forEach((element) => {
             this.gui.innerHTML += `<label class="filter-option"><input type="checkbox" name="${element}" class="grid-filter-checkbox" />${element}</label> `;
             //this.gui.innerHTML += '<label><input type="checkbox" name="' + element + '" id="' + element + '" class="mr-2" />' + element + '</label><br/>';
@@ -50,6 +63,24 @@
 
         this.dropdowns = this.gui.querySelectorAll('.grid-filter-checkbox');
         this.dropdowns.forEach(checkbox => checkbox.addEventListener('change', this.onFilterChanged));
+
+        this.onSelectAllClicked = () => {
+            this.dropdowns.forEach(dropdown => {
+                dropdown.checked = true;
+            });
+            this.onFilterChanged();
+        }
+        this.onDeselectAllClicked = () => {
+            this.dropdowns.forEach(dropdown => {
+                dropdown.checked = false;
+            });
+            this.onFilterChanged();
+        }
+
+        this.selectAllButton = this.gui.querySelector('#SelectAll');
+        this.selectAllButton.addEventListener('click', this.onSelectAllClicked);
+        this.deselectAllButton = this.gui.querySelector('#DeselectAll');
+        this.deselectAllButton.addEventListener('click', this.onDeselectAllClicked);
 
         //this.eFilterText = this.gui.querySelector('#filterDropdown');
         //this.eFilterText.addEventListener('input', this.onFilterChanged);
@@ -151,6 +182,8 @@
 
     destroy() {
         this.dropdowns.removeEventListener('change', this.onFilterChanged);
+        this.selectAllButton.removeEventListener('click', this.onSelectAllClicked);
+        this.deselectAllButton.removeEventListener('click', this.onDeselectAllClicked);
     }
 
     // If floating filters are turned on for the grid, but you have no floating filter

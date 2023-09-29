@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyLeafs.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 420, AgGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentFirmaSession).Count, 90);
             Add("Sort Order", a => a.TaxonomyBranchSortOrder, 90, AgGridColumnFormatType.None);
-            Add(FieldDefinitionEnum.TaxonomyBranchDescription.ToType().ToGridHeaderString(),a => a.TaxonomyBranchDescription, 200, AgGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.TaxonomyBranchDescription.ToType().ToGridHeaderString(),a => a.TaxonomyBranchDescriptionHtmlString != null ? a.TaxonomyBranchDescriptionHtmlString : new HtmlString(string.Empty), 200, AgGridColumnFilterType.Html);
         }
     }
 }

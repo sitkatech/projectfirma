@@ -2,6 +2,9 @@
 
 
 function currencyFormatter(params) {
+    if (params.value === null || params.value === undefined) {
+        return null;
+    }
     var floatValue = Number.parseFloat(params.value).toFixed(2);
     return "$" + formatNumber(floatValue);
 }
@@ -14,6 +17,15 @@ function integerFormatter(params) {
 function formatNumber(number) {
     // this puts commas into the number eg 1000 goes to 1,000
     return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
+
+function removeHtmlFromColumnForCVSDownload(column, value) {
+    return removeHtmlFromString(column.value);
+}
+
+function removeHtmlFromString(value) {
+    let txt = new DOMParser().parseFromString(value, "text/html");
+    return txt.documentElement.innerText;
 }
 
 function getOffsetTop(element) {
