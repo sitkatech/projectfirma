@@ -205,7 +205,7 @@ namespace ProjectFirmaModels.Models
     public partial class TenantPeaksToPeople : Tenant
     {
         private TenantPeaksToPeople(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"peakstopeople.localhost.projectfirma.com", @"qa-outcomes.peakstopeople.org", @"outcomes.peakstopeople.org", DateTime.Parse("01/01/1990"), false, false, false, false, true);
+        public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"peakstopeople.localhost.projectfirma.com", @"qa-outcomes.peakstopeople.org", @"outcomes.peakstopeople.org", DateTime.Parse("01/01/1990"), false, false, false, false, false);
     }
 
     public partial class TenantJohnDayBasinPartnership : Tenant
