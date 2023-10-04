@@ -1113,6 +1113,145 @@ namespace ProjectFirma.Web.Models
             return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
         }
 
+        public static GoogleChartDataTable GetProjectsByOwnerOrgTypeGoogleChartDataTable(Dictionary<OrganizationType, int> orgTypeToAmounts)
+        {
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#3366CC", null, null);
+
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Project Sponsor Org Type", GoogleChartColumnDataType.String),
+                //new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn("Number of Projects", "# of Projects", GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+                new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "style", new GoogleChartProperty())
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+
+
+            var index = 0;
+            foreach (var orgToAmount in orgTypeToAmounts)
+            {
+                //var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(orgToAmount.Key.OrganizationTypeAbbreviation) };
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(orgToAmount.Key.OrganizationTypeName) };
+                var amounts = orgTypeToAmounts[orgToAmount.Key];
+                // add custom tool tip hover
+                //googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(amounts, orgToAmount.Key)));
+
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(amounts, amounts.ToGroupedNumeric()));
+                googleChartRowVs.Add(new GoogleChartRowV($"color: {ColorSeriesForProjectByOwnerOrgType[index]}"));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+                index++;
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static string FormattedDataTooltip(int projectCount, OrganizationType organizationType)
+        {
+            var stringPrecision = new String('0', MeasurementUnitType.Count.NumberOfSignificantDigits);
+            var formattedTotal = projectCount.ToString($"#,###,###,##0.{stringPrecision}");
+            // build html for tooltip
+            var html = "<div class='googleTooltipDiv'>";
+            html += $"<div><b>{organizationType.OrganizationTypeName}</b></div>";
+            html += $"<div><span># of Projects: </span><span><b>{formattedTotal}</b></span></div></div>";
+
+            return html;
+        }
+
+        public static Dictionary<OrganizationType, int> GetProjectCountByOwnerOrgType(List<Project> projects)
+        {
+            var projectOrganizations = projects.SelectMany(x => x.ProjectOrganizations).ToList();
+            var ownerOrgRelationshipType = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            var projectOwnerOrganizations = projectOrganizations
+                    .Where(x => x.OrganizationRelationshipTypeID == ownerOrgRelationshipType.OrganizationRelationshipTypeID)
+                    .GroupBy(x => x.Organization.OrganizationType).OrderBy(x => x.Key.OrganizationTypeName).ToList();
+            var orgTypeToAmounts = new Dictionary<OrganizationType, int>();
+            OrganizationType otherOrgType = null;
+            int projectsForOther = 0;
+            foreach (var typeToProjectOrg in projectOwnerOrganizations)
+            {
+ 
+                int projectCount = typeToProjectOrg.Count();
+
+                if ("Other".Equals(typeToProjectOrg.Key.OrganizationTypeName))
+                {
+                    // save to add to the end of the dictionary because Other should be displayed last
+                    otherOrgType = typeToProjectOrg.Key;
+                    projectsForOther = projectCount;
+                }
+                else
+                {
+                    orgTypeToAmounts.Add(typeToProjectOrg.Key, projectCount);
+                }
+            }
+
+            if (otherOrgType != null)
+            {
+                orgTypeToAmounts.Add(otherOrgType, projectsForOther);
+            }
+
+            return orgTypeToAmounts;
+        }
+
+        public static List<string> ColorSeriesForProjectByOwnerOrgType = new List<string>()
+        {
+            // NCRP colors
+            "#e0871a",
+            "#738c1f",
+            "#94c5e3",
+            "#ffe293",
+            "#424142",
+            "#b6430f",
+            "#4b5c14",
+            "#2e6580",
+            "#ffbb00",
+            "#7d3951",
+            "#e0d7cc",
+            "#dee9bf",
+            "#d3dde3",
+            "#fff9e8",
+            "#e6e7e9",
+            // google chart default colors start here
+            "#3366CC",
+            "#DC3912",
+            "#FF9900",
+            "#109618",
+            "#990099",
+            "#0099C6",
+            "#DD4477",
+            "#66AA00",
+            "#B82E2E",
+            "#316395",
+            "#994499",
+            "#22AA99",
+            "#AAAA11",
+            "#6633CC",
+            "#E67300",
+            "#8B0707",
+            "#651067",
+            "#329262",
+            "#5574A6",
+            "#3B3EAC",
+            "#B77322",
+            "#16D620",
+            "#B91383",
+            "#F4359E",
+            "#9C5935",
+            "#A9C413",
+            "#2A778D",
+            "#668D1C",
+            "#BEA413",
+            "#0C5922",
+            "#743411",
+            "#B322F7",
+            "#59E59A",
+            "#E582B5",
+            "#8080FC",
+            "#FF8282"
+        };
+
         public static ProjectCustomAttributesValidationResult ValidateCustomAttributes(this Project project, FirmaSession currentFirmaSession)
         {
             return new ProjectCustomAttributesValidationResult(project, currentFirmaSession);

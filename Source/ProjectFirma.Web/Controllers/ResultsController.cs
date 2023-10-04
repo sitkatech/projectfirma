@@ -800,8 +800,9 @@ namespace ProjectFirma.Web.Controllers
 
             var underservedCommunitiesGoogleChart =
                 GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectDashboardChartsViewData =
-                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart);
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalInvestment,
@@ -910,13 +911,36 @@ namespace ProjectFirma.Web.Controllers
 
         }
 
+        private GoogleChartJson GetProjectsByOwnerOrgTypeChart(List<Project> projects)
+        {
+            // set up Funding by Owner Org Type column chart
+            var statusByOrgTypeChartTitle = "Projects by Project Sponsor Type";
+            var orgTypeChartContainerID = statusByOrgTypeChartTitle.Replace(" ", "");
+            var googleChartAxisHorizontal = new GoogleChartAxis("Organization Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxis = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+            var orgTypeToProjectCounts = ProjectModelExtensions.GetProjectCountByOwnerOrgType(projects);
+            var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByOwnerOrgTypeGoogleChartDataTable(orgTypeToProjectCounts);
+
+            var orgTypeChartConfig = new GoogleChartConfiguration(statusByOrgTypeChartTitle, true, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            orgTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
+            orgTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+           orgTypeChartConfig.Tooltip = new GoogleChartTooltip {ShowColorCode = false};
+
+            var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToProjectCounts.Keys.Select(x => x.OrganizationTypeName).ToList());
+            orgTypeGoogleChart.CanConfigureChart = false;
+            return orgTypeGoogleChart;
+        }
+
         [FirmaAdminFeature]
         public PartialViewResult ProjectDashboardCharts()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
             GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
             var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
-            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart);
+            var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 

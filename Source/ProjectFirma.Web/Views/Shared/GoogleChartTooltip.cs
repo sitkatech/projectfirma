@@ -7,6 +7,10 @@ namespace ProjectFirma.Web.Views.Shared
         [JsonProperty(PropertyName = "isHtml")]
         public bool IsHtml { get; set; }
 
+        //showColorCode
+        [JsonProperty(PropertyName = "showColorCode")]
+        public bool ShowColorCode { get; set; }
+
         public GoogleChartTooltip()
         {
         }

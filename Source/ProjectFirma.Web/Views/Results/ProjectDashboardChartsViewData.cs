@@ -18,23 +18,35 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Web;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
     public class ProjectDashboardChartsViewData : FirmaUserControlViewData
     {
         public readonly ViewGoogleChartViewData UnderservedCommunitiesViewGoogleChartViewData;
-        public bool HasData { get; }
+        public readonly ViewGoogleChartViewData ProjectsByOwnerOrgTypeViewGoogleChartViewData;
+        public bool UnderservedCommunitiesHasData { get; }
 
-        public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart)
+        public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, GoogleChartJson projectsByOwnerOrgTypeGoogleChart)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
-            HasData = false;
+            UnderservedCommunitiesHasData = false;
             foreach (var slice in ((GooglePieChartConfiguration)underservedCommunitiesGoogleChart.GoogleChartConfiguration).Slices)
             {
-                HasData = HasData || slice.Value > 0;
+                UnderservedCommunitiesHasData = UnderservedCommunitiesHasData || slice.Value > 0;
             }
+
+            ProjectsByOwnerOrgTypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByOwnerOrgTypeGoogleChart, projectsByOwnerOrgTypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
+            var orgIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Index()), $"{FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().GetFieldDefinitionLabel()} Type");
+            ProjectsByOwnerOrgTypeViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by " + orgIndexUrl + "</b>");
         }
     }
 }

@@ -74,6 +74,10 @@
                 </span>
                 <a href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
             }
+            else if(ViewDataTyped.ChartTitleWithLink != null)
+            {
+                @Html.Raw(ViewDataTyped.ChartTitleWithLink)
+            }
             else
             {
                 <b>@ViewDataTyped.ChartTitle</b>
