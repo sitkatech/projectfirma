@@ -50,7 +50,12 @@
         this.gui.appendChild(buttonsWrapper);
 
         this.dropdownValues.sort().forEach((element) => {
-            this.gui.innerHTML += `<label class="filter-option"><input type="checkbox" name="${element}" class="grid-filter-checkbox" />${element}</label> `;
+            if (!element) {
+                this.gui.innerHTML +=
+                    `<label class="filter-option" style="font-weight: normal; font-style: italic"><input type="checkbox" name="${element}" class="grid-filter-checkbox" />(Blank)</label> `;
+            } else {
+                this.gui.innerHTML += `<label class="filter-option"><input type="checkbox" name="${element}" class="grid-filter-checkbox" />${element}</label> `;
+            }
             //this.gui.innerHTML += '<label><input type="checkbox" name="' + element + '" id="' + element + '" class="mr-2" />' + element + '</label><br/>';
         });
 
