@@ -802,8 +802,9 @@ namespace ProjectFirma.Web.Controllers
                 GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
+            var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectDashboardChartsViewData =
-                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart);
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID);
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalInvestment,
@@ -943,10 +944,15 @@ namespace ProjectFirma.Web.Controllers
             var googleChartAxis = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
             var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
 
-            var counties = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == 24).ToList();
+            var counties = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID).ToList();
             // all tribal land except for "Not Tribally owned land as identified by federal BIA map layer" (ID = 12143)
-            var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == 22 && x.GeospatialAreaID != 12143).ToList();
-            var countyToProjectCounts = ProjectModelExtensions.GetProjectCountByCounty(projects, counties, tribes);
+            var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID && x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).ToList();
+
+            var projectGeospatialAreas = projects.SelectMany(x => x.ProjectGeospatialAreas).ToList();
+            var countyIDs = counties.Select(x => x.GeospatialAreaID).ToList();
+
+            var countyToProjectCounts = projectGeospatialAreas.Where(x => countyIDs.Contains(x.GeospatialAreaID))
+                .GroupBy(x => x.GeospatialArea).OrderBy(x => x.Key.GeospatialAreaName).ToDictionary(x => x.Key, x => x.Count());
 
             var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
             var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
@@ -971,6 +977,38 @@ namespace ProjectFirma.Web.Controllers
             return countyAndTribalLandGoogleChart;
         }
 
+        private GoogleChartJson GetProjectsByProjectTypeChart(List<Project> projects)
+        {
+            // set up Projects by County & Tribal Land column chart
+            var projectByProjectTypeChartTitle = "Projects by Project Types";
+            var projectTypeChartContainerID = projectByProjectTypeChartTitle.Replace(" ", "");
+            var googleChartAxisHorizontal = new GoogleChartAxis("Project Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxis = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+
+            var projectTypes = HttpRequestStorage.DatabaseEntities.Classifications.Where(x => x.ClassificationSystemID == ProjectTypeClassificationID).ToList();
+            var projectClassifications = projects.SelectMany(x => x.ProjectClassifications).ToList();
+            var projectTypeIDs = projectTypes.Select(x => x.ClassificationID).ToList();
+
+            var projectTypeToProjectCount = projectClassifications.Where(x => projectTypeIDs.Contains(x.ClassificationID))
+                .GroupBy(x => x.Classification).OrderBy(x => x.Key.DisplayName).ToDictionary(x => x.Key, x => x.Count());
+
+            var projectTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByProjectTypeGoogleChartDataTable(projectTypeToProjectCount);
+
+            var chartColumns = projectTypeToProjectCount.Keys.Select(x => x.DisplayName).ToList();
+           
+            var projectTypeChartConfig = new GoogleChartConfiguration(projectByProjectTypeChartTitle, true, GoogleChartType.ColumnChart, projectTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            projectTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(projectTypeGoogleChartDataTable);
+            projectTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            projectTypeChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
+
+            var countyAndTribalLandGoogleChart = new GoogleChartJson(projectByProjectTypeChartTitle, projectTypeChartContainerID, projectTypeChartConfig, GoogleChartType.ColumnChart, projectTypeGoogleChartDataTable, chartColumns);
+            countyAndTribalLandGoogleChart.CanConfigureChart = false;
+            return countyAndTribalLandGoogleChart;
+        }
+
+
         [FirmaAdminFeature]
         public PartialViewResult ProjectDashboardCharts()
         {
@@ -979,7 +1017,8 @@ namespace ProjectFirma.Web.Controllers
             var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
-            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart);
+            var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 

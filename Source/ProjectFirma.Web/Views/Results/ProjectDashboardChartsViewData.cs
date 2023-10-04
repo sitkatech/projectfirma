@@ -34,9 +34,11 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData UnderservedCommunitiesViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByOwnerOrgTypeViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByCountyAndTribalLandViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData ProjectsByProjectTypeViewGoogleChartViewData;
         public bool UnderservedCommunitiesHasData { get; }
 
-        public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart)
+        public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
+            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             UnderservedCommunitiesHasData = false;
@@ -50,9 +52,14 @@ namespace ProjectFirma.Web.Views.Results
             ProjectsByOwnerOrgTypeViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {orgIndexUrl}</b>");
 
             ProjectsByCountyAndTribalLandViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByCountyAndTribalLandGoogleChart, projectsByCountyAndTribalLandGoogleChart.GoogleChartConfiguration.Title, 350, true);
-            var countyIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(24)), "County");
-            var tribalLandIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(22)), "Tribal Land");
+            var countyIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(countyGeospatialAreaTypeID)), "County");
+            var tribalLandIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(tribalLandGeospatialAreaTypeID)), "Tribal Land");
             ProjectsByCountyAndTribalLandViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {countyIndexUrl} & {tribalLandIndexUrl}</b>");
+
+            ProjectsByProjectTypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByProjectTypeGoogleChart, projectsByProjectTypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
+            var projectTypesIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(projectTypeClassificationSystemID)), "Project Types");
+            ProjectsByProjectTypeViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {projectTypesIndexUrl}</b>");
+
         }
     }
 }
