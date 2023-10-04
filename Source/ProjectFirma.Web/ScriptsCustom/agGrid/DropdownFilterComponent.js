@@ -26,7 +26,7 @@
         this.params.api.forEachNode((rowNode, i) => {
 
             //console.log(rowNode);
-            var columnValue = this.getNodeValue(rowNode);
+            var columnValue = removeHtmlFromString(this.getNodeValue(rowNode));
             if (!this.dropdownValues.includes(columnValue)) {
                 this.dropdownValues.push(columnValue);
             }
