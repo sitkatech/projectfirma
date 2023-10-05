@@ -1279,6 +1279,39 @@ namespace ProjectFirma.Web.Models
             return googleChartDataTable;
         }
 
+        public static List<GooglePieChartSlice> GetProjectStagesForProjectDashboardPieChartSlices(List<Project> projects)
+        {
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+            googlePieChartSlices.Add(new GooglePieChartSlice(ProjectStage.PlanningDesign.GetProjectStageDisplayName(), projects.Count(x => x.ProjectStageID == ProjectStage.PlanningDesign.ProjectStageID), sortOrder++, "#e0871a"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(ProjectStage.Implementation.GetProjectStageDisplayName(), projects.Count(x => x.ProjectStageID == ProjectStage.Implementation.ProjectStageID), sortOrder++, "#424142"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(ProjectStage.PostImplementation.GetProjectStageDisplayName(), projects.Count(x => x.ProjectStageID == ProjectStage.PostImplementation.ProjectStageID), sortOrder++, "#ffe293"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(ProjectStage.Completed.GetProjectStageDisplayName(), projects.Count(x => x.ProjectStageID == ProjectStage.Completed.ProjectStageID), sortOrder++, "#94c5e3"));
+            
+            return googlePieChartSlices;
+        }
+
+        public static GoogleChartDataTable GetProjectStagesForProjectDashboardGoogleChartDataTable(List<GooglePieChartSlice> googlePieChartSlices)
+        {
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn($"{FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn("Count", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+
+            };
+
+            var chartRowCs = googlePieChartSlices.Select(x =>
+            {
+                var fundingTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = x.Value.ToGroupedNumeric();
+                var amountRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { fundingTypeRowV, amountRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+        }
+
         public static Dictionary<string, string> CountyOrTribalLandToColor = new Dictionary<string, string>()
         {
             {"Del Norte", "#e0871a"},

@@ -803,8 +803,9 @@ namespace ProjectFirma.Web.Controllers
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
+            var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
             var projectDashboardChartsViewData =
-                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID);
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart);
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalInvestment,
@@ -1008,6 +1009,30 @@ namespace ProjectFirma.Web.Controllers
             return countyAndTribalLandGoogleChart;
         }
 
+        private GoogleChartJson GetProjectStagesPieChartForProjectDashboard(List<Project> projects)
+        {
+            var chartTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}";
+            var pieChartContainerID = chartTitle.Replace(" ", "");
+
+            var googlePieChartSlices = ProjectModelExtensions.GetProjectStagesForProjectDashboardPieChartSlices(projects);
+            var googleChartDataTable = ProjectModelExtensions.GetProjectStagesForProjectDashboardGoogleChartDataTable(googlePieChartSlices);
+
+            var pieSliceTextStyle = new GoogleChartTextStyle("#FFFFFF") { IsBold = true, FontSize = 20 };
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+
+            var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number,
+                    googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle,
+                    googleChartConfigurationArea)
+                { PieSliceText = "value" };
+            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.Right);
+
+            var pieChart = new GoogleChartJson(chartTitle, pieChartContainerID, pieChartConfiguration,
+                GoogleChartType.PieChart, googleChartDataTable, null);
+            pieChart.CanConfigureChart = false;
+            return pieChart;
+
+        }
+
 
         [FirmaAdminFeature]
         public PartialViewResult ProjectDashboardCharts()
@@ -1018,7 +1043,8 @@ namespace ProjectFirma.Web.Controllers
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
-            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID);
+            var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 

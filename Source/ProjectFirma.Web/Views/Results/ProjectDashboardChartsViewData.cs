@@ -35,10 +35,15 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData ProjectsByOwnerOrgTypeViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByCountyAndTribalLandViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByProjectTypeViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData ProjectStagesViewGoogleChartViewData;
         public bool UnderservedCommunitiesHasData { get; }
+        public bool ProjectsByOwnerOrgTypeHasData { get; }
+        public bool ProjectsByCountyAndTribalLandHasData { get; }
+        public bool ProjectsByProjectTypeHasData { get; }
+        public bool ProjectStagesHasData { get; }
 
         public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
-            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID)
+            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             UnderservedCommunitiesHasData = false;
@@ -50,16 +55,25 @@ namespace ProjectFirma.Web.Views.Results
             ProjectsByOwnerOrgTypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByOwnerOrgTypeGoogleChart, projectsByOwnerOrgTypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
             var orgIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Index()), $"{FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().GetFieldDefinitionLabel()} Type");
             ProjectsByOwnerOrgTypeViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {orgIndexUrl}</b>");
+            ProjectsByOwnerOrgTypeHasData = projectsByOwnerOrgTypeGoogleChart.HasData();
 
             ProjectsByCountyAndTribalLandViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByCountyAndTribalLandGoogleChart, projectsByCountyAndTribalLandGoogleChart.GoogleChartConfiguration.Title, 350, true);
             var countyIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(countyGeospatialAreaTypeID)), "County");
             var tribalLandIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(tribalLandGeospatialAreaTypeID)), "Tribal Land");
             ProjectsByCountyAndTribalLandViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {countyIndexUrl} & {tribalLandIndexUrl}</b>");
+            ProjectsByCountyAndTribalLandHasData = projectsByCountyAndTribalLandGoogleChart.HasData();
 
             ProjectsByProjectTypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByProjectTypeGoogleChart, projectsByProjectTypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
             var projectTypesIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(projectTypeClassificationSystemID)), "Project Types");
             ProjectsByProjectTypeViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {projectTypesIndexUrl}</b>");
+            ProjectsByProjectTypeHasData = projectsByProjectTypeGoogleChart.HasData();
 
+            ProjectStagesViewGoogleChartViewData = new ViewGoogleChartViewData(projectStagesGoogleChart, projectStagesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
+            ProjectStagesHasData = false;
+            foreach (var slice in ((GooglePieChartConfiguration)projectStagesGoogleChart.GoogleChartConfiguration).Slices)
+            {
+                ProjectStagesHasData = ProjectStagesHasData || slice.Value > 0;
+            }
         }
     }
 }
