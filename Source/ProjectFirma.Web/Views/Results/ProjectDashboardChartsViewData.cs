@@ -44,10 +44,12 @@ namespace ProjectFirma.Web.Views.Results
         public bool ProjectStagesHasData { get; }
         public bool FundingOrganizationsHasData { get; }
 
-        public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
+        public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, int disadvantagedCommunityStatusGeospatialAreaTypeID, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
             GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, GoogleChartJson fundingOrganizationGoogleChart)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
+            var geospatialAreaTypeIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(disadvantagedCommunityStatusGeospatialAreaTypeID)), "Underserved Community Status");
+            UnderservedCommunitiesViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {geospatialAreaTypeIndexUrl}</b>");
             UnderservedCommunitiesHasData = false;
             foreach (var slice in ((GooglePieChartConfiguration)underservedCommunitiesGoogleChart.GoogleChartConfiguration).Slices)
             {

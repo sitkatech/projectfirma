@@ -761,6 +761,7 @@ namespace ProjectFirma.Web.Controllers
         private static int ProjectTypeClassificationID = 17;
         private static int CountyGeospatialAreaTypeID = 24;
         private static int TribeGeospatialAreaTypeID = 22;
+        private static int DisadvantagedCommunityStatusGeospatialAreaTypeID = 23;
         private static int NotTriballyOwnedGeospatialAreaID = 12143;
 
         // Allow admin access only for now
@@ -806,7 +807,7 @@ namespace ProjectFirma.Web.Controllers
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
             var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
             var projectDashboardChartsViewData =
-                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart,
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID, projectsByOwnerOrgTypeGoogleChart,
                     projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
                     projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
                     fundingOrganizationGoogleChart);
@@ -1099,7 +1100,7 @@ namespace ProjectFirma.Web.Controllers
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
             var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
-            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart,
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID,
                 projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID,
                 TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,
                 projectStagesGoogleChart, fundingOrganizationGoogleChart);
