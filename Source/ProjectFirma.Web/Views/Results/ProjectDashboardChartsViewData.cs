@@ -36,14 +36,16 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData ProjectsByCountyAndTribalLandViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByProjectTypeViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectStagesViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData FundingOrganizationsViewGoogleChartViewData;
         public bool UnderservedCommunitiesHasData { get; }
         public bool ProjectsByOwnerOrgTypeHasData { get; }
         public bool ProjectsByCountyAndTribalLandHasData { get; }
         public bool ProjectsByProjectTypeHasData { get; }
         public bool ProjectStagesHasData { get; }
+        public bool FundingOrganizationsHasData { get; }
 
         public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
-            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart)
+            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, GoogleChartJson fundingOrganizationGoogleChart)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             UnderservedCommunitiesHasData = false;
@@ -74,6 +76,11 @@ namespace ProjectFirma.Web.Views.Results
             {
                 ProjectStagesHasData = ProjectStagesHasData || slice.Value > 0;
             }
+
+            FundingOrganizationsViewGoogleChartViewData = new ViewGoogleChartViewData(fundingOrganizationGoogleChart, fundingOrganizationGoogleChart.GoogleChartConfiguration.Title, 350, true);
+            var fundingSourcesIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index()), $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}");
+            FundingOrganizationsViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {fundingSourcesIndexUrl}</b>");
+            FundingOrganizationsHasData = fundingOrganizationGoogleChart.HasData();
         }
     }
 }

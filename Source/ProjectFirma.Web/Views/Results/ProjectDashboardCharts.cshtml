@@ -113,3 +113,14 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="chartPanel">
+            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.FundingOrganizationsViewGoogleChartViewData); }
+            @if (!ViewDataTyped.FundingOrganizationsHasData)
+            {
+                <div style="padding: 20px 5px">No Data</div>
+            }
+        </div>
+    </div>
+</div>

@@ -1312,6 +1312,67 @@ namespace ProjectFirma.Web.Models
             return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
         }
 
+        public static GoogleChartDataTable GetProjectCountBudgetByFundingOrganizationGoogleChartDataTable(Dictionary<Organization, Tuple<int, decimal>> orgToProjectCountAndFundingAmount)
+        {
+            var fundingAmountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#4b5c14", null, null);
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Secondary, "#ffe293", null, null);
+
+            var projectCountLabel = $"Number of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
+            var fundingAmountLabel = "Funding Amount";
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Funding Organization", GoogleChartColumnDataType.String),
+                // new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn(fundingAmountLabel, fundingAmountLabel, GoogleChartColumnDataType.Number.ToString(), fundingAmountSeries),
+                new GoogleChartColumn(projectCountLabel, projectCountLabel, GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+
+            // var labels = new List<string> { projectCountLabel, fundingAmountLabel };
+
+            foreach (var keyValuePair in orgToProjectCountAndFundingAmount)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(keyValuePair.Key.OrganizationName) };
+                var projectCountAndFundingAmount = orgToProjectCountAndFundingAmount[keyValuePair.Key];
+                // add custom tool tip hover
+                // googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(amounts, orgToAmount.Key, labels)));
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(projectCountAndFundingAmount.Item2, GoogleChartJson.GetFormattedValue(Convert.ToDouble(projectCountAndFundingAmount.Item2), MeasurementUnitType.Dollars)));
+                googleChartRowVs.Add(new GoogleChartRowV(projectCountAndFundingAmount.Item1, projectCountAndFundingAmount.Item1.ToGroupedNumeric()));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static Dictionary<Organization, Tuple<int, decimal>> GetProjectCountAndFundingAmountFundingOrganization(List<Project> projects, List<int> fundingSourceIDsToExclude)
+        {
+            var fundingOrgAndSecuredFunding =
+                projects.SelectMany(x => x.ProjectFundingSourceBudgets).Where(x => !fundingSourceIDsToExclude.Contains(x.FundingSourceID) && x.SecuredAmount > 0).GroupBy(x => x.FundingSource.Organization).OrderBy(x => x.Key.OrganizationShortName).ToList();
+
+
+            var orgTypeToAmounts = new Dictionary<Organization, Tuple<int, decimal>>();
+            foreach (var orgToSecuredFunding in fundingOrgAndSecuredFunding)
+            {
+                decimal securedFunding = 0;
+                List<int> uniqueProjectIDs = new List<int>();
+                orgToSecuredFunding.ForEach(x =>
+                {
+                    securedFunding += x.SecuredAmount.GetValueOrDefault();
+                    uniqueProjectIDs.Add(x.Project.ProjectID);
+                });
+                var projectCount = uniqueProjectIDs.Distinct().Count();
+                var projectCountAndFundingAmount = new Tuple<int, decimal>(projectCount, securedFunding);
+                
+                orgTypeToAmounts.Add(orgToSecuredFunding.Key, projectCountAndFundingAmount);
+                
+            }
+
+            return orgTypeToAmounts;
+        }
+
         public static Dictionary<string, string> CountyOrTribalLandToColor = new Dictionary<string, string>()
         {
             {"Del Norte", "#e0871a"},

@@ -804,8 +804,12 @@ namespace ProjectFirma.Web.Controllers
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
+            var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
             var projectDashboardChartsViewData =
-                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart);
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart,
+                    projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
+                    projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
+                    fundingOrganizationGoogleChart);
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalInvestment,
@@ -1033,6 +1037,32 @@ namespace ProjectFirma.Web.Controllers
 
         }
 
+        private GoogleChartJson GetFundingOrganizationChart(List<Project> projects)
+        {
+
+            // set up Funding by Owner Org Type column chart
+            var fundingOrgChartTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by Funding Organization";
+            var fundingOrgChartContainerID = fundingOrgChartTitle.Replace(" ", "");
+            var googleChartAxisHorizontal = new GoogleChartAxis("Funding Organization", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisVerticalFundingAmount = new GoogleChartAxis("Funding Amount", MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticalProjectCount = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxisVerticalFundingAmount , googleChartAxisVerticalProjectCount };
+
+            var orgToProjectCountAndFundingAmount = ProjectModelExtensions.GetProjectCountAndFundingAmountFundingOrganization(projects, new List<int>() { 9312 });
+            var fundingOrgGoogleChartDataTable = ProjectModelExtensions.GetProjectCountBudgetByFundingOrganizationGoogleChartDataTable(orgToProjectCountAndFundingAmount);
+
+
+            var fundingOrgChartConfig = new GoogleChartConfiguration(fundingOrgChartTitle, false, GoogleChartType.ColumnChart, fundingOrgGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            fundingOrgChartConfig.SetSeriesIgnoringNullGoogleChartSeries(fundingOrgGoogleChartDataTable);
+            fundingOrgChartConfig.Tooltip = new GoogleChartTooltip(true);
+            fundingOrgChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.Top);
+
+            var fundingOrgGoogleChart = new GoogleChartJson(fundingOrgChartTitle, fundingOrgChartContainerID, fundingOrgChartConfig, GoogleChartType.ColumnChart, fundingOrgGoogleChartDataTable, orgToProjectCountAndFundingAmount.Keys.Select(x => x.OrganizationName).ToList());
+            fundingOrgGoogleChart.CanConfigureChart = false;
+            return fundingOrgGoogleChart;
+        }
+
 
         [FirmaAdminFeature]
         public PartialViewResult ProjectDashboardCharts()
@@ -1044,7 +1074,11 @@ namespace ProjectFirma.Web.Controllers
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
-            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart);
+            var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart,
+                projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID,
+                TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,
+                projectStagesGoogleChart, fundingOrganizationGoogleChart);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 
