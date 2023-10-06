@@ -51,76 +51,60 @@
     .googleTooltipTableTotalRow {
         border-top: solid 2px #666;
     }
-    
-    .chartBody {
+
+    #underservedCommunitiesPieChartPanel .chartBody {
         display: @(ViewDataTyped.UnderservedCommunitiesHasData ? "inherit" : "none" )
+    }
+
+    #projectStagesPieChartPanel .chartBody {
+        display: @(ViewDataTyped.UnderservedCommunitiesHasData ? "inherit" : "none" )
+    }
+
+    .chartPanel {
+        padding-top: 50px;
     }
 
 </style>
 
 <div class="row">
-
     <div class="col-xs-12 col-sm-6">
-        <div class="chartPanel">
+        <div id="underservedCommunitiesPieChartPanel" class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.UnderservedCommunitiesViewGoogleChartViewData); }
             @if (!ViewDataTyped.UnderservedCommunitiesHasData)
             {
-                <div style="padding: 20px 5px">No Data</div>
+                <div style="padding: 20px 5px; font-style: italic">No reported data available</div>
             }
         </div>
     </div>
     <div class="col-xs-12 col-sm-6">
-        <div class="chartPanel">
+        <div id="projectStagesPieChartPanel" class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectStagesViewGoogleChartViewData); }
             @if (!ViewDataTyped.ProjectStagesHasData)
             {
-                <div style="padding: 20px 5px">No Data</div>
+                <div style="padding: 20px 5px; font-style: italic">No reported data available</div>
             }
         </div>
     </div>
-
-
-
 </div>
 <div class="row">
     <div class="col-xs-12">
         <div class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByOwnerOrgTypeViewGoogleChartViewData); }
-            @if (!ViewDataTyped.ProjectsByOwnerOrgTypeHasData)
-            {
-                <div style="padding: 20px 5px">No Data</div>
-            }
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-12">
         <div class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByCountyAndTribalLandViewGoogleChartViewData); }
-            @if (!ViewDataTyped.ProjectsByCountyAndTribalLandHasData)
-            {
-                <div style="padding: 20px 5px">No Data</div>
-            }
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-12">
         <div class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByProjectTypeViewGoogleChartViewData); }
-            @if (!ViewDataTyped.ProjectsByProjectTypeHasData)
-            {
-                <div style="padding: 20px 5px">No Data</div>
-            }
         </div>
     </div>
-</div>
-<div class="row">
     <div class="col-xs-12">
         <div class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.FundingOrganizationsViewGoogleChartViewData); }
-            @if (!ViewDataTyped.FundingOrganizationsHasData)
-            {
-                <div style="padding: 20px 5px">No Data</div>
-            }
         </div>
     </div>
 </div>

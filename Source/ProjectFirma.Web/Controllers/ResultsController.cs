@@ -923,19 +923,27 @@ namespace ProjectFirma.Web.Controllers
             // set up Projects by Owner Org Type column chart
             var projectByOrgTypeChartTitle = "Projects by Project Sponsor Type";
             var orgTypeChartContainerID = projectByOrgTypeChartTitle.Replace(" ", "");
-            var googleChartAxisHorizontal = new GoogleChartAxis("Organization Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-            var googleChartAxis = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxis = new GoogleChartAxis("Organization Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
             var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
             var orgTypeToProjectCounts = ProjectModelExtensions.GetProjectCountByOwnerOrgType(projects);
             var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByOwnerOrgTypeGoogleChartDataTable(orgTypeToProjectCounts);
 
-            var orgTypeChartConfig = new GoogleChartConfiguration(projectByOrgTypeChartTitle, true, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            var orgTypeChartConfig = new GoogleChartConfiguration(projectByOrgTypeChartTitle, true, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            orgTypeChartConfig.SeriesType = "bars";
+            orgTypeChartConfig.ChartArea = new GoogleChartConfigurationArea()
+            {
+                Width = "100%",
+                Height = "80%",
+                Left = "40%",
+                Top = 10
+            };
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
             orgTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
             orgTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
-            orgTypeChartConfig.Tooltip = new GoogleChartTooltip {ShowColorCode = false};
+            orgTypeChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
 
-            var orgTypeGoogleChart = new GoogleChartJson(projectByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToProjectCounts.Keys.Select(x => x.OrganizationTypeName).ToList());
+            var orgTypeGoogleChart = new GoogleChartJson(projectByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, orgTypeToProjectCounts.Keys.Select(x => x.OrganizationTypeName).ToList());
             orgTypeGoogleChart.CanConfigureChart = false;
             return orgTypeGoogleChart;
         }
@@ -945,8 +953,8 @@ namespace ProjectFirma.Web.Controllers
             // set up Projects by County & Tribal Land column chart
             var projectByCountyChartTitle = "Projects by County and Tribal Land";
             var countyChartContainerID = projectByCountyChartTitle.Replace(" ", "");
-            var googleChartAxisHorizontal = new GoogleChartAxis("County Names and Tribal Land", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-            var googleChartAxis = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxis = new GoogleChartAxis("County Names and Tribal Land", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
             var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
 
             var counties = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID).ToList();
@@ -971,13 +979,21 @@ namespace ProjectFirma.Web.Controllers
                 chartColumns.Add("Tribal Land As Identified by Federal BIA Map");
             }
 
-            var countyChartConfig = new GoogleChartConfiguration(projectByCountyChartTitle, true, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            var countyChartConfig = new GoogleChartConfiguration(projectByCountyChartTitle, true, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
             countyChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
             countyChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
             countyChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
+            countyChartConfig.SeriesType = "bars";
+            countyChartConfig.ChartArea = new GoogleChartConfigurationArea()
+            {
+                Width = "100%",
+                Height = "80%",
+                Left = "40%",
+                Top = 10
+            };
 
-            var countyAndTribalLandGoogleChart = new GoogleChartJson(projectByCountyChartTitle, countyChartContainerID, countyChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, chartColumns);
+            var countyAndTribalLandGoogleChart = new GoogleChartJson(projectByCountyChartTitle, countyChartContainerID, countyChartConfig, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, chartColumns);
             countyAndTribalLandGoogleChart.CanConfigureChart = false;
             return countyAndTribalLandGoogleChart;
         }
@@ -987,8 +1003,8 @@ namespace ProjectFirma.Web.Controllers
             // set up Projects by County & Tribal Land column chart
             var projectByProjectTypeChartTitle = "Projects by Project Types";
             var projectTypeChartContainerID = projectByProjectTypeChartTitle.Replace(" ", "");
-            var googleChartAxisHorizontal = new GoogleChartAxis("Project Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-            var googleChartAxis = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxis = new GoogleChartAxis("Project Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
             var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
 
             var projectTypes = HttpRequestStorage.DatabaseEntities.Classifications.Where(x => x.ClassificationSystemID == ProjectTypeClassificationID).ToList();
@@ -1002,13 +1018,21 @@ namespace ProjectFirma.Web.Controllers
 
             var chartColumns = projectTypeToProjectCount.Keys.Select(x => x.DisplayName).ToList();
            
-            var projectTypeChartConfig = new GoogleChartConfiguration(projectByProjectTypeChartTitle, true, GoogleChartType.ColumnChart, projectTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            var projectTypeChartConfig = new GoogleChartConfiguration(projectByProjectTypeChartTitle, false, GoogleChartType.BarChart, projectTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
             projectTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(projectTypeGoogleChartDataTable);
             projectTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
             projectTypeChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
+            projectTypeChartConfig.SeriesType = "bars";
+            projectTypeChartConfig.ChartArea = new GoogleChartConfigurationArea()
+            {
+                Width = "100%",
+                Height = "80%",
+                Left = "40%",
+                Top = 10
+            };
 
-            var countyAndTribalLandGoogleChart = new GoogleChartJson(projectByProjectTypeChartTitle, projectTypeChartContainerID, projectTypeChartConfig, GoogleChartType.ColumnChart, projectTypeGoogleChartDataTable, chartColumns);
+            var countyAndTribalLandGoogleChart = new GoogleChartJson(projectByProjectTypeChartTitle, projectTypeChartContainerID, projectTypeChartConfig, GoogleChartType.BarChart, projectTypeGoogleChartDataTable, chartColumns);
             countyAndTribalLandGoogleChart.CanConfigureChart = false;
             return countyAndTribalLandGoogleChart;
         }

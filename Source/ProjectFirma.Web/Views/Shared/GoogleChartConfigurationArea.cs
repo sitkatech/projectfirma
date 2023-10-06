@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.Shared
         public object Height { get; set; }
 
         [JsonProperty(PropertyName = "left", NullValueHandling = NullValueHandling.Ignore)]
-        public int? Left { get; set; }
+        public object Left { get; set; }
 
         [JsonProperty(PropertyName = "top", NullValueHandling = NullValueHandling.Ignore)]
         public int? Top { get; set; }
