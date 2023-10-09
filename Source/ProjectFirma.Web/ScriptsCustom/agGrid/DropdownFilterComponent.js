@@ -156,7 +156,7 @@
         //if (value == null) return false;
         //return Number(value) > Number(filterValue);
 
-        var found = this.selectedValues.includes(value.toString());
+        var found = this.selectedValues.includes(removeHtmlFromString(value.toString()));
         
         //var textToSearch = value.toString().replace(/<[^>]*>/g, "");
         //var foundInText = (textToSearch.toLowerCase().indexOf(filterValue.toLowerCase()) != -1);

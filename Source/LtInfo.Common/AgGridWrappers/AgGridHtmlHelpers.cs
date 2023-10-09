@@ -78,7 +78,7 @@ namespace LtInfo.Common.AgGridWrappers
     <!-- The grid will be the size that this element is given. -->
     <div class=""row"">
         <div class=""col-md-6""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
-        <div class=""col-md-6 text-right gridDownloadContainer""><button onclick=""onBtnExport()"">Download grid as CSV file</button>{8}</div>
+        <div class=""col-md-6 text-right gridDownloadContainer""><a class=""excelbutton"" href=""javascript: void(0);""  onclick=""onBtnExport()"">Download Table</a>{8}</div>
     </div>
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
     <script type=""text/javascript"">
