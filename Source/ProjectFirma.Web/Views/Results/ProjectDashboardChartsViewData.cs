@@ -38,10 +38,12 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData ProjectStagesViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData FundingOrganizationsViewGoogleChartViewData;
         public bool UnderservedCommunitiesHasData { get; }
+        public double UnderservedTotal { get; }
         public bool ProjectsByOwnerOrgTypeHasData { get; }
         public bool ProjectsByCountyAndTribalLandHasData { get; }
         public bool ProjectsByProjectTypeHasData { get; }
         public bool ProjectStagesHasData { get; }
+        public double ProjectStagesTotal { get; }
         public bool FundingOrganizationsHasData { get; }
 
         public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, int disadvantagedCommunityStatusGeospatialAreaTypeID, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
@@ -51,9 +53,11 @@ namespace ProjectFirma.Web.Views.Results
             var geospatialAreaTypeIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(disadvantagedCommunityStatusGeospatialAreaTypeID)), "Underserved Community Status");
             UnderservedCommunitiesViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {geospatialAreaTypeIndexUrl}</b>");
             UnderservedCommunitiesHasData = false;
+            UnderservedTotal = 0;
             foreach (var slice in ((GooglePieChartConfiguration)underservedCommunitiesGoogleChart.GoogleChartConfiguration).Slices)
             {
                 UnderservedCommunitiesHasData = UnderservedCommunitiesHasData || slice.Value > 0;
+                UnderservedTotal += slice.Value;
             }
 
             ProjectsByOwnerOrgTypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByOwnerOrgTypeGoogleChart, projectsByOwnerOrgTypeGoogleChart.GoogleChartConfiguration.Title, 400, true);
@@ -74,9 +78,11 @@ namespace ProjectFirma.Web.Views.Results
 
             ProjectStagesViewGoogleChartViewData = new ViewGoogleChartViewData(projectStagesGoogleChart, projectStagesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             ProjectStagesHasData = false;
+            ProjectStagesTotal = 0;
             foreach (var slice in ((GooglePieChartConfiguration)projectStagesGoogleChart.GoogleChartConfiguration).Slices)
             {
                 ProjectStagesHasData = ProjectStagesHasData || slice.Value > 0;
+                ProjectStagesTotal += slice.Value;
             }
 
             FundingOrganizationsViewGoogleChartViewData = new ViewGoogleChartViewData(fundingOrganizationGoogleChart, fundingOrganizationGoogleChart.GoogleChartConfiguration.Title, 350, true);

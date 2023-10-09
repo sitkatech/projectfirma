@@ -188,7 +188,11 @@ namespace ProjectFirma.Web.Views
             var resultsMenu = new LtInfoMenuItem(FieldDefinitionEnum.ResultsMenu.ToType().GetFieldDefinitionLabel());
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
-                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, FieldDefinitionEnum.AccomplishmentDashboardMenu.ToType().GetFieldDefinitionLabel()));
+                if (!MultiTenantHelpers.UsesCustomProjectDashboardPage(firmaSession) || new FirmaAdminFeature().HasPermissionByFirmaSession(firmaSession))
+                {
+                    // for NCRP only (aka Tenant that uses Custom Project Dashboard), make this page admin only
+                    resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, FieldDefinitionEnum.AccomplishmentDashboardMenu.ToType().GetFieldDefinitionLabel()));
+                }
             }
 
             if (MultiTenantHelpers.UsesCustomProjectDashboardPage(firmaSession))

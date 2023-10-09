@@ -52,6 +52,9 @@ namespace ProjectFirma.Web.Controllers
         {
             if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
             {
+                // for NCRP only (aka Tenant that uses Custom Project Dashboard), make this page admin only
+                Check.RequireThrowNotAuthorized(!MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession) || new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession), "You are not authorized to view this page.");
+
                 var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
                 var performanceMeasureGroups = HttpRequestStorage.DatabaseEntities.PerformanceMeasureGroups.Where(x => x.PerformanceMeasures.Any())
                     .OrderBy(x => x.PerformanceMeasureGroupName).ToList();
@@ -905,12 +908,12 @@ namespace ProjectFirma.Web.Controllers
             var googleChartDataTable = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardGoogleChartDataTable(googlePieChartSlices);
 
             var pieSliceTextStyle = new GoogleChartTextStyle("#FFFFFF") { IsBold = true, FontSize = 20 };
-            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
 
             var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number,
                 googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle,
-                googleChartConfigurationArea) {PieSliceText = "value"};
-            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.Right);
+                googleChartConfigurationArea) {PieSliceText = "value", PieHole = 0.4 };
+            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
 
             var pieChart = new GoogleChartJson(chartTitle, pieChartContainerID, pieChartConfiguration,
                 GoogleChartType.PieChart, googleChartDataTable, null);
@@ -1047,13 +1050,13 @@ namespace ProjectFirma.Web.Controllers
             var googleChartDataTable = ProjectModelExtensions.GetProjectStagesForProjectDashboardGoogleChartDataTable(googlePieChartSlices);
 
             var pieSliceTextStyle = new GoogleChartTextStyle("#FFFFFF") { IsBold = true, FontSize = 20 };
-            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
 
             var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number,
                     googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle,
                     googleChartConfigurationArea)
-                { PieSliceText = "value" };
-            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.Right);
+                { PieSliceText = "value", PieHole = 0.4 };
+            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
 
             var pieChart = new GoogleChartJson(chartTitle, pieChartContainerID, pieChartConfiguration,
                 GoogleChartType.PieChart, googleChartDataTable, null);
