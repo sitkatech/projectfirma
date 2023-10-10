@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Views.Results
             }
 
             FundingOrganizationsViewGoogleChartViewData = new ViewGoogleChartViewData(fundingOrganizationGoogleChart, fundingOrganizationGoogleChart.GoogleChartConfiguration.Title, 350, true);
-            var fundingSourcesIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index()), $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}");
+            var fundingSourcesIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index()), "Funding Organization");
             FundingOrganizationsViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {fundingSourcesIndexUrl}</b>");
             FundingOrganizationsHasData = fundingOrganizationGoogleChart.HasData();
         }
