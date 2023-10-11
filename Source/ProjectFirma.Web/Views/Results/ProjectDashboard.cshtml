@@ -172,10 +172,10 @@
             <div class="col-md-12">
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
+                        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() Matching Selected Filters</h2>
                     </div>
                     <div class="panel-body">
-                        @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height: 650px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
             </div>
