@@ -43,7 +43,7 @@ function getGridHeight(top) {
     var heightOffset = top + 50;
     var windowHeight = window.innerHeight;
     var gridHeight = windowHeight - heightOffset;
-    gridHeight = Math.max(gridHeight, 300); //Enforce minimum height
+    gridHeight = Math.max(gridHeight, 500); //Enforce minimum height
     return gridHeight;
 }
 

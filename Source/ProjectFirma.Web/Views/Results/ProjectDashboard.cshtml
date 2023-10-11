@@ -220,7 +220,7 @@
                 @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.setRowData(data);
                 @(ViewDataTyped.ProjectCustomDefaultGridName)TotalRowCount = data.length;
                 document.getElementById("@(ViewDataTyped.ProjectCustomDefaultGridName)RowCountText").innerText="Currently Viewing "+ @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.getDisplayedRowCount()+ " out of " + @(ViewDataTyped.ProjectCustomDefaultGridName)TotalRowCount + " @(ViewDataTyped.ProjectCustomDefaultGridSpec.ObjectNamePlural)";
-                @(ViewDataTyped.ProjectCustomDefaultGridName)ResizeGridWithVerticalFill(); // insert method to resize grid vertically
+                @(ViewDataTyped.ProjectCustomDefaultGridName)MakeGridVerticallyResizable(); // insert method to resize grid vertically
                 var @(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData = @(ViewDataTyped.ProjectCustomDefaultGridName)GeneratePinnedBottomData();
                 if(@(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData){
                     @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.setPinnedBottomRowData([@(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData]);
