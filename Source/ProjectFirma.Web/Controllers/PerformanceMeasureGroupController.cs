@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Controllers
                 ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()} \"{performanceMeasureGroup.PerformanceMeasureGroupName}\"?</p>"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()}");
 
-            var viewData = new ConfirmDialogFormViewData(confirmMessage);
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
                 viewModel);
         }
