@@ -27,7 +27,7 @@
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using MoreLinq
 @using ProjectFirma.Web.Common
@@ -43,7 +43,7 @@
 
 @section JavascriptAndStylesContent
 {
-   @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+   @{ AgGridIncludes.RenderPartialView(Html); }
    @{ MapJavascriptIncludes.RenderPartialView(Html); }
    <script src="@Url.Content("~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureExpectedController.js")" type="text/javascript"></script>
    <script src="@Url.Content("~/Views/PerformanceMeasureActual/PerformanceMeasureActualController.js")" type="text/javascript"></script>
@@ -87,7 +87,7 @@
 {
    @if (ViewDataTyped.CanLaunchProjectOrProposalWizard)
    {
-      <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@DhtmlxGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>
+      <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@AgGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>
    }
    else if (ViewDataTyped.ShowWithdrawProjectButton)
    {
@@ -96,7 +96,7 @@
 
    @if (ViewDataTyped.ShowFactSheetButton)
    {
-      <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
+      <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaAgGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
    }
 }
 
@@ -530,7 +530,7 @@
                      <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
                   </div>
                   <div class="panel-body">
-                     @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                     @Html.AgGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                   </div>
                </div>
                <div class="panel panelFirma">
@@ -538,7 +538,7 @@
                      <h3>System Communications</h3>
                   </div>
                   <div class="panel-body">
-                     @Html.DhtmlxGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                     @Html.AgGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                   </div>
                </div>
 
@@ -554,7 +554,7 @@
 
                            </div>
                        }
-                       @Html.DhtmlxGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                       @Html.AgGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                    </div>
                </div>
             }

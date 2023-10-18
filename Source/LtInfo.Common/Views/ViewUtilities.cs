@@ -27,7 +27,7 @@ using System.Security;
 using System.Text;
 using System.Web;
 using System.Xml;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 

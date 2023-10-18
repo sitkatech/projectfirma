@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -33,17 +33,17 @@ namespace ProjectFirma.Web.Views.ProjectStageCustomLabel
         {            
             if (hasManagePermissions)
             {
-                Add(string.Empty,
-                    a => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(a.GetEditUrl(), $"Edit {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()} label"),
-                    30, DhtmlxGridColumnFilterType.None);
+                Add("Edit",
+                    a => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(a.GetEditUrl(), $"Edit {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()} label"),
+                    30, AgGridColumnFilterType.None);
             }
 
             Add("Custom Label", a => a.HasCustomLabel() ? a.GetProjectStageDisplayName() : string.Empty, 200);
             Add("Default Label", a => a.ProjectStageDisplayName, 200);
-            Add("Has Custom Stage Name?", a => a.HasCustomLabel().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Has Custom Stage Name?", a => a.HasCustomLabel().ToYesNo(), 100, AgGridColumnFilterType.SelectFilterStrict);
             Add("Custom Color", a => a.HasCustomColor() ? a.GetProjectStageColor() : string.Empty, 200);
             Add("Default Color", a => a.ProjectStageColor, 200);
-            Add("Has Custom Stage Color?", a => a.HasCustomColor().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Has Custom Stage Color?", a => a.HasCustomColor().ToYesNo(), 100, AgGridColumnFilterType.SelectFilterStrict);
 
         }
     }

@@ -20,14 +20,14 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.MapLayer.Index
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 
@@ -41,7 +41,7 @@
 }
 
 <div style="margin-top: 10px;">
-    @Html.DhtmlxGrid(ViewDataTyped.GeospatialAreaMapLayerGridSpec, ViewDataTyped.GeospatialAreaMapLayerGridName, ViewDataTyped.GeospatialAreaMapLayerGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.GeospatialAreaMapLayerGridSpec, ViewDataTyped.GeospatialAreaMapLayerGridName, ViewDataTyped.GeospatialAreaMapLayerGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
 <h2 class="pageTitle" style="margin-top: 50px">External Reference Layers</h2>
@@ -56,5 +56,5 @@
 <div class="clearfix"></div>
 
 <div style="margin-top: 10px;">
-    @Html.DhtmlxGrid(ViewDataTyped.ExternalMapLayerGridSpec, ViewDataTyped.ExternalMapLayerGridName, ViewDataTyped.ExternalMapLayerGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ExternalMapLayerGridSpec, ViewDataTyped.ExternalMapLayerGridName, ViewDataTyped.ExternalMapLayerGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>

@@ -24,7 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.MvcResults;
 using LtInfo.Common.Views;
 
@@ -77,6 +77,33 @@ namespace LtInfo.Common.Models
         {
             var cellAttributes = new Dictionary<string, string>();
             cellAttributes.Add("value", columnSpec.CalculateStringValue(dataObject));
+
+            var title = columnSpec.CalculateTitle(dataObject);
+            if (!String.IsNullOrWhiteSpace(title))
+            {
+                cellAttributes.Add("title", title);
+            }
+
+            var cssClass = columnSpec.CalculateCellCssClass(dataObject);
+            if (!String.IsNullOrWhiteSpace(cssClass))
+            {
+                cellAttributes.Add("class", cssClass);
+            }
+
+            // if we only have a value, no need for the brackets
+            if (cellAttributes.Count == 1)
+            {
+                return cellAttributes.First().Value;
+            }
+            return string.Format("{{{0}}}", string.Join(",", cellAttributes.Select(x => string.Format("\"{0}\":\"{1}\"", x.Key, x.Value))));
+        }
+
+        public static object ToAgGridJsonCellData<T>(this T dataObject, ColumnSpec<T> columnSpec)
+        {
+            var cellAttributes = new Dictionary<string, object>();
+            object value  = columnSpec.CalculateNumericOrStringValue(dataObject);
+            
+            cellAttributes.Add("value", value);
 
             var title = columnSpec.CalculateTitle(dataObject);
             if (!String.IsNullOrWhiteSpace(title))

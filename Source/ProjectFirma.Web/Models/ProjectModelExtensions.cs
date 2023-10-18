@@ -39,6 +39,7 @@ using System.EnterpriseServices.Internal;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using GeospatialArea = ProjectFirmaModels.Models.GeospatialArea;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
 namespace ProjectFirma.Web.Models
@@ -1080,6 +1081,382 @@ namespace ProjectFirma.Web.Models
             html += "</table></div>";
             return html;
         }
+
+        public static List<GooglePieChartSlice> GetUnderservedCommunitiesForProjectDashboardPieChartSlices(List<Project> projects, List<Project> projectsInUnderservedCommunities)
+        {
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+            googlePieChartSlices.Add(new GooglePieChartSlice("Not in a Disadvantaged Community", projects.Count - projectsInUnderservedCommunities.Count, sortOrder++, "#424142"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Disadvantaged Community")), sortOrder++, "#b6430f"));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Severely Disadvantaged Community", projectsInUnderservedCommunities.Count(x => x.ProjectGeospatialAreas.Any(y => y.GeospatialArea.GeospatialAreaName == "Severely Disadvantaged Community")), sortOrder, "#4b5c14"));
+
+            return googlePieChartSlices;
+        }
+
+        public static GoogleChartDataTable GetUnderservedCommunitiesForProjectDashboardGoogleChartDataTable(List<GooglePieChartSlice> googlePieChartSlices)
+        {
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn($"Underserved Community Status", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn($"Count", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+
+            };
+
+            var chartRowCs = googlePieChartSlices.Select(x =>
+            {
+                var fundingTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = x.Value.ToGroupedNumeric();
+                var amountRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { fundingTypeRowV, amountRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+        }
+
+        public static GoogleChartDataTable GetProjectsByOwnerOrgTypeGoogleChartDataTable(Dictionary<OrganizationType, int> orgTypeToProjectCount)
+        {
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#3366CC", null, null);
+
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Project Sponsor Org Type", GoogleChartColumnDataType.String),
+                //new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn("Number of Projects", "# of Projects", GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+                new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "style", new GoogleChartProperty())
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+
+
+            var index = 0;
+            foreach (var orgToProjectCount in orgTypeToProjectCount)
+            {
+                //var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(orgToAmount.Key.OrganizationTypeAbbreviation) };
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(orgToProjectCount.Key.OrganizationTypeName) };
+                var projectCount = orgToProjectCount.Value;
+                // add custom tool tip hover
+                //googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(amounts, orgToAmount.Key)));
+
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(projectCount, projectCount.ToGroupedNumeric()));
+                googleChartRowVs.Add(new GoogleChartRowV($"color: {ColorSeriesForProjectByOwnerOrgType[index % ColorSeriesForProjectByOwnerOrgType.Count]}"));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+                index++;
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static string FormattedDataTooltip(int projectCount, OrganizationType organizationType)
+        {
+            var stringPrecision = new String('0', MeasurementUnitType.Count.NumberOfSignificantDigits);
+            var formattedTotal = projectCount.ToString($"#,###,###,##0.{stringPrecision}");
+            // build html for tooltip
+            var html = "<div class='googleTooltipDiv'>";
+            html += $"<div><b>{organizationType.OrganizationTypeName}</b></div>";
+            html += $"<div><span># of Projects: </span><span><b>{formattedTotal}</b></span></div></div>";
+
+            return html;
+        }
+
+        public static Dictionary<OrganizationType, int> GetProjectCountByOwnerOrgType(List<Project> projects)
+        {
+            var projectOrganizations = projects.SelectMany(x => x.ProjectOrganizations).ToList();
+            var ownerOrgRelationshipType = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            var projectOwnerOrganizations = projectOrganizations
+                    .Where(x => x.OrganizationRelationshipTypeID == ownerOrgRelationshipType.OrganizationRelationshipTypeID)
+                    .GroupBy(x => x.Organization.OrganizationType).OrderBy(x => x.Key.OrganizationTypeName).ToList();
+            var orgTypeToAmounts = new Dictionary<OrganizationType, int>();
+            OrganizationType otherOrgType = null;
+            int projectsForOther = 0;
+            foreach (var typeToProjectOrg in projectOwnerOrganizations)
+            {
+ 
+                int projectCount = typeToProjectOrg.Count();
+
+                if ("Other".Equals(typeToProjectOrg.Key.OrganizationTypeName))
+                {
+                    // save to add to the end of the dictionary because Other should be displayed last
+                    otherOrgType = typeToProjectOrg.Key;
+                    projectsForOther = projectCount;
+                }
+                else
+                {
+                    orgTypeToAmounts.Add(typeToProjectOrg.Key, projectCount);
+                }
+            }
+
+            if (otherOrgType != null)
+            {
+                orgTypeToAmounts.Add(otherOrgType, projectsForOther);
+            }
+
+            return orgTypeToAmounts;
+        }
+
+        public static GoogleChartDataTable GetProjectsByCountyAndTribalLandGoogleChartDataTable(Dictionary<GeospatialArea, int> countyToProjectCounts, int tribalLandProjectCount)
+        {
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#3366CC", null, null);
+
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("County Names and Tribal Land", GoogleChartColumnDataType.String),
+                //new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn("Number of Projects", "# of Projects", GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+                new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "style", new GoogleChartProperty())
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+            var unusedColorIndex = 15;
+            foreach (var countyToProjectCount in countyToProjectCounts)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(countyToProjectCount.Key.GeospatialAreaName) };
+                var projectCount = countyToProjectCount.Value;
+                // add custom tool tip hover
+                //googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(amounts, orgToAmount.Key)));
+
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(projectCount, projectCount.ToGroupedNumeric()));
+                var color = CountyOrTribalLandToColor.ContainsKey(countyToProjectCount.Key.GeospatialAreaName)
+                    ? CountyOrTribalLandToColor[countyToProjectCount.Key.GeospatialAreaName]
+                    : ColorSeriesForProjectByOwnerOrgType[unusedColorIndex % ColorSeriesForProjectByOwnerOrgType.Count];
+                if (!CountyOrTribalLandToColor.ContainsKey(countyToProjectCount.Key.GeospatialAreaName))
+                {
+                    unusedColorIndex++;
+                }
+                googleChartRowVs.Add(new GoogleChartRowV($"color: {color}"));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            if (tribalLandProjectCount > 0)
+            {
+                // add tribal land column
+                var googleChartRowVsForTribalLand = new List<GoogleChartRowV> { new GoogleChartRowV("Tribal Land As Identified by Federal BIA Map") };
+                googleChartRowVsForTribalLand.Add(new GoogleChartRowV(tribalLandProjectCount, tribalLandProjectCount.ToGroupedNumeric()));
+                googleChartRowVsForTribalLand.Add(new GoogleChartRowV($"color: {CountyOrTribalLandToColor["Tribal Land As Identified by Federal BIA Map"]}"));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVsForTribalLand));
+            }
+
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static GoogleChartDataTable GetProjectsByProjectTypeGoogleChartDataTable(Dictionary<Classification, int> projectTypeToProjectCounts)
+        {
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#3366CC", null, null);
+
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Project Type", GoogleChartColumnDataType.String),
+                //new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn("Number of Projects", "# of Projects", GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+                new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "style", new GoogleChartProperty())
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+            var unusedColorIndex = 15;
+            foreach (var projectTypeToProjectCount in projectTypeToProjectCounts)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(projectTypeToProjectCount.Key.DisplayName) };
+                var projectCount = projectTypeToProjectCount.Value;
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(projectCount, projectCount.ToGroupedNumeric()));
+                var color = ProjectTypeToColor.ContainsKey(projectTypeToProjectCount.Key.DisplayName)
+                    ? ProjectTypeToColor[projectTypeToProjectCount.Key.DisplayName]
+                    : ColorSeriesForProjectByOwnerOrgType[unusedColorIndex % ColorSeriesForProjectByOwnerOrgType.Count];
+                if (!ProjectTypeToColor.ContainsKey(projectTypeToProjectCount.Key.DisplayName))
+                {
+                    unusedColorIndex++;
+                }
+                googleChartRowVs.Add(new GoogleChartRowV($"color: {color}"));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static List<GooglePieChartSlice> GetProjectStagesForProjectDashboardPieChartSlices(List<Project> projects)
+        {
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+            googlePieChartSlices.Add(new GooglePieChartSlice(ProjectStage.PlanningDesign.GetProjectStageDisplayName(), projects.Count(x => x.ProjectStageID == ProjectStage.PlanningDesign.ProjectStageID), sortOrder++, "#e0871a"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(ProjectStage.Implementation.GetProjectStageDisplayName(), projects.Count(x => x.ProjectStageID == ProjectStage.Implementation.ProjectStageID), sortOrder++, "#424142"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(ProjectStage.PostImplementation.GetProjectStageDisplayName(), projects.Count(x => x.ProjectStageID == ProjectStage.PostImplementation.ProjectStageID), sortOrder++, "#ffe293"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(ProjectStage.Completed.GetProjectStageDisplayName(), projects.Count(x => x.ProjectStageID == ProjectStage.Completed.ProjectStageID), sortOrder++, "#94c5e3"));
+            
+            return googlePieChartSlices;
+        }
+
+        public static GoogleChartDataTable GetProjectStagesForProjectDashboardGoogleChartDataTable(List<GooglePieChartSlice> googlePieChartSlices)
+        {
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn($"{FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn("Count", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+
+            };
+
+            var chartRowCs = googlePieChartSlices.Select(x =>
+            {
+                var fundingTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = x.Value.ToGroupedNumeric();
+                var amountRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { fundingTypeRowV, amountRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+        }
+
+        public static GoogleChartDataTable GetProjectCountBudgetByFundingOrganizationGoogleChartDataTable(Dictionary<Organization, Tuple<int, decimal>> orgToProjectCountAndFundingAmount)
+        {
+            var fundingAmountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#4b5c14", null, null);
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Secondary, "#ffe293", null, null);
+
+            var projectCountLabel = $"Number of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
+            var fundingAmountLabel = "Funding Amount";
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Funding Organization", GoogleChartColumnDataType.String),
+                // new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn(fundingAmountLabel, fundingAmountLabel, GoogleChartColumnDataType.Number.ToString(), fundingAmountSeries),
+                new GoogleChartColumn(projectCountLabel, projectCountLabel, GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+
+            // var labels = new List<string> { projectCountLabel, fundingAmountLabel };
+
+            foreach (var keyValuePair in orgToProjectCountAndFundingAmount)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(keyValuePair.Key.OrganizationName) };
+                var projectCountAndFundingAmount = orgToProjectCountAndFundingAmount[keyValuePair.Key];
+                // add custom tool tip hover
+                // googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(amounts, orgToAmount.Key, labels)));
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(projectCountAndFundingAmount.Item2, GoogleChartJson.GetFormattedValue(Convert.ToDouble(projectCountAndFundingAmount.Item2), MeasurementUnitType.Dollars)));
+                googleChartRowVs.Add(new GoogleChartRowV(projectCountAndFundingAmount.Item1, projectCountAndFundingAmount.Item1.ToGroupedNumeric()));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static Dictionary<Organization, Tuple<int, decimal>> GetProjectCountAndFundingAmountFundingOrganization(List<Project> projects, List<int> fundingSourceIDsToExclude)
+        {
+            var fundingOrgAndSecuredFunding =
+                projects.SelectMany(x => x.ProjectFundingSourceBudgets).Where(x => !fundingSourceIDsToExclude.Contains(x.FundingSourceID) && x.SecuredAmount > 0).GroupBy(x => x.FundingSource.Organization).OrderBy(x => x.Key.OrganizationShortName).ToList();
+
+
+            var orgTypeToAmounts = new Dictionary<Organization, Tuple<int, decimal>>();
+            foreach (var orgToSecuredFunding in fundingOrgAndSecuredFunding)
+            {
+                decimal securedFunding = 0;
+                List<int> uniqueProjectIDs = new List<int>();
+                orgToSecuredFunding.ForEach(x =>
+                {
+                    securedFunding += x.SecuredAmount.GetValueOrDefault();
+                    uniqueProjectIDs.Add(x.Project.ProjectID);
+                });
+                var projectCount = uniqueProjectIDs.Distinct().Count();
+                var projectCountAndFundingAmount = new Tuple<int, decimal>(projectCount, securedFunding);
+                
+                orgTypeToAmounts.Add(orgToSecuredFunding.Key, projectCountAndFundingAmount);
+                
+            }
+
+            return orgTypeToAmounts;
+        }
+
+        public static Dictionary<string, string> CountyOrTribalLandToColor = new Dictionary<string, string>()
+        {
+            {"Del Norte", "#e0871a"},
+            {"Humboldt", "#ffe293"},
+            {"Mendocino", "#4b5c14"},
+            {"Modoc", "#2e6580"},
+            {"Siskiyou", "#ffbb00"},
+            {"Sonoma", "#7d3951"},
+            {"Tribal Land As Identified by Federal BIA Map", "#738c1f"},
+            {"Trinity", "#424142"},
+            {"Lake", "#94c5e3"}
+        };
+
+        public static Dictionary<string, string> ProjectTypeToColor = new Dictionary<string, string>()
+        {
+            {"Capacity: Data, Analysis, Monitoring", "#e0871a"},
+            {"Capacity: Regional and Local Planning", "#424142"},
+            {"Capacity: Organizational Support and Funding","#ffe293"},//Capacity: Organizational Support and Funding
+            {"Capacity: Local Workforce", "#94c5e3"},
+            {"Capacity: Community Engagement", "#b6430f"},
+            {"Fire Resilient Forests: Forest Health", "#4b5c14"},
+            {"Community Health and Safety: Fire Preparedness", "#2e6580"},
+            {"Community Health and Safety: Infrastructure Improvements", "#ffbb00"},
+            {"Ecosystem Conservation and Restoration: Watershed Enhancement", "#7d3951"},
+            {"Climate Action: Mitigation and Adaptation", "#738c1f"},
+            {"Unspecified", "#d3dde3"},
+        };
+
+        public static List<string> ColorSeriesForProjectByOwnerOrgType = new List<string>()
+        {
+            // NCRP colors
+            "#e0871a",
+            "#738c1f",
+            "#94c5e3",
+            "#ffe293",
+            "#424142",
+            "#b6430f",
+            "#4b5c14",
+            "#2e6580",
+            "#ffbb00",
+            "#7d3951",
+            "#e0d7cc",
+            "#dee9bf",
+            "#d3dde3",
+            "#fff9e8",
+            "#e6e7e9",
+            // google chart default colors start here
+            "#3366CC",
+            "#DC3912",
+            "#FF9900",
+            "#109618",
+            "#990099",
+            "#0099C6",
+            "#DD4477",
+            "#66AA00",
+            "#B82E2E",
+            "#316395",
+            "#994499",
+            "#22AA99",
+            "#AAAA11",
+            "#6633CC",
+            "#E67300",
+            "#8B0707",
+            "#651067",
+            "#329262",
+            "#5574A6",
+            "#3B3EAC",
+            "#B77322",
+            "#16D620",
+            "#B91383",
+            "#F4359E",
+            "#9C5935",
+            "#A9C413",
+            "#2A778D",
+            "#668D1C",
+            "#BEA413",
+            "#0C5922",
+            "#743411",
+            "#B322F7",
+            "#59E59A",
+            "#E582B5",
+            "#8080FC",
+            "#FF8282"
+        };
 
         public static ProjectCustomAttributesValidationResult ValidateCustomAttributes(this Project project, FirmaSession currentFirmaSession)
         {

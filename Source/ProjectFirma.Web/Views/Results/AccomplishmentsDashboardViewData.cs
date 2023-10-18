@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Results
         {
             var accomplishmentsDashboardOrganizationTypeName = FieldDefinitionEnum.ProjectStewardOrganizationDisplayName
                 .ToType().GetFieldDefinitionLabelPluralized();
-            PageTitle = "Accomplishments Dashboard";
+            PageTitle = FieldDefinitionEnum.AccomplishmentDashboardMenu.ToType().GetFieldDefinitionLabel();
             TenantAttribute = tenantAttribute;
             Organizations = organizations;
             CalendarYears = calendarYears;

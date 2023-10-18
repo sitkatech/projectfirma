@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -33,12 +33,12 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
         {
             if (hasDeletePermissions)
             {
-                Add(string.Empty,
-                    x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
-                    30,DhtmlxGridColumnFilterType.None);
-                Add(string.Empty,
-                    x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document Library {x.DocumentLibraryName}", true),
-                    30, DhtmlxGridColumnFilterType.None);
+                Add("delete",
+                    x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
+                    30,AgGridColumnFilterType.None);
+                Add("delete",
+                    x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document Library {x.DocumentLibraryName}", true),
+                    30, AgGridColumnFilterType.None);
             }
 
             Add(FieldDefinitionEnum.DocumentLibraryName.ToType().ToGridHeaderString(), x => x.GetDisplayNameAsUrl(), 250);

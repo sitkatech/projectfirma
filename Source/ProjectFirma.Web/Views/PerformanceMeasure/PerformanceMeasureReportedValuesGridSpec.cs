@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -33,18 +33,18 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public PerformanceMeasureReportedValuesGridSpec(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            Add(FieldDefinitionEnum.ReportingYear.ToType().ToGridHeaderString(), a => a.GetCalendarYearDisplay(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ReportingYear.ToType().ToGridHeaderString(), a => a.GetCalendarYearDisplay(), 60, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
                 a => a.Project.GetDisplayNameAsUrl(),
                 350,
-                DhtmlxGridColumnFilterType.Html);
+                AgGridColumnFilterType.Html);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
-                    DhtmlxGridColumnFilterType.Html);
+                    AgGridColumnFilterType.Html);
             }
-            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
             if (performanceMeasure.HasRealSubcategories())
             {
                 foreach (var performanceMeasureSubcategory in
@@ -65,23 +65,23 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                             }
 
                             return string.Empty;
-                        }, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                        }, 120, AgGridColumnFilterType.SelectFilterStrict);
                 }
             }
             var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
             if (performanceMeasure.IsSummable)
             {
-                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal,
-                    DhtmlxGridColumnAggregationType.Total);
+                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, AgGridColumnFormatType.Decimal,
+                    AgGridColumnAggregationType.Total);
             }
             else
             {
-                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal);
+                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, AgGridColumnFormatType.Decimal);
             }
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
-                Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.Project.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);
+                Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.Project.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, AgGridColumnFilterType.Html);
             }
         }
     }

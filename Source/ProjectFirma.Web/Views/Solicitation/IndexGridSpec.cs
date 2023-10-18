@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -37,14 +37,14 @@ namespace ProjectFirma.Web.Views.Solicitation
         {
             if (hasEditPermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.DeleteSolicitation(x)), true), 30);
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.DeleteSolicitation(x)), true), 30);
 
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.Edit(x)), $"Edit {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()}"), 30);
+                Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SolicitationController>.BuildUrlFromExpression(sc => sc.Edit(x)), $"Edit {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()}"), 30);
             }
 
-            Add($"{FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()} Name", a => a.SolicitationName, 200, DhtmlxGridColumnFilterType.Text);
-            Add("Attachment Instructions", a => !string.IsNullOrEmpty(a.AttachmentInstructions) ? a.AttachmentInstructionsHtmlString : new HtmlString(string.Empty), 600, DhtmlxGridColumnFilterType.Html);
-            Add("Is Active", a => a.IsActive.ToYesNo(), 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()} Name", a => a.SolicitationName, 200, AgGridColumnFilterType.Text);
+            Add("Attachment Instructions", a => !string.IsNullOrEmpty(a.AttachmentInstructions) ? a.AttachmentInstructionsHtmlString : new HtmlString(string.Empty), 600, AgGridColumnFilterType.Html);
+            Add("Is Active", a => a.IsActive.ToYesNo(), 65, AgGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

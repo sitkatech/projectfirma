@@ -1,0 +1,338 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectDashboard.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.AgGridWrappers
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Results
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Results.ProjectDashboard
+@section JavascriptAndStylesContent
+{
+    @{ AgGridIncludes.RenderPartialView(Html); }
+    <style>
+        .pageTitle {
+            display: none;
+        }
+        .subSectionName {
+            margin-bottom: 20px
+        }
+        div.logo:after {
+            content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
+        }
+
+        .counterSection {
+            padding-bottom: 10px;
+        }
+
+        #accomplishmentsDashboard .counterHeader h4 {
+            font-size: 24px;
+            color: #2e6580;
+            margin-top: 50px;
+        }
+
+        .projectFilters .dropdown-menu {
+            font-size: 13px;
+            background-color: white;
+        }
+
+        .projectFiltersSelect button {
+            font-size: 14px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .projectTypeDropdownButton .dropdown-toggle {
+            background-color: #e0871a !important;
+            color: white !important;
+        }
+
+        .countyTribeDropdownButton .dropdown-toggle {
+            background-color: #738c1f !important;
+            color: white !important;
+        }
+
+        .projectStageDropdownButton .dropdown-toggle {
+            background-color: #94c5e3 !important;
+            color: #333 !important;
+        }
+
+        #accomplishmentsDashboard .bootstrap-select .dropdown-toggle {
+            font-size: 14px;
+            font-weight: bold;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    </style>
+    <script src="/Scripts/waypoints.min.js"></script>
+    <script src="/Scripts/jquery.counterup.min.js"></script>
+}
+
+<div id="accomplishmentsDashboard">
+    <div class="homepageHeader">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
+                <div class="intro-text">
+                    <h1 class="subSectionName">Project Summary Dashboard</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" style="margin-top: 20px; margin-bottom: 20px;">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 ">
+            <span style="font-weight: bold">Filter @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() By:</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11">
+            <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                    <select id="projectTypeDropdown" onchange="" class="selectpicker projectFiltersSelect projectTypeDropdownButton" data-live-search="true" data-width="auto" multiple="multiple">
+                        @foreach (var projectType in ViewDataTyped.ProjectTypes)
+                        {
+                            <option value="@projectType.Value">@projectType.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select id="countyAndTribeDropdown" onchange="" class="selectpicker projectFiltersSelect countyTribeDropdownButton" data-live-search="true" data-width="auto" multiple="multiple">
+                        @foreach (var countyTribe in ViewDataTyped.CountiesAndTribes)
+                        {
+                            <option value="@countyTribe.Value">@countyTribe.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select id="projectStageDropdown" class="selectpicker  projectFiltersSelect projectStageDropdownButton" data-live-search="true" data-width="auto" multiple="multiple">
+                        @foreach (var projectStage in ViewDataTyped.ProjectStages)
+                        {
+                            <option value="@projectStage.ProjectStageID">@projectStage.ProjectStageDisplayName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-firma btn-sm" style="background-color: #eee; color: #777;" onclick="clearFilters()">Clear Filters</button>
+        </div>
+    </div>
+    <div class="row counterHeader">
+        <div class="col-xs-12 text-center">
+            <h4>@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Summary</h4>
+        </div>
+    </div>
+
+    <div id="projectDashboard" class="contentWrapper">
+        <div class="row counterSection">
+            <div class="col-sm-12 text-center">
+                <div id="counterLoader" style="display: none">
+                    <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
+                </div>
+                <div id="counterNumbers">
+                    <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> Total Projects
+                    <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                    <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> Project Sponsors
+                    <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                    <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> Total Investment
+                </div>
+            </div>
+        </div>
+        
+        <div id="projectDashboardCharts" class="contentWrapper">
+            @{ ProjectDashboardCharts.RenderPartialView(Html, ViewDataTyped.ProjectDashboardChartsViewData); }
+        </div>
+
+        <div class="row" style="margin-top: 50px">
+            <div class="col-md-12">
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() Matching Selected Filters</h2>
+                    </div>
+                    <div class="panel-body">
+                        @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height: 650px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    // <![CDATA[
+    function loadProjectSummary()
+    {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var projectTypes = jQuery("#projectTypeDropdown").val();
+        var countiesTribes = jQuery("#countyAndTribeDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ProjectDashboardSummaryUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs)
+            .replace("@ProjectDashboardViewData.ProjectTypesQueryStringValuePlaceholder", projectTypes)
+            .replace("@ProjectDashboardViewData.CountiesTribesQueryStringValuePlaceholder", countiesTribes);
+
+        SitkaAjax.get(newUrl, function (result) {
+            jQuery("#totalProjects").html(result.ProjectCount);
+            jQuery("#totalPartners").html(result.PartnerCount);
+            jQuery("#totalInvestment").html(result.TotalInvestment);
+
+            jQuery("#counterLoader").hide();
+            jQuery("#counterNumbers").show();
+        });
+    };
+
+    function loadProjectGrid() {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var projectTypes = jQuery("#projectTypeDropdown").val();
+        var countiesTribes = jQuery("#countyAndTribeDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ReloadProjectGridDataUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs)
+            .replace("@ProjectDashboardViewData.ProjectTypesQueryStringValuePlaceholder", projectTypes)
+            .replace("@ProjectDashboardViewData.CountiesTribesQueryStringValuePlaceholder", countiesTribes);
+        // reload grid data
+        fetch(newUrl).then(response => response.json())
+            .then(data => {
+                // load fetched data into grid
+                @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.setRowData(data);
+                @(ViewDataTyped.ProjectCustomDefaultGridName)TotalRowCount = data.length;
+                document.getElementById("@(ViewDataTyped.ProjectCustomDefaultGridName)RowCountText").innerText="Currently Viewing "+ @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.getDisplayedRowCount()+ " out of " + @(ViewDataTyped.ProjectCustomDefaultGridName)TotalRowCount + " @(ViewDataTyped.ProjectCustomDefaultGridSpec.ObjectNamePlural)";
+                @(ViewDataTyped.ProjectCustomDefaultGridName)MakeGridVerticallyResizable(); // insert method to resize grid vertically
+                var @(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData = @(ViewDataTyped.ProjectCustomDefaultGridName)GeneratePinnedBottomData();
+                if(@(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData){
+                    @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.setPinnedBottomRowData([@(ViewDataTyped.ProjectCustomDefaultGridName)PinnedBottomData]);
+                }
+            });
+        @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.showLoadingOverlay();
+    }
+
+    function loadCharts()
+    {
+        var projectStageIDs = jQuery("#projectStageDropdown").val();
+        var projectTypes = jQuery("#projectTypeDropdown").val();
+        var countiesTribes = jQuery("#countyAndTribeDropdown").val();
+        var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ProjectDashboardChartsUrl.ToJS());
+        var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs)
+            .replace("@ProjectDashboardViewData.ProjectTypesQueryStringValuePlaceholder", projectTypes)
+            .replace("@ProjectDashboardViewData.CountiesTribesQueryStringValuePlaceholder", countiesTribes);
+
+        SitkaAjax.load(jQuery("#projectDashboardCharts"), newUrl);
+    }
+
+    function reloadWithNewDropdowns() {
+        jQuery("#counterLoader").show();
+        jQuery("#counterNumbers").hide();
+        loadProjectSummary();
+        loadProjectGrid();
+        loadCharts();
+    }
+
+    function clearFilters() {
+        $(".selectpicker").val('default');
+        $(".selectpicker").selectpicker("refresh");
+        $(".bootstrap-select").width("100%");
+        reloadWithNewDropdowns();
+    }
+
+    jQuery(document).ready(function () {
+        var projectStageSelectpickerOptions = {
+            container: "body",
+            width: "100%",
+            noneSelectedText: "Filter by @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()",
+            actionsBox: true,
+            selectedTextFormat: "count > 1",
+            countSelectedText:  function (numSelected, numTotal) {
+                if (numSelected === numTotal) {
+                    return "All @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()";
+                }
+                return numSelected + " of " + numTotal + " @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabelPluralized()";
+            }
+        }
+
+        var projectTypesSelectpickerOptions = {
+            container: "body",
+            width: "100%",
+            //maxWidth: "330px",
+            noneSelectedText: "Filter by Project Types",
+            actionsBox: true,
+            selectedTextFormat: "count > 1",
+            countSelectedText:  function (numSelected, numTotal) {
+                if (numSelected === numTotal) {
+                    return "All Project Types";
+                }
+                return numSelected + " of " + numTotal + " Project Types";
+            }
+        }
+
+        var countiesTribesSelectpickerOptions = {
+            container: "body",
+            width: "100%",
+            noneSelectedText: "Filter by Tribe/County",
+            actionsBox: true,
+            selectedTextFormat: "count > 1",
+            countSelectedText:  function (numSelected, numTotal) {
+                if (numSelected === numTotal) {
+                    return "All Tribes/Counties";
+                }
+                return numSelected + " of " + numTotal + " Tribes/Counties";
+            }
+        }
+
+        var projectStagesDropdown = jQuery("#projectStageDropdown");
+        var projectTypesDropdown = jQuery("#projectTypeDropdown");
+        var countyAndTribeDropdown = jQuery("#countyAndTribeDropdown");
+        projectStagesDropdown.selectpicker(projectStageSelectpickerOptions);
+        projectTypesDropdown.selectpicker(projectTypesSelectpickerOptions);
+        countyAndTribeDropdown.selectpicker(countiesTribesSelectpickerOptions);
+
+        jQuery(function() {
+            jQuery('.counter').counterUp({
+                delay: 10,
+                time: 1000
+            });
+        });
+
+        // since we are not using the onchange event, but only want to reload if there is a change after the drop down is closed,
+        // need to keep track of the state of the drop downs separately
+        var lastProjectStageIDs = jQuery("#projectStageDropdown").val();
+        var lastProjectTypes = jQuery("#projectTypeDropdown").val();
+        var lastCountiesTribes = jQuery("#countyAndTribeDropdown").val();
+        $('.bootstrap-select').on('hide.bs.dropdown', function() {
+            // check for changed lists
+            var currentProjectStageIDs = jQuery("#projectStageDropdown").val();
+            var currentProjectTypes = jQuery("#projectTypeDropdown").val();
+            var currentCountiesTribes = jQuery("#countyAndTribeDropdown").val();
+            if (lastProjectStageIDs.toString() !== currentProjectStageIDs.toString() || lastProjectTypes.toString() !== currentProjectTypes.toString() || lastCountiesTribes.toString() !== currentCountiesTribes.toString()) {
+                reloadWithNewDropdowns();
+            }
+            lastProjectStageIDs = currentProjectStageIDs;
+            lastProjectTypes = currentProjectTypes;
+            lastCountiesTribes = currentCountiesTribes;
+        });
+    });
+
+    // ]]>
+</script>

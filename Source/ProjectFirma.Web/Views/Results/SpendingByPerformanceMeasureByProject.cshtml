@@ -24,14 +24,14 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits SpendingByPerformanceMeasureByProject
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 
     <script type="text/javascript">
         // <![CDATA[
@@ -117,7 +117,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
                 </div>
                 <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:450px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:450px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                 </div>-
             </div>
         </div>

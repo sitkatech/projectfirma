@@ -40,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="form-group">
             @Html.LabelFor(x => x.FieldDefinitionDataValue, new {@class = "col-md-2 control-label"})
             <div class="col-md-10" style="max-height: 300px; overflow-y: auto;">
-                @Html.CkEditorFor(x => x.FieldDefinitionDataValue, CkEditorExtension.CkEditorToolbar.MinimalWithImages, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 200)
+                @Html.TinyMCEEditorFor(x => x.FieldDefinitionDataValue, TinyMCEExtension.TinyMCEToolbarStyle.MinimalWithImages, true, false, 200)
             </div>
             @Html.ValidationMessageFor(x => x.FieldDefinitionDataValue)
         </div>
@@ -53,7 +53,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-10 fieldDefinition" style="max-height: 300px; overflow-y: auto;">
                 @if (ViewDataTyped.IsSitkaAdministrator)
                 {
-                    @Html.CkEditorFor(x => x.FieldDefinitionDefault, CkEditorExtension.CkEditorToolbar.Minimal, true, false, 200)
+                    @Html.TinyMCEEditorFor(x => x.FieldDefinitionDefault, TinyMCEExtension.TinyMCEToolbarStyle.Minimal, true, false, 200)
                 }
                 else
                 {

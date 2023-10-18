@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Views.Tag
         {            
             if (hasManagePermissions)
             {
-                Add(string.Empty,
-                    a => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(t => t.Edit(a.TagID)),
+                Add("Edit",
+                    a => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(t => t.Edit(a.TagID)),
                         $"Edit Tag'{a.TagName}'")),
                     30);
             }

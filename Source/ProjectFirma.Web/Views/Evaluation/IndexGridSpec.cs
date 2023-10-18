@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -34,14 +34,14 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public IndexGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, e => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, DhtmlxGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.EvaluationName.ToType().ToGridHeaderString(), a => MakeNameLinkToDetailIfAvailable(currentFirmaSession, a), 210, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.EvaluationDefinition.ToType().ToGridHeaderString(), a => a.EvaluationDefinition, 210, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.EvaluationStatus.ToType().ToGridHeaderString(), a => a.GetEvaluationStatusDisplayName(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Delete", e => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, AgGridColumnFilterType.None);
+            Add(FieldDefinitionEnum.EvaluationName.ToType().ToGridHeaderString(), a => MakeNameLinkToDetailIfAvailable(currentFirmaSession, a), 210, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.EvaluationDefinition.ToType().ToGridHeaderString(), a => a.EvaluationDefinition, 210, AgGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.EvaluationStatus.ToType().ToGridHeaderString(), a => a.GetEvaluationStatusDisplayName(), 80, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.EvaluationStartDate.ToType().ToGridHeaderString(), a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 80);
             Add(FieldDefinitionEnum.EvaluationEndDate.ToType().ToGridHeaderString(), a => a.EvaluationEndDate.HasValue ? a.EvaluationEndDate.ToStringDate() : "not set", 80);
-            Add(FieldDefinitionEnum.EvaluationCriteria.ToType().ToGridHeaderString(), a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 200, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.EvaluationVisibility.ToType().ToGridHeaderString(), a => a.GetEvaluationVisibilityDisplayName(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.EvaluationCriteria.ToType().ToGridHeaderString(), a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 200, AgGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.EvaluationVisibility.ToType().ToGridHeaderString(), a => a.GetEvaluationVisibilityDisplayName(), 200, AgGridColumnFilterType.SelectFilterStrict);
         }
 
         private static HtmlString MakeNameLinkToDetailIfAvailable(FirmaSession currentFirmaSession,  ProjectFirmaModels.Models.Evaluation evaluation)
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluation))
             {
-                return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluation.GetDeleteUrl(), true, evaluation.CanDelete());
+                return AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluation.GetDeleteUrl(), true, evaluation.CanDelete());
             }
             return new HtmlString(string.Empty);
         }

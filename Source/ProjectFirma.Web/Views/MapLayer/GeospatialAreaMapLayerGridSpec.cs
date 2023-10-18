@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -38,12 +38,12 @@ namespace ProjectFirma.Web.Views.MapLayer
                 if (areGeospatialAreasExternallySourced)
                 {
                     var cssClasses = new List<string> { "btn", "btn-xs", "btn-firma" };
-                    Add(string.Empty,
-                        x => DhtmlxGridHtmlHelpers.MakeModalDialogLink("Sync", x.GetSyncUrl(), 400, "Sync Data",
+                    Add("Sync Data",
+                        x => AgGridHtmlHelpers.MakeModalDialogLink("Sync", x.GetSyncUrl(), 400, "Sync Data",
                             true, "Sync", "Cancel", cssClasses, null, null),
-                        60, DhtmlxGridColumnFilterType.None);
+                        60, AgGridColumnFilterType.None);
                 }
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditMapLayerUrl(), "Edit Geospatial Area Map Layer"), 30, DhtmlxGridColumnFilterType.None);
+                Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditMapLayerUrl(), "Edit Geospatial Area Map Layer"), 30, AgGridColumnFilterType.None);
             }
             Add("Display Name", x => x.GeospatialAreaTypeNamePluralized, 250);
             Add(FieldDefinitionEnum.GeospatialAreaMapLayerDisplayAsReferenceLayer.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 175);

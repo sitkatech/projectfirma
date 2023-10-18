@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -33,17 +33,17 @@ namespace ProjectFirma.Web.Views.TrainingVideo
     {
         public ManageTrainingVideosGridSpec()
         {
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<TrainingVideoController>.BuildUrlFromExpression(t => t.Edit(a)),
+            Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, AgGridColumnFilterType.None);
+            Add("edit", a => AgGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<TrainingVideoController>.BuildUrlFromExpression(t => t.Edit(a)),
                     850, "Edit")),
-                30, DhtmlxGridColumnFilterType.None);
+                30, AgGridColumnFilterType.None);
 
             Add("Video Title", a => a.VideoName, 250);
             Add("Video Description", a => a.VideoDescription, 300);
-            Add(FieldDefinitionEnum.TrainingVideoUploadDate.ToType().ToGridHeaderString(), a => a.VideoUploadDate, 130, DhtmlxGridColumnFormatType.DateTime);
+            Add(FieldDefinitionEnum.TrainingVideoUploadDate.ToType().ToGridHeaderString(), a => a.VideoUploadDate, 130, AgGridColumnFormatType.DateTime);
             Add(FieldDefinitionEnum.TrainingVideoUrl.ToType().ToGridHeaderString(), a => a.VideoURL, 250);
-            Add("Sort Order", a => a.SortOrder, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
-            Add(FieldDefinitionEnum.TrainingVideoViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
+            Add("Sort Order", a => a.SortOrder, 90, AgGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
+            Add(FieldDefinitionEnum.TrainingVideoViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, AgGridColumnFilterType.Html);
 
         }
 

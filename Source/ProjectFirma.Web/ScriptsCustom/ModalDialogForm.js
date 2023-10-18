@@ -105,12 +105,9 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
     saveButton.on("click" ,function () {
         saveButton.attr('disabled', true);
 
-        // 7/10/2023 TK - moved from /ScriptsCustom/CkEditorReady.js due to an order of operations issue with jQuery 3.7. remove when upgrading to tinyMCE
-        for (var i in CKEDITOR.instances) {
-            var ckEditorForDiv = CKEDITOR.instances[i];
-            var id = ckEditorForDiv.name;
-            var ckEditorHtml = ckEditorForDiv.getData();
-            jQuery("#" + id).val(ckEditorHtml);
+        if (tinyMCE.activeEditor != null) {
+            var id = tinymce.activeEditor.id;
+            jQuery("#" + id).val(tinymce.activeEditor.getContent());
         }
 
         // Manually submit the form
@@ -139,9 +136,10 @@ function createBootstrapDialogForm(element, dialogDivId, dialogContentDivId, jav
     dialogDiv.on("hidden.bs.modal", function () {
         // It turns out that closing a bootstrap UI dialog
         // does not actually remove the element from the
-        // page but just hides it. For the server side 
+        // page but just hides it. For the server side
         // validation tooltips to show up you need to
         // remove the original form the page
+        tinymce.remove("#" + dialogDivId + " textarea");
         jQuery("#" + dialogDivId).remove();
     });
 

@@ -11,7 +11,7 @@
 @if (MultiTenantHelpers.HasAttachmentTypeConfigured())
 {
     <div style="text-align: right; padding-bottom: 25px;">
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Attachment", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddAttachmentUrl, "Upload New Attachment", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditAttachments)
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Attachment", FirmaAgGridHtmlHelpers.PlusIcon), ViewDataTyped.AddAttachmentUrl, "Upload New Attachment", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditAttachments)
     </div>
 }
 else

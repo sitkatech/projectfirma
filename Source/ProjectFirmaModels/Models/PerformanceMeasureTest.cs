@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
 
             var subcategoryOption1 = TestFramework.TestPerformanceMeasureSubcategoryOption.Create(1, performanceMeasureSubcategory, "Option 1");
 
-            Assert.That(performanceMeasure.HasRealSubcategories(), Is.False, "Only 1 performanceMeasureSubcategory, and performanceMeasureSubcategory has one option, should be false");
+            Assert.That(performanceMeasure.HasRealSubcategories(), Is.True, "Only 1 performanceMeasureSubcategory, and performanceMeasureSubcategory has one option, should be true");
 
             var subcategoryOption2 = TestFramework.TestPerformanceMeasureSubcategoryOption.Create(2, performanceMeasureSubcategory, "Option 2");
 

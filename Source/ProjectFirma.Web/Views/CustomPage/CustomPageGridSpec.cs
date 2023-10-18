@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -38,11 +38,11 @@ namespace ProjectFirma.Web.Views.CustomPage
         {            
             if (hasManagePermissions)
             {               
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.Edit(a)),
+                Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, AgGridColumnFilterType.None);
+                Add("edit", a => AgGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.Edit(a)),
                         850, "Edit")),
-                    30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeModalDialogLink("<span>Edit Content</span>",
+                    30, AgGridColumnFilterType.None);
+                Add("Edit Content", a => AgGridHtmlHelpers.MakeModalDialogLink("<span>Edit Content</span>",
                     SitkaRoute<CustomPageController>.BuildUrlFromExpression(y => y.EditInDialog(a)),
                     800,
                     $"Edit Content for {a.CustomPageDisplayName}",
@@ -51,12 +51,12 @@ namespace ProjectFirma.Web.Views.CustomPage
                     "Cancel",
                     new List<string> { "gridButton" },
                     null,
-                    null), 80, DhtmlxGridColumnFilterType.None);
+                    null), 80, AgGridColumnFilterType.None);
             }
-            Add("Menu", a => a.FirmaMenuItem.GetFirmaMenuItemDisplayName(), 110, DhtmlxGridColumnFilterType.Text);
-            Add("Page Name", a => !a.IsDisabled() ? UrlTemplate.MakeHrefString(a.GetAboutPageUrl(), a.CustomPageDisplayName) : new HtmlString($"{a.CustomPageDisplayName}"), 180, DhtmlxGridColumnFilterType.Text);
-            Add("Has Content", a => a.HasPageContent().ToYesNo(), 85, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.CustomPageViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRolesAsListOfStrings(), 400, DhtmlxGridColumnFilterType.Text);
+            Add("Menu", a => a.FirmaMenuItem.GetFirmaMenuItemDisplayName(), 110, AgGridColumnFilterType.Text);
+            Add("Page Name", a => !a.IsDisabled() ? UrlTemplate.MakeHrefString(a.GetAboutPageUrl(), a.CustomPageDisplayName) : new HtmlString($"{a.CustomPageDisplayName}"), 180, AgGridColumnFilterType.Text);
+            Add("Has Content", a => a.HasPageContent().ToYesNo(), 85, AgGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.CustomPageViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRolesAsListOfStrings(), 400, AgGridColumnFilterType.Text);
             Add("CustomPageID", a => a.CustomPageID, 0);
         }
     }

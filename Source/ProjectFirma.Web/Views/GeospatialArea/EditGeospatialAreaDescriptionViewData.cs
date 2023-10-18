@@ -25,13 +25,11 @@ namespace ProjectFirma.Web.Views.GeospatialArea
 {
     public class EditGeospatialAreaDescriptionViewData : FirmaUserControlViewData
     {
-        public CkEditorExtension.CkEditorToolbar CkEditorToolbar { get; }
-        public readonly string FileBrowserImageUploadUrl;
+        public TinyMCEExtension.TinyMCEToolbarStyle TinyMceToolbarStyle { get; }
 
-        public EditGeospatialAreaDescriptionViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar, string fileBrowserImageUploadUrl)
+        public EditGeospatialAreaDescriptionViewData(TinyMCEExtension.TinyMCEToolbarStyle tinyMceToolbarStyle)
         {
-            CkEditorToolbar = ckEditorToolbar;
-            FileBrowserImageUploadUrl = fileBrowserImageUploadUrl;
+            TinyMceToolbarStyle = tinyMceToolbarStyle;
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿
+
+
+.ag-filter .filter-options {
+     background-color: #fff;
+     border: 1px solid rgba($black, 0.2);
+     max-height: 250px;
+     overflow: auto;
+     border-radius: 4px;
+     padding: 2px;
+ }
+
+.filter-options label.filter-option {
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    background-color: $white;
+
+
+}
+
+.filter-options label.filter-option input {
+    margin-right: 5px;
+}
+
+
+.filter-options label.filter-option:hover {
+        background-color: #f1f5f9;
+}
+
+.gridDownloadContainer .excelbutton {
+    margin-left: 10px;
+}

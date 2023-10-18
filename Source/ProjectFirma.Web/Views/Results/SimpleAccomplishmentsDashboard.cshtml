@@ -23,6 +23,7 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Results
+@using ProjectFirma.Web.Views.Shared
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.SimpleAccomplishmentsDashboard
 @section JavascriptAndStylesContent
@@ -31,10 +32,12 @@
     .pageTitle {
         display: none;
     }
-
-    div.star-primary:after {
-        content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
-    }
+    .subSectionName {
+           margin-bottom: 20px
+        }
+        div.logo:after {
+            content: url("@MultiTenantHelpers.GetTenantSquareLogScaledAsIconoUrl()");
+        }
 
     .accomplishmentGroupHeader {
         font-weight: bold;
@@ -55,11 +58,17 @@
         <div class="row">
             <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
                 <div class="intro-text">
-                    <h1 class="subSectionName">Accomplishments Dashboard</h1>
-                    <div class="star-primary"></div>
+                    <h1 class="subSectionName">@FieldDefinitionEnum.AccomplishmentDashboardMenu.ToType().GetFieldDefinitionLabel()</h1>
+                    @if (!ViewDataTyped.TenantName.Equals("NCRPProjectTracker"))
+                    {
+                        <div class="logo"></div>
+                    }
                 </div>
             </div>
         </div>
+    </div>
+    <div>
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
     </div>
     @if (ViewDataTyped.TenantName.Equals("NCRPProjectTracker"))
     {

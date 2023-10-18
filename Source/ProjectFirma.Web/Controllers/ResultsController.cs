@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -36,8 +37,10 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
@@ -49,6 +52,9 @@ namespace ProjectFirma.Web.Controllers
         {
             if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
             {
+                // for NCRP only (aka Tenant that uses Custom Project Dashboard), make this page admin only
+                Check.RequireThrowNotAuthorized(!MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession) || new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession), "You are not authorized to view this page.");
+
                 var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
                 var performanceMeasureGroups = HttpRequestStorage.DatabaseEntities.PerformanceMeasureGroups.Where(x => x.PerformanceMeasures.Any())
                     .OrderBy(x => x.PerformanceMeasureGroupName).ToList();
@@ -752,6 +758,444 @@ namespace ProjectFirma.Web.Controllers
             }
 
             return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
+        }
+
+
+        private static int ProjectTypeClassificationID = 17;
+        private static int CountyGeospatialAreaTypeID = 24;
+        private static int TribeGeospatialAreaTypeID = 22;
+        private static int DisadvantagedCommunityStatusGeospatialAreaTypeID = 23;
+        private static int NotTriballyOwnedGeospatialAreaID = 12143;
+
+        // Allow admin access only for now
+        [FirmaAdminFeature]
+        public ViewResult ProjectDashboard()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
+
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
+
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
+                .ProjectCustomGridConfigurations
+                .Where(x => x.IsEnabled &&
+                            x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID)
+                .OrderBy(x => x.SortOrder).ToList();
+            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
+            var projectGridSpec =
+                new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations,
+                    ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentFirmaSession.Tenant)
+                {
+                    ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                    ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
+                    SaveFiltersInCookie = true
+                };
+
+            var projectTypes = HttpRequestStorage.DatabaseEntities.Classifications.Where(x => x.ClassificationSystemID == ProjectTypeClassificationID).OrderBy(x => x.DisplayName)
+                .ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+
+            var countiesAndTribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas
+                .Where(x =>
+                    (x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID ||
+                     x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) &&
+                    x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).OrderBy(x => x.GeospatialAreaShortName)
+                .ToSelectList(x => x.GeospatialAreaID.ToString(CultureInfo.InvariantCulture),
+                    x => x.GeospatialAreaShortName);
+
+            var underservedCommunitiesGoogleChart =
+                GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
+            var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
+            var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
+            var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
+            var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
+            var projectDashboardChartsViewData =
+                new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID, projectsByOwnerOrgTypeGoogleChart,
+                    projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
+                    projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
+                    fundingOrganizationGoogleChart);
+
+            var viewData =
+                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalInvestment,
+                    projectGridSpec, projectTypes, countiesAndTribes, projectDashboardChartsViewData);
+            return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
+        }
+
+
+
+        // Allow admin access only for now
+        [FirmaAdminFeature]
+        public GridJsonNetJObjectResult<Project> ProjectDashboardProjectsGridJsonData()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentTenant);
+
+            var projects = GetProjectsForProjectDashboard();
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [FirmaAdminFeature]
+        public JsonNetJObjectResult ProjectDashboardProjectSummary()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
+            return new JsonNetJObjectResult(new
+            {
+                ProjectCount = projects.Count.ToGroupedNumeric(),
+                PartnerCount = partners.Count.ToGroupedNumeric(),
+                ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count.ToGroupedNumeric(),
+                TotalInvestment = totalInvestment.ToGroupedNumeric()
+            });
+        }
+
+        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities, out decimal totalInvestment)
+        {
+            projects = GetProjectsForProjectDashboard();
+
+            projectSponsors = projects
+                .SelectMany(x => x.ProjectOrganizations).Where(x => x.OrganizationRelationshipType.IsPrimaryContact).Select(x => x.Organization).Distinct().ToList();
+            var geospatialAreaNames = new List<string>()
+            {
+                "Disadvantaged Community",
+                "Severely Disadvantaged Community"
+            };
+            projectsInUnderservedCommunities = projects.Where(x => x.ProjectGeospatialAreas.Any(y => geospatialAreaNames.Contains(y.GeospatialArea.GeospatialAreaName))).ToList();
+
+
+            var fundingSourceCustomAttributeDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributes
+                .GroupBy(x => x.FundingSourceID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+            var fundingSourceCustomAttributeValueDictionary = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeValues
+                .GroupBy(x => x.FundingSourceCustomAttributeID)
+                .ToDictionary(x => x.Key, y => y.ToList());
+
+            // NCRP Award custom attribute
+            var fundingSourceCustomAttributeType =
+                HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.SingleOrDefault(x =>
+                    x.FundingSourceCustomAttributeTypeName.Equals("NCRP Award"));
+            
+            totalInvestment = 0;
+            if (fundingSourceCustomAttributeType != null)
+            {
+                var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList();
+
+                var awardFundingSourceIDs = fundingSources.Where(x =>
+                    x.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType,
+                        fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary).Equals("Yes")).Select(x => x.FundingSourceID).ToList();
+
+                var matchedFundingSourceIDs = fundingSources.Where(x =>
+                    x.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType,
+                        fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary).Equals("No")).Select(x => x.FundingSourceID).ToList();
+
+
+                var totalAwarded = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(awardFundingSourceIDs) ?? 0));
+                var totalMatched = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0));
+                totalInvestment = totalAwarded + totalMatched;
+            }
+        }
+
+        private GoogleChartJson GetUnderservedCommunitiesPieChartForProjectDashboard(List<Project> projects,  List<Project> projectsInUnderservedCommunities)
+        {
+            var chartTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by Underserved Community Status";
+            var pieChartContainerID = chartTitle.Replace(" ", "");
+
+            var googlePieChartSlices = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardPieChartSlices(projects, projectsInUnderservedCommunities);
+            var googleChartDataTable = ProjectModelExtensions.GetUnderservedCommunitiesForProjectDashboardGoogleChartDataTable(googlePieChartSlices);
+
+            var pieSliceTextStyle = new GoogleChartTextStyle("#FFFFFF") { IsBold = true, FontSize = 20 };
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
+
+            var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number,
+                googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle,
+                googleChartConfigurationArea) {PieSliceText = "value", PieHole = 0.4 };
+            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+
+            var pieChart = new GoogleChartJson(chartTitle, pieChartContainerID, pieChartConfiguration,
+                GoogleChartType.PieChart, googleChartDataTable, null);
+            pieChart.CanConfigureChart = false;
+            return pieChart;
+
+        }
+
+        private GoogleChartJson GetProjectsByOwnerOrgTypeChart(List<Project> projects)
+        {
+            // set up Projects by Owner Org Type column chart
+            var projectByOrgTypeChartTitle = "Projects by Project Sponsor Type";
+            var orgTypeChartContainerID = projectByOrgTypeChartTitle.Replace(" ", "");
+            var googleChartAxis = new GoogleChartAxis("Organization Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+            var orgTypeToProjectCounts = ProjectModelExtensions.GetProjectCountByOwnerOrgType(projects);
+            var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByOwnerOrgTypeGoogleChartDataTable(orgTypeToProjectCounts);
+
+            var orgTypeChartConfig = new GoogleChartConfiguration(projectByOrgTypeChartTitle, true, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            orgTypeChartConfig.SeriesType = "bars";
+            orgTypeChartConfig.ChartArea = new GoogleChartConfigurationArea()
+            {
+                Width = "100%",
+                Height = "80%",
+                Left = "40%",
+                Top = 10
+            };
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            orgTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
+            orgTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            orgTypeChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
+
+            var orgTypeGoogleChart = new GoogleChartJson(projectByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, orgTypeToProjectCounts.Keys.Select(x => x.OrganizationTypeName).ToList());
+            orgTypeGoogleChart.CanConfigureChart = false;
+            return orgTypeGoogleChart;
+        }
+
+        private GoogleChartJson GetProjectsByCountyAndTribalLandChart(List<Project> projects)
+        {
+            // set up Projects by County & Tribal Land column chart
+            var projectByCountyChartTitle = "Projects by County and Tribal Land";
+            var countyChartContainerID = projectByCountyChartTitle.Replace(" ", "");
+            var googleChartAxis = new GoogleChartAxis("County Names and Tribal Land", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+
+            var counties = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID).ToList();
+            // all tribal land except for "Not Tribally owned land as identified by federal BIA map layer" (ID = 12143)
+            var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID && x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).ToList();
+
+            var projectGeospatialAreas = projects.SelectMany(x => x.ProjectGeospatialAreas).ToList();
+            var countyIDs = counties.Select(x => x.GeospatialAreaID).ToList();
+
+            var countyToProjectCounts = projectGeospatialAreas.Where(x => countyIDs.Contains(x.GeospatialAreaID))
+                .GroupBy(x => x.GeospatialArea).OrderBy(x => x.Key.GeospatialAreaName).ToDictionary(x => x.Key, x => x.Count());
+
+            var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
+            var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
+                .Select(x => x.Project).Distinct().Count();
+
+            var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByCountyAndTribalLandGoogleChartDataTable(countyToProjectCounts, tribalLandProjectCount);
+
+            var chartColumns = countyToProjectCounts.Keys.Select(x => x.GeospatialAreaName).ToList();
+            if (tribalLandProjectCount > 0)
+            {
+                chartColumns.Add("Tribal Land As Identified by Federal BIA Map");
+            }
+
+            var countyChartConfig = new GoogleChartConfiguration(projectByCountyChartTitle, true, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            countyChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
+            countyChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            countyChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
+            countyChartConfig.SeriesType = "bars";
+            countyChartConfig.ChartArea = new GoogleChartConfigurationArea()
+            {
+                Width = "100%",
+                Height = "80%",
+                Left = "40%",
+                Top = 10
+            };
+
+            var countyAndTribalLandGoogleChart = new GoogleChartJson(projectByCountyChartTitle, countyChartContainerID, countyChartConfig, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, chartColumns);
+            countyAndTribalLandGoogleChart.CanConfigureChart = false;
+            return countyAndTribalLandGoogleChart;
+        }
+
+        private GoogleChartJson GetProjectsByProjectTypeChart(List<Project> projects)
+        {
+            // set up Projects by County & Tribal Land column chart
+            var projectByProjectTypeChartTitle = "Projects by Project Types";
+            var projectTypeChartContainerID = projectByProjectTypeChartTitle.Replace(" ", "");
+            var googleChartAxis = new GoogleChartAxis("Project Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+
+            var projectTypes = HttpRequestStorage.DatabaseEntities.Classifications.Where(x => x.ClassificationSystemID == ProjectTypeClassificationID).ToList();
+            var projectClassifications = projects.SelectMany(x => x.ProjectClassifications).ToList();
+            var projectTypeIDs = projectTypes.Select(x => x.ClassificationID).ToList();
+
+            var projectTypeToProjectCount = projectClassifications.Where(x => projectTypeIDs.Contains(x.ClassificationID))
+                .GroupBy(x => x.Classification).OrderBy(x => x.Key.DisplayName).ToDictionary(x => x.Key, x => x.Count());
+
+            var projectTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByProjectTypeGoogleChartDataTable(projectTypeToProjectCount);
+
+            var chartColumns = projectTypeToProjectCount.Keys.Select(x => x.DisplayName).ToList();
+           
+            var projectTypeChartConfig = new GoogleChartConfiguration(projectByProjectTypeChartTitle, false, GoogleChartType.BarChart, projectTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            projectTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(projectTypeGoogleChartDataTable);
+            projectTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            projectTypeChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
+            projectTypeChartConfig.SeriesType = "bars";
+            projectTypeChartConfig.ChartArea = new GoogleChartConfigurationArea()
+            {
+                Width = "100%",
+                Height = "80%",
+                Left = "40%",
+                Top = 10
+            };
+
+            var countyAndTribalLandGoogleChart = new GoogleChartJson(projectByProjectTypeChartTitle, projectTypeChartContainerID, projectTypeChartConfig, GoogleChartType.BarChart, projectTypeGoogleChartDataTable, chartColumns);
+            countyAndTribalLandGoogleChart.CanConfigureChart = false;
+            return countyAndTribalLandGoogleChart;
+        }
+
+        private GoogleChartJson GetProjectStagesPieChartForProjectDashboard(List<Project> projects)
+        {
+            var chartTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}";
+            var pieChartContainerID = chartTitle.Replace(" ", "");
+
+            var googlePieChartSlices = ProjectModelExtensions.GetProjectStagesForProjectDashboardPieChartSlices(projects);
+            var googleChartDataTable = ProjectModelExtensions.GetProjectStagesForProjectDashboardGoogleChartDataTable(googlePieChartSlices);
+
+            var pieSliceTextStyle = new GoogleChartTextStyle("#FFFFFF") { IsBold = true, FontSize = 20 };
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
+
+            var pieChartConfiguration = new GooglePieChartConfiguration(chartTitle, MeasurementUnitTypeEnum.Number,
+                    googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle,
+                    googleChartConfigurationArea)
+                { PieSliceText = "value", PieHole = 0.4 };
+            pieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+
+            var pieChart = new GoogleChartJson(chartTitle, pieChartContainerID, pieChartConfiguration,
+                GoogleChartType.PieChart, googleChartDataTable, null);
+            pieChart.CanConfigureChart = false;
+            return pieChart;
+
+        }
+
+        private GoogleChartJson GetFundingOrganizationChart(List<Project> projects)
+        {
+
+            // set up Funding by Owner Org Type column chart
+            var fundingOrgChartTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by Funding Organization";
+            var fundingOrgChartContainerID = fundingOrgChartTitle.Replace(" ", "");
+            var googleChartAxisHorizontal = new GoogleChartAxis("Funding Organization", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisVerticalFundingAmount = new GoogleChartAxis("Funding Amount", MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticalProjectCount = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxisVerticalFundingAmount , googleChartAxisVerticalProjectCount };
+
+            var orgToProjectCountAndFundingAmount = ProjectModelExtensions.GetProjectCountAndFundingAmountFundingOrganization(projects, new List<int>() { 9312 });
+            var fundingOrgGoogleChartDataTable = ProjectModelExtensions.GetProjectCountBudgetByFundingOrganizationGoogleChartDataTable(orgToProjectCountAndFundingAmount);
+
+
+            var fundingOrgChartConfig = new GoogleChartConfiguration(fundingOrgChartTitle, false, GoogleChartType.ColumnChart, fundingOrgGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            fundingOrgChartConfig.SetSeriesIgnoringNullGoogleChartSeries(fundingOrgGoogleChartDataTable);
+            fundingOrgChartConfig.Tooltip = new GoogleChartTooltip(true);
+            fundingOrgChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.Top);
+
+            var fundingOrgGoogleChart = new GoogleChartJson(fundingOrgChartTitle, fundingOrgChartContainerID, fundingOrgChartConfig, GoogleChartType.ColumnChart, fundingOrgGoogleChartDataTable, orgToProjectCountAndFundingAmount.Keys.Select(x => x.OrganizationName).ToList());
+            fundingOrgGoogleChart.CanConfigureChart = false;
+            return fundingOrgGoogleChart;
+        }
+
+
+        [FirmaAdminFeature]
+        public PartialViewResult ProjectDashboardCharts()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
+            var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
+            var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
+            var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
+            var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
+            var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
+            var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
+            var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID,
+                projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID,
+                TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,
+                projectStagesGoogleChart, fundingOrganizationGoogleChart);
+            return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
+        }
+
+        private List<Project> GetProjectsForProjectDashboard()
+        {
+            var projectStages = GetProjectStagesForProjectDashboard();
+            var projectTypes = GetProjectTypesForProjectDashboard();
+            var countiesAndTribes = GetCountiesAndTribesForProjectDashboard();
+
+            var projects = GetProjectEnumerableWithIncludesForPerformance()
+                .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
+            if (projectTypes.Count > 0)
+            {
+                projects = projects.Where(x => x.ProjectClassifications.Any(y =>
+                    y.Classification.ClassificationSystemID == ProjectTypeClassificationID && projectTypes.Contains(y.ClassificationID))).ToList();
+            }
+
+            if (countiesAndTribes.Count > 0)
+            {
+                projects = projects.Where(x => x.ProjectGeospatialAreas.Any(y =>
+                    (y.GeospatialArea.GeospatialAreaTypeID == CountyGeospatialAreaTypeID || y.GeospatialArea.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) 
+                    && y.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID
+                    && countiesAndTribes.Contains(y.GeospatialAreaID))).ToList();
+            }
+
+            return projects;
+        }
+
+        private static List<Project> GetProjectEnumerableWithIncludesForPerformance()
+        {
+            var projects = HttpRequestStorage.DatabaseEntities.Projects
+                .Include(x => x.ProjectFundingSourceBudgets)
+                .Include(x => x.SecondaryProjectTaxonomyLeafs)
+                .Include(x => x.ProjectTags.Select(y => y.Tag))
+                .Include(x => x.ProjectNoFundingSourceIdentifieds)
+                .Include(x => x.ProjectProjectStatuses)
+                .ToList();
+
+            return projects.GetActiveProjects();
+        }
+
+        private List<int> GetProjectStagesForProjectDashboard()
+        {
+            var projectStages = new List<int>
+            {
+                ProjectStage.PlanningDesign.ProjectStageID,
+                ProjectStage.Implementation.ProjectStageID,
+                ProjectStage.PostImplementation.ProjectStageID,
+                ProjectStage.Completed.ProjectStageID
+            };
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectStagesQueryStringParameter]))
+            {
+
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectStagesQueryStringParameter]
+                    .Split(',');
+                projectStages = filterValuesAsString.Select(int.Parse).ToList();
+            }
+            return projectStages;
+        }
+
+        private List<int> GetProjectTypesForProjectDashboard()
+        {
+            var projectTypeIDs = HttpRequestStorage.DatabaseEntities.Classifications
+                .Where(x => x.ClassificationID == ProjectTypeClassificationID).Select(x => x.ClassificationID).ToList();
+
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectTypesQueryStringParameter]))
+            {
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectTypesQueryStringParameter]
+                    .Split(',');
+                projectTypeIDs = filterValuesAsString.Select(int.Parse).ToList();
+            }
+            return projectTypeIDs;
+        }
+
+        private List<int> GetCountiesAndTribesForProjectDashboard()
+        {
+            var geospatialAreaIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreas
+                .Where(x =>
+                    (x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID ||
+                     x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) &&
+                    x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).Select(x => x.GeospatialAreaID).ToList();
+
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.CountiesTribesQueryStringParameter]))
+            {
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.CountiesTribesQueryStringParameter]
+                    .Split(',');
+                geospatialAreaIDs = filterValuesAsString.Select(int.Parse).ToList();
+            }
+            return geospatialAreaIDs;
         }
     }
 }

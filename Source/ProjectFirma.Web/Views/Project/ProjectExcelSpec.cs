@@ -142,6 +142,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
+            AddColumn($"{FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectStage.GetProjectStageDisplayName());
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn($"{FieldDefinitionEnum.ExpectedValue.ToType().GetFieldDefinitionLabel()}", x => x.ExpectedValue);
@@ -154,6 +155,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
+            AddColumn($"{FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectStage.GetProjectStageDisplayName());
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName() + " ID", x => x.PerformanceMeasureID);
             AddColumn(MultiTenantHelpers.GetPerformanceMeasureName(), x => x.PerformanceMeasure.PerformanceMeasureDisplayName);
             AddColumn("Calendar Year", x => x.CalendarYear);
@@ -175,6 +177,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
+            AddColumn($"{FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectStage.GetProjectStageDisplayName());
             AddColumn($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource.FundingSourceName);
             AddColumn($"Funding {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource.Organization.OrganizationName);
             AddColumn(FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel(), x => x.FundingSource.Organization.OrganizationType?.OrganizationTypeName);
@@ -204,6 +207,7 @@ namespace ProjectFirma.Web.Views.Project
                 .ToDictionary(x => x.Key, y => y.ToList());
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
+            AddColumn($"{FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectStage.GetProjectStageDisplayName());
             AddColumn($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource?.FundingSourceName);
             AddColumn($"Funding {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource?.Organization.OrganizationName);
             AddColumn(FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel(), x => x.FundingSource?.Organization.OrganizationType?.OrganizationTypeName);

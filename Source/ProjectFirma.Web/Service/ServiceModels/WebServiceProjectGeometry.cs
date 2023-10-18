@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using MoreLinq;
