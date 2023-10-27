@@ -78,7 +78,7 @@ namespace LtInfo.Common.AgGridWrappers
     <!-- The grid will be the size that this element is given. -->
     <div class=""row"">
         <div class=""col-md-6""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
-        <div class=""col-md-6 text-right gridDownloadContainer""><a class=""excelbutton"" href=""javascript: void(0);""  onclick=""onBtnExport()"">Download Table</a>{8}</div>
+        <div class=""col-md-6 text-right gridDownloadContainer"">{9}<a class=""excelbutton"" href=""javascript: void(0);""  onclick=""onBtnExport()"">Download Table</a>{8}</div>
     </div>
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
     <script type=""text/javascript"">
@@ -92,7 +92,13 @@ namespace LtInfo.Common.AgGridWrappers
                 {0}GridOptions.api.exportDataAsCsv({{ processCellCallback: removeHtmlFromColumnForCVSDownload, fileName: '{0}' + 'Export' }});
             }}
 
-
+            function {0}GetValuesFromCheckedGridRows(valueColumnName, returnListName) {{
+                const selectedData = {0}GridOptions.api.getSelectedRows();
+                var values = selectedData.map((row) => row[valueColumnName]);
+                var returnList = new Object();
+                returnList[returnListName] = values
+                return returnList;
+            }}
 
             function {0}ResizeGridWithVerticalFill(){{
                 var top = getOffsetTop(document.getElementById(""{0}DivID""));
@@ -366,7 +372,12 @@ namespace LtInfo.Common.AgGridWrappers
 
             var customDownloadLink = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
 
-            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            var generateReportsIconHtml = CreateGenerateReportUrlHtml(gridName, gridSpec.GenerateReportModalDialogForm);
+            var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
+            var additionalIcons =
+                $"{(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}";
+
+            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink, additionalIcons);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
 
@@ -396,6 +407,64 @@ namespace LtInfo.Common.AgGridWrappers
             return CreateCustomExcelDownloadIconHtml(gridName, excelDownloadUrl, excelDownloadLinkText, "Download the full database as an Excel file");
         }
 
+        /// <summary>
+        /// Creates the Generate Reports icon
+        /// </summary>
+        /// <param name="gridName"></param>
+        /// <param name="modalDialogForm"></param>
+        /// <returns></returns>
+        public static string CreateGenerateReportUrlHtml(string gridName, SelectProjectsModalDialogForm modalDialogForm)
+        {
+            if (modalDialogForm == null)
+            {
+                return string.Empty;
+            }
+            var tagIconHtml =
+                $"<span style=\"margin-right:5px\">{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-file")}</span>";
+            var getProjectIDFunctionString =
+                $"function() {{ return {gridName}GetValuesFromCheckedGridRows('{modalDialogForm.ValueColumnName}', '{modalDialogForm.ReturnListName}'); }}";
+
+            return ModalDialogFormHelper.ModalDialogFormLink($"{tagIconHtml} Generate Reports",
+                modalDialogForm.DialogUrl,
+                modalDialogForm.DialogTitle,
+                ModalDialogFormHelper.DefaultDialogWidth,
+                "Generate",
+                "Close",
+                new List<string>(),
+                null,
+                getProjectIDFunctionString,
+                true).ToString();
+
+        }
+
+        /// <summary>
+        /// Creates the Tag Checked Projects icon
+        /// </summary>
+        /// <param name="gridName"></param>
+        /// <param name="bulkTagModalDialogForm"></param>
+        /// <returns></returns>
+        public static string CreateTagUrlHtml(string gridName, BulkTagModalDialogForm bulkTagModalDialogForm)
+        {
+            if (bulkTagModalDialogForm == null)
+                return string.Empty;
+
+            var tagIconHtml =
+                $"<span style=\"margin-right:5px\">{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-tag")}</span>";
+
+            var getProjectIDFunctionString =
+                $"function() {{ return {gridName}GetValuesFromCheckedGridRows('{bulkTagModalDialogForm.ValueColumnName}', '{bulkTagModalDialogForm.ReturnListName}'); }}";
+
+            return
+                ModalDialogFormHelper.ModalDialogFormLink($"{tagIconHtml}{bulkTagModalDialogForm.DialogLinkText}",
+                    bulkTagModalDialogForm.DialogUrl,
+                    bulkTagModalDialogForm.DialogTitle,
+                    ModalDialogFormHelper.DefaultDialogWidth,
+                    "Save",
+                    "Cancel",
+                    new List<string>(),
+                    null,
+                    getProjectIDFunctionString).ToString();
+        }
 
 
         /// <summary>
