@@ -70,10 +70,6 @@
     <div>
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
     </div>
-    @if (ViewDataTyped.TenantName.Equals("NCRPProjectTracker"))
-    {
-        FundingSummary.RenderPartialView(Html, ViewDataTyped.FundingSummaryViewData);
-    }
 
     <div class="row counterHeader">
         <div class="col-xs-12 text-center">

@@ -774,7 +774,7 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
 
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalAwarded, out var totalMatched, out var totalInvestment);
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
                 .ProjectCustomGridConfigurations
@@ -816,7 +816,7 @@ namespace ProjectFirma.Web.Controllers
                     fundingOrganizationGoogleChart);
 
             var viewData =
-                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalInvestment,
+                new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalAwarded, totalMatched, totalInvestment,
                     projectGridSpec, projectTypes, countiesAndTribes, projectDashboardChartsViewData);
             return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
         }
@@ -843,17 +843,19 @@ namespace ProjectFirma.Web.Controllers
         public JsonNetJObjectResult ProjectDashboardProjectSummary()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalAwarded, out var totalMatched, out var totalInvestment);
             return new JsonNetJObjectResult(new
             {
                 ProjectCount = projects.Count.ToGroupedNumeric(),
                 PartnerCount = partners.Count.ToGroupedNumeric(),
                 ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count.ToGroupedNumeric(),
+                TotalAwarded = totalAwarded.ToGroupedNumeric(),
+                TotalMatched = totalMatched.ToGroupedNumeric(),
                 TotalInvestment = totalInvestment.ToGroupedNumeric()
             });
         }
 
-        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities, out decimal totalInvestment)
+        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities, out decimal totalAwarded, out decimal totalMatched, out decimal totalInvestment)
         {
             projects = GetProjectsForProjectDashboard();
 
@@ -878,7 +880,9 @@ namespace ProjectFirma.Web.Controllers
             var fundingSourceCustomAttributeType =
                 HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.SingleOrDefault(x =>
                     x.FundingSourceCustomAttributeTypeName.Equals("NCRP Award"));
-            
+
+            totalAwarded = 0;
+            totalMatched = 0;
             totalInvestment = 0;
             if (fundingSourceCustomAttributeType != null)
             {
@@ -893,8 +897,8 @@ namespace ProjectFirma.Web.Controllers
                         fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary).Equals("No")).Select(x => x.FundingSourceID).ToList();
 
 
-                var totalAwarded = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(awardFundingSourceIDs) ?? 0));
-                var totalMatched = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0));
+                totalAwarded = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(awardFundingSourceIDs) ?? 0));
+                totalMatched = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0));
                 totalInvestment = totalAwarded + totalMatched;
             }
         }
@@ -1087,7 +1091,7 @@ namespace ProjectFirma.Web.Controllers
             fundingOrgChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.Top);
 
             var fundingOrgGoogleChart = new GoogleChartJson(fundingOrgChartTitle, fundingOrgChartContainerID, fundingOrgChartConfig, GoogleChartType.ColumnChart, fundingOrgGoogleChartDataTable, orgToProjectCountAndFundingAmount.Keys.Select(x => x.OrganizationName).ToList());
-            fundingOrgGoogleChart.CanConfigureChart = false;
+            fundingOrgGoogleChart.CanConfigureChart = true;
             return fundingOrgGoogleChart;
         }
 
@@ -1096,7 +1100,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectDashboardCharts()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalInvestment);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalAwarded, out var totalMatched, out var totalInvestment);
             var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);

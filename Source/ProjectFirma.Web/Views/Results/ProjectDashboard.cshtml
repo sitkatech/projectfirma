@@ -78,10 +78,10 @@
         }
 
         #accomplishmentsDashboard .bootstrap-select .dropdown-toggle {
-            font-size: 14px;
+            font-size: 20px;
             font-weight: bold;
-            padding-top: 10px;
-            padding-bottom: 10px;
+            padding-top: 15px;
+            padding-bottom: 15px;
         }
     </style>
     <script src="/Scripts/waypoints.min.js"></script>
@@ -155,11 +155,18 @@
                     <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
                 </div>
                 <div id="counterNumbers">
-                    <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> Total Projects
-                    <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                    <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> Project Sponsors
-                    <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                    <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> Total Investment
+                    <div style="padding-bottom: 10px;">
+                        <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> Total Projects
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
+                        <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> Project Sponsors
+                    </div>
+                    <div>
+                        <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span> Total Awarded
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span> Total Matched
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> Total Investment
+                    </div>
                 </div>
             </div>
         </div>
@@ -198,6 +205,8 @@
         SitkaAjax.get(newUrl, function (result) {
             jQuery("#totalProjects").html(result.ProjectCount);
             jQuery("#totalPartners").html(result.PartnerCount);
+            jQuery("#totalAwarded").html(result.TotalAwarded);
+            jQuery("#totalMatched").html(result.TotalMatched);
             jQuery("#totalInvestment").html(result.TotalInvestment);
 
             jQuery("#counterLoader").hide();
