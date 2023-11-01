@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v34/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v36/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
@@ -783,4 +783,25 @@ table.table-striped {
 }
 #firma-collapse-navbar .joined-buttons .glyphicon-menu-down {
   display: inline-block;
+}
+.ag-theme-alpine .ag-row,
+.ag-theme-alpine-dark .ag-row {
+  font-size: 13px !important;
+}
+.ag-header,
+.ag-advanced-filter-header {
+  background-color: #4b5c14 !important;
+}
+.ag-floating-bottom-container .ag-row {
+  background-color: #4b5c14 !important;
+  color: white !important;
+}
+.ag-header-row,
+.ag-header-row label,
+.ag-header-row .helpicon,
+.ag-header-icon {
+  color: white !important;
+}
+.ag-row-odd {
+  background-color: #e6e7e9 !important;
 }
