@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
                 Add("delete",
                     x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
                     30,AgGridColumnFilterType.None);
-                Add("delete",
+                Add("edit",
                     x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit Document Library {x.DocumentLibraryName}", true),
                     30, AgGridColumnFilterType.None);
             }
