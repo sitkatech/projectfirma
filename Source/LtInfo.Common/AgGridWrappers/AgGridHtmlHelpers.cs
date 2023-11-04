@@ -156,6 +156,22 @@ namespace LtInfo.Common.AgGridWrappers
             {0}GridOptions.api.deselectAll()
         }}
 
+        function {0}LoadGridData(url){{
+                    // Fetch data from server
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {{
+                // load fetched data into grid
+                {0}GridOptions.api.setRowData(data);
+                {0}TotalRowCount = data.length;
+                document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
+                {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
+                var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
+                if({0}PinnedBottomData){{
+                    {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
+                }}
+            }});
+        }}
 
         // Grid Options are properties passed to the grid
         const {0}GridOptions = {{
@@ -195,20 +211,7 @@ namespace LtInfo.Common.AgGridWrappers
         // new grid instance, passing in the hosting DIV and Grid Options
         new agGrid.Grid({0}GridDiv, {0}GridOptions);
         var {0}TotalRowCount = 0;
-        // Fetch data from server
-        fetch(""{1}"")
-        .then(response => response.json())
-        .then(data => {{
-            // load fetched data into grid
-            {0}GridOptions.api.setRowData(data);
-            {0}TotalRowCount = data.length;
-            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
-            {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
-            var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
-            if({0}PinnedBottomData){{
-                {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
-            }}
-        }});
+        {0}LoadGridData(""{1}"");
     </script>";
 
 
