@@ -144,6 +144,10 @@ namespace ProjectFirma.Web.Common
                             }}
                     }});
                 }});
+                jQuery(document).on('focusin', function (e) {{
+                    if (jQuery(e.target).closest("".tox-textfield"").length)
+                        e.stopImmediatePropagation();
+                }});
                 // ]]>
             ", editorId, tinyMCEEditorToolbarJavascript.JavascriptForToolbar, tinyMCEEditorToolbarJavascript.Plugins, wireUpJsForImageUploader, tinyMCEEditorToolbarJavascript.ToolbarMode, heightString);
 
