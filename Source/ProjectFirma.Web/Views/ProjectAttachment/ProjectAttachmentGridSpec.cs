@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
                     30, AgGridColumnFilterType.None);
             }
 
-            Add($"Attachment Name", a => UrlTemplate.MakeHrefString(a.GetFileResourceUrl(), a.ProjectAttachmentDisplayName + " " + BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download"), new Dictionary<string, string> { { "target", "_blank" } }), 240);
+            Add($"Attachment Name", a => UrlTemplate.MakeHrefString(a.GetFileResourceUrl(), a.ProjectAttachmentDisplayName + " " + BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download"), new Dictionary<string, string> { { "target", "_blank" } }), 240, AgGridColumnFilterType.Html);
             Add($"Attachment Description", a => a.ProjectAttachmentDescription, 240);
             
             Add($"{projectFieldDefinitionLabel} Name", a => UrlTemplate.MakeHrefString(a.GetProjectDetailUrl(), a.ProjectName), 240, AgGridColumnFilterType.Text);
