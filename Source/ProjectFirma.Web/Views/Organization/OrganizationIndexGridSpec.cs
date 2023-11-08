@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add($"# of {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}", a => fundingSourceDictionary.ContainsKey(a.OrganizationID) ? fundingSourceDictionary[a.OrganizationID].Count : 0, 90);
             Add("# of Users", a =>
                 peopleDictionary.ContainsKey(a.OrganizationID) ? peopleDictionary[a.OrganizationID].Count : 0, 90);
-            Add("Is Active", a => a.IsActive.ToYesNo(), 80, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Active?", a => a.IsActive.ToYesNo(), 80, AgGridColumnFilterType.SelectFilterStrict);
             Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmptyForGrid(), 70, AgGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Has Keystone GUID", x => (x.KeystoneOrganizationGuid != null).ToCheckboxImageOrEmptyForGrid(), 70, AgGridColumnFilterType.SelectFilterHtmlStrict);
 
