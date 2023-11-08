@@ -135,6 +135,7 @@ namespace ProjectFirma.Web.Views.Organization
         public bool ShouldShowBackgroundTab { get; }
         public string MatchmakerProjectFinderButtonContent { get; }
         public bool ShowFundingSources { get; }
+        public bool UserHasESAAdminPermissions { get; }
 
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
@@ -299,6 +300,8 @@ namespace ProjectFirma.Web.Views.Organization
             MatchmakerProjectFinderButtonContent = GetMatchmakerProjectFinderButtonContent(organization, MatchmakerProfileCompletionDictionary);
 
             ShowFundingSources = Organization.FundingSources.Any() || new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
+            UserHasESAAdminPermissions = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
         private string GetMatchmakerProjectFinderButtonContent(ProjectFirmaModels.Models.Organization organization, Dictionary<MatchmakerSubScoreTypeEnum, bool> matchmakerProfileCompletionDictionary)

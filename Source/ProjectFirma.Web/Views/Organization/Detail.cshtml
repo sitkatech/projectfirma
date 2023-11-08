@@ -311,11 +311,14 @@
                                                 @ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl(ViewDataTyped.CurrentFirmaSession)
                                             </div>
                                         </div>
+                                        @if (ViewDataTyped.UserHasESAAdminPermissions)
+                                        {
+                                            <div class="row">
+                                                <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationKeystoneGuid.ToType())</div>
+                                                <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-9")">@(ViewDataTyped.OrganizationKeystoneGuidDisplayString)</div>
+                                            </div>
+                                        }
 
-                                        <div class="row">
-                                            <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationKeystoneGuid.ToType())</div>
-                                            <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-9")">@(ViewDataTyped.OrganizationKeystoneGuidDisplayString)</div>
-                                        </div>
 
                                         <div class="row">
                                             <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.Label("Is Active?")</div>
