@@ -167,7 +167,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="classificationOverview">
                 <div class="row">
-                    <div class="col-lg-5">
+                    <div class="@(MultiTenantHelpers.ReportFinancialsAtProjectLevel() ? "col-lg-5" : "col-lg-12")">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 <h2>Map</h2>
@@ -187,26 +187,29 @@ Source code is available upon request via <support@sitkatech.com>.
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-7">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h2>Expenditures by Funding @FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()</h2>
-                            </div>
-                            <div class="panel-body">
-                                @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
-                                {
-                                    <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
-                                        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
-                                    </div>
-                                    <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() can be associated with multiple @ViewDataTyped.ClassificationDisplayNamePluralized, therefore the @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() shown here may also be accounted for in other @ViewDataTyped.ClassificationDisplayNamePluralized.</p>
-                                }
-                                else
-                                {
-                                    <p class="systemText">No @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel() data yet provided for this @ViewDataTyped.ClassificationDisplayName.</p>
-                                }
+                    @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        <div class="col-lg-7">
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    <h2>Expenditures by Funding @FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()</h2>
+                                </div>
+                                <div class="panel-body">
+                                    @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
+                                    {
+                                        <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
+                                            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
+                                        </div>
+                                        <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() can be associated with multiple @ViewDataTyped.ClassificationDisplayNamePluralized, therefore the @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() shown here may also be accounted for in other @ViewDataTyped.ClassificationDisplayNamePluralized.</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="systemText">No @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel() data yet provided for this @ViewDataTyped.ClassificationDisplayName.</p>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
                 <div class="row">
                     <div class="col-md-12">

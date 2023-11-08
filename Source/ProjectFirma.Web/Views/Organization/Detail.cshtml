@@ -239,10 +239,13 @@
                     <a href="#background" aria-controls="background" role="tab" data-toggle="tab" id="backgroundTab">Background</a>
                 </li>
             }
+            @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                <li>
+                    <a href="#expenditures" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
+                </li>
+            }
 
-            <li>
-                <a href="#expenditures" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
-            </li>
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
                 <li>
@@ -601,82 +604,86 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="expenditures">
-                <div class="row" style="margin-bottom: 20px">
-                    <div class="col-xs-12">
-                        <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() associated with this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are presented in several ways:</p>
-                        <ul>
-                            @if (ViewDataTyped.ShowFundingSources)
-                            {
-                                <li>The <strong>Expenditures Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</strong> chart shows all @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() that originate with @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() owned by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</li>
-                            }
-                            <li>
-                                The <strong>Expenditures Received from other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong> chart shows @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() received from other
-                                @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() for all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() where this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is the
-                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @ViewDataTyped.ProjectStewardOrLeadImplementorFieldDefinitionName
-                            </li>
-                            <li>The <strong>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()</strong> table at the bottom of the page provides a list of all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() for which this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() provided or received funding, and the annual expenditure amounts</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    @if (ViewDataTyped.ShowFundingSources)
-                    {
-                        <div class="col-md-6">
-                            <div class="panel panelFirma">
-                                <div class="panel-heading panelTitle">
-                                    Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
-                                </div>
-                                <div class="panel-body">
-                                    <div>
-                                        @if (ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData.HasData)
-                                        {
-                                            ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData);
-                                        }
-                                        else
-                                        {
-                                            <p class="systemText">No expenditure data available</p>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
+           
+            
+            @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                 <div role="tabpanel" class="tab-pane" id="expenditures">
+                     <div class="row" style="margin-bottom: 20px">
+                         <div class="col-xs-12">
+                             <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() associated with this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are presented in several ways:</p>
+                             <ul>
+                                 @if (ViewDataTyped.ShowFundingSources)
+                                 {
+                                     <li>The <strong>Expenditures Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</strong> chart shows all @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() that originate with @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() owned by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</li>
+                                 }
+                                 <li>
+                                     The <strong>Expenditures Received from other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong> chart shows @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() received from other
+                                     @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() for all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() where this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is the
+                                     @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @ViewDataTyped.ProjectStewardOrLeadImplementorFieldDefinitionName
+                                 </li>
+                                 <li>The <strong>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()</strong> table at the bottom of the page provides a list of all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() for which this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() provided or received funding, and the annual expenditure amounts</li>
+                             </ul>
+                         </div>
+                     </div>
+                     <div class="row">
+                         @if (ViewDataTyped.ShowFundingSources)
+                         {
+                             <div class="col-md-6">
+                                 <div class="panel panelFirma">
+                                     <div class="panel-heading panelTitle">
+                                         Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
+                                     </div>
+                                     <div class="panel-body">
+                                         <div>
+                                             @if (ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData.HasData)
+                                             {
+                                                 ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresDirectlyFromOrganizationViewGoogleChartViewData);
+                                             }
+                                             else
+                                             {
+                                                 <p class="systemText">No expenditure data available</p>
+                                             }
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         }
 
-                    <div class="@(ViewDataTyped.ShowFundingSources ? "col-md-6" : "col-md-12")">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                Received from Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
-                            </div>
-                            <div class="panel-body">
-                                <div>
-                                    @if (ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData.HasData)
-                                    {
-                                        ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
-                                    }
-                                    else
-                                    {
-                                        <p class="systemText">No expenditure data available.</p>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
-                            </div>
-                            <div class="panel-body">
-                                @Html.AgGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+                         <div class="@(ViewDataTyped.ShowFundingSources ? "col-md-6" : "col-md-12")">
+                             <div class="panel panelFirma">
+                                 <div class="panel-heading panelTitle">
+                                     Received from Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
+                                 </div>
+                                 <div class="panel-body">
+                                     <div>
+                                         @if (ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData.HasData)
+                                         {
+                                             ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
+                                         }
+                                         else
+                                         {
+                                             <p class="systemText">No expenditure data available.</p>
+                                         }
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="row">
+                         <div class="col-sm-12">
+                             <div class="panel panelFirma">
+                                 <div class="panel-heading panelTitle">
+                                     @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
+                                 </div>
+                                 <div class="panel-body">
+                                     @Html.AgGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+            }
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
                 <div role="tabpanel" class="tab-pane" id="accomplishments">
