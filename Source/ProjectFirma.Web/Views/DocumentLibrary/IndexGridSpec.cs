@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.DocumentLibrary
                     30, AgGridColumnFilterType.None);
             }
 
-            Add(FieldDefinitionEnum.DocumentLibraryName.ToType().ToGridHeaderString(), x => x.GetDisplayNameAsUrl(), 250);
+            Add(FieldDefinitionEnum.DocumentLibraryName.ToType().ToGridHeaderString(), x => x.GetDisplayNameAsUrl(), 250, AgGridColumnFilterType.Html);
             Add("Document Category", x => x.GetDocumentCategoryDisplayNamesAsCommaDelimitedString(), 300);
             Add("Page Names", x => x.GetCustomPageDisplayNamesAsCommaDelimitedString(), 300);
             Add("# of Documents", x => x.DocumentLibraryDocuments.Count, 100);

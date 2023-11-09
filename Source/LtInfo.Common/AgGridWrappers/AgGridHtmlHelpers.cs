@@ -303,9 +303,8 @@ namespace LtInfo.Common.AgGridWrappers
                         // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"dateString\"");
                         break;
                     case AgGridColumnFilterType.Html:
-                        columnDefinitionStringBuilder.Append(", \"floatingFilterComponent\": HtmlFloatingFilterComponent");
-                        columnDefinitionStringBuilder.Append(", \"floatingFilterComponentParams\": {suppressFilterButton: true,}");
-                        columnDefinitionStringBuilder.Append(", \"filter\": HtmlFilterComponent");
+                        columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
+                        columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlFilterTextMatcher( filterOption, value, filterText)  }");
                         break;
                     case AgGridColumnFilterType.Text:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
