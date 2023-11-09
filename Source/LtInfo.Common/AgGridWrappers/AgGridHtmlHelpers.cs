@@ -135,16 +135,13 @@ namespace LtInfo.Common.AgGridWrappers
                     {0}GridOptions.api.forEachNodeAfterFilter((rowNode) => {{
                         if (rowNode.data[element]){{
                             if(target[element]){{
-                                target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element])).toFixed(2);
+                                target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element]));
                             }}else{{
-                                target[element] = Number.parseFloat(rowNode.data[element]).toFixed(2);
+                                target[element] = Number.parseFloat(rowNode.data[element]);
                             }}
                             
                         }}
                     }});
-                    if (target[element]){{
-                        target[element] = target[element];//.toFixed(2);
-                    }}
                 }})
 
                 return target;
