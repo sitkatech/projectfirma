@@ -25,7 +25,7 @@ function removeHtmlFromColumnForCVSDownload(column, value) {
 
 function removeHtmlFromString(value) {
     let txt = new DOMParser().parseFromString(value, "text/html");
-    return txt.documentElement.innerText;
+    return txt.documentElement.innerText ? txt.documentElement.innerText.trim() : txt.documentElement.innerText;
 }
 
 function getOffsetTop(element) {
