@@ -42,6 +42,8 @@ namespace ProjectFirma.Web.Views.Results
         public List<ProjectStage> ProjectStages { get; }
         public int TotalProjects { get; }
         public int TotalPartners { get; }
+        public decimal TotalAwarded { get; }
+        public decimal TotalMatched { get; }
         public decimal TotalInvestment { get; }
 
         public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
@@ -56,6 +58,8 @@ namespace ProjectFirma.Web.Views.Results
         public ProjectDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
             int projectCount,
             int partnerCount,
+            decimal totalAwarded,
+            decimal totalMatched,
             decimal totalInvestment,
             ProjectCustomGridSpec projectGridSpec,
             IEnumerable<SelectListItem> projectTypeSelectListItems,
@@ -76,6 +80,8 @@ namespace ProjectFirma.Web.Views.Results
 
             TotalProjects = projectCount;
             TotalPartners = partnerCount;
+            TotalAwarded = totalAwarded;
+            TotalMatched = totalMatched;
             TotalInvestment = totalInvestment;
 
             ProjectCustomDefaultGridSpec = projectGridSpec;

@@ -35,7 +35,6 @@ namespace ProjectFirma.Web.Views.Results
     {
         public List<ProjectFirmaModels.Models.PerformanceMeasureGroup> PerformanceMeasureGroups { get; }
         public Dictionary<ProjectFirmaModels.Models.PerformanceMeasureGroup, List<Tuple<double, MeasurementUnitType>>> PerformanceMeasureGroupsAndMeasurementUnitTypeTotals { get; }
-        public FundingSummaryViewData FundingSummaryViewData { get; }
         public bool HasSitkaAdminPermissions { get; set; }
 
         public SimpleAccomplishmentsDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
@@ -58,11 +57,6 @@ namespace ProjectFirma.Web.Views.Results
                         x.GetReportedPerformanceMeasureValues(currentFirmaSession).Sum(y => y.GetReportedValue() ?? 0)));
                     PerformanceMeasureGroupsAndMeasurementUnitTypeTotals[group].Add(new Tuple<double, MeasurementUnitType>(reported, unit));
                 }
-            }
-
-            if (TenantName.Equals("NCRPProjectTracker"))
-            {
-                FundingSummaryViewData = new FundingSummaryViewData();
             }
 
             HasSitkaAdminPermissions = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);

@@ -90,10 +90,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfExpectedPerformanceMeasureRecords:
-                    Add($"# Of Expected {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureExpectedCount, 100, AgGridColumnFormatType.Integer);
+                    Add($"# Of Expected {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureExpectedCount, 160, AgGridColumnFormatType.Integer);
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfReportedPerformanceMeasures:
-                    Add($"# Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureActualCount, 100, AgGridColumnFormatType.Integer);
+                    Add($"# Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => projectDetailsDictionary[x.ProjectID].PerformanceMeasureActualCount, 160, AgGridColumnFormatType.Integer);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectsStewardOrganizationRelationshipToProject:
                     if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.NoFundingSourceIdentified:
                     if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
                     {
-                        Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 110, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+                        Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 120, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
                     }
                     break;
                 case ProjectCustomGridColumnEnum.ProjectDescription:
@@ -252,7 +252,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             }
             else
             {
-                Add($"{gridHeaderHtmlString}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType, projectCustomAttributeDictionary), 150, AgGridColumnFilterType.Text);
+                Add($"{gridHeaderHtmlString}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType, projectCustomAttributeDictionary), 160, AgGridColumnFilterType.Text);
             }
         }
 
@@ -273,7 +273,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         private void AddProjectCustomGridGeospatialAreaField(ProjectCustomGridConfiguration projectCustomGridConfiguration, Dictionary<int, vGeospatialArea> geospatialAreas, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
         {
             var geospatialAreaType = projectCustomGridConfiguration.GeospatialAreaType;
-            Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType, geospatialAreas, projectGeospatialAreaDictionary), 350, AgGridColumnFilterType.Html);
+            var gridWidth = 350;
+            if (geospatialAreaType.GeospatialAreaTypeID == 24) // NCRP Counties
+                gridWidth = 80;
+            if (geospatialAreaType.GeospatialAreaTypeID == 25) // NCRP Watershed - HUC 8
+                gridWidth = 205;
+            Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType, geospatialAreas, projectGeospatialAreaDictionary), gridWidth, AgGridColumnFilterType.Html);
         }
 
         private void AddProjectCustomGridClassificationSystemField(ProjectCustomGridConfiguration projectCustomGridConfiguration, Dictionary<int, ProjectFirmaModels.Models.Classification> classificationsDictionary, Dictionary<int, List<ProjectClassification>> projectClassificationsDictionary)

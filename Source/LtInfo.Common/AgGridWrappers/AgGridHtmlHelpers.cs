@@ -135,16 +135,13 @@ namespace LtInfo.Common.AgGridWrappers
                     {0}GridOptions.api.forEachNodeAfterFilter((rowNode) => {{
                         if (rowNode.data[element]){{
                             if(target[element]){{
-                                target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element])).toFixed(2);
+                                target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element]));
                             }}else{{
-                                target[element] = Number.parseFloat(rowNode.data[element]).toFixed(2);
+                                target[element] = Number.parseFloat(rowNode.data[element]);
                             }}
                             
                         }}
                     }});
-                    if (target[element]){{
-                        target[element] = target[element];//.toFixed(2);
-                    }}
                 }})
 
                 return target;
@@ -156,6 +153,22 @@ namespace LtInfo.Common.AgGridWrappers
             {0}GridOptions.api.deselectAll()
         }}
 
+        function {0}LoadGridData(url){{
+                    // Fetch data from server
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {{
+                // load fetched data into grid
+                {0}GridOptions.api.setRowData(data);
+                {0}TotalRowCount = data.length;
+                document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
+                {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
+                var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
+                if({0}PinnedBottomData){{
+                    {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
+                }}
+            }});
+        }}
 
         // Grid Options are properties passed to the grid
         const {0}GridOptions = {{
@@ -195,20 +208,7 @@ namespace LtInfo.Common.AgGridWrappers
         // new grid instance, passing in the hosting DIV and Grid Options
         new agGrid.Grid({0}GridDiv, {0}GridOptions);
         var {0}TotalRowCount = 0;
-        // Fetch data from server
-        fetch(""{1}"")
-        .then(response => response.json())
-        .then(data => {{
-            // load fetched data into grid
-            {0}GridOptions.api.setRowData(data);
-            {0}TotalRowCount = data.length;
-            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
-            {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
-            var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
-            if({0}PinnedBottomData){{
-                {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
-            }}
-        }});
+        {0}LoadGridData(""{1}"");
     </script>";
 
 
@@ -300,9 +300,8 @@ namespace LtInfo.Common.AgGridWrappers
                         // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"dateString\"");
                         break;
                     case AgGridColumnFilterType.Html:
-                        columnDefinitionStringBuilder.Append(", \"floatingFilterComponent\": HtmlFloatingFilterComponent");
-                        columnDefinitionStringBuilder.Append(", \"floatingFilterComponentParams\": {suppressFilterButton: true,}");
-                        columnDefinitionStringBuilder.Append(", \"filter\": HtmlFilterComponent");
+                        columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
+                        columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlFilterTextMatcher( filterOption, value, filterText)  }");
                         break;
                     case AgGridColumnFilterType.Text:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");

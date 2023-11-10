@@ -25,7 +25,7 @@ function removeHtmlFromColumnForCVSDownload(column, value) {
 
 function removeHtmlFromString(value) {
     let txt = new DOMParser().parseFromString(value, "text/html");
-    return txt.documentElement.innerText;
+    return txt.documentElement.innerText ? txt.documentElement.innerText.trim() : txt.documentElement.innerText;
 }
 
 function getOffsetTop(element) {
@@ -87,4 +87,30 @@ function dateStringComparator(date1, date2) {
     }
 
     return date1Number - date2Number;
+}
+
+function htmlFilterTextMatcher( filterOption, value, filterText) {
+    if (filterText == null) {
+        return false;
+    }
+    value = removeHtmlFromString(value);
+    switch (filterOption) {
+        case 'contains':
+            return value.indexOf(filterText) >= 0;
+        case 'notContains':
+            return value.indexOf(filterText) < 0;
+        case 'equals':
+            return value === filterText;
+        case 'notEqual':
+            return value != filterText;
+        case 'startsWith':
+            return value.indexOf(filterText) === 0;
+        case 'endsWith':
+            const index = value.lastIndexOf(filterText);
+            return index >= 0 && index === (value.length - filterText.length);
+        default:
+            // should never happen
+            console.warn('invalid filter type ' + filter);
+            return false;
+    }
 }
