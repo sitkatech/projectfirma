@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Models
             var sampleGuid = Guid.Empty;
             var typicalUrlForFileResources = SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.DisplayResource(sampleGuid.ToString()));
             ControllerPartOfUri = Regex.Match(typicalUrlForFileResources, "^/(?<controller>.*?)/").Groups["controller"].Value;
-            NonServerRootRelativeUrlRegex = new Regex($"(?<!((\"/)|(^/))){Regex.Escape(ControllerPartOfUri)}", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            NonServerRootRelativeUrlRegex = new Regex($"(?<!((\"/)|(\"../)|(^/))){Regex.Escape(ControllerPartOfUri)}", RegexOptions.IgnoreCase | RegexOptions.Multiline);
         }
 
         private readonly Lazy<List<FileResourceInfo>> _allFileResources = new Lazy<List<FileResourceInfo>>(HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.ToList);
