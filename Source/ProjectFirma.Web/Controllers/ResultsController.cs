@@ -768,7 +768,7 @@ namespace ProjectFirma.Web.Controllers
         private static int NotTriballyOwnedGeospatialAreaID = 12143;
 
         // Allow admin access only for now
-        [FirmaAdminFeature]
+        [AnonymousUnclassifiedFeature]
         public ViewResult ProjectDashboard()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
@@ -824,7 +824,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         // Allow admin access only for now
-        [FirmaAdminFeature]
+        [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<Project> ProjectDashboardProjectsGridJsonData()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
@@ -839,7 +839,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [FirmaAdminFeature]
+        [AnonymousUnclassifiedFeature]
         public JsonNetJObjectResult ProjectDashboardProjectSummary()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
@@ -1096,7 +1096,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        [FirmaAdminFeature]
+        [AnonymousUnclassifiedFeature]
         public PartialViewResult ProjectDashboardCharts()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");

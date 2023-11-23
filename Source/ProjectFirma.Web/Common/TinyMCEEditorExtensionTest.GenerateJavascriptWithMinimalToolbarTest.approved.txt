@@ -25,5 +25,9 @@
                             }
                     });
                 });
+                jQuery(document).on('focusin', function (e) {
+                    if (jQuery(e.target).closest(".tox-textfield").length)
+                        e.stopImmediatePropagation();
+                });
                 // ]]>
             </script>
