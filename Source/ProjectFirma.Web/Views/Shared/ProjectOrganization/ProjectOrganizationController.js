@@ -20,6 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", function($scope,
     angularModelAndViewData) {
+    $scope.AngularModel = angularModelAndViewData.AngularModel;
+    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+    $scope.selectedOrganizationID = {};
     $scope.OrganizationToAdd = null;
 
     $scope.$watch(function() {
@@ -255,7 +258,34 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);
     }
 
-    $scope.AngularModel = angularModelAndViewData.AngularModel;
-    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.selectedOrganizationID = {};
-});
+
+    /*
+      SB 11/29/2023 sort of hacky fix: 
+      bootstrap-select was initializing the selectpickers before angular had finished processing the template, potentially by the this bit of code at the end of bootstrap-select.js
+
+        $(window).on('load.bs.select.data-api', function () {
+            $('.selectpicker').each(function () {
+                var $selectpicker = $(this);
+                Plugin.call($selectpicker, $selectpicker.data());
+            })
+        });
+
+      In firefox, this would lead to two drop downs being rendered. I think this is because in the call to jQuery(".selectpicker").selectpicker("refresh") in the $watch, the bootstrap-select.js code would think the 
+      selectpicker was different because the ids didn't match (e.g. one was "#todo{{relationshipType.OrganizationRelationshipTypeID}}" and the other was "#todo6").
+
+      The solution appears to be to initialize the selectpickers after angular has finished one digest cycle. Do not add the selectpicker class until after that so bootstrap-select does not prematurely add a drop down.
+    */
+    $scope.SelectpickerNeedsInit = true;
+    $scope.$$postDigest(function () {
+        console.log("this was hit");
+        
+        if ($scope.SelectpickerNeedsInit) {
+            jQuery(".selectpickerTemp").addClass("selectpicker");
+            jQuery(".selectpickerTemp").removeClass("selectpickerTemp");
+            jQuery(".selectpicker").selectpicker("refresh");
+        }
+        $scope.SelectpickerNeedsInit = false;
+    });
+
+
+})
