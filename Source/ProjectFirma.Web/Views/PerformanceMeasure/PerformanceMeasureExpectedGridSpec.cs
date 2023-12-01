@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     AgGridColumnFilterType.Html);
             }
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, AgGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 140, AgGridColumnFilterType.SelectFilterStrict);
             if (performanceMeasure.HasRealSubcategories())
             {
                 foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
