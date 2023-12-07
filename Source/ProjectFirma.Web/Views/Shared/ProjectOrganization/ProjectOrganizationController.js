@@ -270,15 +270,14 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
             })
         });
 
-      In firefox, this would lead to two drop downs being rendered. I think this is because in the call to jQuery(".selectpicker").selectpicker("refresh") in the $watch, the bootstrap-select.js code would think the 
-      selectpicker was different because the ids didn't match (e.g. one was "#todo{{relationshipType.OrganizationRelationshipTypeID}}" and the other was "#todo6").
+      In firefox, this would lead to two drop downs being rendered. This might be because in the call to jQuery(".selectpicker").selectpicker("refresh") in the $watch, the bootstrap-select.js code would think the 
+      selectpicker was different because the ids didn't match (e.g. one was "#todo{{relationshipType.OrganizationRelationshipTypeID}}" and the other was "#todo6"). Or it could be a race condition where 2 different things
+      are calling the code that inits the drop down, and in that execution of the 2nd call there still isn't the data expected, so bootstrap-select creates the drop down again.
 
       The solution appears to be to initialize the selectpickers after angular has finished one digest cycle. Do not add the selectpicker class until after that so bootstrap-select does not prematurely add a drop down.
     */
     $scope.SelectpickerNeedsInit = true;
-    $scope.$$postDigest(function () {
-        console.log("this was hit");
-        
+    $scope.$$postDigest(function () {        
         if ($scope.SelectpickerNeedsInit) {
             jQuery(".selectpickerTemp").addClass("selectpicker");
             jQuery(".selectpickerTemp").removeClass("selectpickerTemp");
