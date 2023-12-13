@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.MapJavascriptIncludes
 <script type="text/javascript">
     //<![CDATA[
@@ -31,7 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
         document.write(unescape('%3Clink href="/Content/leaflet/leaflet.draw/leaflet.draw.css" rel="stylesheet" type="text/css" /%3E'));
         document.write(unescape('%3Clink href="/Content/leaflet/leaflet.fullscreen/leaflet.fullscreen.css" rel="stylesheet" type="text/css" /%3E'));
         document.write(unescape('%3Clink href="/Content/leaflet/leaflet.groupedlayercontrol/leaflet.groupedlayercontrol.min.css" rel="stylesheet" type="text/css" /%3E'));
-        
+
         document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.js" type="text/javascript" %3E%3C/script%3E'));
         document.write(unescape('%3Cscript src="/Content/esri-leaflet/esri-leaflet.js" type="text/javascript" %3E%3C/script%3E'));
         document.write(unescape('%3Cscript src="/Content/esri-leaflet/esri-leaflet-renderers.js" type="text/javascript" %3E%3C/script%3E'));
@@ -45,6 +46,12 @@ Source code is available upon request via <support@sitkatech.com>.
         document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.groupedlayercontrol/leaflet.groupedlayercontrol.min.js" type="text/javascript" %3E%3C/script%3E'));
         document.write(unescape('%3Cscript src="/Content/terraformer/terraformer.min.js" type="text/javascript" %3E%3C/script%3E'));
         document.write(unescape('%3Cscript src="/Content/terraformer/terraformer-wkt-parser.min.js" type="text/javascript" %3E%3C/script%3E'));
+
+        jQuery(document).ready(function () {
+
+            window.L.MakiMarkers.accessToken = "@FirmaWebConfiguration.MapBoxApiKey";
+
+        });
     }
     //]]>
 </script>
