@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views;
@@ -51,7 +52,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             SaveFeatureCollectionUrl = saveFeatureCollectionUrl;
             AnnotationMaxLength = annotationMaxLength;
             HasProjectLocationPoint = hasProjectLocationPoint;
-            SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
+            SimplePointMarkerImg = $"https://api.tiles.mapbox.com/v4/marker/pin-s-marker+838383.png?access_token={FirmaWebConfiguration.MapBoxApiKey}";
             LocationIsPrivate = locationIsPrivate;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
         }

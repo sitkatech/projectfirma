@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             HasProjectLocationPoint = hasProjectLocationPoint;
             HasProjectLocationDetail = hasProjectLocationDetail;
 
-            SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
+            SimplePointMarkerImg = $"https://api.tiles.mapbox.com/v4/marker/pin-s-marker+838383.png?access_token={FirmaWebConfiguration.MapBoxApiKey}";
 
             EditSimpleLocationUrl = editSimpleLocationUrl;
         }
