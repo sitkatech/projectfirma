@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.AgGridWrappers;
@@ -69,6 +70,7 @@ namespace ProjectFirma.Web.Views.Project
                 Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
                 Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), x => x.GetTargetedFunding(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
                 Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+                Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => y.GetDisplayNameAsUrl()))), 300, AgGridColumnFilterType.Html);
             }
             Add("Submitted By", a => a.SubmittedByPerson != null ? a.SubmittedByPerson.GetFullNameFirstLastAndOrgShortNameAsUrl(currentFirmaSession) : new HtmlString(null), 200);
             Add("Submitted Date", a => a.SubmissionDate, 120);
