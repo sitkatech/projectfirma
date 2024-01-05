@@ -9,6 +9,8 @@ namespace ProjectFirma.Web.Views.Shared
 
         [JsonProperty(PropertyName = "color")]
         public string Color { get; set; }
+        [JsonProperty(PropertyName = "textStyle")]
+        public GoogleChartTextStyle TextStyle { get; set; }
         [JsonIgnore]
         public string Label { get; set; }
         [JsonProperty(PropertyName = "ValueKey")]
@@ -25,6 +27,15 @@ namespace ProjectFirma.Web.Views.Shared
             Value = value;
             SortOrder = sortOrder;
             Color = color;
+        }
+
+        public GooglePieChartSlice(string label, double value, int sortOrder, string color, GoogleChartTextStyle textStyle)
+        {
+            Label = label;
+            Value = value;
+            SortOrder = sortOrder;
+            Color = color;
+            TextStyle = textStyle;
         }
     }
 }

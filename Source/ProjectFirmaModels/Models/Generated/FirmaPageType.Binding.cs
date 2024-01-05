@@ -207,8 +207,9 @@ namespace ProjectFirmaModels.Models
         PerformanceMeasureTargetsTabIntro = 90,
         ProgressDashboardIntro = 91,
         ProgressDashboardAcresConstructedByTheNumbers = 92,
-        ProgressDashboardAcresConstructedPieCharts = 93,
+        ProgressDashboardDustSuppression = 93,
         ProjectAttachmentList = 94,
-        NCRPProjectDashboard = 95
+        NCRPProjectDashboard = 95,
+        ProgressDashboardFishAndWildlifeHabitat = 96
     }
 }

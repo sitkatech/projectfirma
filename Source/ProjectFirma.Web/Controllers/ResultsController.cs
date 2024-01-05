@@ -609,64 +609,88 @@ namespace ProjectFirma.Web.Controllers
             var partnershipCount = activeProjects.SelectMany(x => x.GetAssociatedOrganizations()).Distinct().Count();
 
             /* Acres Constructed | By The Numbers section numbers*/
-            // PerformanceMeasureID = 3757 is the Outcome "Total Acres Constructed"
-            var acresConstructedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3757);
-            var totalAcresConstructedInConstruction = acresConstructedPerformanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(6293);
-            var totalAcresConstructedCompleted = acresConstructedPerformanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(6282);
-
-            // PerformanceMeasureID = 3731 is the Outcome "Area Treated for Dust Suppression"
+           
+            // PerformanceMeasureID = 3731 is the Outcome "Dust Suppression Acres Counted Towards SWRCB WR 2017-0134 Target"
             var dustSuppressionPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3731);
-            // PerformanceMeasureID = 3736 is "Area Treated for Vegetation Enhancement"
-            var vegetationEnhancementPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3736);
-            // PerformanceMeasureID = 3737 "Area of Aquatic Habitat Created"
-            var aquaticHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3737);
-            // PerformanceMeasureID = 3750 is "Area of Endangered & Special Status Species Habitat Created"
-            var endangeredSpeciesHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3750);
+
+            // PerformanceMeasureID = 3737 "Fish and Wildlife Habitat Acres Counted Towards SWRCB WR 2017-0134 Target"
+            var fishAndWildlifeHabitatAcresCountedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3737);
+            
+            // these 8 performance measures are for the 6 boxes. need the "completed" values only?
+            var endangeredSpeciesHabitatPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3750);
+            var publicAmenitiesAndRecreationAccessPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3756);
+            var grassBalesPlacedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3759);
+            var stormwaterSpreadingAreasCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3760);
+            var surfaceRougheningConductedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3761);
+            var vegetationEnhancementConductedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3736);
+            var aquaticHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3782);
+            var wetlandHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3783);
+            
+            
             var acresConstructedByTheNumbersFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresConstructedByTheNumbers.GetFirmaPage();
 
             /* Acres Constructed pie charts */
-            var acresConstructedPieChartFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresConstructedPieCharts.GetFirmaPage();
-            var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardPieChartValues(6114, 6254);
-            var areaTreatedForDustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, dustSuppressionValues);
+            // PerformanceMeasureID = 3781 is the Outcome "Acres Converted"
+            var acresConvertedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3781);
+            var totalAcresConvertedDustSuppression = acresConvertedPerformanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(6383);
+            var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardValues(totalAcresConvertedDustSuppression);
+            var dustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, dustSuppressionValues);
 
-            var vegetationEnhancementValues = vegetationEnhancementPerformanceMeasure.GetProgressDashboardPieChartValues(6122, 6253);
-            var areaTreatedForVegetationEnhancementGoogleChart = MakeGoogleChartJsonForProgressDashboardPieChart(vegetationEnhancementPerformanceMeasure, vegetationEnhancementValues);
-
-            var aquaticHabitatCreatedValues = aquaticHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartValues(6123, 6189);
-            var aquaticHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(aquaticHabitatCreatedPerformanceMeasure, aquaticHabitatCreatedValues);
-
-
-            var endangeredSpeciesHabitatCreatedValues = endangeredSpeciesHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartValues(6255, 6256);
-            var endangeredSpeciesHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, endangeredSpeciesHabitatCreatedValues);
+            var totalAcresConvertedFishAndWildlifeHabitat = acresConvertedPerformanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(6384);
+            var fishAndWildlifeHabitatAcresCountedValues = fishAndWildlifeHabitatAcresCountedPerformanceMeasure.GetProgressDashboardValues(totalAcresConvertedFishAndWildlifeHabitat);
+            var fishAndWildlifeHabitatAcresCountedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(fishAndWildlifeHabitatAcresCountedPerformanceMeasure, fishAndWildlifeHabitatAcresCountedValues);
 
 
-            var dustSuppressionChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(dustSuppressionPerformanceMeasure, 6114);
-            var vegetationEnhancementChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(vegetationEnhancementPerformanceMeasure, 6122);
-            var aquaticHabitatCreatedChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(aquaticHabitatCreatedPerformanceMeasure, 6123);
-            var endangeredSpeciesHabitatChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, 6255);
+            var endangeredSpeciesHabitatCreatedValues = endangeredSpeciesHabitatPerformanceMeasure.GetProgressDashboardValues();
+            var publicAmenitiesAndRecreationValues = publicAmenitiesAndRecreationAccessPerformanceMeasure.GetProgressDashboardValues();
+            var grassBalesPlacedValues = grassBalesPlacedPerformanceMeasure.GetProgressDashboardValues();
+            var stormwaterSpreadingAreasCreatedValues = stormwaterSpreadingAreasCreatedPerformanceMeasure.GetProgressDashboardValues();
+            var surfaceRougheningConductedValues = surfaceRougheningConductedPerformanceMeasure.GetProgressDashboardValues();
+            var vegetationEnhancementConductedValues = vegetationEnhancementConductedPerformanceMeasure.GetProgressDashboardValues();
+            var aquaticHabitatCreatedValues = aquaticHabitatCreatedPerformanceMeasure.GetProgressDashboardValues();
+            var wetlandHabitatCreatedValues = wetlandHabitatCreatedPerformanceMeasure.GetProgressDashboardValues();
 
-            var dustSuppressionDisplayName = dustSuppressionPerformanceMeasure.GetDisplayName();
-            var vegetationEnhancementDisplayName = vegetationEnhancementPerformanceMeasure.GetDisplayName();
-            var aquaticHabitatDisplayName = aquaticHabitatCreatedPerformanceMeasure.GetDisplayName();
-            var endangeredSpeciesHabitatDisplayName = endangeredSpeciesHabitatCreatedPerformanceMeasure.GetDisplayName();
+            var dustSuppressionFirmaPage = FirmaPageTypeEnum.ProgressDashboardDustSuppression.GetFirmaPage();
+            var fishAndWildlifeHabitatFirmaPage = FirmaPageTypeEnum.ProgressDashboardFishAndWildlifeHabitat.GetFirmaPage();
+
+            var dustSuppressionChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(dustSuppressionPerformanceMeasure);
+            var fishAndWildlifeHabitatAcresCountedChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(fishAndWildlifeHabitatAcresCountedPerformanceMeasure);
 
 
             var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount,
-                totalAcresConstructedInConstruction, totalAcresConstructedCompleted, acresConstructedByTheNumbersFirmaPage, acresConstructedPieChartFirmaPage,
-                areaTreatedForDustSuppressionPieChart, areaTreatedForVegetationEnhancementGoogleChart, aquaticHabitatCreatedPieChart, endangeredSpeciesHabitatCreatedPieChart,
-                dustSuppressionValues, vegetationEnhancementValues, aquaticHabitatCreatedValues, endangeredSpeciesHabitatCreatedValues,
+                totalAcresConvertedDustSuppression, totalAcresConvertedFishAndWildlifeHabitat, 
+                acresConstructedByTheNumbersFirmaPage, dustSuppressionFirmaPage, fishAndWildlifeHabitatFirmaPage,
+                dustSuppressionPieChart, fishAndWildlifeHabitatAcresCountedPieChart, 
+                dustSuppressionValues, fishAndWildlifeHabitatAcresCountedValues,
                 dustSuppressionChartJsonsAndProjectColors.Item1, dustSuppressionChartJsonsAndProjectColors.Item2,
-                vegetationEnhancementChartJsonsAndProjectColors.Item1, vegetationEnhancementChartJsonsAndProjectColors.Item2,
-                aquaticHabitatCreatedChartJsonsAndProjectColors.Item1, aquaticHabitatCreatedChartJsonsAndProjectColors.Item2,
-                endangeredSpeciesHabitatChartJsonsAndProjectColors.Item1, endangeredSpeciesHabitatChartJsonsAndProjectColors.Item2,
-                dustSuppressionDisplayName, vegetationEnhancementDisplayName, aquaticHabitatDisplayName, endangeredSpeciesHabitatDisplayName);
+                fishAndWildlifeHabitatAcresCountedChartJsonsAndProjectColors.Item1, fishAndWildlifeHabitatAcresCountedChartJsonsAndProjectColors.Item2,
+
+                dustSuppressionPerformanceMeasure,
+                fishAndWildlifeHabitatAcresCountedPerformanceMeasure,
+                endangeredSpeciesHabitatPerformanceMeasure,
+                publicAmenitiesAndRecreationAccessPerformanceMeasure,
+                grassBalesPlacedPerformanceMeasure,
+                stormwaterSpreadingAreasCreatedPerformanceMeasure,
+                surfaceRougheningConductedPerformanceMeasure,
+                vegetationEnhancementConductedPerformanceMeasure,
+                aquaticHabitatCreatedPerformanceMeasure,
+                wetlandHabitatCreatedPerformanceMeasure,
+                endangeredSpeciesHabitatCreatedValues[0],
+                publicAmenitiesAndRecreationValues[0], 
+                grassBalesPlacedValues[0], 
+                stormwaterSpreadingAreasCreatedValues[0], 
+                surfaceRougheningConductedValues[0],
+                vegetationEnhancementConductedValues[0],
+                aquaticHabitatCreatedValues[0],
+                wetlandHabitatCreatedValues[0]
+            );
             return RazorView<ProgressDashboard, ProgressDashboardViewData>(viewData);
         }
 
         private GoogleChartJson MakeGoogleChartJsonForProgressDashboardPieChart(PerformanceMeasure performanceMeasure, List<double> values)
         {
             var chartTitle = performanceMeasure.GetDisplayName();
-            var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+            var pieSliceTextStyle = new GoogleChartTextStyle("ffffff") { IsBold = true, FontSize = 20 };
 
             // 80% will give space to show google charts legend
             //var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
@@ -674,7 +698,7 @@ namespace ProjectFirma.Web.Controllers
             // 90% is enough space for our custom legend
             var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
 
-            var googleChartContainerID = chartTitle.Replace(" ", "").Replace("&", "");
+            var googleChartContainerID = chartTitle.Replace(" ", "").Replace("&", "").Replace("-", "_");
             var googlePieChartSlices = performanceMeasure.GetProgressDashboardPieChartSlices(values);
             var googleChartDataTable = PerformanceMeasureModelExtensions.GetProgressDashboardPieChartDataTable(googlePieChartSlices);
             var googlePieChartConfiguration = new GooglePieChartConfiguration(
@@ -686,18 +710,17 @@ namespace ProjectFirma.Web.Controllers
 
         }
 
-        private Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>> MakeGoogleChartJsonsForProgressDashboardBarChart(PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID)
+        private Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>> MakeGoogleChartJsonsForProgressDashboardBarChart(PerformanceMeasure performanceMeasure)
         {
             var googleChartJsons = new List<GoogleChartJson>();
             var projectToColorAndValue = new Dictionary<Project, Tuple<string, double>>();
             var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals();
 
-            var groupedByProject = new List<IGrouping<Project, PerformanceMeasureActualSubcategoryOption>>();
+            var groupedByProject = new List<IGrouping<Project, PerformanceMeasureActual>>();
             var chartColumns = new List<string>();
-            if (performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x => x.PerformanceMeasureSubcategoryOptionID == acresCompletedSubcategoryOptionID))
+            if (performanceMeasure.PerformanceMeasureActuals.Any())
             {
-                groupedByProject = performanceMeasure.PerformanceMeasureActualSubcategoryOptions
-                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == acresCompletedSubcategoryOptionID).GroupBy(x => x.PerformanceMeasureActual.Project).ToList();
+                groupedByProject = performanceMeasure.PerformanceMeasureActuals.GroupBy(x => x.Project).ToList();
                 chartColumns = groupedByProject.Select(x => x.Key.ProjectName).OrderBy(x => x).ToList();
 
                 var chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, false);
@@ -747,14 +770,14 @@ namespace ProjectFirma.Web.Controllers
 
                 groupedByProject.OrderBy(x => x.Key.ProjectName).Select(x =>
                 {
-                    var calendarYearReportedValue = x.Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue);
+                    var calendarYearReportedValue = x.Sum(pmrv => pmrv.ActualValue);
                     return calendarYearReportedValue;
                 });
 
                 var projectToColor = chartAndProjectToColorDictionary.Item2;
 
                 projectToColorAndValue = groupedByProject.OrderBy(x => x.Key.ProjectName).ToDictionary(x => x.Key,
-                    x => new Tuple<string, double>(projectToColor[x.Key.ProjectName], x.Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue)) );
+                    x => new Tuple<string, double>(projectToColor[x.Key.ProjectName], x.Sum(pmrv => pmrv.ActualValue)) );
             }
 
             return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
