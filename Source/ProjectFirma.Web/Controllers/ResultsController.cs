@@ -658,7 +658,6 @@ namespace ProjectFirma.Web.Controllers
 
 
             var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount,
-                totalAcresConvertedDustSuppression, totalAcresConvertedFishAndWildlifeHabitat, 
                 acresConstructedByTheNumbersFirmaPage, dustSuppressionFirmaPage, fishAndWildlifeHabitatFirmaPage,
                 dustSuppressionPieChart, fishAndWildlifeHabitatAcresCountedPieChart, 
                 dustSuppressionValues, fishAndWildlifeHabitatAcresCountedValues,

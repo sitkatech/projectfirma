@@ -406,10 +406,10 @@ namespace ProjectFirma.Web.Models
 
         public static List<double> GetProgressDashboardValues(this PerformanceMeasure performanceMeasure, double? convertedAcresToRemoveFromCompleted = null)
         {
-            var acresCompleted = performanceMeasure.GetTotalActualsForPerformanceMeasure();
+            var acresCompleted = performanceMeasure.GetTotalActualsForActiveProjectsForPerformanceMeasure();
             acresCompleted = convertedAcresToRemoveFromCompleted.HasValue ? acresCompleted - convertedAcresToRemoveFromCompleted.Value : acresCompleted;
-            var acresInConstruction = GetTotalExpectedsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation) - acresCompleted;
-            var acresPlanned = GetTotalExpectedsForPerformanceMeasure(performanceMeasure, ProjectStage.PlanningDesign);
+            var acresInConstruction = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation) - acresCompleted;
+            var acresPlanned = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.PlanningDesign);
             acresPlanned = acresPlanned < 0 ? 0 : acresPlanned;
             acresInConstruction = acresInConstruction < 0 ? 0 : acresInConstruction;
             acresCompleted = acresCompleted < 0 ? 0 : acresCompleted;
@@ -426,18 +426,18 @@ namespace ProjectFirma.Web.Models
                 : 0;
         }
 
-        private static double GetTotalActualsForPerformanceMeasure(this PerformanceMeasure performanceMeasure)
+        private static double GetTotalActualsForActiveProjectsForPerformanceMeasure(this PerformanceMeasure performanceMeasure)
         {
-            return performanceMeasure.PerformanceMeasureActuals.Any()
-                ? performanceMeasure.PerformanceMeasureActuals.Sum(x => x.ActualValue)
+            return performanceMeasure.PerformanceMeasureActuals.Any(x => x.Project.IsActiveProject())
+                ? performanceMeasure.PerformanceMeasureActuals.Where(x => x.Project.IsActiveProject()).Sum(x => x.ActualValue)
                 : 0;
         }
 
 
-        private static double GetTotalExpectedsForPerformanceMeasure(PerformanceMeasure performanceMeasure, ProjectStage projectStage)
+        private static double GetTotalExpectedsForActiveProjectsForPerformanceMeasure(PerformanceMeasure performanceMeasure, ProjectStage projectStage)
         {
-            return performanceMeasure.PerformanceMeasureExpecteds.Any(x => x.Project.ProjectStageID == projectStage.ProjectStageID)
-                ? performanceMeasure.PerformanceMeasureExpecteds.Where(x => x.Project.ProjectStageID == projectStage.ProjectStageID).Sum(x => x.ExpectedValue ?? 0)
+            return performanceMeasure.PerformanceMeasureExpecteds.Any(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID)
+                ? performanceMeasure.PerformanceMeasureExpecteds.Where(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID).Sum(x => x.ExpectedValue ?? 0)
                 : 0;
         }
 

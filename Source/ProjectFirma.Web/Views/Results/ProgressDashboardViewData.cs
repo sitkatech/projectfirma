@@ -81,7 +81,6 @@ namespace ProjectFirma.Web.Views.Results
         public ProgressDashboardViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
             int projectCount, decimal fundsCommittedToProgram, int partnershipCount,
-            double totalAcresConvertedDustSuppression, double totalAcresConvertedFishAndWildlifeHabitat,
             ProjectFirmaModels.Models.FirmaPage acresConstructedByTheNumbersFirmaPage,
             ProjectFirmaModels.Models.FirmaPage dustSuppressionFirmaPage,
             ProjectFirmaModels.Models.FirmaPage fishAndWildlifeHabitatFirmaPage,
@@ -113,6 +112,7 @@ namespace ProjectFirma.Web.Views.Results
             double wetlandHabitatCreatedCount
             ) : base(currentFirmaSession, firmaPage)
         {
+            BreadCrumbTitle = "Progress Dashboard";
             ContainerFluid = true;
             // progress overview
             ProjectCount = projectCount;
