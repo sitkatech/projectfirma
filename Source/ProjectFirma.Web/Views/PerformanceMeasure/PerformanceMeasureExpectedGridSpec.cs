@@ -42,23 +42,27 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     AgGridColumnFilterType.Html);
             }
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, AgGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
-            foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 140, AgGridColumnFilterType.SelectFilterStrict);
+            if (performanceMeasure.HasRealSubcategories())
             {
-                Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
-                    a =>
-                    {
-                        var performanceMeasureExpectedSubcategoryOption =
-                            a.PerformanceMeasureExpectedSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategory.PerformanceMeasureSubcategoryID);
-                        if (performanceMeasureExpectedSubcategoryOption != null)
+                foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))
+                {
+                    Add(performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
+                        a =>
                         {
-                            return performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
-                        }
-                        return string.Empty;
-                    },
-                    120,
-                    AgGridColumnFilterType.SelectFilterStrict);
+                            var performanceMeasureExpectedSubcategoryOption =
+                                a.PerformanceMeasureExpectedSubcategoryOptions.SingleOrDefault(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategory.PerformanceMeasureSubcategoryID);
+                            if (performanceMeasureExpectedSubcategoryOption != null)
+                            {
+                                return performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
+                            }
+                            return string.Empty;
+                        },
+                        120,
+                        AgGridColumnFilterType.SelectFilterStrict);
+                }
             }
+
             var expectedValueColumnName = $"{FieldDefinitionEnum.ExpectedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
             Add(expectedValueColumnName, a => a.ExpectedValue, 150, AgGridColumnFormatType.Decimal, AgGridColumnAggregationType.Total);

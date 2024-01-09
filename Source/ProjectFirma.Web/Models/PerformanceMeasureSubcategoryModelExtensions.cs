@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Models
                     var targetValueDescription = performanceMeasureReportingPeriod.GetTargetValueLabel(performanceMeasure);
                     var geospatialAreaTargetValueDescription = hasGeospatialAreaTargets ? performanceMeasureReportingPeriod.GetGeospatialAreaTargetValueLabel(performanceMeasure, geospatialArea) : string.Empty;
 
-                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, targetValue, targetValueDescription, geospatialAreaTargetValue, geospatialAreaTargetValueDescription, showCumulativeResults, firstReportingPeriod);
+                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, targetValue, targetValueDescription, geospatialAreaTargetValue, geospatialAreaTargetValueDescription, showCumulativeResults, firstReportingPeriod, performanceMeasure.HasRealSubcategories());
 
                     googleChartRowVs.Add(new GoogleChartRowV(null, formattedDataTooltip));
                 }
@@ -250,7 +250,8 @@ namespace ProjectFirma.Web.Models
                                                   double? geospatialAreaTargetValue,
                                                   string geospatialAreaTargetValueDescription,
                                                   bool showCumulativeResults,
-                                                  PerformanceMeasureReportingPeriod initialPerformanceMeasureReportingPeriod)
+                                                  PerformanceMeasureReportingPeriod initialPerformanceMeasureReportingPeriod,
+                                                  bool hasRealSubcategories)
         {
             // shape data
             var calendarReportedYearValuesDictionary = new Dictionary<string, double>();
@@ -284,13 +285,17 @@ namespace ProjectFirma.Web.Models
             var html = "<div class='googleTooltipDiv'>";
             html += $"<p><b>{performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel}</b></p>";
             html += "<table class='table table-striped googleTooltipTable'>";
-            foreach (KeyValuePair<string, double> calendarReportedYearValue in calendarReportedYearValuesDictionary)
+            if (hasRealSubcategories)
             {
-                var formattedValue = calendarReportedYearValue.Value.ToString($"#,###,###,##0.{stringPrecision}");
+                foreach (KeyValuePair<string, double> calendarReportedYearValue in calendarReportedYearValuesDictionary)
+                {
+                    var formattedValue = calendarReportedYearValue.Value.ToString($"#,###,###,##0.{stringPrecision}");
 
 
-                html += $"<tr><td>{calendarReportedYearValue.Key}</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedValue} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
+                    html += $"<tr><td>{calendarReportedYearValue.Key}</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedValue} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
+                }
             }
+
 
             var formattedTotal = calendarReportedYearValuesDictionary.Sum(x => x.Value).ToString($"#,###,###,##0.{stringPrecision}");
             html += $"<tr class='googleTooltipTableTotalRow'><td>Total</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedTotal} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";

@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.Shared
 
         public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons, string chartTitle, int chartHeight,
             bool showChartTitle, bool isPieChart, bool canConfigureChart, bool canBeChartedCumulatively) : this(googleChartJsons, chartTitle,
-            chartTitle.Replace(" ", ""), chartHeight, showChartTitle, isPieChart, canConfigureChart, canBeChartedCumulatively)
+            chartTitle.Replace(" ", "").Replace("-", "_"), chartHeight, showChartTitle, isPieChart, canConfigureChart, canBeChartedCumulatively)
         {
         }
 

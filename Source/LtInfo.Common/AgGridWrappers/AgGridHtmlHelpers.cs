@@ -193,6 +193,10 @@ namespace LtInfo.Common.AgGridWrappers
             if(Object.keys({0}GridOptions.api.getFilterModel()).length !== 0){{
                 document.getElementById(""{0}ClearFilters"").style.display = ""inline-block"";
             }}
+            var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
+            if({0}PinnedBottomData){{
+                {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
+            }}
           }},
 
           // example event handler
@@ -316,8 +320,11 @@ namespace LtInfo.Common.AgGridWrappers
                         columnDefinitionStringBuilder.Append(", \"valueFormatter\": currencyFormatter");
                         break;
                     case AgGridColumnFormatType.Integer:
-                        // columnDefinitionStringBuilder.Append(", \"valueFormatter\": integerFormatter");
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": integerFormatter");
                         // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"number\"");
+                        break;
+                    case AgGridColumnFormatType.Decimal:
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": decimalFormatter");
                         break;
                     default:
                         break;

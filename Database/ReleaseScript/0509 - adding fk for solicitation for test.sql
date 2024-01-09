@@ -1,1 +1,0 @@
-alter table dbo.Project add constraint FK_Project_Solicitation_SolicitationID_TenantID foreign key (SolicitationID, TenantID) references dbo.Solicitation(SolicitationID, TenantID)

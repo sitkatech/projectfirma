@@ -75,6 +75,7 @@ values
 (90, 'PerformanceMeasureTargetsTabIntro', 'Performance Measure Targets Tab Intro', 1),
 (91, 'ProgressDashboardIntro', 'Progress Dashboard Intro', 1),
 (92, 'ProgressDashboardAcresConstructedByTheNumbers', 'Acres Constructed By The Numbers', 1),
-(93, 'ProgressDashboardAcresConstructedPieCharts', 'Acres Constructed Pie Charts', 1),
+(93, 'ProgressDashboardDustSuppression', 'Progress Dashboard Dust Suppression', 1),
 (94, 'ProjectAttachmentList', 'Project Attachment List', 1),
-(95, 'NCRPProjectDashboard', 'NCRP Project Dashboard', 1)
+(95, 'NCRPProjectDashboard', 'NCRP Project Dashboard', 1),
+(96, 'ProgressDashboardFishAndWildlifeHabitat', 'Progress Dashboard Fish & Wildlife Habitat', 1)

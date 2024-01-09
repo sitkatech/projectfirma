@@ -46,12 +46,7 @@ Source code is available upon request via <support@sitkatech.com>.
         document.write(unescape('%3Cscript src="/Content/leaflet/leaflet.groupedlayercontrol/leaflet.groupedlayercontrol.min.js" type="text/javascript" %3E%3C/script%3E'));
         document.write(unescape('%3Cscript src="/Content/terraformer/terraformer.min.js" type="text/javascript" %3E%3C/script%3E'));
         document.write(unescape('%3Cscript src="/Content/terraformer/terraformer-wkt-parser.min.js" type="text/javascript" %3E%3C/script%3E'));
-
-        jQuery(document).ready(function () {
-
-            window.L.MakiMarkers.accessToken = "@FirmaWebConfiguration.MapBoxApiKey";
-
-        });
+        document.write(unescape('%3Cscript%3E window.L.MakiMarkers.accessToken = "@FirmaWebConfiguration.MapBoxApiKey";%3C/script%3E'));
     }
     //]]>
 </script>

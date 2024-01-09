@@ -10,8 +10,19 @@ function currencyFormatter(params) {
 }
 
 function integerFormatter(params) {
+    if (params.value === null || params.value === undefined) {
+        return null;
+    }
     var integerValue = Number.parseInt(params.value);
-    return integerValue; //formatNumber(integerValue);
+    return formatNumber(integerValue);
+}
+
+function decimalFormatter(params) {
+    if (params.value === null || params.value === undefined) {
+        return null;
+    }
+    var floatValue = Number.parseFloat(params.value);
+    return formatNumber(floatValue); //formatNumber(integerValue);
 }
 
 function formatNumber(number) {

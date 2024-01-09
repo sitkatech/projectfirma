@@ -2,6 +2,7 @@
 using System.Data.Entity.Spatial;
 using System.Linq;
 using Microsoft.Ajax.Utilities;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             EditProjectGeospatialAreasFormID = editProjectGeospatialAreasFormID;
             HasProjectLocationPoint = hasProjectLocationPoint;
             HasProjectLocationDetail = hasProjectLocationDetail;
-            SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
+            SimplePointMarkerImg = $"https://api.tiles.mapbox.com/v4/marker/pin-s-marker+838383.png?access_token={FirmaWebConfiguration.MapBoxApiKey}";
             ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint, geospatialAreasOnProject, canEdit);
 
             EditSimpleLocationUrl = editSimpleLocationUrl;

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Views.Organization
             AnnotationMaxLength = annotationMaxLength;
             //HasProjectLocationPoint = hasProjectLocationPoint;
 
-            SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
+            SimplePointMarkerImg = $"https://api.tiles.mapbox.com/v4/marker/pin-s-marker+838383.png?access_token={FirmaWebConfiguration.MapBoxApiKey}";
             OrganizationHasBoundary = Organization.OrganizationBoundary != null;
             EditableLayerGeoJson = editableLayerGeoJson;
         }
