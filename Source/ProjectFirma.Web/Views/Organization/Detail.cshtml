@@ -60,14 +60,6 @@
 
         jQuery(function () {
             jQuery("#overviewTab").on("shown.bs.tab", function () {
-                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName1].resizeGridWidths();
-                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName2].resizeGridWidths();
-                var gridName3 = @(ViewDataTyped.ProposalsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName3].resizeGridWidths();
-                var gridName4 = @(ViewDataTyped.PendingProjectsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName4].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -77,10 +69,6 @@
                     });
             });
             jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
-                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName1].resizeGridWidths();
-                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName2].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -90,10 +78,6 @@
                     });
             });
             jQuery("#expendituresTab").on("shown.bs.tab", function() {
-                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName1].resizeGridWidths();
-                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName2].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {

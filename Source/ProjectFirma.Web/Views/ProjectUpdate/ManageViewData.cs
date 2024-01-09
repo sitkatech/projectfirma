@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             CloseOutIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CloseOutIntroPreview());
 
             var getPersonIDFunctionString =
-                $"function() {{ return Sitka.{PeopleReceivingReminderGridName}.getValuesFromCheckedGridRows({0}, \'PersonID\', \'PersonIDList\'); }}";
+                $"function() {{ return {PeopleReceivingReminderGridName}GetValuesFromCheckedGridRows(\'PersonID\', \'PersonIDList\'); }}";
 
             var modalDialogFormLink = ModalDialogFormHelper.ModalDialogFormLink(
                 "<span class=\"glyphicon glyphicon-envelope\" style=\"margin-right:5px\"></span>Send Notification to Selected People",

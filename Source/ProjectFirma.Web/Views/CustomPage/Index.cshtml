@@ -56,18 +56,15 @@
 
 <script type="text/javascript">
     // <![CDATA[
-    jQuery(function()
-    {
-        var sitkaGrid = Sitka.@ViewDataTyped.GridName;
-        sitkaGrid.grid.attachEvent("onRowSelect", function(id)
-        {
-            var firmaPageId = sitkaGrid.grid.cells(id, sitkaGrid.getColumnIndexByName("CustomPageID")).getValue();
+    jQuery(function () {
+        var gridOptions = @(ViewDataTyped.GridName)GridOptions;
+
+        gridOptions.onCellClicked = function () {
+            var firmaPageId = @(ViewDataTyped.GridName)GetValueFromSelectedGridRow("CustomPageID");
             var dataUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.CustomPageUrl.ToJS()));
             var dataUrl = dataUrlTemplate.ParameterReplace(firmaPageId);
             SitkaAjax.load(jQuery("#customPage"), dataUrl);
-        });
-        sitkaGrid.grid.attachEvent("onXLE", function() { sitkaGrid.grid.selectRow(0, true); });
-        sitkaGrid.grid.attachEvent("onFilterEnd", function() { sitkaGrid.grid.selectRow(0, true); });
+        }
     });
     // ]]>
 </script>
