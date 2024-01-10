@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
@@ -49,6 +50,8 @@ namespace ProjectFirma.Web.Views.Results
         public ViewPageContentViewData AcresConstructedByTheNumbersViewPageContentViewData { get; }
         public ViewPageContentViewData DustSuppressionViewPageContentViewData { get; }
         public ViewPageContentViewData FishAndWildlifeHabitatViewPageContentViewData { get; }
+        public ViewPageContentViewData DustSuppressionConvertedAcresNoteViewPageContentViewData { get; }
+        public ViewPageContentViewData FishAndWildlifeHabitatConvertedAcresNoteViewPageContentViewData { get; }
         public ViewGoogleChartViewData DustSuppressionPieChart { get; }
         public ViewGoogleChartViewData FishAndWildlifeHabitatAcresCountedPieChart { get; }
         public List<double> DustSuppressionValues { get; }
@@ -56,9 +59,9 @@ namespace ProjectFirma.Web.Views.Results
         public bool DustSuppressionHasData { get; }
         public bool FishAndWildlifeHabitatAcresCountedHasData { get; }
         public ViewGoogleChartViewData DustSuppressionColumnChart { get; }
-        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> DustSuppressionProjectToColorAndValue { get; }
+        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double, bool>> DustSuppressionProjectToColorAndValue { get; }
         public ViewGoogleChartViewData FishAndWildlifeHabitatAcresCountedColumnChart { get; }
-        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> FishAndWildlifeHabitatAcresCountedProjectToColorAndValue { get; }
+        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double, bool>> FishAndWildlifeHabitatAcresCountedProjectToColorAndValue { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure DustSuppressionPerformanceMeasure { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure FishAndWildlifeHabitatAcresCountedPerformanceMeasure { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure EndangeredSpeciesHabitatPerformanceMeasure { get; }
@@ -89,9 +92,9 @@ namespace ProjectFirma.Web.Views.Results
             List<double> dustSuppressionValues,
             List<double> fishAndWildlifeHabitatAcresCountedValues,
             List<GoogleChartJson> dustSuppressionColumnCharts,
-            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> dustSuppressionProjectToColorAndValue,
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double, bool>> dustSuppressionProjectToColorAndValue,
             List<GoogleChartJson> fishAndWildlifeHabitatAcresCountedColumnCharts,
-            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> fishAndWildlifeHabitatAcresCountedProjectToColorAndValue,
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double, bool>> fishAndWildlifeHabitatAcresCountedProjectToColorAndValue,
             ProjectFirmaModels.Models.PerformanceMeasure dustSuppressionPerformanceMeasure,
             ProjectFirmaModels.Models.PerformanceMeasure fishAndWildlifeHabitatAcresCountedPerformanceMeasure,
             ProjectFirmaModels.Models.PerformanceMeasure endangeredSpeciesHabitatPerformanceMeasure,
@@ -137,6 +140,8 @@ namespace ProjectFirma.Web.Views.Results
             AcresConstructedByTheNumbersViewPageContentViewData = new ViewPageContentViewData(acresConstructedByTheNumbersFirmaPage, currentFirmaSession);
             DustSuppressionViewPageContentViewData = new ViewPageContentViewData(dustSuppressionFirmaPage, currentFirmaSession);
             FishAndWildlifeHabitatViewPageContentViewData = new ViewPageContentViewData(fishAndWildlifeHabitatFirmaPage, currentFirmaSession);
+            DustSuppressionConvertedAcresNoteViewPageContentViewData = new ViewPageContentViewData(FirmaPageTypeEnum.ProgressDashboardDusSuppressionConvertedAcresNote.GetFirmaPage(), currentFirmaSession);
+            FishAndWildlifeHabitatConvertedAcresNoteViewPageContentViewData = new ViewPageContentViewData(FirmaPageTypeEnum.ProgressDashboardFishAndWildlifeHabitatConvertedAcresNote.GetFirmaPage(), currentFirmaSession);
 
             DustSuppressionPieChart = new ViewGoogleChartViewData(
                 new List<GoogleChartJson> {dustSuppressionPieChart},

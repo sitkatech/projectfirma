@@ -653,8 +653,8 @@ namespace ProjectFirma.Web.Controllers
             var dustSuppressionFirmaPage = FirmaPageTypeEnum.ProgressDashboardDustSuppression.GetFirmaPage();
             var fishAndWildlifeHabitatFirmaPage = FirmaPageTypeEnum.ProgressDashboardFishAndWildlifeHabitat.GetFirmaPage();
 
-            var dustSuppressionChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(dustSuppressionPerformanceMeasure);
-            var fishAndWildlifeHabitatAcresCountedChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(fishAndWildlifeHabitatAcresCountedPerformanceMeasure);
+            var dustSuppressionChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(dustSuppressionPerformanceMeasure, 6383);
+            var fishAndWildlifeHabitatAcresCountedChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(fishAndWildlifeHabitatAcresCountedPerformanceMeasure, 6384);
 
 
             var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount,
@@ -709,10 +709,10 @@ namespace ProjectFirma.Web.Controllers
 
         }
 
-        private Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>> MakeGoogleChartJsonsForProgressDashboardBarChart(PerformanceMeasure performanceMeasure)
+        private Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double, bool>>> MakeGoogleChartJsonsForProgressDashboardBarChart(PerformanceMeasure performanceMeasure, int convertedAcresPerformanceMeasureSubcategoryOptionID)
         {
             var googleChartJsons = new List<GoogleChartJson>();
-            var projectToColorAndValue = new Dictionary<Project, Tuple<string, double>>();
+            var projectToColorValueAndHasConverted = new Dictionary<Project, Tuple<string, double, bool>>();
             var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals();
 
             var groupedByProject = new List<IGrouping<Project, PerformanceMeasureActual>>();
@@ -722,7 +722,7 @@ namespace ProjectFirma.Web.Controllers
                 groupedByProject = performanceMeasure.PerformanceMeasureActuals.GroupBy(x => x.Project).ToList();
                 chartColumns = groupedByProject.Select(x => x.Key.ProjectName).OrderBy(x => x).ToList();
 
-                var chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, false);
+                var chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, false, convertedAcresPerformanceMeasureSubcategoryOptionID);
                 var googleChartDataTable = chartAndProjectToColorDictionary.Item1;
 
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcres";
@@ -744,7 +744,7 @@ namespace ProjectFirma.Web.Controllers
 
                 googleChartJsons.Add(googleChartJson);
 
-                chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, true);
+                chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, true, convertedAcresPerformanceMeasureSubcategoryOptionID);
                 var googleChartDataTableCumulative = chartAndProjectToColorDictionary.Item1;
 
                 var chartNameCumulative = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcresCumulative";
@@ -775,11 +775,13 @@ namespace ProjectFirma.Web.Controllers
 
                 var projectToColor = chartAndProjectToColorDictionary.Item2;
 
-                projectToColorAndValue = groupedByProject.OrderBy(x => x.Key.ProjectName).ToDictionary(x => x.Key,
-                    x => new Tuple<string, double>(projectToColor[x.Key.ProjectName], x.Sum(pmrv => pmrv.ActualValue)) );
+                projectToColorValueAndHasConverted = groupedByProject.OrderBy(x => x.Key.ProjectName).ToDictionary(x => x.Key,
+                    x => new Tuple<string, double, bool>(projectToColor[x.Key.ProjectName], x.Sum(pmrv => pmrv.ActualValue), x.Key.PerformanceMeasureActuals.Any(y =>
+                        y.PerformanceMeasureActualSubcategoryOptions.Any(z =>
+                            z.PerformanceMeasureSubcategoryOptionID == convertedAcresPerformanceMeasureSubcategoryOptionID))) );
             }
 
-            return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
+            return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double, bool>>>(googleChartJsons, projectToColorValueAndHasConverted) ;
         }
 
 

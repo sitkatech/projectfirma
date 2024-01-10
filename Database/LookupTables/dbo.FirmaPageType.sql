@@ -78,4 +78,6 @@ values
 (93, 'ProgressDashboardDustSuppression', 'Progress Dashboard Dust Suppression', 1),
 (94, 'ProjectAttachmentList', 'Project Attachment List', 1),
 (95, 'NCRPProjectDashboard', 'NCRP Project Dashboard', 1),
-(96, 'ProgressDashboardFishAndWildlifeHabitat', 'Progress Dashboard Fish & Wildlife Habitat', 1)
+(96, 'ProgressDashboardFishAndWildlifeHabitat', 'Progress Dashboard Fish & Wildlife Habitat', 1),
+(97, 'ProgressDashboardDusSuppressionConvertedAcresNote', 'Progress Dashboard Dust Suppression Converted Acres Note', 1),
+(98, 'ProgressDashboardFishAndWildlifeHabitatConvertedAcresNote', 'Progress Dashboard Fish & Wildlife Habitat Converted Acres Note', 1)

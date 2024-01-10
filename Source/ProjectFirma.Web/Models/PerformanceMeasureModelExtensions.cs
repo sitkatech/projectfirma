@@ -467,7 +467,8 @@ namespace ProjectFirma.Web.Models
                                           ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods,
                                           List<IGrouping<Project, PerformanceMeasureActual>> groupedByProject,
                                           List<string> chartColumns,
-                                          bool showCumulativeResults)
+                                          bool showCumulativeResults,
+                                          int convertedAcresPerformanceMeasureSubcategoryOptionID)
         {
             var googleChartRowCs = new List<GoogleChartRowC>();
 
@@ -496,7 +497,13 @@ namespace ProjectFirma.Web.Models
                             .Sum(pmrv => pmrv.ActualValue);
                     }
 
-                    return new GoogleChartRowV(calendarYearReportedValue, GoogleChartJson.GetFormattedValue(calendarYearReportedValue, performanceMeasure.MeasurementUnitType));
+                    var projectHasConvertedAcresForSubcategoryOption = x.Key.PerformanceMeasureActuals.Any(pmrv =>
+                        pmrv.PerformanceMeasureActualSubcategoryOptions.Any(z =>
+                            z.PerformanceMeasureSubcategoryOptionID ==
+                            convertedAcresPerformanceMeasureSubcategoryOptionID));
+
+                    var formattedValue = $"{GoogleChartJson.GetFormattedValue(calendarYearReportedValue, performanceMeasure.MeasurementUnitType)}{(projectHasConvertedAcresForSubcategoryOption ? " *" : string.Empty)}";
+                    return new GoogleChartRowV(calendarYearReportedValue, formattedValue);
                 }));
 
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
