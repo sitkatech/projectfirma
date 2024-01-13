@@ -32,9 +32,11 @@ using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using GeoJSON.Net.Feature;
 using Detail = ProjectFirma.Web.Views.FundingSource.Detail;
 using DetailViewData = ProjectFirma.Web.Views.FundingSource.DetailViewData;
 using Edit = ProjectFirma.Web.Views.FundingSource.Edit;
@@ -175,9 +177,59 @@ namespace ProjectFirma.Web.Controllers
                 fundingSourceCustomAttributeTypes.ToList(),
                 new List<FundingSourceCustomAttribute>(fundingSource.FundingSourceCustomAttributes.ToList()));
 
-            var viewData = new DetailViewData(CurrentFirmaSession, fundingSource, viewGoogleChartViewData, projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData);
+            var mapInitJson = GetMapInitJson(fundingSource, CurrentFirmaSession);
+            var projectLocationsLayerGeoJson = GetProjectLocationsLayerGeoJson(fundingSource, CurrentFirmaSession, out var hasSpatialData);
+
+            var performanceMeasures = fundingSource.GetAssociatedProjects(CurrentFirmaSession).ToList()
+                .SelectMany(x => x.PerformanceMeasureActuals)
+                .Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
+                .OrderBy(x => x.PerformanceMeasureDisplayName)
+                .ToList();
+
+            var viewData = new DetailViewData(CurrentFirmaSession, fundingSource, viewGoogleChartViewData,
+                projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData, mapInitJson,
+                projectLocationsLayerGeoJson, hasSpatialData, performanceMeasures);
 
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        private static LayerGeoJson GetProjectLocationsLayerGeoJson(FundingSource fundingSource, FirmaSession currentFirmaSession, out bool hasSpatialData)
+        {
+            var allActiveProjectsAndProposals = fundingSource.GetAssociatedProjects(currentFirmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            hasSpatialData = false;
+
+            var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => !x.LocationIsPrivate).
+                Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
+            hasSpatialData = projectsAsSimpleLocations.Any();
+            var projectSimpleLocationsFeatureCollection = new FeatureCollection();
+            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Select(x =>
+            {
+                var feature = x.MakePointFeatureWithRelevantProperties(x.GetProjectLocationPoint(true), true, true);
+                feature.Properties["FeatureColor"] = "#99b3ff";
+                return feature;
+            }).ToList());
+
+            // Always return the feature collection - even if empty.
+            // SLG - 8/28/2020
+            return new LayerGeoJson($"Mapped {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
+        }
+
+        private static MapInitJson GetMapInitJson(FundingSource fundingSource, FirmaSession currentFirmaSession)
+        {
+            var layers = new List<LayerGeoJson>();
+            var dbGeometries = new List<DbGeometry>();
+
+            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayers());
+
+            var allActiveProjectsAndProposals = fundingSource.GetAssociatedProjects(currentFirmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+
+            var filteredProjects = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
+
+            dbGeometries.AddRange(filteredProjects.Where(currentFirmaSession.UserCanViewPrivateLocations).Select(p => p.GetProjectLocationPoint(true)));
+
+            var boundingBox = new BoundingBox(dbGeometries);
+
+            return new MapInitJson($"fundingSource_{fundingSource.FundingSourceID}_Map", 10, layers, MapInitJson.GetExternalMapLayerSimples(), boundingBox);
         }
 
         [HttpGet]

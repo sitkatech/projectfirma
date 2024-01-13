@@ -5,6 +5,7 @@ using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -116,5 +117,12 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(this FundingSource fundingSource,
+            PerformanceMeasure performanceMeasure,
+            FirmaSession firmaSession)
+        {
+            var projects = fundingSource.GetAssociatedProjects(firmaSession).ToList();
+            return new PerformanceMeasureChartViewData(performanceMeasure, firmaSession, false, projects, false);
+        }
     }
 }
