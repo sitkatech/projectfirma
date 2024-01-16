@@ -29,13 +29,15 @@
 
     $scope.addInput = function () {
         $scope.OptionsSchema.push("");
+        $scope.updateOptionsSchema();
     }
 
     $scope.removeInput = function (index) {
         $scope.OptionsSchema.splice(index, 1);
+        $scope.updateOptionsSchema();
     }
 
-    $scope.submit = function () {
+    $scope.updateOptionsSchema = function () {
         $scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema = JSON.stringify($scope.OptionsSchema);
     }
 
