@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         public static readonly TenantActionAgendaForPugetSound ActionAgendaForPugetSound = TenantActionAgendaForPugetSound.Instance;
         public static readonly TenantBureauOfReclamation BureauOfReclamation = TenantBureauOfReclamation.Instance;
         public static readonly TenantSSMPProjectTracker SSMPProjectTracker = TenantSSMPProjectTracker.Instance;
-        public static readonly TenantTCSIProjectTracker TCSIProjectTracker = TenantTCSIProjectTracker.Instance;
+        public static readonly TenantTCSProjectTracker TCSProjectTracker = TenantTCSProjectTracker.Instance;
 
         public static readonly List<Tenant> All;
         public static readonly ReadOnlyDictionary<int, Tenant> AllLookupDictionary;
@@ -41,7 +41,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, NCRPProjectTracker, DemoProjectFirma, PeaksToPeople, JohnDayBasinPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation, SSMPProjectTracker, TCSIProjectTracker };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, NCRPProjectTracker, DemoProjectFirma, PeaksToPeople, JohnDayBasinPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation, SSMPProjectTracker, TCSProjectTracker };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -151,8 +151,8 @@ namespace ProjectFirmaModels.Models
                     return SitkaTechnologyGroup;
                 case TenantEnum.SSMPProjectTracker:
                     return SSMPProjectTracker;
-                case TenantEnum.TCSIProjectTracker:
-                    return TCSIProjectTracker;
+                case TenantEnum.TCSProjectTracker:
+                    return TCSProjectTracker;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -173,7 +173,7 @@ namespace ProjectFirmaModels.Models
         ActionAgendaForPugetSound = 11,
         BureauOfReclamation = 12,
         SSMPProjectTracker = 13,
-        TCSIProjectTracker = 14
+        TCSProjectTracker = 14
     }
 
     public partial class TenantSitkaTechnologyGroup : Tenant
@@ -248,9 +248,9 @@ namespace ProjectFirmaModels.Models
         public static readonly TenantSSMPProjectTracker Instance = new TenantSSMPProjectTracker(13, @"SSMPProjectTracker", @"SaltonSeaProjects.localhost.projectfirma.com", @"SaltonSeaProjects.qa.projectfirma.com", @"projects.saltonsea.ca.gov", DateTime.Parse("01/01/1990"), false, false, false, false, true);
     }
 
-    public partial class TenantTCSIProjectTracker : Tenant
+    public partial class TenantTCSProjectTracker : Tenant
     {
-        private TenantTCSIProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantTCSIProjectTracker Instance = new TenantTCSIProjectTracker(14, @"TCSIProjectTracker", @"tcsiprojecttracker.localhost.projectfirma.com", @"tcsiprojecttracker.qa.projectfirma.com", @"tcsiprojecttracker.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, true);
+        private TenantTCSProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
+        public static readonly TenantTCSProjectTracker Instance = new TenantTCSProjectTracker(14, @"TCSProjectTracker", @"tcsprojecttracker.localhost.projectfirma.com", @"tcsprojecttracker.qa.projectfirma.com", @"tcsprojecttracker.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, true);
     }
 }

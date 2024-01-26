@@ -1,7 +1,7 @@
 
 insert into dbo.Tenant(TenantID, TenantName, CanonicalHostNameLocal, CanonicalHostNameQa, CanonicalHostNameProd, FiscalYearStartDate, UseFiscalYears, ArePerformanceMeasuresExternallySourced, AreOrganizationsExternallySourced, AreFundingSourcesExternallySourced, TenantEnabled)
 values 
-(14, 'TCSIProjectTracker', 'tcsiprojecttracker.localhost.projectfirma.com', 'tcsiprojecttracker.qa.projectfirma.com', 'tcsiprojecttracker.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 1)
+(14, 'TCSProjectTracker', 'tcsprojecttracker.localhost.projectfirma.com', 'tcsprojecttracker.qa.projectfirma.com', 'tcsprojecttracker.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 1)
 
 
 	alter table dbo.FileResourceInfo add LogoFileResourceInfoIDFromTenant int null
@@ -22,7 +22,7 @@ values
 	values
 	(@TenantIDTo, 0xE61000000104050000000100D33FF3535EC0B9B6B271B9E343400100D33FF3535EC05B2B37C4854F43400100F73F67F85DC05B2B37C4854F43400100F73F67F85DC0B9B6B271B9E343400100D33FF3535EC0B9B6B271B9E3434001000000020000000001000000FFFFFFFF0000000003, 
 	2010, @primaryContactPersonID, @TenantName, @ToolDisplayName,
-	'TCSIProjectTracker', 'CE6730FE-D0BD-405D-8026-FB4F25B3124D', 'TCSIProjectTracker', 
+	'TCSProjectTracker', 'CE6730FE-D0BD-405D-8026-FB4F25B3124D', 'TCSProjectTracker', 
 	2, 1, 1, 1, 1,
 	0, 1, 0, 0, 0, 0, 
 	1, 0, 0, 0, 0, 0, 0, 0, 0,
