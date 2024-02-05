@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.Shared
         public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
         public bool HyperlinkPerformanceMeasureName { get; }
         public bool  CanBeChartedCumulatively { get; }
+        public string  CumulativeCheckboxLabel { get; }
 
         public HtmlString ChartTitleWithLink { get; set; }
 
@@ -82,11 +83,11 @@ namespace ProjectFirma.Web.Views.Shared
 
         public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons, string chartTitle, int chartHeight,
             bool showChartTitle, bool isPieChart, bool canConfigureChart, bool canBeChartedCumulatively) : this(googleChartJsons, chartTitle,
-            chartTitle.Replace(" ", "").Replace("-", "_"), chartHeight, showChartTitle, isPieChart, canConfigureChart, canBeChartedCumulatively)
+            chartTitle.Replace(" ", "").Replace("-", "_"), chartHeight, showChartTitle, isPieChart, canConfigureChart, canBeChartedCumulatively, "Cumulative")
         {
         }
 
-        public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons, string chartTitle, string chartUniqueName, int chartHeight, bool showChartTitle, bool isPieChart, bool canConfigureChart, bool canBeChartedCumulatively) : this(googleChartJsons,
+        public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons, string chartTitle, string chartUniqueName, int chartHeight, bool showChartTitle, bool isPieChart, bool canConfigureChart, bool canBeChartedCumulatively, string cumulativeCheckboxLabel) : this(googleChartJsons,
             chartTitle,
             chartHeight,
             null,
@@ -104,6 +105,7 @@ namespace ProjectFirma.Web.Views.Shared
             }
 
             CanBeChartedCumulatively = canBeChartedCumulatively;
+            CumulativeCheckboxLabel = cumulativeCheckboxLabel;
         }
 
         public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons,
@@ -134,6 +136,7 @@ namespace ProjectFirma.Web.Views.Shared
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = hyperlinkPerformanceMeasureName;
             CanBeChartedCumulatively = performanceMeasure?.CanBeChartedCumulatively ?? false;
+            CumulativeCheckboxLabel = "Cumulative";
         }
     }
 }

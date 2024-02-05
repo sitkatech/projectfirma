@@ -37,7 +37,6 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
-using Newtonsoft.Json;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
@@ -728,7 +727,7 @@ namespace ProjectFirma.Web.Controllers
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcres";
 
                 var googleChartAxisHorizontal = new GoogleChartAxis("Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-                var googleChartAxis = new GoogleChartAxis("Completed Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
+                var googleChartAxis = new GoogleChartAxis("Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
                 var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
 
                 var chartConfiguration = new GoogleChartConfiguration(chartName, true, GoogleChartType.ColumnChart,
@@ -737,7 +736,7 @@ namespace ProjectFirma.Web.Controllers
                 chartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
                 chartConfiguration.SetSeriesIgnoringNullGoogleChartSeries(googleChartDataTable);
 
-                var googleChartJson = new GoogleChartJson("Completed Acres", chartName, chartConfiguration,
+                var googleChartJson = new GoogleChartJson("Acres by Year", chartName, chartConfiguration,
                     GoogleChartType.ColumnChart, googleChartDataTable,
                     chartColumns, null, null, false);
                 googleChartJson.CanConfigureChart = false;
@@ -750,7 +749,7 @@ namespace ProjectFirma.Web.Controllers
                 var chartNameCumulative = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcresCumulative";
 
                 var googleChartAxisHorizontalCumulative = new GoogleChartAxis("Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-                var googleChartAxisCumulative = new GoogleChartAxis("Completed Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
+                var googleChartAxisCumulative = new GoogleChartAxis("Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
                 var googleChartAxisVerticalsCumulative = new List<GoogleChartAxis> { googleChartAxisCumulative };
 
                 var chartConfigurationCumulative = new GoogleChartConfiguration(chartNameCumulative, true, GoogleChartType.ColumnChart,
@@ -759,7 +758,7 @@ namespace ProjectFirma.Web.Controllers
                 chartConfigurationCumulative.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
                 chartConfigurationCumulative.SetSeriesIgnoringNullGoogleChartSeries(googleChartDataTableCumulative);
 
-                var googleChartJsonCumulative = new GoogleChartJson("Completed Acres", chartNameCumulative, chartConfigurationCumulative,
+                var googleChartJsonCumulative = new GoogleChartJson("Acres", chartNameCumulative, chartConfigurationCumulative,
                     GoogleChartType.ColumnChart, googleChartDataTableCumulative,
                     chartColumns, null, null, true);
                 googleChartJsonCumulative.CanConfigureChart = false;

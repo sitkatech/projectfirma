@@ -158,10 +158,10 @@ namespace ProjectFirma.Web.Views.Results
             DustSuppressionHasData = dustSuppressionValues.Any(x => x > 0);
             FishAndWildlifeHabitatAcresCountedHasData = fishAndWildlifeHabitatAcresCountedValues.Any(x => x > 0);
 
-            DustSuppressionColumnChart = new ViewGoogleChartViewData(dustSuppressionColumnCharts, "Completed Acres by Year", "dustSuppressionAcresCompleted", 366, true, true, true, true);
+            DustSuppressionColumnChart = new ViewGoogleChartViewData(dustSuppressionColumnCharts, "Acres by Year", "dustSuppressionAcresCompleted", 366, true, true, true, true, "Chart cumulative acres");
             DustSuppressionProjectToColorAndValue = dustSuppressionProjectToColorAndValue;
 
-            FishAndWildlifeHabitatAcresCountedColumnChart = new ViewGoogleChartViewData(fishAndWildlifeHabitatAcresCountedColumnCharts, "Completed Acres by Year", "fishAndWildlifeHabitatAcresCountedAcresCompleted", 366, true, true, true, true);
+            FishAndWildlifeHabitatAcresCountedColumnChart = new ViewGoogleChartViewData(fishAndWildlifeHabitatAcresCountedColumnCharts, "Acres by Year", "fishAndWildlifeHabitatAcresCountedAcresCompleted", 366, true, true, true, true, "Chart cumulative acres");
             FishAndWildlifeHabitatAcresCountedProjectToColorAndValue = fishAndWildlifeHabitatAcresCountedProjectToColorAndValue;
 
             DustSuppressionPerformanceMeasure = dustSuppressionPerformanceMeasure;
