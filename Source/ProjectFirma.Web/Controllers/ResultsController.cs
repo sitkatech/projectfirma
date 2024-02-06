@@ -632,11 +632,13 @@ namespace ProjectFirma.Web.Controllers
             // PerformanceMeasureID = 3781 is the Outcome "Acres Converted"
             var acresConvertedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3781);
             var totalAcresConvertedDustSuppression = acresConvertedPerformanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(6383);
-            var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardValues(totalAcresConvertedDustSuppression);
+            var totalAcresConvertedDustSuppressionImplementationOnly = acresConvertedPerformanceMeasure.GetTotalActualsForActiveProjectsForPerformanceMeasureSubcategoryOption(6383);
+            var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardValues(totalAcresConvertedDustSuppression, totalAcresConvertedDustSuppressionImplementationOnly);
             var dustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, dustSuppressionValues);
 
             var totalAcresConvertedFishAndWildlifeHabitat = acresConvertedPerformanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(6384);
-            var fishAndWildlifeHabitatAcresCountedValues = fishAndWildlifeHabitatAcresCountedPerformanceMeasure.GetProgressDashboardValues(totalAcresConvertedFishAndWildlifeHabitat);
+            var totalAcresConvertedFishAndWildlifeHabitatImplementationOnly = acresConvertedPerformanceMeasure.GetTotalActualsForActiveProjectsForPerformanceMeasureSubcategoryOption(6384);
+            var fishAndWildlifeHabitatAcresCountedValues = fishAndWildlifeHabitatAcresCountedPerformanceMeasure.GetProgressDashboardValues(totalAcresConvertedFishAndWildlifeHabitat, totalAcresConvertedFishAndWildlifeHabitatImplementationOnly);
             var fishAndWildlifeHabitatAcresCountedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(fishAndWildlifeHabitatAcresCountedPerformanceMeasure, fishAndWildlifeHabitatAcresCountedValues);
 
 

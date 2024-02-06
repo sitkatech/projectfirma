@@ -404,11 +404,16 @@ namespace ProjectFirma.Web.Models
             return googlePieChartSlices;
         }
 
-        public static List<double> GetProgressDashboardValues(this PerformanceMeasure performanceMeasure, double? convertedAcresToRemoveFromCompleted = null)
+        public static List<double> GetProgressDashboardValues(this PerformanceMeasure performanceMeasure, double? convertedAcresToRemoveFromCompleted = null, double?  acresConvertedForInConstructionCalculation = null)
         {
             var acresCompleted = performanceMeasure.GetTotalActualsForActiveProjectsForPerformanceMeasure();
             acresCompleted = convertedAcresToRemoveFromCompleted.HasValue ? acresCompleted - convertedAcresToRemoveFromCompleted.Value : acresCompleted;
-            var acresInConstruction = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation) - GetTotalActualsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation);
+            // in construction calculation
+            var plannedImplementationOnly = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation);
+            var reportedImplementationOnly = GetTotalActualsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation);
+            var convertedImplementationOnly = acresConvertedForInConstructionCalculation ?? 0;
+            var acresInConstruction = plannedImplementationOnly - (reportedImplementationOnly - convertedImplementationOnly);
+            
             var acresPlanned = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.PlanningDesign);
             acresPlanned = acresPlanned < 0 ? 0 : acresPlanned;
             acresInConstruction = acresInConstruction < 0 ? 0 : acresInConstruction;
@@ -422,6 +427,16 @@ namespace ProjectFirma.Web.Models
                 x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID)
                 ? performanceMeasure.PerformanceMeasureActualSubcategoryOptions
                     .Where(x => x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID)
+                    .Sum(x => x.PerformanceMeasureActual.ActualValue)
+                : 0;
+        }
+
+        public static double GetTotalActualsForActiveProjectsForPerformanceMeasureSubcategoryOption(this PerformanceMeasure performanceMeasure, int subcategoryOptionID)
+        {
+            return performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x =>
+                x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID && x.PerformanceMeasureActual.Project.IsActiveProject())
+                ? performanceMeasure.PerformanceMeasureActualSubcategoryOptions
+                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID && x.PerformanceMeasureActual.Project.IsActiveProject())
                     .Sum(x => x.PerformanceMeasureActual.ActualValue)
                 : 0;
         }
