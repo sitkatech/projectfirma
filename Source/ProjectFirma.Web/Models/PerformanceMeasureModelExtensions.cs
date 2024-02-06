@@ -408,7 +408,7 @@ namespace ProjectFirma.Web.Models
         {
             var acresCompleted = performanceMeasure.GetTotalActualsForActiveProjectsForPerformanceMeasure();
             acresCompleted = convertedAcresToRemoveFromCompleted.HasValue ? acresCompleted - convertedAcresToRemoveFromCompleted.Value : acresCompleted;
-            var acresInConstruction = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation) - acresCompleted;
+            var acresInConstruction = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation) - GetTotalActualsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation);
             var acresPlanned = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.PlanningDesign);
             acresPlanned = acresPlanned < 0 ? 0 : acresPlanned;
             acresInConstruction = acresInConstruction < 0 ? 0 : acresInConstruction;
@@ -433,11 +433,17 @@ namespace ProjectFirma.Web.Models
                 : 0;
         }
 
-
         private static double GetTotalExpectedsForActiveProjectsForPerformanceMeasure(PerformanceMeasure performanceMeasure, ProjectStage projectStage)
         {
             return performanceMeasure.PerformanceMeasureExpecteds.Any(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID)
                 ? performanceMeasure.PerformanceMeasureExpecteds.Where(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID).Sum(x => x.ExpectedValue ?? 0)
+                : 0;
+        }
+
+        private static double GetTotalActualsForActiveProjectsForPerformanceMeasure(PerformanceMeasure performanceMeasure, ProjectStage projectStage)
+        {
+            return performanceMeasure.PerformanceMeasureActuals.Any(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID)
+                ? performanceMeasure.PerformanceMeasureActuals.Where(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID).Sum(x => x.ActualValue)
                 : 0;
         }
 
