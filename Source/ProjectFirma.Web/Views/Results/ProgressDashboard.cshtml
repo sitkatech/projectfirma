@@ -137,6 +137,17 @@
         background-color: #0E3F77;
     }
 
+    .progressBarLegendPanelWrapper {
+        display: flex;
+        flex-basis: 33.3%;
+    }
+
+    .progressBarLegendPanel {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
     .progressBarLegendPanel.inPlanning {
         border-color: #666FAF;
         border-radius: 0;
@@ -151,8 +162,10 @@
     }
 
     .progressBarLegendPanel .panel-heading {
-        padding: 6px 0;
+        padding: 0;
+        height: 12px;
         border-radius: 0;
+        display: flex;
     }
 
     .progressBarLegendPanel .inPlanning {
@@ -172,6 +185,15 @@
 
     .progressBarLegendPanel .panel-body {
         padding: 10px 5px;
+        display: flex;
+        flex-grow: 2;
+        justify-content: center;
+    }
+
+    .progressBarLegendPanelBody {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .acresConstructedCardWrapper {
@@ -490,12 +512,12 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-offset-3 col-sm-9">
-                <div class="row" style="margin-top: 15px; text-align: center">
-                    <div class="col-xs-4 col-sm-4   col-md-4">
+                <div style="margin-top: 15px; text-align: center; display: flex">
+                    <div class="progressBarLegendPanelWrapper" style="padding-right: 15px;">
                         <div class="panel progressBarLegendPanel completed">
                             <div class="panel-heading panelTitle completed"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody">
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.TotalAcresCompleted.ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>Interim Dust Suppression & Construction Complete</div>
@@ -504,11 +526,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="progressBarLegendPanelWrapper" style="padding-right: 15px; padding-left: 15px;">
                         <div class="panel progressBarLegendPanel inConstruction">
                             <div class="panel-heading panelTitle inConstruction"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody"> 
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.TotalAcresInConstruction.ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>In Construction</div>
@@ -517,11 +539,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="progressBarLegendPanelWrapper" style="padding-left: 15px;">
                         <div class="panel progressBarLegendPanel inPlanning">
                             <div class="panel-heading panelTitle inPlanning"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody">
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.TotalAcresInPlanning.ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>In Planning</div>
@@ -676,12 +698,12 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-offset-3 col-sm-9">
-                <div class="row" style="margin-top: 15px; text-align: center">
-                    <div class="col-xs-4 col-sm-4   col-md-4">
+                <div style="margin-top: 15px; text-align: center; display: flex;">
+                    <div class="progressBarLegendPanelWrapper" style="padding-right: 15px;">
                         <div class="panel progressBarLegendPanel completed">
                             <div class="panel-heading panelTitle completed"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody">
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.DustSuppressionValues[0].ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>Interim Dust Suppression & Construction Complete</div>
@@ -690,11 +712,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="progressBarLegendPanelWrapper" style="padding-right: 15px; padding-left: 15px;">
                         <div class="panel progressBarLegendPanel inConstruction">
                             <div class="panel-heading panelTitle inConstruction"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody">
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.DustSuppressionValues[1].ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>In Construction</div>
@@ -703,11 +725,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="progressBarLegendPanelWrapper" style="padding-left: 15px;">
                         <div class="panel progressBarLegendPanel inPlanning">
                             <div class="panel-heading panelTitle inPlanning"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody">
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.DustSuppressionValues[2].ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>In Planning</div>
@@ -820,12 +842,12 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-offset-3 col-sm-9">
-                <div class="row" style="margin-top: 15px; text-align: center">
-                    <div class="col-xs-4 col-sm-4   col-md-4">
+                <div style="margin-top: 15px; text-align: center; display: flex;">
+                    <div class="progressBarLegendPanelWrapper" style="padding-right: 15px;">
                         <div class="panel progressBarLegendPanel completed">
                             <div class="panel-heading panelTitle completed"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody">
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.FishAndWildlifeHabitatAcresCountedValues[0].ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>Construction Complete</div>
@@ -834,11 +856,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="progressBarLegendPanelWrapper" style="padding-right: 15px; padding-left: 15px;">
                         <div class="panel progressBarLegendPanel inConstruction">
                             <div class="panel-heading panelTitle inConstruction"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody">
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.FishAndWildlifeHabitatAcresCountedValues[1].ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>In Construction</div>
@@ -847,11 +869,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="progressBarLegendPanelWrapper" style="padding-left: 15px;">
                         <div class="panel progressBarLegendPanel inPlanning">
                             <div class="panel-heading panelTitle inPlanning"></div>
                             <div class="panel-body">
-                                <div>
+                                <div class="progressBarLegendPanelBody">
                                     <div class="progressBarMinMaxNumbers">@ViewDataTyped.FishAndWildlifeHabitatAcresCountedValues[2].ToGroupedNumeric() acres</div>
                                     <div style="text-transform: uppercase">
                                         <div>In Planning</div>
