@@ -67,8 +67,12 @@ namespace ProjectFirma.Web.Models
             var toolLogo = tenantAttribute.TenantSquareLogoFileResourceInfo ??
                            tenantAttribute.TenantBannerLogoFileResourceInfo;
             var htmlView = AlternateView.CreateAlternateViewFromString(message, null, "text/html");
-            htmlView.LinkedResources.Add(
-                new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            if (toolLogo != null)
+            {
+                htmlView.LinkedResources.Add(
+                    new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
+            }
+
             mailMessage.AlternateViews.Add(htmlView);
 
             // Reply-To Header
