@@ -215,7 +215,7 @@
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() With Expenditures
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -228,7 +228,7 @@
                                         }
                                         else
                                         {
-                                            <p class="systemText">No spatial data associated with this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()).</p>
+                                    <p class="systemText">No spatial data associated with this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()) because there are no @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with expenditures.</p>
                                         }
                                     </div>
                                     <div class="col-xs-12">
@@ -378,7 +378,7 @@
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
                         <p>
-                            The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+                            The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
                         </p>
                         foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                         {
@@ -403,7 +403,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <p class="systemText">
-                                    There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()).
+                                    There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()) because there are no @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with expenditures.
                                 </p>
                             </div>
                         </div>
