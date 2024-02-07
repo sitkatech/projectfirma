@@ -618,8 +618,6 @@ namespace ProjectFirma.Web.Controllers
             // these 8 performance measures are for the 6 boxes. need the "completed" values only?
             var endangeredSpeciesHabitatPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3750);
             var publicAmenitiesAndRecreationAccessPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3756);
-            var grassBalesPlacedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3759);
-            var stormwaterSpreadingAreasCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3760);
             var surfaceRougheningConductedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3761);
             var vegetationEnhancementConductedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3736);
             var aquaticHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3782);
@@ -644,8 +642,6 @@ namespace ProjectFirma.Web.Controllers
 
             var endangeredSpeciesHabitatCreatedValues = endangeredSpeciesHabitatPerformanceMeasure.GetProgressDashboardValues();
             var publicAmenitiesAndRecreationValues = publicAmenitiesAndRecreationAccessPerformanceMeasure.GetProgressDashboardValues();
-            var grassBalesPlacedValues = grassBalesPlacedPerformanceMeasure.GetProgressDashboardValues();
-            var stormwaterSpreadingAreasCreatedValues = stormwaterSpreadingAreasCreatedPerformanceMeasure.GetProgressDashboardValues();
             var surfaceRougheningConductedValues = surfaceRougheningConductedPerformanceMeasure.GetProgressDashboardValues();
             var vegetationEnhancementConductedValues = vegetationEnhancementConductedPerformanceMeasure.GetProgressDashboardValues();
             var aquaticHabitatCreatedValues = aquaticHabitatCreatedPerformanceMeasure.GetProgressDashboardValues();
@@ -664,21 +660,16 @@ namespace ProjectFirma.Web.Controllers
                 dustSuppressionValues, fishAndWildlifeHabitatAcresCountedValues,
                 dustSuppressionChartJsonsAndProjectColors.Item1, dustSuppressionChartJsonsAndProjectColors.Item2,
                 fishAndWildlifeHabitatAcresCountedChartJsonsAndProjectColors.Item1, fishAndWildlifeHabitatAcresCountedChartJsonsAndProjectColors.Item2,
-
                 dustSuppressionPerformanceMeasure,
                 fishAndWildlifeHabitatAcresCountedPerformanceMeasure,
                 endangeredSpeciesHabitatPerformanceMeasure,
                 publicAmenitiesAndRecreationAccessPerformanceMeasure,
-                grassBalesPlacedPerformanceMeasure,
-                stormwaterSpreadingAreasCreatedPerformanceMeasure,
                 surfaceRougheningConductedPerformanceMeasure,
                 vegetationEnhancementConductedPerformanceMeasure,
                 aquaticHabitatCreatedPerformanceMeasure,
                 wetlandHabitatCreatedPerformanceMeasure,
                 endangeredSpeciesHabitatCreatedValues[0],
                 publicAmenitiesAndRecreationValues[0], 
-                grassBalesPlacedValues[0], 
-                stormwaterSpreadingAreasCreatedValues[0], 
                 surfaceRougheningConductedValues[0],
                 vegetationEnhancementConductedValues[0],
                 aquaticHabitatCreatedValues[0],
@@ -706,6 +697,7 @@ namespace ProjectFirma.Web.Controllers
                     GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea)
                 { PieSliceText = "value", PieHole = 0.4 };
             googlePieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            googlePieChartConfiguration.Tooltip = new GoogleChartTooltip { Text = "value" };
             return new GoogleChartJson(chartTitle, googleChartContainerID, googlePieChartConfiguration, GoogleChartType.PieChart, googleChartDataTable, null);
 
         }

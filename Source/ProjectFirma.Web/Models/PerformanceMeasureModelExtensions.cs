@@ -398,7 +398,9 @@ namespace ProjectFirma.Web.Models
 
             var colorsToUse = multi;
             var pieSliceTextStyleAcresInConstruction= new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
-            googlePieChartSlices.Add(new GooglePieChartSlice("Acres Completed", progressDashboardPieChartValues[0], sortOrder++, colorsToUse[0]));
+            // PerformanceMeasureID = 3731 is the Outcome "Dust Suppression Acres Counted Towards SWRCB WR 2017-0134 Target"
+            var completedLabel = performanceMeasure.PerformanceMeasureID == 3731 ? "Acres Interim & Completed" : "Acres Completed";
+            googlePieChartSlices.Add(new GooglePieChartSlice(completedLabel, progressDashboardPieChartValues[0], sortOrder++, colorsToUse[0]));
             googlePieChartSlices.Add(new GooglePieChartSlice("Acres In Construction", progressDashboardPieChartValues[1], sortOrder++, colorsToUse[1], pieSliceTextStyleAcresInConstruction));
             googlePieChartSlices.Add(new GooglePieChartSlice("Acres In Planning", progressDashboardPieChartValues[2], sortOrder, colorsToUse[2]));
             return googlePieChartSlices;
@@ -412,13 +414,13 @@ namespace ProjectFirma.Web.Models
             var plannedImplementationOnly = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation);
             var reportedImplementationOnly = GetTotalActualsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation);
             var convertedImplementationOnly = acresConvertedForInConstructionCalculation ?? 0;
-            var acresInConstruction = plannedImplementationOnly - (reportedImplementationOnly - convertedImplementationOnly);
+            var acresProjectsInConstruction = plannedImplementationOnly - (reportedImplementationOnly - convertedImplementationOnly);
             
-            var acresPlanned = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.PlanningDesign);
-            acresPlanned = acresPlanned < 0 ? 0 : acresPlanned;
-            acresInConstruction = acresInConstruction < 0 ? 0 : acresInConstruction;
+            var acresProjectsInDesign = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.PlanningDesign);
+            acresProjectsInDesign = acresProjectsInDesign < 0 ? 0 : acresProjectsInDesign;
+            acresProjectsInConstruction = acresProjectsInConstruction < 0 ? 0 : acresProjectsInConstruction;
             acresCompleted = acresCompleted < 0 ? 0 : acresCompleted;
-            return new List<double> { acresCompleted, acresInConstruction, acresPlanned };
+            return new List<double> { acresCompleted, acresProjectsInConstruction, acresProjectsInDesign };
         }
 
         public static double GetTotalActualsForPerformanceMeasureSubcategoryOption(this PerformanceMeasure performanceMeasure, int subcategoryOptionID)
