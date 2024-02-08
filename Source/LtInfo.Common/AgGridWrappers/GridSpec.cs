@@ -145,9 +145,9 @@ namespace LtInfo.Common.AgGridWrappers
             return Add(columnName, valueFunction, gridWidth, AgGridColumnFilterType.SelectFilterHtmlStrict);
         }
 
-        public ColumnSpec<T> Add(string columnName, Func<T, HtmlString> valueFunction, int gridWidth, AgGridColumnFilterType agGridColumnFilterType)
+        public ColumnSpec<T> Add(string columnName, Func<T, HtmlString> valueFunction, int gridWidth, AgGridColumnFilterType agGridColumnFilterType, int gridWidthFlex = 0)
         {
-            return Add(columnName, valueFunction, null, gridWidth, null, agGridColumnFilterType, AgGridColumnAggregationType.None, AgGridColumnAlignType.Left);
+            return Add(columnName, valueFunction, null, gridWidth, null, agGridColumnFilterType, AgGridColumnAggregationType.None, AgGridColumnAlignType.Left, gridWidthFlex);
         }
 
         public ColumnSpec<T> Add(string columnName, Func<T, HtmlString> valueFunction, int gridWidth, AgGridColumnFilterType agGridColumnFilterType, AgGridColumnAlignType agGridColumnAlignType)
@@ -162,11 +162,12 @@ namespace LtInfo.Common.AgGridWrappers
             Func<T, string> titleFunction,
             AgGridColumnFilterType agGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType,
-            AgGridColumnAlignType agGridColumnAlignType)
+            AgGridColumnAlignType agGridColumnAlignType,
+            int gridWidthFlex = 0)
         {
             var columnSpec = new ColumnSpec<T>(columnName, valueFunction, gridWidth,
                 AgGridColumnDataType.ReadOnlyHtmlText, AgGridColumnFormatType.None,
-                agGridColumnAlignType, new AgGridColumnSortType("htmlstring"), agGridColumnFilterType, agGridColumnAggregationType, cssClassFunction, titleFunction);
+                agGridColumnAlignType, new AgGridColumnSortType("htmlstring"), agGridColumnFilterType, agGridColumnAggregationType, cssClassFunction, titleFunction, gridWidthFlex);
             Add(columnSpec);
             return columnSpec;
         }

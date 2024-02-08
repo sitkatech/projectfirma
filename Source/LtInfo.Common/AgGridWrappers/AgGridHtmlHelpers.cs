@@ -148,6 +148,9 @@ namespace LtInfo.Common.AgGridWrappers
                             
                         }}
                     }});
+                    if (target[element]){{
+                        target[element] = target[element].toFixed(2);
+                    }}
                 }})
 
                 return target;
@@ -287,6 +290,11 @@ namespace LtInfo.Common.AgGridWrappers
                     columnDefinitionStringBuilder.AppendFormat(", \"initialWidth\": {0}", columnSpec.GridWidth + 30); // 8/8/2023 SB add to the width instead of editing every hard coded column in every GridSpec class
                 }
 
+                if (columnSpec.GridWidthFlex > 0)
+                {
+                    columnDefinitionStringBuilder.AppendFormat(", \"flex\": {0}", columnSpec.GridWidthFlex);
+                    columnDefinitionStringBuilder.AppendFormat(", \"minWidth\": {0}", columnSpec.GridWidth + 30);
+                }
 
 
                 switch (columnSpec.AgGridColumnFilterType)
