@@ -20,13 +20,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             _warningMessages = new List<string>();
 
-
+            var classificationSystem = HttpRequestStorage.DatabaseEntities.ClassificationSystems.GetClassificationSystem(classificationSystemID);
             if (classificationSystem.IsRequired && !projectClassificationSimple.Any())
             {
                 _warningMessages.Add($"You must select at least one {classificationFieldDefinitionLabel} per {classificationSystemFieldDefinitionLabel}");
             }
 
-            var classificationSystem = HttpRequestStorage.DatabaseEntities.ClassificationSystems.GetClassificationSystem(classificationSystemID);
+            
             var selectedClassifications = projectClassificationSimple.Where(x => x.ClassificationSystemID == classificationSystemID && x.Selected);
             if (classificationSystem.IsRequired && !selectedClassifications.Any())
             {
