@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Controllers
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             var projectClassificationSimples = GetProjectClassificationSimples(project, classificationSystem);
 
-            var viewModel = new EditProjectClassificationsForProjectViewModel(projectClassificationSimples);
+            var viewModel = new EditProjectClassificationsForProjectViewModel(projectClassificationSimples, classificationSystem.IsRequired);
             return ViewEditProjectClassificationsForProject(project,classificationSystem, viewModel);
         }
 

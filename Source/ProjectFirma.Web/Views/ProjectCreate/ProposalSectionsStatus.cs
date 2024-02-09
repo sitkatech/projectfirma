@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             foreach (var classificationSystem in classificationSystems)
             {
                 var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project, classificationSystem.ClassificationSystemID);
-                var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples, project).GetValidationResults();
+                var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples, project, classificationSystem.IsRequired).GetValidationResults();
                 isClassificationComplete = isClassificationComplete && !classificationValidationResults.Any();
             }
 

@@ -39,6 +39,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <tr>
                         <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystemName.ToType())</th>
                         <th>@Html.Label("Definition")</th>
+                        <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.IsClassificationSystemRequired.ToType(), "Required?")</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,7 +51,8 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @Html.HiddenFor(m => m.ClassificationSystemSimples[i].ClassificationSystemID)
                                 @Html.HiddenFor(m => m.ClassificationSystemSimples[i].CanDelete)
                             </td>
-                            <td>@Html.TinyMCEEditorFor(m => m.ClassificationSystemSimples[i].ClassificationSystemDefinition, TinyMCEExtension.TinyMCEToolbarStyle.Minimal, true, false, 50)</td>
+                            <td>@Html.TinyMCEEditorFor(m => m.ClassificationSystemSimples[i].ClassificationSystemDefinition, TinyMCEExtension.TinyMCEToolbarStyle.Minimal, true, false, 150)</td>
+                            <td>@Html.CheckBoxFor(m => m.ClassificationSystemSimples[i].IsRequired)</td>
                         </tr>
                     }
                     </tbody>

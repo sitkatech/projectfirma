@@ -39,6 +39,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProposalClassificationsComment)]
         public string Comments { get; set; }
 
+        public bool IsClassificationSystemRequired { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -46,10 +48,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public ClassificationsViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, List<ProjectClassificationSimple> projectClassificationSimples, string projectClassificationsComment)
+        public ClassificationsViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, List<ProjectClassificationSimple> projectClassificationSimples, string projectClassificationsComment, bool isClassificationSystemRequired)
         {
             ProjectClassificationSimples = projectClassificationSimples;
             Comments = projectClassificationsComment;
+            IsClassificationSystemRequired = isClassificationSystemRequired;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, List<ProjectClassificationSimple> projectClassificationSimples, ProjectUpdateBatchClassificationSystem projectUpdateBatchClassificationSystem)
@@ -97,7 +100,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             var validationResults = new List<ValidationResult>();
 
-            if (!ProjectClassificationSimples.Any())
+            if (IsClassificationSystemRequired && !ProjectClassificationSimples.Any())
             {
                 validationResults.Add(new ValidationResult($"You must select at least one {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} per {FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabel()}"));
             }
@@ -107,7 +110,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 var classificationSystem =
                     HttpRequestStorage.DatabaseEntities.ClassificationSystems.GetClassificationSystem(s);
                 var selectedClassifications = ProjectClassificationSimples.Where(x => x.ClassificationSystemID == s && x.Selected);
-                if (!selectedClassifications.Any())
+                if (IsClassificationSystemRequired && !selectedClassifications.Any())
                 {
                     validationResults.Add(new ValidationResult(
                         $"You must select at least one {classificationSystem.ClassificationSystemName}"));

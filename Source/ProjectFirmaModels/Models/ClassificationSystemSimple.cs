@@ -32,6 +32,7 @@ namespace ProjectFirmaModels.Models
         public HtmlString ClassificationSystemDefinition { get; set; }
         public string ClassificationSystemPageContent { get; set; }
         public bool CanDelete { get; set; }
+        public bool IsRequired { get; set; }
 
         public ClassificationSystemSimple(Models.ClassificationSystem classificationSystem)
         {
@@ -41,12 +42,14 @@ namespace ProjectFirmaModels.Models
             ClassificationSystemDefinition = classificationSystem.ClassificationSystemDefinitionHtmlString;
             ClassificationSystemPageContent = classificationSystem.ClassificationSystemListPageContent;
             CanDelete = !classificationSystem.Classifications.Any();
+            IsRequired = classificationSystem.IsRequired;
         }
 
         public ClassificationSystemSimple(int tenantID)
         {
             TenantID = tenantID;
             CanDelete = true;
+            IsRequired = true;
         }
 
         public ClassificationSystemSimple()
