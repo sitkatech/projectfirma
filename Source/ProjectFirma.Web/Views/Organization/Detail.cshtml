@@ -374,7 +374,7 @@
                                         @if (ViewDataTyped.HasSpatialData)
                                         {
                                             <p>
-                                                The map displays the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary, and the locations of any active @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() that have spatial data.
+                                                The map displays the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary (if provided), and the locations of any active @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() that the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() has a role on.  Note there may be additional @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() not shown on this map that do not have spatial data.
                                             </p>
                                         }
                                         else
@@ -511,17 +511,20 @@
                                             the <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong> for
                                             <strong>@ViewDataTyped.NumberOfStewardedProjects</strong>
                                             @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                            in the @MultiTenantHelpers.GetTenantShortDisplayName()
                                         </li>
                                     }
                                     <li>
                                         the <strong>Lead Implementer</strong> for
                                         <strong>@ViewDataTyped.NumberOfLeadImplementedProjects</strong>
                                         @(ViewDataTyped.NumberOfLeadImplementedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                        in the @MultiTenantHelpers.GetTenantShortDisplayName()
                                     </li>
                                     <li>
                                         a contributor to
                                         <strong>@ViewDataTyped.NumberOfProjectsContributedTo</strong>
                                         @(ViewDataTyped.NumberOfProjectsContributedTo == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                        in the @MultiTenantHelpers.GetTenantShortDisplayName()
                                     </li>
                                 </ul>
                                 @Html.AgGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -674,7 +677,9 @@
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
                         <p>
-                            The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+                            The reported @MultiTenantHelpers.GetPerformanceMeasureName() results for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here.
+                            Note that these totals are only for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() included in the @MultiTenantHelpers.GetTenantShortDisplayName() and the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() may have a role in @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() not tracked in the @MultiTenantHelpers.GetTenantShortDisplayName().
+                            To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
                         </p>
                         foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                         {
