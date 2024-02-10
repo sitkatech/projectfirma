@@ -320,12 +320,17 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectColorByTypes.Add(ProjectColorByType.TaxonomyBranch);
             }
+            var projectsWithNoSimpleLocation = projectsToShow.Where(x => !x.HasProjectLocationPoint(false)).ToList();
+            // Add projects where locations are private
+            projectsWithNoSimpleLocation.AddRange(ProjectMapCustomization.GetProjectsWithPrivateLocations());
+            var hasProjectsWithoutSimpleLocation = projectsWithNoSimpleLocation.Any();
+
             var viewData = new ProjectMapViewData(CurrentFirmaSession,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
-                projectLocationsUrl, filteredProjectsWithLocationAreasUrl, projectColorByTypes, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition());
+                projectLocationsUrl, filteredProjectsWithLocationAreasUrl, projectColorByTypes, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), hasProjectsWithoutSimpleLocation);
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
