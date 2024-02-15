@@ -1,3 +1,4 @@
+/*
 use ProjectFirma
 
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
@@ -9,3 +10,4 @@ insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
 values
 (13, 97, ''),
 (13, 98, '')
+*/
