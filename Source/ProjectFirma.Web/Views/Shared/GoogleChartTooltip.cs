@@ -11,6 +11,9 @@ namespace ProjectFirma.Web.Views.Shared
         [JsonProperty(PropertyName = "showColorCode")]
         public bool ShowColorCode { get; set; }
 
+        [JsonProperty(PropertyName = "text")]
+        public string Text { get; set; }
+
         public GoogleChartTooltip()
         {
         }

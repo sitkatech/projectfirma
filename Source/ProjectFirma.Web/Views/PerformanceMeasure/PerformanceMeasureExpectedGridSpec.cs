@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
                 a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.GetDisplayName()),
                 350,
-                AgGridColumnFilterType.Html);
+                AgGridColumnFilterType.Html, 1);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,

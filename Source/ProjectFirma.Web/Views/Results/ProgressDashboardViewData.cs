@@ -36,12 +36,16 @@ namespace ProjectFirma.Web.Views.Results
         public int PartnershipCount { get; }
         public double TotalAcres { get; }
         public double TotalAcresInPlanning { get; }
+        public double TotalAcresProjectsInDesign { get; }
         public double TotalAcresInConstruction { get; }
         public double TotalAcresCompleted { get; }
         public int AcresTarget { get; }
         public int DustSuppressionAcresTarget { get; }
+        public double DustSuppressionAcresInPlanning { get; }
         public int FishAndWildlifeHabitatAcresTarget { get; }
+        public double FishAndWildlifeHabitatAcresInPlanning { get; }
         public double AcresInPlanningPercent { get; }
+        public double AcresProjectsInDesignPercent { get; }
         public double AcresInConstructionPercent { get; }
         public double AcresCompletedPercent { get; }
         public double AreaTreatedForDustSuppression { get; }
@@ -66,16 +70,12 @@ namespace ProjectFirma.Web.Views.Results
         public ProjectFirmaModels.Models.PerformanceMeasure FishAndWildlifeHabitatAcresCountedPerformanceMeasure { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure EndangeredSpeciesHabitatPerformanceMeasure { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure PublicAmenitiesAndRecreationAccessPerformanceMeasure { get; }
-        public ProjectFirmaModels.Models.PerformanceMeasure GrassBalesPlacedPerformanceMeasure { get; }
-        public ProjectFirmaModels.Models.PerformanceMeasure StormwaterSpreadingAreasCreatedPerformanceMeasure { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure SurfaceRougheningConductedPerformanceMeasure { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure VegetationEnhancementConductedPerformanceMeasure { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure AquaticHabitatCreatedPerformanceMeasure { get; }
         public ProjectFirmaModels.Models.PerformanceMeasure WetlandHabitatCreatedPerformanceMeasure { get; }
         public double EndangeredSpeciesHabitatCreatedCount { get; }
         public double PublicAmenitiesAndRecreationAccessCount { get; }
-        public double GrassBalesPlacedCount { get; }
-        public double StormwaterSpreadingAreasCreatedCount { get; }
         public double SurfaceRougheningConductedCount { get; }
         public double VegetationEnhancementConductedCount { get; }
         public double AquaticHabitatCreatedCount { get; }
@@ -99,16 +99,12 @@ namespace ProjectFirma.Web.Views.Results
             ProjectFirmaModels.Models.PerformanceMeasure fishAndWildlifeHabitatAcresCountedPerformanceMeasure,
             ProjectFirmaModels.Models.PerformanceMeasure endangeredSpeciesHabitatPerformanceMeasure,
             ProjectFirmaModels.Models.PerformanceMeasure publicAmenitiesAndRecreationAccessPerformanceMeasure,
-            ProjectFirmaModels.Models.PerformanceMeasure grassBalesPlacedPerformanceMeasure,
-            ProjectFirmaModels.Models.PerformanceMeasure stormwaterSpreadingAreasCreatedPerformanceMeasure,
             ProjectFirmaModels.Models.PerformanceMeasure surfaceRougheningConductedPerformanceMeasure,
             ProjectFirmaModels.Models.PerformanceMeasure vegetationEnhancementConductedPerformanceMeasure,
             ProjectFirmaModels.Models.PerformanceMeasure aquaticHabitatCreatedPerformanceMeasure,
             ProjectFirmaModels.Models.PerformanceMeasure wetlandHabitatCreatedPerformanceMeasure,
             double endangeredSpeciesHabitatCreatedCount,
             double publicAmenitiesAndRecreationAccessCount,
-            double grassBalesPlacedCount,
-            double stormwaterSpreadingAreasCreatedCount,
             double surfaceRougheningConductedCount,
             double vegetationEnhancementConductedCount,
             double aquaticHabitatCreatedCount,
@@ -124,15 +120,20 @@ namespace ProjectFirma.Web.Views.Results
             
             // acres controlled
             TotalAcres = dustSuppressionValues.Sum() + fishAndWildlifeHabitatAcresCountedValues.Sum();
-            TotalAcresInPlanning = dustSuppressionValues[2] + fishAndWildlifeHabitatAcresCountedValues[2];
+            TotalAcresProjectsInDesign = dustSuppressionValues[2] + fishAndWildlifeHabitatAcresCountedValues[2];
             TotalAcresInConstruction = dustSuppressionValues[1] + fishAndWildlifeHabitatAcresCountedValues[1];
             TotalAcresCompleted = dustSuppressionValues[0] + fishAndWildlifeHabitatAcresCountedValues[0];
             AcresTarget = FirmaWebConfiguration.SSMPAcresConstructedTarget;
+            TotalAcresInPlanning =
+                AcresTarget - (TotalAcresCompleted + TotalAcresInConstruction + TotalAcresProjectsInDesign);
             DustSuppressionAcresTarget = FirmaWebConfiguration.SSMPAcresConstructedTarget / 2;
+            DustSuppressionAcresInPlanning = DustSuppressionAcresTarget - dustSuppressionValues.Sum();
             FishAndWildlifeHabitatAcresTarget = FirmaWebConfiguration.SSMPAcresConstructedTarget / 2;
-            AcresInPlanningPercent = TotalAcresInPlanning / AcresTarget * 100;
+            FishAndWildlifeHabitatAcresInPlanning = FishAndWildlifeHabitatAcresTarget - fishAndWildlifeHabitatAcresCountedValues.Sum();
+            AcresProjectsInDesignPercent = TotalAcresProjectsInDesign / AcresTarget * 100;
             AcresInConstructionPercent = TotalAcresInConstruction / AcresTarget * 100;
             AcresCompletedPercent = TotalAcresCompleted / AcresTarget * 100;
+            AcresInPlanningPercent = TotalAcresInPlanning / AcresTarget * 100;
 
             AreaTreatedForDustSuppression = dustSuppressionValues[0];
             FishAndWildlifeHabitatAcresCounted = fishAndWildlifeHabitatAcresCountedValues[0];
@@ -168,8 +169,6 @@ namespace ProjectFirma.Web.Views.Results
             FishAndWildlifeHabitatAcresCountedPerformanceMeasure = fishAndWildlifeHabitatAcresCountedPerformanceMeasure;
             EndangeredSpeciesHabitatPerformanceMeasure = endangeredSpeciesHabitatPerformanceMeasure;
             PublicAmenitiesAndRecreationAccessPerformanceMeasure = publicAmenitiesAndRecreationAccessPerformanceMeasure;
-            GrassBalesPlacedPerformanceMeasure = grassBalesPlacedPerformanceMeasure;
-            StormwaterSpreadingAreasCreatedPerformanceMeasure = stormwaterSpreadingAreasCreatedPerformanceMeasure;
             SurfaceRougheningConductedPerformanceMeasure = surfaceRougheningConductedPerformanceMeasure;
             VegetationEnhancementConductedPerformanceMeasure = vegetationEnhancementConductedPerformanceMeasure;
             AquaticHabitatCreatedPerformanceMeasure = aquaticHabitatCreatedPerformanceMeasure;
@@ -177,8 +176,6 @@ namespace ProjectFirma.Web.Views.Results
 
             EndangeredSpeciesHabitatCreatedCount = endangeredSpeciesHabitatCreatedCount;
             PublicAmenitiesAndRecreationAccessCount = publicAmenitiesAndRecreationAccessCount;
-            GrassBalesPlacedCount = grassBalesPlacedCount;
-            StormwaterSpreadingAreasCreatedCount = stormwaterSpreadingAreasCreatedCount;
             SurfaceRougheningConductedCount = surfaceRougheningConductedCount;
             VegetationEnhancementConductedCount = vegetationEnhancementConductedCount;
             AquaticHabitatCreatedCount = aquaticHabitatCreatedCount;

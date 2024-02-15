@@ -60,14 +60,6 @@
 
         jQuery(function () {
             jQuery("#overviewTab").on("shown.bs.tab", function () {
-                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName1].resizeGridWidths();
-                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName2].resizeGridWidths();
-                var gridName3 = @(ViewDataTyped.ProposalsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName3].resizeGridWidths();
-                var gridName4 = @(ViewDataTyped.PendingProjectsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName4].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -77,10 +69,6 @@
                     });
             });
             jQuery("#accomplishmentsTab").on("shown.bs.tab", function () {
-                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName1].resizeGridWidths();
-                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName2].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -90,10 +78,6 @@
                     });
             });
             jQuery("#expendituresTab").on("shown.bs.tab", function() {
-                var gridName1 = @(ViewDataTyped.ProjectOrganizationsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName1].resizeGridWidths();
-                var gridName2 = @(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName2].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -390,7 +374,7 @@
                                         @if (ViewDataTyped.HasSpatialData)
                                         {
                                             <p>
-                                                The map displays the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary, and the locations of any active @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() that have spatial data.
+                                                The map displays the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary (if provided), and the locations of any active @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() that the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() has a role on.  Note there may be additional @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() not shown on this map that do not have spatial data.
                                             </p>
                                         }
                                         else
@@ -527,20 +511,23 @@
                                             the <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong> for
                                             <strong>@ViewDataTyped.NumberOfStewardedProjects</strong>
                                             @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                            in the @MultiTenantHelpers.GetTenantShortDisplayName()
                                         </li>
                                     }
                                     <li>
                                         the <strong>Lead Implementer</strong> for
                                         <strong>@ViewDataTyped.NumberOfLeadImplementedProjects</strong>
                                         @(ViewDataTyped.NumberOfLeadImplementedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                        in the @MultiTenantHelpers.GetTenantShortDisplayName()
                                     </li>
                                     <li>
                                         a contributor to
                                         <strong>@ViewDataTyped.NumberOfProjectsContributedTo</strong>
                                         @(ViewDataTyped.NumberOfProjectsContributedTo == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
+                                        in the @MultiTenantHelpers.GetTenantShortDisplayName()
                                     </li>
                                 </ul>
-                                @Html.AgGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                @Html.AgGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                             </div>
                         </div>
                     </div>
@@ -555,7 +542,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <p></p>
-                                    @Html.AgGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.AgGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                                 </div>
                             </div>
                         </div>
@@ -571,7 +558,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <p></p>
-                                    @Html.AgGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.AgGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                                 </div>
                             </div>
                         </div>
@@ -690,7 +677,9 @@
                     @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                     {
                         <p>
-                            The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+                            The reported @MultiTenantHelpers.GetPerformanceMeasureName() results for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here.
+                            Note that these totals are only for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() included in the @MultiTenantHelpers.GetTenantShortDisplayName() and the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() may have a role in @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() not tracked in the @MultiTenantHelpers.GetTenantShortDisplayName().
+                            To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
                         </p>
                         foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                         {

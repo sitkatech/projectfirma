@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Views.Results
         public Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> ProjectLocationFilterTypesAndValues { get; }
         public string ProjectLocationsUrl { get; }
         public string FilteredProjectsWithLocationAreasUrl { get; }
+        public bool HasProjectsWithoutSimpleLocations { get; }
 
         public ProjectMapViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
@@ -44,7 +45,8 @@ namespace ProjectFirma.Web.Views.Results
             Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>>
                 projectLocationFilterTypesAndValues, string projectLocationsUrl,
             string filteredProjectsWithLocationAreasUrl, List<ProjectColorByType> projectColorByTypes,
-            ProjectFirmaModels.Models.FieldDefinition fieldDefinitionForInitialColorByType) : base(currentFirmaSession, firmaPage)
+            ProjectFirmaModels.Models.FieldDefinition fieldDefinitionForInitialColorByType,
+            bool hasProjectsWithoutSimpleLocation) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
@@ -54,6 +56,7 @@ namespace ProjectFirma.Web.Views.Results
             FilteredProjectsWithLocationAreasUrl = filteredProjectsWithLocationAreasUrl;
             ProjectColorByTypes = projectColorByTypes;
             FieldDefinitionForInitialColorByType = fieldDefinitionForInitialColorByType;
+            HasProjectsWithoutSimpleLocations = hasProjectsWithoutSimpleLocation;
         }
 
         public List<ProjectColorByType> ProjectColorByTypes { get; }

@@ -24,15 +24,15 @@
                         <div class="panel-heading" role="tab" id="@headerID">
                             <h3 class="panel-title">
                                 @* ReSharper disable once Html.IdNotResolved *@
-                                <a class="collapsed" role="button"
+                                <a role="button"
                                    data-toggle="collapse" href="#@collapseID"
-                                   aria-expanded="false" aria-controls="@collapseID">
+                                   aria-expanded="true" aria-controls="@collapseID">
                                     @category.DocumentCategoryDisplayName
                                     @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-triangle-bottom")
                                 </a>
                             </h3>
                         </div>
-                        <div id="@collapseID" class="panel-collapse collapse " role="tabpanel"
+                        <div id="@collapseID" class="panel-collapse collapse in" role="tabpanel"
                              aria-labeledby="@headerID">
                             <div class="panel-body">
                                 @if (ViewDataTyped.TotalDocumentCountPerCategory[category.DocumentCategoryID] > 0 && ViewDataTyped.ViewableDocumentCountPerCategory[category.DocumentCategoryID] == 0)

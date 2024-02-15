@@ -247,7 +247,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCustomGridColumnPrimaryContactOrganization : ProjectCustomGridColumn
     {
         private ProjectCustomGridColumnPrimaryContactOrganization(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
-        public static readonly ProjectCustomGridColumnPrimaryContactOrganization Instance = new ProjectCustomGridColumnPrimaryContactOrganization(2, @"PrimaryContactOrganization", @"Primary Contact Organization", false);
+        public static readonly ProjectCustomGridColumnPrimaryContactOrganization Instance = new ProjectCustomGridColumnPrimaryContactOrganization(2, @"PrimaryContactOrganization", @"Primary Contact Organization", true);
     }
 
     public partial class ProjectCustomGridColumnProjectStage : ProjectCustomGridColumn

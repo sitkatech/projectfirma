@@ -33,23 +33,25 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDefinition, string classificationSystemListPageContent) : this()
+        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDefinition, string classificationSystemListPageContent, bool isRequired) : this()
         {
             this.ClassificationSystemID = classificationSystemID;
             this.ClassificationSystemName = classificationSystemName;
             this.ClassificationSystemDefinition = classificationSystemDefinition;
             this.ClassificationSystemListPageContent = classificationSystemListPageContent;
+            this.IsRequired = isRequired;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ClassificationSystem(string classificationSystemName) : this()
+        public ClassificationSystem(string classificationSystemName, bool isRequired) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ClassificationSystemID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ClassificationSystemName = classificationSystemName;
+            this.IsRequired = isRequired;
         }
 
 
@@ -58,7 +60,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ClassificationSystem CreateNewBlank()
         {
-            return new ClassificationSystem(default(string));
+            return new ClassificationSystem(default(string), default(bool));
         }
 
         /// <summary>
@@ -156,6 +158,7 @@ namespace ProjectFirmaModels.Models
             get { return ClassificationSystemListPageContent == null ? null : new HtmlString(ClassificationSystemListPageContent); }
             set { ClassificationSystemListPageContent = value?.ToString(); }
         }
+        public bool IsRequired { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ClassificationSystemID; } set { ClassificationSystemID = value; } }
 

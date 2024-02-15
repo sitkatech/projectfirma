@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectCreateSectionModelExtensions
     {
-        public static bool IsComplete(this ProjectCreateSection projectCreateSection, Project project, int? classificationSystemID = null)
+        public static bool IsComplete(this ProjectCreateSection projectCreateSection, Project project, ClassificationSystem classificationSystem = null)
         {
             if (project == null)
             {
@@ -86,10 +86,10 @@ namespace ProjectFirma.Web.Models
                     }
 
                 case ProjectCreateSectionEnum.Classifications:
-                    if (classificationSystemID.HasValue)
+                    if (classificationSystem != null)
                     {
-                        var projectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project, classificationSystemID.Value);
-                        var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples, project).GetValidationResults();
+                        var projectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project, classificationSystem.ClassificationSystemID);
+                        var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples, project, classificationSystem.IsRequired).GetValidationResults();
                         return !classificationValidationResults.Any();
                     }
                     return false;

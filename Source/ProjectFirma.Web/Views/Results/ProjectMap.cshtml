@@ -194,16 +194,20 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 
-    <div id="showBasinwideProjectsToast">
-        <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())">
-            <span class="glyphicon glyphicon-chevron-left"></span>Show @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location
-        </a>
-    </div>
-    <div id="hideBasinwideProjectsToast" style="display: none">
-        <a class="btn pull-right">
-            Hide @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location<span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-    </div>
+    @if (ViewDataTyped.HasProjectsWithoutSimpleLocations)
+    {
+        <div id="showBasinwideProjectsToast">
+            <a class="btn pull-right" title="@String.Format("{0} that are not represented by a point on the map are listed here.", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())">
+                <span class="glyphicon glyphicon-chevron-left"></span>Show @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location
+            </a>
+        </div>
+        <div id="hideBasinwideProjectsToast" style="display: none">
+            <a class="btn pull-right">
+                Hide @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with no Simple Location<span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+    }
+
     <div style="margin-top: 10px">To zoom, hold down Shift and drag a rectangle.</div>
 
     <script type="text/javascript">

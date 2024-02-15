@@ -337,6 +337,7 @@ namespace ProjectFirmaModels.Models
         EnableSimpleAccomplishmentsDashboard = 387,
         TrainingVideoViewableBy = 388,
         AttachmentTypeViewableBy = 389,
-        AccomplishmentDashboardMenu = 390
+        AccomplishmentDashboardMenu = 390,
+        IsClassificationSystemRequired = 391
     }
 }

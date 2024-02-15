@@ -1774,7 +1774,7 @@ namespace ProjectFirma.Web.Controllers
                 .SingleOrDefault(x => x.ClassificationSystemID == classificationSystem.ClassificationSystemID)
                 ?.ProjectClassificationsComment;
             var projectClassificationSimples = GetProjectClassificationSimples(projectUpdateBatch, classificationSystem.ClassificationSystemID);
-            var viewModel = new ClassificationsViewModel(projectUpdateBatch, projectClassificationSimples, projectClassificationsComment);
+            var viewModel = new ClassificationsViewModel(projectUpdateBatch, projectClassificationSimples, projectClassificationsComment, classificationSystem.IsRequired);
 
             return ViewClassifications(projectUpdateBatch, classificationSystem, viewModel);
         }

@@ -44,11 +44,12 @@ namespace ProjectFirma.Web.Views.Tenant
                         x.ClassificationSystemID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(),
                         x.ClassificationSystemName,
                         x.ClassificationSystemDefinition?.ToString(),
-                        null)).ToList();
+                        null, x.IsRequired)).ToList();
             currentClassificationSystems.Merge(updatedClassificationSystems, allClassificationSystems, (x, y) => x.ClassificationSystemID == y.ClassificationSystemID, (x, y) =>
             {
                 x.ClassificationSystemName = y.ClassificationSystemName;
                 x.ClassificationSystemDefinition = y.ClassificationSystemDefinition;
+                x.IsRequired = y.IsRequired;
             }, HttpRequestStorage.DatabaseEntities);
         }
 

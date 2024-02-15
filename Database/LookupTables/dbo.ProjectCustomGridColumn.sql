@@ -4,7 +4,7 @@ go
 insert into dbo.ProjectCustomGridColumn(ProjectCustomGridColumnID, ProjectCustomGridColumnName, ProjectCustomGridColumnDisplayName, IsOptional)
 values
 (1, 'ProjectName', 'Project Name', 0),
-(2, 'PrimaryContactOrganization', 'Primary Contact Organization', 0),
+(2, 'PrimaryContactOrganization', 'Primary Contact Organization', 1),
 (3, 'ProjectStage', 'Project Stage', 0),
 (4, 'NumberOfReportedPerformanceMeasures', '# of Reported Performance Measure Records', 1),
 (5, 'ProjectsStewardOrganizationRelationshipToProject', 'Projects Steward Organization Relationship To Project', 1),

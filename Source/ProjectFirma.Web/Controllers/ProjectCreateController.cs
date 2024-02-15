@@ -808,7 +808,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
             var projectClassificationSimples = GetProjectClassificationSimples(project, classificationSystem.ClassificationSystemID);
-            var viewModel = new EditProposalClassificationsViewModel(projectClassificationSimples, project);
+            var viewModel = new EditProposalClassificationsViewModel(projectClassificationSimples, project, classificationSystem.IsRequired);
             return ViewEditClassifications(project, classificationSystem, viewModel);
         }
 

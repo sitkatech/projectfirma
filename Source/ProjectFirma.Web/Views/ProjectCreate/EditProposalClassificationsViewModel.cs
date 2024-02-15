@@ -34,7 +34,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     public class EditProposalClassificationsViewModel : FormViewModel, IValidatableObject
     {
         public List<ProjectClassificationSimple> ProjectClassificationSimples { get; set; }
-        
+        public bool IsClassificationSystemRequired { get; set; }
+
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProposalClassificationsComment)]
         public string Comments { get; set; }
@@ -46,10 +47,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public EditProposalClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples, ProjectFirmaModels.Models.Project project)
+        public EditProposalClassificationsViewModel(List<ProjectClassificationSimple> projectClassificationSimples, ProjectFirmaModels.Models.Project project, bool isClassificationSystemRequired)
         {
             ProjectClassificationSimples = projectClassificationSimples;
             Comments = project.ProposalClassificationsComment;
+            IsClassificationSystemRequired = isClassificationSystemRequired;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
@@ -96,7 +98,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             var validationResults = new List<ValidationResult>();
 
-            if (!ProjectClassificationSimples.Any())
+            if (IsClassificationSystemRequired && !ProjectClassificationSimples.Any())
             {
                 validationResults.Add(new ValidationResult($"You must select at least one {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} per {FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabel()}"));
             }
@@ -106,7 +108,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 var classificationSystem =
                     HttpRequestStorage.DatabaseEntities.ClassificationSystems.GetClassificationSystem(s);
                 var selectedClassifications = ProjectClassificationSimples.Where(x => x.ClassificationSystemID == s && x.Selected);
-                if (!selectedClassifications.Any())
+                if (IsClassificationSystemRequired && !selectedClassifications.Any())
                 {
                     validationResults.Add(new ValidationResult(
                         $"You must select at least one {classificationSystem.ClassificationSystemName}"));

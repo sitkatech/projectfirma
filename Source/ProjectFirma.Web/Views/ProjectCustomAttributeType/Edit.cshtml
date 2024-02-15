@@ -29,7 +29,7 @@
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewInstructionsFirmaPage); }
 
 <form method="POST" action="@ViewDataTyped.SubmitUrl" id="EditProjectCustomAttributeTypeControllerApp" name="customAttributeTypeForm"
-      ng-app="ProjectFirmaApp" ng-controller="EditProjectCustomAttributeTypeController" ng-submit="submit()" ng-cloak>
+      ng-app="ProjectFirmaApp" ng-controller="EditProjectCustomAttributeTypeController" ng-cloak>
     @Html.HiddenFor(m => m.ProjectCustomAttributeTypeID)
     <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomAttributeTypeOptionsSchema)" ng-value="AngularModel.ProjectCustomAttributeTypeOptionsSchema" />
     <div class="row">
@@ -127,6 +127,7 @@
                                         <div class="input-group input-group-sm">
                                             <input class="form-control"
                                                    ng-model="OptionsSchema[$index]"
+                                                   ng-change="updateOptionsSchema()"
                                                    type="text"
                                                    value="{{OptionsSchema[$index]}}"
                                                    placeholder="e.g. Sand, Compost">

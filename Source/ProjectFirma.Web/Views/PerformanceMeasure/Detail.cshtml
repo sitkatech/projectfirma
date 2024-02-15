@@ -46,10 +46,6 @@
 
         jQuery(function () {
             jQuery("#overviewTab").on("shown.bs.tab", function () {
-                var gridName1 = @(ViewDataTyped.PerformanceMeasureExpectedsGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName1].resizeGridWidths();
-                var gridName2 = @(ViewDataTyped.PerformanceMeasureReportedValuesGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName2].resizeGridWidths();
                 _.forOwn(window.GoogleCharts.chartWrappers,
                     function (chartWrapper) {
                         if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
@@ -57,10 +53,6 @@
                             chartWrapper.draw();
                         }
                     });
-            });
-            jQuery("#targetsTab").on("shown.bs.tab", function() {
-                var gridName1 = @(ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridName.ToJS().ToHTMLFormattedString());
-                Sitka[gridName1].resizeGridWidths();
             });
         });
     </script>

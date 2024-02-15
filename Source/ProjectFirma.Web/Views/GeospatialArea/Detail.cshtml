@@ -97,8 +97,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 });
         });
         jQuery("#overviewTab").on("shown.bs.tab", function () {
-            var gridName = @(ViewDataTyped.ProjectCustomDefaultGridName.ToJS().ToHTMLFormattedString());
-            Sitka[gridName].resizeGridWidths();
             _.forOwn(window.GoogleCharts.chartWrappers,
                 function (chartWrapper) {
                     if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {

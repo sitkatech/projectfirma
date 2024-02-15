@@ -32,6 +32,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     public class EditProjectClassificationsForProjectViewModel : FormViewModel, IValidatableObject
     {
         public List<ProjectClassificationSimple> ProjectClassificationSimples { get; set; }
+        public bool IsClassificationSystemRequired { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -40,9 +41,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {            
         }
         
-        public EditProjectClassificationsForProjectViewModel(List<ProjectClassificationSimple> projectClassificationSimples)
+        public EditProjectClassificationsForProjectViewModel(List<ProjectClassificationSimple> projectClassificationSimples, bool isClassificationSystemRequired)
         {
             ProjectClassificationSimples = projectClassificationSimples;
+            IsClassificationSystemRequired = isClassificationSystemRequired;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
@@ -84,7 +86,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
             var validationResults = new List<ValidationResult>();
 
-            if (!ProjectClassificationSimples.Any(x => x.Selected))
+            if (IsClassificationSystemRequired && !ProjectClassificationSimples.Any(x => x.Selected))
             {
                 validationResults.Add(new ValidationResult(
                     $"You must select at least one {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} per {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} System."));

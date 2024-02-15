@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
                 classificationSystem.ClassificationSystemNamePluralized, ProjectCreateSection.Classifications.SortOrder + i, project != null,
                 ProjectWorkflowSectionGrouping.Classifications,
                 ProjectCreateSection.Basics.IsComplete(project) ? ProjectCreateSection.Classifications.GetSectionUrl(project, classificationSystem.ClassificationSystemID) : null,
-                !ignoreStatus && ProjectCreateSection.Classifications.IsComplete(project, classificationSystem.ClassificationSystemID),
+                !ignoreStatus && ProjectCreateSection.Classifications.IsComplete(project, classificationSystem),
                 false)).ToList();
         }
 

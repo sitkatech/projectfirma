@@ -100,6 +100,12 @@ namespace LtInfo.Common.AgGridWrappers
                 return returnList;
             }}
 
+            function {0}GetValueFromSelectedGridRow(valueColumnName) {{
+                const selectedData = {0}GridOptions.api.getSelectedRows();
+                var values = selectedData.map((row) => row[valueColumnName]);
+                return values[0];
+            }}
+
             function {0}ResizeGridWithVerticalFill(){{
                 var top = getOffsetTop(document.getElementById(""{0}DivID""));
                 gridHeight =getGridHeight(top);
@@ -142,6 +148,9 @@ namespace LtInfo.Common.AgGridWrappers
                             
                         }}
                     }});
+                    if (target[element]){{
+                        target[element] = target[element].toFixed(2);
+                    }}
                 }})
 
                 return target;
@@ -202,7 +211,7 @@ namespace LtInfo.Common.AgGridWrappers
           // example event handler
           onCellClicked: params => {{
             //debugger;
-            console.log('cell was clicked', params)
+            //console.log('cell was clicked', params)
 
           }}
         }};
@@ -281,6 +290,11 @@ namespace LtInfo.Common.AgGridWrappers
                     columnDefinitionStringBuilder.AppendFormat(", \"initialWidth\": {0}", columnSpec.GridWidth + 30); // 8/8/2023 SB add to the width instead of editing every hard coded column in every GridSpec class
                 }
 
+                if (columnSpec.GridWidthFlex > 0)
+                {
+                    columnDefinitionStringBuilder.AppendFormat(", \"flex\": {0}", columnSpec.GridWidthFlex);
+                    columnDefinitionStringBuilder.AppendFormat(", \"minWidth\": {0}", columnSpec.GridWidth + 30);
+                }
 
 
                 switch (columnSpec.AgGridColumnFilterType)
@@ -380,8 +394,9 @@ namespace LtInfo.Common.AgGridWrappers
 
             var generateReportsIconHtml = CreateGenerateReportUrlHtml(gridName, gridSpec.GenerateReportModalDialogForm);
             var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
+            var arbitraryHtml = CreateArbitraryHtml(gridSpec.ArbitraryHtml, "    ");
             var additionalIcons =
-                $"{(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}";
+                $"{(!string.IsNullOrWhiteSpace(arbitraryHtml) ? $"<span>{arbitraryHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}";
 
             return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink, additionalIcons);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
@@ -472,6 +487,10 @@ namespace LtInfo.Common.AgGridWrappers
                     getProjectIDFunctionString).ToString();
         }
 
+        public static string CreateArbitraryHtml(IEnumerable<string> arbitraryHtml, string indent)
+        {
+            return arbitraryHtml != null ? String.Join("\r\n", arbitraryHtml.Select(x => $"{indent}{x}")) : String.Empty;
+        }
 
         /// <summary>
         /// For making an edit icon on the grid that goes to a new page

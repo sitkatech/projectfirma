@@ -50,6 +50,7 @@ namespace LtInfo.Common.AgGridWrappers
         private readonly Func<T, string> _cssClassFunction;
         private readonly Func<T, string> _titleFunction;
         public readonly int GridWidth;
+        public readonly int GridWidthFlex;
         public readonly AgGridColumnSortType AgGridColumnSortType;
         public readonly AgGridColumnAlignType AgGridColumnAlignType;
         public readonly AgGridColumnDataType AgGridColumnDataType;
@@ -352,7 +353,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnAlignType agGridColumnAlignType, AgGridColumnSortType agGridColumnSortType,
             AgGridColumnFilterType agGridColumnFilterType,
             AgGridColumnAggregationType agGridColumnAggregationType, Func<T, string> cssClassFunction,
-            Func<T, string> titleFunction)
+            Func<T, string> titleFunction, int gridWidthFlex)
             : this(
                 columnName, gridWidth, agGridColumnDataType, agGridColumnFormatType, agGridColumnAlignType,
                 agGridColumnSortType, agGridColumnFilterType, agGridColumnAggregationType, cssClassFunction,
@@ -360,6 +361,7 @@ namespace LtInfo.Common.AgGridWrappers
         {
             _htmlStringValueFunc = htmlStringValueFunc;
             _funcType = FuncType.HtmlString;
+            GridWidthFlex = gridWidthFlex;
         }
 
         public ColumnSpec(string columnName, Func<T, bool> boolValueFunc, int gridWidth,
