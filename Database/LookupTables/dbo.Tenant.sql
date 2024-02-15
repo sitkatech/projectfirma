@@ -16,4 +16,4 @@ values
 -- This will work until the inevitable vanity URLs arrive:
 (12, 'BureauOfReclamation', 'OBSOLETE_HOSTED_INDEPENDENTLY_bor.localhost.projectfirma.com', 'OBSOLETE_HOSTED_INDEPENDENTLY_bor.qa.projectfirma.com', 'OBSOLETE_HOSTED_INDEPENDENTLY_bor.projectfirma.com', '1990-01-01', 0, 0, 0, 0, 0),
 (13, 'SSMPProjectTracker', 'SaltonSeaProjects.localhost.projectfirma.com', 'SaltonSeaProjects.qa.projectfirma.com', 'projects.saltonsea.ca.gov', '1/1/1990', 0, 0, 0, 0, 1),
-(14, 'TCSProjectTracker', 'tcsprojecttracker.localhost.projectfirma.com', 'tcsprojecttracker.qa.projectfirma.com', 'tcsprojecttracker.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 1)
+(14, 'TCSProjectTracker', 'tcsprojecttracker.localhost.projectfirma.com', 'tcsprojecttracker.qa.projectfirma.com', 'projecttracker.tahoecentralsierra.org', '1/1/1990', 0, 0, 0, 0, 1)

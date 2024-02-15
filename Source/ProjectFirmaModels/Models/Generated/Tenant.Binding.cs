@@ -251,6 +251,6 @@ namespace ProjectFirmaModels.Models
     public partial class TenantTCSProjectTracker : Tenant
     {
         private TenantTCSProjectTracker(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantTCSProjectTracker Instance = new TenantTCSProjectTracker(14, @"TCSProjectTracker", @"tcsprojecttracker.localhost.projectfirma.com", @"tcsprojecttracker.qa.projectfirma.com", @"tcsprojecttracker.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, true);
+        public static readonly TenantTCSProjectTracker Instance = new TenantTCSProjectTracker(14, @"TCSProjectTracker", @"tcsprojecttracker.localhost.projectfirma.com", @"tcsprojecttracker.qa.projectfirma.com", @"projecttracker.tahoecentralsierra.org", DateTime.Parse("01/01/1990"), false, false, false, false, true);
     }
 }
