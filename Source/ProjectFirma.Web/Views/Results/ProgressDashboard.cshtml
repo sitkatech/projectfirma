@@ -343,9 +343,14 @@
         line-height: 50px
     }
 
+    .projectColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
     .legendTableWithScroll {
         overflow-y: auto;
-        max-height: 366px;
+        flex-grow: 1;
     }
 
     .firmaChartControls {
@@ -787,13 +792,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6" id="dustSuppressionProjectColumn">
+            <div class="col-sm-6 projectColumn"  id="dustSuppressionProjectColumn">
                 <div style="overflow-y: hidden; vertical-align: top; min-height: 30px;">
                     <div class="chartTitle">
                         <b>Acres by Project</b>
                     </div>
                 </div>
-                <div class="legendSpacer"></div>
                 <div class="legendTableWithScroll">
                     <table class="table table-condensed table-borderless">
                         <tbody>
@@ -810,10 +814,9 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="position: absolute; bottom: 0; min-width: 95%">
+                <div>
                     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.DustSuppressionConvertedAcresNoteViewPageContentViewData); }
                 </div>
-
             </div>
         </div>
         
@@ -927,13 +930,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6" id="fishAndWildlifeHabitatProjectColumn">
+            <div class="col-sm-6 projectColumn" id="fishAndWildlifeHabitatProjectColumn">
                 <div style="overflow-y: hidden; vertical-align: top; min-height: 30px;">
                     <div class="chartTitle">
                         <b>Acres by Project</b>
                     </div>
                 </div>
-                <div class="legendSpacer"></div>
+               
                 <div class="legendTableWithScroll">
                     <table class="table table-condensed table-borderless">
                         <tbody>
@@ -950,7 +953,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="position: absolute; bottom: 0; min-width: 95%">
+                <div>
                     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.FishAndWildlifeHabitatConvertedAcresNoteViewPageContentViewData); }
                 </div>
             </div>
@@ -984,9 +987,7 @@
                 offset: 150
             });
 
-            document.getElementById("dustSuppressionAcresCompleted").offsetHeight
             document.getElementById("dustSuppressionProjectColumn").style.height = document.getElementById("dustSuppressionAcresCompleted").offsetHeight + "px";
-            document.getElementById("fishAndWildlifeHabitatAcresCountedAcresCompleted").offsetHeight
             document.getElementById("fishAndWildlifeHabitatProjectColumn").style.height = document.getElementById("fishAndWildlifeHabitatAcresCountedAcresCompleted").offsetHeight + "px";
         });
 </script>
