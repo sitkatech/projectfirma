@@ -60,9 +60,7 @@
     <add key="ImpersonationAllowed" value="${impersonation-allowed}" />
     <add key="GeoServerUrl" value="${geoserver-url}" />
     <add key="TenantDropdownEnabled" value="${tenant-dropdown-enabled}" />
-    <add key="HttpAuthenticationUrlHost" value="${http-authentication-url-host}" />
-    <add key="HttpAuthenticationUsername" value="${http-authentication-username}" />
-    <add key="HttpAuthenticationPassword" value="${http-authentication-password}" />
+
     <add key="NCRPHomeUrl" value="${ncrp-home-url}"/>
 	  <add key="SSMPHomeUrl" value="${ssmp-home-url}"/>
 	  <add key="SSMPAcresConstructedTarget" value="${ssmp-acres-constructed-target}"/>
