@@ -1,0 +1,144 @@
+@font-face {
+    font-family: 'Azo Sans';
+    src: url('AzoSans-BoldItalic.eot');
+    src: local('Azo Sans Bold Italic'), local('AzoSans-BoldItalic'),
+        url('AzoSans-BoldItalic.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-BoldItalic.woff2') format('woff2'),
+        url('AzoSans-BoldItalic.woff') format('woff'),
+        url('AzoSans-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Azo Sans Tn';
+    src: url('AzoSans-Thin.eot');
+    src: local('Azo Sans Thin'), local('AzoSans-Thin'),
+        url('AzoSans-Thin.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-Thin.woff2') format('woff2'),
+        url('AzoSans-Thin.woff') format('woff'),
+        url('AzoSans-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Azo Sans Lt';
+    src: url('AzoSans-LightItalic.eot');
+    src: local('Azo Sans Light Italic'), local('AzoSans-LightItalic'),
+        url('AzoSans-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-LightItalic.woff2') format('woff2'),
+        url('AzoSans-LightItalic.woff') format('woff'),
+        url('AzoSans-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Azo Sans Tn';
+    src: url('AzoSans-ThinItalic.eot');
+    src: local('Azo Sans Thin Italic'), local('AzoSans-ThinItalic'),
+        url('AzoSans-ThinItalic.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-ThinItalic.woff2') format('woff2'),
+        url('AzoSans-ThinItalic.woff') format('woff'),
+        url('AzoSans-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Azo Sans';
+    src: url('AzoSans-Regular.eot');
+    src: local('Azo Sans Regular'), local('AzoSans-Regular'),
+        url('AzoSans-Regular.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-Regular.woff2') format('woff2'),
+        url('AzoSans-Regular.woff') format('woff'),
+        url('AzoSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Azo Sans Md';
+    src: url('AzoSans-MediumItalic.eot');
+    src: local('Azo Sans Medium Italic'), local('AzoSans-MediumItalic'),
+        url('AzoSans-MediumItalic.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-MediumItalic.woff2') format('woff2'),
+        url('AzoSans-MediumItalic.woff') format('woff'),
+        url('AzoSans-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Azo Sans Bk';
+    src: url('AzoSans-Black.eot');
+    src: local('Azo Sans Black'), local('AzoSans-Black'),
+        url('AzoSans-Black.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-Black.woff2') format('woff2'),
+        url('AzoSans-Black.woff') format('woff'),
+        url('AzoSans-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Azo Sans Md';
+    src: url('AzoSans-Medium.eot');
+    src: local('Azo Sans Medium'), local('AzoSans-Medium'),
+        url('AzoSans-Medium.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-Medium.woff2') format('woff2'),
+        url('AzoSans-Medium.woff') format('woff'),
+        url('AzoSans-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Azo Sans Bk';
+    src: url('AzoSans-BlackItalic.eot');
+    src: local('Azo Sans Black Italic'), local('AzoSans-BlackItalic'),
+        url('AzoSans-BlackItalic.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-BlackItalic.woff2') format('woff2'),
+        url('AzoSans-BlackItalic.woff') format('woff'),
+        url('AzoSans-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Azo Sans Lt';
+    src: url('AzoSans-Light.eot');
+    src: local('Azo Sans Light'), local('AzoSans-Light'),
+        url('AzoSans-Light.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-Light.woff2') format('woff2'),
+        url('AzoSans-Light.woff') format('woff'),
+        url('AzoSans-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Azo Sans';
+    src: url('AzoSans-Italic.eot');
+    src: local('Azo Sans Italic'), local('AzoSans-Italic'),
+        url('AzoSans-Italic.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-Italic.woff2') format('woff2'),
+        url('AzoSans-Italic.woff') format('woff'),
+        url('AzoSans-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Azo Sans';
+    src: url('AzoSans-Bold.eot');
+    src: local('Azo Sans Bold'), local('AzoSans-Bold'),
+        url('AzoSans-Bold.eot?#iefix') format('embedded-opentype'),
+        url('AzoSans-Bold.woff2') format('woff2'),
+        url('AzoSans-Bold.woff') format('woff'),
+        url('AzoSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+

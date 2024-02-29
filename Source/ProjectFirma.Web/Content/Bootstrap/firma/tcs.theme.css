@@ -1,0 +1,364 @@
+﻿@import url('fonts/azosans/stylesheet.css');
+@font-face {
+  font-family: 'Basic';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/basic/v17/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-stretch: normal;
+  src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+  src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Bree Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/breeserif/v17/4UaHrEJCrhhnVA3DgluA96rp4g.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Crimson Text';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/crimsontext/v19/wlp2gwHKFkZgtmSR3NB0oRJfbwhW.ttf) format('truetype');
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  font-family: "Azo Sans", sans-serif;
+  font-size: 14px;
+  line-height: 26px;
+  color: #000;
+}
+input[disabled] {
+  background-color: LightGray;
+}
+h1 {
+  color: #2F9AA1;
+  font-family: "Azo Sans Bk", sans-serif;
+  text-transform: uppercase;
+}
+h2 {
+  color: #2F9AA1;
+  font-family: "Azo Sans Bk", sans-serif;
+}
+h3,
+h4,
+h5,
+h6 {
+  color: #2F9AA1;
+  font-family: "Azo Sans", sans-serif;
+}
+h4 {
+  margin-top: 0px;
+}
+.pageTitle {
+  color: #2F9AA1;
+}
+.header .headerText {
+  font-family: "Azo Sans Bk", sans-serif;
+  color: #2F9AA1;
+}
+.header .headerText a {
+  color: #2F9AA1;
+  vertical-align: top;
+}
+.header .headerText a:hover,
+.header .headerText a:active {
+  text-decoration: none;
+}
+.projectFirmaNavbar .nav li a {
+  font-family: "Azo Sans", sans-serif;
+}
+.projectFirmaNavbar .nav li a:hover,
+.projectFirmaNavbar .nav li a:focus,
+.projectFirmaNavbar .nav li a:active {
+  color: #fff;
+  background-color: #89A6AD;
+}
+.projectFirmaNavbar .nav li .navbar-text {
+  font-family: "Azo Sans", sans-serif;
+}
+.projectFirmaNavbar .nav li ul.dropdown-menu li a {
+  font-family: "Azo Sans", sans-serif;
+}
+.projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
+.projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
+.projectFirmaNavbar .nav li ul.dropdown-menu li a:focus {
+  color: #fff;
+  background-color: #89A6AD;
+}
+.btn-firma,
+.form-dialog .ui-widget-content .btn-firma,
+.firma-modal-dialog .btn-firma,
+.btn-primary {
+  color: #fff;
+  background-color: #949300;
+}
+.btn-primary {
+  border: 1px solid transparent;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #182E3E;
+}
+.btn-firma:hover,
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #182E3E;
+}
+a.btn-firma {
+  color: #fff;
+  background-color: #949300;
+}
+.breadcrumbTitle,
+.breadcrumbTitle a {
+  color: #fff;
+}
+.singleArrow.current {
+  background-color: #28939D;
+  border-left-color: #28939D;
+  color: #fff;
+}
+.singleArrow.default {
+  background-color: #A9A9A9;
+  border-left-color: #A9A9A9;
+  color: #fff;
+}
+/* First arrow */
+.firstArrow.current {
+  background-color: #28939D;
+  border-left-color: #28939D;
+  color: #fff;
+}
+.firstArrow.default {
+  background-color: #A9A9A9;
+  border-left-color: #A9A9A9;
+  color: #fff;
+}
+/* Middle arrow */
+.middleArrow.current {
+  background-color: #28939D;
+  border-left-color: #28939D;
+  color: #fff;
+}
+.middleArrow.default {
+  background-color: #A9A9A9;
+  border-left-color: #A9A9A9;
+  color: #fff;
+}
+.middleArrow:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0%;
+  top: 50%;
+  margin-top: -22px;
+  width: 0;
+  height: 0;
+  border-top: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 7px solid #fff;
+}
+.middleArrow:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-top: -22px;
+  width: 0;
+  height: 0;
+  border-top: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left-width: 7px;
+  border-left-style: solid;
+  border-left-color: inherit;
+  z-index: 900;
+}
+/* Last arrow */
+.lastArrow {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+.lastArrow.current {
+  background-color: #28939D;
+  border-left-color: #28939D;
+  color: #fff;
+}
+.lastArrow.default {
+  background-color: #A9A9A9;
+  border-left-color: #A9A9A9;
+  color: #fff;
+}
+.lastArrow:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0%;
+  top: 50%;
+  margin-top: -22px;
+  width: 0;
+  height: 0;
+  border-top: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 7px solid #fff;
+}
+.panelFirma {
+  border-color: #ddd;
+}
+.panelFirma .panelTitle,
+.panelFirma .panelTitle h2,
+.panelFirma .panelTitle h3 {
+  color: #fff;
+  background-color: #28939D;
+  border-color: #ddd;
+  font-family: "Azo Sans Bk", sans-serif;
+}
+.panelFirma .panelTitle a,
+.panelFirma .panelTitle h2 a,
+.panelFirma .panelTitle h3 a {
+  color: #fff;
+}
+.panelFirma .panelTitle a .glyphicon {
+  color: white;
+}
+#contentForTOC .panelFirma {
+  border-color: #ddd;
+}
+#contentForTOC .panelFirma .panelTitle,
+#contentForTOC .panelFirma .panelTitle h2,
+#contentForTOC .panelFirma .panelTitle h3 {
+  color: #fff;
+  background-color: #253746;
+  border-color: #ddd;
+  font-family: "Azo Sans Bk", sans-serif;
+}
+#contentForTOC .panelFirma .panelTitle a,
+#contentForTOC .panelFirma .panelTitle h2 a,
+#contentForTOC .panelFirma .panelTitle h3 a {
+  color: #fff;
+}
+#contentForTOC .panelFirma .panelTitle a .glyphicon {
+  color: white;
+}
+a.gridButton {
+  margin: 0 7px 0 0;
+  background-color: #949300;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  font-size: 10px;
+  line-height: 130%;
+  text-decoration: none;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  padding: 1px 5px 1px 3px;
+  /* Links */
+}
+a.gridButton:visited,
+a.gridButton:active,
+a.button:visited,
+a.button:active {
+  color: #fff;
+}
+a.gridButton.disabled {
+  background-color: LightGray;
+}
+/* STANDARD */
+a.gridButton:hover {
+  background-color: #182E3E;
+  color: #fff;
+}
+/* ScrollSpy / Table of Contents */
+nav#tableOfContents ul.nav li a {
+  border: none;
+  color: #000;
+  background-color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 0 0 5px;
+  margin-bottom: 5px;
+}
+nav#tableOfContents ul.nav ul.nav {
+  border: none;
+  background-color: transparent;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 0 0 5px;
+}
+nav#tableOfContents ul.nav ul.nav li a {
+  padding: 0 0 0 15px ;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+nav#tableOfContents ul.nav li ul.nav {
+  max-height: 0;
+  padding: 0;
+  -moz-transition: max-height 0.5s;
+  -o-transition: max-height 0.5s;
+  -webkit-transition: max-height 0.5s;
+  transition: max-height 0.5s;
+  overflow: hidden;
+}
+nav#tableOfContents ul.nav li.active ul.nav {
+  max-height: 200px;
+}
+nav#tableOfContents ul.nav li.active a {
+  color: #28939D;
+  border-left: 4px solid #28939D;
+  cursor: pointer;
+}
+nav#tableOfContents ul.nav li.active ul.nav li.active a {
+  color: #28939D;
+  border-left: 2px solid #28939D;
+  cursor: pointer;
+}
+nav#tableOfContents ul.nav li.active ul.nav li a {
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  color: #000;
+}
+nav#tableOfContents ul.nav li a:hover {
+  color: #28939D;
+  cursor: pointer;
+  text-decoration: none;
+}
+nav#tableOfContents ul.nav li ul.nav li a:hover {
+  color: #28939D;
+  cursor: pointer;
+  text-decoration: none;
+}
+.disabled {
+  color: LightGray;
+}
+a.disabled {
+  cursor: not-allowed;
+  font-style: italic;
+  color: LightGray;
+  background-color: transparent;
+}
+#projectWizardContent textarea[disabled],
+#projectWizardContent input[disabled],
+#projectWizardContent select[disabled],
+#projectWizardContent .dropdown-toggle[disabled],
+#projectWizardContent .dropdown-menu[disabled] {
+  background-color: LightGray;
+}

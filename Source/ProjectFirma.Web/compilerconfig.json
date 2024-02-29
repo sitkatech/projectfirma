@@ -70,5 +70,9 @@
   {
     "outputFile": "ScriptsCustom/ModalDialogForm.min.js",
     "inputFile": "ScriptsCustom/ModalDialogForm.js"
+  },
+  {
+    "outputFile": "Content/Bootstrap/firma/tcs.theme.css",
+    "inputFile": "Content/Bootstrap/firma/tcs.theme.less"
   }
 ]

@@ -1,0 +1,456 @@
+﻿// This file is for any custom theming of the RCD Tracker styling
+//
+// Core variables and mixins - allows reuse of any Bootstrap or custom variables
+@import "../bootstrap-3.3.5/less/variables.less";
+@import "bootstrap.firma.variables.less";
+@import "../bootstrap-3.3.5/less/mixins.less";
+@import (reference) "../bootstrap-3.3.5/less/glyphicons.less";
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Basic);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+@import url(https://fonts.googleapis.com/css?family=Bree+Serif);
+@import url(https://fonts.googleapis.com/css?family=Crimson+Text);
+
+@import url('fonts/azosans/stylesheet.css');
+
+@path-to-favicon: url('../../../Content/img/RCDProjectTracker/favicon-32x32.png');
+
+// Customizable Variables
+@firma-menu-font: "Azo Sans", sans-serif;
+@firma-header-font: "Azo Sans Bk", sans-serif;
+@firma-text-font: "Azo Sans", sans-serif;
+@firma-text-fontSize: 14px;
+
+@firma-text-color: #000;
+
+@firma-background-color: #fff;
+@firma-contentBackground-color: #fff;
+@firma-contentBorder-color: #fff;
+
+
+@firma-navItemText-color-hover: #fff;
+@firma-navItemBackground-color-hover: #89A6AD;
+
+@firma-panel-headerBackground-color: #28939D;
+@firma-project-panel-headerBackground-color: #253746;
+@firma-panel-headerText-color: #fff;
+@firma-panel-border-color: #ddd;
+
+@firma-pageTitle-color: #2F9AA1;
+@firma-header-color: #2F9AA1;
+
+@firma-buttonBackground-color: #949300;
+@firma-buttonText-color: #fff;
+@firma-buttonBackground-color-hover: #182E3E;
+@firma-buttonText-color-hover: #fff;
+
+@firma-scrollSpyAccent-color: #28939D;
+
+@firma-white: #fff;
+@firma-active-arrow-color: #28939D;
+@firma-inactive-arrow-color: #A9A9A9;
+
+@z-index-arrow: 900;
+
+@disabled-color: LightGray;
+// Global
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: @firma-text-font;
+    font-size: @firma-text-fontSize;
+    line-height: 26px;
+    color: @firma-text-color;
+}
+
+input[disabled] {
+    background-color: @disabled-color;
+}
+
+h1 {
+    color: @firma-header-color;
+    font-family: @firma-header-font;
+    text-transform: uppercase;
+}
+
+h2 {
+    color: @firma-header-color;
+    font-family: @firma-header-font;
+}
+
+
+h3, h4, h5, h6 {
+    color: @firma-header-color;
+    font-family: @firma-text-font;
+}
+
+h4 {
+    margin-top: 0px;
+}
+
+.pageTitle {
+    color: @firma-pageTitle-color;
+}
+
+.header {
+
+
+
+    .headerText {
+
+        font-family: @firma-header-font;
+        color: @firma-header-color;
+
+
+        a {
+            color: @firma-header-color;
+            vertical-align: top;
+        }
+
+        a:hover, a:active {
+            text-decoration: none;
+        }
+    }
+}
+
+.projectFirmaNavbar {
+    .nav li {
+
+        a {
+            font-family: @firma-menu-font;
+        }
+
+        a:hover, a:focus, a:active {
+            color: @firma-navItemText-color-hover;
+            background-color: @firma-navItemBackground-color-hover;
+        }
+
+        .navbar-text {
+            font-family: @firma-menu-font;
+        }
+
+        ul.dropdown-menu {
+            li {
+                a {
+                    font-family: @firma-menu-font;
+                }
+
+                a:hover, a:active, a:focus {
+                    color: @firma-navItemText-color-hover;
+                    background-color: @firma-navItemBackground-color-hover;
+                }
+            }
+        }
+    }
+}
+
+
+
+// buttons
+.btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma, .btn-primary {
+  color: @firma-buttonText-color;
+  background-color: @firma-buttonBackground-color;
+}
+
+.btn-primary {
+    border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+  color: @firma-buttonText-color-hover;
+  background-color: @firma-buttonBackground-color-hover;
+}
+
+.btn-firma:hover, .btn-primary:focus, .btn-primary.focus {
+  color: @firma-buttonText-color-hover;
+  background-color: @firma-buttonBackground-color-hover;
+}
+
+a.btn-firma {
+  color: @firma-buttonText-color;
+  background-color: @firma-buttonBackground-color;
+}
+
+
+
+// Breadcrumb
+
+
+.breadcrumbTitle, .breadcrumbTitle a {
+    color: @firma-white;
+}
+
+.singleArrow {
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-white;
+    }
+}
+
+/* First arrow */
+.firstArrow {
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-white;
+    }
+}
+
+/* Middle arrow */
+.middleArrow {
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-white;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-white;
+    }
+}
+
+.middleArrow:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    margin-top: -22px;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 7px solid @firma-contentBackground-color;
+}
+
+.middleArrow:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -22px;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left-width: 7px;
+    border-left-style: solid;
+    border-left-color: inherit;
+    z-index: @z-index-arrow;
+}
+
+/* Last arrow */
+.lastArrow {
+    &.current {
+        background-color: @firma-active-arrow-color;
+        border-left-color: @firma-active-arrow-color;
+        color: @firma-contentBackground-color;
+    }
+
+    &.default {
+        background-color: @firma-inactive-arrow-color;
+        border-left-color: @firma-inactive-arrow-color;
+        color: @firma-contentBackground-color;
+    }
+
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+}
+
+.lastArrow:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    margin-top: -22px;
+    width: 0;
+    height: 0;
+    border-top: 22px solid transparent;
+    border-right: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 7px solid @firma-contentBackground-color;
+}
+
+
+// Panels
+
+.panelFirma {
+    border-color: @firma-panel-border-color;
+
+    .panelTitle, .panelTitle h2, .panelTitle h3 {
+        color: @firma-panel-headerText-color;
+        background-color: @firma-panel-headerBackground-color;
+        border-color: @firma-panel-border-color;
+        font-family: @firma-header-font;
+
+
+        a {
+            color: @firma-panel-headerText-color;
+        }
+    }
+
+    .panelTitle a .glyphicon {
+        color: white;
+    }
+}
+// Panels on Project Detail page
+
+#contentForTOC .panelFirma {
+    border-color: @firma-panel-border-color;
+
+    .panelTitle, .panelTitle h2, .panelTitle h3 {
+        color: @firma-panel-headerText-color;
+        background-color: @firma-project-panel-headerBackground-color;
+        border-color: @firma-panel-border-color;
+        font-family: @firma-header-font;
+
+
+        a {
+            color: @firma-panel-headerText-color;
+        }
+    }
+
+    .panelTitle a .glyphicon {
+        color: white;
+    }
+}
+// Grids
+a.gridButton {
+    margin: 0 7px 0 0;
+    background-color: @firma-buttonBackground-color;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    font-size: 10px;
+    line-height: 130%;
+    text-decoration: none;
+    font-weight: bold;
+    color: @firma-buttonText-color;
+    cursor: pointer;
+    padding: 1px 5px 1px 3px; /* Links */
+}
+
+a.gridButton:visited, a.gridButton:active, a.button:visited, a.button:active {
+    color: @firma-buttonText-color;
+}
+
+a.gridButton.disabled {
+    background-color: @disabled-color;    
+}
+
+/* STANDARD */
+a.gridButton:hover {
+    background-color: @firma-buttonBackground-color-hover;
+    color: @firma-buttonText-color;
+}
+
+/* ScrollSpy / Table of Contents */
+nav#tableOfContents ul.nav li a {
+  border: none;
+  color: @firma-text-color;
+  background-color: @firma-contentBackground-color;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 0 0 5px;
+    margin-bottom: 5px;
+}
+nav#tableOfContents ul.nav ul.nav {
+  border: none;
+  background-color: transparent;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 0 0 5px;
+}
+nav#tableOfContents ul.nav ul.nav li a {
+  padding: 0 0 0 15px ;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+nav#tableOfContents ul.nav li ul.nav {
+    max-height: 0;
+    padding: 0;    
+    -moz-transition: max-height 0.5s;
+    -o-transition: max-height 0.5s;
+    -webkit-transition: max-height 0.5s;
+    transition: max-height 0.5s;    
+    overflow: hidden;    
+}
+nav#tableOfContents ul.nav li.active ul.nav {    
+    max-height: 200px;    
+}
+
+nav#tableOfContents ul.nav li.active a
+ {
+  color: @firma-scrollSpyAccent-color;
+  border-left: 4px solid @firma-scrollSpyAccent-color;
+  cursor: pointer;
+}
+nav#tableOfContents ul.nav li.active ul.nav li.active a
+ {
+  color: @firma-scrollSpyAccent-color;
+  border-left: 2px solid @firma-scrollSpyAccent-color;
+  cursor: pointer;
+}
+nav#tableOfContents ul.nav li.active ul.nav li a {
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  color: @firma-text-color;
+}
+nav#tableOfContents ul.nav li a:hover
+{
+  color: @firma-scrollSpyAccent-color;
+  cursor: pointer;
+  text-decoration: none; 
+}
+nav#tableOfContents ul.nav li ul.nav li a:hover
+{
+    color: @firma-scrollSpyAccent-color;
+    cursor: pointer;
+    text-decoration: none;   
+}
+
+
+
+
+.disabled {
+    color: @disabled-color;
+}
+
+    a.disabled {
+      cursor: not-allowed;
+      font-style: italic;
+      color: @disabled-color;
+      background-color: transparent;
+      }
+
+
+//Project Wizard
+
+#projectWizardContent textarea[disabled], #projectWizardContent input[disabled], #projectWizardContent select[disabled], #projectWizardContent .dropdown-toggle[disabled], #projectWizardContent .dropdown-menu[disabled] {
+    background-color: @disabled-color;
+}
+
