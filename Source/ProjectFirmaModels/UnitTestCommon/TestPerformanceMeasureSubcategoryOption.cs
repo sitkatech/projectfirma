@@ -29,7 +29,7 @@ namespace ProjectFirmaModels.UnitTestCommon
         {
             public static PerformanceMeasureSubcategoryOption Create(int performanceMeasureSubcategoryOptionID, PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName)
             {
-                var performanceMeasureSubcategoryOption = new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, performanceMeasureSubcategoryOptionName, false);
+                var performanceMeasureSubcategoryOption = new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, performanceMeasureSubcategoryOptionName, false, false);
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
                 return performanceMeasureSubcategoryOption;
             }

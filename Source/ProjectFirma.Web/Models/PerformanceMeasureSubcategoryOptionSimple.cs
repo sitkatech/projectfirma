@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -43,7 +44,14 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
             SortOrder = performanceMeasureSubcategoryOption.SortOrder;
             HasAssociatedActuals = performanceMeasureSubcategoryOption.HasDependentObjects();
+            HasCurrentAssociatedActuals = performanceMeasureSubcategoryOption.HasCurrentDependentObjects();
             ShowOnFactSheet = performanceMeasureSubcategoryOption.ShowOnFactSheet;
+            IsArchived = performanceMeasureSubcategoryOption.IsArchived;
+           // if (HasCurrentAssociatedActuals)
+           // {
+                AssociatedProjectsCount = performanceMeasureSubcategoryOption.GetCurrentDependentProjectCount();
+            //}
+
         }
 
         public int PerformanceMeasureSubcategoryOptionID { get; set; }
@@ -51,6 +59,9 @@ namespace ProjectFirma.Web.Models
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
         public int? SortOrder { get; set; }
         public bool HasAssociatedActuals { get; set; }
+        public bool HasCurrentAssociatedActuals { get; set; }
         public bool ShowOnFactSheet { get; set; }
+        public bool IsArchived { get; set; }
+        public int AssociatedProjectsCount { get; set; }
     }
 }

@@ -64,7 +64,8 @@ angular.module("ProjectFirmaApp")
                 subcategorySimple.PerformanceMeasureSubcategoryOptions.push({
                     PerformanceMeasureSubcategoryOptionID: $scope.nextOptionID--,
                     HasAssociatedActuals: false,
-                    SortOrder: subcategorySimple.PerformanceMeasureSubcategoryOptions.length + 1
+                    SortOrder: subcategorySimple.PerformanceMeasureSubcategoryOptions.length + 1,
+                    IsArchived: false
                 });
             }
 
@@ -73,10 +74,29 @@ angular.module("ProjectFirmaApp")
                 Sitka.Methods.removeFromJsonArray(subcategorySimple.PerformanceMeasureSubcategoryOptions, optionSimple);
             }
 
+            $scope.archiveSubcategoryOption = function (subcategorySimple, optionSimple) {
+                optionSimple.IsArchived = true;
+                Sitka.Methods.removeFromJsonArray(subcategorySimple.PerformanceMeasureSubcategoryOptions, optionSimple);
+                subcategorySimple.ArchivedPerformanceMeasureSubcategoryOptions.push(optionSimple);
+            }
+
+            $scope.unArchiveSubcategoryOption = function (subcategorySimple, optionSimple) {
+                optionSimple.IsArchived = false;
+                Sitka.Methods.removeFromJsonArray(subcategorySimple.ArchivedPerformanceMeasureSubcategoryOptions , optionSimple);
+                subcategorySimple.PerformanceMeasureSubcategoryOptions.push(optionSimple);
+            }
+
             $scope.subcategoryHasAssociatedActuals = function(subcategorySimple)
             {
                 return _.chain(subcategorySimple.PerformanceMeasureSubcategoryOptions)
                     .filter(function(optionSimple) { return optionSimple.HasAssociatedActuals; })
+                    .any()
+                    .value();
+            }
+
+            $scope.subcategoryHasCurrentAssociatedActuals = function (subcategorySimple) {
+                return _.chain(subcategorySimple.PerformanceMeasureSubcategoryOptions)
+                    .filter(function (optionSimple) { return optionSimple.HasCurrentAssociatedActuals; })
                     .any()
                     .value();
             }

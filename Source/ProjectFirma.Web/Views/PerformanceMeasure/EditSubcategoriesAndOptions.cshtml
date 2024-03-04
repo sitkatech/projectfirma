@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="EditSubcategoriesAndOptions.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
-Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
-<author>Environmental Science Associates</author>
-</copyright>
+    <copyright file="EditSubcategoriesAndOptions.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -42,23 +42,55 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <style>
     .panel-heading a.collapsePanel:after {
-        font-family:'Glyphicons Halflings';
+        font-family: 'Glyphicons Halflings';
         content: "\e114";
         float: right;
-
     }
+
     .panel-heading a.collapsePanel.collapsed:after {
         content: "\e080";
     }
-     
+
     .modal {
         overflow: scroll;
     }
 
-    .table>tbody>tr>td {
+    .table > tbody > tr > td {
         border: none;
     }
+
+    a.collapsePanel:after {
+        font-style: italic;
+        content: "(hide)";
+        
+    }
+
+    a.collapsePanel.collapsed:after {
+        content: "(show)";
+    }
+
+    a.collapsePanel {
+        cursor: pointer;
+    }
+    .panel-heading a.collapsePanel:after {
+        font-style: italic;
+        content: "Collapse Section";
+        
+    }
+
+    .panel-heading a.collapsePanel.collapsed:after {
+        content: "Expand Section";
+    }
+
+    .panel-heading a.collapsePanel {
+        cursor: pointer;
+    }
 </style>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
 
 @using (Html.BeginForm())
 {
@@ -86,11 +118,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <div ng-class="{'has-error': validateSubcategoryDisplayName(subcategorySimple).length != 0}" class="form-group">
 
                                     @*<div class="col-sm-3">
-                                        <a ng-show="!subcategoryHasAssociatedActuals(subcategorySimple)" ng-click="removeSubcategory(subcategorySimple)" style="cursor: pointer; padding-right: 10px">
-                                            <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()"></i>
-                                        </a>
-                                        <label class="control-label text-right">@FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel() Name</label>
-                                    </div>*@
+                                            <a ng-show="!subcategoryHasAssociatedActuals(subcategorySimple)" ng-click="removeSubcategory(subcategorySimple)" style="cursor: pointer; padding-right: 10px">
+                                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()"></i>
+                                            </a>
+                                            <label class="control-label text-right">@FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel() Name</label>
+                                        </div>*@
                                     <label class="control-label text-right col-sm-3">
                                         <a ng-show="!subcategoryHasAssociatedActuals(subcategorySimple)" ng-click="removeSubcategory(subcategorySimple)" style="cursor: pointer; padding-right: 10px">
                                             <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()"></i>
@@ -100,7 +132,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" ng-model="subcategorySimple.PerformanceMeasureSubcategoryDisplayName"
-                                               name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryDisplayName"/>
+                                               name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryDisplayName" />
                                     </div>
                                 </div>
 
@@ -109,33 +141,34 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th class="col-sm-1"></th>
+                                            <th style="min-width: 45px"></th>
                                             <th class="col-sm-8">Option Name</th>
-
-                                            <th class="col-sm-3">Show on Fact Sheet?</th>
+                                            <th class="col-sm-1">@Html.LabelWithSugarFor(FieldDefinitionEnum.ArchivePerformanceMeasureSubcategoryOption.ToType(), "Delete/Archive")</th>
+                                            <th class="col-sm-2">Show on Fact Sheet?</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-show="!subcategorySimple.PerformanceMeasureSubcategoryOptions || !subcategorySimple.PerformanceMeasureSubcategoryOptions.length || subcategorySimple.PerformanceMeasureSubcategoryOptions.length < 1">
-                                            <td colspan="3">
+                                            <td colspan="4">
                                                 <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabelPluralized() on this @(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()).</div>
                                             </td>
                                         </tr>
                                         <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions | orderBy: 'SortOrder'">
-                                            <td>
+                                            <td style="padding-right: 0">
                                                 <input type="hidden" value="{{optionSimple.PerformanceMeasureSubcategoryOptionID}}"
                                                        name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionID" />
                                                 <input type="hidden" value="{{optionSimple.SortOrder}}"
                                                        name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].SortOrder" />
+                                                <input type="hidden" value="{{optionSimple.IsArchived}}"
+                                                       name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].IsArchived" />
                                                 <a href="javascript:void(0)" ng-show="$index > 0 && subcategorySimple.PerformanceMeasureSubcategoryOptions.length > 0" ng-click="moveSubcategoryUp(subcategorySimple, optionSimple)">
                                                     <i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i>
                                                 </a>
                                                 <a href="javascript:void(0)" ng-show="$index < subcategorySimple.PerformanceMeasureSubcategoryOptions.length - 1 && subcategorySimple.PerformanceMeasureSubcategoryOptions.length > 0" ng-click="moveSubcategoryDown(subcategorySimple, optionSimple)">
                                                     <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
                                                 </a>
-                                                <a href="javascript:void(0)" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
-                                                    <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()" alt="Remove  @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()"></i>
-                                                </a>
+
+
                                             </td>
                                             <td>
                                                 <div class="input-group input-group-sm" style="width: 100%;" ng-class="{'has-error': validateOptionName(optionSimple).length != 0}">
@@ -144,16 +177,27 @@ Source code is available upon request via <support@sitkatech.com>.
                                                 </div>
                                             </td>
                                             <td>
+                                                <a href="javascript:void(0)" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
+                                                    <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" ng-show="optionSimple.PerformanceMeasureSubcategoryOptionID > 0 && !optionSimple.HasCurrentAssociatedActuals" ng-click="archiveSubcategoryOption(subcategorySimple, optionSimple)">
+                                                    <i class="glyphicon glyphicon-folder-close" title="Archive @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()" alt="Archive @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()"></i>
+                                                </a>
+                                                <span ng-show="optionSimple.PerformanceMeasureSubcategoryOptionID > 0 && optionSimple.HasCurrentAssociatedActuals" style="color: LightGray; cursor: not-allowed;">
+                                                    <i class="glyphicon glyphicon-folder-close" title="Cannot archive due to {{optionSimple.AssociatedProjectsCount}} reporting projects" alt="Cannot archive due to {{optionSimple.AssociatedProjectsCount}} reporting project"></i>
+                                                </span>
+                                            </td>
+                                            <td>
                                                 <div class="input-group input-group-sm text-center" style="width: 100%;">
                                                     <input type="checkbox" ng-model="optionSimple.ShowOnFactSheet" name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].PerformanceMeasureSubcategoryOptions[{{$index}}].ShowOnFactSheet" value="true" />
                                                     @* When hand-coding a checkbox input, 'value="true"' is a necessary idiom so that ModelBinder can correctly bind the value of this checkbox.
-                                        Otherwise, the form will attempt to pass the value "on", which ModelBinder is unable to parse.
-                                        Setting value=true does not affect whether or not the checkbox is checked.*@
+                                                        Otherwise, the form will attempt to pass the value "on", which ModelBinder is unable to parse.
+                                                        Setting value=true does not affect whether or not the checkbox is checked.*@
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3">
+                                            <td colspan="4">
                                                 <button type="button" class="btn btn-sm btn-firma pull-right" ng-click="addSubcategoryOption(subcategorySimple)">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                     Add Option
@@ -162,6 +206,57 @@ Source code is available upon request via <support@sitkatech.com>.
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="form-group-condensed" ng-show="subcategorySimple.ArchivedPerformanceMeasureSubcategoryOptions.length > 0">
+                               
+                                    <div>
+                                        Archived Options <a data-toggle="collapse" data-target="#collapse{{$index}}Archive" class="collapsePanel"></a>
+                                    </div>
+                                    
+                                   
+                                        <div id="collapse{{$index}}Archive" class="collapse in">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-sm-8">Archived Options</th>
+                                                        <th class="col-sm-3"></th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="optionSimple in subcategorySimple.ArchivedPerformanceMeasureSubcategoryOptions | orderBy: 'SortOrder'">
+                                                        <td>
+                                                            <div class="input-group input-group-sm" style="width: 100%;" ng-class="{'has-error': validateOptionName(optionSimple).length != 0}">
+                                                                <span>{{optionSimple.PerformanceMeasureSubcategoryOptionName}}</span>
+                                                                <input type="hidden" value="{{optionSimple.PerformanceMeasureSubcategoryOptionName}}"
+                                                                       name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].ArchivedPerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionName" />
+                                                            </div>
+                                                            <div ng-show="optionSimple.AssociatedProjectsCount > 0">{{optionSimple.AssociatedProjectsCount}} projects reporting this option will be affected.</div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="javascript:void(0)" ng-show="optionSimple.PerformanceMeasureSubcategoryOptionID > 0" ng-click="unArchiveSubcategoryOption(subcategorySimple, optionSimple)">
+                                                                <i class="glyphicon glyphicon-folder close" title="Un-archive @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()" alt="Un-archive @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()"></i>
+                                                            </a>
+
+                                                            <input type="hidden" value="{{optionSimple.PerformanceMeasureSubcategoryOptionID}}"
+                                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].ArchivedPerformanceMeasureSubcategoryOptions[{{$index}}].PerformanceMeasureSubcategoryOptionID" />
+                                                            <input type="hidden" value="{{optionSimple.SortOrder}}"
+                                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].ArchivedPerformanceMeasureSubcategoryOptions[{{$index}}].SortOrder" />
+                                                            <input type="hidden" value="{{optionSimple.IsArchived}}"
+                                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].ArchivedPerformanceMeasureSubcategoryOptions[{{$index}}].IsArchived" />
+                                                            <input type="hidden" value="{{optionSimple.ShowOnFactSheet}}"
+                                                                   name="PerformanceMeasureSubcategorySimples[{{$parent.$index}}].ArchivedPerformanceMeasureSubcategoryOptions[{{$index}}].ShowOnFactSheet" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    
+                             
+                                
+                                
+                                
+                             
                             </div>
                         </div>
                     </div>

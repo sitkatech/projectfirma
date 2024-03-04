@@ -43,7 +43,8 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureID = performanceMeasureSubcategory.PerformanceMeasureID;
             PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName;
             ShowOnChart = performanceMeasureSubcategory.ShowOnChart();
-            PerformanceMeasureSubcategoryOptions = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.ToList().Select(x => new PerformanceMeasureSubcategoryOptionSimple(x)).ToList();
+            PerformanceMeasureSubcategoryOptions = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Where(x => !x.IsArchived).ToList().Select(x => new PerformanceMeasureSubcategoryOptionSimple(x)).ToList();
+            ArchivedPerformanceMeasureSubcategoryOptions = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Where(x => x.IsArchived).ToList().Select(x => new PerformanceMeasureSubcategoryOptionSimple(x)).ToList();
         }
 
         public int PerformanceMeasureSubcategoryID { get; set; }
@@ -51,5 +52,6 @@ namespace ProjectFirma.Web.Models
         public string PerformanceMeasureSubcategoryDisplayName { get; set; }
         public bool ShowOnChart { get; set; }
         public List<PerformanceMeasureSubcategoryOptionSimple> PerformanceMeasureSubcategoryOptions { get; set; }
+        public List<PerformanceMeasureSubcategoryOptionSimple> ArchivedPerformanceMeasureSubcategoryOptions { get; set; }
     }
 }

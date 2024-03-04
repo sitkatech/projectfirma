@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Linq;
+
 namespace ProjectFirmaModels.Models
 {
     public partial class PerformanceMeasureSubcategoryOption : IAuditableEntity
@@ -25,6 +28,49 @@ namespace ProjectFirmaModels.Models
         public string GetAuditDescriptionString()
         {
             return PerformanceMeasureSubcategoryOptionName;
+        }
+
+        public bool HasCurrentDependentObjects ()
+        {
+            if (!HasDependentObjects())
+            {
+                return false;
+            }
+            // otherwise, check that the dependent objects are only for Projects or "current" Project Updates (i.e. not an update that was already approved and merged into the Project)
+            if (PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any())
+            {
+                // for projects, not updates, so yes it's current
+                return true;
+            }
+
+            var isReferencedByNonApprovedUpdate = false;
+            if (PerformanceMeasureActualSubcategoryOptionUpdates.Any())
+            {
+                isReferencedByNonApprovedUpdate = PerformanceMeasureActualSubcategoryOptionUpdates.Any(x =>
+                    x.PerformanceMeasureActualUpdate.ProjectUpdateBatch.ProjectUpdateState !=
+                    ProjectUpdateState.Approved);
+            }
+            if (PerformanceMeasureExpectedSubcategoryOptionUpdates.Any())
+            {
+                isReferencedByNonApprovedUpdate = PerformanceMeasureExpectedSubcategoryOptionUpdates.Any(x =>
+                    x.PerformanceMeasureExpectedUpdate.ProjectUpdateBatch.ProjectUpdateState !=
+                    ProjectUpdateState.Approved);
+            }
+            return isReferencedByNonApprovedUpdate;
+        }
+
+        public int GetCurrentDependentProjectCount()
+        {
+            var projectIDs = PerformanceMeasureActualSubcategoryOptions.Select(x => x.PerformanceMeasureActual.Project.ProjectID).ToList();
+            projectIDs.AddRange(PerformanceMeasureExpectedSubcategoryOptions.Select(x => x.PerformanceMeasureExpected.Project.ProjectID));
+            var nonApprovedProjectUpdates = PerformanceMeasureActualSubcategoryOptionUpdates
+                .Select(x => x.PerformanceMeasureActualUpdate.ProjectUpdateBatch)
+                .Where(x => x.ProjectUpdateState != ProjectUpdateState.Approved).ToList();
+            nonApprovedProjectUpdates.AddRange(PerformanceMeasureExpectedSubcategoryOptionUpdates
+                .Select(x => x.PerformanceMeasureExpectedUpdate.ProjectUpdateBatch)
+                .Where(x => x.ProjectUpdateState != ProjectUpdateState.Approved));
+            projectIDs.AddRange(nonApprovedProjectUpdates.Select(x => x.Project.ProjectID));
+            return projectIDs.Distinct().Count();
         }
     }
 }

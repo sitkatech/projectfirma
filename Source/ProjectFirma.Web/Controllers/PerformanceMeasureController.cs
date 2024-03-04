@@ -485,7 +485,7 @@ namespace ProjectFirma.Web.Controllers
                     : GoogleChartType.ColumnChart.GoogleChartTypeID;
             }
 
-            new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default", false);
+            new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default", false, false);
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(

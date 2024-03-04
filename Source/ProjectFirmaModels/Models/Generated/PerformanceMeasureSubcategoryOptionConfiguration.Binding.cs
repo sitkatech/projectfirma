@@ -21,6 +21,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PerformanceMeasureSubcategoryOptionName).HasColumnName(@"PerformanceMeasureSubcategoryOptionName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsOptional();
             Property(x => x.ShowOnFactSheet).HasColumnName(@"ShowOnFactSheet").HasColumnType("bit").IsRequired();
+            Property(x => x.IsArchived).HasColumnName(@"IsArchived").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.PerformanceMeasureSubcategory).WithMany(b => b.PerformanceMeasureSubcategoryOptions).HasForeignKey(c => c.PerformanceMeasureSubcategoryID).WillCascadeOnDelete(false); // FK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID

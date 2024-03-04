@@ -34,19 +34,20 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryOptionID, int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName, int? sortOrder, bool showOnFactSheet) : this()
+        public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryOptionID, int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName, int? sortOrder, bool showOnFactSheet, bool isArchived) : this()
         {
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
             this.SortOrder = sortOrder;
             this.ShowOnFactSheet = showOnFactSheet;
+            this.IsArchived = isArchived;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName, bool showOnFactSheet) : this()
+        public PerformanceMeasureSubcategoryOption(int performanceMeasureSubcategoryID, string performanceMeasureSubcategoryOptionName, bool showOnFactSheet, bool isArchived) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -54,12 +55,13 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
             this.ShowOnFactSheet = showOnFactSheet;
+            this.IsArchived = isArchived;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureSubcategoryOption(PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName, bool showOnFactSheet) : this()
+        public PerformanceMeasureSubcategoryOption(PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName, bool showOnFactSheet, bool isArchived) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -68,6 +70,7 @@ namespace ProjectFirmaModels.Models
             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Add(this);
             this.PerformanceMeasureSubcategoryOptionName = performanceMeasureSubcategoryOptionName;
             this.ShowOnFactSheet = showOnFactSheet;
+            this.IsArchived = isArchived;
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static PerformanceMeasureSubcategoryOption CreateNewBlank(PerformanceMeasureSubcategory performanceMeasureSubcategory)
         {
-            return new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, default(string), default(bool));
+            return new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, default(string), default(bool), default(bool));
         }
 
         /// <summary>
@@ -172,6 +175,7 @@ namespace ProjectFirmaModels.Models
         public string PerformanceMeasureSubcategoryOptionName { get; set; }
         public int? SortOrder { get; set; }
         public bool ShowOnFactSheet { get; set; }
+        public bool IsArchived { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryOptionID; } set { PerformanceMeasureSubcategoryOptionID = value; } }
 

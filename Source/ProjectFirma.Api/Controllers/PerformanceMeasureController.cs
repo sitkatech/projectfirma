@@ -79,7 +79,7 @@ namespace ProjectFirma.Api.Controllers
                 };
                 foreach (var performanceMeasureSubcategoryOptionDto in performanceMeasureSubcategoryDto.PerformanceMeasureSubcategoryOptions)
                 {
-                    var performanceMeasureSubcategoryOption = new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, performanceMeasureSubcategoryOptionDto.PerformanceMeasureSubcategoryOptionName, false)
+                    var performanceMeasureSubcategoryOption = new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, performanceMeasureSubcategoryOptionDto.PerformanceMeasureSubcategoryOptionName, false, false)
                     {                        
                         TenantID = tenantID
                     };
@@ -376,7 +376,7 @@ namespace ProjectFirma.Api.Controllers
                     y.PerformanceMeasureSubcategoryDisplayName == x.PerformanceMeasureSubcategoryName);
                 performanceMeasureSubcategoryOptionsToUpdate.AddRange(x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
                     (y, index) =>
-                        new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, y.PerformanceMeasureSubcategoryOptionName, false)
+                        new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, y.PerformanceMeasureSubcategoryOptionName, false, false)
                         {
                             SortOrder = y.SortOrder,
                             PerformanceMeasureSubcategory = performanceMeasureSubcategory

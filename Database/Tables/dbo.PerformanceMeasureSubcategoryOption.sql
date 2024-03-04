@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[PerformanceMeasureSubcategoryOption](
 	[PerformanceMeasureSubcategoryOptionName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[SortOrder] [int] NULL,
 	[ShowOnFactSheet] [bit] NOT NULL,
+	[IsArchived] [bit] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureSubcategoryOptionID] ASC
