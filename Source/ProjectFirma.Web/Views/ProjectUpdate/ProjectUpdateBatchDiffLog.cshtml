@@ -255,4 +255,25 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         </div>
     </div>
+
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Classifications</h2>
+        </div>
+        <div class="panel-body">
+            
+            @if (ViewDataTyped.ProjectUpdateBatch.ProjectUpdateBatchClassificationSystems.Any())
+            {
+                foreach (var classificationSystem in ViewDataTyped.ProjectUpdateBatch.ProjectUpdateBatchClassificationSystems.OrderBy(x => x.ClassificationSystem.ClassificationSystemName))
+                {
+                    @Html.Raw(classificationSystem.ProjectClassificationsDiffLogHtmlString)
+                }
+            }
+            else
+            {
+                <p class="systemText">No changes</p>
+            }
+        </div>
+
+    </div>
 </div>
