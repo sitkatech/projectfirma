@@ -39,6 +39,7 @@ body {
   font-family: "Azo Sans", sans-serif;
   font-size: 14px;
   line-height: 26px;
+  background-color: #fff;
   color: #000;
 }
 input[disabled] {
@@ -46,12 +47,12 @@ input[disabled] {
 }
 h1 {
   color: #2F9AA1;
-  font-family: "Azo Sans Bk", sans-serif;
+  font-family: "Azo Sans", sans-serif;
   text-transform: uppercase;
 }
 h2 {
   color: #2F9AA1;
-  font-family: "Azo Sans Bk", sans-serif;
+  font-family: "Azo Sans", sans-serif;
 }
 h3,
 h4,
@@ -66,8 +67,12 @@ h4 {
 .pageTitle {
   color: #2F9AA1;
 }
+.firmaContent {
+  background-color: #fff;
+  border: 1px solid #fff;
+}
 .header .headerText {
-  font-family: "Azo Sans Bk", sans-serif;
+  font-family: "Azo Sans", sans-serif;
   color: #2F9AA1;
 }
 .header .headerText a {
@@ -99,12 +104,26 @@ h4 {
   color: #fff;
   background-color: #89A6AD;
 }
+footer {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 65px;
+  background-color: #fff;
+}
+footer p {
+  margin: 10px 0;
+  font-size: 12px;
+}
 .btn-firma,
 .form-dialog .ui-widget-content .btn-firma,
 .firma-modal-dialog .btn-firma,
 .btn-primary {
   color: #fff;
   background-color: #949300;
+  text-transform: uppercase;
 }
 .btn-primary {
   border: 1px solid transparent;
@@ -226,9 +245,10 @@ a.btn-firma {
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
   color: #fff;
-  background-color: #28939D;
+  background-color: #253746;
   border-color: #ddd;
-  font-family: "Azo Sans Bk", sans-serif;
+  font-family: "Azo Sans", sans-serif;
+  text-transform: uppercase;
 }
 .panelFirma .panelTitle a,
 .panelFirma .panelTitle h2 a,
@@ -236,25 +256,6 @@ a.btn-firma {
   color: #fff;
 }
 .panelFirma .panelTitle a .glyphicon {
-  color: white;
-}
-#contentForTOC .panelFirma {
-  border-color: #ddd;
-}
-#contentForTOC .panelFirma .panelTitle,
-#contentForTOC .panelFirma .panelTitle h2,
-#contentForTOC .panelFirma .panelTitle h3 {
-  color: #fff;
-  background-color: #253746;
-  border-color: #ddd;
-  font-family: "Azo Sans Bk", sans-serif;
-}
-#contentForTOC .panelFirma .panelTitle a,
-#contentForTOC .panelFirma .panelTitle h2 a,
-#contentForTOC .panelFirma .panelTitle h3 a {
-  color: #fff;
-}
-#contentForTOC .panelFirma .panelTitle a .glyphicon {
   color: white;
 }
 a.gridButton {

@@ -18,7 +18,7 @@
 
 // Customizable Variables
 @firma-menu-font: "Azo Sans", sans-serif;
-@firma-header-font: "Azo Sans Bk", sans-serif;
+@firma-header-font: "Azo Sans", sans-serif;
 @firma-text-font: "Azo Sans", sans-serif;
 @firma-text-fontSize: 14px;
 
@@ -32,8 +32,7 @@
 @firma-navItemText-color-hover: #fff;
 @firma-navItemBackground-color-hover: #89A6AD;
 
-@firma-panel-headerBackground-color: #28939D;
-@firma-project-panel-headerBackground-color: #253746;
+@firma-panel-headerBackground-color: #253746;
 @firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
 
@@ -63,6 +62,7 @@ body {
     font-family: @firma-text-font;
     font-size: @firma-text-fontSize;
     line-height: 26px;
+    background-color: @firma-background-color;
     color: @firma-text-color;
 }
 
@@ -93,6 +93,11 @@ h4 {
 
 .pageTitle {
     color: @firma-pageTitle-color;
+}
+
+.firmaContent {
+    background-color: @firma-contentBackground-color;
+    border: 1px solid @firma-contentBorder-color;
 }
 
 .header {
@@ -148,11 +153,28 @@ h4 {
 }
 
 
+// Footer
+footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 65px;
+    background-color: @firma-background-color;
+
+    p {
+        margin: 10px 0;
+        font-size: 12px;
+    }
+}
+
 
 // buttons
 .btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma, .btn-primary {
   color: @firma-buttonText-color;
   background-color: @firma-buttonBackground-color;
+  text-transform: uppercase;
 }
 
 .btn-primary {
@@ -304,28 +326,7 @@ a.btn-firma {
         background-color: @firma-panel-headerBackground-color;
         border-color: @firma-panel-border-color;
         font-family: @firma-header-font;
-
-
-        a {
-            color: @firma-panel-headerText-color;
-        }
-    }
-
-    .panelTitle a .glyphicon {
-        color: white;
-    }
-}
-// Panels on Project Detail page
-
-#contentForTOC .panelFirma {
-    border-color: @firma-panel-border-color;
-
-    .panelTitle, .panelTitle h2, .panelTitle h3 {
-        color: @firma-panel-headerText-color;
-        background-color: @firma-project-panel-headerBackground-color;
-        border-color: @firma-panel-border-color;
-        font-family: @firma-header-font;
-
+        text-transform: uppercase;
 
         a {
             color: @firma-panel-headerText-color;
@@ -336,6 +337,7 @@ a.btn-firma {
         color: white;
     }
 }
+
 // Grids
 a.gridButton {
     margin: 0 7px 0 0;
