@@ -33,13 +33,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDefinition, string classificationSystemListPageContent, bool isRequired) : this()
+        public ClassificationSystem(int classificationSystemID, string classificationSystemName, string classificationSystemDefinition, string classificationSystemListPageContent, bool isRequired, string classificationSystemNamePlural) : this()
         {
             this.ClassificationSystemID = classificationSystemID;
             this.ClassificationSystemName = classificationSystemName;
             this.ClassificationSystemDefinition = classificationSystemDefinition;
             this.ClassificationSystemListPageContent = classificationSystemListPageContent;
             this.IsRequired = isRequired;
+            this.ClassificationSystemNamePlural = classificationSystemNamePlural;
         }
 
         /// <summary>
@@ -159,6 +160,7 @@ namespace ProjectFirmaModels.Models
             set { ClassificationSystemListPageContent = value?.ToString(); }
         }
         public bool IsRequired { get; set; }
+        public string ClassificationSystemNamePlural { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ClassificationSystemID; } set { ClassificationSystemID = value; } }
 
@@ -170,6 +172,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int ClassificationSystemName = 200;
+            public const int ClassificationSystemNamePlural = 210;
         }
     }
 }

@@ -29,6 +29,7 @@ namespace ProjectFirmaModels.Models
         public int? ClassificationSystemID { get; set; }
         public int TenantID { get; set; }
         public string ClassificationSystemName { get; set; }
+        public string ClassificationSystemNamePlural { get; set; }
         public HtmlString ClassificationSystemDefinition { get; set; }
         public string ClassificationSystemPageContent { get; set; }
         public bool CanDelete { get; set; }
@@ -39,6 +40,7 @@ namespace ProjectFirmaModels.Models
             ClassificationSystemID = classificationSystem.ClassificationSystemID;
             TenantID = classificationSystem.TenantID;
             ClassificationSystemName = classificationSystem.ClassificationSystemName;
+            ClassificationSystemNamePlural = classificationSystem.ClassificationSystemNamePlural;
             ClassificationSystemDefinition = classificationSystem.ClassificationSystemDefinitionHtmlString;
             ClassificationSystemPageContent = classificationSystem.ClassificationSystemListPageContent;
             CanDelete = !classificationSystem.Classifications.Any();

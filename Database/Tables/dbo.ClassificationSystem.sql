@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[ClassificationSystem](
 	[ClassificationSystemDefinition] [dbo].[html] NULL,
 	[ClassificationSystemListPageContent] [dbo].[html] NULL,
 	[IsRequired] [bit] NOT NULL,
+	[ClassificationSystemNamePlural] [varchar](210) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ClassificationSystem_ClassificationSystemID] PRIMARY KEY CLUSTERED 
 (
 	[ClassificationSystemID] ASC
