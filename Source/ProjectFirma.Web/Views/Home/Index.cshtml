@@ -103,16 +103,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (ViewDataTyped.TenantName.Equals("NCRPProjectTracker"))
-                                        {
-                                            <div id="exploreMoreButton" class="carousel-caption">
-                                                <a href="#homepageContent">
-                                                    <div style="padding-bottom: 30px; font-size: 22px;">EXPLORE</div>
-                                                    <div class="exploreBarWrapper"></div>
-                                                    <i style="font-size: 50px;" class="glyphicon glyphicon-circle-arrow-down" title="Explore" alt="Explore"></i>
-                                                </a>
-                                            </div>
-                                        }
                                     </div>
                                 }
                             </div>
@@ -132,7 +122,7 @@
                         @* ReSharper disable once UnknownCssClass *@
                         <div class="afterHomepageCarousel"></div>
                         <div class="main-text">
-                            <div class="container">
+                            <div class="@(ViewDataTyped.TenantName.Equals("TCSProjectTracker") ? "container-fluid" : "container")">
                                 <div class="col-md-12">
                                     <h1>@ViewDataTyped.PageTitle</h1>
                                 </div>

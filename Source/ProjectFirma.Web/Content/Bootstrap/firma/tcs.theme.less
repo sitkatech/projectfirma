@@ -23,32 +23,41 @@
 @firma-text-fontSize: 14px;
 
 @firma-text-color: #000;
+@tcs-night-navy: #253746;
+@tcs-midnight-navy: #182E3E; //looks darker than night navy
+@tcs-eddy-blue: #28939D; //looks teal
+@tcs-teal: #2F9AA1; // slightly ligher than eddy blue
+@tcs-sappling-green: #949300;
+@tcs-grey: #A9A9A9;
+@tcs-blue-grey: #89A6AD;
 
 @firma-background-color: #fff;
 @firma-contentBackground-color: #fff;
 @firma-contentBorder-color: #fff;
 
-
+@firma-navBackground-color: @tcs-teal;
+@firma-navText-color: #fff;
+@firma-navItemText-color: @tcs-teal;
 @firma-navItemText-color-hover: #fff;
-@firma-navItemBackground-color-hover: #89A6AD;
+@firma-navItemBackground-color-hover: @tcs-blue-grey;
 
-@firma-panel-headerBackground-color: #253746;
+@firma-panel-headerBackground-color: @tcs-night-navy;
 @firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
 
-@firma-pageTitle-color: #2F9AA1;
-@firma-header-color: #2F9AA1;
+@firma-pageTitle-color: @tcs-teal;
+@firma-header-color: @tcs-teal;
 
-@firma-buttonBackground-color: #949300;
+@firma-buttonBackground-color: @tcs-sappling-green;
 @firma-buttonText-color: #fff;
-@firma-buttonBackground-color-hover: #182E3E;
+@firma-buttonBackground-color-hover: @tcs-midnight-navy;
 @firma-buttonText-color-hover: #fff;
 
-@firma-scrollSpyAccent-color: #28939D;
+@firma-scrollSpyAccent-color: @tcs-eddy-blue;
 
 @firma-white: #fff;
-@firma-active-arrow-color: #28939D;
-@firma-inactive-arrow-color: #A9A9A9;
+@firma-active-arrow-color: @tcs-eddy-blue;
+@firma-inactive-arrow-color: @tcs-grey;
 
 @z-index-arrow: 900;
 
@@ -101,18 +110,23 @@ h4 {
 }
 
 .header {
-
+    background-color: @firma-navBackground-color;
 
 
     .headerText {
-
         font-family: @firma-header-font;
-        color: @firma-header-color;
+        color: @firma-navText-color;
 
 
         a {
-            color: @firma-header-color;
+            color: @firma-navText-color;
             vertical-align: top;
+
+            #headerTenantShortDisplayName {
+                text-transform: uppercase;
+                margin-right: 20px;
+                letter-spacing: 1px;
+            }
         }
 
         a:hover, a:active {
@@ -121,16 +135,47 @@ h4 {
     }
 }
 
+.menuDivider {
+    border-left: 3px solid @firma-navText-color;
+    margin-right: 2rem;
+    margin-left: 2rem;
+    height: 62px;
+}
+
+.navbar {
+    background: @firma-navBackground-color;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
 .projectFirmaNavbar {
+    .nav .open > a {
+        background-color: @firma-navBackground-color;
+    }
+
+    .glyphicon {
+        display: none;
+    }
+
+    .joined-buttons .glyphicon {
+        display: inline-block;
+    }
+
     .nav li {
 
         a {
             font-family: @firma-menu-font;
+            color: @firma-navText-color;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
+
+
         a:hover, a:focus, a:active {
-            color: @firma-navItemText-color-hover;
-            background-color: @firma-navItemBackground-color-hover;
+            color: @firma-navText-color;
+            background-color: @firma-navBackground-color;
         }
 
         .navbar-text {
@@ -141,6 +186,8 @@ h4 {
             li {
                 a {
                     font-family: @firma-menu-font;
+                    color: @firma-navItemText-color;
+                    letter-spacing: normal;
                 }
 
                 a:hover, a:active, a:focus {
@@ -149,6 +196,56 @@ h4 {
                 }
             }
         }
+    }
+
+    a:hover .navigation-root-item-text-wrapper {
+        border-bottom: 1px dotted @firma-navText-color;
+    }
+}
+
+//Home page image carousel customizations
+.main-text {
+    width: 100%;
+    top: 30%;
+    text-align: center;
+}
+
+.main-text h1 {
+    text-transform: uppercase;
+}
+
+#homepageCarousel .glyphicon-chevron-left, #homepageCarousel .glyphicon-chevron-right {
+    top: 60%
+}
+
+@media only screen and (min-width: 768px) {
+    .main-text h1 {
+        width: 100%;
+        font-size: 55px;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    #homepageCarousel .glyphicon-chevron-left, #homepageCarousel .glyphicon-chevron-right {
+        top: 50%
+    }
+}
+
+@media only screen and (min-width: 992px) and (min-height: 568px) {
+    .main-text {
+        top: 15%;
+    }
+}
+
+@media only screen and (min-width: 992px) and (min-height: 668px) {
+    .main-text {
+        top: 25%;
+    }
+}
+
+@media only screen and (min-width: 992px) and (min-height: 736px) {
+    .main-text {
+        top: 30%;
     }
 }
 
@@ -196,7 +293,15 @@ a.btn-firma {
   background-color: @firma-buttonBackground-color;
 }
 
+// homepage Add Project and Update Project buttons
+.homepageActionButtonsAlignRight .btn-firma {
+    font-size: 17px;
+    margin-bottom: 5px;
 
+    .glyphicon {
+        font-size: 18px;
+    }
+}
 
 // Breadcrumb
 

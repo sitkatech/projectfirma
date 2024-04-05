@@ -71,38 +71,114 @@ h4 {
   background-color: #fff;
   border: 1px solid #fff;
 }
+.header {
+  background-color: #2F9AA1;
+}
 .header .headerText {
   font-family: "Azo Sans", sans-serif;
-  color: #2F9AA1;
+  color: #fff;
 }
 .header .headerText a {
-  color: #2F9AA1;
+  color: #fff;
   vertical-align: top;
+}
+.header .headerText a #headerTenantShortDisplayName {
+  text-transform: uppercase;
+  margin-right: 20px;
+  letter-spacing: 1px;
 }
 .header .headerText a:hover,
 .header .headerText a:active {
   text-decoration: none;
 }
+.menuDivider {
+  border-left: 3px solid #fff;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  height: 62px;
+}
+.navbar {
+  background: #2F9AA1;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+.projectFirmaNavbar .nav .open > a {
+  background-color: #2F9AA1;
+}
+.projectFirmaNavbar .glyphicon {
+  display: none;
+}
+.projectFirmaNavbar .joined-buttons .glyphicon {
+  display: inline-block;
+}
 .projectFirmaNavbar .nav li a {
   font-family: "Azo Sans", sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
 .projectFirmaNavbar .nav li a:active {
   color: #fff;
-  background-color: #89A6AD;
+  background-color: #2F9AA1;
 }
 .projectFirmaNavbar .nav li .navbar-text {
   font-family: "Azo Sans", sans-serif;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a {
   font-family: "Azo Sans", sans-serif;
+  color: #2F9AA1;
+  letter-spacing: normal;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:focus {
   color: #fff;
   background-color: #89A6AD;
+}
+.projectFirmaNavbar a:hover .navigation-root-item-text-wrapper {
+  border-bottom: 1px dotted #fff;
+}
+.main-text {
+  width: 100%;
+  top: 30%;
+  text-align: center;
+}
+.main-text h1 {
+  text-transform: uppercase;
+}
+#homepageCarousel .glyphicon-chevron-left,
+#homepageCarousel .glyphicon-chevron-right {
+  top: 60%;
+}
+@media only screen and (min-width: 768px) {
+  .main-text h1 {
+    width: 100%;
+    font-size: 55px;
+  }
+}
+@media only screen and (min-width: 1600px) {
+  #homepageCarousel .glyphicon-chevron-left,
+  #homepageCarousel .glyphicon-chevron-right {
+    top: 50%;
+  }
+}
+@media only screen and (min-width: 992px) and (min-height: 568px) {
+  .main-text {
+    top: 15%;
+  }
+}
+@media only screen and (min-width: 992px) and (min-height: 668px) {
+  .main-text {
+    top: 25%;
+  }
+}
+@media only screen and (min-width: 992px) and (min-height: 736px) {
+  .main-text {
+    top: 30%;
+  }
 }
 footer {
   position: relative;
@@ -141,6 +217,13 @@ footer p {
 a.btn-firma {
   color: #fff;
   background-color: #949300;
+}
+.homepageActionButtonsAlignRight .btn-firma {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+.homepageActionButtonsAlignRight .btn-firma .glyphicon {
+  font-size: 18px;
 }
 .breadcrumbTitle,
 .breadcrumbTitle a {

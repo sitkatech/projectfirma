@@ -18,7 +18,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.FirmaHomePageImageID).HasColumnName(@"FirmaHomePageImageID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.FileResourceInfoID).HasColumnName(@"FileResourceInfoID").HasColumnType("int").IsRequired();
-            Property(x => x.Caption).HasColumnName(@"Caption").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.Caption).HasColumnName(@"Caption").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
             Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsRequired();
 
             // Foreign keys

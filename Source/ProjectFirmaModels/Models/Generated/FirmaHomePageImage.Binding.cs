@@ -42,27 +42,25 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FirmaHomePageImage(int fileResourceInfoID, string caption, int sortOrder) : this()
+        public FirmaHomePageImage(int fileResourceInfoID, int sortOrder) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaHomePageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.FileResourceInfoID = fileResourceInfoID;
-            this.Caption = caption;
             this.SortOrder = sortOrder;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FirmaHomePageImage(FileResourceInfo fileResourceInfo, string caption, int sortOrder) : this()
+        public FirmaHomePageImage(FileResourceInfo fileResourceInfo, int sortOrder) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FirmaHomePageImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.FileResourceInfoID = fileResourceInfo.FileResourceInfoID;
             this.FileResourceInfo = fileResourceInfo;
             fileResourceInfo.FirmaHomePageImages.Add(this);
-            this.Caption = caption;
             this.SortOrder = sortOrder;
         }
 
@@ -71,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static FirmaHomePageImage CreateNewBlank(FileResourceInfo fileResourceInfo)
         {
-            return new FirmaHomePageImage(fileResourceInfo, default(string), default(int));
+            return new FirmaHomePageImage(fileResourceInfo, default(int));
         }
 
         /// <summary>

@@ -91,6 +91,7 @@ namespace ProjectFirma.Web.Common
         public static readonly string NCRPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("NCRPHomeUrl");
         public static readonly string SSMPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("SSMPHomeUrl");
         public static readonly int SSMPAcresConstructedTarget = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("SSMPAcresConstructedTarget"));
+        public static readonly string TCSHomeUrl = SitkaConfiguration.GetRequiredAppSetting("TCSHomeUrl");
 
         public static readonly string MapBoxApiKey = SitkaConfiguration.GetRequiredAppSetting("MapBoxApiKey");
 
