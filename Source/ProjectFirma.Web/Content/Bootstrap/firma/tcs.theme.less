@@ -35,9 +35,9 @@
 @firma-contentBackground-color: #fff;
 @firma-contentBorder-color: #fff;
 
-@firma-navBackground-color: @tcs-teal;
+@firma-navBackground-color: @tcs-eddy-blue;
 @firma-navText-color: #fff;
-@firma-navItemText-color: @tcs-teal;
+@firma-navItemText-color: @tcs-eddy-blue;
 @firma-navItemText-color-hover: #fff;
 @firma-navItemBackground-color-hover: @tcs-blue-grey;
 
@@ -45,8 +45,8 @@
 @firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
 
-@firma-pageTitle-color: @tcs-teal;
-@firma-header-color: @tcs-teal;
+@firma-pageTitle-color: @tcs-night-navy;
+@firma-header-color: @tcs-eddy-blue;
 
 @firma-buttonBackground-color: @tcs-sappling-green;
 @firma-buttonText-color: #fff;
@@ -102,6 +102,8 @@ h4 {
 
 .pageTitle {
     color: @firma-pageTitle-color;
+    text-transform: uppercase;
+    font-size: 32px;
 }
 
 .firmaContent {
@@ -133,12 +135,16 @@ h4 {
             text-decoration: none;
         }
     }
+
+    img {
+        height: 64px;
+    }
 }
 
 .menuDivider {
     border-left: 3px solid @firma-navText-color;
     margin-right: 2rem;
-    margin-left: 2rem;
+    margin-left: 1rem;
     height: 62px;
 }
 
@@ -198,7 +204,7 @@ h4 {
         }
     }
 
-    a:hover .navigation-root-item-text-wrapper {
+    a .navigation-root-item-text-wrapper {
         border-bottom: 1px dotted @firma-navText-color;
     }
 }

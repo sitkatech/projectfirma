@@ -46,33 +46,35 @@ input[disabled] {
   background-color: LightGray;
 }
 h1 {
-  color: #2F9AA1;
+  color: #28939D;
   font-family: "Azo Sans", sans-serif;
   text-transform: uppercase;
 }
 h2 {
-  color: #2F9AA1;
+  color: #28939D;
   font-family: "Azo Sans", sans-serif;
 }
 h3,
 h4,
 h5,
 h6 {
-  color: #2F9AA1;
+  color: #28939D;
   font-family: "Azo Sans", sans-serif;
 }
 h4 {
   margin-top: 0px;
 }
 .pageTitle {
-  color: #2F9AA1;
+  color: #253746;
+  text-transform: uppercase;
+  font-size: 32px;
 }
 .firmaContent {
   background-color: #fff;
   border: 1px solid #fff;
 }
 .header {
-  background-color: #2F9AA1;
+  background-color: #28939D;
 }
 .header .headerText {
   font-family: "Azo Sans", sans-serif;
@@ -91,20 +93,23 @@ h4 {
 .header .headerText a:active {
   text-decoration: none;
 }
+.header img {
+  height: 64px;
+}
 .menuDivider {
   border-left: 3px solid #fff;
   margin-right: 2rem;
-  margin-left: 2rem;
+  margin-left: 1rem;
   height: 62px;
 }
 .navbar {
-  background: #2F9AA1;
+  background: #28939D;
   border: none;
   border-radius: 0;
   margin-bottom: 0;
 }
 .projectFirmaNavbar .nav .open > a {
-  background-color: #2F9AA1;
+  background-color: #28939D;
 }
 .projectFirmaNavbar .glyphicon {
   display: none;
@@ -122,14 +127,14 @@ h4 {
 .projectFirmaNavbar .nav li a:focus,
 .projectFirmaNavbar .nav li a:active {
   color: #fff;
-  background-color: #2F9AA1;
+  background-color: #28939D;
 }
 .projectFirmaNavbar .nav li .navbar-text {
   font-family: "Azo Sans", sans-serif;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a {
   font-family: "Azo Sans", sans-serif;
-  color: #2F9AA1;
+  color: #28939D;
   letter-spacing: normal;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
@@ -138,7 +143,7 @@ h4 {
   color: #fff;
   background-color: #89A6AD;
 }
-.projectFirmaNavbar a:hover .navigation-root-item-text-wrapper {
+.projectFirmaNavbar a .navigation-root-item-text-wrapper {
   border-bottom: 1px dotted #fff;
 }
 .main-text {
