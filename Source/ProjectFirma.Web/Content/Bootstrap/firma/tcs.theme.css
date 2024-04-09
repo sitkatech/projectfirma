@@ -211,24 +211,27 @@ footer p {
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #182E3E;
+  background-color: #253746;
 }
 .btn-firma:hover,
 .btn-primary:focus,
 .btn-primary.focus {
   color: #fff;
-  background-color: #182E3E;
+  background-color: #253746;
 }
 a.btn-firma {
   color: #fff;
   background-color: #949300;
 }
-.homepageActionButtonsAlignRight .btn-firma {
+.homepageActionButtons .homepageActionButtonsAlignRight .btn-firma {
   font-size: 17px;
   margin-bottom: 5px;
 }
-.homepageActionButtonsAlignRight .btn-firma .glyphicon {
+.homepageActionButtons .homepageActionButtonsAlignRight .btn-firma .glyphicon {
   font-size: 18px;
+}
+.homepageActionButtons h4 {
+  font-size: 22px;
 }
 .breadcrumbTitle,
 .breadcrumbTitle a {
@@ -372,7 +375,7 @@ a.gridButton.disabled {
 }
 /* STANDARD */
 a.gridButton:hover {
-  background-color: #182E3E;
+  background-color: #253746;
   color: #fff;
 }
 /* ScrollSpy / Table of Contents */

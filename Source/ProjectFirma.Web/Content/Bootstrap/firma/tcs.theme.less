@@ -24,9 +24,7 @@
 
 @firma-text-color: #000;
 @tcs-night-navy: #253746;
-@tcs-midnight-navy: #182E3E; //looks darker than night navy
 @tcs-eddy-blue: #28939D; //looks teal
-@tcs-teal: #2F9AA1; // slightly ligher than eddy blue
 @tcs-sappling-green: #949300;
 @tcs-grey: #A9A9A9;
 @tcs-blue-grey: #89A6AD;
@@ -50,7 +48,7 @@
 
 @firma-buttonBackground-color: @tcs-sappling-green;
 @firma-buttonText-color: #fff;
-@firma-buttonBackground-color-hover: @tcs-midnight-navy;
+@firma-buttonBackground-color-hover: @tcs-night-navy;
 @firma-buttonText-color-hover: #fff;
 
 @firma-scrollSpyAccent-color: @tcs-eddy-blue;
@@ -299,15 +297,22 @@ a.btn-firma {
   background-color: @firma-buttonBackground-color;
 }
 
-// homepage Add Project and Update Project buttons
-.homepageActionButtonsAlignRight .btn-firma {
-    font-size: 17px;
-    margin-bottom: 5px;
+.homepageActionButtons {
+    // homepage Add Project and Update Project buttons
+    .homepageActionButtonsAlignRight .btn-firma {
+        font-size: 17px;
+        margin-bottom: 5px;
 
-    .glyphicon {
-        font-size: 18px;
+        .glyphicon {
+            font-size: 18px;
+        }
+    }
+
+    h4 {
+        font-size: 22px;
     }
 }
+
 
 // Breadcrumb
 
