@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
             {
                 submitterEmails.Add(primaryContactPerson.Email);
             }
-            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
+            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject().Where(x => x.IsActive).ToList();
             foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
@@ -214,7 +214,7 @@ Thank you,<br />
 
         public static void SendSubmittedMessage(Project project)
         {
-            var submitterPerson = project.ProposingPerson;
+            var submitterPerson = project.SubmittedByPerson;
             var subject = $"A {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was submitted by {submitterPerson.GetFullNameFirstLastAndOrg()}";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
@@ -240,11 +240,16 @@ Thank you,<br />
             var emailsToSendTo = project.GetProjectStewardPeople().Where(x => x.IsActive).Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { submitterPerson.Email };
             var primaryContactPerson = project.PrimaryContactPerson;
-            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
+            if (primaryContactPerson != null && primaryContactPerson.IsActive && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 emailsToReplyTo.Add(primaryContactPerson.Email);
             }
-            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
+            var proposingPerson = project.ProposingPerson;
+            if (proposingPerson != null && proposingPerson.IsActive && !String.Equals(proposingPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
+            {
+                emailsToReplyTo.Add(proposingPerson.Email);
+            }
+            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject().Where(x => x.IsActive).ToList();
             foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
@@ -323,7 +328,7 @@ Thank you,<br />
 
             var emailsToSendTo = notificationPeople.Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
-            var emailsToCc = project.GetProjectStewardPeople().Select(x => x.Email).ToList();
+            var emailsToCc = project.GetProjectStewardPeople().Where(x => x.IsActive).ToList().Select(x => x.Email).ToList();
             SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, notificationPeople,NotificationType.ProjectReturned);
         }
 
@@ -356,7 +361,7 @@ Thank you,<br />
             
             var emailsToSendTo = notificationPeople.Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
-            var emailsToCc = project.GetProjectStewardPeople().Select(x => x.Email).ToList();
+            var emailsToCc = project.GetProjectStewardPeople().Where(x => x.IsActive).ToList().Select(x => x.Email).ToList();
             SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, notificationPeople, NotificationType.ProjectRejected);
         }
 
