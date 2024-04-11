@@ -219,7 +219,7 @@ Thank you,<br />
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
 <p>A new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}, “{project.GetDisplayName()}”, was submitted.</p>
-<p>The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was submitted on {project.ProposingDate.ToStringDate()} by {
+<p>The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was submitted on {project.SubmissionDate.ToStringDate()} by {
                     submitterPerson.GetFullNameFirstLastAndOrg()
                 }.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
