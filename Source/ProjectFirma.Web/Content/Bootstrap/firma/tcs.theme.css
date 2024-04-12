@@ -74,7 +74,7 @@ h4 {
   border: 1px solid #fff;
 }
 .header {
-  background-color: #28939D;
+  background-color: #25949E;
 }
 .header .headerText {
   font-family: "Azo Sans", sans-serif;
@@ -103,13 +103,13 @@ h4 {
   height: 62px;
 }
 .navbar {
-  background: #28939D;
+  background: #25949E;
   border: none;
   border-radius: 0;
   margin-bottom: 0;
 }
 .projectFirmaNavbar .nav .open > a {
-  background-color: #28939D;
+  background-color: #25949E;
 }
 .projectFirmaNavbar .glyphicon {
   display: none;
@@ -127,7 +127,7 @@ h4 {
 .projectFirmaNavbar .nav li a:focus,
 .projectFirmaNavbar .nav li a:active {
   color: #fff;
-  background-color: #28939D;
+  background-color: #25949E;
 }
 .projectFirmaNavbar .nav li .navbar-text {
   font-family: "Azo Sans", sans-serif;
