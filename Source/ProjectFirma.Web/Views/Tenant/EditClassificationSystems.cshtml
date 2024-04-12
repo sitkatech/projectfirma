@@ -38,6 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <thead>
                     <tr>
                         <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystemName.ToType())</th>
+                        <th>Plural Name</th>
                         <th>@Html.Label("Definition")</th>
                         <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.IsClassificationSystemRequired.ToType(), "Required?")</th>
                     </tr>
@@ -51,8 +52,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @Html.HiddenFor(m => m.ClassificationSystemSimples[i].ClassificationSystemID)
                                 @Html.HiddenFor(m => m.ClassificationSystemSimples[i].CanDelete)
                             </td>
+                            <td style="width: 200px">
+                                <input type="text" style="display: inline;" name="@Html.NameFor(m => m.ClassificationSystemSimples[i].ClassificationSystemNamePlural)" class="form-control" value="@Model.ClassificationSystemSimples[i].ClassificationSystemNamePlural" />
+                            </td>
                             <td>@Html.TinyMCEEditorFor(m => m.ClassificationSystemSimples[i].ClassificationSystemDefinition, TinyMCEExtension.TinyMCEToolbarStyle.Minimal, true, false, 150)</td>
-                            <td>@Html.CheckBoxFor(m => m.ClassificationSystemSimples[i].IsRequired)</td>
+                            <td style="width: 80px">@Html.CheckBoxFor(m => m.ClassificationSystemSimples[i].IsRequired)</td>
                         </tr>
                     }
                     </tbody>

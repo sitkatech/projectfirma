@@ -16,6 +16,17 @@ namespace ProjectFirmaModels.Models
 
         public bool HasClassifications => Classifications.Any();
 
-        public string ClassificationSystemNamePluralized => new EnglishPluralizationService().Pluralize(ClassificationSystemName);
+        public string ClassificationSystemNamePluralized
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(ClassificationSystemNamePlural))
+                {
+                    return ClassificationSystemNamePlural;
+                }
+
+                return new EnglishPluralizationService().Pluralize(ClassificationSystemName);
+            }
+        }
     }
 }

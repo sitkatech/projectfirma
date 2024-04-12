@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using log4net;
 using LtInfo.Common;
@@ -637,6 +638,8 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.CommitChangesToProject(databaseEntities);
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentFirmaSession, transitionDate);
             projectUpdateBatch.PushTransitionRecordsToAuditLog();
+            // delete all children of Approved project update. Only the ProjectUpdateBatch, ProjectUpdateHistories, and ProjectUpdateBatchClassificationSystems should remain to keep the meta data of the update
+            projectUpdateBatch.DeleteApprovedUpdate(databaseEntities);
         }
 
         private static void CommitChangesToProject(this ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
@@ -799,6 +802,111 @@ namespace ProjectFirma.Web.Models
                 .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
                 .SelectMany(x => x.GetReportedPerformanceMeasureValues(projectUpdateBatch)).ToList();
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+        }
+
+        private static void DeleteApprovedUpdate(this ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
+        {
+            // delete everything except for ProjectUpdateHistory and ProjectUpdateBatchClassificationSystems
+            foreach (var x in projectUpdateBatch.PerformanceMeasureActualUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.PerformanceMeasureExpectedUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectAttachmentUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectClassificationUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectContactUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectCustomAttributeUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectExemptReportingYearUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectExternalLinkUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectGeospatialAreaUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectImageUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectLocationStagingUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectLocationUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectNoteUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectOrganizationUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectRelevantCostTypeUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
+            foreach (var x in projectUpdateBatch.ProjectUpdates.ToList())
+            {
+                x.DeleteFull(databaseEntities);
+            }
+
         }
     }
 }

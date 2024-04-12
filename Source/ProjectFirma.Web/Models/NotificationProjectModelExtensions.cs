@@ -18,26 +18,11 @@ namespace ProjectFirma.Web.Models
             MailMessage mailMessage,
             List<string> emailsToSendTo,
             List<string> emailsToReplyTo,
-            List<string> emailsToCc, NotificationType notificationType)
+            List<string> emailsToCc, 
+            List<Person> notificationPeople,
+            NotificationType notificationType)
         {
-            var latestProjectUpdateHistorySubmitted = projectUpdateBatch.GetLatestProjectUpdateHistorySubmitted();
-            var submitterPerson = latestProjectUpdateHistorySubmitted.UpdatePerson;
-            var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
-            
-            var notificationPeople = new List<Person> { submitterPerson };
-            if (primaryContactPerson != null && submitterPerson.PersonID != primaryContactPerson.PersonID)
-            {
-                notificationPeople.Add(primaryContactPerson);
-            }
 
-            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactsWhoCanManageProject)
-            {
-                if (contact.PersonID != submitterPerson.PersonID && (primaryContactPerson == null || primaryContactPerson.PersonID != contact.PersonID))
-                {
-                    notificationPeople.Add(contact);
-                }
-            }
 
             NotificationModelExtensions.SendMessageAndLogNotification(mailMessage,
                 emailsToSendTo,
@@ -61,7 +46,7 @@ namespace ProjectFirma.Web.Models
             {
                 submitterEmails.Add(primaryContactPerson.Email);
             }
-            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
+            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject().Where(x => x.IsActive).ToList();
             foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
@@ -93,32 +78,18 @@ namespace ProjectFirma.Web.Models
                 new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
             mailMessage.AlternateViews.Add(htmlView);
 
-            SendMessageAndLogNotificationForProjectUpdateTransition(projectUpdateBatch, mailMessage, emailsToSendTo, submitterEmails, new List<string>(), NotificationType.ProjectUpdateSubmitted);
+            SendMessageAndLogNotificationForProjectUpdateTransition(projectUpdateBatch, mailMessage, emailsToSendTo, submitterEmails, new List<string>(), peopleToNotify, NotificationType.ProjectUpdateSubmitted);
         }
 
         public static void SendApprovalMessage(List<Person> peopleToCc, ProjectUpdateBatch projectUpdateBatch)
         {
             Check.Require(projectUpdateBatch.ProjectUpdateState == ProjectUpdateState.Approved, "Need to be in Approved state to send the Approved email!");
             var latestProjectUpdateHistorySubmitted = projectUpdateBatch.GetLatestProjectUpdateHistorySubmitted();
-            var submitterPerson = latestProjectUpdateHistorySubmitted.UpdatePerson;
-            var emailsToSendTo = new List<string> { submitterPerson.Email };
 
-            var personNames = submitterPerson.GetFullNameFirstLast();
-            var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
-            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                emailsToSendTo.Add(primaryContactPerson.Email);
-                personNames += $" and {primaryContactPerson.GetFullNameFirstLast()}";
-            }
-            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactsWhoCanManageProject)
-            {
-                if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    emailsToSendTo.Add(contact.Email);
-                    personNames += $" and {contact.GetFullNameFirstLast()}";
-                }
-            }
+
+            var notificationPeople = GetProjectUpdateNotificationPeople(projectUpdateBatch);
+            var emailsToSendTo = notificationPeople.Select(x => x.Email).Distinct().ToList();
+            var personNames = string.Join(" and ", notificationPeople.Select(x => x.GetFullNameFirstLast()));
 
             var approverPerson = projectUpdateBatch.LastUpdatePerson;
             var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(projectUpdateBatch.Project));
@@ -155,6 +126,7 @@ Thank you for keeping your {FieldDefinitionEnum.Project.ToType().GetFieldDefinit
                 emailsToSendTo,
                 new List<string> {approverPerson.Email},
                 peopleToCc.Select(x => x.Email).ToList(),
+                notificationPeople,
                 NotificationType.ProjectUpdateApproved);
         }
 
@@ -162,26 +134,11 @@ Thank you for keeping your {FieldDefinitionEnum.Project.ToType().GetFieldDefinit
         {
             Check.Require(projectUpdateBatch.ProjectUpdateState == ProjectUpdateState.Returned, "Need to be in Returned state to send the Returned email!");
             var latestProjectUpdateHistorySubmitted = projectUpdateBatch.GetLatestProjectUpdateHistorySubmitted();
-            var submitterPerson = latestProjectUpdateHistorySubmitted.UpdatePerson;
-            var emailsToSendTo = new List<string> { submitterPerson.Email };
 
-            var personNames = submitterPerson.GetFullNameFirstLast();
-            var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
-            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                emailsToSendTo.Add(primaryContactPerson.Email);
-                personNames += $" and {primaryContactPerson.GetFullNameFirstLast()}";
-            }
-            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactsWhoCanManageProject)
-            {
-                if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    emailsToSendTo.Add(contact.Email);
-                    personNames += $" and {contact.GetFullNameFirstLast()}";
-                }
-            }
 
+            var notificationPeople = GetProjectUpdateNotificationPeople(projectUpdateBatch);
+            var emailsToSendTo = notificationPeople.Select(x => x.Email).Distinct().ToList();
+            var personNames = string.Join(" and ", notificationPeople.Select(x => x.GetFullNameFirstLast()));
             var returnerPerson = projectUpdateBatch.GetLatestProjectUpdateHistoryReturned().UpdatePerson;
             var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project));
             var message = $@"
@@ -222,17 +179,47 @@ Thank you,<br />
                 emailsToSendTo,
                 new List<string> { returnerPerson.Email },
                 peopleToCc.Select(x => x.Email).ToList(),
+                notificationPeople,
                 NotificationType.ProjectUpdateReturned);
+        }
+
+        public static List<Person> GetProjectUpdateNotificationPeople(ProjectUpdateBatch projectUpdateBatch)
+        {
+           
+            var latestProjectUpdateHistorySubmitted = projectUpdateBatch.GetLatestProjectUpdateHistorySubmitted();
+            var submitterPerson = latestProjectUpdateHistorySubmitted.UpdatePerson;
+            var notificationPeople = new List<Person>() {submitterPerson };
+            var emailsToSendTo = new List<string> { submitterPerson.Email };
+
+            var personNames = submitterPerson.GetFullNameFirstLast();
+            var primaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
+            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
+            {
+                notificationPeople.Add(primaryContactPerson);
+                emailsToSendTo.Add(primaryContactPerson.Email);
+                personNames += $" and {primaryContactPerson.GetFullNameFirstLast()}";
+            }
+            var contactsWhoCanManageProject = projectUpdateBatch.Project.GetContactsWhoCanManageProject();
+            foreach (var contact in contactsWhoCanManageProject)
+            {
+                if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    notificationPeople.Add(contact);
+                    personNames += $" and {contact.GetFullNameFirstLast()}";
+                }
+            }
+            notificationPeople = notificationPeople.Where(x => x.IsActive).ToList();
+            return notificationPeople;
         }
 
         public static void SendSubmittedMessage(Project project)
         {
-            var submitterPerson = project.ProposingPerson;
+            var submitterPerson = project.SubmittedByPerson;
             var subject = $"A {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was submitted by {submitterPerson.GetFullNameFirstLastAndOrg()}";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
             var message = $@"
 <p>A new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}, “{project.GetDisplayName()}”, was submitted.</p>
-<p>The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was submitted on {project.ProposingDate.ToStringDate()} by {
+<p>The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was submitted on {project.SubmissionDate.ToStringDate()} by {
                     submitterPerson.GetFullNameFirstLastAndOrg()
                 }.<br />
 <p>Please review and Approve or Return it at your earliest convenience.</p>
@@ -250,14 +237,19 @@ Thank you,<br />
                 new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
             mailMessage.AlternateViews.Add(htmlView);
 
-            var emailsToSendTo = project.GetProjectStewardPeople().Select(x => x.Email).Distinct().ToList();
+            var emailsToSendTo = project.GetProjectStewardPeople().Where(x => x.IsActive).Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { submitterPerson.Email };
             var primaryContactPerson = project.PrimaryContactPerson;
-            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
+            if (primaryContactPerson != null && primaryContactPerson.IsActive && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
             {
                 emailsToReplyTo.Add(primaryContactPerson.Email);
             }
-            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
+            var proposingPerson = project.ProposingPerson;
+            if (proposingPerson != null && proposingPerson.IsActive && !String.Equals(proposingPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
+            {
+                emailsToReplyTo.Add(proposingPerson.Email);
+            }
+            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject().Where(x => x.IsActive).ToList();
             foreach (var contact in contactsWhoCanManageProject)
             {
                 if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
@@ -266,19 +258,20 @@ Thank you,<br />
                 }
             }
             var emailsToCc = new List<string>();
-            SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, NotificationType.ProjectSubmitted);
+            SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, GetNotificationPeople(project),NotificationType.ProjectSubmitted);
         }
 
         public static void SendApprovalMessage(Project project)
         {
             Check.Require(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved, "Need to be in Approved state to send the Approved email!");
-            var submitterPerson = project.ProposingPerson;
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             var subject = $"Your {fieldDefinitionLabelProject} \"{project.GetDisplayName().ToEllipsifiedString(80)}\" was Accepted to the Project Tracker!";
             var detailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(project.ProjectID));
             var projectListUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
+            var notificationPeople = GetNotificationPeople(project);
+            var personNames = notificationPeople.Count > 0 ? string.Join(" and ", notificationPeople.Select(x => x.GetFullNameFirstLast())) : $"{MultiTenantHelpers.GetToolDisplayName()} user";
             var message = $@"
-<p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
+<p>Dear {personNames},</p>
 <p>The {MultiTenantHelpers.GetToolDisplayName()} {fieldDefinitionLabelProject} submitted on {project.SubmissionDate.ToStringDate()} was accepted by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}.</p>
 <p>This {fieldDefinitionLabelProject} is now on the <a href=""{projectListUrl}"">{MultiTenantHelpers.GetToolDisplayName()} {fieldDefinitionLabelProject} List</a> and is visible to the public via the {fieldDefinitionLabelProject} detail page.</p>
 <p><a href=""{detailUrl}"">View this {fieldDefinitionLabelProject}</a></p>
@@ -295,37 +288,27 @@ Thank you,<br />
                 new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
             mailMessage.AlternateViews.Add(htmlView);
 
-            var emailsToSendTo = new List<string> { submitterPerson.Email };
+            
+            var emailsToSendTo = notificationPeople.Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
-            var primaryContactPerson = project.GetPrimaryContact();
-            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                emailsToSendTo.Add(primaryContactPerson.Email);
-            }
-            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactsWhoCanManageProject)
-            {
-                if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    emailsToSendTo.Add(contact.Email);
-                }
-            }
 
             SendMessageAndLogNotification(project,
                 mailMessage,
                 emailsToSendTo,
                 emailsToReplyTo, project.GetProjectStewardPeople().Select(x => x.Email).ToList(),
+                notificationPeople,
                 NotificationType.ProjectUpdateApproved);
         }
 
         public static void SendReturnedMessage(Project project)
         {
-            var submitterPerson = project.ProposingPerson;
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             var subject = $@"Your {fieldDefinitionLabelProject} ""{project.GetDisplayName().ToEllipsifiedString(80)}"" was returned for further review";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
+            var notificationPeople = GetNotificationPeople(project);
+            var personNames = notificationPeople.Count > 0 ? string.Join(" and ", notificationPeople.Select(x => x.GetFullNameFirstLast())) : $"{MultiTenantHelpers.GetToolDisplayName()} user";
             var message = $@"
-<p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
+<p>Dear {personNames},</p>
 <p>The {MultiTenantHelpers.GetToolDisplayName()} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} has been returned for further review.</p>
 <p>The {fieldDefinitionLabelProject} was returned by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}. Please review this {fieldDefinitionLabelProject} and address the comments that {project.ReviewedByPerson.FirstName} left for you. If you have questions please email: {project.ReviewedByPerson.Email}.</p>
 <a href=""{basicsUrl}"">View this {fieldDefinitionLabelProject}</a></p>
@@ -343,33 +326,21 @@ Thank you,<br />
                 new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
             mailMessage.AlternateViews.Add(htmlView);
 
-            var emailsToSendTo = new List<string> { submitterPerson.Email };
-            var primaryContactPerson = project.PrimaryContactPerson;
-            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                emailsToSendTo.Add(primaryContactPerson.Email);
-            }
-            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactsWhoCanManageProject)
-            {
-                if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    emailsToSendTo.Add(contact.Email);
-                }
-            }
+            var emailsToSendTo = notificationPeople.Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
-            var emailsToCc = project.GetProjectStewardPeople().Select(x => x.Email).ToList();
-            SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, NotificationType.ProjectReturned);
+            var emailsToCc = project.GetProjectStewardPeople().Where(x => x.IsActive).ToList().Select(x => x.Email).ToList();
+            SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, notificationPeople,NotificationType.ProjectReturned);
         }
 
         public static void SendRejectedMessage(Project project)
         {
-            var submitterPerson = project.ProposingPerson;
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             var subject = $@"Your {fieldDefinitionLabelProject} ""{project.GetDisplayName().ToEllipsifiedString(80)}"" was not approved";
             var basicsUrl = SitkaRoute<ProjectCreateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.EditBasics(project.ProjectID));
+            var notificationPeople = GetNotificationPeople(project);
+            var personNames = notificationPeople.Count > 0 ? string.Join(" and ", notificationPeople.Select(x => x.GetFullNameFirstLast())) : $"{MultiTenantHelpers.GetToolDisplayName()} user";
             var message = $@"
-<p>Dear {submitterPerson.GetFullNameFirstLast()},</p>
+<p>Dear {personNames},</p>
 <p>The {MultiTenantHelpers.GetToolDisplayName()} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} submitted on {project.SubmissionDate.ToStringDate()} has been rejected.</p>
 <p>The {fieldDefinitionLabelProject} was rejected by {project.ReviewedByPerson.GetFullNameFirstLastAndOrg()}. If you have questions please email: {project.ReviewedByPerson.Email}.</p>
 <a href=""{basicsUrl}"">View this {fieldDefinitionLabelProject}</a></p>
@@ -387,23 +358,11 @@ Thank you,<br />
                 new LinkedResource(new MemoryStream(toolLogo.FileResourceData.Data), "img/jpeg") { ContentId = "tool-logo" });
             mailMessage.AlternateViews.Add(htmlView);
 
-            var emailsToSendTo = new List<string> { submitterPerson.Email };
-            var primaryContactPerson = project.PrimaryContactPerson;
-            if (primaryContactPerson != null && !String.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                emailsToSendTo.Add(primaryContactPerson.Email);
-            }
-            var contactsWhoCanManageProject = project.GetContactsWhoCanManageProject();
-            foreach (var contact in contactsWhoCanManageProject)
-            {
-                if (!string.Equals(contact.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase) && (primaryContactPerson == null || !string.Equals(contact.Email, primaryContactPerson.Email, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    emailsToSendTo.Add(contact.Email);
-                }
-            }
+            
+            var emailsToSendTo = notificationPeople.Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
-            var emailsToCc = project.GetProjectStewardPeople().Select(x => x.Email).ToList();
-            SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, NotificationType.ProjectRejected);
+            var emailsToCc = project.GetProjectStewardPeople().Where(x => x.IsActive).ToList().Select(x => x.Email).ToList();
+            SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, notificationPeople, NotificationType.ProjectRejected);
         }
 
         private static List<Notification> SendMessageAndLogNotification(Project project,
@@ -411,11 +370,25 @@ Thank you,<br />
             List<string> emailsToSendTo,
             List<string> emailsToReplyTo,
             List<string> emailsToCc,
+            List<Person> notificationPeople,
             NotificationType notificationType)
+        {
+
+            NotificationModelExtensions.SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, MultiTenantHelpers.GetToolDisplayName());
+            var notifications = new List<Notification>();
+            foreach (var notificationPerson in notificationPeople)
+            {
+                var notification = new Notification(notificationType, notificationPerson, DateTime.Now);
+                notification.NotificationProjects = new List<Project> { project }.Select(p => new NotificationProject(notification, p)).ToList();
+                notifications.Add(notification);
+            }
+            return notifications;
+        }
+
+        private static List<Person> GetNotificationPeople(Project project)
         {
             var submitterPerson = project.ProposingPerson;
             var primaryContactPerson = project.PrimaryContactPerson;
-
             var notificationPeople = new List<Person> { submitterPerson };
             if (primaryContactPerson != null && submitterPerson.PersonID != primaryContactPerson.PersonID)
             {
@@ -431,15 +404,8 @@ Thank you,<br />
                 }
             }
 
-            NotificationModelExtensions.SendMessage(mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, MultiTenantHelpers.GetToolDisplayName());
-            var notifications = new List<Notification>();
-            foreach (var notificationPerson in notificationPeople)
-            {
-                var notification = new Notification(notificationType, notificationPerson, DateTime.Now);
-                notification.NotificationProjects = new List<Project> { project }.Select(p => new NotificationProject(notification, p)).ToList();
-                notifications.Add(notification);
-            }
-            return notifications;
+            notificationPeople = notificationPeople.Where(x => x.IsActive).ToList();
+            return notificationPeople;
         }
     }
 }

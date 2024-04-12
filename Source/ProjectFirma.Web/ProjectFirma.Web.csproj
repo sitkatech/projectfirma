@@ -663,6 +663,12 @@
     <Content Include="Content\Bootstrap\firma\ssmp.theme.min.css">
       <DependentUpon>ssmp.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\Bootstrap\firma\tcs.theme.css">
+      <DependentUpon>tcs.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\tcs.theme.min.css">
+      <DependentUpon>tcs.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\combo-tree\style.css" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js" />
     <Content Include="Content\fancybox\blank.gif" />
@@ -672,6 +678,8 @@
     <Content Include="Content\fancybox\fancybox_overlay.png" />
     <Content Include="Content\fancybox\fancybox_sprite%402x.png" />
     <Content Include="Content\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\fonts\azosans\demo.html" />
+    <Content Include="Content\fonts\azosans\stylesheet.css" />
     <Content Include="Content\img\NCRPProjectTracker\Project-Tracker-Logo.png" />
     <Content Include="Content\img\Reclamation_logo_icon.png" />
     <Content Include="Content\img\SSMPProjectTracker\apple-icon-114x114.png" />
@@ -760,6 +768,55 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\combo-tree\comboTreePlugin.js" />
+    <Content Include="Content\Bootstrap\firma\tcs.theme.less" />
+    <Content Include="Content\fonts\azosans\AzoSans-Black.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-Black.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-Black.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-Black.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-BlackItalic.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-BlackItalic.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-BlackItalic.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-BlackItalic.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-Bold.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-Bold.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-Bold.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-Bold.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-BoldItalic.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-BoldItalic.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-BoldItalic.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-BoldItalic.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-Italic.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-Italic.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-Italic.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-Italic.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-Light.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-Light.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-Light.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-Light.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-LightItalic.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-LightItalic.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-LightItalic.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-LightItalic.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-Medium.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-Medium.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-Medium.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-Medium.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-MediumItalic.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-MediumItalic.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-MediumItalic.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-MediumItalic.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-Regular.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-Regular.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-Regular.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-Regular.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-Thin.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-Thin.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-Thin.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-Thin.woff2" />
+    <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.eot" />
+    <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.ttf" />
+    <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.woff" />
+    <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.woff2" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="ScriptsCustom\agGrid\esa-ag-grid.css" />
     <Content Include="ScriptsCustom\agGrid\esa-ag-grid.js" />

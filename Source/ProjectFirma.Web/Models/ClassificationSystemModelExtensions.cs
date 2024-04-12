@@ -17,7 +17,15 @@ namespace ProjectFirma.Web.Models
                 x.FieldDefinitionDetailsForClassificationSystem(classificationSystem.ClassificationSystemID));
         }
 
-        public static string GetClassificationSystemNamePluralized(ClassificationSystem classificationSystem) =>
-            FieldDefinitionModelExtensions.PluralizationService.Pluralize(classificationSystem.ClassificationSystemName);
+        public static string GetClassificationSystemNamePluralized(ClassificationSystem classificationSystem)
+        {
+            if (!string.IsNullOrEmpty(classificationSystem.ClassificationSystemNamePlural))
+            {
+                return classificationSystem.ClassificationSystemNamePlural;
+            }
+
+            return FieldDefinitionModelExtensions.PluralizationService.Pluralize(classificationSystem.ClassificationSystemName);
+        }
+           
     }
 }

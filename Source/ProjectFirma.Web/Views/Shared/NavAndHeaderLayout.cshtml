@@ -116,6 +116,18 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </a>
                             </div>
                         }
+                        else if (ViewDataTyped.TenantName == "TCSProjectTracker")
+                        {
+                            <div style="display: flex; align-items: center; flex-wrap: wrap">
+                                <a href="@FirmaWebConfiguration.TCSHomeUrl">
+                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
+                                </a>
+                                <div class="menuDivider"></div>
+                                <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
+                                    <span class="headerLogoContainer"></span><span id="headerTenantShortDisplayName">@(ViewDataTyped.TenantShortDisplayName.Replace("TCS", string.Empty).Trim())</span>
+                                </a>
+                            </div>
+                        }
                         else
                         {
                             <a href="@ViewDataTyped.FirmaHomeUrl">
@@ -324,7 +336,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             {
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span>Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
+                                        <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                         <span class="glyphicon glyphicon-menu-down"></span>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
@@ -338,7 +350,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             else
                             {
                                 <li class="dropdown joined-buttons">
-                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left">Log In</a>
+                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left"><span class="navigation-root-item-text-wrapper">Log In</span></a>
                                     <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right">
                                         <span class="glyphicon glyphicon-menu-down"></span>
                                         <span class="sr-only">Toggle Dropdown</span>

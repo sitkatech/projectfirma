@@ -44,12 +44,13 @@ namespace ProjectFirma.Web.Views.Tenant
                         x.ClassificationSystemID ?? ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(),
                         x.ClassificationSystemName,
                         x.ClassificationSystemDefinition?.ToString(),
-                        null, x.IsRequired)).ToList();
+                        null, x.IsRequired, x.ClassificationSystemNamePlural)).ToList();
             currentClassificationSystems.Merge(updatedClassificationSystems, allClassificationSystems, (x, y) => x.ClassificationSystemID == y.ClassificationSystemID, (x, y) =>
             {
                 x.ClassificationSystemName = y.ClassificationSystemName;
                 x.ClassificationSystemDefinition = y.ClassificationSystemDefinition;
                 x.IsRequired = y.IsRequired;
+                x.ClassificationSystemNamePlural = y.ClassificationSystemNamePlural;
             }, HttpRequestStorage.DatabaseEntities);
         }
 
@@ -75,6 +76,11 @@ namespace ProjectFirma.Web.Views.Tenant
             if (ClassificationSystemSimples.Select(x => x.ClassificationSystemName).Distinct().Count() < ClassificationSystemSimples.Count(x => !string.IsNullOrEmpty(x.ClassificationSystemName)))
             {
                 errors.Add(new ValidationResult("Each Classification System Name must be unique."));
+            }
+
+            if (ClassificationSystemSimples.Select(x => x.ClassificationSystemNamePlural).Distinct().Count() < ClassificationSystemSimples.Count(x => !string.IsNullOrEmpty(x.ClassificationSystemNamePlural)))
+            {
+                errors.Add(new ValidationResult("Each Classification System Plural Name must be unique."));
             }
 
             return errors;

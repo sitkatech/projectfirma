@@ -21,6 +21,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ClassificationSystemDefinition).HasColumnName(@"ClassificationSystemDefinition").HasColumnType("varchar").IsOptional();
             Property(x => x.ClassificationSystemListPageContent).HasColumnName(@"ClassificationSystemListPageContent").HasColumnType("varchar").IsOptional();
             Property(x => x.IsRequired).HasColumnName(@"IsRequired").HasColumnType("bit").IsRequired();
+            Property(x => x.ClassificationSystemNamePlural).HasColumnName(@"ClassificationSystemNamePlural").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(210);
 
             // Foreign keys
 

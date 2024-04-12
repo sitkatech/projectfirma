@@ -498,6 +498,7 @@
                     <thead>
                     <tr>
                         <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystemName.ToType())</th>
+                        <th>Plural Name</th>
                         <th>@Html.Label("Description")</th>
                         <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.IsClassificationSystemRequired.ToType(), "Is Required?")</th>
                     </tr>
@@ -508,6 +509,7 @@
                     {
                         <tr>
                             <td>@classificationSystem.ClassificationSystemName</td>
+                            <td>@classificationSystem.ClassificationSystemNamePlural</td>
                             <td>@Html.Raw(classificationSystem.ClassificationSystemDefinition)</td>
                             <td>@classificationSystem.IsRequired.ToYesNo()</td>
                         </tr>

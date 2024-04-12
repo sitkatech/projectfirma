@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
 {
     public class EditViewModel : FormViewModel
     {
-        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.PhotoCaption)]
         [StringLength(ProjectFirmaModels.Models.FirmaHomePageImage.FieldLengths.Caption)]
         public string Caption { get; set; }
