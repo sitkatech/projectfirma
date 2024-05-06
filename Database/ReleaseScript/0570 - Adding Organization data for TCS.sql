@@ -320,3 +320,16 @@ insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, Organizat
 insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) select 14, 'Yuba Watershed Institute', 'Yuba - WI', 1, 'https://yubawatershedinstitute.org/', 1122, 1, 0
 insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) select 14, 'Yuba Watershed Protection & Firesafe Council', 'Yuba - WPFC', 1, 'https://yubafiresafe.org/', 1123, 1, 0
 insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) select 14, 'Yuba-Bear Burn Cooperative', 'Yuba - BBC', 1, 'https://www.yubabearburncoop.org/', 1126, 1, 0
+
+update ProjectFirma.dbo.Organization
+set KeystoneOrganizationGuid = ko.OrganizationGuid
+from ProjectFirma.dbo.Organization pfo 
+	join Keystone.dbo.Organization ko on ko.FullName = pfo.OrganizationName
+where pfo.TenantID = 14
+	and pfo.KeystoneOrganizationGuid is null
+
+/*
+
+	select top 100 * from ProjectFirma.dbo.Organization where TenantID = 14
+
+*/
