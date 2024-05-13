@@ -1,7 +1,7 @@
 /*
 
 	select * from dbo.Tenant where TenantID = 14
-	select top 100 * from ProjectFirma.dbo.Organization where TenantID = 14
+	select * from ProjectFirma.dbo.Organization where TenantID = 14
 	select * from ProjectFirma.dbo.OrganizationType where TenantID = 14
 
 */
@@ -321,6 +321,7 @@ insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, Organizat
 insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) select 14, 'Yuba Watershed Protection & Firesafe Council', 'Yuba - WPFC', 1, 'https://yubafiresafe.org/', 1123, 1, 0
 insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) select 14, 'Yuba-Bear Burn Cooperative', 'Yuba - BBC', 1, 'https://www.yubabearburncoop.org/', 1126, 1, 0
 
+--Naive match on Keystone Organization
 update ProjectFirma.dbo.Organization
 set KeystoneOrganizationGuid = ko.OrganizationGuid
 from ProjectFirma.dbo.Organization pfo 
@@ -328,8 +329,131 @@ from ProjectFirma.dbo.Organization pfo
 where pfo.TenantID = 14
 	and pfo.KeystoneOrganizationGuid is null
 
+--Null out empty Organization values
+update ProjectFirma.dbo.Organization
+set OrganizationUrl = null
+from ProjectFirma.dbo.Organization pfo 
+	join Keystone.dbo.Organization ko on ko.FullName = pfo.OrganizationName
+where pfo.TenantID = 14
+	and OrganizationUrl = ''
+
+/* TEMPORARY? Organizations added for Funding Sources spreadsheet */
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'American Recovery and Reinvestment Act', 'ARRA', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Anonymous', 'Anonymous', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Barton Health', 'Barton Health', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Bella Vista', 'Bella Vista', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Boatworks Mall- MJD Properties', 'BWKS', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Butte County Fire Safe Council', 'Butte Fire Safe', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'California Energy Commission', 'CEC', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'California Governor''s Office of Planning and Research', 'California OPR', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'California State Coastal Conservancy', 'CSCC', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'California Fish Passage Forum', 'CFPF', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'California Wildlife Foundation', 'WF', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Commercial Property Owners', 'Commercial', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'U.S. Department of Energy', 'DOE', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Fee for Service', 'FFS', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Headwaters', 'Headwaters', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Hind Foundation', 'Hind', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Integrated Watershed Restoration Program', 'IWRP', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Lake Tahoe Visitors Authority', 'LTVA', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Lakeside Marina', 'LM', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Matching Funds Organization', 'Matching Funds', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'National Association of Conservation Districts', 'NACD', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Nevada', 'NV', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'NOAA Restoration Center', 'NOAA', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'North Coast Resource Partnership', 'NCRP', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Patagonia', 'Patagonia', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Private', 'Private', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Reno Midtown Rotary', 'RMR', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Reno-Sparks Convention Center and Visitors Authority', 'RSCVA', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Residential Property Owners', 'Residential', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Resources Legacy Fund', 'RLF', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'South Tahoe Alliance of Resorts', 'STAR', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'South Tahoe Refuse', 'STR', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Tahoe Blue Event Center', 'TBEC', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'Tahoe Water Suppliers Association', 'TWSA', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'The Glenbrook Project', 'The Glenbrook Project', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'U.S. Department of Agriculture - Agricultural Research Service', 'USDA ARS', 1, null, 1127, 1, 0
+
+insert into ProjectFirma.dbo.Organization (TenantID, OrganizationName, OrganizationShortName, IsActive, OrganizationUrl, OrganizationTypeID, UseOrganizationBoundaryForMatchmaker, IsUnknownOrUnspecified) 
+select 14, 'U.S. Forest Service', 'USFS', 1, null, 1127, 1, 0
+
 /*
 
-	select top 100 * from ProjectFirma.dbo.Organization where TenantID = 14
+	select * from ProjectFirma.dbo.Organization
+	where TenantID = 14
+		--and OrganizationName like '%Truckee%'
+	order by OrganizationName
 
 */
