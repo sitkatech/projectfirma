@@ -333,7 +333,6 @@ where pfo.TenantID = 14
 update ProjectFirma.dbo.Organization
 set OrganizationUrl = null
 from ProjectFirma.dbo.Organization pfo 
-	join Keystone.dbo.Organization ko on ko.FullName = pfo.OrganizationName
 where pfo.TenantID = 14
 	and OrganizationUrl = ''
 
@@ -453,7 +452,6 @@ select 14, 'U.S. Forest Service', 'USFS', 1, null, 1127, 1, 0
 
 	select * from ProjectFirma.dbo.Organization
 	where TenantID = 14
-		--and OrganizationName like '%Truckee%'
-	order by OrganizationName
+	order by OrganizationID
 
 */
