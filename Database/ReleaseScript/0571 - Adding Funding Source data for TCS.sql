@@ -54,8 +54,8 @@ insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescri
 --insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Regional Forest and Fire Capacity Program (DOC)', 'California Department of Conservation (DOC)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Watershed Coordinator Grant Program (DOC)', 'California Department of Conservation (DOC)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Working Lands and Riparian Corridors Program (DOC)', 'California Department of Conservation (DOC)', 'The Working Lands and Riparian Corridors program provides grants to restore or enhance working lands and riparian corridors through restoration projects on agricultural lands. Activities funded under this program must target agricultural lands and may include: Planning grants; Implementation grants', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Department of Fish and Wildlife (CDFW)', 'California Department of Fish & Wildlife (CDFW)', '', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Proposition 1 (CDFW)', 'California Department of Fish & Wildlife (CDFW)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Department of Fish and Wildlife (CDFW)', 'California Department of Fish & Wildlife (CDFW)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Proposition 1 (CDFW)', 'California Department of Fish & Wildlife (CDFW)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'CDFW Cooperative Endangered Species Conservation Fund (Section 6) Grant  (CDFW)', 'California Department of Fish & Wildlife (CDFW)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Fisheries Restoration Grant Program (FRGP) (CDFW)', 'California Department of Fish & Wildlife (CDFW)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Prop 1 (CDFW)', 'California Department of Fish & Wildlife (CDFW)', '', 'Yes'
@@ -138,7 +138,7 @@ insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescri
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Prop 50 (Water Board)', 'California State Water Resources Control Board (Water Board)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Prop 84 Stormwater Grant Program (Water Board)', 'California State Water Resources Control Board (Water Board)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Strategic Growth Council (SGC)', 'California Strategic Growth Council (SGC)', '', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Tahoe Conservancy (CTC)', 'California Tahoe Conservancy (CTC)', 'The mission of the California Tahoe Conservancy is to lead California''s efforts to restore and enhance the extraordinary natural and recreational resources of the Lake Tahoe Basin.', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Tahoe Conservancy (CTC)', 'California Tahoe Conservancy (CTC)', 'The mission of the California Tahoe Conservancy is to lead California''s efforts to restore and enhance the extraordinary natural and recreational resources of the Lake Tahoe Basin.', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Department of Conservation, Regional Forest and Fire Capacity (CTC)', 'California Tahoe Conservancy (CTC)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Proposition 1 (CTC)', 'California Tahoe Conservancy (CTC)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Proposition 68 (CTC)', 'California Tahoe Conservancy (CTC)', 'California Proposition 68. Parks, Environment and Water Bond.', 'Yes'
@@ -146,7 +146,7 @@ insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescri
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Wildfire Resilience  (CTC)', 'California Tahoe Conservancy (CTC)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Prop 1 (CTC)', 'California Tahoe Conservancy (CTC)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Road Maintenance and Rehabilitation (Cal Trans Comm)', 'California Transportation Commission (Cal Trans Comm)', 'Senate Bill (SB) 1, Chapter 5, Statutes of 2017, created the Road Maintenance and Rehabilitation Program (RMRP) to address deferred maintenance on the State Highway System and the local street and road system, and the Road Maintenance and Rehabilitation Account (RMRA) for the deposit of various funds for the program. A percentage of this new RMRA funding will be apportioned by formula to eligible cities and counties pursuant to Streets and Highways Code section 2032(h) for basic road maintenance', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Wildlife Conservation Board (WCB)', 'California Wildlife Conservation Board (WCB)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Wildlife Conservation Board (WCB)', 'California Wildlife Conservation Board (WCB)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Wildlife Foundation (CWF)', 'California Wildlife Foundation (CWF)', '', 'Yes'
 --insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'City of South Lake Tahoe General Fund (City of South Lake Tahoe)', 'City of South Lake Tahoe (City of South Lake Tahoe)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'City of South Lake Tahoe General Fund (CSLT)', 'City of South Lake Tahoe (CSLT)', 'City of South Lake Tahoe general funds.', 'Yes'
@@ -276,24 +276,24 @@ insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescri
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Truckee River Watershed Council (TRWC)', 'Truckee River Watershed Council (TRWC)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Truckee Tahoe Airport District (TTAD)', 'Truckee Tahoe Airport District (TTAD)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Section 108 U.S. Army Corps of Engineers (TRPA) (USACOE)', 'U.S. Army Corps of Engineers (USACOE)', 'TRPA receiving funds through USACOE to fund multiple aspects of the AIS program under section 108', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Army Corps of Engineers (USACOE)', 'U.S. Army Corps of Engineers (USACOE)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Army Corps of Engineers (USACOE)', 'U.S. Army Corps of Engineers (USACOE)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Direct Funding (BLM)', 'U.S. Bureau of Land Management (BLM)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Good Neighbor Agreement (BLM)', 'U.S. Bureau of Land Management (BLM)', '', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (BLM)', 'U.S. Bureau of Land Management (BLM)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (BLM)', 'U.S. Bureau of Land Management (BLM)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Bureau of Land Management (BLM)', 'U.S. Bureau of Land Management (BLM)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Cooperative Watershed Management Act  (USBOR)', 'U.S. Bureau of Reclamation (USBOR)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Direct Contract  (USBOR)', 'U.S. Bureau of Reclamation (USBOR)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Lake Tahoe Restoration Act (USBOR)', 'U.S. Bureau of Reclamation (USBOR)', '', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (USBOR)', 'U.S. Bureau of Reclamation (USBOR)', '', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Bureau of Reclamation (USBOR)', 'U.S. Bureau of Reclamation (USBOR)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (USBOR)', 'U.S. Bureau of Reclamation (USBOR)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Bureau of Reclamation (USBOR)', 'U.S. Bureau of Reclamation (USBOR)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'USDA Community Wildfire Defense Grant (USDA ARS)', 'U.S. Department of Agriculture - Agricultural Research Service (USDA ARS)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Community Development Block Grant Funds (CDGB) (HUD)', 'U.S. Department of Housing and Urban Development (HUD)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Infrastructure for Rebuilding America Program (INFRA) (US DOT)', 'U.S. Department of Transportation (US DOT)', 'Discretionary grant program to fund transportation projects of national and regional significance that are in line with the Biden Administration''s principles for national infrastructure projects that result in good-paying jobs, improve safety, apply transformative technology, and explicitly address climate change and racial equity.', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'American Rescue Plan (EDA)', 'U.S. Economic Development Administration (EDA)', 'Under the American Rescue Plan, EDA was allocated $3 billion in supplemental funding to assist communities nationwide in their efforts to build back better by accelerating the economic recovery from the coronavirus pandemic and building local economies that will be resilient to future economic shocks.', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Good Jobs Challenge (EDA)', 'U.S. Economic Development Administration (EDA)', 'EDA''s American Rescue Plan $500 million Good Jobs Challenge is making once-in-a-generation investments in high-quality, locally led workforce systems to dramatically transform America''s communities.', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select '319 Funds (USEPA)', 'U.S. Environmental Protection Agency (USEPA)', 'Under Section 319 of the Clean Water Act, states, territories and tribes receive grant money that supports a wide variety of activities including technical assistance, financial assistance, education, training, technology transfer, demonstration projects and monitoring to assess the success of specific nonpoint source implementation projects.', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select '319 Funds (USEPA)', 'U.S. Environmental Protection Agency (USEPA)', 'Under Section 319 of the Clean Water Act, states, territories and tribes receive grant money that supports a wide variety of activities including technical assistance, financial assistance, education, training, technology transfer, demonstration projects and monitoring to assess the success of specific nonpoint source implementation projects.', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Environmental Education Program (USEPA)', 'U.S. Environmental Protection Agency (USEPA)', '', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (USEPA)', 'U.S. Environmental Protection Agency (USEPA)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (USEPA)', 'U.S. Environmental Protection Agency (USEPA)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Environmental Protection Agency (USEPA)', 'U.S. Environmental Protection Agency (USEPA)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Wetland Program Planning Grant (USEPA)', 'U.S. Environmental Protection Agency (USEPA)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'California Highway Infrastructure Program (HIP) (FHWA)', 'U.S. Federal Highway Administration (FHWA)', '', 'Yes'
@@ -309,7 +309,7 @@ insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescri
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Public Lands Highways Discretionary Funding (PLHD) (FHWA)', 'U.S. Federal Highway Administration (FHWA)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Recreational Trails Program Funds (FHWA)', 'U.S. Federal Highway Administration (FHWA)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Regional Surface Transportation Program Funds (RSTP) (FHWA)', 'U.S. Federal Highway Administration (FHWA)', 'Funds may be used for either construction of bicycle transportation facilities and pedestrian walkways, or non-construction projects, such as transit research and development, surface transportation planning programs, and operational costs for traffic monitoring, management, and control. In California, STP funds are allocated to regions through the Regional Surface Transportation Program, and administered by Regional Transportation Planning Agencies (RTPAs).', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (FHWA)', 'U.S. Federal Highway Administration (FHWA)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (FHWA)', 'U.S. Federal Highway Administration (FHWA)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Surface Transportation Block Grant - California (FHWA)', 'U.S. Federal Highway Administration (FHWA)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Surface Transportation Block Grant - Nevada (FHWA)', 'U.S. Federal Highway Administration (FHWA)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Federal Highway Administration (FHWA)', 'U.S. Federal Highway Administration (FHWA)', '', 'Yes'
@@ -333,7 +333,7 @@ insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescri
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Sportfish Restoration Act (USFWS)', 'U.S. Fish and Wildlife Service (USFWS)', '75% federal funds (USFWS) and 25% state match (Nevada).', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Fish and Wildlife Service (USFWS)', 'U.S. Fish and Wildlife Service (USFWS)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'CARCD Post-fire Disaster Recovery Block Grant  (USFS)', 'U.S. Forest Service  (USFS)', 'US Forest Service Disaster Recovery Funds for Post-Wildfire Recovery', 'Yes'
-insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Lake Tahoe Restoration Act (USFS - LTBMU)', 'U.S. Forest Service - Lake Tahoe Basin Management Unit (USFS - LTBMU)', '', 'Yes'
+--insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Lake Tahoe Restoration Act (USFS - LTBMU)', 'U.S. Forest Service - Lake Tahoe Basin Management Unit (USFS - LTBMU)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Southern Nevada Public Land Management Act (USFS - LTBMU)', 'U.S. Forest Service - Lake Tahoe Basin Management Unit (USFS - LTBMU)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'U.S. Forest Service (USFS - LTBMU)', 'U.S. Forest Service - Lake Tahoe Basin Management Unit (USFS - LTBMU)', '', 'Yes'
 insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescription, IsActive) select 'Burned Area Emergency Response Project (BAER) (USFS - PSW)', 'U.S. Forest Service - Pacific Southwest Region (USFS - PSW)', '', 'Yes'
@@ -364,14 +364,19 @@ insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescri
 
 --select * from #FundingSourceTemp
 
-insert into ProjectFirma.dbo.FundingSource
-	(TenantID, 
-	OrganizationID, 
-	FundingSourceName, 
-	IsActive, 
-	FundingSourceDescription)
+--insert into ProjectFirma.dbo.FundingSource
+--	(TenantID, 
+--	OrganizationID, 
+--	FundingSourceName, 
+--	IsActive, 
+--	FundingSourceDescription)
 select 14 as TenantID, 
-	case when oTrimmedMatch.OrganizationID is not null then oTrimmedMatch.OrganizationID 
+	case 
+		when fst.FundingSource = 'Lake Tahoe Restoration Act (TRPA)' then (select OrganizationID from ProjectFirma.dbo.Organization where TenantID = 14 and OrganizationName = 'Tahoe Regional Planning Agency')
+		when fst.FundingSource = 'Lake Tahoe Restoration Act (USBOR)' then (select OrganizationID from ProjectFirma.dbo.Organization where TenantID = 14 and OrganizationName = 'U.S. Bureau of Reclamation')
+		when fst.FundingSource = 'Lake Tahoe Restoration Act (USFWS)' then (select OrganizationID from ProjectFirma.dbo.Organization where TenantID = 14 and OrganizationName = 'U.S. Fish and Wildlife Service')
+		--when fst.FundingSource = 'Lake Tahoe Restoration Act (USFS - LTBMU)' then (select OrganizationID from ProjectFirma.dbo.Organization where TenantID = 14 and OrganizationName = 'U.S. Forest Service - Lake Tahoe Basin Management Unit')
+		when oTrimmedMatch.OrganizationID is not null then oTrimmedMatch.OrganizationID 
 		when fst.Organization = '(Unknown Organization)' then (select OrganizationID from ProjectFirma.dbo.Organization where TenantID = 14 and OrganizationName = 'Unknown or Unspecified') 
 		when fst.Organization = 'CA Dept of Conservation' then (select OrganizationID from ProjectFirma.dbo.Organization where TenantID = 14 and OrganizationName = 'California Department of Conservation') 
 		when fst.Organization = 'CA Dept of Fish & Wildlife' then (select OrganizationID from ProjectFirma.dbo.Organization where TenantID = 14 and OrganizationName = 'California Department of Fish and Wildlife') 
@@ -409,3 +414,4 @@ from #FundingSourceTemp fst
 		case when charindex('(', fst.Organization) > 0 then ltrim(rtrim(substring(fst.Organization, 1, charindex('(', fst.Organization) - 1))) 
 			else ltrim(rtrim(fst.Organization))
 		end
+order by FundingSource, OrganizationID
