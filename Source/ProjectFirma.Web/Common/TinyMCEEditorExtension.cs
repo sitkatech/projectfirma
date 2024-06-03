@@ -145,7 +145,7 @@ namespace ProjectFirma.Web.Common
                     }});
                 }});
                 jQuery(document).on('focusin', function (e) {{
-                    if (jQuery(e.target).closest("".tox-textfield"").length)
+                    if (jQuery(e.target).closest("".tox-textfield .tox-tinymce, .tox-tinymce-aux"").length)
                         e.stopImmediatePropagation();
                 }});
                 // ]]>
@@ -188,18 +188,18 @@ namespace ProjectFirma.Web.Common
                     hasImageToolbarButton = true;
                     break;
                 case TinyMCEToolbarStyle.AllOnOneRow:
-                    plugins = "AllOnOneRow";
+                    plugins = "code lists link image table code help wordcount charmap anchor fullscreen";
                     toolbarMode = "floating";
                     toolbarSettings =
-                        "styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ";
+                        "code | styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ";
                     
                     hasImageToolbarButton = true;
                     break;
                 case TinyMCEToolbarStyle.AllOnOneRowNoMaximize:
-                   plugins = "lists link image table code help wordcount charmap anchor";
+                   plugins = "code lists link image table code help wordcount charmap anchor";
                    toolbarMode = "floating";
                     toolbarSettings =
-                        "styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ";
+                        "code | styleselect | bold italic removeformat | bullist numlist outdent indent | image table hr charmap | link unlink anchor | styles | fontfamily ";
                     
                     hasImageToolbarButton = true;
                     break;
