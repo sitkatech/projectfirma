@@ -87,6 +87,11 @@ namespace LtInfo.Common.Views
             var ret = value.HtmlEncode();
             return String.IsNullOrEmpty(ret) ? ret : ret.Replace("\r\n","\n").Replace("\r","\n").Replace("\n", "<br/>\r\n");
         }
+        public static string HtmlEncodeWithQuotes(this string value)
+        {
+            var ret = value.HtmlEncode();
+            return String.IsNullOrEmpty(ret) ? ret : ret.Replace("&quot;", "\"");
+        }
 
         /// <summary>
         /// Adds the proper HTTP headers for a file download.  <see>

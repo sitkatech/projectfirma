@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.Views;
 
 namespace ProjectFirmaModels.Models
 {
@@ -28,7 +29,8 @@ namespace ProjectFirmaModels.Models
     {
         public FeatureCollection ToGeoJsonFeatureCollection()
         {
-            return JsonTools.DeserializeObject<FeatureCollection>(GeoJson);
+            var htmlEncodedGeoJson = GeoJson.HtmlEncodeWithQuotes();
+            return JsonTools.DeserializeObject<FeatureCollection>(htmlEncodedGeoJson);
         }
     }
 }
