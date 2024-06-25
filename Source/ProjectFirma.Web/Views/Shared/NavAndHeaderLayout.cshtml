@@ -166,8 +166,8 @@ Source code is available upon request via <support@sitkatech.com>.
                                     {
                                         if (tenant.TenantID == Tenant.SSMPProjectTracker.TenantID)
                                         {
-                                            // don't show the tenant logo when the Http Authentication popup is being used
-                                            <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"></span> @tenant.TenantName</a></li>
+                                            // Add "SSMP" to Tenant Name so it does not look so generic
+                                            <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)" /></span>SSMP @tenant.TenantName</a></li>
                                         }
                                         else
                                         {
