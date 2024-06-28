@@ -89,7 +89,7 @@ namespace LtInfo.Common.AgGridWrappers
             }}
 
             function {0}OnBtnExport() {{
-                {0}GridOptions.api.exportDataAsCsv({{ processCellCallback: removeHtmlFromColumnForCVSDownload, fileName: '{0}' + 'Export' }});
+                {0}GridOptions.api.exportDataAsCsv({{ fileName: '{0}' + 'Export' }});
             }}
 
             function {0}GetValuesFromCheckedGridRows(valueColumnName, returnListName) {{
@@ -174,7 +174,7 @@ namespace LtInfo.Common.AgGridWrappers
                 {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
                 var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
                 if({0}PinnedBottomData){{
-                    {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
+                    {0}GridOptionsApi.setGridOption('pinnedBottomRowData',[{0}PinnedBottomData]);
                 }}
             }});
         }}
@@ -320,6 +320,8 @@ namespace LtInfo.Common.AgGridWrappers
                     case AgGridColumnFilterType.Html:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
                         columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlFilterTextMatcher( filterOption, value, filterText)  }");
+                        //6/28/24 TK - This causes sorting to be very slow, so we are removing it for now
+                        //columnDefinitionStringBuilder.Append(", \"comparator\": HtmlRemovalSorting");
                         break;
                     case AgGridColumnFilterType.Text:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
@@ -328,6 +330,14 @@ namespace LtInfo.Common.AgGridWrappers
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
                         columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlLinkJsonFilterTextMatcher( filterOption, value, filterText)  }");
                         columnDefinitionStringBuilder.Append(", \"cellRenderer\": HtmlLinkJsonRenderer");
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlLinkJsonFormatter");
+                        columnDefinitionStringBuilder.Append(", \"comparator\": JsonDisplayTextSorting");
+                        break;
+                    case AgGridColumnFilterType.HtmlLinkJsonWithNoFilter:
+                        columnDefinitionStringBuilder.Append(", \"filter\": false");
+                        columnDefinitionStringBuilder.Append(", \"cellRenderer\": HtmlLinkJsonRenderer");
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlLinkJsonFormatter");
+                        columnDefinitionStringBuilder.Append(", \"sortable\": false");
                         break;
                     default:
                         break;
