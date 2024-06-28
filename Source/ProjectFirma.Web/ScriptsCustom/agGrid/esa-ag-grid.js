@@ -125,3 +125,31 @@ function htmlFilterTextMatcher( filterOption, value, filterText) {
             return false;
     }
 }
+
+function htmlLinkJsonFilterTextMatcher(filterOption, value, filterText) {
+    if (filterText == null) {
+        return false;
+    }
+
+    var jsonObj = JSON.parse(value);
+    var textToCompare = jsonObj.displaytext;
+    switch (filterOption) {
+    case 'contains':
+        return textToCompare.indexOf(filterText) >= 0;
+    case 'notContains':
+        return textToCompare.indexOf(filterText) < 0;
+    case 'equals':
+        return textToCompare === filterText;
+    case 'notEqual':
+        return textToCompare != filterText;
+    case 'startsWith':
+        return textToCompare.indexOf(filterText) === 0;
+    case 'endsWith':
+        const index = textToCompare.lastIndexOf(filterText);
+        return index >= 0 && index === (textToCompare.length - filterText.length);
+    default:
+        // should never happen
+        console.warn('invalid filter type ' + filter);
+        return false;
+    }
+}

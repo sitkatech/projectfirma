@@ -123,7 +123,7 @@ namespace LtInfo.Common.AgGridWrappers
                 // generate a row-data with null values
                 var result = {{}};
 
-                {0}GridOptions.columnApi.getAllGridColumns().forEach(item => {{
+                {0}GridOptions.api.getAllGridColumns().forEach(item => {{
                     result[item.colId] = null;
                     if(item.colDef.aggregationType === ""total"") {{
                         columnsWithAggregation.push(item.colId);
@@ -323,6 +323,11 @@ namespace LtInfo.Common.AgGridWrappers
                         break;
                     case AgGridColumnFilterType.Text:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
+                        break;
+                    case AgGridColumnFilterType.HtmlLinkJson:
+                        columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
+                        columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlLinkJsonFilterTextMatcher( filterOption, value, filterText)  }");
+                        columnDefinitionStringBuilder.Append(", \"cellRenderer\": HtmlLinkJsonRenderer");
                         break;
                     default:
                         break;
