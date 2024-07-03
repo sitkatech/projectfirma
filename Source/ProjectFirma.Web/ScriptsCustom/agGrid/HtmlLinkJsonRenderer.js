@@ -10,6 +10,8 @@ function HtmlLinkJsonRenderer(params) {
     var jsonObj = JSON.parse(params.value);
     if (jsonObj.link && jsonObj.displayText) {
         return `<a href="${jsonObj.link}">${jsonObj.displayText}</a>`;
+    }else if (jsonObj.displayText) {
+        return jsonObj.displayText;
     }
 
     return "";

@@ -84,16 +84,16 @@ namespace LtInfo.Common.AgGridWrappers
     <script type=""text/javascript"">
 
             function {0}ClearFilters(){{
-                {0}GridOptions.api.setFilterModel(null);
+                {0}GridOptionsApi.setFilterModel(null);
                 document.getElementById(""{0}ClearFilters"").style.display = ""none"";
             }}
 
             function {0}OnBtnExport() {{
-                {0}GridOptions.api.exportDataAsCsv({{ fileName: '{0}' + 'Export' }});
+                {0}GridOptionsApi.exportDataAsCsv({{ fileName: '{0}' + 'Export' }});
             }}
 
             function {0}GetValuesFromCheckedGridRows(valueColumnName, returnListName) {{
-                const selectedData = {0}GridOptions.api.getSelectedRows();
+                const selectedData = {0}GridOptionsApi.getSelectedRows();
                 var values = selectedData.map((row) => row[valueColumnName]);
                 var returnList = new Object();
                 returnList[returnListName] = values
@@ -101,7 +101,7 @@ namespace LtInfo.Common.AgGridWrappers
             }}
 
             function {0}GetValueFromSelectedGridRow(valueColumnName) {{
-                const selectedData = {0}GridOptions.api.getSelectedRows();
+                const selectedData = {0}GridOptionsApi.getSelectedRows();
                 var values = selectedData.map((row) => row[valueColumnName]);
                 return values[0];
             }}
@@ -123,7 +123,7 @@ namespace LtInfo.Common.AgGridWrappers
                 // generate a row-data with null values
                 var result = {{}};
 
-                {0}GridOptions.api.getAllGridColumns().forEach(item => {{
+                {0}GridOptionsApi.getAllGridColumns().forEach(item => {{
                     result[item.colId] = null;
                     if(item.colDef.aggregationType === ""total"") {{
                         columnsWithAggregation.push(item.colId);
@@ -138,7 +138,7 @@ namespace LtInfo.Common.AgGridWrappers
                 
                 columnsWithAggregation.forEach(element => {{
                   //console.log('element', element);
-                    {0}GridOptions.api.forEachNodeAfterFilter((rowNode) => {{
+                    {0}GridOptionsApi.forEachNodeAfterFilter((rowNode) => {{
                         if (rowNode.data[element]){{
                             if(target[element]){{
                                 target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element]));
@@ -159,7 +159,7 @@ namespace LtInfo.Common.AgGridWrappers
 
         // Function to demonstrate calling grid's API
         function {0}Deselect(){{
-            {0}GridOptions.api.deselectAll()
+            {0}GridOptionsApi.deselectAll()
         }}
 
         function {0}LoadGridData(url){{
@@ -168,9 +168,9 @@ namespace LtInfo.Common.AgGridWrappers
             .then(response => response.json())
             .then(data => {{
                 // load fetched data into grid
-                {0}GridOptions.api.setRowData(data);
+                {0}GridOptionsApi.setGridOption('rowData', data);
                 {0}TotalRowCount = data.length;
-                document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
+                document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptionsApi.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
                 {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
                 var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
                 if({0}PinnedBottomData){{
@@ -198,13 +198,13 @@ namespace LtInfo.Common.AgGridWrappers
 
 
           onFilterChanged: function() {{
-            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}"";
-            if(Object.keys({0}GridOptions.api.getFilterModel()).length !== 0){{
+            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptionsApi.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}"";
+            if(Object.keys({0}GridOptionsApi.getFilterModel()).length !== 0){{
                 document.getElementById(""{0}ClearFilters"").style.display = ""inline-block"";
             }}
             var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
             if({0}PinnedBottomData){{
-                {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
+                {0}GridOptionsApi.setPinnedBottomRowData([{0}PinnedBottomData]);
             }}
           }},
 
@@ -219,7 +219,7 @@ namespace LtInfo.Common.AgGridWrappers
         // get div to host the grid
         const {0}GridDiv = document.getElementById(""{0}DivID"");
         // new grid instance, passing in the hosting DIV and Grid Options
-        new agGrid.Grid({0}GridDiv, {0}GridOptions);
+        const {0}GridOptionsApi = agGrid.createGrid({0}GridDiv, {0}GridOptions);
         var {0}TotalRowCount = 0;
         {0}LoadGridData(""{1}"");
     </script>";
