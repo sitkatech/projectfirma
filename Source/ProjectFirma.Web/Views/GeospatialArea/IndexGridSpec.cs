@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
     {
         public IndexGridSpec(FirmaSession currentFirmaSession, GeospatialAreaType geospatialAreaType)
         {
-            Add(geospatialAreaType.GeospatialAreaTypeName, a => UrlTemplate.MakeHrefString(GeospatialAreaModelExtensions.GetDetailUrl(a.GeospatialAreaID), a.GetGeospatialAreaShortNameWithColor()), 300, AgGridColumnFilterType.Html);
+            Add(geospatialAreaType.GeospatialAreaTypeName, a => $"{{ \"link\":\"{GeospatialAreaModelExtensions.GetDetailUrl(a.GeospatialAreaID)}\",\"displayText\":\"{a.GetGeospatialAreaShortNameWithColor()}\" }}", 300, AgGridColumnFilterType.HtmlLinkJson);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectViewableByUserCount, 65);
         }
     }
