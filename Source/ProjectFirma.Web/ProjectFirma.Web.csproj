@@ -823,6 +823,9 @@
     <Content Include="ScriptsCustom\agGrid\DropdownFilterComponent.js" />
     <Content Include="ScriptsCustom\agGrid\HtmlFloatingFilterComponent.js" />
     <Content Include="ScriptsCustom\agGrid\HtmlFilterComponent.js" />
+    <Content Include="Scripts\agGrid\ag-grid-community.min.noStyle.js" />
+    <Content Include="Scripts\agGrid\ag-grid.css" />
+    <Content Include="Scripts\agGrid\ag-theme-alpine.css" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
