@@ -41,6 +41,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsGeospatialAreaSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
         public static bool AreAllSectionsValidForProject(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
+            if (project.ExternalID != null)
+            {
+                // only need the Basics to be complete
+                return ProjectCreateSection.Basics.IsComplete(project);
+            }
             return project.GetApplicableProposalWizardSections(false, project.HasEditableCustomAttributes(currentFirmaSession)).All(x => x.IsComplete);
         }
         public bool IsExpectedFundingSectionComplete { get; set; }

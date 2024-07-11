@@ -82,6 +82,12 @@
       margin-bottom: 5px;
    }
 </style>
+@if (ViewDataTyped.Project.ExternalID != null)
+{
+    <div class="alert alert-info " role="alert">
+        This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() is sourced from <a href="@MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalSourceOfRecordUrl">@MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalSourceOfRecordName</a>
+    </div>
+}
 
 @section RightOfPageTitle
 {

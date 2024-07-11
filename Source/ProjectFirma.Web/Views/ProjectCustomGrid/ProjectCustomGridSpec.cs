@@ -233,6 +233,9 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.Organizations:
                     Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetAssociatedOrganizations().OrderBy(y => y.OrganizationShortName).Select(y => y.GetShortNameAsUrl()))), 300, AgGridColumnFilterType.Html);
                     break;
+                case ProjectCustomGridColumnEnum.SourceOfRecord:
+                    Add("Source of Record", x => x.ExternalID == null ? MultiTenantHelpers.GetTenantShortDisplayName() : MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalSourceOfRecordName, 140, AgGridColumnFilterType.SelectFilterStrict);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

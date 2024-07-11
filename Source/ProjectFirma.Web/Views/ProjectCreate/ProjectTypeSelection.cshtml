@@ -44,15 +44,5 @@ Source code is available upon request via <support@sitkatech.com>.
             </label>
             <div class="radioExplanationText">This will create a new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() record for an existing @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You will be asked to select the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() stage (e.g. @ProjectStage.PlanningDesign.GetProjectStageDisplayName(), @ProjectStage.Implementation.GetProjectStageDisplayName(), or @ProjectStage.Completed.GetProjectStageDisplayName()). An administrator will review the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() before it becomes publicly visible.</div>
         </div>
-        @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled)
-        {
-            <div class="radio">
-                <label>
-                    @Html.RadioButtonFor(m => m.CreateType, ProjectTypeSelectionViewModel.ProjectCreateType.ImportExternal)
-                    <strong>Import @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from an external data source (Proof of Concept)</strong>
-                </label>
-                <div class="radioExplanationText">This will import a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from another @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() tracking system using a URL for the external system API.</div>
-            </div>
-        }
     </div>
 }

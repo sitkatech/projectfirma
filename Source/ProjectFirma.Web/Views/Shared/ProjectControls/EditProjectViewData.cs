@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
         public TenantAttribute TenantAttribute { get; set; }
         public bool TenantUsesFiscalYears { get; }
-
+        public bool UserHasAdminPermissions { get; }
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyLeafDisplayName,
@@ -61,7 +61,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             List<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes,
             TenantAttribute tenantAttribute,
-            IEnumerable<SelectListItem> solicitationOptions)
+            IEnumerable<SelectListItem> solicitationOptions,
+            bool userHasAdminPermissions)
         {
             EditProjectType = editProjectType;
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
@@ -83,6 +84,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             TenantAttribute = tenantAttribute;
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
             SolicitationOptions = solicitationOptions;
+            UserHasAdminPermissions = userHasAdminPermissions;
         }
     }
 }

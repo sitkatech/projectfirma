@@ -112,7 +112,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
-        
+
         @if (ViewDataTyped.TenantAttribute.EnableSolicitations)
         {
             <div class="form-group">
@@ -132,7 +132,23 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             @Html.HiddenFor(m => m.SolicitationID)
         }
-        
+
+        @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled && ViewDataTyped.CanEditExternalID)
+        {
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(m => m.ExternalID)
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    @Html.TextBoxFor(m => m.ExternalID, new { @class = "form-control", @type = "number" })
+                    @Html.ValidationMessageFor(m => m.ExternalID)
+                </div>
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.ExternalID)
+        }
 
         <div class="form-group">
             <div class="col-xs-12 col-sm-4 control-label">
@@ -173,7 +189,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <span class="glyphicon glyphicon-trash" style="margin-right: 1em;">
                                     </span>
                                 </a>@(ViewDataTyped.TaxonomyLeafs.ToDictionary(x => int.Parse(x.Value), x => x.Text)[secondaryProjectTaxonomyLeafID])
-                                <input type="hidden" name="@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]" value="@secondaryProjectTaxonomyLeafID"/>
+                                <input type="hidden" name="@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]" value="@secondaryProjectTaxonomyLeafID" />
                             </li>
                         }
                     </ul>
@@ -186,7 +202,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ProjectName)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.TextBoxFor(m => m.ProjectName, new {@class = "form-control"})
+                @Html.TextBoxFor(m => m.ProjectName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.ProjectName)
             </div>
         </div>
@@ -195,7 +211,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ProjectDescription)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> {"form-control"})
+                @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(m => m.ProjectDescription)
             </div>
         </div>
@@ -208,7 +224,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="col-xs-12 col-sm-8">
                     @if (ViewDataTyped.IsEditable)
                     {
-                        @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new {@class = "form-control", style = "width: auto;"})
+                        @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStages, new { @class = "form-control", style = "width: auto;" })
                         @Html.ValidationMessageFor(m => m.ProjectStageID)
                     }
                     else
@@ -227,7 +243,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new {@class = "form-control", style = "width: auto;"})
+                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new { @class = "form-control", style = "width: auto;" })
                 @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
             </div>
         </div>
@@ -236,7 +252,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new {@class = "form-control", style = "width: auto;"})
+                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new { @class = "form-control", style = "width: auto;" })
                 @Html.ValidationMessageFor(m => m.ImplementationStartYear)
             </div>
         </div>
@@ -256,7 +272,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </sup>
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new {@class = "form-control", style = "width: auto;"})
+                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new { @class = "form-control", style = "width: auto;" })
                 @Html.ValidationMessageFor(m => m.CompletionYear)
             </div>
         </div>
@@ -267,7 +283,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.LabelWithSugarFor(m => m.ProjectCategoryEnum)
                 </div>
                 <div class="col-xs-12 col-sm-8">
-                    @Html.EnumDropDownListFor(m => m.ProjectCategoryEnum, new {@class = "form-control"})
+                    @Html.EnumDropDownListFor(m => m.ProjectCategoryEnum, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.ProjectCategoryEnum)
                     <span class="smallExplanationText">
                         The @FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel() cannot be changed after a @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel() is accepted.
@@ -283,7 +299,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         @if (@ViewDataTyped.ShowCommentsSection)
         {
-            <hr/>
+            <hr />
             <div class="row form-group">
                 <div class="col-xs-12 col-sm-4 control-label">
                     @Html.LabelFor(m => m.Comments)
@@ -291,7 +307,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="col-xs-12 col-sm-8">
                     @if (ViewDataTyped.CanEditComments)
                     {
-                        @Html.TextAreaFor(m => m.Comments, new {style = "width: 100%", @class = "form-control"})
+                        @Html.TextAreaFor(m => m.Comments, new { style = "width: 100%", @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Comments)
                     }
                     else
