@@ -11,3 +11,8 @@ VALUES
 insert into dbo.FieldDefinitionDefault (FieldDefinitionID, DefaultDefinition)
 values
 (392, '')
+
+alter table dbo.Project add PrimaryContactPersonFullName varchar(201) null
+
+alter table dbo.ProjectNote add CreatePersonFullName varchar(201) null
+alter table dbo.ProjectNote add UpdatePersonFullName varchar(201) null

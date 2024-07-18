@@ -52,6 +52,7 @@ CREATE TABLE [dbo].[Project](
 	[OtherPartners] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExternalLinksComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExternalID] [int] NULL,
+	[PrimaryContactPersonFullName] [varchar](201) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC

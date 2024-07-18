@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using log4net;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -16,6 +17,8 @@ namespace ProjectFirma.Web.ScheduledJobs
         public string JobName = "(ScheduledBackgroundJobBaseName)";
         protected ILog Logger { get; }
         protected DatabaseEntities DbContext;
+
+       
 
         /// <summary> 
         /// Jobs must have a proscribed environment to run in (for example, to prevent a job that makes a lot of calls to an external API from accidentally DOSing that API by running on all local boxes, QA, and Prod at the same time.
@@ -46,7 +49,15 @@ namespace ProjectFirma.Web.ScheduledJobs
                 try
                 {
                     Logger.Info($"Begin Firma Job {JobName}");
-                    RunJobImplementation();
+                    if (IsAsyncJob())
+                    {
+                        RunJobImplementationAsync();
+                    }
+                    else
+                    {
+                        RunJobImplementation();
+                    }
+
                     Logger.Info($"End Firma Job {JobName}");
                 }
                 catch (Exception ex)
@@ -62,5 +73,12 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// Jobs can fill this in with whatever they need to run. This is called by <see cref="RunJob"/> which handles other miscellaneous stuff
         /// </summary>
         protected abstract void RunJobImplementation();
+
+        /// <summary>
+        /// Jobs can fill this in with whatever they need to run. This is called by <see cref="RunJob"/> which handles other miscellaneous stuff
+        /// </summary>
+        protected abstract Task RunJobImplementationAsync();
+
+        protected abstract bool IsAsyncJob();
     }
 }

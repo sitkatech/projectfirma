@@ -266,6 +266,7 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
+    <Compile Include="ScheduledJobs\SyncProjectsForTscProjectTrackerBackgroundJob.cs" />
     <Compile Include="Security\AttachmentTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentTypeViewFeature.cs" />
     <Compile Include="Security\EvaluationCriteriaManageFeature.cs" />

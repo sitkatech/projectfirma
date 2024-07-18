@@ -11,6 +11,12 @@
             projectUpdateReminderScheduledBackgroundJob.RunJob();
         }
 
+        public static void RunSyncProjectsForTscProjectTrackerBackgroundJob()
+        {
+            var syncProjectsForTscProjectTrackerBackgroundJob = new SyncProjectsForTscProjectTrackerBackgroundJob();
+            syncProjectsForTscProjectTrackerBackgroundJob.RunJob();
+        }
+
         public static void RunCleanUpStaleFirmaSessionsScheduledBackgroundJob()
         {
             var cleanUpStaleFirmaSessionsJob = new CleanUpStaleFirmaSessionsJob();

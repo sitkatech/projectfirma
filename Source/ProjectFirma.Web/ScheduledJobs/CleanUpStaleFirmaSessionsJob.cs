@@ -3,6 +3,7 @@ using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using LtInfo.Common;
 
 namespace ProjectFirma.Web.ScheduledJobs
@@ -21,6 +22,16 @@ namespace ProjectFirma.Web.ScheduledJobs
         protected override void RunJobImplementation()
         {
             CleanStaleSessionsImpl();
+        }
+
+        protected override Task RunJobImplementationAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool IsAsyncJob()
+        {
+            return false;
         }
 
         protected bool FirmaSessionIsStale(FirmaSession firmaSession)

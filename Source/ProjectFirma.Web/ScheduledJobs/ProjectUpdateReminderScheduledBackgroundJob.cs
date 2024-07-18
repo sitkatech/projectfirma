@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Linq;
+using System.Threading.Tasks;
 using LtInfo.Common;
 using ProjectFirma.Web.Models;
 
@@ -12,6 +13,7 @@ namespace ProjectFirma.Web.ScheduledJobs
     public class ProjectUpdateReminderScheduledBackgroundJob : ScheduledBackgroundJobBase
     {
         public new const string JobName = "Project Update Reminders";
+
 
         public override List<FirmaEnvironmentType> RunEnvironments => new List<FirmaEnvironmentType>
         {
@@ -23,6 +25,16 @@ namespace ProjectFirma.Web.ScheduledJobs
         protected override void RunJobImplementation()
         {
             ProcessRemindersImpl();
+        }
+
+        protected override Task RunJobImplementationAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool IsAsyncJob()
+        {
+            return false;
         }
 
         protected virtual void ProcessRemindersImpl()

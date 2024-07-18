@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectNote(int projectNoteID, int projectID, string note, int? createPersonID, DateTime createDate, int? updatePersonID, DateTime? updateDate) : this()
+        public ProjectNote(int projectNoteID, int projectID, string note, int? createPersonID, DateTime createDate, int? updatePersonID, DateTime? updateDate, string createPersonFullName, string updatePersonFullName) : this()
         {
             this.ProjectNoteID = projectNoteID;
             this.ProjectID = projectID;
@@ -40,6 +40,8 @@ namespace ProjectFirmaModels.Models
             this.CreateDate = createDate;
             this.UpdatePersonID = updatePersonID;
             this.UpdateDate = updateDate;
+            this.CreatePersonFullName = createPersonFullName;
+            this.UpdatePersonFullName = updatePersonFullName;
         }
 
         /// <summary>
@@ -128,6 +130,8 @@ namespace ProjectFirmaModels.Models
         public DateTime CreateDate { get; set; }
         public int? UpdatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public string CreatePersonFullName { get; set; }
+        public string UpdatePersonFullName { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectNoteID; } set { ProjectNoteID = value; } }
 
@@ -139,6 +143,8 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int Note = 8000;
+            public const int CreatePersonFullName = 201;
+            public const int UpdatePersonFullName = 201;
         }
     }
 }
