@@ -25,6 +25,7 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -41,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool AreAllSectionsValid => IsBasicsSectionComplete && IsPerformanceMeasureSectionComplete && IsClassificationsComplete && IsAssessmentComplete && IsProjectLocationSimpleSectionComplete && IsProjectLocationDetailedSectionComplete && IsGeospatialAreaSectionComplete && IsNotesSectionComplete && IsExpectedFundingSectionComplete;
         public static bool AreAllSectionsValidForProject(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
-            if (project.ExternalID != null)
+            if (project.ExternalID != null && new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 // only need the Basics to be complete
                 return ProjectCreateSection.Basics.IsComplete(project);
