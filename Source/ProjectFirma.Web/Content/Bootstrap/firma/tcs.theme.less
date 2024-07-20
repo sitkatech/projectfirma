@@ -30,6 +30,9 @@
 @tcs-grey: #A9A9A9;
 @tcs-blue-grey: #89A6AD;
 
+@PrimaryGray: rgba(75, 68, 81, 0.7);
+@SecondaryWhite: #E8EAEE;
+
 @firma-background-color: #fff;
 @firma-contentBackground-color: #fff;
 @firma-contentBorder-color: #fff;
@@ -43,6 +46,8 @@
 @firma-panel-headerBackground-color: @tcs-night-navy;
 @firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
+@firma-panelDropdownText-color: @PrimaryGray;
+@firma-panelDropdownBackground-color: @SecondaryWhite;
 
 @firma-pageTitle-color: @tcs-night-navy;
 @firma-header-color: @tcs-eddy-blue;
@@ -434,6 +439,20 @@ a.btn-firma {
 
 
 // Panels
+// Main page drop downs
+.panelFirma {
+    .panelTitle {
+        ul li {
+            a, a:visited {
+                color: @firma-panelDropdownText-color;
+            }
+
+            a:hover {
+                background-color: @firma-panelDropdownBackground-color;
+            }
+        }
+    }
+}
 
 .panelFirma {
     border-color: @firma-panel-border-color;

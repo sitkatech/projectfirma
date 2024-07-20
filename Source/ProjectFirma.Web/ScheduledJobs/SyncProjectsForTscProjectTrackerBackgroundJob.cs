@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var client = new HttpClient();
 
                 var projects = databaseEntities.AllProjects.Where(x => x.TenantID == tenantID && x.ExternalID.HasValue).ToList();
-                var projectIDs = projects.Select(x => x.ExternalID.Value).ToList();
+                var externalIDs = projects.Select(x => x.ExternalID.Value).ToList();
                 var apiUrl = tenantAttribute.ProjectExternalDataSourceApiUrl;
 
                 var response = await client.GetAsync($"{apiUrl}/projects");
@@ -106,24 +106,33 @@ namespace ProjectFirma.Web.ScheduledJobs
                 {
                     throw new HttpRequestException($"GET {apiUrl} failed, reason: {response.ReasonPhrase}");
                 }
+                // 24 hours ago plus some buffer for runtime of this job
+                var yesterdayDate = DateTime.Now.AddHours(-26);
                 var projectSimpleDtos = await response.Content.ReadAsAsync<IEnumerable<ProjectSimpleDto>>();
                 var projectIDsToUpdate = projectSimpleDtos.Where(x =>
-                    projectIDs.Contains(x.ProjectID) && x.LastModificationDate > projects.SingleOrDefault(y => y.ExternalID == x.ProjectID)?.LastUpdatedDate).Select(x => x.ProjectID);
-                foreach (var projectID in projectIDsToUpdate)
+                    externalIDs.Contains(x.ProjectID) 
+                    //&& x.LastModificationDate > projects.SingleOrDefault(y => y.ExternalID == x.ProjectID)?.LastUpdatedDate
+                    //&& (x.LastModificationDate > yesterdayDate || x.CreationDate > yesterdayDate)
+                    ).Select(x => x.ProjectID);
+                foreach (var externalID in new List<int>(){35})
                 {
-                    var getProjectResponse = await client.GetAsync($"{apiUrl}/projects/{projectID}");
+                    
+                    var project = projects.Single(x => x.ExternalID == externalID);
+                    Logger.Info($"Starting sync for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
+                    var getProjectResponse = await client.GetAsync($"{apiUrl}/projects/{externalID}");
                     if (!getProjectResponse.IsSuccessStatusCode)
                     {
-                        Logger.Error($"GET {apiUrl}/{projectID} failed, reason: {response.ReasonPhrase}");
+                        Logger.Error($"GET {apiUrl}/{externalID} failed, reason: {response.ReasonPhrase}");
                         continue;
                     }
 
                     var projectSimpleDto = await getProjectResponse.Content.ReadAsAsync<ProjectSimpleDto>();
-                    var project = projects.Single(x => x.ExternalID == projectID);
+                    
                     try
                     {
                         UpdateProjectFromExternalDataSourceProjectSimpleDto(project, projectSimpleDto, tenantID, databaseEntities);
                         databaseEntities.SaveChangesWithNoAuditing(tenantID);
+                        Logger.Info($"Project sync complete for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
                     }
                     catch (Exception ex)
                     {
@@ -158,12 +167,12 @@ namespace ProjectFirma.Web.ScheduledJobs
             else
             {
                 project.ProjectLocationPoint = null;
-                //TODO use the other simple location types somehow?
             }
             
             project.ProposingDate = projectSimpleDto.CreationDate;
             project.LastUpdatedDate = projectSimpleDto.LastModificationDate ?? projectSimpleDto.CreationDate;
-            project.ProjectApprovalStatusID = ProjectApprovalStatus.All.SingleOrDefault(x => x.ProjectApprovalStatusName == projectSimpleDto.ProjectApprovalStatus.ProjectApprovalStatusName)?.ProjectApprovalStatusID ?? project.ProjectApprovalStatusID;
+            // TODO only set this after the bulk approval of pending projects
+            //project.ProjectApprovalStatusID = ProjectApprovalStatus.All.SingleOrDefault(x => x.ProjectApprovalStatusName == projectSimpleDto.ProjectApprovalStatus.ProjectApprovalStatusName)?.ProjectApprovalStatusID ?? project.ProjectApprovalStatusID;
             project.PerformanceMeasureNotes = projectSimpleDto.IndicatorNotes;
             project.SubmissionDate = projectSimpleDto.SubmissionDate;
             project.ApprovalDate = projectSimpleDto.ApprovalDate;
@@ -221,13 +230,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                             : null;
                 if (relationshipType == null)
                 {
-                    Logger.Error($"No relationship type found for {projectOrgSimpleDto.Organization.OrganizationName}");
+                    Logger.Error($"No relationship type found for Organization '{projectOrgSimpleDto.Organization.OrganizationName}'");
                     continue;
                 }
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID &&  x.OrganizationName == projectOrgSimpleDto.Organization.OrganizationName);
+                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && (x.OrganizationName == projectOrgSimpleDto.Organization.OrganizationName || x.KeystoneOrganizationGuid == projectOrgSimpleDto.Organization.OrganizationGuid));
                 if (organization == null)
                 {
-                    Logger.Error($"No Organization found for {projectOrgSimpleDto.Organization.OrganizationName}, GUID: {projectOrgSimpleDto.Organization.OrganizationGuid}");
+                    Logger.Error($"No Organization found for '{projectOrgSimpleDto.Organization.OrganizationName}', GUID: '{projectOrgSimpleDto.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -262,7 +271,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             foreach (var projectLocationSimpleDto in projectSimpleDto.ProjectLocations)
             {
-                var htmlEncodedGeoJson = projectSimpleDto.ProjectLocationPointGeoJson.HtmlEncodeWithQuotes();
+                var htmlEncodedGeoJson = projectLocationSimpleDto.ProjectLocationGeoJson.HtmlEncodeWithQuotes();
                 var projectLocation = JsonTools.DeserializeObject<FeatureCollection>(htmlEncodedGeoJson);
                 project.ProjectLocations.Add(new ProjectLocation(project.ProjectID, projectLocation.Features.Select(x => x.ToSqlGeometry()).FirstOrDefault().ToDbGeometry(LtInfoGeometryConfiguration.DefaultCoordinateSystemId))
                 {
@@ -277,10 +286,10 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectFundingSourceBudgetsUpdated = new List<ProjectFundingSourceBudget>();
             foreach (var projectFundingSourceRequestSimpleDto in projectSimpleDto.ProjectFundingSourceRequests)
             {
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName);
+                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && (x.OrganizationName == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName || x.KeystoneOrganizationGuid == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid));
                 if (organization == null)
                 {
-                    Logger.Error($"No Organization found for {projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}, GUID: {projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}");
+                    Logger.Error($"No Organization found for '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -289,7 +298,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName);
                 if (fundingSource == null)
                 {
-                    Logger.Error($"No Funding Source found for {projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName}");
+                    Logger.Error($"No Funding Source found for '{projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName}'");
                     continue;
                 }
 
@@ -314,10 +323,10 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectFundingSourceExpendituresUpdated = new List<ProjectFundingSourceExpenditure>();
             foreach (var fundingSourceCalendarYearExpenditureSimpleDto in projectSimpleDto.FundingSourceCalendarYearExpenditures)
             {
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationName);
+                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && (x.OrganizationName == fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationName || x.KeystoneOrganizationGuid == fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid));
                 if (organization == null)
                 {
-                    Logger.Error($"No Organization found for {fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationName}, GUID: {fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}");
+                    Logger.Error($"No Organization found for '{fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -326,7 +335,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.FundingSourceName);
                 if (fundingSource == null)
                 {
-                    Logger.Error($"No Funding Source found for {fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.FundingSourceName}");
+                    Logger.Error($"No Funding Source found for '{fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.FundingSourceName}'");
                     continue;
                 }
 
@@ -373,13 +382,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                     out var performanceMeasureName);
                 if(!pmInDictionary)
                 {
-                    Logger.Error($"No Performance Measure mapping found for {projectIndicatorExpectedValueSimpleDto.Indicator.IndicatorDisplayName}");
+                    Logger.Error($"No Performance Measure mapping found for '{projectIndicatorExpectedValueSimpleDto.Indicator.IndicatorDisplayName}'");
                     continue;
                 }
                 var performanceMeasure = databaseEntities.AllPerformanceMeasures.SingleOrDefault(x => x.TenantID == tenantID && x.PerformanceMeasureDisplayName == performanceMeasureName);
                 if (performanceMeasure == null)
                 {
-                    Logger.Error($"No Performance Measure found in Database for {performanceMeasureName}");
+                    Logger.Error($"No Performance Measure found in Database for '{performanceMeasureName}'");
                     continue;
                 }
 
@@ -412,7 +421,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                         if (subcategoryOption == null)
                         {
                             Logger.Error(
-                                $"No Performance Measure Subcategory Option found for {indicatorExpectedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName} (Performance Measure: {performanceMeasureName}, Subcategory {performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}");
+                                $"No Performance Measure Subcategory Option found for '{indicatorExpectedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName}' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
@@ -465,13 +474,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                     out var performanceMeasureName);
                 if (!pmInDictionary)
                 {
-                    Logger.Error($"No Performance Measure mapping found for {projectIndicatorReportedValueSimpleDto.Indicator.IndicatorDisplayName}");
+                    Logger.Error($"No Performance Measure mapping found for '{projectIndicatorReportedValueSimpleDto.Indicator.IndicatorDisplayName}'");
                     continue;
                 }
                 var performanceMeasure = databaseEntities.AllPerformanceMeasures.SingleOrDefault(x => x.TenantID == tenantID && x.PerformanceMeasureDisplayName == performanceMeasureName);
                 if (performanceMeasure == null)
                 {
-                    Logger.Error($"No Performance Measure found in Database for {performanceMeasureName}");
+                    Logger.Error($"No Performance Measure found in Database for '{performanceMeasureName}'");
                     continue;
                 }
 
@@ -513,7 +522,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                         if (subcategoryOption == null)
                         {
                             Logger.Error(
-                                $"No Performance Measure Subcategory Option found for {indicatorReportedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName} (Performance Measure: {performanceMeasureName}, Subcategory {performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}");
+                                $"No Performance Measure Subcategory Option found for '{indicatorReportedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName}' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
@@ -572,20 +581,20 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var mimeType = FileResourceMimeType.All.SingleOrDefault(x => x.FileResourceMimeTypeName == projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName);
                 if (mimeType == null)
                 {
-                    Logger.Error($"No Mime Type found for {projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName}");
+                    Logger.Error($"No Mime Type found for '{projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName}'");
                     continue;
                 }
                 var projectImageTiming = ProjectImageTiming.All.SingleOrDefault(x => x.ProjectImageTimingName == projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName);
                 if (projectImageTiming == null)
                 {
-                    Logger.Error($"No Project Image Timing found for {projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName}");
+                    Logger.Error($"No Project Image Timing found for '{projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName}'");
                     continue;
                 }
                 var createPerson  = databaseEntities.AllPeople.SingleOrDefault(x => x.TenantID == tenantID && x.PersonGuid == projectImageSimpleDto.FileResourceInfo.CreatePersonGUID) ?? 
                                     databaseEntities.AllPeople.Where(x => x.TenantID == tenantID && x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ESAAdmin.RoleID).OrderBy(x => x.RoleID).ThenBy(x => x.PersonID).FirstOrDefault();
                 if (createPerson == null)
                 {
-                    Logger.Error($"No Create Person found for {projectImageSimpleDto.FileResourceInfo.CreatePersonGUID} and the system could not default the Create Person to a current Admin or ESA Admin");
+                    Logger.Error($"No Create Person found for '{projectImageSimpleDto.FileResourceInfo.CreatePersonGUID}' and the system could not default the Create Person to a current Admin or ESA Admin");
                     continue;
                 }
                 var fileResourceInfo = allFileResourceInfos.SingleOrDefault(x =>

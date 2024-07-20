@@ -329,6 +329,13 @@ a.btn-firma {
   border-bottom: 22px solid transparent;
   border-left: 7px solid #fff;
 }
+.panelFirma .panelTitle ul li a,
+.panelFirma .panelTitle ul li a:visited {
+  color: rgba(75, 68, 81, 0.7);
+}
+.panelFirma .panelTitle ul li a:hover {
+  background-color: #E8EAEE;
+}
 .panelFirma {
   border-color: #ddd;
 }

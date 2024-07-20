@@ -51,7 +51,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                     Logger.Info($"Begin Firma Job {JobName}");
                     if (IsAsyncJob())
                     {
-                        RunJobImplementationAsync();
+                        var task = RunJobImplementationAsync();
+                        task.Wait();
                     }
                     else
                     {
