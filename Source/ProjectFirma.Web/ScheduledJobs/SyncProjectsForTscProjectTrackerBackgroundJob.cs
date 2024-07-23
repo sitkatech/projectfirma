@@ -21,7 +21,11 @@ namespace ProjectFirma.Web.ScheduledJobs
 {
     public class SyncProjectsForTscProjectTrackerBackgroundJob : ScheduledBackgroundJobBase
     {
-        public new const string JobName = "Sync Projects For TCS Project Tracker";
+        public const string ScheduledBackgroundJobName = "Sync Projects For TCS Project Tracker";
+
+        public SyncProjectsForTscProjectTrackerBackgroundJob() : base(ScheduledBackgroundJobName)
+        {
+        }
 
         public override List<FirmaEnvironmentType> RunEnvironments => new List<FirmaEnvironmentType>
         {

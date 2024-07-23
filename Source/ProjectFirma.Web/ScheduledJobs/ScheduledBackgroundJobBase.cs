@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// </summary>
         public static readonly object ScheduledBackgroundJobLock = new object();
 
-        public string JobName = "(ScheduledBackgroundJobBaseName)";
+        public readonly string JobName;
         protected ILog Logger { get; }
         protected DatabaseEntities DbContext;
 
@@ -31,6 +31,11 @@ namespace ProjectFirma.Web.ScheduledJobs
             var databaseEntities = new DatabaseEntities(Tenant.SitkaTechnologyGroup.TenantID); // default to Sitka
             databaseEntities.Configuration.AutoDetectChangesEnabled = false;
             DbContext = databaseEntities;
+        }
+
+        protected ScheduledBackgroundJobBase(string jobName) : this()
+        {
+            JobName = jobName;
         }
 
         /// <summary>

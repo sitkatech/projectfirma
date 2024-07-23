@@ -10,7 +10,11 @@ namespace ProjectFirma.Web.ScheduledJobs
 {
     public class CleanUpStaleFirmaSessionsJob : ScheduledBackgroundJobBase
     {
-        public new const string JobName = "Clean Stale Firma Sessions";
+        public const string ScheduledBackgroundJobName = "Clean Stale Firma Sessions";
+
+        public CleanUpStaleFirmaSessionsJob() : base(ScheduledBackgroundJobName)
+        {
+        }
 
         public override List<FirmaEnvironmentType> RunEnvironments => new List<FirmaEnvironmentType>
         {
