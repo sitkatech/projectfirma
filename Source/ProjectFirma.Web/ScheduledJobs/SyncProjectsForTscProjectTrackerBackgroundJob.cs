@@ -105,10 +105,11 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var externalIDs = projects.Select(x => x.ExternalID.Value).ToList();
                 var apiUrl = tenantAttribute.ProjectExternalDataSourceApiUrl;
 
-                var response = await client.GetAsync($"{apiUrl}/projects");
+                var getAllProjectsUrl = $"{apiUrl}/projects";
+                var response = await client.GetAsync(getAllProjectsUrl);
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new HttpRequestException($"GET {apiUrl} failed, reason: {response.ReasonPhrase}");
+                    throw new HttpRequestException($"GET {getAllProjectsUrl} failed, reason: {response.ReasonPhrase}");
                 }
                 // 24 hours ago plus some buffer for runtime of this job
                 var yesterdayDate = DateTime.Now.AddHours(-26);
@@ -118,15 +119,16 @@ namespace ProjectFirma.Web.ScheduledJobs
                     //&& x.LastModificationDate > projects.SingleOrDefault(y => y.ExternalID == x.ProjectID)?.LastUpdatedDate
                     //&& (x.LastModificationDate > yesterdayDate || x.CreationDate > yesterdayDate)
                     ).Select(x => x.ProjectID);
-                foreach (var externalID in new List<int>(){35})
+                foreach (var externalID in projectIDsToUpdate)
                 {
                     
                     var project = projects.Single(x => x.ExternalID == externalID);
                     Logger.Info($"Starting sync for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
-                    var getProjectResponse = await client.GetAsync($"{apiUrl}/projects/{externalID}");
+                    var getProjectUrl = $"{apiUrl}/projects/{externalID}";
+                    var getProjectResponse = await client.GetAsync(getProjectUrl);
                     if (!getProjectResponse.IsSuccessStatusCode)
                     {
-                        Logger.Error($"GET {apiUrl}/{externalID} failed, reason: {response.ReasonPhrase}");
+                        Logger.Error($"GET {getProjectUrl} failed, reason: {response.ReasonPhrase}");
                         continue;
                     }
 
