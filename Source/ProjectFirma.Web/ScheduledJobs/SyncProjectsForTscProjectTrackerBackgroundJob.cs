@@ -39,11 +39,6 @@ namespace ProjectFirma.Web.ScheduledJobs
             throw new NotImplementedException();
         }
 
-        protected override async Task RunJobImplementationAsync()
-        {
-            await ProcessRemindersImpl();
-        }
-
         protected override bool IsAsyncJob()
         { 
             return true;
@@ -91,9 +86,8 @@ namespace ProjectFirma.Web.ScheduledJobs
             {"04.01.02", "Remote-Sensing and GIS Based Research"}
         };
 
-        protected virtual async Task ProcessRemindersImpl()
+        protected override async Task RunJobImplementationAsync()
         {
-            Logger.Info($"Processing '{JobName}' notifications.");
             var tenantID = Tenant.TCSProjectTracker.TenantID;
             var tenantAttribute = DbContext.AllTenantAttributes.Single(x => x.TenantID == tenantID);
             if (tenantAttribute.ProjectExternalDataSourceEnabled)
