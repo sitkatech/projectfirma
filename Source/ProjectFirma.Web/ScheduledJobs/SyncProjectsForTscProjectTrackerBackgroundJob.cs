@@ -239,7 +239,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     Logger.Error($"No relationship type found for Organization '{projectOrgSimpleDto.Organization.OrganizationName}'");
                     continue;
                 }
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && (x.OrganizationName == projectOrgSimpleDto.Organization.OrganizationName || x.KeystoneOrganizationGuid == projectOrgSimpleDto.Organization.OrganizationGuid));
+                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectOrgSimpleDto.Organization.OrganizationName);
                 if (organization == null)
                 {
                     Logger.Error($"No Organization found for '{projectOrgSimpleDto.Organization.OrganizationName}', GUID: '{projectOrgSimpleDto.Organization.OrganizationGuid}'");
@@ -292,7 +292,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectFundingSourceBudgetsUpdated = new List<ProjectFundingSourceBudget>();
             foreach (var projectFundingSourceRequestSimpleDto in projectSimpleDto.ProjectFundingSourceRequests)
             {
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && (x.OrganizationName == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName || x.KeystoneOrganizationGuid == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid));
+                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName);
                 if (organization == null)
                 {
                     Logger.Error($"No Organization found for '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}'");
@@ -329,7 +329,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectFundingSourceExpendituresUpdated = new List<ProjectFundingSourceExpenditure>();
             foreach (var fundingSourceCalendarYearExpenditureSimpleDto in projectSimpleDto.FundingSourceCalendarYearExpenditures)
             {
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && (x.OrganizationName == fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationName || x.KeystoneOrganizationGuid == fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid));
+                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationName);
                 if (organization == null)
                 {
                     Logger.Error($"No Organization found for '{fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{fundingSourceCalendarYearExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}'");
