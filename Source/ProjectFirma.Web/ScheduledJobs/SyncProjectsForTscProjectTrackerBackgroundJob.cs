@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var queryParameter = builder.ToString();
 
 
-                var getRecentlyModifiedProjectsUrl = $"{apiUrl}/projects/recently-modified?{queryParameter}";
+                var getRecentlyModifiedProjectsUrl = $"{apiUrl}/projects/recently-modified?apiKey={FirmaWebConfiguration.LTInfoApiKey}&{queryParameter}";
                 var response = await client.GetAsync(getRecentlyModifiedProjectsUrl);
                 if (!response.IsSuccessStatusCode)
                 {
