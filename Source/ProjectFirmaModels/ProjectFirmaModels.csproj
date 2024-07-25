@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -801,7 +801,7 @@
     <Compile Include="Models\DataTransferObjects\EIPProjectSimpleDto.cs" />
     <Compile Include="Models\DataTransferObjects\FileResourceDatumSimpleDto.cs" />
     <Compile Include="Models\DataTransferObjects\FileResourceInfoSimpleDto.cs" />
-    <Compile Include="Models\DataTransferObjects\FundingSourceCalendarYearExpenditureSimpleDto.cs" />
+    <Compile Include="Models\DataTransferObjects\ProjectFundingSourceExpenditureSimpleDto.cs" />
     <Compile Include="Models\DataTransferObjects\FundingSourceSimpleDto.cs" />
     <Compile Include="Models\DataTransferObjects\IndicatorSimpleDto.cs" />
     <Compile Include="Models\DataTransferObjects\IndicatorSubcategoryOptionDto.cs" />

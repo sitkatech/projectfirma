@@ -40,11 +40,11 @@ namespace ProjectFirmaModels.Models.DataTransferObjects
         public string ProjectLocationPointGeoJson { get; set; }
         public List<ProjectLocationSimpleDto> ProjectLocations { get; set; }
         public List<ProjectFundingSourceRequestSimpleDto> ProjectFundingSourceRequests { get; set; }
-        public List<FundingSourceCalendarYearExpenditureSimpleDto> FundingSourceCalendarYearExpenditures { get; set; }
+        public List<ProjectFundingSourceExpenditureSimpleDto> ProjectFundingSourceExpenditures { get; set; }
         public List<ProjectIndicatorExpectedValueSimpleDto> ProjectIndicatorExpectedValues { get; set; }
         public List<ProjectIndicatorReportedValueSimpleDto> ProjectIndicatorReportedValues { get; set; }
         public List<ProjectExternalLinkSimpleDto> ProjectExternalLinks { get; set; }
-        public List<ProjectImageSimpleDto> ProjectImages { get; set; }
+        //public List<ProjectImageSimpleDto> ProjectImages { get; set; }
         public EIPProjectSimpleDto EIPProject { get; set; }
         public List<ProjectNoteSimpleDto> ProjectNotes { get; set; }
     }
