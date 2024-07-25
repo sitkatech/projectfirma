@@ -120,10 +120,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.ImplementationStartYear:
-                    Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, AgGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 120, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.CompletionYear:
-                    Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetCompletionYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetCompletionYear(x), 95, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.PrimaryTaxonomyLeaf:
                     var gridHeaderString = MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf
