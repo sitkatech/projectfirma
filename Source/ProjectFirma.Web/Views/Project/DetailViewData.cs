@@ -269,6 +269,10 @@ namespace ProjectFirma.Web.Views.Project
             }
             else
             {
+                if (project.ExternalID != null)
+                {
+                    CanLaunchProjectOrProposalWizard = false;
+                }
                 var latestUpdateState = project.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
                 ProjectUpdateButtonText =
                     latestUpdateState == ProjectUpdateState.Submitted ||

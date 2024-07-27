@@ -168,7 +168,28 @@
                         @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
                     </div>
                 </div>
-
+                @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled)
+                {
+                    <div class="row">
+                        <div class="col-sm-5 fieldLabel text-right">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() External Data Source URL</div>
+                        <div class="col-sm-7">
+                            @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceApiUrl
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 fieldLabel text-right">Source of Record Name</div>
+                        <div class="col-sm-7">
+                            @ViewDataTyped.TenantAttribute.ProjectExternalSourceOfRecordName
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 fieldLabel text-right">Source of Record URL</div>
+                        <div class="col-sm-7">
+                            @ViewDataTyped.TenantAttribute.ProjectExternalSourceOfRecordUrl
+                        </div>
+                    </div>
+                }
+                   
                 @* Financials section *@
                 <div class="panelSectionLabel">Financials</div>
                 <div class="row">

@@ -364,12 +364,12 @@ insert into #FundingSourceTemp (FundingSource, Organization, FundingSourceDescri
 
 --select * from #FundingSourceTemp
 
---insert into ProjectFirma.dbo.FundingSource
---	(TenantID, 
---	OrganizationID, 
---	FundingSourceName, 
---	IsActive, 
---	FundingSourceDescription)
+insert into ProjectFirma.dbo.FundingSource
+	(TenantID, 
+	OrganizationID, 
+	FundingSourceName, 
+	IsActive, 
+	FundingSourceDescription)
 select 14 as TenantID, 
 	case 
 		when fst.FundingSource = 'Lake Tahoe Restoration Act (TRPA)' then (select OrganizationID from ProjectFirma.dbo.Organization where TenantID = 14 and OrganizationName = 'Tahoe Regional Planning Agency')

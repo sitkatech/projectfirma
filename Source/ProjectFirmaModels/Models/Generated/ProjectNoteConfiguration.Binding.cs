@@ -23,6 +23,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CreateDate).HasColumnName(@"CreateDate").HasColumnType("datetime").IsRequired();
             Property(x => x.UpdatePersonID).HasColumnName(@"UpdatePersonID").HasColumnType("int").IsOptional();
             Property(x => x.UpdateDate).HasColumnName(@"UpdateDate").HasColumnType("datetime").IsOptional();
+            Property(x => x.CreatePersonFullName).HasColumnName(@"CreatePersonFullName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(201);
+            Property(x => x.UpdatePersonFullName).HasColumnName(@"UpdatePersonFullName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(201);
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectNotes).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectNote_Project_ProjectID

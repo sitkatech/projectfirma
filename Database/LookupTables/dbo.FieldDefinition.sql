@@ -212,4 +212,5 @@ VALUES
 (388, N'TrainingVideoViewableBy', N'Training Video Viewable By'),
 (389, N'AttachmentTypeViewableBy', N'Attachment Type Viewable By'),
 (390, N'AccomplishmentDashboardMenu', N'Accomplishment Dashboard'),
-(391, N'IsClassificationSystemRequired', N'Is Classification System Required?')
+(391, N'IsClassificationSystemRequired', N'Is Classification System Required?'),
+(392, N'ProjectExternalID', N'External ID')

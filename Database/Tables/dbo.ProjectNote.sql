@@ -11,6 +11,8 @@ CREATE TABLE [dbo].[ProjectNote](
 	[CreateDate] [datetime] NOT NULL,
 	[UpdatePersonID] [int] NULL,
 	[UpdateDate] [datetime] NULL,
+	[CreatePersonFullName] [varchar](201) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[UpdatePersonFullName] [varchar](201) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectNote_ProjectNoteID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectNoteID] ASC

@@ -46,6 +46,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public TenantAttribute TenantAttribute { get; private set; }
         public bool ShowCommentsSection { get; }
         public bool CanEditComments { get; }
+        public bool CanEditExternalID { get; private set; }
 
         public bool IsEditable = true;
 
@@ -106,6 +107,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             SolicitationOptions =
                 HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(
                     x => x.SolicitationID.ToString(), y => y.SolicitationName);
+
+            CanEditExternalID = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
         }
     }
 }

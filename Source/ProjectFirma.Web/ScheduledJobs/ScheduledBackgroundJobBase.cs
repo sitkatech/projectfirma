@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using log4net;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -13,9 +14,11 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// </summary>
         public static readonly object ScheduledBackgroundJobLock = new object();
 
-        public string JobName = "(ScheduledBackgroundJobBaseName)";
+        public readonly string JobName;
         protected ILog Logger { get; }
         protected DatabaseEntities DbContext;
+
+       
 
         /// <summary> 
         /// Jobs must have a proscribed environment to run in (for example, to prevent a job that makes a lot of calls to an external API from accidentally DOSing that API by running on all local boxes, QA, and Prod at the same time.
@@ -28,6 +31,11 @@ namespace ProjectFirma.Web.ScheduledJobs
             var databaseEntities = new DatabaseEntities(Tenant.SitkaTechnologyGroup.TenantID); // default to Sitka
             databaseEntities.Configuration.AutoDetectChangesEnabled = false;
             DbContext = databaseEntities;
+        }
+
+        protected ScheduledBackgroundJobBase(string jobName) : this()
+        {
+            JobName = jobName;
         }
 
         /// <summary>
@@ -46,7 +54,16 @@ namespace ProjectFirma.Web.ScheduledJobs
                 try
                 {
                     Logger.Info($"Begin Firma Job {JobName}");
-                    RunJobImplementation();
+                    if (IsAsyncJob())
+                    {
+                        var task = RunJobImplementationAsync();
+                        task.Wait();
+                    }
+                    else
+                    {
+                        RunJobImplementation();
+                    }
+
                     Logger.Info($"End Firma Job {JobName}");
                 }
                 catch (Exception ex)
@@ -62,5 +79,12 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// Jobs can fill this in with whatever they need to run. This is called by <see cref="RunJob"/> which handles other miscellaneous stuff
         /// </summary>
         protected abstract void RunJobImplementation();
+
+        /// <summary>
+        /// Jobs can fill this in with whatever they need to run. This is called by <see cref="RunJob"/> which handles other miscellaneous stuff
+        /// </summary>
+        protected abstract Task RunJobImplementationAsync();
+
+        protected abstract bool IsAsyncJob();
     }
 }

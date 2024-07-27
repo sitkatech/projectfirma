@@ -2678,7 +2678,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            var viewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
+            var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var viewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute, userHasAdminPermissions);
             var partialViewAsString = RenderPartialViewToString(ProjectBasicsPartialViewPath, viewData);
             return partialViewAsString;
         }

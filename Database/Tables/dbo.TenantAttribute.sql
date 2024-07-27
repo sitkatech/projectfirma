@@ -50,6 +50,9 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[EnableSimpleAccomplishmentsDashboard] [bit] NOT NULL,
 	[SetTargetsByGeospatialArea] [bit] NOT NULL,
 	[ReportFinancialsAtProjectLevel] [bit] NOT NULL,
+	[ProjectExternalDataSourceApiUrl] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ProjectExternalSourceOfRecordName] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ProjectExternalSourceOfRecordUrl] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

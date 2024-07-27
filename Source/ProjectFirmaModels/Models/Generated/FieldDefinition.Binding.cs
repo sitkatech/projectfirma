@@ -338,6 +338,7 @@ namespace ProjectFirmaModels.Models
         TrainingVideoViewableBy = 388,
         AttachmentTypeViewableBy = 389,
         AccomplishmentDashboardMenu = 390,
-        IsClassificationSystemRequired = 391
+        IsClassificationSystemRequired = 391,
+        ProjectExternalID = 392
     }
 }

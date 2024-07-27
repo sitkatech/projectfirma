@@ -92,6 +92,18 @@ namespace ProjectFirma.Web.Views.Tenant
         [Required]
         public bool? ProjectExternalDataSourceEnabled { get; set; }
 
+        [DisplayName("External Data Source URL")]
+        [StringLength(TenantAttribute.FieldLengths.ProjectExternalDataSourceApiUrl)]
+        public string ProjectExternalDataSourceApiUrl { get; set; }
+
+        [DisplayName("Source of Record Name")]
+        [StringLength(TenantAttribute.FieldLengths.ProjectExternalSourceOfRecordName)]
+        public string ProjectExternalSourceOfRecordName { get; set; }
+
+        [DisplayName("Source of Record URL")]
+        [StringLength(TenantAttribute.FieldLengths.ProjectExternalSourceOfRecordUrl)]
+        public string ProjectExternalSourceOfRecordUrl { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.ShowProposalsToThePublic)]
         [Required]
         public bool? ShowProposalsToThePublic { get; set; }
@@ -165,6 +177,9 @@ namespace ProjectFirma.Web.Views.Tenant
             MinimumYear = tenantAttribute.MinimumYear;
             BudgetTypeID = tenantAttribute.BudgetTypeID;
             ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
+            ProjectExternalDataSourceApiUrl = tenantAttribute.ProjectExternalDataSourceApiUrl;
+            ProjectExternalSourceOfRecordName = tenantAttribute.ProjectExternalSourceOfRecordName;
+            ProjectExternalSourceOfRecordUrl = tenantAttribute.ProjectExternalSourceOfRecordUrl;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
             EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
             EnableSimpleAccomplishmentsDashboard = tenantAttribute.EnableSimpleAccomplishmentsDashboard;
@@ -218,6 +233,19 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.BudgetTypeID = BudgetTypeID;
 
             tenantAttribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
+            if (!tenantAttribute.ProjectExternalDataSourceEnabled)
+            {
+                tenantAttribute.ProjectExternalDataSourceApiUrl = null;
+                tenantAttribute.ProjectExternalSourceOfRecordName = null;
+                tenantAttribute.ProjectExternalSourceOfRecordUrl = null;
+            }
+            else
+            {
+                tenantAttribute.ProjectExternalDataSourceApiUrl = ProjectExternalDataSourceApiUrl;
+                tenantAttribute.ProjectExternalSourceOfRecordName = ProjectExternalSourceOfRecordName;
+                tenantAttribute.ProjectExternalSourceOfRecordUrl = ProjectExternalSourceOfRecordUrl;
+            }
+            
             tenantAttribute.EnableEvaluations = EnableProjectEvaluations;
             tenantAttribute.EnableReports = EnableReports;
             tenantAttribute.EnableMatchmaker = EnableMatchmaker;
@@ -275,6 +303,18 @@ namespace ProjectFirma.Web.Views.Tenant
             if (!UseProjectTimeline && EnableStatusUpdates)
             {
                 errors.Add(new SitkaValidationResult<EditBasicsViewModel, bool>($"Cannot Enable Status Updates without {FieldDefinitionEnum.UseProjectTimeline.ToType().GetFieldDefinitionLabel()} also selected.", m => m.EnableStatusUpdates));
+            }
+
+            if(ProjectExternalDataSourceEnabled.HasValue && ProjectExternalDataSourceEnabled.Value)
+            {
+                if (string.IsNullOrWhiteSpace(ProjectExternalSourceOfRecordName))
+                {
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, string>($"Source of Record Name is required when External Data Source is enabled.", m => m.ProjectExternalSourceOfRecordName));
+                }
+                if (string.IsNullOrWhiteSpace(ProjectExternalSourceOfRecordUrl))
+                {
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, string>($"Source of Record URL is required when External Data Source is enabled.", m => m.ProjectExternalSourceOfRecordUrl));
+                }
             }
 
             return errors;

@@ -27,6 +27,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
@@ -74,6 +75,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
         public int? SolicitationID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectExternalID)]
+        public int? ExternalID { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -95,6 +99,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             CompletionYear = project.CompletionYear;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
             SolicitationID = project.SolicitationID;
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalDataSourceEnabled)
+            {
+                ExternalID = project.ExternalID;
+
+            }
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
@@ -107,6 +116,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
             project.SolicitationID = SolicitationID;
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalDataSourceEnabled)
+            {
+                project.ExternalID = ExternalID;
+            }
 
             var secondaryProjectTaxonomyLeavesToUpdate = (SecondaryProjectTaxonomyLeafIDs?.ToList() ?? new List<int>())
                 .Select(x => new SecondaryProjectTaxonomyLeaf(project.ProjectID, x) {TenantID = HttpRequestStorage.Tenant.TenantID})
