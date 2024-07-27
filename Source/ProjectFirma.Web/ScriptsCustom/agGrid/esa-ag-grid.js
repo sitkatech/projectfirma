@@ -189,3 +189,13 @@ function HtmlRemovalSorting(valueA, valueB, nodeA, nodeB, isDescending) {
     if (noHtmlValueA == noHtmlValueB) return 0;
     return (noHtmlValueA > noHtmlValueB) ? 1 : -1;
 }
+
+function HtmlRemovalFormatter(params) {
+
+    if (!params.value) {
+        return "";
+    }
+
+    return removeHtmlFromString(params.value);
+
+}

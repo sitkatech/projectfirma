@@ -39,6 +39,7 @@ using System.EnterpriseServices.Internal;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using LtInfo.Common.AgGridWrappers;
 using GeospatialArea = ProjectFirmaModels.Models.GeospatialArea;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
@@ -711,6 +712,27 @@ namespace ProjectFirma.Web.Models
             return new HtmlString(projectClassifications.Any()
                 ? String.Join(", ", projectClassifications.OrderBy(x => classificationDictionary[x.ClassificationID].DisplayName).Select(x => classificationDictionary[x.ClassificationID].GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
+        }
+
+        public static string GetProjectClassificationsAsHyperlinksForAgGrid(this Project project, ClassificationSystem classificationSystem, Dictionary<int, Classification> classificationDictionary, Dictionary<int, List<ProjectClassification>> projectClassificationDictionary)
+        {
+            var areThereAny = projectClassificationDictionary.ContainsKey(project.ProjectID);
+            var projectClassifications = areThereAny ? projectClassificationDictionary[project.ProjectID].Where(x => classificationDictionary[x.ClassificationID].ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList() : new List<ProjectClassification>();
+
+            var projectClassificationHtmlLinkObjects = new List<HtmlLinkObject>();
+            foreach (var projectClassification in projectClassifications)
+            {
+                var classification = classificationDictionary[projectClassification.ClassificationID];
+                projectClassificationHtmlLinkObjects.Add(new HtmlLinkObject(classification.GetDisplayName(), classification.GetDetailUrl()));
+            }
+
+            if(!projectClassificationHtmlLinkObjects.Any())
+            {
+                var emptyHtmlLinkObject = new HtmlLinkObject(ViewUtilities.NaString, null);
+                projectClassificationHtmlLinkObjects.Add(emptyHtmlLinkObject);
+            }
+
+            return projectClassificationHtmlLinkObjects.ToJsonArrayForAgGrid();
         }
 
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this Project project)

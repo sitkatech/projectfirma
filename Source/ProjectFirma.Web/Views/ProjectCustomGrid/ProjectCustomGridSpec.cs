@@ -287,7 +287,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         private void AddProjectCustomGridClassificationSystemField(ProjectCustomGridConfiguration projectCustomGridConfiguration, Dictionary<int, ProjectFirmaModels.Models.Classification> classificationsDictionary, Dictionary<int, List<ProjectClassification>> projectClassificationsDictionary)
         {
             var classificationSystem = projectCustomGridConfiguration.ClassificationSystem;
-            Add($"{classificationSystem.ClassificationSystemNamePluralized}", a => a.GetProjectClassificationsAsHyperlinks(classificationSystem, classificationsDictionary, projectClassificationsDictionary), 350, AgGridColumnFilterType.Html);
+            Add($"{classificationSystem.ClassificationSystemNamePluralized}", a => a.GetProjectClassificationsAsHyperlinksForAgGrid(classificationSystem, classificationsDictionary, projectClassificationsDictionary), 350, AgGridColumnFilterType.HtmlLinkListJson);
         }
 
         public ProjectCustomGridSpec(FirmaSession currentFirmaSession,
@@ -451,10 +451,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             if (userHasTagManagePermissions)
             {
                 Add("Tags",
-                    x => new HtmlString(!x.ProjectTags.Any()
+                    x => !x.ProjectTags.Any()
                         ? string.Empty
-                        : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100,
-                    AgGridColumnFilterType.Html);
+                        : x.ProjectTags.Select(y => y.Tag).GetDisplayNamesAsUrlListForAgGrid(), 100,
+                    AgGridColumnFilterType.HtmlLinkListJson);
             }
         }
     }

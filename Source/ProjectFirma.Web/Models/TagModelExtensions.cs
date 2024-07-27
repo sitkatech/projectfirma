@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.AgGridWrappers;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -26,6 +27,19 @@ namespace ProjectFirma.Web.Models
         public static HtmlString GetDisplayNameAsUrl(this Tag tag)
         {
             return UrlTemplate.MakeHrefString(TagModelExtensions.GetDetailUrl(tag), tag.GetDisplayName());
+        }
+
+        public static string GetDisplayNamesAsUrlListForAgGrid(this IEnumerable<Tag> tags)
+        {
+            List<HtmlLinkObject> tagHtmlLinkObjects = new List<HtmlLinkObject>();
+
+            foreach (var tag in tags)
+            {
+                var tagItem = new HtmlLinkObject(tag.GetDisplayName(), tag.GetDetailUrl());
+                tagHtmlLinkObjects.Add(tagItem);
+            }
+
+            return tagHtmlLinkObjects.ToJsonArrayForAgGrid();
         }
 
         public static bool IsTagNameUnique(IEnumerable<Tag> tags, string tagName, int currentTagID)
