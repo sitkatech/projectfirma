@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var response = await client.GetAsync(getRecentlyModifiedProjectsUrl);
                 if (!response.IsSuccessStatusCode)
                 {
-                    Logger.Error($"GET {getRecentlyModifiedProjectsUrl} failed, reason: {response.ReasonPhrase}");
+                    Logger.Warn($"GET {getRecentlyModifiedProjectsUrl} failed, reason: {response.ReasonPhrase}");
                 }
                 else
                 {
@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                         catch (Exception ex)
                         {
                             Logger.Info($"Project sync failed for ProjectID: {project.ProjectID}; ExternalID: {projectDto.ProjectID}");
-                            Logger.Error(ex);
+                            Logger.Warn(ex);
                         }
                     }
                 }
@@ -228,13 +228,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                             : null;
                 if (relationshipType == null)
                 {
-                    Logger.Error($"No relationship type found for Organization '{projectOrgSimpleDto.Organization.OrganizationName}'");
+                    Logger.Warn($"No relationship type found for Organization '{projectOrgSimpleDto.Organization.OrganizationName}'");
                     continue;
                 }
                 var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectOrgSimpleDto.Organization.OrganizationName);
                 if (organization == null)
                 {
-                    Logger.Error($"No Organization found for '{projectOrgSimpleDto.Organization.OrganizationName}', GUID: '{projectOrgSimpleDto.Organization.OrganizationGuid}'");
+                    Logger.Warn($"No Organization found for '{projectOrgSimpleDto.Organization.OrganizationName}', GUID: '{projectOrgSimpleDto.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -287,7 +287,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName);
                 if (organization == null)
                 {
-                    Logger.Error($"No Organization found for '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}'");
+                    Logger.Warn($"No Organization found for '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -296,7 +296,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName);
                 if (fundingSource == null)
                 {
-                    Logger.Error($"No Funding Source found for '{projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName}'");
+                    Logger.Warn($"No Funding Source found for '{projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName}'");
                     continue;
                 }
 
@@ -324,7 +324,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName);
                 if (organization == null)
                 {
-                    Logger.Error($"No Organization found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}'");
+                    Logger.Warn($"No Organization found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -333,7 +333,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     projectFundingSourceExpenditureSimpleDto.FundingSource.FundingSourceName);
                 if (fundingSource == null)
                 {
-                    Logger.Error($"No Funding Source found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.FundingSourceName}'");
+                    Logger.Warn($"No Funding Source found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.FundingSourceName}'");
                     continue;
                 }
 
@@ -377,13 +377,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                     out var performanceMeasureName);
                 if(!pmInDictionary)
                 {
-                    Logger.Error($"No Performance Measure mapping found for '{projectIndicatorExpectedValueSimpleDto.Indicator.IndicatorDisplayName}'");
+                    Logger.Warn($"No Performance Measure mapping found for '{projectIndicatorExpectedValueSimpleDto.Indicator.IndicatorDisplayName}'");
                     continue;
                 }
                 var performanceMeasure = databaseEntities.AllPerformanceMeasures.SingleOrDefault(x => x.TenantID == tenantID && x.PerformanceMeasureDisplayName == performanceMeasureName);
                 if (performanceMeasure == null)
                 {
-                    Logger.Error($"No Performance Measure found in Database for '{performanceMeasureName}'");
+                    Logger.Warn($"No Performance Measure found in Database for '{performanceMeasureName}'");
                     continue;
                 }
 
@@ -415,7 +415,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                                     .IndicatorSubcategoryOptionName);
                         if (subcategoryOption == null)
                         {
-                            Logger.Error(
+                            Logger.Warn(
                                 $"No Performance Measure Subcategory Option found for '{indicatorExpectedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName}' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
@@ -469,13 +469,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                     out var performanceMeasureName);
                 if (!pmInDictionary)
                 {
-                    Logger.Error($"No Performance Measure mapping found for '{projectIndicatorReportedValueSimpleDto.Indicator.IndicatorDisplayName}'");
+                    Logger.Warn($"No Performance Measure mapping found for '{projectIndicatorReportedValueSimpleDto.Indicator.IndicatorDisplayName}'");
                     continue;
                 }
                 var performanceMeasure = databaseEntities.AllPerformanceMeasures.SingleOrDefault(x => x.TenantID == tenantID && x.PerformanceMeasureDisplayName == performanceMeasureName);
                 if (performanceMeasure == null)
                 {
-                    Logger.Error($"No Performance Measure found in Database for '{performanceMeasureName}'");
+                    Logger.Warn($"No Performance Measure found in Database for '{performanceMeasureName}'");
                     continue;
                 }
 
@@ -516,7 +516,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                                     .IndicatorSubcategoryOptionName);
                         if (subcategoryOption == null)
                         {
-                            Logger.Error(
+                            Logger.Warn(
                                 $"No Performance Measure Subcategory Option found for '{indicatorReportedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName}' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
@@ -576,20 +576,20 @@ namespace ProjectFirma.Web.ScheduledJobs
         //        var mimeType = FileResourceMimeType.All.SingleOrDefault(x => x.FileResourceMimeTypeName == projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName);
         //        if (mimeType == null)
         //        {
-        //            Logger.Error($"No Mime Type found for '{projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName}'");
+        //            Logger.Warn($"No Mime Type found for '{projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName}'");
         //            continue;
         //        }
         //        var projectImageTiming = ProjectImageTiming.All.SingleOrDefault(x => x.ProjectImageTimingName == projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName);
         //        if (projectImageTiming == null)
         //        {
-        //            Logger.Error($"No Project Image Timing found for '{projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName}'");
+        //            Logger.Warn($"No Project Image Timing found for '{projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName}'");
         //            continue;
         //        }
         //        var createPerson  = databaseEntities.AllPeople.SingleOrDefault(x => x.TenantID == tenantID && x.PersonGuid == projectImageSimpleDto.FileResourceInfo.CreatePersonGUID) ?? 
         //                            databaseEntities.AllPeople.Where(x => x.TenantID == tenantID && x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ESAAdmin.RoleID).OrderBy(x => x.RoleID).ThenBy(x => x.PersonID).FirstOrDefault();
         //        if (createPerson == null)
         //        {
-        //            Logger.Error($"No Create Person found for '{projectImageSimpleDto.FileResourceInfo.CreatePersonGUID}' and the system could not default the Create Person to a current Admin or ESA Admin");
+        //            Logger.Warn($"No Create Person found for '{projectImageSimpleDto.FileResourceInfo.CreatePersonGUID}' and the system could not default the Create Person to a current Admin or ESA Admin");
         //            continue;
         //        }
         //        var fileResourceInfo = allFileResourceInfos.SingleOrDefault(x =>
