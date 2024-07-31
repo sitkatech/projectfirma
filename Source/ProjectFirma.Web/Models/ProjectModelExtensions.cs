@@ -716,6 +716,24 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NaString);
         }
 
+        public static string GetProjectGeospatialAreaNamesAsHyperlinksForAgGrid(this Project project, GeospatialAreaType geospatialAreaType)
+        {
+            var projectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
+            var projectGeospatialAreaHtmlLinkObjects = new List<HtmlLinkObject>();
+            if (projectGeospatialAreas.Any())
+            {
+                projectGeospatialAreaHtmlLinkObjects = projectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaShortName).Select(x =>
+                    new HtmlLinkObject(x.GeospatialArea.GetDisplayName(), x.GeospatialArea.GetDetailUrl())).ToList();
+            }
+            else
+            {
+                projectGeospatialAreaHtmlLinkObjects.Add(new HtmlLinkObject(ViewUtilities.NaString, null));
+            }
+
+            return projectGeospatialAreaHtmlLinkObjects.ToJsonArrayForAgGrid();
+            
+        }
+
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int, vGeospatialArea> geospatialDictionary, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
         {
             var areThereAny = projectGeospatialAreaDictionary.ContainsKey(project.ProjectID);

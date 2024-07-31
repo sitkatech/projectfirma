@@ -70,12 +70,12 @@ namespace ProjectFirma.Web.Views.Organization
             }
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
-                Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, AgGridColumnFilterType.Html);
+                Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinksForAgGrid(geospatialAreaType), 350, AgGridColumnFilterType.HtmlLinkListJson);
             }
             Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 200);
             if (new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
-                Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100, AgGridColumnFilterType.Html);
+                Add("Tags", x => x.ProjectTags.Select(y => y.Tag).ToList().GetDisplayNamesAsUrlListForAgGrid(), 100, AgGridColumnFilterType.HtmlLinkListJson);
             }
             Add("# of Photos", x => x.ProjectImages.Count, 60);
         }
