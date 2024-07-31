@@ -48,8 +48,8 @@ namespace ProjectFirma.Web.Views.User
                 Add("Imper. User", a => ImpersonateUserButton.MakeImpersonateSinglePageHtmlLink(a), 45, AgGridColumnFilterType.Html);
             }
 
-            Add("Last Name", a => $"{{ \"link\":\"{a.GetDetailUrl()}\",\"displayText\":\"{a.LastName}\" }}", 100, AgGridColumnFilterType.HtmlLinkJson);
-            Add("First Name", a => $"{{ \"link\":\"{a.GetDetailUrl()}\",\"displayText\":\"{a.FirstName}\" }}", 100, AgGridColumnFilterType.HtmlLinkJson);
+            Add("Last Name", a => new HtmlLinkObject(a.LastName, a.GetDetailUrl()).ToJsonObjectForAgGrid(), 100, AgGridColumnFilterType.HtmlLinkJson);
+            Add("First Name", a => new HtmlLinkObject(a.FirstName, a.GetDetailUrl()).ToJsonObjectForAgGrid(), 100, AgGridColumnFilterType.HtmlLinkJson);
             Add("Email", a => a.Email, 200);
             Add($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", a => a.Organization.GetShortNameAsUrl(), 200);
             Add("Phone", a => a.Phone.ToPhoneNumberString(), 100);

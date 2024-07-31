@@ -30,10 +30,10 @@
                 return;
             }
             var jsonObj = JSON.parse(columnValue);
-            for (var i = 0; i < jsonObj.links.length; i++) {
-                var item = jsonObj.links[i];
-                if (!this.dropdownValues.includes(item.displayText)) {
-                    this.dropdownValues.push(item.displayText);
+            for (var i = 0; i < jsonObj.length; i++) {
+                var item = jsonObj[i];
+                if (!this.dropdownValues.includes(item.DisplayText)) {
+                    this.dropdownValues.push(item.DisplayText);
                 }
             }
 
@@ -164,9 +164,9 @@
 
         var jsonObj = JSON.parse(value.toString());
 
-        for (var i = 0; i < jsonObj.links.length; i++) {
-            var item = jsonObj.links[i];
-            if (item.displayText && this.selectedValues.includes(item.displayText)) {
+        for (var i = 0; i < jsonObj.length; i++) {
+            var item = jsonObj[i];
+            if (item.DisplayText && this.selectedValues.includes(item.DisplayText)) {
                 return true;
             }
         }

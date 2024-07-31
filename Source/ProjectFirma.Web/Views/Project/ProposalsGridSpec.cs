@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Project
                     !(x.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval &&
                       firmaSession.Role == ProjectFirmaModels.Models.Role.Normal)), 30,
                 AgGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => $"{{ \"link\":\"{x.GetDetailUrl()}\",\"displayText\":\"{x.ProjectName}\" }}", 300, AgGridColumnFilterType.HtmlLinkJson);
+            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => new HtmlLinkObject(x.ProjectName,x.GetDetailUrl()).ToJsonObjectForAgGrid(), 300, AgGridColumnFilterType.HtmlLinkJson);
             Add("Submittal Status", a => a.ProjectApprovalStatus.ProjectApprovalStatusDisplayName, 110, AgGridColumnFilterType.SelectFilterStrict);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {

@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.Organization
         public ProjectFundingSourceExpendituresForOrganizationGridSpec(ProjectFirmaModels.Models.Organization organization)
         {
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
-                a => $"{{ \"link\":\"{a.Project.GetDetailUrl()}\",\"displayText\":\"{a.Project.GetDisplayName()}\" }}",
+                a => new HtmlLinkObject(a.Project.GetDisplayName(), a.Project.GetDetailUrl()).ToJsonObjectForAgGrid(),
                 250,
                 AgGridColumnFilterType.HtmlLinkJson);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())

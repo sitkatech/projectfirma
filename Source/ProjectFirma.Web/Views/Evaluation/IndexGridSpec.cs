@@ -48,9 +48,9 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluation))
             {
-                return $"{{ \"link\":\"{evaluation.GetDetailUrl()}\",\"displayText\":\"{evaluation.EvaluationName}\" }}";
+                return new HtmlLinkObject(evaluation.EvaluationName, evaluation.GetDetailUrl()).ToJsonObjectForAgGrid();
             }
-            return $"{{ \"link\":\"\",\"displayText\":\"{evaluation.EvaluationName}\" }}";
+            return new HtmlLinkObject(evaluation.EvaluationName,string.Empty).ToJsonObjectForAgGrid();
             
         }
 

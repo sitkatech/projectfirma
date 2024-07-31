@@ -136,7 +136,7 @@ function htmlLinkJsonFilterTextMatcher(filterOption, value, filterText) {
     }
 
     var jsonObj = JSON.parse(value);
-    var textToCompare = jsonObj.displaytext;
+    var textToCompare = jsonObj.DisplayText;
     switch (filterOption) {
     case 'contains':
         return textToCompare.indexOf(filterText) >= 0;
@@ -166,15 +166,15 @@ function JsonDisplayTextSorting(valueA, valueB, nodeA, nodeB, isDescending) {
 
     if (valueA) {
         var jsonObjectA = JSON.parse(valueA);
-        if (jsonObjectA.displayText) {
-            displayTextA = jsonObjectA.displayText.toLowerCase();
+        if (jsonObjectA.DisplayText) {
+            displayTextA = jsonObjectA.DisplayText.toLowerCase();
         }
     }
 
     if (valueB) {
         var jsonObjectB = JSON.parse(valueB);
-        if (jsonObjectB.displayText) {
-            displayTextB = jsonObjectB.displayText.toLowerCase();
+        if (jsonObjectB.DisplayText) {
+            displayTextB = jsonObjectB.DisplayText.toLowerCase();
         }
     }
 

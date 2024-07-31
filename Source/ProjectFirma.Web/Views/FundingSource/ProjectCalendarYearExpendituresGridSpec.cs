@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public ProjectCalendarYearExpendituresGridSpec(IEnumerable<int> calendarYearsForProjectExpenditures)
         {
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
-                a => $"{{ \"link\":\"{a.Project.GetDetailUrl()}\",\"displayText\":\"{a.Project.GetDisplayName()}\" }}",
+                a => new HtmlLinkObject(a.Project.GetDisplayName(), a.Project.GetDetailUrl()).ToJsonObjectForAgGrid(),
                 350,
                 AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);

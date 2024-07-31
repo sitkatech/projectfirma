@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
 
             Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
             Add("edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute")), 30, AgGridColumnFilterType.None);           
-            Add(FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().ToGridHeaderString(),a => $"{{ \"link\":\"{a.GetDetailUrl()}\",\"displayText\":\"{a.FundingSourceCustomAttributeTypeName}\" }}", 200, AgGridColumnFilterType.HtmlLinkJson);
+            Add(FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().ToGridHeaderString(),a => new HtmlLinkObject(a.FundingSourceCustomAttributeTypeName, a.GetDetailUrl()).ToJsonObjectForAgGrid(), 200, AgGridColumnFilterType.HtmlLinkJson);
             Add("Description", a => a.FundingSourceCustomAttributeTypeDescription, 300);
             Add(FieldDefinitionEnum.FundingSourceCustomAttributeDataType.ToType().ToGridHeaderString(), a => a.FundingSourceCustomAttributeDataType.FundingSourceCustomAttributeDataTypeDisplayName, 100, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString(), a => a.GetMeasurementUnitDisplayName(), 100, AgGridColumnFilterType.SelectFilterStrict);

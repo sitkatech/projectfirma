@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using System.Web.Helpers;
 
 namespace LtInfo.Common.AgGridWrappers
 {
@@ -33,12 +34,12 @@ namespace LtInfo.Common.AgGridWrappers
     {
         public string DisplayText { get; set; }
 
-        public string Url { get; set; }
+        public string Link { get; set; }
 
-        public HtmlLinkObject(string displayText, string url)
+        public HtmlLinkObject(string displayText, string link)
         {
             DisplayText = displayText;
-            Url = url;
+            Link = link;
         }
     }
 
@@ -46,12 +47,12 @@ namespace LtInfo.Common.AgGridWrappers
     {
         public static string ToJsonObjectForAgGrid(this HtmlLinkObject htmlLinkObject)
         {
-            return $"{{ \"link\":\"{htmlLinkObject.Url}\",\"displayText\":\"{htmlLinkObject.DisplayText}\" }}";
+            return Json.Encode(htmlLinkObject);
         }
 
         public static string ToJsonArrayForAgGrid(this IEnumerable<HtmlLinkObject> htmlLinkObjects)
         {
-            return $"{{ \"links\": [{string.Join(",", htmlLinkObjects.Select(x => x.ToJsonObjectForAgGrid()))}] }}";
+            return Json.Encode(htmlLinkObjects);
         }
 
     }

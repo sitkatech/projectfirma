@@ -8,10 +8,10 @@ function HtmlLinkJsonRenderer(params) {
     }
 
     var jsonObj = JSON.parse(params.value);
-    if (jsonObj.link && jsonObj.displayText) {
-        return `<a href="${jsonObj.link}">${jsonObj.displayText}</a>`;
-    }else if (jsonObj.displayText) {
-        return jsonObj.displayText;
+    if (jsonObj.Link && jsonObj.DisplayText) {
+        return `<a href="${jsonObj.Link}">${jsonObj.DisplayText}</a>`;
+    }else if (jsonObj.DisplayText) {
+        return jsonObj.DisplayText;
     }
 
     return "";
@@ -23,10 +23,10 @@ function HtmlLinkJsonFormatter(params) {
     if (!params.value) {
         return "";
     }
-
+    //console.log(params.value);
     var jsonObj = JSON.parse(params.value);
-    if (jsonObj.displayText) {
-        return jsonObj.displayText;
+    if (jsonObj.DisplayText) {
+        return jsonObj.DisplayText;
     }
 
     return "";

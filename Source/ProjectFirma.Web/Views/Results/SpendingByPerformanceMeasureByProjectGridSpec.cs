@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Results
         public SpendingByPerformanceMeasureByProjectGridSpec(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
-                a => $"{{ \"link\":\"{a.ProjectUrl}\",\"displayText\":\"{a.ProjectName}\" }}", 350,
+                a => new HtmlLinkObject(a.ProjectName,a.ProjectUrl).ToJsonObjectForAgGrid(), 350,
                 AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
             foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x => x.PerformanceMeasureSubcategoryDisplayName))

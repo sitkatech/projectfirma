@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 110,
                 AgGridColumnFilterType.SelectFilterStrict);
 
-            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => $"{{ \"link\":\"{x.GetDetailUrl()}\",\"displayText\":\"{x.ProjectName}\" }}", 180, AgGridColumnFilterType.HtmlLinkJson);
+            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => new HtmlLinkObject(x.ProjectName, x.GetDetailUrl()).ToJsonObjectForAgGrid(), 180, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(),
                 x => x.GetPrimaryContact() == null ? ViewUtilities.NoneString.ToHTMLFormattedString() : x.GetPrimaryContact().GetFullNameFirstLastAndOrgShortNameAsUrl(currentFirmaSession),
                 95);

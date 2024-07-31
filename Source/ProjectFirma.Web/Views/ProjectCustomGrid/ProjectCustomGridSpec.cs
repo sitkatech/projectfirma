@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 // Non-optional fields
                 // Project Name
                 case ProjectCustomGridColumnEnum.ProjectName:
-                    Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => $"{{ \"link\":\"{x.GetDetailUrl()}\",\"displayText\":\"{x.ProjectName}\" }}" , 300, AgGridColumnFilterType.HtmlLinkJson);
+                    Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => new HtmlLinkObject(x.ProjectName, x.GetDetailUrl()).ToJsonObjectForAgGrid() , 300, AgGridColumnFilterType.HtmlLinkJson);
                     break;
                 case ProjectCustomGridColumnEnum.PrimaryContactOrganization:
                     Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(),
@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContact:
                     Add(FieldDefinitionEnum.ProjectPrimaryContact.ToType().ToGridHeaderString(),
                         x => projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.HasValue ?
-                            new UserViewFeature().HasPermissionForPersonID(currentFirmaSession, projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value, sitkaAdminPersonIDs).HasPermission ? $"{{ \"link\":\"{PersonModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value)}\",\"displayText\":\"{projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast}\" }}" : $"{{ \"link\":\"\",\"displayText\":\"{projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast}\" }}" : $"{{ \"link\":\"\",\"displayText\":\"\" }}",
+                            new UserViewFeature().HasPermissionForPersonID(currentFirmaSession, projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value, sitkaAdminPersonIDs).HasPermission ? new HtmlLinkObject(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast,PersonModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.Value)).ToJsonObjectForAgGrid() : new HtmlLinkObject(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonFullNameFirstLast, string.Empty).ToJsonObjectForAgGrid() : new HtmlLinkObject(string.Empty, string.Empty).ToJsonObjectForAgGrid(),
                         150, AgGridColumnFilterType.HtmlLinkJson);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContactEmail:
@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     if (userHasEmailViewingPermissions)
                     {
                         Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(),
-                            x => projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.HasValue ? $"{{ \"link\":\"mailto:{projectDetailsDictionary[x.ProjectID].PrimaryContactPersonEmail}\",\"displayText\":\"{projectDetailsDictionary[x.ProjectID].PrimaryContactPersonEmail}\" }}" : $"{{ \"link\":\"\",\"displayText\":\"\" }}",
+                            x => projectDetailsDictionary[x.ProjectID].PrimaryContactPersonID.HasValue ? new HtmlLinkObject(projectDetailsDictionary[x.ProjectID].PrimaryContactPersonEmail, $"mailto:{projectDetailsDictionary[x.ProjectID].PrimaryContactPersonEmail}").ToJsonObjectForAgGrid() : new HtmlLinkObject(string.Empty, string.Empty).ToJsonObjectForAgGrid(),
                             200, AgGridColumnFilterType.HtmlLinkJson);
                     }
                     break;
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     var gridHeaderString = MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf
                         ? FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().ToGridHeaderString()
                         : FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString();
-                    Add(gridHeaderString, x => $"{{ \"link\":\"{TaxonomyLeafModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].TaxonomyLeafID)}\",\"displayText\":\"{projectDetailsDictionary[x.ProjectID].TaxonomyLeafDisplayName}\" }}", 240, AgGridColumnFilterType.HtmlLinkJson);
+                    Add(gridHeaderString, x => new HtmlLinkObject(projectDetailsDictionary[x.ProjectID].TaxonomyLeafDisplayName,TaxonomyLeafModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].TaxonomyLeafID)).ToJsonObjectForAgGrid(), 240, AgGridColumnFilterType.HtmlLinkJson);
                     break;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf)
@@ -399,7 +399,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         private static string MakeFactSheetUrlJson(ProjectFirmaModels.Models.Project project)
         {
 
-            return $"{{ \"link\":\"{project.GetFactSheetUrl()}\",\"displayText\":\"{FirmaAgGridHtmlHelpers.FactSheetIcon.ToString().Replace("\"", "'")}<span class='sr-only'>Download the Fact Sheet for {project.ProjectName}</span>\" }}";
+            return new HtmlLinkObject($"{FirmaAgGridHtmlHelpers.FactSheetIcon.ToString().Replace("\"", "'")}<span class='sr-only'>Download the Fact Sheet for {project.ProjectName}</span>",project.GetFactSheetUrl()).ToJsonObjectForAgGrid();
             
         }
 

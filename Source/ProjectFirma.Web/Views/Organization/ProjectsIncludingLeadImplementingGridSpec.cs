@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Organization
     {
         public ProjectsIncludingLeadImplementingGridSpec(ProjectFirmaModels.Models.Organization organization, FirmaSession currentFirmaSession, bool showSubmittalStatus)
         {
-            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(), a => $"{{ \"link\":\"{a.GetDetailUrl()}\",\"displayText\":\"{a.GetDisplayName()}\" }}", 350, AgGridColumnFilterType.HtmlLinkJson);
+            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(), a => new HtmlLinkObject(a.GetDisplayName(),a.GetDetailUrl()).ToJsonObjectForAgGrid(), 350, AgGridColumnFilterType.HtmlLinkJson);
 
             if (showSubmittalStatus)
             {
