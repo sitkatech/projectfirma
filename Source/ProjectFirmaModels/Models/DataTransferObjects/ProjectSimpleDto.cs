@@ -33,6 +33,8 @@ namespace ProjectFirmaModels.Models.DataTransferObjects
         public int? PrimaryContactPersonID { get; set; }
         public ProjectStageSimpleDto ProjectStage { get; set; }
         public ProjectLocationSimpleTypeSimpleDto ProjectLocationSimpleType { get; set; }
+        public string ProjectLocationAreaName { get; set; }
+        public string ProjectLocationAreaType { get; set; }
         public string PrimaryContactPersonFullName { get; set; }
         public Guid? PrimaryContactPersonGuid { get; set; }
         public ProjectApprovalStatusSimpleDto ProjectApprovalStatus { get; set; }
