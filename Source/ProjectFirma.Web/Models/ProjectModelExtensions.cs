@@ -39,8 +39,10 @@ using System.EnterpriseServices.Internal;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using LtInfo.Common.AgGridWrappers;
 using GeospatialArea = ProjectFirmaModels.Models.GeospatialArea;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
+using ProjectFirma.Web.Views.Shared.ProjectClassification;
 
 namespace ProjectFirma.Web.Models
 {
@@ -244,12 +246,31 @@ namespace ProjectFirma.Web.Models
             return fundingOrganizations.OrderBy(x => x.FundingSourceName).ToList();
         }
 
+        public static string  GetFundingSourcesAsLinksForAgGrid(this Project project, bool excludeTargetedFunders)
+        {
+            var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource)
+                .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders && x.SecuredAmount > 0) || !excludeTargetedFunders).Select(x => x.FundingSource), new HavePrimaryKeyComparer<FundingSource>());
+            var fundingSources = fundingOrganizations.OrderBy(x => x.FundingSourceName).ToList();
+            var htmlLinkObjects = fundingSources.Select(x => new HtmlLinkObject(x.GetDisplayName(), x.GetDetailUrl())).ToList();
+            return htmlLinkObjects.ToJsonArrayForAgGrid();
+        }
+
 
         public static List<Organization> GetAssociatedOrganizations(this Project project)
         {
             var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
             explicitOrganizations.AddRange(project.GetFundingOrganizations(false));
             return explicitOrganizations.Select(x => x.Organization).Distinct(new HavePrimaryKeyComparer<Organization>()).ToList();
+        }
+
+        public static string GetAssociatedOrganizationsAsLinksForAgGrid(this Project project)
+        {
+            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
+            explicitOrganizations.AddRange(project.GetFundingOrganizations(false));
+            var organizations = explicitOrganizations.Select(x => x.Organization).Distinct(new HavePrimaryKeyComparer<Organization>()).ToList().OrderBy(x => x.OrganizationShortName);
+
+            var htmlLinkObjects = organizations.Select(x => new HtmlLinkObject(x.GetOrganizationShortNameIfAvailable(), x.GetDetailUrl())).ToList();
+            return htmlLinkObjects.ToJsonArrayForAgGrid();
         }
 
         public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationRelationships(this Project project)
@@ -695,6 +716,24 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NaString);
         }
 
+        public static string GetProjectGeospatialAreaNamesAsHyperlinksForAgGrid(this Project project, GeospatialAreaType geospatialAreaType)
+        {
+            var projectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
+            var projectGeospatialAreaHtmlLinkObjects = new List<HtmlLinkObject>();
+            if (projectGeospatialAreas.Any())
+            {
+                projectGeospatialAreaHtmlLinkObjects = projectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaShortName).Select(x =>
+                    new HtmlLinkObject(x.GeospatialArea.GetDisplayName(), x.GeospatialArea.GetDetailUrl())).ToList();
+            }
+            else
+            {
+                projectGeospatialAreaHtmlLinkObjects.Add(new HtmlLinkObject(ViewUtilities.NaString, null));
+            }
+
+            return projectGeospatialAreaHtmlLinkObjects.ToJsonArrayForAgGrid();
+            
+        }
+
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int, vGeospatialArea> geospatialDictionary, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
         {
             var areThereAny = projectGeospatialAreaDictionary.ContainsKey(project.ProjectID);
@@ -704,6 +743,29 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NaString);
         }
 
+        public static string GetProjectGeospatialAreaNamesAsHyperlinksForAgGrid(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int, vGeospatialArea> geospatialDictionary, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
+        {
+            var areThereAny = projectGeospatialAreaDictionary.ContainsKey(project.ProjectID);
+            var projectGeospatialAreas = areThereAny ? projectGeospatialAreaDictionary[project.ProjectID].Where(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList() : new List<ProjectGeospatialArea>();
+
+            var projectGeospatialAreaHtmlLinkObjects = new List<HtmlLinkObject>();
+            foreach (var projectGeospatialArea in projectGeospatialAreas.OrderBy(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaShortName))
+            {
+                var area = geospatialDictionary[projectGeospatialArea.GeospatialAreaID];
+                projectGeospatialAreaHtmlLinkObjects.Add(new HtmlLinkObject(area.GeospatialAreaShortName, area.GetDetailUrl()));
+            }
+
+
+            if (!projectGeospatialAreas.Any())
+            {
+                var emptyHtmlLinkObject = new HtmlLinkObject(ViewUtilities.NaString, null);
+                projectGeospatialAreaHtmlLinkObjects.Add(emptyHtmlLinkObject);
+            }
+
+            return projectGeospatialAreaHtmlLinkObjects.ToJsonArrayForAgGrid();
+
+        }
+
         public static HtmlString GetProjectClassificationsAsHyperlinks(this Project project, ClassificationSystem classificationSystem, Dictionary<int, Classification> classificationDictionary, Dictionary<int, List<ProjectClassification>> projectClassificationDictionary)
         {
             var areThereAny = projectClassificationDictionary.ContainsKey(project.ProjectID);
@@ -711,6 +773,27 @@ namespace ProjectFirma.Web.Models
             return new HtmlString(projectClassifications.Any()
                 ? String.Join(", ", projectClassifications.OrderBy(x => classificationDictionary[x.ClassificationID].DisplayName).Select(x => classificationDictionary[x.ClassificationID].GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
+        }
+
+        public static string GetProjectClassificationsAsHyperlinksForAgGrid(this Project project, ClassificationSystem classificationSystem, Dictionary<int, Classification> classificationDictionary, Dictionary<int, List<ProjectClassification>> projectClassificationDictionary)
+        {
+            var areThereAny = projectClassificationDictionary.ContainsKey(project.ProjectID);
+            var projectClassifications = areThereAny ? projectClassificationDictionary[project.ProjectID].Where(x => classificationDictionary[x.ClassificationID].ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList() : new List<ProjectClassification>();
+
+            var projectClassificationHtmlLinkObjects = new List<HtmlLinkObject>();
+            foreach (var projectClassification in projectClassifications)
+            {
+                var classification = classificationDictionary[projectClassification.ClassificationID];
+                projectClassificationHtmlLinkObjects.Add(new HtmlLinkObject(classification.GetDisplayName(), classification.GetDetailUrl()));
+            }
+
+            if(!projectClassificationHtmlLinkObjects.Any())
+            {
+                var emptyHtmlLinkObject = new HtmlLinkObject(ViewUtilities.NaString, null);
+                projectClassificationHtmlLinkObjects.Add(emptyHtmlLinkObject);
+            }
+
+            return projectClassificationHtmlLinkObjects.ToJsonArrayForAgGrid();
         }
 
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this Project project)

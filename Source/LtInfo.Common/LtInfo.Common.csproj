@@ -193,6 +193,7 @@
     <Compile Include="AgGridWrappers\AgGridHtmlHelpers.cs" />
     <Compile Include="AgGridWrappers\GridOutputFormat.cs" />
     <Compile Include="AgGridWrappers\GridSpec.cs" />
+    <Compile Include="AgGridWrappers\HtmlLinkObject.cs" />
     <Compile Include="AgGridWrappers\SelectProjectsModalDialogForm.cs" />
     <Compile Include="AssertCustom.cs" />
     <Compile Include="BootstrapWrappers\BootstrapHtmlHelpers.cs" />

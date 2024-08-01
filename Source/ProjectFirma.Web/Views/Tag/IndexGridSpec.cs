@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Tag
                 Add("Delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(TagModelExtensions.GetDeleteUrl(x), true), 30);
             }
 
-            Add(FieldDefinitionEnum.TagName.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(TagModelExtensions.GetDetailUrl(a), a.GetDisplayName()), 200, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.TagName.ToType().ToGridHeaderString(), a => new HtmlLinkObject(a.GetDisplayName(),a.GetDetailUrl()).ToJsonObjectForAgGrid(), 200, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.TagDescription.ToType().ToGridHeaderString(), a => a.TagDescription, 600);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectTags.Count, 65);
         }

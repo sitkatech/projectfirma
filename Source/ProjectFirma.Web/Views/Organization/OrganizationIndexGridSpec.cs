@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.Organization
             {
                 Add("delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
             }
-            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => new HtmlLinkObject(a.OrganizationName, a.GetDetailUrl()).ToJsonObjectForAgGrid(), 400, AgGridColumnFilterType.HtmlLinkJson);
             Add("Short Name", a => a.OrganizationShortName, 100);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), x => x.OrganizationType?.GetOrganizationTypeHtmlStringWithColor(), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), a => a.GetPrimaryContactPersonAsUrl(currentFirmaSession), 120);

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
+using LtInfo.Common.AgGridWrappers;
 
 namespace ProjectFirmaModels.Models
 {
@@ -189,6 +190,7 @@ namespace ProjectFirmaModels.Models
         {
             return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.CanStewardProjects)?.Organization;
         }
+
 
         public TaxonomyBranch GetCanStewardProjectsTaxonomyBranch()
         {

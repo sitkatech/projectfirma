@@ -55,8 +55,8 @@ namespace ProjectFirma.Web.Views.FundingSource
             {
                 Add("Delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceDeleteFeature.HasPermission(currentFirmaSession, x).HasPermission, true), 30, AgGridColumnFilterType.None);
             }
-            Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 320, AgGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization.GetDetailUrl(), a.Organization.GetDisplayName()), 300);
+            Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), a => new HtmlLinkObject(a.GetDisplayName(),a.GetDetailUrl()).ToJsonObjectForAgGrid() , 320, AgGridColumnFilterType.HtmlLinkJson);
+            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => new HtmlLinkObject(a.Organization.GetDisplayName(),a.Organization.GetDetailUrl()).ToJsonObjectForAgGrid(), 300, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, AgGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.FundingSourceDescription, 300);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, AgGridColumnFilterType.SelectFilterStrict);

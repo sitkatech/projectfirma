@@ -17,15 +17,15 @@ namespace ProjectFirma.Web.Views.Organization
         public ProjectFundingSourceExpendituresForOrganizationGridSpec(ProjectFirmaModels.Models.Organization organization)
         {
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
-                a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.GetDisplayName()),
+                a => new HtmlLinkObject(a.Project.GetDisplayName(), a.Project.GetDetailUrl()).ToJsonObjectForAgGrid(),
                 250,
-                AgGridColumnFilterType.Html);
+                AgGridColumnFilterType.HtmlLinkJson);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetDisplayNameAsUrl(), 150,
-                    AgGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetDisplayNameAsUrlForAgGrid(), 150,
+                    AgGridColumnFilterType.HtmlLinkJson);
             }
-            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrlForAgGrid(), 150, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), x => x.FundingSource.Organization.OrganizationType?.GetOrganizationTypeHtmlStringWithColor(), 80, AgGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.FundingSource.GetDetailUrl(), x.FundingSource.GetDisplayName()), 120);
