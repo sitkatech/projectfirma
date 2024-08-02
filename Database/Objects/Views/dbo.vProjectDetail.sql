@@ -17,6 +17,7 @@ p.ProjectID
 , p.PrimaryContactPersonID
 , case when person.PersonID is not null then person.FirstName + ' ' + person.LastName
     else  po.FullNameFirstLast end as PrimaryContactPersonFullNameFirstLast
+, p.PrimaryContactPersonFullName as ExternalProjectPrimaryContactPersonFullName
 ,  coalesce(person.Email, po.Email) as PrimaryContactPersonEmail
 , coalesce(pma.PerformanceMeasureActualCount, 0) as PerformanceMeasureActualCount
 , coalesce(pme.PerformanceMeasureExpectedCount, 0) as PerformanceMeasureExpectedCount

@@ -26,7 +26,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int projectStageID, int projectApprovalStatusID, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? performanceMeasureExpectedCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount, int? proposingOrganizationID, string projectContactsWhoCanManageProjectConcatenated) : this()
+        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int projectStageID, int projectApprovalStatusID, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string externalProjectPrimaryContactPersonFullName, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? performanceMeasureExpectedCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount, int? proposingOrganizationID, string projectContactsWhoCanManageProjectConcatenated) : this()
         {
             this.ProjectID = projectID;
             this.PrimaryKey = primaryKey;
@@ -38,6 +38,7 @@ namespace ProjectFirmaModels.Models
             this.PrimaryContactOrganizationDisplayName = primaryContactOrganizationDisplayName;
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.PrimaryContactPersonFullNameFirstLast = primaryContactPersonFullNameFirstLast;
+            this.ExternalProjectPrimaryContactPersonFullName = externalProjectPrimaryContactPersonFullName;
             this.PrimaryContactPersonEmail = primaryContactPersonEmail;
             this.PerformanceMeasureActualCount = performanceMeasureActualCount;
             this.PerformanceMeasureExpectedCount = performanceMeasureExpectedCount;
@@ -67,6 +68,7 @@ namespace ProjectFirmaModels.Models
             this.PrimaryContactOrganizationDisplayName = vProjectDetail.PrimaryContactOrganizationDisplayName;
             this.PrimaryContactPersonID = vProjectDetail.PrimaryContactPersonID;
             this.PrimaryContactPersonFullNameFirstLast = vProjectDetail.PrimaryContactPersonFullNameFirstLast;
+            this.ExternalProjectPrimaryContactPersonFullName = vProjectDetail.ExternalProjectPrimaryContactPersonFullName;
             this.PrimaryContactPersonEmail = vProjectDetail.PrimaryContactPersonEmail;
             this.PerformanceMeasureActualCount = vProjectDetail.PerformanceMeasureActualCount;
             this.PerformanceMeasureExpectedCount = vProjectDetail.PerformanceMeasureExpectedCount;
@@ -94,6 +96,7 @@ namespace ProjectFirmaModels.Models
         public string PrimaryContactOrganizationDisplayName { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public string PrimaryContactPersonFullNameFirstLast { get; set; }
+        public string ExternalProjectPrimaryContactPersonFullName { get; set; }
         public string PrimaryContactPersonEmail { get; set; }
         public int? PerformanceMeasureActualCount { get; set; }
         public int? PerformanceMeasureExpectedCount { get; set; }
