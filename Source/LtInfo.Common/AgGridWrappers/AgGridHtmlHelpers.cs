@@ -188,7 +188,7 @@ namespace LtInfo.Common.AgGridWrappers
           ],
 
           // default col def properties get applied to all columns
-          defaultColDef: {{sortable: true, filter: true, floatingFilter:true, wrapHeaderText: true, autoHeaderHeight: true, }},
+          defaultColDef: {{sortable: true, filter: true, floatingFilter:true, wrapHeaderText: true }},
           rowSelection: 'multiple', // allow rows to be selected
           animateRows: true, // have rows animate to new positions when sorted
 
@@ -269,6 +269,8 @@ namespace LtInfo.Common.AgGridWrappers
 
                 bool resizable = !(columnSpec.GridWidth < 35);// most cols with a width < 35px are icon buttons (like edit, delete, download fact sheet)  
                 columnDefinitionStringBuilder.AppendFormat(", \"resizable\": {0}", resizable.ToString().ToLower());
+                bool autoHeaderHeight = !(columnSpec.GridWidth < 35);// most cols with a width < 35px are icon buttons (like edit, delete, download fact sheet) and we do not want to adjust the header height for these
+                columnDefinitionStringBuilder.AppendFormat(", \"autoHeaderHeight\": {0}", autoHeaderHeight.ToString().ToLower());
 
                 if (!resizable)
                 {
