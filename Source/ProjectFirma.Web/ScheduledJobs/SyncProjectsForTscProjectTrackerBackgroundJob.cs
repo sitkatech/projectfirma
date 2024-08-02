@@ -350,7 +350,13 @@ namespace ProjectFirma.Web.ScheduledJobs
             var allProjectFundingSourceBudgets = databaseEntities.AllProjectFundingSourceBudgets.Local;
             project.ProjectFundingSourceBudgets.Merge(projectFundingSourceBudgetsUpdated,
                 allProjectFundingSourceBudgets,
-                (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID, databaseEntities);
+                (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,
+                (x, y) =>
+                {
+                    x.SecuredAmount = y.SecuredAmount;
+                    x.TargetedAmount = y.TargetedAmount;
+                },
+                databaseEntities);
 
         }
 
@@ -392,8 +398,8 @@ namespace ProjectFirma.Web.ScheduledJobs
             var allProjectFundingSourceExpenditures = databaseEntities.AllProjectFundingSourceExpenditures.Local;
             project.ProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,
                 allProjectFundingSourceExpenditures,
-                (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID &&
-                          x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear, databaseEntities);
+                (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, databaseEntities);
 
         }
 
@@ -732,7 +738,16 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             project.ProjectImages.Merge(projectImagesUpdated,
                 allProjectImages,
-                (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.FileResourceInfoID == y.FileResourceInfoID, databaseEntities);
+                (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.FileResourceInfoID == y.FileResourceInfoID,
+                (x, y) =>
+                {
+                    x.ProjectImageTimingID = y.ProjectImageTimingID;
+                    x.Caption = y.Caption;
+                    x.Credit = y.Credit;
+                    x.IsKeyPhoto = y.IsKeyPhoto;
+                    x.IncludeInFactSheet = y.IncludeInFactSheet;
+                },
+                databaseEntities);
         }
 
         private void UpdateProjectNotes(Project project, ProjectSimpleDto projectSimpleDto, int tenantID, DatabaseEntities databaseEntities)
