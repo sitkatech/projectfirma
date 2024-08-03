@@ -145,35 +145,35 @@ namespace ProjectFirma.Web.ScheduledJobs
                     Logger.Info("Projects sync complete.");
                 }
 
-                Logger.Info("Starting Project Images sync.");
-                foreach (var externalID in recentlyModifiedExternalIDs)
-                {
-                    var project = projects.Single(x => x.ExternalID == externalID);
-                    Logger.Info($"Starting Project Images sync for ProjectID: {project?.ProjectID}; ExternalID: {externalID}");
+                //Logger.Info("Starting Project Images sync.");
+                //foreach (var externalID in recentlyModifiedExternalIDs)
+                //{
+                //    var project = projects.Single(x => x.ExternalID == externalID);
+                //    Logger.Info($"Starting Project Images sync for ProjectID: {project?.ProjectID}; ExternalID: {externalID}");
 
-                    var getProjectImagesUrl = $"{apiUrl}/projects/{externalID}/project-images?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
-                    var getProjectImages = await client.GetAsync(getProjectImagesUrl);
-                    if (!getProjectImages.IsSuccessStatusCode)
-                    {
-                        Logger.Warn($"GET {getProjectImagesUrl} failed, reason: {getProjectImages.ReasonPhrase}");
-                    }
-                    else
-                    {
-                        var projectImageDtos = await getProjectImages.Content.ReadAsAsync<List<ProjectImageSimpleDto>>();
-                        try
-                        {
-                            await UpdateProjectImages(project, projectImageDtos, tenantID, databaseEntities, client, apiUrl);
-                            databaseEntities.SaveChangesWithNoAuditing(tenantID);
-                            Logger.Info($"Project Images sync complete for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Info($"Project Images sync failed for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
-                            Logger.Warn(ex);
-                        }
-                    }
-                }
-                Logger.Info("Project Images sync complete.");
+                //    var getProjectImagesUrl = $"{apiUrl}/projects/{externalID}/project-images?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
+                //    var getProjectImages = await client.GetAsync(getProjectImagesUrl);
+                //    if (!getProjectImages.IsSuccessStatusCode)
+                //    {
+                //        Logger.Warn($"GET {getProjectImagesUrl} failed, reason: {getProjectImages.ReasonPhrase}");
+                //    }
+                //    else
+                //    {
+                //        var projectImageDtos = await getProjectImages.Content.ReadAsAsync<List<ProjectImageSimpleDto>>();
+                //        try
+                //        {
+                //            await UpdateProjectImages(project, projectImageDtos, tenantID, databaseEntities, client, apiUrl);
+                //            databaseEntities.SaveChangesWithNoAuditing(tenantID);
+                //            Logger.Info($"Project Images sync complete for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            Logger.Info($"Project Images sync failed for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
+                //            Logger.Warn(ex);
+                //        }
+                //    }
+                //}
+                //Logger.Info("Project Images sync complete.");
             }
         }
 
