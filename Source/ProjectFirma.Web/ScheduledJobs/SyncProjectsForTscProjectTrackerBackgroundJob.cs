@@ -59,7 +59,9 @@ namespace ProjectFirma.Web.ScheduledJobs
             {"Special Status Species Sites Protected or Re-established", "Special Status Species Sites Protected or Re-established"},
             {"Tons of Biomass Utilized", "Tons of Biomass Utilized"},
             {"Tons of Greenhouse Gases Reduced", "Tons of Greenhouse Gases Reduced"},
-            {"Watercraft Inspections for Invasive Species", "Watercraft Inspections for Invasive Species"}
+            {"Watercraft Inspections for Invasive Species", "Watercraft Inspections for Invasive Species"},
+            {"Facilities Improved or Created", "Facilities Improved & Created"},
+            {"Acres of Environmentally Sensitive Land Acquired", "Acres of Environmentally Sensitive Land Acquired"}
         };
 
         private Dictionary<string, string> EIPActionPriorityNumberToTCSStrategy = new Dictionary<string, string>()  {
@@ -460,7 +462,18 @@ namespace ProjectFirma.Web.ScheduledJobs
                         subcategoryOption =
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
                                 x.PerformanceMeasureSubcategoryOptionName == "Unspecified");
-                        // if it is not in there, then we default the option to "Unspecified"
+                        if (subcategoryOption == null)
+                        {
+                            Logger.Warn(
+                                $"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                            continue;
+                        }
+                    }
+                    else if (performanceMeasureName == "Acres of Environmentally Sensitive Land Acquired")
+                    {
+                        // EIP has the subcategory and option named, but it is the "Default" subcategory and option in TCS
+                        subcategoryOption = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
+                                x.PerformanceMeasureSubcategoryOptionName == "Default");
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
@@ -484,8 +497,6 @@ namespace ProjectFirma.Web.ScheduledJobs
                     }
                     else
                     {
-                        
-
                         subcategoryOption =
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
                                 x.PerformanceMeasureSubcategoryOptionName == "Unspecified");
