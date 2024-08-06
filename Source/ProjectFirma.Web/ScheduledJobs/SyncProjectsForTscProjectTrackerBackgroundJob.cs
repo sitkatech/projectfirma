@@ -60,7 +60,6 @@ namespace ProjectFirma.Web.ScheduledJobs
             {"Tons of Biomass Utilized", "Tons of Biomass Utilized"},
             {"Tons of Greenhouse Gases Reduced", "Tons of Greenhouse Gases Reduced"},
             {"Watercraft Inspections for Invasive Species", "Watercraft Inspections for Invasive Species"},
-            {"Facilities Improved or Created", "Facilities Improved & Created"},
             {"Acres of Environmentally Sensitive Land Acquired", "Acres of Environmentally Sensitive Land Acquired"}
         };
 
