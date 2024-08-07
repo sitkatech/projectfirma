@@ -266,13 +266,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                             : null;
                 if (relationshipType == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No relationship type found for Organization '{projectOrgSimpleDto.Organization.OrganizationName}'");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No relationship type found for Organization '{projectOrgSimpleDto.Organization.OrganizationName}'");
                     continue;
                 }
                 var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectOrgSimpleDto.Organization.OrganizationName);
                 if (organization == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectOrgSimpleDto.Organization.OrganizationName}', GUID: '{projectOrgSimpleDto.Organization.OrganizationGuid}'");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectOrgSimpleDto.Organization.OrganizationName}', GUID: '{projectOrgSimpleDto.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -325,7 +325,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName);
                 if (organization == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}'");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -334,7 +334,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName);
                 if (fundingSource == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Funding Source found for '{projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName}', Organization Name '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Funding Source found for '{projectFundingSourceRequestSimpleDto.FundingSource.FundingSourceName}', Organization Name '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}");
                     continue;
                 }
 
@@ -373,7 +373,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName);
                 if (organization == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}'");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}'");
                     continue;
                 }
 
@@ -382,7 +382,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     projectFundingSourceExpenditureSimpleDto.FundingSource.FundingSourceName);
                 if (fundingSource == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Funding Source found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.FundingSourceName}', Organization Name '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Funding Source found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.FundingSourceName}', Organization Name '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}");
                     continue;
                 }
 
@@ -431,7 +431,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var performanceMeasure = databaseEntities.AllPerformanceMeasures.SingleOrDefault(x => x.TenantID == tenantID && x.PerformanceMeasureDisplayName == performanceMeasureName);
                 if (performanceMeasure == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure found in Database for '{performanceMeasureName}'");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure found in Database for '{performanceMeasureName}'");
                     continue;
                 }
 
@@ -464,11 +464,11 @@ namespace ProjectFirma.Web.ScheduledJobs
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
-                                $"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                                $"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
-                    else if (performanceMeasureName == "Acres of Environmentally Sensitive Land Acquired")
+                    else if (performanceMeasureName == "Acres of Environmentally Sensitive Land Acquired" || performanceMeasureName == "Length of Public Shoreline Added")
                     {
                         // EIP has the subcategory and option named, but it is the "Default" subcategory and option in TCS
                         subcategoryOption = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
@@ -476,7 +476,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
-                                $"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                                $"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Default' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
@@ -484,13 +484,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                     {
                         subcategoryOption =
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
-                                x.PerformanceMeasureSubcategoryOptionName ==
+                                x.PerformanceMeasureSubcategoryOptionName.ToLower() ==
                                 indicatorExpectedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption
-                                    .IndicatorSubcategoryOptionName);
+                                    .IndicatorSubcategoryOptionName.ToLower());
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
-                                $"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for '{indicatorExpectedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName}' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                                $"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for '{indicatorExpectedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName}' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
@@ -503,7 +503,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
-                                $"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                                $"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
@@ -554,7 +554,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var performanceMeasure = databaseEntities.AllPerformanceMeasures.SingleOrDefault(x => x.TenantID == tenantID && x.PerformanceMeasureDisplayName == performanceMeasureName);
                 if (performanceMeasure == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure found in Database for '{performanceMeasureName}'");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure found in Database for '{performanceMeasureName}'");
                     continue;
                 }
 
@@ -597,7 +597,19 @@ namespace ProjectFirma.Web.ScheduledJobs
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
-                                $"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                                $"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                            continue;
+                        }
+                    }
+                    else if (performanceMeasureName == "Acres of Environmentally Sensitive Land Acquired" || performanceMeasureName == "Length of Public Shoreline Added")
+                    {
+                        // EIP has the subcategory and option named, but it is the "Default" subcategory and option in TCS
+                        subcategoryOption = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
+                            x.PerformanceMeasureSubcategoryOptionName == "Default");
+                        if (subcategoryOption == null)
+                        {
+                            Logger.Warn(
+                                $"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Default' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
@@ -605,13 +617,13 @@ namespace ProjectFirma.Web.ScheduledJobs
                     {
                         subcategoryOption =
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
-                                x.PerformanceMeasureSubcategoryOptionName ==
+                                x.PerformanceMeasureSubcategoryOptionName.ToLower() ==
                                 indicatorReportedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption
-                                    .IndicatorSubcategoryOptionName);
+                                    .IndicatorSubcategoryOptionName.ToLower());
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
-                                $"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for '{indicatorReportedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName}' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                                $"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for '{indicatorReportedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption.IndicatorSubcategoryOptionName}' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
@@ -624,7 +636,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
-                                $"ProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
+                                $"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Performance Measure Subcategory Option found for 'Unspecified' (Performance Measure: '{performanceMeasureName}'; Subcategory: '{performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}'");
                             continue;
                         }
                     }
@@ -735,20 +747,20 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var mimeType = FileResourceMimeType.All.SingleOrDefault(x => x.FileResourceMimeTypeName == projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName);
                 if (mimeType == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Mime Type found for '{projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName}'");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Mime Type found for '{projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName}'");
                     continue;
                 }
                 var projectImageTiming = ProjectImageTiming.All.SingleOrDefault(x => x.ProjectImageTimingName == projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName);
                 if (projectImageTiming == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Project Image Timing found for '{projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName}'");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Project Image Timing found for '{projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName}'");
                     continue;
                 }
                 var createPerson = databaseEntities.AllPeople.SingleOrDefault(x => x.TenantID == tenantID && x.PersonGuid == projectImageSimpleDto.FileResourceInfo.CreatePersonGUID) ??
                                     databaseEntities.AllPeople.Where(x => x.TenantID == tenantID && x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ESAAdmin.RoleID).OrderBy(x => x.RoleID).ThenBy(x => x.PersonID).FirstOrDefault();
                 if (createPerson == null)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Create Person found for '{projectImageSimpleDto.FileResourceInfo.CreatePersonGUID}' and the system could not default the Create Person to a current Admin or ESA Admin");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Create Person found for '{projectImageSimpleDto.FileResourceInfo.CreatePersonGUID}' and the system could not default the Create Person to a current Admin or ESA Admin");
                     continue;
                 }
 
@@ -758,7 +770,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 var response = await client.GetAsync(getFileResource);
                 if (!response.IsSuccessStatusCode)
                 {
-                    Logger.Warn($"ProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. GET {getFileResource} failed, reason: {response.ReasonPhrase}");
+                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. GET {getFileResource} failed, reason: {response.ReasonPhrase}");
                     continue;
                 }
 
