@@ -136,7 +136,7 @@ function htmlLinkJsonFilterTextMatcher(filterOption, value, filterText) {
     }
 
     var jsonObj = JSON.parse(value);
-    var textToCompare = jsonObj.DisplayText;
+    var textToCompare = jsonObj.displaytext;
     switch (filterOption) {
     case 'contains':
         return textToCompare.indexOf(filterText) >= 0;
