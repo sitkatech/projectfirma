@@ -320,6 +320,18 @@ namespace ProjectFirma.Web.ScheduledJobs
         private void UpdateProjectFundingSourceBudgets(Project project, ProjectSimpleDto projectSimpleDto, int tenantID, DatabaseEntities databaseEntities)
         {
             var projectFundingSourceBudgetsUpdated = new List<ProjectFundingSourceBudget>();
+            var noFundingSourceIdentifiedUpdated = new List<ProjectNoFundingSourceIdentified>();
+            if (projectSimpleDto.EstimatedTotalCost.HasValue)
+            {
+                project.FundingTypeID = FundingType.BudgetVariesByYear.FundingTypeID;
+                var securedFunding = projectSimpleDto.ProjectFundingSourceRequests.Any() ? projectSimpleDto.ProjectFundingSourceRequests.Sum(x => x.SecuredAmount) : 0;
+                var unfundedNeed = projectSimpleDto.EstimatedTotalCost.Value - securedFunding; //EstimatedTotalCost - GetSecuredFunding();
+                var noFundingSourceIdentified = new ProjectNoFundingSourceIdentified(project.ProjectID)
+                {
+                    NoFundingSourceIdentifiedYet = unfundedNeed
+                };
+                noFundingSourceIdentifiedUpdated.Add(noFundingSourceIdentified);
+            }
             foreach (var projectFundingSourceRequestSimpleDto in projectSimpleDto.ProjectFundingSourceRequests)
             {
                 var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName);
@@ -358,6 +370,16 @@ namespace ProjectFirma.Web.ScheduledJobs
                 },
                 databaseEntities);
 
+            databaseEntities.ProjectNoFundingSourceIdentifieds.Load();
+            var allProjectNoFundingSourceIdentifieds = databaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
+            project.ProjectNoFundingSourceIdentifieds.Merge(noFundingSourceIdentifiedUpdated,
+                allProjectNoFundingSourceIdentifieds,
+                (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID,
+                (x, y) =>
+                {
+                    x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet;
+                },
+                databaseEntities);
         }
 
         private void UpdateProjectFundingExpenditures(Project project, ProjectSimpleDto projectSimpleDto, int tenantID, DatabaseEntities databaseEntities)
