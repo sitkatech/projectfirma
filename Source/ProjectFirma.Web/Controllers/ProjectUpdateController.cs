@@ -2678,7 +2678,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            var viewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
+            var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var viewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute, userHasAdminPermissions);
             var partialViewAsString = RenderPartialViewToString(ProjectBasicsPartialViewPath, viewData);
             return partialViewAsString;
         }
@@ -3798,7 +3799,7 @@ namespace ProjectFirma.Web.Controllers
 
             var editContactsViewData = new EditContactsViewData(projectUpdateBatch.Project, allPeople, allContactRelationshipTypes, CurrentFirmaSession);
 
-            var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), CurrentFirmaSession);
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), CurrentFirmaSession, null);
             var viewData = new ContactsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, editContactsViewData, contactsValidationResult, projectContactsDetailViewData);
 
             return RazorView<Contacts, ContactsViewData, ContactsViewModel>(viewData, viewModel);
@@ -3903,7 +3904,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForContactsAsString(IEnumerable<ProjectContact> projectContacts, Person primaryContactPerson)
         {
-            var viewData = new ProjectContactsDetailViewData(projectContacts.Select(x => new ProjectContactRelationship(x.Project, x.Contact, x.ContactRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson, CurrentFirmaSession);
+            var viewData = new ProjectContactsDetailViewData(projectContacts.Select(x => new ProjectContactRelationship(x.Project, x.Contact, x.ContactRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson, CurrentFirmaSession, null);
             var partialViewAsString = RenderPartialViewToString(ProjectContactsPartialViewPath, viewData);
             return partialViewAsString;
         }

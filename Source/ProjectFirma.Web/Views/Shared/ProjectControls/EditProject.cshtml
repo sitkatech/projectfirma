@@ -50,6 +50,22 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             @Html.HiddenFor(m => m.SolicitationID)
         }
+        @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled && ViewDataTyped.UserHasAdminPermissions)
+        {
+            <div class="form-group">
+                <div class="col-xs-4 control-label">
+                    @Html.LabelWithSugarFor(m => m.ExternalID)
+                </div>
+                <div class="col-xs-8">
+                    @Html.TextBoxFor(m => m.ExternalID, new {@class = "form-control", @type="number"})
+                    @Html.ValidationMessageFor(m => m.ExternalID)
+                </div>
+            </div>
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.ExternalID)
+        }
 
         <div class="form-group">
             <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyLeafID, MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject(), null)</div>
@@ -95,6 +111,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
         }
+        
         <div class="form-group">
             <div class="col-xs-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectName)

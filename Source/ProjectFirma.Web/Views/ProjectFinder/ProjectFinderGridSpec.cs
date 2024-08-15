@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.ProjectFinder
             InitWidthsByPercentage = true;
 
             Add(FieldDefinitionEnum.MatchScore.ToType().ToGridHeaderString(), x => x.GetMatchMakerScoreWithPopover(FieldDefinitionEnum.Project), 7, AgGridColumnFilterType.Numeric);
-            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(), x => x.Project.GetDisplayNameAsUrl(), 15, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(), x => new HtmlLinkObject(x.Project.ProjectName, x.Project.GetDetailUrl()).ToJsonObjectForAgGrid(), 15, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.GetProjectStageDisplayName(), 10, AgGridColumnFilterType.SelectFilterStrict);
             Add("Lead Implementer", x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 10, AgGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), x => x.ScoreInsightDictionary[MatchmakerSubScoreTypeEnum.AreaOfInterest].Matched.ToCheckboxImageOrEmptyForGrid(), 10, AgGridColumnFilterType.SelectFilterHtmlStrict);

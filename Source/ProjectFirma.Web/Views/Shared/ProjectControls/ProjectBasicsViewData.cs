@@ -35,9 +35,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> SecondaryTaxonomyLeaves;
         public bool IsNotTaxonomyLevelLeaf { get; }
         public bool IsNotTaxonomyLevelLeafOrBranch { get; }
+        public bool UserHasAdminPermissions { get; }
 
         public ProjectBasicsViewData(ProjectFirmaModels.Models.Project project,
-            bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel, TenantAttribute tenantAttribute)
+            bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel, TenantAttribute tenantAttribute, bool userHasAdminPermissions)
         {
             Project = project;
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
@@ -50,6 +51,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             {
                 SecondaryTaxonomyLeaves = Project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf).OrderBy(x => x.GetDisplayName());
             }
+            UserHasAdminPermissions = userHasAdminPermissions;
         }        
     }
 }

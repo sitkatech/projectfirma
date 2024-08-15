@@ -206,16 +206,20 @@
                <strong>@FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()</strong>
             </div>
             <div class="col-xs-12 col-sm-8 col-md-9">
-               @if (ViewDataTyped.Project.GetPrimaryContact() != null)
-               {
-                  <span>
-                     @ViewDataTyped.Project.GetPrimaryContact().GetFullNameFirstLast() (@ViewDataTyped.Project.GetPrimaryContact().Email)
-                  </span>
-               }
-               else
-               {
-                  <span>@ViewUtilities.NoneString</span>
-               }
+                @if (!string.IsNullOrEmpty(ViewDataTyped.Project.PrimaryContactPersonFullName))
+                {
+                    <span>@ViewDataTyped.Project.PrimaryContactPersonFullName</span>
+                }
+                else if (ViewDataTyped.Project.GetPrimaryContact() != null)
+                {
+                    <span>
+                        @ViewDataTyped.Project.GetPrimaryContact().GetFullNameFirstLast() (@ViewDataTyped.Project.GetPrimaryContact().Email)
+                    </span>
+                }
+                else
+                {
+                    <span>@ViewUtilities.NoneString</span>
+                }
             </div>
          </div>
          <div class="row">

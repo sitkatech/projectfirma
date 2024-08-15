@@ -89,7 +89,7 @@ namespace LtInfo.Common.AgGridWrappers
             }}
 
             function {0}OnBtnExport() {{
-                {0}GridOptionsApi.exportDataAsCsv({{ processCellCallback: removeHtmlFromColumnForCVSDownload, fileName: '{0}' + 'Export' }});
+                {0}GridOptionsApi.exportDataAsCsv({{ fileName: '{0}' + 'Export', columnKeys: [{10}] }});
             }}
 
             function {0}GetValuesFromCheckedGridRows(valueColumnName, returnListName) {{
@@ -229,6 +229,7 @@ namespace LtInfo.Common.AgGridWrappers
             //{{ field: ""NumofProjects"" }}
             var columnDefinitionStringBuilder = new StringBuilder();
             var columnsWithAggregationStringBuilder = new StringBuilder();
+            var columnsForCsvOutput = new List<string>();
             var isFirstLoop = true;
             foreach (var columnSpec in gridSpec)
             {
@@ -299,6 +300,13 @@ namespace LtInfo.Common.AgGridWrappers
                     columnDefinitionStringBuilder.AppendFormat(", \"minWidth\": {0}", columnSpec.GridWidth + 30);
                 }
 
+                //only add columns that are not buttons or hidden to the csv output
+                if (columnSpec.GridWidth > 35)
+                {
+                    columnsForCsvOutput.Add(columnSpec.ColumnNameForJavascript);
+                }
+
+
 
                 switch (columnSpec.AgGridColumnFilterType)
                 {
@@ -310,6 +318,7 @@ namespace LtInfo.Common.AgGridWrappers
                         //columnDefinitionStringBuilder.Append(", \"floatingFilterComponent\": DropdownFloatingFilterComponent");
                         //columnDefinitionStringBuilder.AppendFormat(", \"floatingFilterComponentParams\": {{suppressFilterButton: false, field: \"{0}\"}}", columnSpec.ColumnNameForJavascript);
                         columnDefinitionStringBuilder.Append(", \"filter\": DropdownFilterComponent");
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlRemovalFormatter");
                         break;
                     case AgGridColumnFilterType.FormattedNumeric:
                     case AgGridColumnFilterType.Numeric:
@@ -323,9 +332,32 @@ namespace LtInfo.Common.AgGridWrappers
                     case AgGridColumnFilterType.Html:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
                         columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlFilterTextMatcher( filterOption, value, filterText)  }");
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlRemovalFormatter");
+                        //6/28/24 TK - This causes sorting to be very slow, so we are removing it for now
+                        //columnDefinitionStringBuilder.Append(", \"comparator\": HtmlRemovalSorting");
                         break;
                     case AgGridColumnFilterType.Text:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
+                        break;
+                    case AgGridColumnFilterType.HtmlLinkJson:
+                        columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
+                        columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlLinkJsonFilterTextMatcher( filterOption, value, filterText)  }");
+                        columnDefinitionStringBuilder.Append(", \"cellRenderer\": HtmlLinkJsonRenderer");
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlLinkJsonFormatter");
+                        columnDefinitionStringBuilder.Append(", \"comparator\": JsonDisplayTextSorting");
+                        break;
+                    case AgGridColumnFilterType.HtmlLinkJsonWithNoFilter:
+                        columnDefinitionStringBuilder.Append(", \"filter\": false");
+                        columnDefinitionStringBuilder.Append(", \"cellRenderer\": HtmlLinkJsonRenderer");
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlLinkJsonFormatter");
+                        columnDefinitionStringBuilder.Append(", \"sortable\": false");
+                        break;
+                    case AgGridColumnFilterType.HtmlLinkListJson:
+                        columnDefinitionStringBuilder.Append(", \"filter\": HtmlLinkListDropdownFilterComponent");
+                        //columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlLinkJsonFilterTextMatcher( filterOption, value, filterText)  }");
+                        columnDefinitionStringBuilder.Append(", \"cellRenderer\": HtmlLinkListJsonRenderer");
+                        columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlLinkListJsonFormatter");
+                        //columnDefinitionStringBuilder.Append(", \"comparator\": JsonDisplayTextSorting");
                         break;
                     default:
                         break;
@@ -400,8 +432,9 @@ namespace LtInfo.Common.AgGridWrappers
             var arbitraryHtml = CreateArbitraryHtml(gridSpec.ArbitraryHtml, "    ");
             var additionalIcons =
                 $"{(!string.IsNullOrWhiteSpace(arbitraryHtml) ? $"<span>{arbitraryHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}";
+            var columnsForCsvDownloadString = string.Join(",", columnsForCsvOutput.Select(x => $"\"{x}\""));
 
-            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink, additionalIcons);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink, additionalIcons, columnsForCsvDownloadString);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
 

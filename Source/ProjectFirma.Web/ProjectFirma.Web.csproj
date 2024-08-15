@@ -266,6 +266,7 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
+    <Compile Include="ScheduledJobs\SyncProjectsForTscProjectTrackerBackgroundJob.cs" />
     <Compile Include="Security\AttachmentTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentTypeViewFeature.cs" />
     <Compile Include="Security\EvaluationCriteriaManageFeature.cs" />
@@ -823,9 +824,12 @@
     <Content Include="ScriptsCustom\agGrid\DropdownFilterComponent.js" />
     <Content Include="ScriptsCustom\agGrid\HtmlFloatingFilterComponent.js" />
     <Content Include="ScriptsCustom\agGrid\HtmlFilterComponent.js" />
+    <Content Include="ScriptsCustom\agGrid\HtmlLinkListDropdownFilterComponent.js" />
+    <Content Include="ScriptsCustom\agGrid\HtmlLinkListJsonRenderer.js" />
     <Content Include="Scripts\agGrid\ag-grid-community.min.noStyle.js" />
     <Content Include="Scripts\agGrid\ag-grid.css" />
     <Content Include="Scripts\agGrid\ag-theme-alpine.css" />
+    <Content Include="ScriptsCustom\agGrid\HtmlLinkJsonRenderer.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.js" />

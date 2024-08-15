@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         public IndexGridSpec(FirmaSession currentFirmaSession)
         {
             Add("Delete", e => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, AgGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.EvaluationName.ToType().ToGridHeaderString(), a => MakeNameLinkToDetailIfAvailable(currentFirmaSession, a), 210, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.EvaluationName.ToType().ToGridHeaderString(), a => MakeNameLinkToDetailIfAvailable(currentFirmaSession, a), 210, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.EvaluationDefinition.ToType().ToGridHeaderString(), a => a.EvaluationDefinition, 210, AgGridColumnFilterType.Text);
             Add(FieldDefinitionEnum.EvaluationStatus.ToType().ToGridHeaderString(), a => a.GetEvaluationStatusDisplayName(), 80, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.EvaluationStartDate.ToType().ToGridHeaderString(), a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 80);
@@ -44,13 +44,13 @@ namespace ProjectFirma.Web.Views.Evaluation
             Add(FieldDefinitionEnum.EvaluationVisibility.ToType().ToGridHeaderString(), a => a.GetEvaluationVisibilityDisplayName(), 200, AgGridColumnFilterType.SelectFilterStrict);
         }
 
-        private static HtmlString MakeNameLinkToDetailIfAvailable(FirmaSession currentFirmaSession,  ProjectFirmaModels.Models.Evaluation evaluation)
+        private static string MakeNameLinkToDetailIfAvailable(FirmaSession currentFirmaSession,  ProjectFirmaModels.Models.Evaluation evaluation)
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluation))
             {
-                return UrlTemplate.MakeHrefString(evaluation.GetDetailUrl(), evaluation.EvaluationName);
+                return new HtmlLinkObject(evaluation.EvaluationName, evaluation.GetDetailUrl()).ToJsonObjectForAgGrid();
             }
-            return new HtmlString(evaluation.EvaluationName);
+            return new HtmlLinkObject(evaluation.EvaluationName,string.Empty).ToJsonObjectForAgGrid();
             
         }
 

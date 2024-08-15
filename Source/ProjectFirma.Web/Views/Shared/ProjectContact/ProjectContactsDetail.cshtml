@@ -25,7 +25,7 @@
 @using ProjectFirma.Web.Views.Shared.ProjectContact
 @inherits ProjectContactsDetail
 
- @if (ViewDataTyped.PrimaryContactPerson != null)
+ @if (ViewDataTyped.PrimaryContactPerson != null || !string.IsNullOrEmpty(ViewDataTyped.PrimaryContactPersonFullName))
  {
 
      <div class="row">
@@ -33,7 +33,11 @@
              @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectPrimaryContact.ToType())
          </div>
          <div class="col-xs-9">
-             @if (ViewDataTyped.PrimaryContactPerson != null)
+             @if (!string.IsNullOrEmpty(ViewDataTyped.PrimaryContactPersonFullName))
+             {
+                 <span>@ViewDataTyped.PrimaryContactPersonFullName</span>
+             }
+             else if (ViewDataTyped.PrimaryContactPerson != null)
              {
                  <span>
                      @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl(ViewDataTyped.CurrentFirmaSession) (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
@@ -85,7 +89,7 @@
     </table>
 }
 
-@if(!ViewDataTyped.AllProjectContacts.Any() && ViewDataTyped.PrimaryContactPerson == null)
+@if(!ViewDataTyped.AllProjectContacts.Any() && ViewDataTyped.PrimaryContactPerson == null && string.IsNullOrEmpty(ViewDataTyped.PrimaryContactPersonFullName))
 {
     <p class="systemText">No contacts set for this project.</p>
 }

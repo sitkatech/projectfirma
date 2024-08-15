@@ -63,13 +63,18 @@ namespace ProjectFirma.Web.ScheduledJobs
             var recurringJobIds = new List<string>();
 
             // because the reminder configurations are tenant-specific and user-configurable, just schedule the job to run nightly and have it check whether it's time to send a remind for each tenant.
-            AddRecurringJob(ProjectUpdateReminderScheduledBackgroundJob.JobName,
+            AddRecurringJob(ProjectUpdateReminderScheduledBackgroundJob.ScheduledBackgroundJobName,
                 () => ScheduledBackgroundJobLaunchHelper.RunProjectUpdateKickoffReminderScheduledBackgroundJob(),
                 MakeDailyUtcCronJobStringFromLocalTime(1,23),
                 recurringJobIds);
 
+            AddRecurringJob(SyncProjectsForTscProjectTrackerBackgroundJob.ScheduledBackgroundJobName,
+                () => ScheduledBackgroundJobLaunchHelper.RunSyncProjectsForTscProjectTrackerBackgroundJob(),
+                MakeDailyUtcCronJobStringFromLocalTime(2, 00),
+                recurringJobIds);
+
             // Clean up stale FirmaSessions
-            AddRecurringJob(CleanUpStaleFirmaSessionsJob.JobName,
+            AddRecurringJob(CleanUpStaleFirmaSessionsJob.ScheduledBackgroundJobName,
                 () => ScheduledBackgroundJobLaunchHelper.RunCleanUpStaleFirmaSessionsScheduledBackgroundJob(),
                 Cron.Hourly(10), 
                 recurringJobIds);

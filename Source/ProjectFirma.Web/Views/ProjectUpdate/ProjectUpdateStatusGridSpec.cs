@@ -59,12 +59,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 110,
                 AgGridColumnFilterType.SelectFilterStrict);
 
-            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 180, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => new HtmlLinkObject(x.ProjectName, x.GetDetailUrl()).ToJsonObjectForAgGrid(), 180, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(),
                 x => x.GetPrimaryContact() == null ? ViewUtilities.NoneString.ToHTMLFormattedString() : x.GetPrimaryContact().GetFullNameFirstLastAndOrgShortNameAsUrl(currentFirmaSession),
                 95);
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(),
-                x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, AgGridColumnFilterType.Html);
+                x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrlForAgGrid(), 150, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.GetProjectStageDisplayName(), 80, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, AgGridColumnFilterType.SelectFilterStrict);

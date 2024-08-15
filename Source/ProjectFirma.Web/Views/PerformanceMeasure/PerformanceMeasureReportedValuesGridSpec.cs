@@ -40,10 +40,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 AgGridColumnFilterType.Html, 1);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
-                    AgGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetDisplayNameAsUrlForAgGrid(), 150,
+                    AgGridColumnFilterType.HtmlLinkJson);
             }
-            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrlForAgGrid(), 150, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.GetProjectStageDisplayName(), 140, AgGridColumnFilterType.SelectFilterStrict);
             if (performanceMeasure.HasRealSubcategories())
             {
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             }
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
-                Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.Project.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, AgGridColumnFilterType.Html);
+                Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.Project.GetProjectGeospatialAreaNamesAsHyperlinksForAgGrid(geospatialAreaType), 350, AgGridColumnFilterType.HtmlLinkListJson);
             }
         }
     }

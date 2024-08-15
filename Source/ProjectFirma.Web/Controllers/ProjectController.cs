@@ -132,6 +132,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 solicitationOptions.Add(new SelectListItem{ Value = project.Solicitation.SolicitationID.ToString() , Text = project.Solicitation.SolicitationName });
             }
+            var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
                 ProjectStage.All.Except(new[] {ProjectStage.Proposal}), organizations,
@@ -141,7 +142,8 @@ namespace ProjectFirma.Web.Controllers
                 taxonomyLeafs,
                 projectCustomAttributeTypes,
                 tenantAttribute,
-                solicitationOptions
+                solicitationOptions,
+                userHasAdminPermissions
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
@@ -210,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
-            var projectBasicsViewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
+            var projectBasicsViewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute, userHasProjectAdminPermissions);
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project);
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.GetSortOrder()).ThenBy(x => x.PerformanceMeasure.GetDisplayName())));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
@@ -246,7 +248,7 @@ namespace ProjectFirma.Web.Controllers
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact(), project.OtherPartners);
 
-            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession);
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession, project.PrimaryContactPersonFullName);
             var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();

@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectStewardOrganization
     {
         public IndexGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => new HtmlLinkObject(a.OrganizationName, a.GetDetailUrl()).ToJsonObjectForAgGrid(), 400, AgGridColumnFilterType.HtmlLinkJson);
             Add("Short Name", a => a.OrganizationShortName, 100);
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), a => a.GetPrimaryContactPersonAsUrl(currentFirmaSession), 120);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAllActiveProjectsAndProposals(currentFirmaSession).Count, 90);

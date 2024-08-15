@@ -46,12 +46,12 @@ namespace ProjectFirma.Web.Views.Project
                     !(x.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval &&
                       firmaSession.Role == ProjectFirmaModels.Models.Role.Normal)), 30,
                 AgGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => new HtmlLinkObject(x.ProjectName,x.GetDetailUrl()).ToJsonObjectForAgGrid(), 300, AgGridColumnFilterType.HtmlLinkJson);
             Add("Submittal Status", a => a.ProjectApprovalStatus.ProjectApprovalStatusDisplayName, 110, AgGridColumnFilterType.SelectFilterStrict);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
-                    AgGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrlForAgGrid(), 150,
+                    AgGridColumnFilterType.HtmlLinkJson);
             }
 
             if (MultiTenantHelpers.HasSolicitations())
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Project
                     AgGridColumnFilterType.SelectFilterStrict);
             }
 
-            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetShortNameAsUrlForAgGrid(), 150, AgGridColumnFilterType.HtmlLinkJson);
             Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), x => x.TaxonomyLeaf == null ? string.Empty : x.TaxonomyLeaf.GetDisplayName(), 300, AgGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, AgGridColumnFilterType.SelectFilterStrict);
@@ -78,6 +78,11 @@ namespace ProjectFirma.Web.Views.Project
             Add("Submitted Date", a => a.SubmissionDate, 120);
             Add("Last Updated", a => a.LastUpdatedDate, 120);
             Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 300);
+
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalDataSourceEnabled)
+            {
+                Add("Source of Record", x => x.ExternalID == null ? MultiTenantHelpers.GetTenantShortDisplayName() : MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalSourceOfRecordName, 140, AgGridColumnFilterType.SelectFilterStrict);
+            }
         }
     }
 }

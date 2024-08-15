@@ -30,14 +30,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         public List<ProjectContactRelationship> AllProjectContacts { get; }
         public List<string> SetRelationshipTypes { get; }
         public Person PrimaryContactPerson { get; }
+        public string PrimaryContactPersonFullName { get; }
         public FirmaSession CurrentFirmaSession { get; }
 
-        public ProjectContactsDetailViewData(List<ProjectContactRelationship> allProjectContacts, Person primaryContactPerson, FirmaSession currentFirmaSession)
+        public ProjectContactsDetailViewData(List<ProjectContactRelationship> allProjectContacts, Person primaryContactPerson, FirmaSession currentFirmaSession, string primaryContactPersonFullName)
         {
             AllProjectContacts = allProjectContacts;
             SetRelationshipTypes = AllProjectContacts.Select(x => x.ContactRelationshipTypeName).Distinct().ToList();
             PrimaryContactPerson = primaryContactPerson;
             CurrentFirmaSession = currentFirmaSession;
+            PrimaryContactPersonFullName = primaryContactPersonFullName;
+
         }
     }
 }

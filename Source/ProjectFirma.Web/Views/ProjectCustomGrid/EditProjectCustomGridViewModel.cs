@@ -90,6 +90,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.NoFundingSourceIdentified).ToList();
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.FundingSources).ToList();
             }
+            // Remove the Source of Record Column if Tenant doesn't have Project External Data Source enabled
+            if (!MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalDataSourceEnabled)
+            {
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.SourceOfRecord).ToList();
+            }
 
             foreach (var projectCustomGridColumn in projectCustomGridColumns)
             {
