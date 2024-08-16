@@ -146,35 +146,35 @@ namespace ProjectFirma.Web.ScheduledJobs
                     Logger.Info("Projects sync complete.");
                 }
 
-                Logger.Info("Starting Project Images sync.");
-                foreach (var externalID in recentlyModifiedExternalIDs)
-                {
-                    var project = projects.Single(x => x.ExternalID == externalID);
-                    Logger.Info($"Starting Project Images sync for ProjectID: {project?.ProjectID}; ExternalID: {externalID}");
+                //Logger.Info("Starting Project Images sync.");
+                //foreach (var externalID in recentlyModifiedExternalIDs)
+                //{
+                //    var project = projects.Single(x => x.ExternalID == externalID);
+                //    Logger.Info($"Starting Project Images sync for ProjectID: {project?.ProjectID}; ExternalID: {externalID}");
 
-                    var getProjectImagesUrl = $"{apiUrl}/projects/{externalID}/project-images?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
-                    var getProjectImages = await client.GetAsync(getProjectImagesUrl);
-                    if (!getProjectImages.IsSuccessStatusCode)
-                    {
-                        Logger.Warn($"GET {getProjectImagesUrl} failed, reason: {getProjectImages.ReasonPhrase}");
-                    }
-                    else
-                    {
-                        var projectImageDtos = await getProjectImages.Content.ReadAsAsync<List<ProjectImageSimpleDto>>();
-                        try
-                        {
-                            await UpdateProjectImages(project, projectImageDtos, tenantID, databaseEntities, client, apiUrl);
-                            databaseEntities.SaveChangesWithNoAuditing(tenantID);
-                            Logger.Info($"Project Images sync complete for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Info($"Project Images sync failed for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
-                            Logger.Warn(ex);
-                        }
-                    }
-                }
-                Logger.Info("Project Images sync complete.");
+                //    var getProjectImagesUrl = $"{apiUrl}/projects/{externalID}/project-images?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
+                //    var getProjectImages = await client.GetAsync(getProjectImagesUrl);
+                //    if (!getProjectImages.IsSuccessStatusCode)
+                //    {
+                //        Logger.Warn($"GET {getProjectImagesUrl} failed, reason: {getProjectImages.ReasonPhrase}");
+                //    }
+                //    else
+                //    {
+                //        var projectImageDtos = await getProjectImages.Content.ReadAsAsync<List<ProjectImageSimpleDto>>();
+                //        try
+                //        {
+                //            await UpdateProjectImages(project, projectImageDtos, tenantID, databaseEntities, client, apiUrl);
+                //            databaseEntities.SaveChangesWithNoAuditing(tenantID);
+                //            Logger.Info($"Project Images sync complete for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            Logger.Info($"Project Images sync failed for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
+                //            Logger.Warn(ex);
+                //        }
+                //    }
+                //}
+                //Logger.Info("Project Images sync complete.");
             }
         }
 
@@ -269,7 +269,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No relationship type found for Organization '{projectOrgSimpleDto.Organization.OrganizationName}'");
                     continue;
                 }
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectOrgSimpleDto.Organization.OrganizationName);
+                var organization = GetOrganizationByOrganizationName(projectOrgSimpleDto.Organization.OrganizationName, tenantID, databaseEntities);
                 if (organization == null)
                 {
                     Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectOrgSimpleDto.Organization.OrganizationName}', GUID: '{projectOrgSimpleDto.Organization.OrganizationGuid}'");
@@ -285,6 +285,16 @@ namespace ProjectFirma.Web.ScheduledJobs
                 allProjectOrganizations,
                 (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.OrganizationID == y.OrganizationID && x.OrganizationRelationshipTypeID == y.OrganizationRelationshipTypeID, databaseEntities);
 
+        }
+
+        private Organization GetOrganizationByOrganizationName(string organizationName, int tenantID, DatabaseEntities databaseEntities)
+        {
+            if (organizationName == "U.S. Bureau of Reclamation")
+            {
+                // special case, named differently in TCS Project Tracker
+                return databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == "U.S. Bureau of Reclamation (California Great Basin Region)");
+            }
+            return databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == organizationName);
         }
 
         private void UpdateProjectLocationPoint(Project project, ProjectSimpleDto projectSimpleDto)
@@ -334,7 +344,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             }
             foreach (var projectFundingSourceRequestSimpleDto in projectSimpleDto.ProjectFundingSourceRequests)
             {
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName);
+                var organization = GetOrganizationByOrganizationName(projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName, tenantID, databaseEntities);
                 if (organization == null)
                 {
                     Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceRequestSimpleDto.FundingSource.Organization.OrganizationGuid}'");
@@ -392,7 +402,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             foreach (var projectFundingSourceExpenditureSimpleDto in projectSimpleDto.ProjectFundingSourceExpenditures)
             {
-                var organization = databaseEntities.AllOrganizations.SingleOrDefault(x => x.TenantID == tenantID && x.OrganizationName == projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName);
+                var organization = GetOrganizationByOrganizationName(projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName, tenantID, databaseEntities);
                 if (organization == null)
                 {
                     Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectSimpleDto.ProjectID}. No Organization found for '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationName}', GUID: '{projectFundingSourceExpenditureSimpleDto.FundingSource.Organization.OrganizationGuid}'");
