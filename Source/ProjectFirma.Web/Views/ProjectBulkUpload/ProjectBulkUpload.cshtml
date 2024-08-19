@@ -1,0 +1,83 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="BulkUploadFinancials.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.ProjectBulkUpload.ProjectBulkUpload
+@section JavascriptAndStylesContent
+{
+
+    <style>
+
+        a.excelbutton {
+            background: transparent url('/Content/img/button_icon_excel.png') no-repeat;
+            padding: 0 0 0 15px;
+        }
+
+        p.instructionParagrah {
+            margin-bottom: 5px;
+        }
+
+        p.instructionNumbering {
+            margin-left: 20px;
+            margin-bottom: 5px;
+        }
+
+        ul.instructionBullets {
+            padding-left: 55px;
+            margin-bottom: 5px;
+        }
+    </style>
+}
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+<div>
+    <p class="instructionParagrah">
+        To upload new Pending Projects:
+        <a class="excelbutton" href="@ViewDataTyped.DownloadBulkUploadTemplateNewActivitiesUrl" title="Download Template for New Activities.">
+            Download Template for New Pending Projects.
+        </a>
+    </p>
+    <div>
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    </div>
+</div>
+<div>
+    <form method="POST" enctype="multipart/form-data">
+        <div>
+            @Html.EditorFor(x => x.FileResourceDatum)@Html.ValidationMessageFor(x => x.FileResourceDatum)
+            <span class="smallExplanationText">
+                Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceDatum)
+            </span>
+        </div>
+        <div class="row">
+            <div class="offset-8 col-4" style="text-align: right; position: relative; top: 34px; margin-bottom: 34px;">
+                <button type="submit" class="btn btn-primary saveButton" title="Approve Upload" name="Approve Upload">Approve Upload</button>
+            </div>
+        </div>
+    </form>
+</div>
+@*@using (Html.BeginForm())
+{
+   
+}*@

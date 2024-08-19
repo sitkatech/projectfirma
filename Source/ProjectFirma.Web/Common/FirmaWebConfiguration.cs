@@ -96,6 +96,7 @@ namespace ProjectFirma.Web.Common
         public static readonly string MapBoxApiKey = SitkaConfiguration.GetRequiredAppSetting("MapBoxApiKey");
         
         public static readonly string LTInfoApiKey = SitkaConfiguration.GetRequiredAppSetting("LTInfoApiKey");
+        public static readonly string PendingProjectsUploadExcelTemplate = SitkaConfiguration.GetRequiredAppSetting("PendingProjectsUploadExcelTemplate");
 
         // Feature Flag Settings
         // FeatureMatchMakerEnabled now has shipped, but leaving this in place so we can see readily how to set up the next Feature.
