@@ -170,6 +170,10 @@ h4 {
     top: 50%;
   }
 }
+#homepageCarousel,
+#homepageCarousel .carousel-inner .item {
+  height: 350px;
+}
 @media only screen and (min-width: 992px) and (min-height: 568px) {
   .main-text {
     top: 15%;
@@ -460,4 +464,25 @@ a.disabled {
 #projectWizardContent .dropdown-toggle[disabled],
 #projectWizardContent .dropdown-menu[disabled] {
   background-color: LightGray;
+}
+#accomplishmentsDashboard div.star-primary {
+  margin: 30px auto 0;
+  color: #949300;
+}
+#accomplishmentsDashboard div.star-primary:after {
+  content: '';
+}
+#accomplishmentsDashboard .intro-text .subSectionName {
+  color: #253746;
+  font-family: "Azo Sans", sans-serif;
+}
+#accomplishmentsDashboard .counterHeader h4 {
+  font-family: "Azo Sans", sans-serif;
+  color: #28939D;
+}
+#accomplishmentsDashboard .questionButton {
+  background-color: #253746;
+}
+#accomplishmentsDashboard .resultsQuestions .active {
+  background-color: #28939D;
 }
