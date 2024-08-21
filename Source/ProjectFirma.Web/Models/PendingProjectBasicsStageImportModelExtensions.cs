@@ -171,9 +171,12 @@ namespace ProjectFirma.Web.Models
 
 
             // taxonomy leaf required (check enum)
+            var taxonomyLeafDisplayNameForProject =
+                PendingProjectStageImportsHelper.TenantLabels[MultiTenantHelpers.GetTenantName()][
+                    "TaxonomyLeafDisplayNameForProject"];
             if (pendingProjectBasicsStageImports.Any(x => string.IsNullOrEmpty(x.TaxonomyLeaf)))
             {
-                errors.Add(new ValidationResult("Taxonomy Leaf cannot be blank in any row."));
+                errors.Add(new ValidationResult($"{taxonomyLeafDisplayNameForProject} cannot be blank in any row."));
             }
             var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().Select(y => y.GetDisplayName().ToLower().Trim()).ToList();
             if (pendingProjectBasicsStageImportsWithProjectName.Any(x => !string.IsNullOrEmpty(x.TaxonomyLeaf) && !taxonomyLeaves.Contains(x.TaxonomyLeaf.ToLower().Trim())))
@@ -181,7 +184,7 @@ namespace ProjectFirma.Web.Models
                 var projectNamesWithBadTaxonomyLeaves = string.Join("<br/>", pendingProjectBasicsStageImports
                     .Where(x => !string.IsNullOrEmpty(x.TaxonomyLeaf) &&
                                 !taxonomyLeaves.Contains(x.TaxonomyLeaf.ToLower().Trim())).Select(x => $"{x.ProjectName}" ));
-                errors.Add(new ValidationResult($"Taxonomy Leaf must match a record in the system. Values for the following Projects are invalid:<br/>{projectNamesWithBadTaxonomyLeaves}"));
+                errors.Add(new ValidationResult($"{taxonomyLeafDisplayNameForProject} must match a record in the system. Values for the following Projects are invalid:<br/>{projectNamesWithBadTaxonomyLeaves}"));
             }
 
             // project stage required (check enum)
@@ -400,10 +403,11 @@ namespace ProjectFirma.Web.Models
             }
 
             var pendingProjectOwnerOrgStageImportsWithProjectNames = pendingProjectBasicsStageImports.Where(x => !string.IsNullOrEmpty(x.ProjectName)).ToList();
+            var primaryContactOrganizationFieldName = PendingProjectStageImportsHelper.TenantLabels[MultiTenantHelpers.GetTenantName()]["PrimaryContactOrganization"];
             // Lead Implementer cannot be blank
             if (pendingProjectBasicsStageImports.Any(x => string.IsNullOrEmpty(x.LeadImplementer)))
             {
-                errors.Add(new ValidationResult("Lead Implementer cannot be blank in any row."));
+                errors.Add(new ValidationResult($"{primaryContactOrganizationFieldName} cannot be blank in any row."));
             }
             // all Lead Implementers must be valid option
             var validOrganizationNames = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x => !x.IsUnknown())
@@ -413,13 +417,14 @@ namespace ProjectFirma.Web.Models
                 var projectsWithInvalidOptions = string.Join("<br/>", pendingProjectOwnerOrgStageImportsWithProjectNames.Where(x =>
                     !string.IsNullOrEmpty(x.LeadImplementer) &&
                     !validOrganizationNames.Contains(x.LeadImplementer.ToLower().Trim())).Select(x => $"{x.ProjectName}"));
-                errors.Add(new ValidationResult($"Lead Implementer must have a valid match in the reference tab. Values for the following Projects are invalid: {projectsWithInvalidOptions}."));
+                errors.Add(new ValidationResult($"{primaryContactOrganizationFieldName} must have a valid match in the reference tab. Values for the following Projects are invalid: {projectsWithInvalidOptions}."));
             }
 
             // Primary Contact cannot be blank
+            var primaryContactFieldName = PendingProjectStageImportsHelper.TenantLabels[MultiTenantHelpers.GetTenantName()]["ProjectPrimaryContact"];
             if (pendingProjectBasicsStageImports.Any(x => string.IsNullOrEmpty(x.PrimaryContact)))
             {
-                errors.Add(new ValidationResult("Primary Contact cannot be blank in any row."));
+                errors.Add(new ValidationResult($"{primaryContactFieldName} cannot be blank in any row."));
             }
             // all Primary Contacts must be valid option
             var validPrimaryContacts = HttpRequestStorage.DatabaseEntities.People.Where(x =>x.IsActive && x.RoleID != Role.Unassigned.RoleID).ToList().Select(x => x.GetFullNameFirstLastAndOrg().ToLower().Trim());
@@ -428,13 +433,13 @@ namespace ProjectFirma.Web.Models
                 var projectNamesWithInvalidOptions = string.Join("<br/>", pendingProjectOwnerOrgStageImportsWithProjectNames.Where(x =>
                     !string.IsNullOrEmpty(x.PrimaryContact) &&
                     !validPrimaryContacts.Contains(x.PrimaryContact.ToLower().Trim())).Select(x => $"{x.ProjectName}"));
-                errors.Add(new ValidationResult($"Primary Contact must have a valid match in the reference tab. Values for the following Projects are invalid: {projectNamesWithInvalidOptions}."));
+                errors.Add(new ValidationResult($"{primaryContactFieldName} must have a valid match in the reference tab. Values for the following Projects are invalid: {projectNamesWithInvalidOptions}."));
             }
 
             return errors;
         }
 
-        public static List<Project> CreatePendingProjectBasicsFromStagedData(this List<PendingProjectBasicsStageImport> pendingProjectBasicsStageImports)
+        public static List<Project> CreatePendingProjectBasicsFromStagedData(this List<PendingProjectBasicsStageImport> pendingProjectBasicsStageImports, FirmaSession currentFirmaSession)
         {
             // Build dictionary to lookup TaxonomyLeafID from display name
             var taxonomyLeafDisplayNameToID = new Dictionary<string, int>();
@@ -467,7 +472,7 @@ namespace ProjectFirma.Web.Models
                         x.Description,
                         false,
                         !string.IsNullOrEmpty(x.Latitude) && !string.IsNullOrEmpty(x.Longitude) ? ProjectLocationSimpleType.LatLngInput.ProjectLocationSimpleTypeID : ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                        ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID,
+                        ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
                         lastUpdatedDate,
                         ProjectCategory.Normal.ProjectCategoryID,
                         false)
@@ -478,6 +483,8 @@ namespace ProjectFirma.Web.Models
                         CompletionYear = !string.IsNullOrEmpty(x.CompletionYear) ? int.Parse(x.CompletionYear) : (int?)null,
                         ProjectLocationNotes = x.SimpleLocationNotes,
                         PrimaryContactPersonID = personDisplayNameToID[x.PrimaryContact.ToLower().Trim()],
+                        ProposingPersonID = currentFirmaSession.PersonID,
+                        ProposingDate = lastUpdatedDate,
                     };
                     if (!string.IsNullOrEmpty(x.Latitude) && !string.IsNullOrEmpty(x.Longitude))
                     {

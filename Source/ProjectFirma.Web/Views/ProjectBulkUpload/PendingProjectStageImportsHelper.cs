@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.ProjectBulkUpload
             }},
             {"TCSProjectTracker", new Dictionary<string, string>
             {
-                {"TaxonomyLeafDisplayNameForProject", "Focus Area"},
+                {"TaxonomyLeafDisplayNameForProject", "Strategy"},
                 {"PrimaryContactOrganization", "Lead Implementer"},
                 {"ProjectPrimaryContact", "Project Primary Contact"}
             }}

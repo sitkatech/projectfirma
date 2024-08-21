@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             //convert staged data into Projects
-            pendingProjectBasicsStageImports.CreatePendingProjectBasicsFromStagedData();
+            pendingProjectBasicsStageImports.CreatePendingProjectBasicsFromStagedData(CurrentFirmaSession);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
