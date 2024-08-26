@@ -87,8 +87,8 @@ namespace ProjectFirma.Web.Controllers
                         ex);
                     SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
                 }
-                var errorMessage = string.Format("There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No activity updates were saved to the database</div><br/>For assistance, please email <a href=\"mailto:{2}\">Puget Sound Partnership</a>.", 
-                    httpPostedFileBase.FileName, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
+                var errorMessage = string.Format("There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No Pending {3} were saved to the database</div><br/>For assistance, please <a href=\"mailto:{2}\">contact Support</a>.", 
+                    httpPostedFileBase.FileName, ex.Message, FirmaWebConfiguration.SitkaSupportEmail, FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized());
                 SetErrorForDisplay(errorMessage);
 
                 return ViewManageBulkActivitiesUpload(viewModel);
