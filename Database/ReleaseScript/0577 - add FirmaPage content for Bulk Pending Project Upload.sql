@@ -13,7 +13,7 @@ values
 <p><strong>Add project data, being sure to include data for all required columns in the excel template.</strong></p>
 </li>
 <li>
-<p><strong>Save the changes to the template and upload the file.</strong> If you experience any difficulty uploading this file, please contact <a href="mailto:projectfirma@sitkatech.com"><span class="fabric-text-color-mark" data-text-custom-color="#4c9aff">Request Support</span></a>.</p>
+<p><strong>Save the changes to the template and upload the file.</strong></p>
 </li>
 </ol>'),
 (2 , 99 ,
@@ -25,7 +25,7 @@ values
 <p><strong>Add project data, being sure to include data for all required columns in the excel template.</strong></p>
 </li>
 <li>
-<p><strong>Save the changes to the template and upload the file.</strong> If you experience any difficulty uploading this file, please contact <a href="mailto:projectfirma@sitkatech.com"><span class="fabric-text-color-mark" data-text-custom-color="#4c9aff">Request Support</span></a>.</p>
+<p><strong>Save the changes to the template and upload the file.</strong></p>
 </li>
 </ol>'),
 (3 , 99 ,
@@ -37,7 +37,7 @@ values
 <p><strong>Add project data, being sure to include data for all required columns in the excel template.</strong></p>
 </li>
 <li>
-<p><strong>Save the changes to the template and upload the file.</strong> If you experience any difficulty uploading this file, please contact <a href="mailto:projectfirma@sitkatech.com"><span class="fabric-text-color-mark" data-text-custom-color="#4c9aff">Request Support</span></a>.</p>
+<p><strong>Save the changes to the template and upload the file.</strong></p>
 </li>
 </ol>'),
 (4 , 99 ,
@@ -49,7 +49,7 @@ values
 <p><strong>Add project data, being sure to include data for all required columns in the excel template.</strong></p>
 </li>
 <li>
-<p><strong>Save the changes to the template and upload the file.</strong> If you experience any difficulty uploading this file, please contact <a href="mailto:projectfirma@sitkatech.com"><span class="fabric-text-color-mark" data-text-custom-color="#4c9aff">Request Support</span></a>.</p>
+<p><strong>Save the changes to the template and upload the file.</strong></p>
 </li>
 </ol>'),
 (5 , 99 ,
@@ -61,7 +61,7 @@ values
 <p><strong>Add grant data, being sure to include data for all required columns in the excel template.</strong></p>
 </li>
 <li>
-<p><strong>Save the changes to the template and upload the file.</strong> If you experience any difficulty uploading this file, please contact <a href="mailto:projectfirma@sitkatech.com"><span class="fabric-text-color-mark" data-text-custom-color="#4c9aff">Request Support</span></a>.</p>
+<p><strong>Save the changes to the template and upload the file.</strong></p>
 </li>
 </ol>'),
 (7 , 99 ,
@@ -73,7 +73,7 @@ values
 <p><strong>Add project data, being sure to include data for all required columns in the excel template.</strong></p>
 </li>
 <li>
-<p><strong>Save the changes to the template and upload the file.</strong> If you experience any difficulty uploading this file, please contact <a href="mailto:projectfirma@sitkatech.com"><span class="fabric-text-color-mark" data-text-custom-color="#4c9aff">Request Support</span></a>.</p>
+<p><strong>Save the changes to the template and upload the file.</strong></p>
 </li>
 </ol>'),
 (13 , 99 ,
@@ -85,7 +85,7 @@ values
 <p><strong>Add project data, being sure to include data for all required columns in the excel template.</strong></p>
 </li>
 <li>
-<p><strong>Save the changes to the template and upload the file.</strong> If you experience any difficulty uploading this file, please contact <a href="mailto:projectfirma@sitkatech.com"><span class="fabric-text-color-mark" data-text-custom-color="#4c9aff">Request Support</span></a>.</p>
+<p><strong>Save the changes to the template and upload the file.</strong></p>
 </li>
 </ol>'),
 (14 , 99 ,
@@ -97,6 +97,6 @@ values
 <p><strong>Add project data, being sure to include data for all required columns in the excel template.</strong></p>
 </li>
 <li>
-<p><strong>Save the changes to the template and upload the file.</strong> If you experience any difficulty uploading this file, please contact <a href="mailto:projectfirma@sitkatech.com"><span class="fabric-text-color-mark" data-text-custom-color="#4c9aff">Request Support</span></a>.</p>
+<p><strong>Save the changes to the template and upload the file.</strong></p>
 </li>
 </ol>')

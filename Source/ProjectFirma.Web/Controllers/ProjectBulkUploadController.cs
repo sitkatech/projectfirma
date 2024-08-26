@@ -87,8 +87,12 @@ namespace ProjectFirma.Web.Controllers
                         ex);
                     SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
                 }
-                var errorMessage = string.Format("There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No Pending {3} were saved to the database</div><br/>For assistance, please <a href=\"mailto:{2}\">contact Support</a>.", 
-                    httpPostedFileBase.FileName, ex.Message, FirmaWebConfiguration.SitkaSupportEmail, FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized());
+
+                var supportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
+                var requestSupportHtml =
+                    $"<a data-cancel-button-text=\"Cancel\" data-dialog-title=\"Request Support\" data-dialog-width=\"800\" data-dismiss=\"modal\" data-save-button-id=\"ltinfo-modal-dialog-save-button-id\" data-save-button-text=\"Submit Request\" data-skip-ajax=\"False\" href=\"{supportUrl}\" onclick=\"return modalDialogLink(this, null, null);\">Request Support</a>";
+                var errorMessage = string.Format("There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No Pending {3} were saved to the database</div><br/>For assistance, please <a href=\"{2}\">Request Support</a>.", 
+                    httpPostedFileBase.FileName, ex.Message, requestSupportHtml, FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized());
                 SetErrorForDisplay(errorMessage);
 
                 return ViewManageBulkActivitiesUpload(viewModel);
