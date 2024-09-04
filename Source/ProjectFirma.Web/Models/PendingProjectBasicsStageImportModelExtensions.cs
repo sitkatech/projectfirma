@@ -427,7 +427,7 @@ namespace ProjectFirma.Web.Models
                 errors.Add(new ValidationResult($"{primaryContactFieldName} cannot be blank in any row."));
             }
             // all Primary Contacts must be valid option
-            var validPrimaryContacts = HttpRequestStorage.DatabaseEntities.People.Where(x =>x.IsActive && x.RoleID != Role.Unassigned.RoleID).ToList().Select(x => x.GetFullNameFirstLastAndOrg().ToLower().Trim());
+            var validPrimaryContacts = HttpRequestStorage.DatabaseEntities.People.Where(x =>x.IsActive && x.RoleID != Role.Unassigned.RoleID).ToList().Select(x => $"{x.GetFullNameFirstLastAndOrgShortName().ToLower().Trim()} ({x.Email.ToLower().Trim()})");
             if (pendingProjectOwnerOrgStageImportsWithProjectNames.Any(x => !string.IsNullOrEmpty(x.PrimaryContact) && !validPrimaryContacts.Contains(x.PrimaryContact.ToLower().Trim())))
             {
                 var projectNamesWithInvalidOptions = string.Join("<br/>", pendingProjectOwnerOrgStageImportsWithProjectNames.Where(x =>
@@ -459,7 +459,7 @@ namespace ProjectFirma.Web.Models
             var personDisplayNameToID = new Dictionary<string, int>();
             HttpRequestStorage.DatabaseEntities.People
                 .Where(x => x.IsActive && x.RoleID != Role.Unassigned.RoleID).ForEach(x =>
-                    personDisplayNameToID.Add(x.GetFullNameFirstLastAndOrg().ToLower().Trim(), x.PersonID));
+                    personDisplayNameToID.Add($"{x.GetFullNameFirstLastAndOrgShortName().ToLower().Trim()} ({x.Email.ToLower().Trim()})", x.PersonID));
 
             var lastUpdatedDate = DateTime.Now;
             var pendingProjects = pendingProjectBasicsStageImports.Select(

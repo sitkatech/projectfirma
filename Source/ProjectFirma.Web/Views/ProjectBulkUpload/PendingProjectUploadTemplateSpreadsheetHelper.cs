@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views.ProjectBulkUpload
         private static void AppendRowsToPrimaryContactsReferenceWorksheet(Worksheet worksheet, SharedStringTablePart sharedStringTablePart)
         {
             var sheetData = worksheet.GetFirstChild<SheetData>();
-            var people = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.RoleID != ProjectFirmaModels.Models.Role.Unassigned.RoleID).ToList().Select(x => x.GetFullNameFirstLastAndOrg()).OrderBy(x => x).Distinct();
+            var people = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.RoleID != ProjectFirmaModels.Models.Role.Unassigned.RoleID).ToList().Select(x => $"{x.GetFullNameFirstLastAndOrgShortName().Trim()} ({x.Email.Trim()})").OrderBy(x => x).Distinct();
             // Start writing on the second row
             var rowIndex = 2;
             // Insert rows
