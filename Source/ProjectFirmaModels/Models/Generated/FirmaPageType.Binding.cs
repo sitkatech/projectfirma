@@ -212,6 +212,7 @@ namespace ProjectFirmaModels.Models
         NCRPProjectDashboard = 95,
         ProgressDashboardFishAndWildlifeHabitat = 96,
         ProgressDashboardDusSuppressionConvertedAcresNote = 97,
-        ProgressDashboardFishAndWildlifeHabitatConvertedAcresNote = 98
+        ProgressDashboardFishAndWildlifeHabitatConvertedAcresNote = 98,
+        BulkUploadProjects = 99
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\DocumentLibraryController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
+    <Compile Include="Controllers\ProjectBulkUploadController.cs" />
     <Compile Include="Controllers\ProjectStageCustomLabelController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
@@ -85,6 +86,8 @@
     <Compile Include="GridToExcel\RGBColor.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
     <Compile Include="Models\ExternalMapLayerSimple.cs" />
+    <Compile Include="Models\PendingProjectBasicsStageImport.cs" />
+    <Compile Include="Models\PendingProjectBasicsStageImportModelExtensions.cs" />
     <Compile Include="Models\ProjectStageModelExtensions.cs" />
     <Compile Include="Models\ProjectStageSimple.cs" />
     <Compile Include="Models\TrainingVideoModelExtensions.cs" />
@@ -342,6 +345,11 @@
     <Compile Include="Views\Evaluation\Index.cs" />
     <Compile Include="Views\Evaluation\IndexGridSpec.cs" />
     <Compile Include="Views\Evaluation\IndexViewData.cs" />
+    <Compile Include="Views\ProjectBulkUpload\ProjectBulkUpload.cs" />
+    <Compile Include="Views\ProjectBulkUpload\ProjectBulkUploadViewData.cs" />
+    <Compile Include="Views\ProjectBulkUpload\ProjectBulkUploadViewModel.cs" />
+    <Compile Include="Views\ProjectBulkUpload\PendingProjectStageImportsHelper.cs" />
+    <Compile Include="Views\ProjectBulkUpload\PendingProjectUploadTemplateSpreadsheetHelper.cs" />
     <Compile Include="Views\ProjectStageCustomLabel\Edit.cs" />
     <Compile Include="Views\ProjectStageCustomLabel\EditViewData.cs" />
     <Compile Include="Views\ProjectStageCustomLabel\EditViewModel.cs" />
@@ -703,6 +711,18 @@
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-money-tree.png" />
     <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-partnerships-icon.png" />
     <Content Include="Content\img\SSMPProjectTracker\project-dashboard-projects-icon.png" />
+    <Content Include="Content\img\TCSProjectTracker\apple-icon-114x114.png" />
+    <Content Include="Content\img\TCSProjectTracker\apple-icon-120x120.png" />
+    <Content Include="Content\img\TCSProjectTracker\apple-icon-180x180.png" />
+    <Content Include="Content\img\TCSProjectTracker\apple-icon-57x57.png" />
+    <Content Include="Content\img\TCSProjectTracker\apple-icon-60x60.png" />
+    <Content Include="Content\img\TCSProjectTracker\apple-icon-72x72.png" />
+    <Content Include="Content\img\TCSProjectTracker\apple-icon-76x76.png" />
+    <Content Include="Content\img\TCSProjectTracker\favicon-16x16.png" />
+    <Content Include="Content\img\TCSProjectTracker\favicon-32x32.png" />
+    <Content Include="Content\img\TCSProjectTracker\favicon-96x96.png" />
+    <Content Include="Content\img\TCSProjectTracker\TCSI-Favicon.png" />
+    <Content Include="Content\img\TCSProjectTracker\TCSI-Favicon.svg" />
     <Content Include="Content\jquery.fancybox-buttons.css" />
     <Content Include="Content\jquery.fancybox-thumbs.css" />
     <Content Include="Content\jquery.fancybox.css" />
@@ -1079,6 +1099,7 @@
     <Content Include="Views\PerformanceMeasureGroup\Edit.cshtml" />
     <Content Include="Views\ProjectStageCustomLabel\Edit.cshtml" />
     <Content Include="Scripts\tinymce\langs\README.md" />
+    <Content Include="Views\ProjectBulkUpload\ProjectBulkUpload.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

@@ -209,6 +209,11 @@
     <Compile Include="DesignByContract\InvariantException.cs" />
     <Compile Include="DesignByContract\PostconditionException.cs" />
     <Compile Include="DesignByContract\PreconditionException.cs" />
+    <Compile Include="ExcelWorkbookUtilities\AbstractReader.cs" />
+    <Compile Include="ExcelWorkbookUtilities\OpenXmlExtensionMethods.cs" />
+    <Compile Include="ExcelWorkbookUtilities\OpenXmlSpreadSheetDocument.cs" />
+    <Compile Include="ExcelWorkbookUtilities\SpreadsheetReader.cs" />
+    <Compile Include="ExcelWorkbookUtilities\SpreadsheetStyle.cs" />
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
     <Compile Include="GeoJson\GeoJsonToSqlGeometryHelper.cs" />

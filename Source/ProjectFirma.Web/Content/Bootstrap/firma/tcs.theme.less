@@ -14,7 +14,7 @@
 
 @import url('fonts/azosans/stylesheet.css');
 
-@path-to-favicon: url('../../../Content/img/RCDProjectTracker/favicon-32x32.png');
+@path-to-favicon: url('../../../Content/img/TCSProjectTracker/favicon-32x32.png');
 
 // Customizable Variables
 @firma-menu-font: "Azo Sans", sans-serif;
@@ -239,6 +239,11 @@ h4 {
     #homepageCarousel .glyphicon-chevron-left, #homepageCarousel .glyphicon-chevron-right {
         top: 50%
     }
+}
+
+
+#homepageCarousel, #homepageCarousel .carousel-inner .item {
+    height: 350px;
 }
 
 @media only screen and (min-width: 992px) and (min-height: 568px) {
@@ -592,3 +597,31 @@ nav#tableOfContents ul.nav li ul.nav li a:hover
     background-color: @disabled-color;
 }
 
+#accomplishmentsDashboard {
+    div.star-primary {
+        margin: 30px auto 0;
+        color: @tcs-sappling-green
+    }
+
+    div.star-primary:after {
+        content: '';
+    }
+
+    .intro-text .subSectionName {
+        color: @tcs-night-navy;
+        font-family: "Azo Sans", sans-serif;
+    }
+
+    .counterHeader h4 {
+        font-family: "Azo Sans", sans-serif;
+        color: @tcs-eddy-blue;
+    }
+
+    .questionButton {
+        background-color: @tcs-night-navy;
+    }
+
+    .resultsQuestions .active {
+        background-color: @tcs-eddy-blue;
+    }
+}
