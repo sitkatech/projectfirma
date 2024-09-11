@@ -454,6 +454,8 @@ namespace ProjectFirma.Web.Models
             // Build dictionary to lookup OrganizationID from display name
             var organizationNameToID = new Dictionary<string, int>();
             HttpRequestStorage.DatabaseEntities.Organizations.ForEach(x => organizationNameToID.Add(x.OrganizationName.ToLower().Trim(), x.OrganizationID));
+            var primaryContactRelationshipType = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
+            var projectOrganizations = new List<ProjectOrganization>();
 
             // Build dictionary to lookup personID from display name
             var personDisplayNameToID = new Dictionary<string, int>();
@@ -494,12 +496,15 @@ namespace ProjectFirma.Web.Models
                             LtInfoGeometryConfiguration.DefaultCoordinateSystemId);
                     }
 
+                    projectOrganizations.Add(new ProjectOrganization(pendingProject.ProjectID, organizationNameToID[x.LeadImplementer.ToLower().Trim()], primaryContactRelationshipType.OrganizationRelationshipTypeID));
+
                     return pendingProject;
                 }
                 ).ToList();
 
 
             HttpRequestStorage.DatabaseEntities.AllProjects.AddRange(pendingProjects);
+            HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.AddRange(projectOrganizations);
             return pendingProjects;
         }
 
