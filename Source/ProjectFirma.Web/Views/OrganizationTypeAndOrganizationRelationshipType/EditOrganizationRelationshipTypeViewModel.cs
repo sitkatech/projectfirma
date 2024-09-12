@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
 
             organizationRelationshipType.CanStewardProjects = CanStewardProjects ?? false; // Should never be null due to required validation attribute
             organizationRelationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
-            organizationRelationshipType.IsOrganizationRelationshipTypeRequired = organizationRelationshipType.CanStewardProjects || organizationRelationshipType.IsPrimaryContact || (IsOrganizationRelationshipTypeRequired ?? false); // can steward projects and isprimarycontact can only related once to a project
+            organizationRelationshipType.IsOrganizationRelationshipTypeRequired = organizationRelationshipType.IsPrimaryContact || (IsOrganizationRelationshipTypeRequired ?? false); // isprimarycontact can only related once to a project
             organizationRelationshipType.ShowOnFactSheet = ShowOnFactSheet ?? false; // sShould never be null due to required validation attribute
             organizationRelationshipType.OrganizationRelationshipTypeDescription = OrganizationRelationshipTypeDescription;
         }

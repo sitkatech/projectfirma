@@ -62,12 +62,12 @@
                 <div class="col-xs-12 col-sm-9">
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="@Html.NameFor(m => m.CanStewardProjects)" ng-value="true" ng-model="CanStewardProjects" ng-change="radioButtonChanged()" /> Yes
+                            @Html.RadioButtonFor(m => m.CanStewardProjects, true) Yes
                         </label>
                     </div>
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="@Html.NameFor(m => m.CanStewardProjects)" ng-value="false" ng-model="CanStewardProjects" ng-change="radioButtonChanged()" /> No
+                            @Html.RadioButtonFor(m => m.CanStewardProjects, false) No
                         </label>
                     </div>
                     @Html.ValidationMessageFor(m => m.CanStewardProjects)
@@ -99,7 +99,7 @@
                     </div>
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="@Html.NameFor(m => m.IsOrganizationRelationshipTypeRequired)" ng-value="false" ng-model="IsOrganizationRelationshipTypeRequired" ng-disabled="IsPrimaryContact || CanStewardProjects" /> No
+                            <input type="radio" name="@Html.NameFor(m => m.IsOrganizationRelationshipTypeRequired)" ng-value="false" ng-model="IsOrganizationRelationshipTypeRequired" ng-disabled="IsPrimaryContact" /> No
                         </label>
                     </div>
                     @Html.ValidationMessageFor(m => m.IsOrganizationRelationshipTypeRequired)

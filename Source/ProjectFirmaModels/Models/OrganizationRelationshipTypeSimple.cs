@@ -29,7 +29,8 @@ namespace ProjectFirmaModels.Models
         {
             OrganizationRelationshipTypeID = organizationRelationshipType.OrganizationRelationshipTypeID;
             OrganizationRelationshipTypeName = organizationRelationshipType.OrganizationRelationshipTypeName;
-            OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject = organizationRelationshipType.IsOrganizationRelationshipTypeRequired;
+            OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject = organizationRelationshipType.IsOrganizationRelationshipTypeRequired || organizationRelationshipType.CanStewardProjects;
+            OrganizationRelationshipTypeIsRequired = organizationRelationshipType.IsOrganizationRelationshipTypeRequired;
             OrganizationRelationshipTypeHasOrganizationsWithSpatialBoundary = organizationRelationshipType.HasOrganizationsWithSpatialBoundary();
             OrganizationRelationshipTypeDescription = organizationRelationshipType.OrganizationRelationshipTypeDescription;
             OrganizationRelationshipTypeIsPrimaryContact = organizationRelationshipType.IsPrimaryContact;
@@ -39,6 +40,7 @@ namespace ProjectFirmaModels.Models
         public string OrganizationRelationshipTypeName { get; set; }
         public bool OrganizationRelationshipTypeIsPrimaryContact { get; set; }
         public bool OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject { get; set; }
+        public bool OrganizationRelationshipTypeIsRequired { get; set; }
         public bool OrganizationRelationshipTypeHasOrganizationsWithSpatialBoundary { get; set; }
         public string OrganizationRelationshipTypeDescription { get; set; }
     }
