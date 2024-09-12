@@ -174,15 +174,26 @@
     }
     @if (ViewDataTyped.TenantName.Equals("TCSProjectTracker"))
     {
+        <style>
+            .richTextWithBorder {
+                margin-top: 130px;
+                border: black solid 2px
+            }
+        </style>
         <style type="text/css" media="only screen and (max-width: 991px)">
-            .flexyThing {
+            .flexWrapper {
                 flex-wrap: wrap;
             }
             .homepageActionButtons {
                 flex-basis: 100%;
             }
+            
+            .richTextWithBorder {
+                margin-top: 0;
+            }
         </style>
-        <div class="row flexyThing" style="display: flex">
+        
+        <div class="row flexWrapper" style="display: flex">
             <div class="col-md-8 homepageActionButtons">
                 @if (ViewDataTyped.DisplayActionButtons)
                 {
@@ -201,7 +212,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-4" style="border: black solid 2px">
+            <div class="col-md-4 richTextWithBorder">
                 <div>
                     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageTextViewData); }
                 </div>
