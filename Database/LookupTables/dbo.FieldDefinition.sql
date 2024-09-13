@@ -213,4 +213,5 @@ VALUES
 (389, N'AttachmentTypeViewableBy', N'Attachment Type Viewable By'),
 (390, N'AccomplishmentDashboardMenu', N'Accomplishment Dashboard'),
 (391, N'IsClassificationSystemRequired', N'Is Classification System Required?'),
-(392, N'ProjectExternalID', N'External ID')
+(392, N'ProjectExternalID', N'External ID'),
+(393, N'ReportVisibility', N'Report Visibility')

@@ -65,6 +65,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectExternalDataSourceApiUrl).HasColumnName(@"ProjectExternalDataSourceApiUrl").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
             Property(x => x.ProjectExternalSourceOfRecordName).HasColumnName(@"ProjectExternalSourceOfRecordName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(256);
             Property(x => x.ProjectExternalSourceOfRecordUrl).HasColumnName(@"ProjectExternalSourceOfRecordUrl").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.AreReportsPublic).HasColumnName(@"AreReportsPublic").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID
