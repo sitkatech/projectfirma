@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectBulkUpload
             ProjectFirmaModels.Models.FirmaPage firmaPage,
             string downloadBulkUploadTemplateNewActivitiesUrl) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = $"Bulk Upload Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"Bulk Upload {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} and Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
             DownloadBulkUploadTemplateNewActivitiesUrl = downloadBulkUploadTemplateNewActivitiesUrl;
         }
     }
