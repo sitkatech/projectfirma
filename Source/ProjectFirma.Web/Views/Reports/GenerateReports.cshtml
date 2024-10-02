@@ -55,3 +55,12 @@
         <input type="hidden" name="@Html.NameFor(x => x.ProjectIDList)" value="@projectID"/>
     }
 }
+
+<script type="text/javascript">
+    function closeModalAsReportGeneratesInBackground() {
+        var submitButton = document.getElementById("ltinfo-modal-dialog-save-button-id");
+        submitButton.addEventListener("click", function() {
+            $('.firma-modal').modal('hide');
+        });
+    }
+</script>

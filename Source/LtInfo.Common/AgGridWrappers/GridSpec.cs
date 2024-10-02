@@ -405,7 +405,7 @@ namespace LtInfo.Common.AgGridWrappers
 
         public ColumnSpec<T> AddCheckBoxColumn()
         {
-            var columnSpec = new ColumnSpec<T>("#master_checkbox", x => 0.ToString(), 28, AgGridColumnDataType.Checkbox,
+            var columnSpec = new ColumnSpec<T>("#master_checkbox", x => 0.ToString(), 35, AgGridColumnDataType.Checkbox,
                 AgGridColumnFormatType.None, AgGridColumnAlignType.Center, new AgGridColumnSortType("ch"), AgGridColumnFilterType.None, AgGridColumnAggregationType.None, null, null);
             Add(columnSpec);
             return columnSpec;
