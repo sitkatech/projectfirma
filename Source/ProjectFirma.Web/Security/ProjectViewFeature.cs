@@ -72,8 +72,7 @@ namespace ProjectFirma.Web.Security
 
                 if (firmaSession.Role == Role.Normal && !MultiTenantHelpers.ShowProposalsToThePublic())
                 {
-                    if (contextModelObject.GetAssociatedOrganizations().Select(y => y.OrganizationID)
-                            .Contains(firmaSession.Person.OrganizationID) ||
+                    if (contextModelObject.IsMyProject(firmaSession) ||
                         (contextModelObject.ProposingPersonID.HasValue &&
                          contextModelObject.ProposingPersonID == firmaSession.PersonID))
                     {
