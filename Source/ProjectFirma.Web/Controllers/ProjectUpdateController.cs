@@ -2386,7 +2386,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update to submit for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             projectUpdateBatch.SubmitToReviewer(CurrentFirmaSession, DateTime.Now);
             var peopleToCc = project.GetProjectStewardPeople();
-           // NotificationProjectModelExtensions.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
+            NotificationProjectModelExtensions.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectUpdateBatch.Project.GetDisplayName()}' was submitted.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
