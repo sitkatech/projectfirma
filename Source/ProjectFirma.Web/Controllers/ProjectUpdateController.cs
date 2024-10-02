@@ -2255,7 +2255,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             var peopleToCc = project.GetProjectStewardPeople();
-            //NotificationProjectModelExtensions.SendApprovalMessage(peopleToCc, projectUpdateBatch);
+            NotificationProjectModelExtensions.SendApprovalMessage(peopleToCc, projectUpdateBatch);
 
             SetMessageForDisplay($"The update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} was approved!");
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
