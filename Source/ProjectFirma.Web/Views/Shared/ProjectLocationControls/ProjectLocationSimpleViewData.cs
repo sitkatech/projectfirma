@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using GeoJSON.Net.Feature;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -63,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
             GeospatialAreaMapServiceLayerNames = geospatialAreaTypes.Select(x => x.GeospatialAreaLayerName).ToList();
-            MapServiceUrl = geospatialAreaTypes.FirstOrDefault()?.MapServiceUrl();
+            MapServiceUrl = MultiTenantHelpers.MapServiceUrl();
             CurrentFeature = currentFeature;
         }
     }

@@ -20,6 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 var ProjectFirmaMaps = {};
+var highlightOverlay; //Used when highlighting all a Project's Detailed Locations; see formatGeospatialAreaResponse
+var mapOutsideScope; //Used when highlighting all a Project's Detailed Locations; see formatGeospatialAreaResponse
+//const zoomToShowDetailedLocations= 13;
+var projectDetailedLocationsLayer;
+
 
 /* ====== Main Map ====== */
 ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
@@ -27,6 +32,8 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     // Map initialization routine
     var firmaMap = this;
     this.MapDivId = mapInitJson.MapDivID;
+    this.MapServiceUrl = mapInitJson.MapServiceUrl;
+    this.ProjectDetailedLocationsPublicApprovedGeoServerLayerName = mapInitJson.ProjectDetailedLocationsPublicApprovedGeoServerLayerName;
 
     firmaMap.mapLayers = [];
     firmaMap.externalFeatureLayers = mapInitJson.ExternalMapLayerSimples.filter(function(x) {
@@ -85,10 +92,22 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
         SrsName: "EPSG:4326"
     };
 
+    
+
+
     // Initialize the map
     firmaMap.map = L.map(firmaMap.MapDivId, options);
 
     // Add layers and map controls
+
+    mapOutsideScope = firmaMap.map;
+    firmaMap.map.on("overlayremove", function (e) {
+        if (highlightOverlay && e.name.includes("Locations - Detail"))
+            highlightOverlay.remove(); //If Detailed Locations is toggled off, also remove the highlight
+    });
+    //firmaMap.map.on('zoomend', function (evt) {
+    //    firmaMap.showDetailedLocationsLayer();
+    //});
 
     // Add external tile layers from ArcGIS Online
     for (var i = 0; i < mapInitJson.ExternalMapLayerSimples.length; ++i) {
@@ -137,6 +156,18 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     }
     firmaMap.setMapBounds(mapInitJson);
 }; // End of constructor
+
+//ProjectFirmaMaps.Map.prototype.showDetailedLocationsLayer = function () {
+//    if (this.map.getZoom() >= zoomToShowDetailedLocations) {
+//        if (!this.map.hasLayer(projectDetailedLocationsLayer)) {
+//            //projectDetailedLocationsLayer.addTo(this.map);
+//            this.map.addLayer(projectDetailedLocationsLayer);
+//        } //
+//    }
+//    else if (this.map.hasLayer(projectDetailedLocationsLayer)) {
+//        this.map.removeLayer(projectDetailedLocationsLayer);
+//    }
+//};
 
 // Utility functions
 ProjectFirmaMaps.Map.prototype.addLayersToMapLayersControl = function (baseLayers, overlayLayers) {
@@ -219,6 +250,10 @@ ProjectFirmaMaps.Map.prototype.addWmsLayer = function (currentLayer, overlayLaye
         layerGroup.addTo(this.map);
     }
     wmsLayer.on("click", function (e) { firmaMap.getFeatureInfo(e); });
+
+    if (currentLayer.LayerName.includes("Locations - Detail")) {
+        projectDetailedLocationsLayer = layerGroup
+    }
 
     overlayLayers[currentLayer.LayerName] = layerGroup;
     this.mapLayers.push(wmsLayer);
@@ -359,6 +394,9 @@ ProjectFirmaMaps.Map.prototype.getFeatureInfo = function(e) {
 
     var externalFeatureLayers = firmaMap.externalFeatureLayers;
 
+    if (highlightOverlay)
+        highlightOverlay.remove(); //For any click, remove the existing highlight
+
     if (wmsLayers.length > 0) {
         firmaMap.popupForWMSAndVectorLayers(wmsLayers, vectorLayers, externalFeatureLayers, latlng);
     } else {
@@ -399,7 +437,12 @@ ProjectFirmaMaps.Map.prototype.popupForWMSAndVectorLayers = function (wmsLayers,
 
         var queryUrl = layer._url + L.Util.getParamString(geospatialAreaWMSParams, null, true);
         ajaxCalls.push(jQuery.when(jQuery.ajax({ url: queryUrl }))
-            .then(function (response) { return firmaMap.formatGeospatialAreaResponse(response); }));
+            .then(function (response) {
+                return firmaMap.formatGeospatialAreaResponse(response).then(function (status) {
+                    return status;
+                });
+                
+            }));
     }
 
     // ESRI Leaflet .query() isn't Promise-compatible so we're handling the call to the next function in the callback
@@ -540,17 +583,82 @@ ProjectFirmaMaps.Map.prototype.openPopupIncludingAsyncContent = function (respon
 }
 
 ProjectFirmaMaps.Map.prototype.formatGeospatialAreaResponse = function (json) {
+    var deferred = new jQuery.Deferred();
     var geospatialAreaLayerInfoHtmlForPopup = null;
     if (json.features.length > 0) {
 
-        var atag = "<a title='' href='/GeospatialArea/Detail/" + json.features[0].properties.GeospatialAreaID + "'>" + json.features[0].properties.GeospatialAreaShortName + "</a>";
-        geospatialAreaLayerInfoHtmlForPopup = {
-            label: json.features[0].properties.GeospatialAreaTypeName,
-            link: atag
+        var firstFeature = json.features[0];
+        switch (firstFeature.geometry_name) {
+            case "GeospatialAreaFeature":
+                linkHtml = "<a title='' href='/GeospatialArea/Detail/" + json.features[0].properties.GeospatialAreaID + "'>" + json.features[0].properties.GeospatialAreaShortName + "</a>";
+                labelText = json.features[0].properties.GeospatialAreaTypeName
+               
+                deferred.resolve({
+                    label: labelText,
+                    link: linkHtml
+                });
+                break;
+            case "ProjectLocationGeometry":
+                if (this.MapServiceUrl) {
+                    var projectLocationDetailedWfsParams = {
+                        service: "WFS",
+                        version: "2.0",
+                        request: "GetFeature",
+                        outputFormat: "application/json",
+                        SrsName: "EPSG:4326",
+                        maxFeatures: 10000,
+                        typeNames: this.ProjectDetailedLocationsPublicApprovedGeoServerLayerName,
+                        cql_filter: 'ProjectID=' + firstFeature.properties.ProjectID
+                    };
+
+                    jQuery.ajax({
+                        url: this.MapServiceUrl +
+                            L.Util.getParamString(projectLocationDetailedWfsParams),
+                        dataType: 'json'
+                    }).done(function (data) {
+                        if (data.features.length > 0) {
+                            //Highlight feature(s) with new layer
+                            var highlightStyle = {
+                                "color": "#2dc3a1",
+                                "weight": 2,
+                                "opacity": 0.5
+                            };
+                            highlightOverlay = L.geoJSON(data, { style: highlightStyle });
+                            highlightOverlay.addTo(mapOutsideScope);
+                        }
+                    }).fail(function (data) {
+                        console.log(data);
+                    });
+                }
+                queryUrl = "/Project/ProjectMapPopup/" + firstFeature.properties.ProjectID;
+                labelText = "Project";
+
+                var mapPopupAjaxCall = [];
+                mapPopupAjaxCall.push(jQuery.when(jQuery.ajax({ url: queryUrl }))
+                    .then(function (response) { return response; }));
+
+                this.carryOutPromises(mapPopupAjaxCall).then(
+                    function (responses) {
+                        linkHtml = deferred.resolve({
+                            label: labelText,
+                            link: responses[0]
+                        });
+                    },
+                    function (responses) {
+                        console.log("error getting project popup info: " + queryUrl);
+                        deferred.resolve(null);
+                    }
+                );
+                break;
         }
+
+        
     }
-    return geospatialAreaLayerInfoHtmlForPopup;
+    return deferred.promise();
 };
+
+
+
 
 ProjectFirmaMaps.Map.prototype.formatVectorLayerInfo = function (currentLayer, latlng) {
     var key = null,

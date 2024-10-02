@@ -40,6 +40,8 @@ namespace ProjectFirma.Web.Models
         public bool AllowFullScreen = true;
         public bool DisablePopups = false;
         public string RequestSupportUrl;
+        public string MapServiceUrl;
+        public string ProjectDetailedLocationsPublicApprovedGeoServerLayerName;
 
         public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayerSimple> externalMapLayers, BoundingBox boundingBox, bool turnOnFeatureIdentify)
         {
@@ -50,6 +52,9 @@ namespace ProjectFirma.Web.Models
             BoundingBox = boundingBox;
             TurnOnFeatureIdentify = turnOnFeatureIdentify;
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestSupport());
+            MapServiceUrl = MultiTenantHelpers.MapServiceUrl();
+            ProjectDetailedLocationsPublicApprovedGeoServerLayerName =
+                $"{MultiTenantHelpers.GetTenantAttributeFromCache().GeoServerNamespace}:ProjectDetailedLocationsPublicApproved";
         }
 
         /// <summary>
@@ -69,7 +74,7 @@ namespace ProjectFirma.Web.Models
             return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive).ToList().Select(x => new ExternalMapLayerSimple(x)).ToList();
         }
 
-        public static List<LayerGeoJson> GetConfiguredGeospatialAreaMapLayers(bool alwaysHideLayers = false)
+        public static List<LayerGeoJson> GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer(bool alwaysHideLayers = false)
         {
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => x.DisplayOnAllProjectMaps).OrderBy(x => x.GeospatialAreaTypeName)
                 .ToList();
@@ -79,8 +84,16 @@ namespace ProjectFirma.Web.Models
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m,
                     alwaysHideLayers || !geospatialAreaType.OnByDefaultOnOtherMaps ? LayerInitialVisibility.LayerInitialVisibilityEnum.Hide : LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
-
+            layerGeoJsons.Add(GetProjectDetailedLocationsLayer());
             return layerGeoJsons;
+        }
+
+        public static List<LayerGeoJson> GetAllGeospatialAreaMapLayersAndProjectDetailedLocationsLayerForFullProjectMap()
+        {
+            var layerGeoJsons = GetAllGeospatialAreaMapLayersForFullProjectMap();
+            layerGeoJsons.Add(GetProjectDetailedLocationsLayer());
+            return layerGeoJsons;
+
         }
 
         public static List<LayerGeoJson> GetAllGeospatialAreaMapLayersForFullProjectMap()
@@ -95,6 +108,13 @@ namespace ProjectFirma.Web.Models
             }
 
             return layerGeoJsons;
+        }
+
+        public static LayerGeoJson GetProjectDetailedLocationsLayer()
+        {
+            return new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()} - Detail", MultiTenantHelpers.MapServiceUrl(),
+                "ProjectDetailedLocations", "#59ACFF", .2m,
+                LayerInitialVisibility.LayerInitialVisibilityEnum.Hide, "");
         }
 
         // This is used when viewing a single geospatial area type so it should always by on by default, regardless of GeospatialAreaType map settings
@@ -154,6 +174,7 @@ namespace ProjectFirma.Web.Models
             {
                 layerGeoJsons.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "#838383", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show));
             }
+            layerGeoJsons.Add(GetProjectDetailedLocationsLayer());
             return layerGeoJsons;
         }
     }
