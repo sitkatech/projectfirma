@@ -29,7 +29,7 @@
                 @Html.LabelWithSugarFor(m => m.SolicitationName)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.TextBoxFor(m => m.SolicitationName)
+                @Html.TextBoxFor(m => m.SolicitationName, new { @class = "form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.SolicitationName)
             </div>
         </div>
