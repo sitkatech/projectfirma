@@ -181,8 +181,12 @@
                 dropdown.checked = false;
             });
         }
-        this.selectedValues = model;
-        this.extractFilterValues();
+        this.selectedValues = model.filter;
+        this.dropdowns.forEach(dropdown => {
+            if (this.selectedValues.includes(dropdown.name)) {
+                dropdown.checked = true;
+            }
+        });
     }
 
     destroy() {
