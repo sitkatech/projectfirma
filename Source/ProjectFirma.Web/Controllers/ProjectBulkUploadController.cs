@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
         public FileContentResult DownloadUploadTemplateSpreadsheet()
         {
             var content = PendingProjectUploadTemplateSpreadsheetHelper.GetPrepopulatedTemplateSpreadsheet();
-            return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "PendingProjectUploadTemplate.xlsx");
+            return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ProposalAndPendingProjectUploadTemplate.xlsx");
         }
     }
 }

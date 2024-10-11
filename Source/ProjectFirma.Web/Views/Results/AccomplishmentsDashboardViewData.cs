@@ -50,10 +50,8 @@ namespace ProjectFirma.Web.Views.Results
 
         public AccomplishmentsDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, TenantAttribute tenantAttribute,
             List<ProjectFirmaModels.Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear,
-            List<TaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel) : base(currentFirmaSession, firmaPage)
+            List<TaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel, string accomplishmentsDashboardOrganizationTypeName) : base(currentFirmaSession, firmaPage)
         {
-            var accomplishmentsDashboardOrganizationTypeName = FieldDefinitionEnum.ProjectStewardOrganizationDisplayName
-                .ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = FieldDefinitionEnum.AccomplishmentDashboardMenu.ToType().GetFieldDefinitionLabel();
             TenantAttribute = tenantAttribute;
             Organizations = organizations;

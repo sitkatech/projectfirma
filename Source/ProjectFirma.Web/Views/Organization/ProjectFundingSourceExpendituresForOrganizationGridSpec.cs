@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.Organization
                 AgGridColumnFilterType.HtmlLinkJson);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetDisplayNameAsUrlForAgGrid(), 150,
+                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization()?.GetDisplayNameAsUrlForAgGrid() ?? string.Empty, 150,
                     AgGridColumnFilterType.HtmlLinkJson);
             }
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetDisplayNameAsUrlForAgGrid(), 150, AgGridColumnFilterType.HtmlLinkJson);

@@ -172,33 +172,79 @@
             @Html.Raw(TempData[SitkaController.WarningMessageIndex])
         </div>
     }
-
-    <div class="row">
-        <div class="col-md-8 fullWidth">
-            <div>
-                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageTextViewData); }
-            </div>
-        </div>
-
-        <div class="col-md-4 fullWidth homepageActionButtons">
-            @if (ViewDataTyped.DisplayActionButtons)
-            {    
-                <div class="homepageActionButtonsAlignRight">
-                    @ProjectCreateHelper.AddProjectButton()
-                    <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</a>
-                </div>
+    @if (ViewDataTyped.TenantName.Equals("TCSProjectTracker"))
+    {
+        <style>
+            .richTextWithBorder {
+                margin-top: 75px;
+                border: black solid 2px
             }
-            <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Map</h4>
-            <div>
-                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageMapTextViewData); }
+        </style>
+        <style type="text/css" media="only screen and (max-width: 991px)">
+            .flexWrapper {
+                flex-wrap: wrap;
+            }
+            .homepageActionButtons {
+                flex-basis: 100%;
+            }
+            
+            .richTextWithBorder {
+                margin-top: 0;
+            }
+        </style>
+        
+        <div class="row flexWrapper" style="display: flex">
+            <div class="col-md-8 homepageActionButtons">
+                @if (ViewDataTyped.DisplayActionButtons)
+                {
+                    <div class="homepageActionButtonsAlignRight">
+                        @ProjectCreateHelper.AddProjectButton()
+                        <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</a>
+                    </div>
+                }
+                <h4 style="margin-bottom: 5px; margin-top: 10px; text-transform: uppercase; font-size: 20px">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Map</h4>
+                <div>
+                    <a href="@ViewDataTyped.FullMapUrl">
+                        @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+                    </a>
+                </div>
             </div>
-            <div>
-                <a href="@ViewDataTyped.FullMapUrl">
-                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
-                </a>
+            <div class="col-md-4 richTextWithBorder">
+                <div>
+                    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageTextViewData); }
+                </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8 fullWidth">
+                <div>
+                    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageTextViewData); }
+                </div>
+            </div>
+
+            <div class="col-md-4 fullWidth homepageActionButtons">
+                @if (ViewDataTyped.DisplayActionButtons)
+                {    
+                    <div class="homepageActionButtonsAlignRight">
+                        @ProjectCreateHelper.AddProjectButton()
+                        <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</a>
+                    </div>
+                }
+                <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Map</h4>
+                <div>
+                    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageMapTextViewData); }
+                </div>
+                <div>
+                    <a href="@ViewDataTyped.FullMapUrl">
+                        @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
 
     @if (ViewDataTyped.FeaturedProjectsViewData.FeaturedProjects.Any())
     {

@@ -144,6 +144,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableReports)]
         public bool EnableReports { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportVisibility)]
+        public bool AreReportsPublic { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableMatchmaker)]
         public bool EnableMatchmaker { get; set; }
 
@@ -193,6 +196,7 @@ namespace ProjectFirma.Web.Views.Tenant
             GeoServerNamespace = tenantAttribute.GeoServerNamespace;
             EnableProjectCategories = tenantAttribute.EnableProjectCategories;
             EnableReports = tenantAttribute.EnableReports;
+            AreReportsPublic = tenantAttribute.AreReportsPublic;
             EnableMatchmaker = tenantAttribute.EnableMatchmaker;
             TrackAccomplishments = tenantAttribute.TrackAccomplishments;
             EnableSolicitations = tenantAttribute.EnableSolicitations;
@@ -248,6 +252,7 @@ namespace ProjectFirma.Web.Views.Tenant
             
             tenantAttribute.EnableEvaluations = EnableProjectEvaluations;
             tenantAttribute.EnableReports = EnableReports;
+            tenantAttribute.AreReportsPublic = AreReportsPublic;
             tenantAttribute.EnableMatchmaker = EnableMatchmaker;
             tenantAttribute.TrackAccomplishments = TrackAccomplishments;
             tenantAttribute.EnableSolicitations = EnableSolicitations;

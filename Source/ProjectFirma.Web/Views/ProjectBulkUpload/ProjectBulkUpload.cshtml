@@ -19,7 +19,9 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectBulkUpload.ProjectBulkUpload
 @section JavascriptAndStylesContent
 {
@@ -53,9 +55,9 @@
 
 <div>
     <p class="instructionParagrah">
-        To upload new Pending Projects:
+        To upload new @(FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()) and Pending @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()):
         <a class="excelbutton" href="@ViewDataTyped.DownloadBulkUploadTemplateNewActivitiesUrl" title="Download Template for New Activities.">
-            Download Template for New Pending Projects.
+            Download Template
         </a>
     </p>
     <div>

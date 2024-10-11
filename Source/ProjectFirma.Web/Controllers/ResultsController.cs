@@ -69,6 +69,7 @@ namespace ProjectFirma.Web.Controllers
                 List<Organization> organizations;
                 // default to Funding Organizations if no relationship type is selected to report in the dashboard.
                 var relationshipTypeToReportInAccomplishmentsDashboard = MultiTenantHelpers.GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard();
+                var accomplishmentsDashboardOrganizationTypeName = "Funding Organizations"; // to match default configure option "Funding Organization (Default)"
                 if (relationshipTypeToReportInAccomplishmentsDashboard == null)
                 {
                     var expectedFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
@@ -84,6 +85,11 @@ namespace ProjectFirma.Web.Controllers
                     organizations = HttpRequestStorage.DatabaseEntities.Projects.ToList().SelectMany(x =>
                         x.ProjectOrganizations.Where(y =>
                             y.OrganizationRelationshipType == relationshipTypeToReportInAccomplishmentsDashboard).Select(z => z.Organization)).ToList().Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();
+                    accomplishmentsDashboardOrganizationTypeName =
+                        relationshipTypeToReportInAccomplishmentsDashboard.CanStewardProjects
+                            ? FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType()
+                                .GetFieldDefinitionLabelPluralized()
+                            : FieldDefinitionModelExtensions.PluralizationService.Pluralize(relationshipTypeToReportInAccomplishmentsDashboard.OrganizationRelationshipTypeName); 
                 }
 
                 var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -92,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
                 var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase).ToList();
                 var viewData = new AccomplishmentsDashboardViewData(CurrentFirmaSession, firmaPage, tenantAttribute,
                     organizations, FirmaDateUtilities.GetRangeOfYearsForReporting(), defaultBeginYear,
-                    defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
+                    defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel, accomplishmentsDashboardOrganizationTypeName);
                 return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
             }
         }

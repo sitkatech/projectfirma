@@ -53,6 +53,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[ProjectExternalDataSourceApiUrl] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectExternalSourceOfRecordName] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectExternalSourceOfRecordUrl] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[AreReportsPublic] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -71,6 +72,8 @@ GO
 ALTER TABLE [dbo].[TenantAttribute] ADD  DEFAULT ((0)) FOR [EnableProjectCategories]
 GO
 ALTER TABLE [dbo].[TenantAttribute] ADD  DEFAULT ((0)) FOR [MatchmakerAlgorithmIncludesProjectGeospatialAreas]
+GO
+ALTER TABLE [dbo].[TenantAttribute] ADD  DEFAULT ((0)) FOR [AreReportsPublic]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_AccomplishmentsDashboardFundingDisplayType_AccomplishmentsDashboardFundingDisplayTypeID] FOREIGN KEY([AccomplishmentsDashboardFundingDisplayTypeID])
 REFERENCES [dbo].[AccomplishmentsDashboardFundingDisplayType] ([AccomplishmentsDashboardFundingDisplayTypeID])

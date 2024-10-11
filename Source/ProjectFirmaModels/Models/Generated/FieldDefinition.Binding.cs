@@ -339,6 +339,7 @@ namespace ProjectFirmaModels.Models
         AttachmentTypeViewableBy = 389,
         AccomplishmentDashboardMenu = 390,
         IsClassificationSystemRequired = 391,
-        ProjectExternalID = 392
+        ProjectExternalID = 392,
+        ReportVisibility = 393
     }
 }

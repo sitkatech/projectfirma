@@ -40,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="radio" style="margin-top: 10px;">
             <label>
                 @Html.RadioButtonFor(m => m.CreateType, ProjectTypeSelectionViewModel.ProjectCreateType.Existing)
-                <strong>Enter an existing @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is already underway or complete</strong>
+                <strong>Add an existing @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is already underway or complete</strong>
             </label>
             <div class="radioExplanationText">This will create a new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() record for an existing @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You will be asked to select the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() stage (e.g. @ProjectStage.PlanningDesign.GetProjectStageDisplayName(), @ProjectStage.Implementation.GetProjectStageDisplayName(), or @ProjectStage.Completed.GetProjectStageDisplayName()). An administrator will review the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() before it becomes publicly visible.</div>
         </div>

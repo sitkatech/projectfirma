@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 .Select(relationshipType => new ValidationResult(
                     $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\".")));
 
-            var allValidRelationshipTypes = ProjectOrganizationSimples.All(x =>
+            var allValidRelationshipTypes = ProjectOrganizationSimples.Where(z => ModelObjectHelpers.IsRealPrimaryKeyValue(z.OrganizationID)).All(x =>
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID);
                 var organizationType = organization.OrganizationType;

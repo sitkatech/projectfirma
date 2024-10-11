@@ -97,8 +97,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteSolicitation(Solicitation solicitation, ConfirmDialogFormViewModel viewModel)
         {
-            var confirmMessage = $"Are you sure you want to delete this {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()} '{solicitation.SolicitationName}'?";
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            var canDelete = !solicitation.HasDependentObjects();
+            var confirmMessage = canDelete
+            ? $"Are you sure you want to delete this {FieldDefinitionEnum.Solicitation.ToType().GetFieldDefinitionLabel()} '{solicitation.SolicitationName}'?"
+            : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(solicitation.SolicitationName);
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -112,7 +116,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteSolicitation(solicitation, viewModel);
             }
-            solicitation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            solicitation.Delete(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }
