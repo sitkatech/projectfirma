@@ -1189,7 +1189,7 @@ namespace ProjectFirma.Web.Controllers
 
             var mapInitJsonForEdit = new MapInitJson($"project_{project.ProjectID}_EditMap",
                 10,
-                MapInitJson.GetConfiguredGeospatialAreaMapLayers(),
+                MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer(),
                 MapInitJson.GetExternalMapLayerSimples(),
                 BoundingBox.MakeNewDefaultBoundingBox(),
                 false) {DisablePopups = true};
@@ -1316,7 +1316,7 @@ namespace ProjectFirma.Web.Controllers
                 detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
 
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate, userCanViewPrivateLocations);
-            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(projectUpdate, userCanViewPrivateLocations));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayerSimples(), boundingBox) {AllowFullScreen = false, DisablePopups = true};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);

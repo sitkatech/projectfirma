@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             TypeAheadInputId = "geospatialAreaSearch";
             
             GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;
-            MapServiceUrl = geospatialAreaType.MapServiceUrl();
+            MapServiceUrl = MultiTenantHelpers.MapServiceUrl();
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
             GeospatialAreaTypeNamePluralized = geospatialAreaType.GeospatialAreaTypeNamePluralized;
 

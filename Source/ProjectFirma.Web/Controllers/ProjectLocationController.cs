@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, ProjectLocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
+            var layerGeoJsons = MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer();
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayerSimples(), BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true};
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Controllers
             var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection(true);
             var editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
 
-            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer();
             var userCanViewPrivateLocations = CurrentFirmaSession.UserCanViewPrivateLocations(project);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project, userCanViewPrivateLocations));
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project, userCanViewPrivateLocations);
@@ -353,6 +353,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.LayerInitialVisibilityEnum.Hide));
             }
+            layerGeoJsons.Add(MapInitJson.GetProjectDetailedLocationsLayer());
             var boundingBox = BoundingBox.MakeBoundingBoxFromProject(project, userCanViewPrivateLocations);
             var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayerSimples(), boundingBox)
             {

@@ -56,6 +56,7 @@ namespace ProjectFirma.Web.Controllers
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(false, true, true), "#80b2ff", 1,
                     LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             layerGeoJsons.Add(projectLocationsLayerGeoJson);
+            layerGeoJsons.Add(MapInitJson.GetProjectDetailedLocationsLayer());
 
             var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, MapInitJson.GetExternalMapLayerSimples(), 
                 BoundingBox.MakeNewDefaultBoundingBox());

@@ -572,5 +572,11 @@ namespace ProjectFirma.Web.Common
         {
             return GetTenantAttributeFromCache().EnableSolicitations;
         }
+
+        public static string MapServiceUrl()
+        {
+            var geoServerNamespace = GetTenantAttributeFromCache().GeoServerNamespace;
+            return $"{FirmaWebConfiguration.GeoServerUrl}{geoServerNamespace}/wms";
+        }
     }
 }
