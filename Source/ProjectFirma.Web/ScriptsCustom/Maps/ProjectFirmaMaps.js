@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 var ProjectFirmaMaps = {};
 var highlightOverlay; //Used when highlighting all a Project's Detailed Locations; see formatGeospatialAreaResponse
 var mapOutsideScope; //Used when highlighting all a Project's Detailed Locations; see formatGeospatialAreaResponse
-//const zoomToShowDetailedLocations= 13;
 var projectDetailedLocationsLayer;
 
 
@@ -105,9 +104,6 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
         if (highlightOverlay && e.name.includes("Locations - Detail"))
             highlightOverlay.remove(); //If Detailed Locations is toggled off, also remove the highlight
     });
-    //firmaMap.map.on('zoomend', function (evt) {
-    //    firmaMap.showDetailedLocationsLayer();
-    //});
 
     // Add external tile layers from ArcGIS Online
     for (var i = 0; i < mapInitJson.ExternalMapLayerSimples.length; ++i) {
@@ -156,18 +152,6 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     }
     firmaMap.setMapBounds(mapInitJson);
 }; // End of constructor
-
-//ProjectFirmaMaps.Map.prototype.showDetailedLocationsLayer = function () {
-//    if (this.map.getZoom() >= zoomToShowDetailedLocations) {
-//        if (!this.map.hasLayer(projectDetailedLocationsLayer)) {
-//            //projectDetailedLocationsLayer.addTo(this.map);
-//            this.map.addLayer(projectDetailedLocationsLayer);
-//        } //
-//    }
-//    else if (this.map.hasLayer(projectDetailedLocationsLayer)) {
-//        this.map.removeLayer(projectDetailedLocationsLayer);
-//    }
-//};
 
 // Utility functions
 ProjectFirmaMaps.Map.prototype.addLayersToMapLayersControl = function (baseLayers, overlayLayers) {
