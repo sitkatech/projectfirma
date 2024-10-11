@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Models
         public static LayerGeoJson GetProjectDetailedLocationsLayer()
         {
             return new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()} - Detail", MultiTenantHelpers.MapServiceUrl(),
-                "ProjectDetailedLocations", "#59ACFF", .2m,
+                "ProjectDetailedLocationsPublicApproved", "#59ACFF", .2m,
                 LayerInitialVisibility.LayerInitialVisibilityEnum.Hide, "");
         }
 
