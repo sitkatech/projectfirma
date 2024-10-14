@@ -33,6 +33,7 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     this.MapDivId = mapInitJson.MapDivID;
     this.MapServiceUrl = mapInitJson.MapServiceUrl;
     this.ProjectDetailedLocationsPublicApprovedGeoServerLayerName = mapInitJson.ProjectDetailedLocationsPublicApprovedGeoServerLayerName;
+    this.ProjectFieldDefinitionLabel = mapInitJson.ProjectFieldDefinitionLabel;
 
     firmaMap.mapLayers = [];
     firmaMap.externalFeatureLayers = mapInitJson.ExternalMapLayerSimples.filter(function(x) {
@@ -568,7 +569,6 @@ ProjectFirmaMaps.Map.prototype.openPopupIncludingAsyncContent = function (respon
 
 ProjectFirmaMaps.Map.prototype.formatGeospatialAreaResponse = function (json) {
     var deferred = new jQuery.Deferred();
-    var geospatialAreaLayerInfoHtmlForPopup = null;
     if (json.features.length > 0) {
 
         var firstFeature = json.features[0];
@@ -576,7 +576,7 @@ ProjectFirmaMaps.Map.prototype.formatGeospatialAreaResponse = function (json) {
             case "GeospatialAreaFeature":
                 linkHtml = "<a title='' href='/GeospatialArea/Detail/" + json.features[0].properties.GeospatialAreaID + "'>" + json.features[0].properties.GeospatialAreaShortName + "</a>";
                 labelText = json.features[0].properties.GeospatialAreaTypeName
-               
+
                 deferred.resolve({
                     label: labelText,
                     link: linkHtml
@@ -614,29 +614,40 @@ ProjectFirmaMaps.Map.prototype.formatGeospatialAreaResponse = function (json) {
                         console.log(data);
                     });
                 }
-                queryUrl = "/Project/ProjectMapPopup/" + firstFeature.properties.ProjectID;
-                labelText = "Project";
 
-                var mapPopupAjaxCall = [];
-                mapPopupAjaxCall.push(jQuery.when(jQuery.ajax({ url: queryUrl }))
-                    .then(function (response) { return response; }));
+                if (jQuery("#" + this.MapDivId).height() < 400) {
+                    linkHtml = "<a title='' href='/Project/Detail/" + json.features[0].properties.ProjectID + "'>" + json.features[0].properties.ProjectName + "</a>";
+                    labelText = this.ProjectFieldDefinitionLabel;
 
-                this.carryOutPromises(mapPopupAjaxCall).then(
-                    function (responses) {
-                        linkHtml = deferred.resolve({
-                            label: labelText,
-                            link: responses[0]
-                        });
-                    },
-                    function (responses) {
-                        console.log("error getting project popup info: " + queryUrl);
-                        deferred.resolve(null);
-                    }
-                );
+                    deferred.resolve({
+                        label: labelText,
+                        link: linkHtml
+                    });
+                } else {
+                    queryUrl = "/Project/ProjectMapPopup/" + firstFeature.properties.ProjectID;
+                    labelText = "Project";
+
+                    var mapPopupAjaxCall = [];
+                    mapPopupAjaxCall.push(jQuery.when(jQuery.ajax({ url: queryUrl }))
+                        .then(function (response) { return response; }));
+
+                    this.carryOutPromises(mapPopupAjaxCall).then(
+                        function (responses) {
+                            linkHtml = deferred.resolve({
+                                label: labelText,
+                                link: responses[0]
+                            });
+                        },
+                        function (responses) {
+                            console.log("error getting project popup info: " + queryUrl);
+                            deferred.resolve(null);
+                        }
+                    );
+                }
                 break;
         }
-
-        
+    } else {
+        deferred.resolve(null);
     }
     return deferred.promise();
 };

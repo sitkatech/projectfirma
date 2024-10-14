@@ -42,6 +42,7 @@ namespace ProjectFirma.Web.Models
         public string RequestSupportUrl;
         public string MapServiceUrl;
         public string ProjectDetailedLocationsPublicApprovedGeoServerLayerName;
+        public string ProjectFieldDefinitionLabel;
 
         public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayerSimple> externalMapLayers, BoundingBox boundingBox, bool turnOnFeatureIdentify)
         {
@@ -55,6 +56,7 @@ namespace ProjectFirma.Web.Models
             MapServiceUrl = MultiTenantHelpers.MapServiceUrl();
             ProjectDetailedLocationsPublicApprovedGeoServerLayerName =
                 $"{MultiTenantHelpers.GetTenantAttributeFromCache().GeoServerNamespace}:ProjectDetailedLocationsPublicApproved";
+            ProjectFieldDefinitionLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
         }
 
         /// <summary>
