@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Map
         public ProjectLocationSummaryMapInitJson(IProject iProject, FirmaSession currentFirmaSession, string mapDivID, 
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, 
             FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers, bool userCanViewPrivateLocations, bool alwaysHideGeospatialAreaLayers = false) 
-            : base(mapDivID, DefaultZoomLevel, GetConfiguredGeospatialAreaMapLayers(alwaysHideGeospatialAreaLayers), 
+            : base(mapDivID, DefaultZoomLevel, GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer(alwaysHideGeospatialAreaLayers), 
                 callGetExternalMapLayers ? GetExternalMapLayerSimples() : new List<ExternalMapLayerSimple>(), 
                 GetProjectBoundingBox(iProject, userCanViewPrivateLocations))
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -20,7 +21,7 @@ namespace ProjectFirma.Web.Models
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
             GeospatialAreaTypeNamePluralized = geospatialAreaType.GeospatialAreaTypeNamePluralized;
             GeospatialAreaTypeLayerName = geospatialAreaType.GeospatialAreaLayerName;
-            GeospatialAreaTypeMapServiceUrl = geospatialAreaType.MapServiceUrl();
+            GeospatialAreaTypeMapServiceUrl = MultiTenantHelpers.MapServiceUrl();
         }
 
         public GeospatialAreaTypeSimple(GeospatialAreaType geospatialAreaType, List<int> geospatialAreaIDsContainingProjectSimpleLocation, List<int> geospatialAreaIDsInitiallySelected) : this(geospatialAreaType)

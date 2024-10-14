@@ -281,7 +281,7 @@ namespace ProjectFirma.Web.Controllers
             var orgBoundaryLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Boundary Geometry", organizationBoundaryFeatureCollection, "red", 1, initialVisibilityForOrgBoundary);
             LayerGeoJson editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", editableLayerGeoJsonFeatureCollection, "red", 1, initialVisibilityForUserEditedBoundary);
 
-            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer();
             // Maybe show all Org project layers here? Consider doing later.
             //layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             //BoundingBox boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
@@ -629,7 +629,7 @@ namespace ProjectFirma.Web.Controllers
                 dbGeometries.Add(organization.OrganizationBoundary);
             }
 
-            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayers());
+            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer());
 
             var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(currentFirmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
@@ -657,7 +657,7 @@ namespace ProjectFirma.Web.Controllers
                 dbGeometries.Add(organization.OrganizationBoundary);
             }
 
-            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayers());
+            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer());
 
             // custom areas of interest
             if (!organization.UseOrganizationBoundaryForMatchmaker &&
