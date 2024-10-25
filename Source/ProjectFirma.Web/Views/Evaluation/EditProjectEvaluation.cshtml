@@ -39,7 +39,7 @@
                     <label for="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))">@Html.Raw(LabelWithSugarForExtensions.GenerateHelpIconImgTag(ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaName, ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaDefinition.ToHTMLFormattedString(), ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaDefinitionUrl, 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)) @ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaName</label>
                 </div>
                 <div class="col-sm-9">
-                    <select style="width: 100%;" id="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))">
+                    <select class="form-control" style="width: 100%;" id="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))">
                         <option value="-1">Choose One</option>
                         @foreach (var value in ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaValueSimples.OrderBy(x => x.SortOrder))
                         {

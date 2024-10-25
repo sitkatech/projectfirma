@@ -27,9 +27,9 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectEvaluation contextModelObject)
         {
-            if (HasPermissionByFirmaSession(firmaSession))
+            if (!HasPermissionByFirmaSession(firmaSession))
             {
-                return new PermissionCheckResult("You do not have permission to manage evaluation criteria");
+                return new PermissionCheckResult("You do not have permission to manage project evaluations");
             }
 
             var evaluation = contextModelObject.Evaluation;
