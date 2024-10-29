@@ -145,6 +145,43 @@ namespace ProjectFirma.Web.ScheduledJobs
                     }
                     Logger.Info("Projects sync complete.");
                 }
+                
+                // try to re-sync (or sync for the first time) any projects that are missing a primary contact
+                var projectsMissingPrimaryContact = projects.Where(x => string.IsNullOrWhiteSpace(x.PrimaryContactPersonFullName)).ToList();
+                if(projectsMissingPrimaryContact.Any())
+                {
+                    Logger.Info("Starting newly added Projects sync.");
+                }
+                foreach (var project in projectsMissingPrimaryContact)
+                {
+                    var getProjectUrl = $"{apiUrl}/projects/{project.ExternalID}/?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
+                    var projectResponse = await client.GetAsync(getProjectUrl);
+                    if (!projectResponse.IsSuccessStatusCode)
+                    {
+                        Logger.Warn($"GET {getProjectUrl} failed, reason: {projectResponse.ReasonPhrase}");
+                    }
+                    else
+                    {
+                        var projectDto = await projectResponse.Content.ReadAsAsync<ProjectSimpleDto>();
+                        recentlyModifiedExternalIDs.Add(projectDto.ProjectID);
+                        try
+                        {
+                            UpdateProjectFromExternalDataSourceProjectSimpleDto(project, projectDto, tenantID, databaseEntities);
+                            databaseEntities.SaveChangesWithNoAuditing(tenantID);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Info($"Project sync failed for ProjectID: {project.ProjectID}; ExternalID: {projectDto.ProjectID}");
+                            Logger.Warn(ex);
+                        }
+                        
+                        Logger.Info("Projects sync complete.");
+                    }
+                }
+                if (projectsMissingPrimaryContact.Any())
+                {
+                    Logger.Info("Newly added Projects sync complete.");
+                }
 
                 Logger.Info("Starting Project Images sync.");
                 foreach (var externalID in recentlyModifiedExternalIDs)
