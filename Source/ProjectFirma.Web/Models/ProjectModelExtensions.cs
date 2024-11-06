@@ -281,7 +281,11 @@ namespace ProjectFirma.Web.Models
         public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationRelationships(this Project project, bool excludeTargetedFunders)
         {
             var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
-            explicitOrganizations.AddRange(project.GetFundingOrganizations(excludeTargetedFunders));
+            var funders = explicitOrganizations.Where(x =>
+                x.OrganizationRelationshipTypeName == OrganizationRelationshipTypeModelExtensions
+                    .OrganizationRelationshipTypeNameFunder).ToList();
+            explicitOrganizations.AddRange(project.GetFundingOrganizations(excludeTargetedFunders)
+                .ExceptBy(funders, x => x.Organization.OrganizationID));
             return explicitOrganizations;
         }
 

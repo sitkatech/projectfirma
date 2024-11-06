@@ -37,12 +37,18 @@ namespace ProjectFirma.Web.Views.Project
 
         public PendingViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
+            var pendingProjectsLabel = MultiTenantHelpers.GetTenantName() == "TCSProjectTracker"
+                ? $"Existing {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}"
+                : $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
+            var pendingProjectLabel = MultiTenantHelpers.GetTenantName() == "TCSProjectTracker"
+                ? $"Existing {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}"
+                : $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
+            PageTitle = pendingProjectsLabel;
 
             HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
 
-            GridSpec = new PendingGridSpec(currentFirmaSession) {ObjectNameSingular = $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new PendingGridSpec(currentFirmaSession) {ObjectNameSingular = pendingProjectLabel, ObjectNamePlural = pendingProjectsLabel, SaveFiltersInCookie = true};
 
             if (new ProjectCreateNewFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {

@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
-            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer();
             layers.Add(boundingBoxLayer);
             var mapInitJson = new MapInitJson("TenantDetailBoundingBoxMap",
                 10,
@@ -275,7 +275,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
-            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetConfiguredGeospatialAreaMapLayers(), MapInitJson.GetExternalMapLayerSimples(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer(), MapInitJson.GetExternalMapLayerSimples(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
 
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);

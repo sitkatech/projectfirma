@@ -12,7 +12,9 @@ select
     p.ProjectName,
     pl.ProjectLocationGeometry,
     pl.TenantID,
-    t.TenantName
+    t.TenantName,
+	p.LocationIsPrivate,
+	p.ProjectApprovalStatusID
 
 from dbo.ProjectLocation pl
 join dbo.Project p on pl.ProjectID = p.ProjectID 

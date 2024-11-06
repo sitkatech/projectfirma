@@ -22,15 +22,11 @@ namespace ProjectFirma.Web.Models
                 x.EditProjectGeospatialAreas(project.ProjectID, geospatialAreaType.GeospatialAreaTypeID));
         }
 
-        public static string MapServiceUrl(this GeospatialAreaType geospatialAreaType)
-        {
-            var geoServerNamespace = MultiTenantHelpers.GetTenantAttributeFromCache().GeoServerNamespace;
-            return $"{FirmaWebConfiguration.GeoServerUrl}{geoServerNamespace}/wms";
-        }
+       
 
         public static HtmlString GetGeoJsonLinkHtmlString(this GeospatialAreaType geospatialAreaType)
         {
-            var mapServiceUri = new UriBuilder(geospatialAreaType.MapServiceUrl());
+            var mapServiceUri = new UriBuilder(MultiTenantHelpers.MapServiceUrl());
             mapServiceUri.Path = mapServiceUri.Path.Replace("/wms", "/ows");
 
             NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
@@ -49,7 +45,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetLegendGraphicJsonUrl(this GeospatialAreaType geospatialAreaType)
         {
-            var mapServiceUri = new UriBuilder(geospatialAreaType.MapServiceUrl());
+            var mapServiceUri = new UriBuilder(MultiTenantHelpers.MapServiceUrl());
 
             NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString["request"] = "GetLegendGraphic";
