@@ -1,1 +1,0 @@
-alter table dbo.ProjectCustomGridConfiguration add ClassificationSystemID int null constraint FK_ProjectCustomGridConfiguration_ClassificationSystem_ClassificationSystemID foreign key references dbo.ClassificationSystem(ClassificationSystemID)
