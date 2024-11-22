@@ -176,6 +176,7 @@ namespace LtInfo.Common.AgGridWrappers
                 if({0}PinnedBottomData){{
                     {0}GridOptionsApi.setGridOption('pinnedBottomRowData',[{0}PinnedBottomData]);
                 }}
+                {0}GridOptionsApi.setGridOption('loading', false);
             }});
         }}
 
