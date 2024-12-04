@@ -188,7 +188,7 @@ namespace ProjectFirmaModels.Models
 
         public Organization GetCanStewardProjectsOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.CanStewardProjects)?.Organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.CanStewardProjects)?.Organization; // TODO return a list if we change project steward organization to multi-select
         }
 
 

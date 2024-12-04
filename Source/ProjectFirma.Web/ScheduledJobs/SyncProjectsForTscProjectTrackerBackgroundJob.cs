@@ -26,6 +26,10 @@ namespace ProjectFirma.Web.ScheduledJobs
         {
         }
 
+        public SyncProjectsForTscProjectTrackerBackgroundJob(string jobName) : base(ScheduledBackgroundJobName)
+        {
+        }
+
         public override List<FirmaEnvironmentType> RunEnvironments => new List<FirmaEnvironmentType>
         {
             FirmaEnvironmentType.Local,
@@ -52,7 +56,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             {"Facilities Improved or Created", "Facilities Improved & Created"},
             {"Length of Public Shoreline Added", "Length of Public Shoreline Added"}, // TODO does not exist in TCS
             {"Miles of Pedestrian and Bicycle Routes Improved or Constructed", "Miles of Pedestrian and Bicycle Routes Improved or Constructed"}, // TODO does not exist in TCS
-            {"Miles of Road Decommissioned or Retrofitted", "Miles of Road Treated"},
+            {"Miles of Roads Decommissioned or Retrofitted", "Miles of Road Treated"},
             {"Miles of Trails Developed or Improved", "Miles of Trails Developed or Improved"}, // TODO does not exist in TCS
             {"Pounds of Air Pollutants Removed or Avoided by Project", "Pounds of Air Pollutants Removed or Avoided by Project"},
             {"Fine Sediment Load Reduction", "Sediment Load Reduction"},
@@ -86,8 +90,9 @@ namespace ProjectFirma.Web.ScheduledJobs
             {"04.01.02", "Remote-Sensing and GIS Based Research"}
         };
 
-        protected override async Task RunJobImplementationAsync()
-        {
+       
+
+        protected async Task RunSyncJobImplementationAsync(string getProjectsRouteEndpoint, bool syncImages) {
             var tenantID = Tenant.TCSProjectTracker.TenantID;
             var tenantAttribute = DbContext.AllTenantAttributes.Single(x => x.TenantID == tenantID);
             if (tenantAttribute.ProjectExternalDataSourceEnabled)
@@ -114,7 +119,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
                 var recentlyModifiedExternalIDs = new List<int>();
 
-                var getRecentlyModifiedProjectsUrl = $"{apiUrl}/projects/recently-modified?apiKey={FirmaWebConfiguration.LTInfoApiKey}&{queryParameter}";
+                var getRecentlyModifiedProjectsUrl = $"{apiUrl}/projects/{getProjectsRouteEndpoint}?apiKey={FirmaWebConfiguration.LTInfoApiKey}&{queryParameter}";
                 var response = await client.GetAsync(getRecentlyModifiedProjectsUrl);
                 if (!response.IsSuccessStatusCode)
                 {
@@ -145,10 +150,10 @@ namespace ProjectFirma.Web.ScheduledJobs
                     }
                     Logger.Info("Projects sync complete.");
                 }
-                
+
                 // try to re-sync (or sync for the first time) any projects that are missing a primary contact
                 var projectsMissingPrimaryContact = projects.Where(x => string.IsNullOrWhiteSpace(x.PrimaryContactPersonFullName)).ToList();
-                if(projectsMissingPrimaryContact.Any())
+                if (projectsMissingPrimaryContact.Any())
                 {
                     Logger.Info("Starting newly added Projects sync.");
                 }
@@ -174,8 +179,6 @@ namespace ProjectFirma.Web.ScheduledJobs
                             Logger.Info($"Project sync failed for ProjectID: {project.ProjectID}; ExternalID: {projectDto.ProjectID}");
                             Logger.Warn(ex);
                         }
-                        
-                        Logger.Info("Projects sync complete.");
                     }
                 }
                 if (projectsMissingPrimaryContact.Any())
@@ -183,36 +186,44 @@ namespace ProjectFirma.Web.ScheduledJobs
                     Logger.Info("Newly added Projects sync complete.");
                 }
 
-                Logger.Info("Starting Project Images sync.");
-                foreach (var externalID in recentlyModifiedExternalIDs)
+                if (syncImages)
                 {
-                    var project = projects.Single(x => x.ExternalID == externalID);
-                    Logger.Info($"Starting Project Images sync for ProjectID: {project?.ProjectID}; ExternalID: {externalID}");
+                    Logger.Info("Starting Project Images sync.");
+                    foreach (var externalID in recentlyModifiedExternalIDs)
+                    {
+                        var project = projects.Single(x => x.ExternalID == externalID);
+                        Logger.Info($"Starting Project Images sync for ProjectID: {project?.ProjectID}; ExternalID: {externalID}");
 
-                    var getProjectImagesUrl = $"{apiUrl}/projects/{externalID}/project-images?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
-                    var getProjectImages = await client.GetAsync(getProjectImagesUrl);
-                    if (!getProjectImages.IsSuccessStatusCode)
-                    {
-                        Logger.Warn($"GET {getProjectImagesUrl} failed, reason: {getProjectImages.ReasonPhrase}");
-                    }
-                    else
-                    {
-                        var projectImageDtos = await getProjectImages.Content.ReadAsAsync<List<ProjectImageSimpleDto>>();
-                        try
+                        var getProjectImagesUrl = $"{apiUrl}/projects/{externalID}/project-images?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
+                        var getProjectImages = await client.GetAsync(getProjectImagesUrl);
+                        if (!getProjectImages.IsSuccessStatusCode)
                         {
-                            await UpdateProjectImages(project, projectImageDtos, tenantID, databaseEntities, client, apiUrl);
-                            databaseEntities.SaveChangesWithNoAuditing(tenantID);
-                            Logger.Info($"Project Images sync complete for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
+                            Logger.Warn($"GET {getProjectImagesUrl} failed, reason: {getProjectImages.ReasonPhrase}");
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Logger.Info($"Project Images sync failed for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
-                            Logger.Warn(ex);
+                            var projectImageDtos = await getProjectImages.Content.ReadAsAsync<List<ProjectImageSimpleDto>>();
+                            try
+                            {
+                                await UpdateProjectImages(project, projectImageDtos, tenantID, databaseEntities, client, apiUrl);
+                                databaseEntities.SaveChangesWithNoAuditing(tenantID);
+                                Logger.Info($"Project Images sync complete for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Info($"Project Images sync failed for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
+                                Logger.Warn(ex);
+                            }
                         }
                     }
+                    Logger.Info("Project Images sync complete.");
                 }
-                Logger.Info("Project Images sync complete.");
             }
+        }
+
+        protected override async Task RunJobImplementationAsync()
+        {
+            await RunSyncJobImplementationAsync("recently-modified", true);
         }
 
         /// <summary>
@@ -256,10 +267,13 @@ namespace ProjectFirma.Web.ScheduledJobs
             if (primaryContactPerson != null)
             {
                 project.PrimaryContactPersonID = primaryContactPerson.PersonID;
+                project.PrimaryContactPersonFullName = null;
+                project.PrimaryContactPersonEmail = null;
             }
             else
             {
                 project.PrimaryContactPersonFullName = projectSimpleDto.PrimaryContactPersonFullName;
+                project.PrimaryContactPersonEmail = projectSimpleDto.PrimaryContactPersonEmail;
             }
 
             var strategyNameInDictionary = EIPActionPriorityNumberToTCSStrategy.TryGetValue(projectSimpleDto.EIPProject?.EIPActionPriority?.DisplayNumber ?? string.Empty, out var strategyName);
