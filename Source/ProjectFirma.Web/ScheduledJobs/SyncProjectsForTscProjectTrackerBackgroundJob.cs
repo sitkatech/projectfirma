@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             {"Miles of Trails Developed or Improved", "Miles of Trails Developed or Improved"}, // TODO does not exist in TCS
             {"Pounds of Air Pollutants Removed or Avoided by Project", "Pounds of Air Pollutants Removed or Avoided by Project"},
             {"Fine Sediment Load Reduction", "Sediment Load Reduction"},
-            {"Special Status Species Sites Protected or Re-established", "Special Status Species Sites Protected or Re-established"},
+            {"Special Status Species Sites Protected or Re-Established", "Special Status Species Sites Protected or Re-established"},
             {"Tons of Biomass Utilized", "Tons of Biomass Utilized"},
             {"Tons of Greenhouse Gases Reduced", "Tons of Greenhouse Gases Reduced"},
             {"Watercraft Inspections for Invasive Species", "Watercraft Inspections for Invasive Species"},
