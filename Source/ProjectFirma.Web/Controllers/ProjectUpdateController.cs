@@ -3525,11 +3525,11 @@ namespace ProjectFirma.Web.Controllers
             }
             var allOrganizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
             var defaultPrimaryContact = projectUpdateBatch.Project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
-            
+            var userHasEditProjectStewardingOrganizationAsAdminPermission = new ProjectStewardingOrganizationEditAsAdminFeature().HasPermission(CurrentFirmaSession);
             var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, CurrentFirmaSession, 
-                allOrganizations, allPeople, allOrganizationRelationshipTypes);
+                allOrganizations, allPeople, allOrganizationRelationshipTypes, userHasEditProjectStewardingOrganizationAsAdminPermission);
 
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.OrganizationRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), projectUpdateBatch.ProjectUpdate.OtherPartners);
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.OrganizationRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), projectUpdateBatch.ProjectUpdate.OtherPartners, userHasEditProjectStewardingOrganizationAsAdminPermission);
             var viewData = new OrganizationsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
 
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
@@ -3722,7 +3722,8 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Person primaryContactPerson, string otherPartners)
         {
-            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.OrganizationRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson, otherPartners);
+            var userHasEditProjectStewardingOrganizationAsAdminPermission = new ProjectStewardingOrganizationEditAsAdminFeature().HasPermission(CurrentFirmaSession);
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.OrganizationRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson, otherPartners, userHasEditProjectStewardingOrganizationAsAdminPermission);
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
         }

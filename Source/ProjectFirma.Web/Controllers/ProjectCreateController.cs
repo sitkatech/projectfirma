@@ -1924,8 +1924,8 @@ namespace ProjectFirma.Web.Controllers
                 allPeople.Add(CurrentPerson);
             }
             var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
-            
-            var editOrganizationsViewData = new EditOrganizationsViewData(project, CurrentFirmaSession, allOrganizations, allPeople, allRelationshipTypes);
+            var userHasEditProjectStewardingOrganizationAsAdminPermission = new ProjectStewardingOrganizationEditAsAdminFeature().HasPermission(CurrentFirmaSession);
+            var editOrganizationsViewData = new EditOrganizationsViewData(project, CurrentFirmaSession, allOrganizations, allPeople, allRelationshipTypes, userHasEditProjectStewardingOrganizationAsAdminPermission);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectOrganizationsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectOrganizationsSectionComplete;
