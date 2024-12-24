@@ -78,7 +78,7 @@ namespace LtInfo.Common.AgGridWrappers
     <!-- The grid will be the size that this element is given. -->
     <div class=""row"">
         <div class=""col-md-6""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
-        <div class=""col-md-6 text-right gridDownloadContainer"">{9}<a class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</a>{8}</div>
+        <div class=""col-md-6 text-right gridDownloadContainer"">{9}<span>{10}</span><a class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</a>{8}</div>
     </div>
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
     <script type=""text/javascript"">
@@ -89,7 +89,7 @@ namespace LtInfo.Common.AgGridWrappers
             }}
 
             function {0}OnBtnExport() {{
-                {0}GridOptionsApi.exportDataAsCsv({{ fileName: '{0}' + 'Export', columnKeys: [{10}] }});
+                {0}GridOptionsApi.exportDataAsCsv({{ fileName: '{0}' + 'Export', columnKeys: [{11}] }});
             }}
 
             function {0}GetValuesFromCheckedGridRows(valueColumnName, returnListName) {{
@@ -205,7 +205,7 @@ namespace LtInfo.Common.AgGridWrappers
             }}
             var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
             if({0}PinnedBottomData){{
-                {0}GridOptionsApi.setPinnedBottomRowData([{0}PinnedBottomData]);
+                {0}GridOptionsApi.setGridOption('pinnedBottomRowData',[{0}PinnedBottomData]);
             }}
           }},
 
@@ -435,7 +435,10 @@ namespace LtInfo.Common.AgGridWrappers
                 $"{(!string.IsNullOrWhiteSpace(arbitraryHtml) ? $"<span>{arbitraryHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}";
             var columnsForCsvDownloadString = string.Join(",", columnsForCsvOutput.Select(x => $"\"{x}\""));
 
-            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink, additionalIcons, columnsForCsvDownloadString);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            var createEntityHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
+
+
+            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink, additionalIcons, createEntityHtml, columnsForCsvDownloadString);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
         }
 
 
@@ -653,6 +656,44 @@ namespace LtInfo.Common.AgGridWrappers
             var deleteIcon = deletePossibleForObject ? $"{DeleteIconBootstrap}<span style=\"display:none\">Delete</span>"
                 : BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash gi-1x disabled").ToString();
             return ModalDialogFormHelper.MakeDeleteLink(deleteIcon, deleteDialogUrl, new List<string>(), userHasDeletePermission);
+        }
+
+
+        /// <summary>
+        /// Typically, we either have a create new button that goes to a new page
+        /// or a modal dialog version of the create new record
+        /// </summary>
+        /// <param name="createUrl"></param>
+        /// <param name="createUrlClass"></param>
+        /// <param name="createPopupForm"></param>
+        /// <param name="createActionPhrase"></param>
+        /// <param name="objectNameSingular"></param>
+        /// <returns></returns>
+        public static string CreateCreateUrlHtml(string createUrl, string createUrlClass, ModalDialogForm createPopupForm, string createActionPhrase, string objectNameSingular)
+        {
+            var createString = !string.IsNullOrEmpty(createActionPhrase) ? createActionPhrase : $"Create New {objectNameSingular}";
+            var createUrlHtml = String.Empty;
+            if (!String.IsNullOrWhiteSpace(createUrl))
+            {
+                createUrlHtml = String.Format(@"<a class=""process create {0}"" href=""{1}"" title=""{2}"">{2}</a>",
+                    String.IsNullOrEmpty(createUrlClass) ? String.Empty : createUrlClass,
+                    createUrl,
+                    createString);
+            }
+            else if (createPopupForm != null)
+            {
+                createUrlHtml = MakeModalDialogLink($"{PlusIconBootstrap} {createString}",
+                    createPopupForm.ContentUrl,
+                    createPopupForm.DialogWidth,
+                    createPopupForm.DialogTitle,
+                    true,
+                    createPopupForm.SaveButtonText,
+                    createPopupForm.CancelButtonText,
+                    null,
+                    createPopupForm.OnJavascriptReadyFunction,
+                    null).ToString();
+            }
+            return createUrlHtml;
         }
     }
 }
