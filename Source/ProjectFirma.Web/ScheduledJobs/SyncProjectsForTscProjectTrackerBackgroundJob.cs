@@ -251,6 +251,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 project.ProjectLocationPoint = null;
                 if(projectSimpleDto.ProjectLocationSimpleType.ProjectLocationSimpleTypeName == "NamedAreas")
                 {
+                    project.ProjectLocationSimpleTypeID = ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID;
                     project.ProjectLocationNotes =
                         $"Named Area: {projectSimpleDto.ProjectLocationAreaName}\r\n, Area Type: {projectSimpleDto.ProjectLocationAreaType}";
                 }
@@ -567,9 +568,9 @@ namespace ProjectFirma.Web.ScheduledJobs
                     {
                         subcategoryOption =
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
-                                x.PerformanceMeasureSubcategoryOptionName.ToLower() ==
+                                x.PerformanceMeasureSubcategoryOptionName.ToLower().Trim() ==
                                 indicatorExpectedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption
-                                    .IndicatorSubcategoryOptionName.ToLower());
+                                    .IndicatorSubcategoryOptionName.ToLower().Trim());
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
@@ -700,9 +701,9 @@ namespace ProjectFirma.Web.ScheduledJobs
                     {
                         subcategoryOption =
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
-                                x.PerformanceMeasureSubcategoryOptionName.ToLower() ==
+                                x.PerformanceMeasureSubcategoryOptionName.ToLower().Trim() ==
                                 indicatorReportedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption
-                                    .IndicatorSubcategoryOptionName.ToLower());
+                                    .IndicatorSubcategoryOptionName.ToLower().Trim());
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
