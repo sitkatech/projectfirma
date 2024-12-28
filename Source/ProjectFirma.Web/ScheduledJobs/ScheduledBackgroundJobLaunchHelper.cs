@@ -17,10 +17,10 @@
             syncProjectsForTscProjectTrackerBackgroundJob.RunJob();
         }
 
-        public static void RunSyncAllProjectsForTscProjectTrackerBackgroundJob()
+        public static void RunSyncProjectImagesForTscProjectTrackerBackgroundJob()
         {
-            var syncAllProjectsForTscProjectTrackerBackgroundJob = new SyncAllProjectsForTscProjectTrackerBackgroundJob();
-            syncAllProjectsForTscProjectTrackerBackgroundJob.RunJob();
+            var syncProjectImagesForTscProjectTrackerBackgroundJob = new SyncProjectImagesForTscProjectTrackerBackgroundJob();
+            syncProjectImagesForTscProjectTrackerBackgroundJob.RunJob();
         }
 
         public static void RunCleanUpStaleFirmaSessionsScheduledBackgroundJob()
