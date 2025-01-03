@@ -19,8 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Activities.Statements;
 using System.Collections.Generic;
 using System.Linq;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Office2013.Drawing.ChartStyle;
+using System.Web.Caching;
 using log4net.Appender;
 using log4net.Core;
 
@@ -91,6 +97,151 @@ namespace LtInfo.Common
             }
             var exceptionTypesRolledUp = String.Join("--->", exceptionTypes);
             return exceptionTypesRolledUp;
+        }
+    }
+
+
+    /// <summary>
+    /// Caching version of the standard log4net SmtpAppender.This appender will
+    /// cache log events that are to be sent out via Smtp andsend them in block.
+    ///
+    /// Configuration options:
+    ///
+    /// <FlushInterval value="hh:mm:ss" />
+    /// Indicates the periodic interval for log events flushing(e.g.sending and e-mail), specified
+    /// as a time span. If the value of FlushInterval is 0:0:0 (zero), periodic interval flushing
+    /// is surpressed. Default value: 0:1:0 (1 minutes).
+    ///
+    /// <FlushCount value="x" />
+    /// Indicates the number of log events received by the appender which will trigger flushing
+    /// (e.g. sending and e-mail). If the value FlushCount is 0, buffer flush triggering based
+    /// the number of log events received is surpressed. Default value: 20 events.
+    ///
+    /// <MaxBufferSize value="x"/>
+    /// Maximum number of log events, both SmtpCachingAppender events and context events to save
+    /// in the cache buffer. If more than MaxBufferSize events are received before the flushing
+    /// criteria is met, only the newest MaxBufferSize events are saved in the buffer.A value
+    /// of 0 indicates no limit in the size of the cache. Default value: 0 (no limit)
+    ///
+    /// Sample SmtpCachingAppender configuration (in addition to all standard SmtpAppender options).
+    /// Note the namespace and assembly name for the appender.
+    ///
+    /// <appender name="SmtpCachingAppender" type="log4net.Extensions.SmtpCachingAppender, Utilities">
+    /// . . .
+    /// <FlushInterval value="00:05:00" />
+    /// <FlushCount value="20" />
+    /// <MaxBufferSize value="3"/>
+    /// </appender>
+    ///
+    /// </summary>
+    public class SmtpCachingAppender : SmtpAppenderWithPathAndExceptionTypeInSubject
+    {
+        // Configuration options
+        private int _flushCount = 20;
+        private TimeSpan _flushInterval = new TimeSpan(0, 1, 0);
+        private int _maxBufferSize = 0;
+
+        // Appender state data
+        private System.Threading.Timer _timer;
+        private bool _timedFlush = false;
+        private int _numCachedMessages = 0;
+        private List<LoggingEvent> _loggingEvents = new List<LoggingEvent>();
+
+        /// <summary>
+        /// TimeSpan indicating the maximum period of time elapsed before sending
+        /// any cached SMTP log events.
+        /// </summary>
+
+        public TimeSpan FlushInterval
+        {
+            get { return _flushInterval; }
+
+            set { _flushInterval = value; }
+        }
+
+        /// <summary>
+        /// Maximium number of SMTP events to cache before sending via SMTP.
+        /// </summary>
+
+        public int FlushCount
+        {
+            get { return _flushCount; }
+
+            set { _flushCount = value; }
+        }
+
+        public int MaxBufferSiz
+        {
+            get { return _maxBufferSize; }
+
+            set { _maxBufferSize = value; }
+        }
+        
+        /// <summary>
+        /// Create a timer that fires to force flushing cached log events
+        /// via SMTP at a specified interval.
+        /// </summary>
+        public override void ActivateOptions()
+        {
+            if (_flushInterval > TimeSpan.Zero)
+
+            {
+                _timer = new System.Threading.Timer(
+                    new
+                        System.Threading.TimerCallback(OnTimer),
+                    null,
+                    _flushInterval,
+                    _flushInterval);
+            }
+
+            base.ActivateOptions();
+        }
+
+
+        void OnTimer(Object stateInfo)
+        {
+            _timedFlush = true;
+            Flush(true);
+        }
+
+        protected override void SendBuffer(LoggingEvent[] events)
+        {
+            if (_maxBufferSize != 0)
+
+            {
+                int numRemoved = _loggingEvents.Count - _maxBufferSize;
+
+                if ((numRemoved > 0) && (numRemoved <= _loggingEvents.Count))
+
+                {
+                    _loggingEvents.RemoveRange(0, numRemoved);
+                }
+            }
+
+
+            _numCachedMessages++;
+
+            if (((_flushCount != 0) && (_numCachedMessages >= _flushCount)) || _timedFlush)
+
+            {
+                if (_loggingEvents.Count > 0)
+
+                {
+                    LoggingEvent[] bufferedEvents = _loggingEvents.ToArray();
+
+
+                    base.SendBuffer(bufferedEvents);
+
+
+                    _loggingEvents.Clear();
+                }
+
+                // Reset cache buffer conditions.
+
+                _numCachedMessages = 0;
+
+                _timedFlush = false;
+            }
         }
     }
 }

@@ -39,5 +39,13 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new SiteMonitorNagiosViewData(CurrentFirmaSession, siteMonitorCheckResults);
             return RazorView<SiteMonitorNagios, SiteMonitorNagiosViewData>(viewData);
         }
+
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ViewResult TriggerErrorForEmail()
+        {
+            throw new System.Exception("This is a test exception to trigger an email.");
+        }
     }
 }

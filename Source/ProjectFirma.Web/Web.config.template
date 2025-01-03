@@ -172,13 +172,14 @@
       </layout>
     </appender>
     <!-- Logging to Email, reserved for bad errors -->
-    <appender name="SmtpAppender" type="LtInfo.Common.SmtpAppenderWithPathAndExceptionTypeInSubject, LtInfo.Common">
+    <appender name="SmtpAppender" type="LtInfo.Common.SmtpCachingAppender, LtInfo.Common">
       <threshold value="ERROR"/>
       <to value="AppAlerts-PF@sitkatech.com"/>
       <from value="Application Alerts ProjectFirma &lt;AppAlerts-PF@sitkatech.com&gt;"/>
       <subject value="ProjectFirma Alert: ${environment} application error"/>
       <smtpHost value="${smtp-server}"/>
       <bufferSize value="1"/>
+      <FlushCount value="0" />
       <layout type="log4net.Layout.PatternLayout">
         <conversionPattern value="%date;%thread;%-5level;%logger;%newline%newline%message"/>
       </layout>
