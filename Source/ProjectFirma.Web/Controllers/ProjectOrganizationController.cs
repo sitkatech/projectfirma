@@ -71,8 +71,8 @@ namespace ProjectFirma.Web.Controllers
                 allPeople.Add(CurrentPerson);
             }
             var allOrganizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
-
-            var viewData = new EditOrganizationsViewData(project, CurrentFirmaSession, allOrganizations, allPeople, allOrganizationRelationshipTypes);
+            var userHasEditProjectStewardingOrganizationAsAdminPermission = new ProjectStewardingOrganizationEditAsAdminFeature().HasPermission(CurrentFirmaSession);
+            var viewData = new EditOrganizationsViewData(project, CurrentFirmaSession, allOrganizations, allPeople, allOrganizationRelationshipTypes, userHasEditProjectStewardingOrganizationAsAdminPermission);
             return RazorPartialView<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(viewData, viewModel);
         }
     }

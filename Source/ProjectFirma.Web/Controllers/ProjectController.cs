@@ -246,9 +246,10 @@ namespace ProjectFirma.Web.Controllers
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact(), project.OtherPartners);
+            var userHasEditProjectStewardingOrganizationAsAdminPermission = new ProjectStewardingOrganizationEditAsAdminFeature().HasPermission(CurrentFirmaSession);
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact(), project.OtherPartners, userHasEditProjectStewardingOrganizationAsAdminPermission);
 
-            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession, project.PrimaryContactPersonFullName);
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession, project.PrimaryContactPersonFullName, project.PrimaryContactPersonEmail);
             var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
@@ -636,7 +637,7 @@ namespace ProjectFirma.Web.Controllers
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
             var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizationRelationships()).ToList();
             var otherPartnersLabel = FieldDefinitionEnum.OtherPartners.ToType().GetFieldDefinitionLabel();
-            var projectOtherPartners = projects.Where(x => !string.IsNullOrWhiteSpace(x.OtherPartners)).Select(x => new ProjectOrganizationRelationship(x, x.OtherPartners, otherPartnersLabel)).ToList();
+            var projectOtherPartners = projects.Where(x => !string.IsNullOrWhiteSpace(x.OtherPartners)).Select(x => new ProjectOrganizationRelationship(x, x.OtherPartners, otherPartnersLabel, false)).ToList();
             projectOrganizations.AddRange(projectOtherPartners);
             projectOrganizations = projectOrganizations.OrderBy(x => x.Project.ProjectID).ToList();
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);

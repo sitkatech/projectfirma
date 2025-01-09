@@ -105,49 +105,51 @@ Source code is available upon request via <support@sitkatech.com>.
 
     @*------------------------------------ All Other Relationship Types ------------------------------------*@
     <div ng-repeat="relationshipType in AngularViewData.AllOrganizationRelationshipTypes | orderBy:['-OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject','OrganizationRelationshipTypeName']">
-        <hr />
-        <div class="row">
-            @*Relationship type and description*@
-            <div class="col-md-12"><label ng-bind="relationshipType.OrganizationRelationshipTypeName"></label><sup ng-show="relationshipType.OrganizationRelationshipTypeIsRequired">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <p class="smallExplanationText" ng-bind="relationshipType.OrganizationRelationshipTypeDescription"></p>
+        <div ng-if="!relationshipType.CanStewardProjects || AngularViewData.ProjectStewardingOrganizationIsVisible">
+            <hr />
+            <div class="row">
+                @*Relationship type and description*@
+                <div class="col-md-12"><label ng-bind="relationshipType.OrganizationRelationshipTypeName"></label><sup ng-show="relationshipType.OrganizationRelationshipTypeIsRequired">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
             </div>
-            <div class="col-md-12">
-                <div class="row">
-                    @*Selectpicker*@
-                    <div class="col-md-12">
-                        <div class="input-group" style="width: 100%;">
-                            <select class="selectpickerTemp" id="todo{{relationshipType.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
-                                <option value="" ng-disabled="relationshipType.OrganizationRelationshipTypeIsRequired" selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
-                                <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
-                                        ng-bind="organization.OrganizationName"
-                                        ng-value="organization.OrganizationID"
-                                        ng-selected="isOptionSelected(organization,relationshipType)"></option>
-                            </select>
-                            <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID], relationshipType.OrganizationRelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-show="!relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                Add
-                            </button>
-                            <button type="button" class="btn btn-sm btn-firma" ng-click="setProjectOrganizationSimpleFromProjectLocation(relationshipType)" ng-show="canSetOrganizationFromProjectLocation(relationshipType)">
-                                <span class="glyphicon glyphicon-map-marker"></span>
-                                Set from Simple Location
-                            </button>
-                        </div>
-                        <p class="help-block alert alert-warning" ng-show="selectedOrgDoesNotMatchSpatialOrg(relationshipType)">                        
-                            <span>The currently selected {{relationshipType.OrganizationRelationshipTypeName}} does not match the project simple location - this may be OK if the project location is outside the associated organizations boundary, or this may warrant updating either the simple location or the associated organization.</span>                        
-                        </p>
-                    </div>                   
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="smallExplanationText" ng-bind="relationshipType.OrganizationRelationshipTypeDescription"></p>
                 </div>
-                <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.OrganizationRelationshipTypeID)" ng-hide="relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
-                    @*Selections*@
-                    <div class="col-md-12">
-                        <span>
-                            <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.OrganizationRelationshipTypeID); $event.preventDefault();">
-                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()"></i>
-                            </a>
-                        </span><span ng-bind="organization.OrganizationName"></span>
+                <div class="col-md-12">
+                    <div class="row">
+                        @*Selectpicker*@
+                        <div class="col-md-12">
+                            <div class="input-group" style="width: 100%;">
+                                <select class="selectpickerTemp" id="todo{{relationshipType.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
+                                    <option value="" ng-disabled="relationshipType.OrganizationRelationshipTypeIsRequired" selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
+                                    <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
+                                            ng-bind="organization.OrganizationName"
+                                            ng-value="organization.OrganizationID"
+                                            ng-selected="isOptionSelected(organization,relationshipType)"></option>
+                                </select>
+                                <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID], relationshipType.OrganizationRelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-show="!relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Add
+                                </button>
+                                <button type="button" class="btn btn-sm btn-firma" ng-click="setProjectOrganizationSimpleFromProjectLocation(relationshipType)" ng-show="canSetOrganizationFromProjectLocation(relationshipType)">
+                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                    Set from Simple Location
+                                </button>
+                            </div>
+                            <p class="help-block alert alert-warning" ng-show="selectedOrgDoesNotMatchSpatialOrg(relationshipType)">
+                                <span>The currently selected {{relationshipType.OrganizationRelationshipTypeName}} does not match the project simple location - this may be OK if the project location is outside the associated organizations boundary, or this may warrant updating either the simple location or the associated organization.</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.OrganizationRelationshipTypeID)" ng-hide="relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
+                        @*Selections*@
+                        <div class="col-md-12">
+                            <span>
+                                <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.OrganizationRelationshipTypeID); $event.preventDefault();">
+                                    <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()"></i>
+                                </a>
+                            </span><span ng-bind="organization.OrganizationName"></span>
+                        </div>
                     </div>
                 </div>
             </div>

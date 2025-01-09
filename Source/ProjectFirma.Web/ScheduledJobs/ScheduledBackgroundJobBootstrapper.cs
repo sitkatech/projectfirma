@@ -73,6 +73,11 @@ namespace ProjectFirma.Web.ScheduledJobs
                 MakeDailyUtcCronJobStringFromLocalTime(2, 00),
                 recurringJobIds);
 
+            AddRecurringJob(SyncProjectImagesForTscProjectTrackerBackgroundJob.ScheduledBackgroundJobName,
+                () => ScheduledBackgroundJobLaunchHelper.RunSyncProjectImagesForTscProjectTrackerBackgroundJob(),
+                MakeDailyUtcCronJobStringFromLocalTime(4, 30),
+                recurringJobIds);
+
             // Clean up stale FirmaSessions
             AddRecurringJob(CleanUpStaleFirmaSessionsJob.ScheduledBackgroundJobName,
                 () => ScheduledBackgroundJobLaunchHelper.RunCleanUpStaleFirmaSessionsScheduledBackgroundJob(),

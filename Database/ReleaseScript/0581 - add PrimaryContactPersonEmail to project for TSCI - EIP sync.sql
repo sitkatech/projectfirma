@@ -1,0 +1,1 @@
+alter table dbo.Project add PrimaryContactPersonEmail varchar(255) null

@@ -224,7 +224,7 @@
             .replace("@ProjectDashboardViewData.CountiesTribesQueryStringValuePlaceholder", countiesTribes);
         // reload grid data
         @(ViewDataTyped.ProjectCustomDefaultGridName)LoadGridData(newUrl);
-        @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptions.api.showLoadingOverlay();
+        @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptionsApi.setGridOption("loading", true);
     }
 
     function loadCharts()

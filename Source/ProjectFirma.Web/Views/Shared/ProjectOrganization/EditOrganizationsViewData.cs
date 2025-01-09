@@ -38,10 +38,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public OrganizationRelationshipTypeSimple PrimaryContactRelationshipTypeSimple { get; }
         public string RequestSupportUrl { get;  }
         public string RequestSupportLink { get; }
+        public bool ProjectStewardingOrganizationIsVisible { get; }
 
 
         public EditOrganizationsViewData(IProject iProject, FirmaSession currentFirmaSession, IEnumerable<ProjectFirmaModels.Models.Organization> organizations, 
-            IEnumerable<Person> allPeople, List<OrganizationRelationshipType> allOrganizationRelationshipTypes)
+            IEnumerable<Person> allPeople, List<OrganizationRelationshipType> allOrganizationRelationshipTypes, bool userHasEditProjectStewardingOrganizationAsAdminPermission)
         {            
             AllPeople = allPeople.Select(x => new PersonSimple(x)).ToList();
             AllOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeOrganizationRelationshipTypes.Any()).Select(x => new OrganizationSimple(x)).ToList();
@@ -64,6 +65,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             RequestSupportLink = ModalDialogFormHelper.ModalDialogFormLink("Request Support", RequestSupportUrl,
                 "Request Support", 800,
                 "Submit Request", "Cancel", new List<string>(), null, null).ToString();
+
+            ProjectStewardingOrganizationIsVisible =
+                MultiTenantHelpers.GetTenantAttributeFromCache().ProjectStewardshipVisibilityAdminOnly.HasValue
+                    ? !MultiTenantHelpers.GetTenantAttributeFromCache().ProjectStewardshipVisibilityAdminOnly.Value || userHasEditProjectStewardingOrganizationAsAdminPermission
+                    : true;
         }
     }
 }

@@ -34,6 +34,7 @@ namespace ProjectFirmaModels.Models
             OrganizationRelationshipTypeHasOrganizationsWithSpatialBoundary = organizationRelationshipType.HasOrganizationsWithSpatialBoundary();
             OrganizationRelationshipTypeDescription = organizationRelationshipType.OrganizationRelationshipTypeDescription;
             OrganizationRelationshipTypeIsPrimaryContact = organizationRelationshipType.IsPrimaryContact;
+            CanStewardProjects = organizationRelationshipType.CanStewardProjects;
         }
 
         public int OrganizationRelationshipTypeID { get; set; }
@@ -43,5 +44,6 @@ namespace ProjectFirmaModels.Models
         public bool OrganizationRelationshipTypeIsRequired { get; set; }
         public bool OrganizationRelationshipTypeHasOrganizationsWithSpatialBoundary { get; set; }
         public string OrganizationRelationshipTypeDescription { get; set; }
+        public bool CanStewardProjects { get; set; }
     }
 }

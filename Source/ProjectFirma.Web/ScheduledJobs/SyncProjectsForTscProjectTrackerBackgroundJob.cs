@@ -14,7 +14,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
 {
@@ -23,6 +22,10 @@ namespace ProjectFirma.Web.ScheduledJobs
         public const string ScheduledBackgroundJobName = "Sync Projects For TCS Project Tracker";
 
         public SyncProjectsForTscProjectTrackerBackgroundJob() : base(ScheduledBackgroundJobName)
+        {
+        }
+
+        public SyncProjectsForTscProjectTrackerBackgroundJob(string jobName) : base(ScheduledBackgroundJobName)
         {
         }
 
@@ -52,11 +55,11 @@ namespace ProjectFirma.Web.ScheduledJobs
             {"Facilities Improved or Created", "Facilities Improved & Created"},
             {"Length of Public Shoreline Added", "Length of Public Shoreline Added"}, // TODO does not exist in TCS
             {"Miles of Pedestrian and Bicycle Routes Improved or Constructed", "Miles of Pedestrian and Bicycle Routes Improved or Constructed"}, // TODO does not exist in TCS
-            {"Miles of Road Decommissioned or Retrofitted", "Miles of Road Treated"},
+            {"Miles of Roads Decommissioned or Retrofitted", "Miles of Road Treated"},
             {"Miles of Trails Developed or Improved", "Miles of Trails Developed or Improved"}, // TODO does not exist in TCS
             {"Pounds of Air Pollutants Removed or Avoided by Project", "Pounds of Air Pollutants Removed or Avoided by Project"},
             {"Fine Sediment Load Reduction", "Sediment Load Reduction"},
-            {"Special Status Species Sites Protected or Re-established", "Special Status Species Sites Protected or Re-established"},
+            {"Special Status Species Sites Protected or Re-Established", "Special Status Species Sites Protected or Re-established"},
             {"Tons of Biomass Utilized", "Tons of Biomass Utilized"},
             {"Tons of Greenhouse Gases Reduced", "Tons of Greenhouse Gases Reduced"},
             {"Watercraft Inspections for Invasive Species", "Watercraft Inspections for Invasive Species"},
@@ -86,6 +89,8 @@ namespace ProjectFirma.Web.ScheduledJobs
             {"04.01.02", "Remote-Sensing and GIS Based Research"}
         };
 
+
+
         protected override async Task RunJobImplementationAsync()
         {
             var tenantID = Tenant.TCSProjectTracker.TenantID;
@@ -114,11 +119,11 @@ namespace ProjectFirma.Web.ScheduledJobs
 
                 var recentlyModifiedExternalIDs = new List<int>();
 
-                var getRecentlyModifiedProjectsUrl = $"{apiUrl}/projects/recently-modified?apiKey={FirmaWebConfiguration.LTInfoApiKey}&{queryParameter}";
-                var response = await client.GetAsync(getRecentlyModifiedProjectsUrl);
+                var getAllProjectsUrl = $"{apiUrl}/projects/all-projects?apiKey={FirmaWebConfiguration.LTInfoApiKey}&{queryParameter}";
+                var response = await client.GetAsync(getAllProjectsUrl);
                 if (!response.IsSuccessStatusCode)
                 {
-                    Logger.Warn($"GET {getRecentlyModifiedProjectsUrl} failed, reason: {response.ReasonPhrase}");
+                    Logger.Warn($"GET {getAllProjectsUrl} failed, reason: {response.ReasonPhrase}");
                 }
                 else
                 {
@@ -128,6 +133,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     {
                         var project = projects.Single(x => x.ExternalID == projectDto.ProjectID);
                         recentlyModifiedExternalIDs.Add(projectDto.ProjectID);
+                        
                         try
                         {
                             //Logger.Info($"Starting sync for ProjectID: {project?.ProjectID}; ExternalID: {projectDto.ProjectID}");
@@ -142,13 +148,14 @@ namespace ProjectFirma.Web.ScheduledJobs
                             Logger.Info($"Project sync failed for ProjectID: {project.ProjectID}; ExternalID: {projectDto.ProjectID}");
                             Logger.Warn(ex);
                         }
+                        
                     }
                     Logger.Info("Projects sync complete.");
                 }
-                
+
                 // try to re-sync (or sync for the first time) any projects that are missing a primary contact
                 var projectsMissingPrimaryContact = projects.Where(x => string.IsNullOrWhiteSpace(x.PrimaryContactPersonFullName)).ToList();
-                if(projectsMissingPrimaryContact.Any())
+                if (projectsMissingPrimaryContact.Any())
                 {
                     Logger.Info("Starting newly added Projects sync.");
                 }
@@ -174,44 +181,12 @@ namespace ProjectFirma.Web.ScheduledJobs
                             Logger.Info($"Project sync failed for ProjectID: {project.ProjectID}; ExternalID: {projectDto.ProjectID}");
                             Logger.Warn(ex);
                         }
-                        
-                        Logger.Info("Projects sync complete.");
                     }
                 }
                 if (projectsMissingPrimaryContact.Any())
                 {
                     Logger.Info("Newly added Projects sync complete.");
                 }
-
-                Logger.Info("Starting Project Images sync.");
-                foreach (var externalID in recentlyModifiedExternalIDs)
-                {
-                    var project = projects.Single(x => x.ExternalID == externalID);
-                    Logger.Info($"Starting Project Images sync for ProjectID: {project?.ProjectID}; ExternalID: {externalID}");
-
-                    var getProjectImagesUrl = $"{apiUrl}/projects/{externalID}/project-images?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
-                    var getProjectImages = await client.GetAsync(getProjectImagesUrl);
-                    if (!getProjectImages.IsSuccessStatusCode)
-                    {
-                        Logger.Warn($"GET {getProjectImagesUrl} failed, reason: {getProjectImages.ReasonPhrase}");
-                    }
-                    else
-                    {
-                        var projectImageDtos = await getProjectImages.Content.ReadAsAsync<List<ProjectImageSimpleDto>>();
-                        try
-                        {
-                            await UpdateProjectImages(project, projectImageDtos, tenantID, databaseEntities, client, apiUrl);
-                            databaseEntities.SaveChangesWithNoAuditing(tenantID);
-                            Logger.Info($"Project Images sync complete for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Info($"Project Images sync failed for ProjectID: {project.ProjectID}; ExternalID: {externalID}");
-                            Logger.Warn(ex);
-                        }
-                    }
-                }
-                Logger.Info("Project Images sync complete.");
             }
         }
 
@@ -240,6 +215,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 project.ProjectLocationPoint = null;
                 if(projectSimpleDto.ProjectLocationSimpleType.ProjectLocationSimpleTypeName == "NamedAreas")
                 {
+                    project.ProjectLocationSimpleTypeID = ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID;
                     project.ProjectLocationNotes =
                         $"Named Area: {projectSimpleDto.ProjectLocationAreaName}\r\n, Area Type: {projectSimpleDto.ProjectLocationAreaType}";
                 }
@@ -256,10 +232,13 @@ namespace ProjectFirma.Web.ScheduledJobs
             if (primaryContactPerson != null)
             {
                 project.PrimaryContactPersonID = primaryContactPerson.PersonID;
+                project.PrimaryContactPersonFullName = null;
+                project.PrimaryContactPersonEmail = null;
             }
             else
             {
                 project.PrimaryContactPersonFullName = projectSimpleDto.PrimaryContactPersonFullName;
+                project.PrimaryContactPersonEmail = projectSimpleDto.PrimaryContactPersonEmail;
             }
 
             var strategyNameInDictionary = EIPActionPriorityNumberToTCSStrategy.TryGetValue(projectSimpleDto.EIPProject?.EIPActionPriority?.DisplayNumber ?? string.Empty, out var strategyName);
@@ -553,9 +532,9 @@ namespace ProjectFirma.Web.ScheduledJobs
                     {
                         subcategoryOption =
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
-                                x.PerformanceMeasureSubcategoryOptionName.ToLower() ==
+                                x.PerformanceMeasureSubcategoryOptionName.ToLower().Trim() ==
                                 indicatorExpectedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption
-                                    .IndicatorSubcategoryOptionName.ToLower());
+                                    .IndicatorSubcategoryOptionName.ToLower().Trim());
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
@@ -686,9 +665,9 @@ namespace ProjectFirma.Web.ScheduledJobs
                     {
                         subcategoryOption =
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.SingleOrDefault(x =>
-                                x.PerformanceMeasureSubcategoryOptionName.ToLower() ==
+                                x.PerformanceMeasureSubcategoryOptionName.ToLower().Trim() ==
                                 indicatorReportedValueSubcategoryOptionSimpleDto.IndicatorSubcategoryOption
-                                    .IndicatorSubcategoryOptionName.ToLower());
+                                    .IndicatorSubcategoryOptionName.ToLower().Trim());
                         if (subcategoryOption == null)
                         {
                             Logger.Warn(
@@ -742,145 +721,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl, databaseEntities);
         }
 
-        //private void UpdateProjectImages(Project project, ProjectSimpleDto projectSimpleDto, int tenantID, DatabaseEntities databaseEntities)
-        //{
-        //    var projectImagesUpdated = new List<ProjectImage>();
-        //    databaseEntities.ProjectImages.Load();
-        //    var allProjectImages = databaseEntities.AllProjectImages.Local;
-        //    databaseEntities.FileResourceInfos.Load();
-        //    var allFileResourceInfos = databaseEntities.AllFileResourceInfos.Local;
-        //    databaseEntities.FileResourceDatas.Load();
-        //    var allFileResourceDatas= databaseEntities.AllFileResourceDatas.Local;
-
-        //    foreach (var projectImageSimpleDto in projectSimpleDto.ProjectImages)
-        //    {
-        //        var mimeType = FileResourceMimeType.All.SingleOrDefault(x => x.FileResourceMimeTypeName == projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName);
-        //        if (mimeType == null)
-        //        {
-        //            Logger.Warn($"No Mime Type found for '{projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName}'");
-        //            continue;
-        //        }
-        //        var projectImageTiming = ProjectImageTiming.All.SingleOrDefault(x => x.ProjectImageTimingName == projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName);
-        //        if (projectImageTiming == null)
-        //        {
-        //            Logger.Warn($"No Project Image Timing found for '{projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName}'");
-        //            continue;
-        //        }
-        //        var createPerson  = databaseEntities.AllPeople.SingleOrDefault(x => x.TenantID == tenantID && x.PersonGuid == projectImageSimpleDto.FileResourceInfo.CreatePersonGUID) ?? 
-        //                            databaseEntities.AllPeople.Where(x => x.TenantID == tenantID && x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ESAAdmin.RoleID).OrderBy(x => x.RoleID).ThenBy(x => x.PersonID).FirstOrDefault();
-        //        if (createPerson == null)
-        //        {
-        //            Logger.Warn($"No Create Person found for '{projectImageSimpleDto.FileResourceInfo.CreatePersonGUID}' and the system could not default the Create Person to a current Admin or ESA Admin");
-        //            continue;
-        //        }
-        //        var fileResourceInfo = allFileResourceInfos.SingleOrDefault(x =>
-        //                                   x.TenantID == tenantID && x.FileResourceGUID ==
-        //                                   projectImageSimpleDto.FileResourceInfo.FileResourceInfoGUID)
-        //                               ?? new FileResourceInfo(mimeType.FileResourceMimeTypeID,
-        //                                   projectImageSimpleDto.FileResourceInfo.OriginalBaseFilename,
-        //                                   projectImageSimpleDto.FileResourceInfo.OriginalFileExtension,
-        //                                   projectImageSimpleDto.FileResourceInfo.FileResourceInfoGUID,
-        //                                   createPerson.PersonID,
-        //                                   projectImageSimpleDto.FileResourceInfo.CreateDate);
-        //        if (!ModelObjectHelpers.IsRealPrimaryKeyValue(fileResourceInfo.FileResourceInfoID))
-        //        {
-        //            allFileResourceInfos.Add(fileResourceInfo);
-        //            var fileResourceDatum = new FileResourceData(fileResourceInfo.FileResourceInfoID,
-        //                projectImageSimpleDto.FileResourceInfo.FileResourceDatum.Data);
-        //            allFileResourceDatas.Add(fileResourceDatum);
-        //        }
-        //        var projectImage = new ProjectImage(fileResourceInfo.FileResourceInfoID, project.ProjectID, projectImageTiming.ProjectImageTimingID, projectImageSimpleDto.Caption, projectImageSimpleDto.Credit, projectImageSimpleDto.IsKeyPhoto, !projectImageSimpleDto.ExcludeFromFactSheet)
-        //        {
-        //            TenantID = tenantID
-        //        };
-        //        projectImagesUpdated.Add(projectImage);
-        //    }
-
-        //    project.ProjectImages.Merge(projectImagesUpdated,
-        //        allProjectImages,
-        //        (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.FileResourceInfoID == y.FileResourceInfoID, databaseEntities);
-        //}
-
-        private async Task UpdateProjectImages(Project project, List<ProjectImageSimpleDto> projectImageSimpleDtos, int tenantID, DatabaseEntities databaseEntities, HttpClient client, string apiUrl)
-        {
-            var projectImagesUpdated = new List<ProjectImage>();
-            databaseEntities.ProjectImages.Load();
-            var allProjectImages = databaseEntities.AllProjectImages.Local;
-            databaseEntities.FileResourceInfos.Load();
-            var allFileResourceInfos = databaseEntities.AllFileResourceInfos.Local;
-            databaseEntities.FileResourceDatas.Load();
-            var allFileResourceDatas = databaseEntities.AllFileResourceDatas.Local;
-
-            foreach (var projectImageSimpleDto in projectImageSimpleDtos)
-            {
-                var mimeType = FileResourceMimeType.All.SingleOrDefault(x => x.FileResourceMimeTypeName == projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName);
-                if (mimeType == null)
-                {
-                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Mime Type found for '{projectImageSimpleDto.FileResourceInfo.FileResourceMimeType.FileResourceMimeTypeName}'");
-                    continue;
-                }
-                var projectImageTiming = ProjectImageTiming.All.SingleOrDefault(x => x.ProjectImageTimingName == projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName);
-                if (projectImageTiming == null)
-                {
-                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Project Image Timing found for '{projectImageSimpleDto.ProjectImageTiming.ProjectImageTimingName}'");
-                    continue;
-                }
-                var createPerson = databaseEntities.AllPeople.SingleOrDefault(x => x.TenantID == tenantID && x.PersonGuid == projectImageSimpleDto.FileResourceInfo.CreatePersonGUID) ??
-                                    databaseEntities.AllPeople.Where(x => x.TenantID == tenantID && x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ESAAdmin.RoleID).OrderBy(x => x.RoleID).ThenBy(x => x.PersonID).FirstOrDefault();
-                if (createPerson == null)
-                {
-                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. No Create Person found for '{projectImageSimpleDto.FileResourceInfo.CreatePersonGUID}' and the system could not default the Create Person to a current Admin or ESA Admin");
-                    continue;
-                }
-
-                // get file resource from lt info api
-                var getFileResource = $"{apiUrl}/FileResource/GetWithApiKey/{projectImageSimpleDto.FileResourceInfo.FileResourceInfoGUID}?apiKey={FirmaWebConfiguration.LTInfoApiKey}";
-
-                var response = await client.GetAsync(getFileResource);
-                if (!response.IsSuccessStatusCode)
-                {
-                    Logger.Warn($"\tProjectID: {project.ProjectID}; ExternalID: {projectImageSimpleDto.ProjectID}. GET {getFileResource} failed, reason: {response.ReasonPhrase}");
-                    continue;
-                }
-
-                var dataBytes = await response.Content.ReadAsByteArrayAsync();
-
-                var fileResourceInfo = allFileResourceInfos.SingleOrDefault(x =>
-                                           x.TenantID == tenantID && x.FileResourceGUID ==
-                                           projectImageSimpleDto.FileResourceInfo.FileResourceInfoGUID)
-                                       ?? new FileResourceInfo(mimeType.FileResourceMimeTypeID,
-                                           projectImageSimpleDto.FileResourceInfo.OriginalBaseFilename,
-                                           projectImageSimpleDto.FileResourceInfo.OriginalFileExtension,
-                                           projectImageSimpleDto.FileResourceInfo.FileResourceInfoGUID,
-                                           createPerson.PersonID,
-                                           projectImageSimpleDto.FileResourceInfo.CreateDate);
-                if (!ModelObjectHelpers.IsRealPrimaryKeyValue(fileResourceInfo.FileResourceInfoID))
-                {
-                    allFileResourceInfos.Add(fileResourceInfo);
-                    var fileResourceDatum = new FileResourceData(fileResourceInfo.FileResourceInfoID,
-                        dataBytes);
-                    allFileResourceDatas.Add(fileResourceDatum);
-                }
-                var projectImage = new ProjectImage(fileResourceInfo.FileResourceInfoID, project.ProjectID, projectImageTiming.ProjectImageTimingID, projectImageSimpleDto.Caption, projectImageSimpleDto.Credit, projectImageSimpleDto.IsKeyPhoto, !projectImageSimpleDto.ExcludeFromFactSheet)
-                {
-                    TenantID = tenantID
-                };
-                projectImagesUpdated.Add(projectImage);
-            }
-
-            project.ProjectImages.Merge(projectImagesUpdated,
-                allProjectImages,
-                (x, y) => x.TenantID == y.TenantID && x.ProjectID == y.ProjectID && x.FileResourceInfoID == y.FileResourceInfoID,
-                (x, y) =>
-                {
-                    x.ProjectImageTimingID = y.ProjectImageTimingID;
-                    x.Caption = y.Caption;
-                    x.Credit = y.Credit;
-                    x.IsKeyPhoto = y.IsKeyPhoto;
-                    x.IncludeInFactSheet = y.IncludeInFactSheet;
-                },
-                databaseEntities);
-        }
+        
 
         private void UpdateProjectNotes(Project project, ProjectSimpleDto projectSimpleDto, int tenantID, DatabaseEntities databaseEntities)
         {

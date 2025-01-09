@@ -269,6 +269,7 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
+    <Compile Include="ScheduledJobs\SyncProjectImagesForTscProjectTrackerBackgroundJob.cs" />
     <Compile Include="ScheduledJobs\SyncProjectsForTscProjectTrackerBackgroundJob.cs" />
     <Compile Include="Security\AttachmentTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentTypeViewFeature.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
+    <Compile Include="Security\ProjectStewardingOrganizationEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectFactSheetAdminFeature.cs" />
     <Compile Include="Security\ProjectStartUpdateWorkflowFeature.cs" />
     <Compile Include="Security\ProjectEvaluationManageFeature.cs" />

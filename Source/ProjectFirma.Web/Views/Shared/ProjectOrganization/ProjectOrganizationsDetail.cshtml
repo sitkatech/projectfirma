@@ -37,28 +37,32 @@
         {
             foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
             {
-                var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.OrganizationRelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
-                <tr>
-                    @if (projectOrganizations.Count > 1)
-                    {
-                        <td>@(relationshipTypeName + "s")</td>
-                    }
-                    else
-                    {
-                        <td>@relationshipTypeName</td>
-                    }
-                    <td>
-                        <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                            @foreach (var x in projectOrganizations)
-                            {
-                                <li>
-                                    <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>
-                                </li>
-                            }
-                        </ul>
-                    </td>
+                if (!ViewDataTyped.RelationshipCanStewardProjects[relationshipTypeName] || ViewDataTyped.ProjectStewardingOrganizationIsVisible)
+                {
+                    var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.OrganizationRelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
+                    <tr>
+                        @if (projectOrganizations.Count > 1)
+                        {
+                            <td>@(relationshipTypeName + "s")</td>
+                        }
+                        else
+                        {
+                            <td>@relationshipTypeName</td>
+                        }
+                        <td>
+                            <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                                @foreach (var x in projectOrganizations)
+                                {
+                                    <li>
+                                        <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
 
-                </tr>
+                    </tr>
+                }
+                
             }
         }
         @if (!string.IsNullOrWhiteSpace(ViewDataTyped.OtherPartners))

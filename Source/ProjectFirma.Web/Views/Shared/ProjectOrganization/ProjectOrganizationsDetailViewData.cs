@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
@@ -29,15 +30,30 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
     {
         public List<ProjectOrganizationRelationship> AllProjectOrganizations { get; }
         public List<string> SetRelationshipTypes { get; }
+        public Dictionary<string, bool> RelationshipCanStewardProjects { get; }
         public Person PrimaryContactPerson { get; }
         public string OtherPartners { get; }
+        public bool ProjectStewardingOrganizationIsVisible { get; }
 
-        public ProjectOrganizationsDetailViewData(List<ProjectOrganizationRelationship> allProjectOrganizations, Person primaryContactPerson, string otherPartners)
+        public ProjectOrganizationsDetailViewData(List<ProjectOrganizationRelationship> allProjectOrganizations, Person primaryContactPerson, string otherPartners, bool userHasEditProjectStewardingOrganizationAsAdminPermission)
         {
             AllProjectOrganizations = allProjectOrganizations;
             SetRelationshipTypes = AllProjectOrganizations.Select(x => x.OrganizationRelationshipTypeName).Distinct().ToList();
+            RelationshipCanStewardProjects = new Dictionary<string, bool>();
+            foreach (var projectOrganizationRelationship in AllProjectOrganizations)
+            {
+                if (!RelationshipCanStewardProjects.ContainsKey(projectOrganizationRelationship.OrganizationRelationshipTypeName))
+                {
+                    RelationshipCanStewardProjects.Add(projectOrganizationRelationship.OrganizationRelationshipTypeName, projectOrganizationRelationship.OrganizationRelationshipCanStewardProjects);
+                }
+            }
+            
             PrimaryContactPerson = primaryContactPerson;
             OtherPartners = otherPartners;
+            ProjectStewardingOrganizationIsVisible =
+                MultiTenantHelpers.GetTenantAttributeFromCache().ProjectStewardshipVisibilityAdminOnly.HasValue
+                    ? !MultiTenantHelpers.GetTenantAttributeFromCache().ProjectStewardshipVisibilityAdminOnly.Value || userHasEditProjectStewardingOrganizationAsAdminPermission
+                    : true;
         }
     }
 }

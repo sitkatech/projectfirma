@@ -36,6 +36,10 @@
              @if (!string.IsNullOrEmpty(ViewDataTyped.PrimaryContactPersonFullName))
              {
                  <span>@ViewDataTyped.PrimaryContactPersonFullName</span>
+                 if (!string.IsNullOrEmpty(ViewDataTyped.PrimaryContactPersonEmail))
+                 {
+                     <span> (<a href = "mailto:@ViewDataTyped.PrimaryContactPersonEmail" >@ViewDataTyped.PrimaryContactPersonEmail</a>)</span>
+                 }
              }
              else if (ViewDataTyped.PrimaryContactPerson != null)
              {
