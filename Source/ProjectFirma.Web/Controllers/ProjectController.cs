@@ -653,7 +653,7 @@ namespace ProjectFirma.Web.Controllers
             var wsProjectNotes = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ProjectNote.ToType().GetFieldDefinitionLabelPluralized()}", projectNoteSpec, projectNotes);
             workSheets.Add(wsProjectNotes);
 
-            var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec();
+            var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec(MultiTenantHelpers.GetTenantName() == "NCRPProjectTracker");
             var performanceMeasureExpecteds = (projects.SelectMany(p => p.PerformanceMeasureExpecteds)).ToList();
             var wsPerformanceMeasureExpecteds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
                 $"Expected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}",
