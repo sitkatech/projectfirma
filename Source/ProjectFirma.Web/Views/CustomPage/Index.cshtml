@@ -59,12 +59,14 @@
     jQuery(function () {
         var gridOptions = @(ViewDataTyped.GridName)GridOptions;
 
-        gridOptions.onCellClicked = function () {
+        @(ViewDataTyped.GridName)GridOptionsApi.setGridOption('onCellClicked', params => {
+
             var firmaPageId = @(ViewDataTyped.GridName)GetValueFromSelectedGridRow("CustomPageID");
             var dataUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.CustomPageUrl.ToJS()));
             var dataUrl = dataUrlTemplate.ParameterReplace(firmaPageId);
             SitkaAjax.load(jQuery("#customPage"), dataUrl);
-        }
+        });
+
     });
     // ]]>
 </script>

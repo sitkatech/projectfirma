@@ -145,7 +145,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         private void AddViewOnlyColumn()
         {
-            Add(String.Empty,
+            Add("View",
                 x =>
                 {
                     var latestNotApprovedUpdateBatch = x.GetLatestNotApprovedUpdateBatch();
