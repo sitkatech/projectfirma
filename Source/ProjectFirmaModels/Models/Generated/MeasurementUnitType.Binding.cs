@@ -58,6 +58,7 @@ namespace ProjectFirmaModels.Models
         public static readonly MeasurementUnitTypeCelsius Celsius = MeasurementUnitTypeCelsius.Instance;
         public static readonly MeasurementUnitTypePerSquareMeter PerSquareMeter = MeasurementUnitTypePerSquareMeter.Instance;
         public static readonly MeasurementUnitTypeKilowattHour KilowattHour = MeasurementUnitTypeKilowattHour.Instance;
+        public static readonly MeasurementUnitTypeMegawatts Megawatts = MeasurementUnitTypeMegawatts.Instance;
 
         public static readonly List<MeasurementUnitType> All;
         public static readonly ReadOnlyDictionary<int, MeasurementUnitType> AllLookupDictionary;
@@ -67,7 +68,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static MeasurementUnitType()
         {
-            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight, CanopyBulkDensity, LinearStreamMiles, Celsius, PerSquareMeter, KilowattHour };
+            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight, CanopyBulkDensity, LinearStreamMiles, Celsius, PerSquareMeter, KilowattHour, Megawatts };
             AllLookupDictionary = new ReadOnlyDictionary<int, MeasurementUnitType>(All.ToDictionary(x => x.MeasurementUnitTypeID));
         }
 
@@ -185,6 +186,8 @@ namespace ProjectFirmaModels.Models
                     return LinearFeet;
                 case MeasurementUnitTypeEnum.LinearStreamMiles:
                     return LinearStreamMiles;
+                case MeasurementUnitTypeEnum.Megawatts:
+                    return Megawatts;
                 case MeasurementUnitTypeEnum.Meters:
                     return Meters;
                 case MeasurementUnitTypeEnum.MetricTons:
@@ -267,7 +270,8 @@ namespace ProjectFirmaModels.Models
         LinearStreamMiles = 36,
         Celsius = 37,
         PerSquareMeter = 38,
-        KilowattHour = 39
+        KilowattHour = 39,
+        Megawatts = 40
     }
 
     public partial class MeasurementUnitTypeAcres : MeasurementUnitType
@@ -502,5 +506,11 @@ namespace ProjectFirmaModels.Models
     {
         private MeasurementUnitTypeKilowattHour(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
         public static readonly MeasurementUnitTypeKilowattHour Instance = new MeasurementUnitTypeKilowattHour(39, @"KilowattHour", @"Kilowatt-hours", @"kWh", @"Kilowatt-hour", 2);
+    }
+
+    public partial class MeasurementUnitTypeMegawatts : MeasurementUnitType
+    {
+        private MeasurementUnitTypeMegawatts(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeMegawatts Instance = new MeasurementUnitTypeMegawatts(40, @"Megawatts", @"Megawatts (MW)", @"MW", @"Megawatt", 1);
     }
 }

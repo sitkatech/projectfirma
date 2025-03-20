@@ -94,8 +94,21 @@ else
         using (Html.BeginForm())
         {
             <div>
-                Click the checkboxes below to associate this
-                @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem)<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>.
+                @if (ViewDataTyped.TenantName == "TCSProjectTracker")
+                {
+                    <span>
+                        Click the checkboxes below to associate this
+                        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with a <strong>MAXIMUM of 3 choices</strong> for @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem)<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>.
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        Click the checkboxes below to associate this
+                        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem)<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>.
+                    </span>
+                }
+               
             </div>
             <div>
                 @foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
