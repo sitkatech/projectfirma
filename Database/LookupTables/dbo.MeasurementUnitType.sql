@@ -40,4 +40,4 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (37, 'Celsius', 'Celsius (C)', 'C', 'Celsius', 2),
 (38, 'PerSquareMeter', 'Per Square Meter (per sq m)', 'per sq m', 'Per Square Meter', 2),
 (39, 'KilowattHour', 'Kilowatt-hours', 'kWh', 'Kilowatt-hour', 2),
-(40, 'Megawatts', 'Megawatts (MW)', 'MW', 'Megawatt', 1)
+(40, 'MegawattHoursPerYear', 'Megawatt-Hours Per Year (MWh/year)', 'MWh/year', 'Megawatt-Hour Per Year', 1)
