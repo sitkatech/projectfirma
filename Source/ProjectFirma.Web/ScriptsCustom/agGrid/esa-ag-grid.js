@@ -199,3 +199,49 @@ function HtmlRemovalFormatter(params) {
     return removeHtmlFromString(params.value);
 
 }
+
+
+//function saveGridState() {
+//    var state = geospatialAreasGridGridOptionsApi.getState();
+
+//    localStorage.setItem("gridState", state);
+    
+//}
+
+
+//function loadGridState() {
+
+//    var state = localStorage.getItem("gridState");
+
+//    geospatialAreasGridGridOptionsApi.destroy();
+
+//    const gridDiv = document.querySelector("#geospatialAreasGridDivID");
+
+//    geospatialAreasGridGridOptions.initialState = state;
+
+//    geospatialAreasGridGridOptionsApi = agGrid.createGrid(gridDiv, geospatialAreasGridGridOptions);
+
+//    geospatialAreasGridLoadGridData("/GeospatialArea/IndexGridJsonData/24");
+//}
+
+function saveGridState() {
+    window.colState = geospatialAreasGridGridOptionsApi.getColumnState();
+    console.log("column state saved");
+}
+
+function loadGridState() {
+    if (!window.colState) {
+        console.log("no columns state to restore by, you must save state first");
+        return;
+    }
+    geospatialAreasGridGridOptionsApi.applyColumnState({
+        state: window.colState,
+        applyOrder: true,
+    });
+    console.log("column state restored");
+}
+
+function resetState() {
+    geospatialAreasGridGridOptionsApi.resetColumnState();
+    console.log("column state reset");
+}
