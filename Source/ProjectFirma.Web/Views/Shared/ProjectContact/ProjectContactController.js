@@ -229,4 +229,32 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.selectedContactID = {};
+
+
+    /*
+      SB 3/5/25 copying the hacky fix from ProjectOrganizationController.js 
+      bootstrap-select was initializing the selectpickers before angular had finished processing the template, potentially by the this bit of code at the end of bootstrap-select.js
+
+        $(window).on('load.bs.select.data-api', function () {
+            $('.selectpicker').each(function () {
+                var $selectpicker = $(this);
+                Plugin.call($selectpicker, $selectpicker.data());
+            })
+        });
+
+      In firefox (and Chrome for some users), this would lead to two drop downs being rendered. This might be because in the call to jQuery(".selectpicker").selectpicker("refresh") in the $watch, the bootstrap-select.js code would think the 
+      selectpicker was different because the ids didn't match (e.g. one was "#todo{{relationshipType.ContactRelationshipTypeID}}" and the other was "#todo6"). Or it could be a race condition where 2 different things
+      are calling the code that inits the drop down, and in that execution of the 2nd call there still isn't the data expected, so bootstrap-select creates the drop down again.
+
+      The solution appears to be to initialize the selectpickers after angular has finished one digest cycle. Do not add the selectpicker class until after that so bootstrap-select does not prematurely add a drop down.
+    */
+    $scope.SelectpickerNeedsInit = true;
+    $scope.$$postDigest(function () {
+        if ($scope.SelectpickerNeedsInit) {
+            jQuery(".selectpickerTemp").addClass("selectpicker");
+            jQuery(".selectpickerTemp").removeClass("selectpickerTemp");
+            jQuery(".selectpicker").selectpicker("refresh");
+        }
+        $scope.SelectpickerNeedsInit = false;
+    });
 });

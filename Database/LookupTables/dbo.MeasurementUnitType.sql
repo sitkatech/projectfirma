@@ -39,4 +39,5 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (36, 'LinearStreamMiles', 'Linear Stream Miles', 'linear stream miles', 'Linear Stream Mile', 2),
 (37, 'Celsius', 'Celsius (C)', 'C', 'Celsius', 2),
 (38, 'PerSquareMeter', 'Per Square Meter (per sq m)', 'per sq m', 'Per Square Meter', 2),
-(39, 'KilowattHour', 'Kilowatt-hours', 'kWh', 'Kilowatt-hour', 2)
+(39, 'KilowattHour', 'Kilowatt-hours', 'kWh', 'Kilowatt-hour', 2),
+(40, 'MegawattHoursPerYear', 'Megawatt-Hours Per Year (MWh/year)', 'MWh/year', 'Megawatt-Hour Per Year', 1)
