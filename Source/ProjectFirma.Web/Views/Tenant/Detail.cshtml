@@ -260,6 +260,21 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
+                        Accomplishments Dashboard Visible by Admin/Project Steward only?
+                    </div>
+                    <div class="col-sm-7">
+                        @if (MultiTenantHelpers.TrackAccomplishments())
+                        {
+                            @ViewDataTyped.TenantAttribute.AccomplishmentsDashboardVisibilityAdminOnly.ToYesNo()
+                        }
+                        else
+                        {
+                            <span class="systemText">Not Applicable</span>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
                         @Html.LabelWithSugarFor(@FieldDefinitionEnum.SetTargetsByGeospatialArea.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
                         @FieldDefinitionEnum.SetTargetsByGeospatialArea.ToType().GetFieldDefinitionLabel()
                     </div>
