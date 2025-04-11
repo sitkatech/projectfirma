@@ -55,6 +55,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[ProjectExternalSourceOfRecordUrl] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[AreReportsPublic] [bit] NOT NULL,
 	[ProjectStewardshipVisibilityAdminOnly] [bit] NULL,
+	[AccomplishmentsDashboardVisibilityAdminOnly] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

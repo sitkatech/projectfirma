@@ -114,6 +114,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableSimpleAccomplishmentsDashboard)]
         public bool EnableSimpleAccomplishmentsDashboard { get; set; }
 
+        [DisplayName("Accomplishments Dashboard Visible by Admin/Project Steward Only")]
+        public bool AccomplishmentsDashboardVisibilityAdminOnly { get; set; }
+
         [DisplayName("Enable Secondary Project Taxonomy Leaf")]
         public bool EnableSecondaryProjectTaxonomyLeaf { get; set; }
 
@@ -186,6 +189,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
             EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
             EnableSimpleAccomplishmentsDashboard = tenantAttribute.EnableSimpleAccomplishmentsDashboard;
+            AccomplishmentsDashboardVisibilityAdminOnly = tenantAttribute.AccomplishmentsDashboardVisibilityAdminOnly;
             EnableSecondaryProjectTaxonomyLeaf = tenantAttribute.EnableSecondaryProjectTaxonomyLeaf;
             CanManageCustomAttributes = tenantAttribute.CanManageCustomAttributes;
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
@@ -211,6 +215,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.ShowProposalsToThePublic = ShowProposalsToThePublic.GetValueOrDefault();
             tenantAttribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
             tenantAttribute.EnableSimpleAccomplishmentsDashboard = EnableSimpleAccomplishmentsDashboard;
+            tenantAttribute.AccomplishmentsDashboardVisibilityAdminOnly = AccomplishmentsDashboardVisibilityAdminOnly;
             tenantAttribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
             tenantAttribute.CanManageCustomAttributes = CanManageCustomAttributes;
             tenantAttribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
