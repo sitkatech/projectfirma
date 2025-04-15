@@ -201,47 +201,62 @@ function HtmlRemovalFormatter(params) {
 }
 
 
-//function saveGridState() {
-//    var state = geospatialAreasGridGridOptionsApi.getState();
+function saveGridState(gridOptionsApi, gridName) {
+    var currentColState = gridOptionsApi.getColumnState();
+    var currentFilterModel = gridOptionsApi.getFilterModel();
 
-//    localStorage.setItem("gridState", state);
-    
-//}
+    debugger;
+    var postData = new Object();
+    postData.FilterState = JSON.stringify(currentFilterModel);
+    postData.ColumnState = JSON.stringify(currentColState);
+    postData.GridName = gridName;
 
+    SitkaAjax.ajax({
+        type: "POST",
+        url: "/GridSettings/SaveGridSettings",
+        data: postData,
+        dataType: "json",
+        async: false
+    }, function (newTag) { item = newTag; }, function () {
+        alert("There was an error adding the tag '" + tagName + "'");
+        item = null;
+    });
 
-//function loadGridState() {
-
-//    var state = localStorage.getItem("gridState");
-
-//    geospatialAreasGridGridOptionsApi.destroy();
-
-//    const gridDiv = document.querySelector("#geospatialAreasGridDivID");
-
-//    geospatialAreasGridGridOptions.initialState = state;
-
-//    geospatialAreasGridGridOptionsApi = agGrid.createGrid(gridDiv, geospatialAreasGridGridOptions);
-
-//    geospatialAreasGridLoadGridData("/GeospatialArea/IndexGridJsonData/24");
-//}
-
-function saveGridState() {
-    window.colState = geospatialAreasGridGridOptionsApi.getColumnState();
-    console.log("column state saved");
 }
 
-function loadGridState() {
-    if (!window.colState) {
-        console.log("no columns state to restore by, you must save state first");
-        return;
-    }
-    geospatialAreasGridGridOptionsApi.applyColumnState({
-        state: window.colState,
-        applyOrder: true,
+function loadGridState(gridOptionsApi, gridName) {
+
+    debugger;
+    var postData = new Object();
+    postData.GridName = gridName;
+
+    SitkaAjax.ajax({
+        type: "POST",
+        url: "/GridSettings/LoadGridSettings",
+        data: postData,
+        dataType: "json",
+        async: false
+    }, function (data) {
+        debugger;
+        gridOptionsApi.applyColumnState({
+            state: JSON.parse(data.ColumnState),
+            applyOrder: true,
+        });
+
+        gridOptionsApi.setFilterModel(JSON.parse(data.FilterState));
+    }, function () {
+        alert("There was an error getting your grid settings");
+        item = null;
     });
+
+
     console.log("column state restored");
 }
 
-function resetState() {
-    geospatialAreasGridGridOptionsApi.resetColumnState();
+function resetState(gridOptionsApi) {
+    gridOptionsApi.resetColumnState();
+
+    gridOptionsApi.setFilterModel(null);
+
     console.log("column state reset");
 }

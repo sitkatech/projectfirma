@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\NuGetPackages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -419,6 +419,10 @@
     <Compile Include="Models\Generated\Person.Binding.cs" />
     <Compile Include="Models\Generated\Person.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PersonConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonGridSetting.Binding.cs" />
+    <Compile Include="Models\Generated\PersonGridSetting.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonGridSettingConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonGridSettingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PersonLoginAccount.Binding.cs" />
     <Compile Include="Models\Generated\PersonLoginAccount.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PersonLoginAccountConfiguration.Binding.cs" />
@@ -823,6 +827,7 @@
     <Compile Include="Models\DataTransferObjects\ProjectIndicatorReportedValueSubcategoryOptionSimpleDto.cs" />
     <Compile Include="Models\DataTransferObjects\ProjectLocationSimpleDto.cs" />
     <Compile Include="Models\DataTransferObjects\ProjectNoteDto.cs" />
+    <Compile Include="Models\PersonGridSetting.cs" />
     <Compile Include="Models\ProjectStageCustomLabel.DatabaseContextExtensions.cs" />
     <Compile Include="Models\AttachmentTypeRole.cs" />
     <Compile Include="Models\TrainingVideoRole.cs" />

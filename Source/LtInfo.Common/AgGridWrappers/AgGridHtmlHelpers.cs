@@ -78,7 +78,7 @@ namespace LtInfo.Common.AgGridWrappers
     <!-- The grid will be the size that this element is given. -->
     <div class=""row"">
         <div class=""col-md-6""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
-        <div class=""col-md-6 text-right gridDownloadContainer"">{9}<span>{10}</span><a href=""javascript: void(0);""  onclick=""saveGridState()"">Save Grid State</a><a href=""javascript: void(0);""  onclick=""loadGridState()"">Load Grid State</a><a class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</a>{8}</div>
+        <div class=""col-md-6 text-right gridDownloadContainer"">{9}<span>{10}</span><a href=""javascript: void(0);""  onclick=""saveGridState({0}GridOptionsApi, '{0}')"">Save Grid State</a><a href=""javascript: void(0);""  onclick=""loadGridState({0}GridOptionsApi, '{0}')"">Load Grid State</a><a class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</a>{8}</div>
     </div>
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
     <script type=""text/javascript"">
