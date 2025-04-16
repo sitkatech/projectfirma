@@ -217,16 +217,16 @@ function saveGridState(gridOptionsApi, gridName) {
         data: postData,
         dataType: "json",
         async: false
-    }, function (newTag) { item = newTag; }, function () {
-        alert("There was an error adding the tag '" + tagName + "'");
-        item = null;
+    }, function (data) {
+        console.log("successfully saved grid settings")
+    }, function () {
+        console.log("There was an error saving your grid settings");
     });
 
 }
 
 function loadGridState(gridOptionsApi, gridName) {
 
-    debugger;
     var postData = new Object();
     postData.GridName = gridName;
 
@@ -237,7 +237,6 @@ function loadGridState(gridOptionsApi, gridName) {
         dataType: "json",
         async: false
     }, function (data) {
-        debugger;
         gridOptionsApi.applyColumnState({
             state: JSON.parse(data.ColumnState),
             applyOrder: true,
@@ -245,17 +244,15 @@ function loadGridState(gridOptionsApi, gridName) {
 
         gridOptionsApi.setFilterModel(JSON.parse(data.FilterState));
     }, function () {
-        alert("There was an error getting your grid settings");
-        item = null;
+        console.log("There are no grid settings to be applied");
     });
 
 
-    console.log("column state restored");
+
 }
 
-function resetState(gridOptionsApi) {
+function resetGridState(gridOptionsApi) {
     gridOptionsApi.resetColumnState();
-
     gridOptionsApi.setFilterModel(null);
 
     console.log("column state reset");
