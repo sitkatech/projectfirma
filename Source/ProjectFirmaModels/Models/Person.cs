@@ -76,5 +76,26 @@ namespace ProjectFirmaModels.Models
         {
             return GetFullNameFirstLast();
         }
+
+        public void UpdatePersonGridSetting(int personID, string gridName, string columnState, string filterState)
+        {
+            var personGridSetting = PersonGridSettings.FirstOrDefault(x => x.PersonID == personID && x.GridName == gridName);
+
+            if (personGridSetting != null)
+            {
+                personGridSetting.ColumnState = columnState;
+                personGridSetting.FilterState = filterState;
+            }
+            else
+            {
+                personGridSetting = new PersonGridSetting(personID, gridName);
+                personGridSetting.ColumnState = columnState;
+                personGridSetting.FilterState = filterState;
+
+                PersonGridSettings.Add(personGridSetting);
+            }
+
+            
+        }
     }
 }

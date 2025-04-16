@@ -358,76 +358,7 @@ namespace ProjectFirma.Web.Models
             return personSettingGridTable;
         }
 
-        public static PersonSettingGridTable UpdatePersonSettingGridColumns(this Person person, GridTable jsonGridTable)
-        {
-            Check.RequireNotNullNotEmptyNotWhitespace(jsonGridTable.GridName, $"Required parameter {nameof(jsonGridTable.GridName)} missing.");
-            
-            var personSettingGridTable = LookupOrAddPersonSettingGridTable(jsonGridTable.GridName);
 
-            var personSettingGridColumnDictionary = personSettingGridTable.PersonSettingGridColumns.ToDictionary(x => x.ColumnName, StringComparer.InvariantCultureIgnoreCase);
-
-            var sortOrder = 0;
-            foreach (var jsonCol in jsonGridTable.Columns)
-            {
-                if (personSettingGridColumnDictionary.ContainsKey(jsonCol.ColumnName))
-                {
-                    sortOrder++;
-                    personSettingGridColumnDictionary[jsonCol.ColumnName].SortOrder = sortOrder;
-                }
-                else
-                {
-                    var columnAlreadyExists = personSettingGridTable.PersonSettingGridColumns.Any(x => x.ColumnName == jsonCol.ColumnName);
-                    if (!columnAlreadyExists)
-                    {
-                        sortOrder++;
-                        var personSettingGridColumn = new PersonSettingGridColumn(personSettingGridTable, jsonCol.ColumnName, sortOrder);
-                        personSettingGridTable.PersonSettingGridColumns.Add(personSettingGridColumn);
-                    }
-                }
-            }
-
-            var gridColumnDictionary = personSettingGridTable.PersonSettingGridColumns.ToDictionary(x => x.ColumnName, StringComparer.InvariantCultureIgnoreCase);
-            var columnSettingsProcessed = new List<PersonSettingGridColumnSetting>();
-            foreach (var jsonCol in jsonGridTable.Columns)
-            {
-                var personSettingGridColumn = gridColumnDictionary[jsonCol.ColumnName];
-                PersonSettingGridColumnSetting personSettingGridColumnSetting;
-                var existingColumnSettings = HttpRequestStorage.DatabaseEntities.AllPersonSettingGridColumnSettings.ToList();
-                var columnSettingsAlreadyExistsInDatabase = existingColumnSettings.SingleOrDefault(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID && x.PersonID == person.PersonID);
-
-
-                if (columnSettingsAlreadyExistsInDatabase != null)
-                {
-                    personSettingGridColumnSetting = columnSettingsAlreadyExistsInDatabase;
-                }
-                else if (columnSettingsProcessed.Any(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID))
-                {
-                    personSettingGridColumnSetting = columnSettingsProcessed.First(x =>
-                        x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
-                }
-                else
-                {
-                    personSettingGridColumnSetting = new PersonSettingGridColumnSetting(person.PersonID, personSettingGridColumn.PersonSettingGridColumnID);
-                    HttpRequestStorage.DatabaseEntities.AllPersonSettingGridColumnSettings.Add(personSettingGridColumnSetting);
-                }
-
-                columnSettingsProcessed.Add(personSettingGridColumnSetting);
-
-                personSettingGridColumnSetting.PersonSettingGridColumnSettingFilters.ToList().ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-                if (jsonCol.FilterTextArray != null && jsonCol.FilterTextArray.Length > 0)
-                {
-                    foreach (var filterText in jsonCol.FilterTextArray)
-                    {
-                        if (!string.IsNullOrWhiteSpace(filterText))
-                        {
-                            personSettingGridColumnSetting.PersonSettingGridColumnSettingFilters.Add(new PersonSettingGridColumnSettingFilter(personSettingGridColumnSetting, filterText));
-                        }
-                    }
-                }
-            }
-
-            return personSettingGridTable;
-        }
 
     }
 }

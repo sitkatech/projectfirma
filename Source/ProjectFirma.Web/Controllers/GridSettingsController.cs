@@ -19,10 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using LtInfo.Common;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 
@@ -34,10 +36,36 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public JsonResult SaveGridSettings()
         {
-            var gridTable = JsonTools.DeserializeObject<GridTable>(Request.Form["Data"]);
-            var gridSettingsViewModel = new GridSettingsViewModel(gridTable);
+            var columnState = Request.Form["ColumnState"];
+            var filterState = Request.Form["FilterState"];
+            var gridName = Request.Form["GridName"];
+            //var gridSetting = JsonTools.DeserializeObject<GridSetting>(formData);
+            var gridSetting = new GridSetting(gridName, filterState, columnState);
+            var gridSettingsViewModel = new GridSettingsViewModel(gridSetting);
             gridSettingsViewModel.Save(CurrentFirmaSession);
             return new JsonResult();
+        }
+
+        [HttpPost]
+        [AnonymousUnclassifiedFeature]
+        public JsonResult LoadGridSettings()
+        {
+            if (!CurrentFirmaSession.PersonID.HasValue)
+            {
+                return new JsonResult();
+            }
+
+
+            var gridName = Request.Form["GridName"];
+
+            var personGridSetting = HttpRequestStorage.DatabaseEntities.PersonGridSettings.FirstOrDefault(x => x.PersonID == CurrentFirmaSession.PersonID.Value && x.GridName == gridName);
+            if (personGridSetting == null)
+            {
+                return new JsonResult();
+            }
+            var gridSetting = new GridSetting(personGridSetting);
+
+            return Json(gridSetting);
         }
     }
 }

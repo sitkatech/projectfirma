@@ -199,3 +199,61 @@ function HtmlRemovalFormatter(params) {
     return removeHtmlFromString(params.value);
 
 }
+
+
+function saveGridState(gridOptionsApi, gridName) {
+    var currentColState = gridOptionsApi.getColumnState();
+    var currentFilterModel = gridOptionsApi.getFilterModel();
+
+    debugger;
+    var postData = new Object();
+    postData.FilterState = JSON.stringify(currentFilterModel);
+    postData.ColumnState = JSON.stringify(currentColState);
+    postData.GridName = gridName;
+
+    SitkaAjax.ajax({
+        type: "POST",
+        url: "/GridSettings/SaveGridSettings",
+        data: postData,
+        dataType: "json",
+        async: false
+    }, function (data) {
+        console.log("successfully saved grid settings")
+    }, function () {
+        console.log("There was an error saving your grid settings");
+    });
+
+}
+
+function loadGridState(gridOptionsApi, gridName) {
+
+    var postData = new Object();
+    postData.GridName = gridName;
+
+    SitkaAjax.ajax({
+        type: "POST",
+        url: "/GridSettings/LoadGridSettings",
+        data: postData,
+        dataType: "json",
+        async: false
+    }, function (data) {
+        gridOptionsApi.applyColumnState({
+            state: JSON.parse(data.ColumnState),
+            applyOrder: true,
+        });
+
+        gridOptionsApi.setFilterModel(JSON.parse(data.FilterState));
+    }, function () {
+        console.log("There are no grid settings to be applied");
+    });
+
+
+
+}
+
+function resetGridState(gridOptionsApi) {
+    gridOptionsApi.resetColumnState();
+    gridOptionsApi.setFilterModel(null);
+
+    console.log("column state reset");
+}
