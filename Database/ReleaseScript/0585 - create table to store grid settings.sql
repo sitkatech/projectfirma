@@ -1,6 +1,11 @@
 
 
 
+drop table dbo.PersonSettingGridColumnSettingFilter;
+drop table dbo.PersonSettingGridColumnSetting;
+drop table dbo.PersonSettingGridColumn;
+drop table dbo.PersonSettingGridTable
+
 
 
 

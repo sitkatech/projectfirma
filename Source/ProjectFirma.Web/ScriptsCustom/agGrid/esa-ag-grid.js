@@ -219,8 +219,10 @@ function saveGridState(gridOptionsApi, gridName) {
         async: false
     }, function (data) {
         console.log("successfully saved grid settings")
+        alert("Your grid settings have been saved!");
     }, function () {
-        console.log("There was an error saving your grid settings");
+        console.log("There was an error saving your grid settings.");
+        alert("There was an error saving your grid settings.");
     });
 
 }
@@ -245,6 +247,7 @@ function loadGridState(gridOptionsApi, gridName) {
         gridOptionsApi.setFilterModel(JSON.parse(data.FilterState));
     }, function () {
         console.log("There are no grid settings to be applied");
+        alert("We could not find grid settings to apply.");
     });
 
 

@@ -344,20 +344,6 @@ namespace ProjectFirma.Web.Models
             return true;
         }
 
-        public static PersonSettingGridTable LookupOrAddPersonSettingGridTable(string gridTableName)
-        {
-            var personSettingGridTable = HttpRequestStorage.DatabaseEntities.PersonSettingGridTables.FirstOrDefault(x => x.GridName == gridTableName);
-
-            if (personSettingGridTable == null)
-            {
-                personSettingGridTable = new PersonSettingGridTable(gridTableName);
-                HttpRequestStorage.DatabaseEntities.AllPersonSettingGridTables.Add(personSettingGridTable);
-
-            }
-            
-            return personSettingGridTable;
-        }
-
 
 
     }
