@@ -41,7 +41,7 @@
 }
 
 <div style="margin-top: 10px;">
-    @Html.AgGrid(ViewDataTyped.GeospatialAreaMapLayerGridSpec, ViewDataTyped.GeospatialAreaMapLayerGridName, ViewDataTyped.GeospatialAreaMapLayerGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.GeospatialAreaMapLayerGridSpec, ViewDataTyped.GeospatialAreaMapLayerGridName, ViewDataTyped.GeospatialAreaMapLayerGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
 </div>
 
 <h2 class="pageTitle" style="margin-top: 50px">External Reference Layers</h2>
@@ -56,5 +56,5 @@
 <div class="clearfix"></div>
 
 <div style="margin-top: 10px;">
-    @Html.AgGrid(ViewDataTyped.ExternalMapLayerGridSpec, ViewDataTyped.ExternalMapLayerGridName, ViewDataTyped.ExternalMapLayerGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ExternalMapLayerGridSpec, ViewDataTyped.ExternalMapLayerGridName, ViewDataTyped.ExternalMapLayerGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
 </div>

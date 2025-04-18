@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
             var gridSetting = new GridSetting(gridName, filterState, columnState);
             var gridSettingsViewModel = new GridSettingsViewModel(gridSetting);
             gridSettingsViewModel.Save(CurrentFirmaSession);
-            return new JsonResult();
+            return Json("Success!");
         }
 
         [HttpPost]

@@ -200,12 +200,12 @@ function HtmlRemovalFormatter(params) {
 
 }
 
-
+//called from  AgGridHtmlHelpers.CreateGridSettingsButtonsHtml
 function saveGridState(gridOptionsApi, gridName) {
     var currentColState = gridOptionsApi.getColumnState();
     var currentFilterModel = gridOptionsApi.getFilterModel();
 
-    debugger;
+
     var postData = new Object();
     postData.FilterState = JSON.stringify(currentFilterModel);
     postData.ColumnState = JSON.stringify(currentColState);
@@ -219,14 +219,19 @@ function saveGridState(gridOptionsApi, gridName) {
         async: false
     }, function (data) {
         console.log("successfully saved grid settings")
-        alert("Your grid settings have been saved!");
+        var messageToDisplay = document.getElementById(gridName + "GridSettingsSavedMessage").innerHTML;
+        document.getElementById(gridName + "GridSettingsMessageContainer").innerHTML = messageToDisplay;
+        
     }, function () {
+        //GridSettingsSavedError
         console.log("There was an error saving your grid settings.");
-        alert("There was an error saving your grid settings.");
+        var messageToDisplay = document.getElementById(gridName + "GridSettingsSavedError").innerHTML;
+        document.getElementById(gridName + "GridSettingsMessageContainer").innerHTML = messageToDisplay;
     });
 
 }
 
+//called from  AgGridHtmlHelpers.CreateGridSettingsButtonsHtml
 function loadGridState(gridOptionsApi, gridName) {
 
     var postData = new Object();
@@ -247,16 +252,20 @@ function loadGridState(gridOptionsApi, gridName) {
         gridOptionsApi.setFilterModel(JSON.parse(data.FilterState));
     }, function () {
         console.log("There are no grid settings to be applied");
-        alert("We could not find grid settings to apply.");
+        //alert("We could not find grid settings to apply.");
+        //GridSettingsLoadedError
+        var messageToDisplay = document.getElementById(gridName + "GridSettingsLoadedError").innerHTML;
+        document.getElementById(gridName + "GridSettingsMessageContainer").innerHTML = messageToDisplay;
     });
 
 
 
 }
 
+//called from  AgGridHtmlHelpers.CreateGridSettingsButtonsHtml
 function resetGridState(gridOptionsApi) {
     gridOptionsApi.resetColumnState();
     gridOptionsApi.setFilterModel(null);
 
-    console.log("column state reset");
+    console.log("column state and filter model reset");
 }

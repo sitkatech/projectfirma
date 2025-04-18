@@ -527,7 +527,7 @@
                                         in the @MultiTenantHelpers.GetTenantShortDisplayName()
                                     </li>
                                 </ul>
-                                @Html.AgGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                @Html.AgGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                             </div>
                         </div>
                     </div>
@@ -542,7 +542,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <p></p>
-                                    @Html.AgGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.AgGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                                 </div>
                             </div>
                         </div>
@@ -558,7 +558,7 @@
                                 </div>
                                 <div class="panel-body">
                                     <p></p>
-                                    @Html.AgGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.AgGrid(ViewDataTyped.PendingProjectsGridSpec, ViewDataTyped.PendingProjectsGridName, ViewDataTyped.PendingProjectsGridDataUrl, "height:500px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                                 </div>
                             </div>
                         </div>
@@ -664,7 +664,7 @@
                                      @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
                                  </div>
                                  <div class="panel-body">
-                                     @Html.AgGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                     @Html.AgGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                                  </div>
                              </div>
                          </div>

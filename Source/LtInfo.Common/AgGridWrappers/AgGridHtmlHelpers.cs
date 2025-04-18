@@ -62,23 +62,21 @@ namespace LtInfo.Common.AgGridWrappers
         /// <returns></returns>
         public static HtmlString AgGrid<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return new HtmlString(AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, AgGridResizeType.None));
+            return new HtmlString(AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, AgGridResizeType.None, false));
         }
 
         public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString)
         {
-            return AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, AgGridResizeType.None);
+            return AgGridImpl(gridSpec, gridName, optionalGridDataUrl, styleString, AgGridResizeType.None, false);
         }
 
-        public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString,  AgGridResizeType agGridResizeType)
+        public static string AgGridImpl<T>(GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, AgGridResizeType agGridResizeType, bool showGridSettingsButtons)
         {
 
 
             const string template = @"    <!-- The div that will host the grid. ag-theme-alpine is the theme. -->
     <!-- The grid will be the size that this element is given. -->
-    <div class=""row"">
-        <div class=""col-md-12 text-right""><button class=""btn btn-secondary"" onclick=""resetGridState({0}GridOptionsApi)"">Reset Grid</button>&nbsp;<button class=""btn btn-secondary"" onclick=""loadGridState({0}GridOptionsApi, '{0}')"">Load Grid Settings</button>&nbsp;<button class=""btn btn-primary"" onclick=""saveGridState({0}GridOptionsApi, '{0}')"">Save Grid Settings</button></div>
-    </div>
+    {12}
     <div class=""row"">
         <div class=""col-md-5""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
         <div class=""col-md-7 text-right gridDownloadContainer"">{9}<span>{10}</span><a class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</a>{8}</div>
@@ -246,36 +244,53 @@ namespace LtInfo.Common.AgGridWrappers
                     columnDefinitionStringBuilder.Append(",");
                 }
 
-                columnDefinitionStringBuilder.Append("{ ");//open this column spec
+                columnDefinitionStringBuilder.Append("{ "); //open this column spec
                 columnDefinitionStringBuilder.AppendFormat("\"field\": \"{0}\"", columnSpec.ColumnNameForJavascript);
 
                 if (columnSpec.AgGridColumnSortType.SortingType.Equals("htmlstring"))
                 {
                     // remove html for sorting
-                    columnDefinitionStringBuilder.Append(", \"comparator\":  (valueA, valueB, nodeA, nodeB, isDescending) => { var valueANoHtml = removeHtmlFromString(valueA); var valueBNoHtml = removeHtmlFromString(valueB); if (valueANoHtml == valueBNoHtml) return 0; return (valueANoHtml > valueBNoHtml) ? 1 : -1; }");
+                    columnDefinitionStringBuilder.Append(
+                        ", \"comparator\":  (valueA, valueB, nodeA, nodeB, isDescending) => { var valueANoHtml = removeHtmlFromString(valueA); var valueBNoHtml = removeHtmlFromString(valueB); if (valueANoHtml == valueBNoHtml) return 0; return (valueANoHtml > valueBNoHtml) ? 1 : -1; }");
                 }
 
                 columnDefinitionStringBuilder.AppendFormat(", \"headerName\": \"{0}\"", columnSpec.ColumnNameInnerText);
 
-                columnDefinitionStringBuilder.Append(", \"headerComponentParams\": { \"template\": \"<div class=\\\"ag-cell-label-container\\\" role=\\\"presentation\\\">");
-                columnDefinitionStringBuilder.Append("<span data-ref=\\\"eMenu\\\" class=\\\"ag-header-icon ag-header-cell-menu-button\\\"></span>");
-                columnDefinitionStringBuilder.Append("<span data-ref=\\\"eFilterButton\\\" class=\\\"ag-header-icon ag-header-cell-filter-button\\\"></span>");
-                columnDefinitionStringBuilder.Append("<div data-ref=\\\"eLabel\\\" class=\\\"ag-header-cell-label\\\" role=\\\"presentation\\\">");
-                columnDefinitionStringBuilder.Append("<span data-ref=\\\"eSortOrder\\\" class=\\\"ag-header-icon ag-sort-order\\\" ></span>");
-                columnDefinitionStringBuilder.Append("<span data-ref=\\\"eSortAsc\\\" class=\\\"ag-header-icon ag-sort-ascending-icon\\\" ></span>");
-                columnDefinitionStringBuilder.Append("<span data-ref=\\\"eSortDesc\\\" class=\\\"ag-header-icon ag-sort-descending-icon\\\" ></span>");
-                columnDefinitionStringBuilder.Append("<span data-ref=\\\"eSortNone\\\" class=\\\"ag-header-icon ag-sort-none-icon\\\" ></span>");
-                columnDefinitionStringBuilder.Append("<span data-ref=\\\"eText2\\\" class=\\\"ag-header-cell-text\\\" role=\\\"columnheader\\\">");
+                columnDefinitionStringBuilder.Append(
+                    ", \"headerComponentParams\": { \"template\": \"<div class=\\\"ag-cell-label-container\\\" role=\\\"presentation\\\">");
+                columnDefinitionStringBuilder.Append(
+                    "<span data-ref=\\\"eMenu\\\" class=\\\"ag-header-icon ag-header-cell-menu-button\\\"></span>");
+                columnDefinitionStringBuilder.Append(
+                    "<span data-ref=\\\"eFilterButton\\\" class=\\\"ag-header-icon ag-header-cell-filter-button\\\"></span>");
+                columnDefinitionStringBuilder.Append(
+                    "<div data-ref=\\\"eLabel\\\" class=\\\"ag-header-cell-label\\\" role=\\\"presentation\\\">");
+                columnDefinitionStringBuilder.Append(
+                    "<span data-ref=\\\"eSortOrder\\\" class=\\\"ag-header-icon ag-sort-order\\\" ></span>");
+                columnDefinitionStringBuilder.Append(
+                    "<span data-ref=\\\"eSortAsc\\\" class=\\\"ag-header-icon ag-sort-ascending-icon\\\" ></span>");
+                columnDefinitionStringBuilder.Append(
+                    "<span data-ref=\\\"eSortDesc\\\" class=\\\"ag-header-icon ag-sort-descending-icon\\\" ></span>");
+                columnDefinitionStringBuilder.Append(
+                    "<span data-ref=\\\"eSortNone\\\" class=\\\"ag-header-icon ag-sort-none-icon\\\" ></span>");
+                columnDefinitionStringBuilder.Append(
+                    "<span data-ref=\\\"eText2\\\" class=\\\"ag-header-cell-text\\\" role=\\\"columnheader\\\">");
                 // 7/31/2023 TK - Not sure if I like this, it works with the current setup of helpers but feels a bit hacky
                 //todo: come up with a better method to get field definition popups in header cells
                 columnDefinitionStringBuilder.AppendFormat("{0}</span>", columnSpec.ColumnName.ToJSON());
-                columnDefinitionStringBuilder.Append("<span data-ref=\\\"eFilter\\\" class=\\\"ag-header-icon ag-filter-icon\\\"></span>");
-                columnDefinitionStringBuilder.Append("</div></div>\" }");//close headerComponentParams object
+                columnDefinitionStringBuilder.Append(
+                    "<span data-ref=\\\"eFilter\\\" class=\\\"ag-header-icon ag-filter-icon\\\"></span>");
+                columnDefinitionStringBuilder.Append("</div></div>\" }"); //close headerComponentParams object
 
-                bool resizable = !(columnSpec.GridWidth <= 35);// most cols with a width <= 35px are icon buttons (like edit, delete, download fact sheet)  
+                bool resizable =
+                    !(columnSpec.GridWidth <=
+                      35); // most cols with a width <= 35px are icon buttons (like edit, delete, download fact sheet)  
                 columnDefinitionStringBuilder.AppendFormat(", \"resizable\": {0}", resizable.ToString().ToLower());
-                bool autoHeaderHeight = !(columnSpec.GridWidth <= 35);// most cols with a width <= 35px are icon buttons (like edit, delete, download fact sheet) and we do not want to adjust the header height for these
-                columnDefinitionStringBuilder.AppendFormat(", \"autoHeaderHeight\": {0}", autoHeaderHeight.ToString().ToLower());
+                bool
+                    autoHeaderHeight =
+                        !(columnSpec.GridWidth <=
+                          35); // most cols with a width <= 35px are icon buttons (like edit, delete, download fact sheet) and we do not want to adjust the header height for these
+                columnDefinitionStringBuilder.AppendFormat(", \"autoHeaderHeight\": {0}",
+                    autoHeaderHeight.ToString().ToLower());
 
                 if (!resizable)
                 {
@@ -295,7 +310,9 @@ namespace LtInfo.Common.AgGridWrappers
                 }
                 else
                 {
-                    columnDefinitionStringBuilder.AppendFormat(", \"initialWidth\": {0}", columnSpec.GridWidth + 30); // 8/8/2023 SB add to the width instead of editing every hard coded column in every GridSpec class
+                    columnDefinitionStringBuilder.AppendFormat(", \"initialWidth\": {0}",
+                        columnSpec.GridWidth +
+                        30); // 8/8/2023 SB add to the width instead of editing every hard coded column in every GridSpec class
                 }
 
                 if (columnSpec.GridWidthFlex > 0)
@@ -330,12 +347,14 @@ namespace LtInfo.Common.AgGridWrappers
                         break;
                     case AgGridColumnFilterType.DateRange:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agDateColumnFilter\"");
-                        columnDefinitionStringBuilder.Append(", \"comparator\": dateStringComparator");//comparator: dateComparator
+                        columnDefinitionStringBuilder.Append(
+                            ", \"comparator\": dateStringComparator"); //comparator: dateComparator
                         // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"dateString\"");
                         break;
                     case AgGridColumnFilterType.Html:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
-                        columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlFilterTextMatcher( filterOption, value, filterText)  }");
+                        columnDefinitionStringBuilder.Append(
+                            ", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlFilterTextMatcher( filterOption, value, filterText)  }");
                         columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlRemovalFormatter");
                         //6/28/24 TK - This causes sorting to be very slow, so we are removing it for now
                         //columnDefinitionStringBuilder.Append(", \"comparator\": HtmlRemovalSorting");
@@ -345,7 +364,8 @@ namespace LtInfo.Common.AgGridWrappers
                         break;
                     case AgGridColumnFilterType.HtmlLinkJson:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
-                        columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlLinkJsonFilterTextMatcher( filterOption, value, filterText)  }");
+                        columnDefinitionStringBuilder.Append(
+                            ", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlLinkJsonFilterTextMatcher( filterOption, value, filterText)  }");
                         columnDefinitionStringBuilder.Append(", \"cellRenderer\": HtmlLinkJsonRenderer");
                         columnDefinitionStringBuilder.Append(", \"valueFormatter\": HtmlLinkJsonFormatter");
                         columnDefinitionStringBuilder.Append(", \"comparator\": JsonDisplayTextSorting");
@@ -386,8 +406,10 @@ namespace LtInfo.Common.AgGridWrappers
                 switch (columnSpec.GridColumnAggregationType)
                 {
                     case AgGridColumnAggregationType.Total:
-                        columnsWithAggregationStringBuilder.Append(columnsWithAggregationStringBuilder.Length > 0 ? ", " : string.Empty); 
-                        columnsWithAggregationStringBuilder.AppendFormat("\"{0}\"",columnSpec.ColumnNameForJavascript); 
+                        columnsWithAggregationStringBuilder.Append(columnsWithAggregationStringBuilder.Length > 0
+                            ? ", "
+                            : string.Empty);
+                        columnsWithAggregationStringBuilder.AppendFormat("\"{0}\"", columnSpec.ColumnNameForJavascript);
                         break;
                     default:
                         break;
@@ -404,7 +426,8 @@ namespace LtInfo.Common.AgGridWrappers
 
                 if (columnSpec.AgGridColumnDataType == AgGridColumnDataType.ReadOnlyHtmlText)
                 {
-                    columnDefinitionStringBuilder.Append(", \"cellRenderer\": function(params) { return params.value ? params.value: ''; } ");
+                    columnDefinitionStringBuilder.Append(
+                        ", \"cellRenderer\": function(params) { return params.value ? params.value: ''; } ");
                 }
 
                 if (columnSpec.AgGridColumnDataType == AgGridColumnDataType.Checkbox)
@@ -413,7 +436,7 @@ namespace LtInfo.Common.AgGridWrappers
                 }
 
 
-                columnDefinitionStringBuilder.Append(" }");//close this column spec
+                columnDefinitionStringBuilder.Append(" }"); //close this column spec
             }
 
             var resizeGridFunction = agGridResizeType == AgGridResizeType.VerticalFillHorizontalAutoFit
@@ -429,7 +452,8 @@ namespace LtInfo.Common.AgGridWrappers
                 styleString = styleString == null ? "height: 500px;" : styleString + "; height: 500px";
             }
 
-            var customDownloadLink = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
+            var customDownloadLink = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl,
+                gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
 
             var generateReportsIconHtml = CreateGenerateReportUrlHtml(gridName, gridSpec.GenerateReportModalDialogForm);
             var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
@@ -438,10 +462,27 @@ namespace LtInfo.Common.AgGridWrappers
                 $"{(!string.IsNullOrWhiteSpace(arbitraryHtml) ? $"<span>{arbitraryHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}{(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}";
             var columnsForCsvDownloadString = string.Join(",", columnsForCsvOutput.Select(x => $"\"{x}\""));
 
-            var createEntityHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
+            var createEntityHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass,
+                gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
 
 
-            return String.Format(template, gridName, optionalGridDataUrl, columnDefinitionStringBuilder, gridSpec.ObjectNamePlural, resizeGridFunction, makeVerticalResizable, styleString, columnsWithAggregationStringBuilder, customDownloadLink, additionalIcons, createEntityHtml, columnsForCsvDownloadString);//, gridSpec.LoadingBarHtml, metaDivHtml, styleString, javascriptDocumentReadyHtml);
+            var gridSettingsButtonsHtml = CreateGridSettingsButtonsHtml(gridName, showGridSettingsButtons);
+
+            return String.Format(template,
+                gridName, //0
+                optionalGridDataUrl, //1
+                columnDefinitionStringBuilder, //2 
+                gridSpec.ObjectNamePlural, //3
+                resizeGridFunction, //4
+                makeVerticalResizable, //5
+                styleString, //6
+                columnsWithAggregationStringBuilder, //7
+                customDownloadLink, //8
+                additionalIcons, //9
+                createEntityHtml, //10
+                columnsForCsvDownloadString, //11
+                gridSettingsButtonsHtml); //12 total
+
         }
 
 
@@ -697,6 +738,38 @@ namespace LtInfo.Common.AgGridWrappers
                     null).ToString();
             }
             return createUrlHtml;
+        }
+
+
+        /// <summary>
+        /// Creates the html for the reset, load, and save grid settings buttons
+        /// JS used by the HTML in this function is here: C:\git\sitkatech\projectfirma\Source\ProjectFirma.Web\ScriptsCustom\agGrid\esa-ag-grid.js
+        /// </summary>
+        /// <returns></returns>
+        public static string CreateGridSettingsButtonsHtml(string gridName, bool showGridSettingsButtons)
+        {
+            const string gridSettingsButtonTemplate = @"
+            <div class=""row gridSettingsButtonContainer"">
+                <div id=""{0}GridSettingsLoadedError"" style=""display:none;"">
+                    <div class=""col-md-12 alert alert-dismissible alert-danger""><button type=""button"" class=""close"" data-dismiss=""alert"">×</button><strong>Oh no!</strong> We did not find any saved Grid Settings to apply.</div>
+                </div>
+                <div id=""{0}GridSettingsSavedError"" style=""display:none;"">
+                    <div class=""col-md-12 alert alert-dismissible alert-danger""><button type=""button"" class=""close"" data-dismiss=""alert"">×</button><strong>Oh no!</strong> There was an error while trying to save your Grid Settings.</div>
+                </div>
+                <div id=""{0}GridSettingsSavedMessage"" style=""display:none;"">
+                    <div class=""col-md-12 alert alert-dismissible alert-success""><button type=""button"" class=""close"" data-dismiss=""alert"">×</button><strong>Success!</strong> Your Grid Settings were saved. </div>
+                </div>
+                <div id=""{0}GridSettingsMessageContainer""></div>
+                <div class=""col-md-12 text-right""><button class=""btn btn-primary btn-sm"" onclick=""resetGridState({0}GridOptionsApi)"">Reset Grid</button>&nbsp;<button class=""btn btn-primary btn-sm"" onclick=""loadGridState({0}GridOptionsApi, '{0}')"">Load Grid Settings</button>&nbsp;<button class=""btn btn-primary btn-sm"" onclick=""saveGridState({0}GridOptionsApi, '{0}')"">Save Grid Settings</button></div>
+            </div>";
+            var gridSettingsButtonsHtml = String.Empty;
+
+            if (showGridSettingsButtons)
+            {
+                gridSettingsButtonsHtml = string.Format(gridSettingsButtonTemplate, gridName);
+            }
+            
+            return gridSettingsButtonsHtml;
         }
     }
 }

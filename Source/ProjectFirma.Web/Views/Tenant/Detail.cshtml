@@ -585,7 +585,7 @@
                 All Tenants
             </div>
             <div class="panel-body">
-                @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
             </div>
         </div>
     </div>

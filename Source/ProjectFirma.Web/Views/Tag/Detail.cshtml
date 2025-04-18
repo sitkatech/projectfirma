@@ -62,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div class="panel-body">
-        @Html.AgGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
     </div>
 </div>
 
