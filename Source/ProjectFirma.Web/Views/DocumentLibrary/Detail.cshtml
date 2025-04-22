@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        @Html.AgGrid(ViewDataTyped.DocumentLibraryDocumentGridSpec, ViewDataTyped.DocumentLibraryDocumentsGridName, ViewDataTyped.DocumentLibraryDocumentGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.DocumentLibraryDocumentGridSpec, ViewDataTyped.DocumentLibraryDocumentsGridName, ViewDataTyped.DocumentLibraryDocumentGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
 
                     </div>
                 </div>

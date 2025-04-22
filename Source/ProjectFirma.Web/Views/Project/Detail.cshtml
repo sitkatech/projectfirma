@@ -539,7 +539,7 @@
                          <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
                      </div>
                      <div class="panel-body">
-                         @Html.AgGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                         @Html.AgGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                      </div>
                  </div>
                  <div class="panel panelFirma">
@@ -547,7 +547,7 @@
                          <h3>System Communications</h3>
                      </div>
                      <div class="panel-body">
-                         @Html.AgGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                         @Html.AgGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                      </div>
                  </div>
 
@@ -563,7 +563,8 @@
 
                              </div>
                          }
-                         @Html.AgGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+
+                         @Html.AgGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                      </div>
                  </div>
              }

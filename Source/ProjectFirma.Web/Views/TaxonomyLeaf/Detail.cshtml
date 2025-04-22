@@ -236,13 +236,13 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">
                 @* Use custom Default project grid for Primary Leaf grid *@
                 <div id="primaryLeafDataGrid">
-                    @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                    @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                 </div>
                 @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
                 {
                     @* Not using custom Default project grid here, this one is custom *@
                     <div id="secondaryLeafDataGrid">
-                        @Html.AgGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.SecondaryBasicProjectInfoGridName, ViewDataTyped.SecondaryBasicProjectInfoGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.SecondaryBasicProjectInfoGridName, ViewDataTyped.SecondaryBasicProjectInfoGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                     </div>
                 }
             </div>

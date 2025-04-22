@@ -38,7 +38,7 @@
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewOrganizationTypeUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)
 </div>
 <div style="margin-top: 10px">
-    @Html.AgGrid(ViewDataTyped.OrganizationTypeGridSpec, ViewDataTyped.OrganizationTypeGridName, ViewDataTyped.OrganizationTypeGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.OrganizationTypeGridSpec, ViewDataTyped.OrganizationTypeGridName, ViewDataTyped.OrganizationTypeGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
 </div>
 <br />
 <div>
@@ -46,5 +46,5 @@
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewProjectAssociationUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)
 </div>
 <div style="margin-top: 10px">
-    @Html.AgGrid(ViewDataTyped.OrganizationRelationshipTypeGridSpec, ViewDataTyped.OrganizationRelationshipTypeGridName, ViewDataTyped.OrganizationRelationshipTypeGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.OrganizationRelationshipTypeGridSpec, ViewDataTyped.OrganizationRelationshipTypeGridName, ViewDataTyped.OrganizationRelationshipTypeGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
 </div>

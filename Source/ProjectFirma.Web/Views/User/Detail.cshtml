@@ -253,7 +253,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @string.Format("{0} for which {1} is a contact", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.Person.GetFullNameFirstLast())
             </div>
             <div class="panel-body">
-                @Html.AgGrid(ViewDataTyped.UserProjectGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.UserProjectGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
             </div>
         </div>
     </div>
@@ -265,7 +265,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 System Communications
             </div>
             <div class="panel-body">
-                @Html.AgGrid(ViewDataTyped.UserNotificationGridSpec, ViewDataTyped.UserNotificationGridName, ViewDataTyped.UserNotificationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.UserNotificationGridSpec, ViewDataTyped.UserNotificationGridName, ViewDataTyped.UserNotificationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
             </div>
         </div>
     </div>

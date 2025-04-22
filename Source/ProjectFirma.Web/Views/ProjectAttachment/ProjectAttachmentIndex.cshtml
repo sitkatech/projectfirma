@@ -33,5 +33,5 @@
 </div>
 
 <div style="margin-top: 10px">
-    @Html.AgGrid(ViewDataTyped.ProjectAttachmentGridSpec, ViewDataTyped.ProjectAttachmentGridName, ViewDataTyped.ProjectAttachmentGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ProjectAttachmentGridSpec, ViewDataTyped.ProjectAttachmentGridName, ViewDataTyped.ProjectAttachmentGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
 </div>
