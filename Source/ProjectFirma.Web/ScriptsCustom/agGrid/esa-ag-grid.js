@@ -232,7 +232,7 @@ function saveGridState(gridOptionsApi, gridName) {
 }
 
 //called from  AgGridHtmlHelpers.CreateGridSettingsButtonsHtml
-function loadGridState(gridOptionsApi, gridName) {
+function loadGridState(gridOptionsApi, gridName, showErrors) {
 
     var postData = new Object();
     postData.GridName = gridName;
@@ -252,10 +252,12 @@ function loadGridState(gridOptionsApi, gridName) {
         gridOptionsApi.setFilterModel(JSON.parse(data.FilterState));
     }, function () {
         console.log("There are no grid settings to be applied");
-        //alert("We could not find grid settings to apply.");
-        //GridSettingsLoadedError
-        var messageToDisplay = document.getElementById(gridName + "GridSettingsLoadedError").innerHTML;
-        document.getElementById(gridName + "GridSettingsMessageContainer").innerHTML = messageToDisplay;
+        debugger;
+        //on intial page load we trigger this function to load the users grid settings, we do not want to show the error message in this case
+        if (showErrors) {
+            var messageToDisplay = document.getElementById(gridName + "GridSettingsLoadedError").innerHTML;
+            document.getElementById(gridName + "GridSettingsMessageContainer").innerHTML = messageToDisplay;
+        }        
     });
 
 
