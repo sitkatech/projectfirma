@@ -252,7 +252,6 @@ function loadGridState(gridOptionsApi, gridName, showErrors) {
         gridOptionsApi.setFilterModel(JSON.parse(data.FilterState));
     }, function () {
         console.log("There are no grid settings to be applied");
-        debugger;
         //on intial page load we trigger this function to load the users grid settings, we do not want to show the error message in this case
         if (showErrors) {
             var messageToDisplay = document.getElementById(gridName + "GridSettingsLoadedError").innerHTML;

@@ -763,7 +763,7 @@ namespace LtInfo.Common.AgGridWrappers
                     <div class=""col-md-12 alert alert-dismissible alert-success""><button type=""button"" class=""close"" data-dismiss=""alert"">×</button><strong>Success!</strong> Your Grid Settings were saved. </div>
                 </div>
                 <div id=""{0}GridSettingsMessageContainer""></div>
-                <div class=""col-md-12 text-right""><button class=""btn btn-primary btn-sm"" onclick=""resetGridState({0}GridOptionsApi)"">Reset Grid</button>&nbsp;<button class=""btn btn-primary btn-sm"" onclick=""loadGridState({0}GridOptionsApi, '{0}', true)"">Load Grid Settings</button>&nbsp;<button class=""btn btn-primary btn-sm"" onclick=""saveGridState({0}GridOptionsApi, '{0}')"">Save Grid Settings</button></div>
+                <div class=""col-md-12 text-right""><button class=""btn btn-firma btn-sm"" onclick=""resetGridState({0}GridOptionsApi)"">Reset Grid</button>&nbsp;<button class=""btn btn-firma btn-sm"" onclick=""loadGridState({0}GridOptionsApi, '{0}', true)"">Load Grid Settings</button>&nbsp;<button class=""btn btn-firma btn-sm"" onclick=""saveGridState({0}GridOptionsApi, '{0}')"">Save Grid Settings</button></div>
             </div>";
             var gridSettingsButtonsHtml = String.Empty;
 
