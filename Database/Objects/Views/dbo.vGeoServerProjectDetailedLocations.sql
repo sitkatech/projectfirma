@@ -14,7 +14,8 @@ select
     pl.TenantID,
     t.TenantName,
 	p.LocationIsPrivate,
-	p.ProjectApprovalStatusID
+	p.ProjectApprovalStatusID,
+	pl.ProjectLocationGeometry.STGeometryType() as GeometryType
 
 from dbo.ProjectLocation pl
 join dbo.Project p on pl.ProjectID = p.ProjectID 
