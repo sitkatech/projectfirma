@@ -70,10 +70,10 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div >
-    @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", AgGridResizeType.VerticalFillHorizontalAutoFit)
-    
+    @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
+
 
 </div>
 <div style="margin-top: 40px">
-    @Html.AgGrid(ViewDataTyped.ProjectStageGridSpec, ViewDataTyped.ProjectStageGridName, ViewDataTyped.ProjectStageGridDataUrl, "", AgGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ProjectStageGridSpec, ViewDataTyped.ProjectStageGridName, ViewDataTyped.ProjectStageGridDataUrl, "", AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
 </div>

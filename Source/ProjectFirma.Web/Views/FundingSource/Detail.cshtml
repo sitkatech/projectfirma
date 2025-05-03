@@ -352,7 +352,7 @@
                                     @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
                                 </div>
                                 <div class="panel-body">
-                                    @Html.AgGrid(ViewDataTyped.ProjectCalendarYearExpendituresGridSpec, ViewDataTyped.ProjectCalendarYearExpendituresGridName, ViewDataTyped.ProjectCalendarYearExpendituresGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.AgGrid(ViewDataTyped.ProjectCalendarYearExpendituresGridSpec, ViewDataTyped.ProjectCalendarYearExpendituresGridName, ViewDataTyped.ProjectCalendarYearExpendituresGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                                 </div>
                             </div>
                         </div>
@@ -364,7 +364,7 @@
                                     Budget by @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()
                                 </div>
                                 <div class="panel-body">
-                                    @Html.AgGrid(ViewDataTyped.ProjectFundingSourceBudgetGridSpec, ViewDataTyped.ProjectFundingSourceBudgetGridName, ViewDataTyped.ProjectFundingSourceBudgetGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                                    @Html.AgGrid(ViewDataTyped.ProjectFundingSourceBudgetGridSpec, ViewDataTyped.ProjectFundingSourceBudgetGridName, ViewDataTyped.ProjectFundingSourceBudgetGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                                 </div>
                             </div>
                         </div>

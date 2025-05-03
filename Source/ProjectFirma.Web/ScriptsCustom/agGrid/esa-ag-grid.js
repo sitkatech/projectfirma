@@ -199,3 +199,74 @@ function HtmlRemovalFormatter(params) {
     return removeHtmlFromString(params.value);
 
 }
+
+//called from  AgGridHtmlHelpers.CreateGridSettingsButtonsHtml
+function saveGridState(gridOptionsApi, gridName) {
+    var currentColState = gridOptionsApi.getColumnState();
+    var currentFilterModel = gridOptionsApi.getFilterModel();
+
+
+    var postData = new Object();
+    postData.FilterState = JSON.stringify(currentFilterModel);
+    postData.ColumnState = JSON.stringify(currentColState);
+    postData.GridName = gridName;
+
+    SitkaAjax.ajax({
+        type: "POST",
+        url: "/GridSettings/SaveGridSettings",
+        data: postData,
+        dataType: "json",
+        async: false
+    }, function (data) {
+        console.log("successfully saved grid settings")
+        var messageToDisplay = document.getElementById(gridName + "GridSettingsSavedMessage").innerHTML;
+        document.getElementById(gridName + "GridSettingsMessageContainer").innerHTML = messageToDisplay;
+        
+    }, function () {
+        //GridSettingsSavedError
+        console.log("There was an error saving your grid settings.");
+        var messageToDisplay = document.getElementById(gridName + "GridSettingsSavedError").innerHTML;
+        document.getElementById(gridName + "GridSettingsMessageContainer").innerHTML = messageToDisplay;
+    });
+
+}
+
+//called from  AgGridHtmlHelpers.CreateGridSettingsButtonsHtml
+function loadGridState(gridOptionsApi, gridName, showErrors) {
+
+    var postData = new Object();
+    postData.GridName = gridName;
+
+    SitkaAjax.ajax({
+        type: "POST",
+        url: "/GridSettings/LoadGridSettings",
+        data: postData,
+        dataType: "json",
+        async: false
+    }, function (data) {
+        gridOptionsApi.applyColumnState({
+            state: JSON.parse(data.ColumnState),
+            applyOrder: true,
+        });
+
+        gridOptionsApi.setFilterModel(JSON.parse(data.FilterState));
+    }, function () {
+        console.log("There are no grid settings to be applied");
+        //on intial page load we trigger this function to load the users grid settings, we do not want to show the error message in this case
+        if (showErrors) {
+            var messageToDisplay = document.getElementById(gridName + "GridSettingsLoadedError").innerHTML;
+            document.getElementById(gridName + "GridSettingsMessageContainer").innerHTML = messageToDisplay;
+        }        
+    });
+
+
+
+}
+
+//called from  AgGridHtmlHelpers.CreateGridSettingsButtonsHtml
+function resetGridState(gridOptionsApi) {
+    gridOptionsApi.resetColumnState();
+    gridOptionsApi.setFilterModel(null);
+
+    console.log("column state and filter model reset");
+}

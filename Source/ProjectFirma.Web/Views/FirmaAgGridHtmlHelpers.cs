@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.ComponentModel;
 using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
@@ -26,6 +28,7 @@ using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views
 {
@@ -45,15 +48,19 @@ namespace ProjectFirma.Web.Views
         /// <param name="optionalGridDataUrl"></param>
         /// <param name="styleString"></param>
         /// <param name="agGridResizeType"></param>
+        /// <param name="showGridSettingsButtons"></param>
         /// <returns></returns>
-        public static HtmlString AgGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, AgGridResizeType agGridResizeType)
+        public static HtmlString AgGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName,
+            string optionalGridDataUrl, string styleString, AgGridResizeType agGridResizeType,
+            bool showGridSettingsButtons)
         {
 
             var agGrid = AgGridHtmlHelpers.AgGridImpl(gridSpec,
                 gridName,
                 optionalGridDataUrl,
                 $"background-color:white;{styleString}",
-                agGridResizeType);
+                agGridResizeType,
+                showGridSettingsButtons);
 
             return new HtmlString(agGrid);
         }

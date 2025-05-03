@@ -49,7 +49,8 @@
         {
             <h4> @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h4>
         }
-        @Html.AgGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+
+        @Html.AgGrid(ViewDataTyped.PerformanceMeasureGridSpec, ViewDataTyped.PerformanceMeasureGridName, ViewDataTyped.PerformanceMeasureGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
     </div>
     @if (MultiTenantHelpers.DisplaySimpleAccomplishmentDashboard())
     {
@@ -58,7 +59,7 @@
                 @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewPerformanceMeasureGroupUrl, string.Format("Create {0}", FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
             </div>
             <h4> @FieldDefinitionEnum.PerformanceMeasureGroup.ToType().GetFieldDefinitionLabelPluralized()</h4>
-            @Html.AgGrid(ViewDataTyped.PerformanceMeasureGroupGridSpec, ViewDataTyped.PerformanceMeasureGroupGridName, ViewDataTyped.PerformanceMeasureGroupGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+            @Html.AgGrid(ViewDataTyped.PerformanceMeasureGroupGridSpec, ViewDataTyped.PerformanceMeasureGroupGridName, ViewDataTyped.PerformanceMeasureGroupGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
         </div>
     }
 </div>

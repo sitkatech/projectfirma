@@ -26,7 +26,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vGeoServerProjectDetailedLocations(int projectLocationID, int primaryKey, int projectID, string projectName, int tenantID, string tenantName, bool locationIsPrivate, int projectApprovalStatusID) : this()
+        public vGeoServerProjectDetailedLocations(int projectLocationID, int primaryKey, int projectID, string projectName, int tenantID, string tenantName, bool locationIsPrivate, int projectApprovalStatusID, string geometryType) : this()
         {
             this.ProjectLocationID = projectLocationID;
             this.PrimaryKey = primaryKey;
@@ -36,6 +36,7 @@ namespace ProjectFirmaModels.Models
             this.TenantName = tenantName;
             this.LocationIsPrivate = locationIsPrivate;
             this.ProjectApprovalStatusID = projectApprovalStatusID;
+            this.GeometryType = geometryType;
         }
 
         /// <summary>
@@ -51,6 +52,7 @@ namespace ProjectFirmaModels.Models
             this.TenantName = vGeoServerProjectDetailedLocations.TenantName;
             this.LocationIsPrivate = vGeoServerProjectDetailedLocations.LocationIsPrivate;
             this.ProjectApprovalStatusID = vGeoServerProjectDetailedLocations.ProjectApprovalStatusID;
+            this.GeometryType = vGeoServerProjectDetailedLocations.GeometryType;
             CallAfterConstructor(vGeoServerProjectDetailedLocations);
         }
 
@@ -64,5 +66,6 @@ namespace ProjectFirmaModels.Models
         public string TenantName { get; set; }
         public bool LocationIsPrivate { get; set; }
         public int ProjectApprovalStatusID { get; set; }
+        public string GeometryType { get; set; }
     }
 }

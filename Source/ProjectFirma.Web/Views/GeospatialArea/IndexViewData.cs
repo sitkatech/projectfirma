@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             MapInitJson = mapInitJson;
             GeospatialAreaType = geospatialAreaType;
             GridSpec = new IndexGridSpec(currentFirmaSession, geospatialAreaType) {ObjectNameSingular = $"{geospatialAreaType.GeospatialAreaTypeName}", ObjectNamePlural = $"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", SaveFiltersInCookie = true};
-            GridName = "geospatialAreasGrid";
+            GridName = $"geospatialAreasGrid{geospatialAreaType.GeospatialAreaTypeID}";
             GridDataUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData(geospatialAreaType));
         }
     }

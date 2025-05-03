@@ -10,7 +10,7 @@
         this.selectedValues = [];
         this.dropdowns = [];
         this.field = null;
-        console.log(params);
+        //console.log(params);
         if (params.colDef) {
             this.field = params.colDef.field;
             this.columnContainsMultipleValues = params.colDef.columnContainsMultipleValues;
@@ -27,6 +27,9 @@
 
             //console.log(rowNode);
             var columnValue = removeHtmlFromString(this.getNodeValue(rowNode));
+            if (!columnValue) {
+                return;
+            }
             if (!this.dropdownValues.includes(columnValue)) {
                 this.dropdownValues.push(columnValue);
             }
@@ -180,13 +183,14 @@
             this.dropdowns.forEach(dropdown => {
                 dropdown.checked = false;
             });
+        } else {
+            this.selectedValues = model;
+            this.dropdowns.forEach(dropdown => {
+                dropdown.checked = this.selectedValues.includes(dropdown.name);                
+            });
         }
-        this.selectedValues = model.filter;
-        this.dropdowns.forEach(dropdown => {
-            if (this.selectedValues.includes(dropdown.name)) {
-                dropdown.checked = true;
-            }
-        });
+        this.selectedValues = model;
+        this.onFilterChanged();
     }
 
     destroy() {
@@ -202,7 +206,7 @@
     // filter with one string input value, you could just return the simple string
     // value here.
     getModelAsString(model) {
-        return this.selectedValues.join(", ");
+        return model.join(", ");
     }   
 }
 

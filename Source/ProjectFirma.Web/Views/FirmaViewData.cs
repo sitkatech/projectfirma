@@ -188,11 +188,15 @@ namespace ProjectFirma.Web.Views
             var resultsMenu = new LtInfoMenuItem(FieldDefinitionEnum.ResultsMenu.ToType().GetFieldDefinitionLabel());
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
-                if (!MultiTenantHelpers.UsesCustomProjectDashboardPage(firmaSession) || new FirmaAdminFeature().HasPermissionByFirmaSession(firmaSession))
+                if (MultiTenantHelpers.UsesCustomProjectDashboardPage(firmaSession) && new FirmaAdminFeature().HasPermissionByFirmaSession(firmaSession) ||
+                    MultiTenantHelpers.GetTenantAttributeFromCache().AccomplishmentsDashboardVisibilityAdminOnly && new AccomplishmentsDashboardViewAsAdminFeature().HasPermissionByFirmaSession(firmaSession) ||
+                    !MultiTenantHelpers.UsesCustomProjectDashboardPage(firmaSession) && !MultiTenantHelpers.GetTenantAttributeFromCache().AccomplishmentsDashboardVisibilityAdminOnly)
                 {
-                    // for NCRP only (aka Tenant that uses Custom Project Dashboard), make this page admin only
+                    // for NCRP only (aka Tenant that uses Custom Project Dashboard), make this page admin only. For tenants with AccomplishmentsDashboardVisibilityAdminOnly, check specific security feature
+                    // if tenant uses neither of these settings, show the dashboard.
                     resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, FieldDefinitionEnum.AccomplishmentDashboardMenu.ToType().GetFieldDefinitionLabel()));
                 }
+
             }
 
             if (MultiTenantHelpers.UsesCustomProjectDashboardPage(firmaSession))

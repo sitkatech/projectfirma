@@ -47,5 +47,5 @@
 </div>
 
 <div style="margin-top: 10px">
-    @Html.AgGrid(ViewDataTyped.ProjectCustomFullGridSpec, ViewDataTyped.ProjectCustomFullGridName, ViewDataTyped.ProjectCustomFullGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ProjectCustomFullGridSpec, ViewDataTyped.ProjectCustomFullGridName, ViewDataTyped.ProjectCustomFullGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
 </div>

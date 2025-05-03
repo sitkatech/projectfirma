@@ -63,6 +63,10 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
+                if (MultiTenantHelpers.GetTenantAttributeFromCache().AccomplishmentsDashboardVisibilityAdminOnly)
+                {
+                    Check.RequireThrowNotAuthorized(new AccomplishmentsDashboardViewAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession), "You are not authorized to view this page.");
+                }
                 var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
                 var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 

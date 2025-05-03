@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Models
 {
     public class GridSettingsViewModel : FormViewModel, IValidatableObject
     {
-        public GridTable GridTable { get; set; }
+        public GridSetting GridSetting { get; set; }
 
         /// <summary>
         /// This is a static dictionary of objects for serializing requests to <see cref="SaveGridColumnSettings"/>
@@ -22,9 +22,9 @@ namespace ProjectFirma.Web.Models
 
         }
 
-        public GridSettingsViewModel(GridTable gridTable)
+        public GridSettingsViewModel(GridSetting gridSetting)
         {
-            GridTable = gridTable;
+            GridSetting = gridSetting;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Models
                 if (!currentFirmaSession.IsAnonymousOrUnassigned())
                 {
                     // This is the main function that can lead to exceptions from contention if simultaneous updates come through
-                    currentFirmaSession.Person.UpdatePersonSettingGridColumns(GridTable);
+                    currentFirmaSession.Person.UpdatePersonGridSetting(personID, GridSetting.GridName, GridSetting.ColumnState, GridSetting.FilterState);
                 }
                 
             }

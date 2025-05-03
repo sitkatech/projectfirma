@@ -182,7 +182,7 @@
                         <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() Matching Selected Filters</h2>
                     </div>
                     <div class="panel-body">
-                        @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height: 650px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.AgGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height: 650px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                     </div>
                 </div>
             </div>
