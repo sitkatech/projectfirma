@@ -1023,10 +1023,10 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         public GridJsonNetJObjectResult<Project> MyOrganizationsProposalsGridJsonData()
         {
             var gridSpec = new ProposalsGridSpec(CurrentFirmaSession);
-
+            var organization = CurrentPerson.Organization;
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
                 .GetProposalsVisibleToUser(CurrentFirmaSession)
-                .Where(x => x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
+                .Where(x => organization.IsMyProject(x))
                 .ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);

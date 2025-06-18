@@ -52,6 +52,17 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
+        <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ViewDataTyped.PendingProjectsLabel</h2>
+    </div>
+    <div class="panel-body">
+        <div>
+            @Html.AgGrid(ViewDataTyped.PendingGridSpec, ViewDataTyped.PendingGridName, ViewDataTyped.PendingGridDataUrl, "height: 400px;", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
+        </div>
+    </div>
+</div>
+
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
         <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.Proposal.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()</h2>
     </div>
     <div class="panel-body">
