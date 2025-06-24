@@ -65,6 +65,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 95);
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(),
                 x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrlForAgGrid(), 150, AgGridColumnFilterType.HtmlLinkJson);
+            if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => x.GetFundingSourcesAsLinksForAgGrid(false), 300, AgGridColumnFilterType.HtmlLinkListJson);
+            }
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.GetProjectStageDisplayName(), 80, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, AgGridColumnFilterType.SelectFilterStrict);

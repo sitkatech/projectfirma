@@ -27,6 +27,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
+using LtInfo.Common.AgGridWrappers;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -35,6 +36,11 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
         public string ProjectCustomDefaultGridName { get; }
         public string ProjectCustomDefaultGridDataUrl { get; }
+
+        public string PendingProjectsLabel { get; }
+        public PendingGridSpec PendingGridSpec { get; }
+        public string PendingGridName { get; }
+        public string PendingGridDataUrl { get; }
 
         public ProposalsGridSpec ProposalsGridSpec { get; }
         public string ProposalsGridName { get; }
@@ -52,6 +58,21 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectCustomDefaultGridName = "myOrganizationsProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.MyOrganizationProjectsCustomGridDefaultJsonData());
+
+            PendingProjectsLabel = MultiTenantHelpers.GetTenantName() == "TCSProjectTracker"
+                ? $"Existing {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}"
+                : $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
+            var pendingProjectLabel = MultiTenantHelpers.GetTenantName() == "TCSProjectTracker"
+                ? $"Existing {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}"
+                : $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
+            PendingGridSpec = new PendingGridSpec(currentFirmaSession)
+            {
+                ObjectNameSingular = pendingProjectLabel,
+                ObjectNamePlural = PendingProjectsLabel,
+                SaveFiltersInCookie = true
+            };
+            PendingGridName = "myOrganizationsPendingProjectsGrid";
+            PendingGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.PendingGridJsonData());
 
             ProposalsGridName = "myOrganizationsProposalsGrid";
             ProposalsGridSpec = new ProposalsGridSpec(currentFirmaSession)
