@@ -420,6 +420,18 @@
                         </div>
                     </div>
                 }
+                @if (ViewDataTyped.TenantAttribute.ProjectStewardshipAreaType != null)
+                {
+                    <div class="row">
+                        @* SB 12/23/24 This is for NCRP only at the moment *@
+                        <div class="col-sm-5 fieldLabel text-right">
+                            Disable Project Steward Organization Index Page
+                        </div>
+                        <div class="col-sm-7">
+                            @ViewDataTyped.TenantAttribute.DisableProjectStewardOrganizationIndexPage.ToYesNo()
+                        </div>
+                    </div>
+                }
                 
                 <div class="panelSectionLabel">Geospatial Data</div>
                 <div class="row">

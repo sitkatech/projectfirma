@@ -232,7 +232,7 @@ namespace ProjectFirma.Web.Views
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<GeospatialAreaController>(c => c.Index(geospatialAreaType)), currentFirmaSession, $"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", "Group2"));
             }
 
-            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+            if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship() && !(MultiTenantHelpers.GetTenantAttributeFromCache().DisableProjectStewardOrganizationIndexPage ?? false))
             {
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStewardOrganizationController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
             }
