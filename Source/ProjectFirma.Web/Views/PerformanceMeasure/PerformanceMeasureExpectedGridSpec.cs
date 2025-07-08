@@ -18,13 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Linq;
-using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.AgGridWrappers;
-using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
+using System.Linq;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -66,6 +65,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var expectedValueColumnName = $"{FieldDefinitionEnum.ExpectedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
             Add(expectedValueColumnName, a => a.ExpectedValue, 150, AgGridColumnFormatType.Decimal, AgGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.ProjectID.ToType().ToGridHeaderString(), x => x.Project.ProjectID.ToString(), 140);
         }
     }
 }
