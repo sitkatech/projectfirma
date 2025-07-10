@@ -787,6 +787,7 @@
     <Content Include="Content\Training\ProjectFirma-Example.gdb.zip" />
     <Content Include="Content\Bootstrap\firma\ncrp.theme.less" />
     <Content Include="Content\Bootstrap\firma\ssmp.theme.less" />
+    <Content Include="Content\Training\training-desktopGIS.jpg" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -840,6 +841,8 @@
     <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.ttf" />
     <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.woff" />
     <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.woff2" />
+    <Content Include="Content\Training\ProjectFirmaTrainingDocument_DesktopGIS_WEB_2025.pdf" />
+    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_2021.pdf" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="ScriptsCustom\agGrid\esa-ag-grid.css" />
     <Content Include="ScriptsCustom\agGrid\esa-ag-grid.js" />
