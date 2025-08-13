@@ -26,6 +26,7 @@ using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common.Mvc;
+using Microsoft.Owin.Security;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
@@ -98,6 +99,9 @@ namespace ProjectFirma.Web.Controllers
             switch (FirmaWebConfiguration.AuthenticationType)
             {
                 case AuthenticationType.KeystoneAuth:
+                    Request.GetOwinContext().Authentication.SignOut();
+                    break;
+                case AuthenticationType.Auth0Auth:
                     Request.GetOwinContext().Authentication.SignOut();
                     break;
                 case AuthenticationType.LocalAuth:

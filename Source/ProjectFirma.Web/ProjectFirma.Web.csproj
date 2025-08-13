@@ -50,6 +50,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Auth\Auth0AuthenticationConfigurationFactory.cs" />
+    <Compile Include="Auth\Auth0ClaimNotFoundException.cs" />
+    <Compile Include="Auth\Auth0ClaimsHelpers.cs" />
+    <Compile Include="Auth\Auth0OpenIDClaimTypes.cs" />
+    <Compile Include="Auth\Auth0OpenIDUtilities.cs" />
+    <Compile Include="Auth\Auth0UserClaims.cs" />
     <Compile Include="Common\AuthenticationType.cs" />
     <Compile Include="Common\FieldDefinitionHelpers.cs" />
     <Compile Include="Common\FirmaDateUtilities.cs" />

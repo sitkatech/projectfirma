@@ -114,7 +114,17 @@ Source code is available upon request via <support@sitkatech.com>.
                                 This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
                             </div>
                         }
-                    }else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
+                    }
+                    else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.Auth0Auth)
+                    {
+                        if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
+                        {
+                        <div class="alert" role="alert">
+                            This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetAuth0EditLink()">edited here</a>
+                        </div>
+                        }
+                    }
+                    else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
                     {
                         if (ViewDataTyped.UserHasPersonManagePermissions)
                         {

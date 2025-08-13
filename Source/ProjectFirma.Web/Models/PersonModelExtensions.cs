@@ -126,6 +126,14 @@ namespace ProjectFirma.Web.Models
             }
             return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
         }
+        public static string GetAuth0EditLink(this Person person)
+        {
+            if (person == null)
+            {
+                return "[No Auth0 Edit Link]";
+            }
+            return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
+        }
 
         /// <summary>
         /// List of Projects for which this Person is the primary contact

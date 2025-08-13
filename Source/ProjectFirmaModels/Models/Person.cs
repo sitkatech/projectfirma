@@ -23,10 +23,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Keystone.Common.OpenID;
+using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class Person : IAuditableEntity, IKeystoneUser
+    public partial class Person : IAuditableEntity, IKeystoneUser, IAuth0User
     {
         public const int AnonymousPersonID = -999;
 
@@ -66,6 +67,10 @@ namespace ProjectFirmaModels.Models
         }
 
         public IEnumerable<string> RoleNames { get { return GetRoleNames(); } }
+        public void SetAuth0UserClaims(IAuth0UserClaims auth0Claims)
+        {
+            // intentionally left blank
+        }
 
         public void SetKeystoneUserClaims(IKeystoneUserClaims keystoneUserClaims)
         {

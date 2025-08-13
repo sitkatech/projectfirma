@@ -336,12 +336,16 @@ Source code is available upon request via <support@sitkatech.com>.
                             {
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
+                                        <span class="navigation-root-item-text-wrapper">
+                                                    Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()
+                                        </span>
                                         <span class="glyphicon glyphicon-menu-down"></span>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
                                         <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                        <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                        <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">
+                                            My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
+                                        </a></li>
                                         <li class="divider"></li>
                                         <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
                                     </ul>
