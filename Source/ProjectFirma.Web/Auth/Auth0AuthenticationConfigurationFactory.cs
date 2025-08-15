@@ -167,8 +167,9 @@ namespace ProjectFirma.Web.Auth
                 userIdentity.IsAuthenticated);
 
             var sendNewUserNotification = false;
-            var sendNewOrganizationNotification = false;
-            var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(auth0UserClaims.UserGuid);
+            //var sendNewOrganizationNotification = false;
+            //var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(auth0UserClaims.UserGuid);
+            var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmail(auth0UserClaims.Email, false);
 
             // It can be useful to have the EXACT same time when looking for/at records later.
             var currentDateTime = DateTime.Now;
@@ -186,36 +187,13 @@ namespace ProjectFirma.Web.Auth
             person.FirstName = auth0UserClaims.FirstName;
             person.LastName = auth0UserClaims.LastName;
             person.Email = auth0UserClaims.Email;
-            person.Phone = auth0UserClaims.PrimaryPhone?.ToPhoneNumberString();
             person.LoginName = auth0UserClaims.LoginName;
-
-            Organization organization = null;
-
-            // handle the organization
-            if (auth0UserClaims.OrganizationGuid.HasValue)
-            {
-                organization = HandleOrganization(auth0UserClaims, person, ref sendNewOrganizationNotification);
-            }
-            else
-            {
-                HandleUnknownOrganization(person);
-            }
 
             FirmaOwinStartup.MakeFirmaSessionForPersonLoggingIn(person, currentDateTime);
 
             if (sendNewUserNotification)
             {
                 SendNewUserCreatedMessage(person, auth0UserClaims.LoginName);
-            }
-
-            if (sendNewOrganizationNotification)
-            {
-                SendNewOrganizationCreatedMessage(person, auth0UserClaims.LoginName);
-                // Post new Organization to ProjectFirma
-                if (person.Tenant.AreOrganizationsExternallySourced)
-                {
-                    PostOrganizationToExternalSystem(organization).ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
-                }
             }
 
             return HttpRequestStorage.Person;
