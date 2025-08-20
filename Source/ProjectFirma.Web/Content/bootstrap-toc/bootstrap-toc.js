@@ -47,7 +47,7 @@
             },
 
             createNavList: function () {
-                return $('<ul class="nav"></ul>');
+                return $('<ul role="region" aria-label="Nav" class="nav"></ul>');
             },
 
             createChildNavList: function ($parent) {
