@@ -58,7 +58,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 </head>
 <body class="environment-@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
-    <div class="expandToFillScreen">
+<div class="expandToFillScreen">
+    <header>
         <div class="header">
             <div class="optionalContainer">
                 <div class="row">
@@ -188,17 +189,17 @@ Source code is available upon request via <support@sitkatech.com>.
                             <div id="google_translate_element" class="header-button"></div>
 
                             <script type="text/javascript">
-                                function googleTranslateElementInit() {
-                                    new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-                                }
-                            </script>
+                                        function googleTranslateElementInit() {
+                                            new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+                                        }
+                                    </script>
                             <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
                             <style>
-                                div#google_translate_element .goog-te-gadget-simple img {
-                                    height: 19px;
-                                    margin: 0 2px 0 2px;
-                                }
-                            </style>
+                                        div#google_translate_element .goog-te-gadget-simple img {
+                                            height: 19px;
+                                            margin: 0 2px 0 2px;
+                                        }
+                                    </style>
                         }
 
                         <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
@@ -215,169 +216,74 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             </div>
-            
         </div>
+    </header>
 
-        <script type="text/javascript">
-            // <![CDATA[
-            function submitFormWithEnter(myfield, e, numMinChars) {
-                var keycode;
-                if (window.event) {
-                    keycode = window.event.keyCode;
-                }
-                else if (e) {
-                    keycode = e.which;
-                }
-                else {
-                    return true;
-                }
+    <div id="mainnavandcontent">
+        <div class="navbar projectFirmaNavbar" >
+            <div class="optionalContainer">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#firma-collapse-navbar" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    </button>
+                </div>
 
-                if (keycode == 13) {
-                    if (myfield.value.trim().length >= numMinChars) {
-                        var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
-                        document.location = searchUrlTemplate
-                            .ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
-                    }
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            }
-
-            function search(myfield, numMinChars)
-            {
-                if (myfield.value.trim().length >= numMinChars) {
-                    var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
-                    document.location =
-                        searchUrlTemplate.ParameterReplace(
-                            "?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
-                }
-            }
-
-            jQuery(function() {
-                
-                jQuery(".btn-firma").each(function () {
-                    this.addEventListener('click', autoAdvance);
-                });
-
-                function autoAdvance(event) {
-                    var element = jQuery(this);
-
-                    if (element.attr('type') == 'submit') {
-                        jQuery(window).off("beforeunload");
-                        var autoAdvanceValue = element.attr('value') || "true";
-                        jQuery("<input type='hidden' name='AutoAdvance' value=" + autoAdvanceValue + " />").appendTo(this.form);
-                        this.form.submit();
-                    }
-                };
-
-                var pfFinder = jQuery("#@SearchResults.ProjectSearchInputTextboxID");
-                jQuery("#searchButton").on("click",function()
-                {
-                    search(pfFinder[0], 1);
-                });
-
-                jQuery("#@SearchResults.ProjectSearchInputTextboxID")
-                    .autocomplete({
-                        source: "@Html.Raw(ViewDataTyped.ProjectFindUrl)",
-                        minLength: 1,
-                        position: { my: "right top", at: "right bottom" },
-                        select: function (event, ui) {
-                            document.location = ui.item.value;
-                            event.preventDefault();
-                        },
-                        html: true
-                    });
-
-                if ("@(ViewDataTyped.TenantName == "NCRPProjectTracker")" === "True") {
-                    var heightOfTopSections = 0;
-                    jQuery(".optionalContainer").each(function () {
-                        heightOfTopSections = heightOfTopSections + $(this).height();
-                    });
-                    var heightCss = "calc(100vh - " + heightOfTopSections + "px)";
-                    jQuery("#homepageCarousel").css("height", heightCss);
-                    // for small screens, adjust height so "Explore" link does not overlap the Title and Caption
-                    var heightOfTitleAndCaption = jQuery(".main-text").height();
-                    jQuery(".carousel-caption").each(function() {
-                        heightOfTitleAndCaption = heightOfTitleAndCaption + $(this).height();
-                    });
-                    if (jQuery("#homepageCarousel").height() < heightOfTitleAndCaption) {
-                        jQuery("#homepageCarousel").css("height", "calc(100vh + " + jQuery(".carousel-caption").height() + "px)");
-                    }
-                }
-            });
-            // ]]>
-        </script>
-
-        <div id="mainnavandcontent">
-
-            <div class="navbar projectFirmaNavbar" >
-                <div class="optionalContainer">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                data-target="#firma-collapse-navbar" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="glyphicon glyphicon-menu-hamburger"></span>
-                        </button>
-                    </div>
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="firma-collapse-navbar" >
-                        <nav aria-label="Site">
-                            <ul role="list" class="nav navbar-nav navbar-left">
-                                @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
-                                {
-                                    @topLevelMenu.RenderMenu()
-                                }
-                            </ul>
-                        </nav>
-                        <nav aria-label="Utility">
-                            <ul role="list" class="nav navbar-nav navbar-right">
-                                @if (Request.IsAuthenticated)
-                                {
-                                    <li class="dropdown">
-                                        <button class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
-                                            <span class="glyphicon glyphicon-menu-down"></span>
-                                        </button>
-                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                            <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
-                                        </ul>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class="dropdown joined-buttons">
-                                        <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left"><span class="navigation-root-item-text-wrapper">Log In</span></a>
-                                        <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right" aria-labelledby="dropdownMenuUser">
-                                            <span class="glyphicon glyphicon-menu-down"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </a>
-                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
-                                            <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
-                                        </ul>
-                                    </li>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="firma-collapse-navbar" >
+                    <nav aria-label="Site">
+                        <ul role="list" class="nav navbar-nav navbar-left">
+                            @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
+                            {
+                                @topLevelMenu.RenderMenu()
+                            }
+                        </ul>
+                    </nav>
+                    <nav aria-label="Utility">
+                        <ul role="list" class="nav navbar-nav navbar-right">
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <button class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
+                                        <span class="glyphicon glyphicon-menu-down"></span>
+                                    </button>
+                                    <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
+                                        <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="dropdown joined-buttons">
+                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left"><span class="navigation-root-item-text-wrapper">Log In</span></a>
+                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right" aria-labelledby="dropdownMenuUser">
+                                        <span class="glyphicon glyphicon-menu-down"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </a>
+                                    <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                        <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                    </ul>
+                                </li>
         
-                                }
-                                @ViewDataTyped.HelpMenu.RenderMenu()
-                            </ul>
-                        </nav>
-                        
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
-            </div>
-            
-            @RenderSection("BeforeBodyContainer", false)
-
-            @RenderBody()
+                            }
+                            @ViewDataTyped.HelpMenu.RenderMenu()
+                        </ul>
+                    </nav>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
         </div>
+        
+        @RenderSection("BeforeBodyContainer", false)
+        @RenderBody()
     </div>
+</div>
 
 <footer id="footer">
     <div class="container">
@@ -392,14 +298,14 @@ Source code is available upon request via <support@sitkatech.com>.
             Source code is available on <a href="https://github.com/sitkatech/projectfirma">GitHub</a>.
         </p>
         <p class="text-center">
-           @*Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://esassoc.com">ESA</a> | Version @FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | Compiled @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id*@
-           Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://esassoc.com">ESA</a> | Code last updated (compiled) at @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss"). @ViewDataTyped.CustomFooterViewData.OptionalSQLDatabaseBackupFromProductionDateString
+            @*Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://esassoc.com">ESA</a> | Version @FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | Compiled @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id*@
+            Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://esassoc.com">ESA</a> | Code last updated (compiled) at @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss"). @ViewDataTyped.CustomFooterViewData.OptionalSQLDatabaseBackupFromProductionDateString
         </p>
 
     </div>
 </footer>
 
-    @{ Html.RenderRazorSitkaPartial<FirmaLateLoadingIncludes>(); }
+@{ Html.RenderRazorSitkaPartial<FirmaLateLoadingIncludes>(); }
 
 </body>
 </html>
