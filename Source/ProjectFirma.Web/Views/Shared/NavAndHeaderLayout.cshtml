@@ -312,7 +312,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div id="mainnavandcontent">
 
-            <nav class="navbar projectFirmaNavbar">
+            <div class="navbar projectFirmaNavbar" >
                 <div class="optionalContainer">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
@@ -324,49 +324,54 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="firma-collapse-navbar">
-                        <ul class="nav navbar-nav navbar-left">
-                            @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
-                            {
-                                @topLevelMenu.RenderMenu()
-                            }
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            @if (Request.IsAuthenticated)
-                            {
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
-                                        <span class="glyphicon glyphicon-menu-down"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                        <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                        <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
-                                    </ul>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="dropdown joined-buttons">
-                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left"><span class="navigation-root-item-text-wrapper">Log In</span></a>
-                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right">
-                                        <span class="glyphicon glyphicon-menu-down"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                        <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
-                                        <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
-                                    </ul>
-                                </li>
-                                
-                            }
-                            @ViewDataTyped.HelpMenu.RenderMenu()
-                        </ul>
+                    <div class="collapse navbar-collapse" id="firma-collapse-navbar" >
+                        <nav aria-label="Site">
+                            <ul role="list" class="nav navbar-nav navbar-left">
+                                @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
+                                {
+                                    @topLevelMenu.RenderMenu()
+                                }
+                            </ul>
+                        </nav>
+                        <nav aria-label="Utility">
+                            <ul role="list" class="nav navbar-nav navbar-right">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <li class="dropdown">
+                                        <button class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
+                                            <span class="glyphicon glyphicon-menu-down"></span>
+                                        </button>
+                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
+                                            <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="dropdown joined-buttons">
+                                        <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left"><span class="navigation-root-item-text-wrapper">Log In</span></a>
+                                        <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right" aria-labelledby="dropdownMenuUser">
+                                            <span class="glyphicon glyphicon-menu-down"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </a>
+                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                            <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                        </ul>
+                                    </li>
+        
+                                }
+                                @ViewDataTyped.HelpMenu.RenderMenu()
+                            </ul>
+                        </nav>
+                        
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
-            </nav>
+            </div>
             
             @RenderSection("BeforeBodyContainer", false)
 
