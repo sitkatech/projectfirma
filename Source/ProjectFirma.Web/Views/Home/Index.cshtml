@@ -236,13 +236,14 @@
                         <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</a>
                     </div>
                 }
-                <div role="region" aria-label="Project Map">
-                    <h4 style="margin-bottom: 5px; margin-top: 10px;"><a href="@ViewDataTyped.FullMapUrl">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Map</a></h4>
+            <div role="region" aria-label="Project Map">
+                <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Map</h4>
+                <a href="@ViewDataTyped.FullMapUrl">Full Project Map (Link)</a>
                     <div>
                         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageMapTextViewData); }
                     </div>
                     @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
-                </div>
+            </div>
             </div>
         </div>
     }
