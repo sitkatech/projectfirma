@@ -233,8 +233,8 @@
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="firma-collapse-navbar">
-                        <a href="#mainContent" class="skip-to-main-link">Skip to main content</a>
                         <nav aria-label="Site">
+                            <a href="#mainContent" class="skip-to-main-link">Skip to main content</a>
                             <ul role="list" class="nav navbar-nav navbar-left">
                                 @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
                                 {
@@ -336,6 +336,10 @@
         height: auto;
         outline: 2px solid #007bff;
         box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    a {
+        text-decoration: underline;
     }
 </style>
 
