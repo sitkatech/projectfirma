@@ -36,16 +36,18 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div class="@(ViewDataTyped.ContainerFluid ? "container-fluid" : "container")  firmaContent">
-    <div class="rightFloatingInfo">
-        @RenderSection("RightOfPageTitle", false)
-    </div>
-    <h1 class="pageTitle">
-        @ViewDataTyped.PageTitle 
-        @if (ViewDataTyped.PageSubTitle != null)
-        {
-            <small>@ViewDataTyped.PageSubTitle</small>
-        }
-    </h1>
+    <header>
+        <div class="rightFloatingInfo">
+            @RenderSection("RightOfPageTitle", false)
+        </div>
+        <h1 class="pageTitle">
+            @ViewDataTyped.PageTitle 
+            @if (ViewDataTyped.PageSubTitle != null)
+            {
+                <small>@ViewDataTyped.PageSubTitle</small>
+            }
+        </h1>
+    </header>
 
     @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
     {
