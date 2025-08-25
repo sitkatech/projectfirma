@@ -125,16 +125,6 @@ namespace ProjectFirma.Web.Views
 
         public string RenderMenu(string indent)
         {
-            // Example:
-            //    <li><a href="@ViewDataTyped.HomeUrl">Home</a></li>
-            //    <li><a href="@ViewDataTyped.OverviewUrl">About</a>
-            //        <ul>
-            //            <li><a href="@ViewDataTyped.OverviewUrl">Overview</a></li>
-            //            <li><a href="@ViewDataTyped.HistoryUrl">History</a></li>
-            //            <li><a href="@ViewDataTyped.PartnersUrl">Partners</a></li>
-            //            <li><a href="@ViewDataTyped.FaqUrl">FAQ</a></li>
-            //        </ul>
-            //    </li> 
             if (RawString != null)
             {
                 return $"<li>{RawString}</li>";
@@ -149,8 +139,22 @@ namespace ProjectFirma.Web.Views
             }
 
             var extraCssClassesDictionary = ExtraTopLevelMenuCssClasses.Any() ? new Dictionary<string, string> {{"class", string.Join(" ", ExtraTopLevelMenuCssClasses)}} : null;
-            var anchorTagString = UrlTemplate.MakeHrefString(UrlString, MenuItemName, extraCssClassesDictionary);
-            return string.Format("{0}<li class=\"\">{1}</li>", indent, anchorTagString);
+            string anchorTagString = UrlTemplate.MakeHrefString(UrlString, MenuItemName, extraCssClassesDictionary)?.ToHtmlString();
+
+            // Visual indicator for current page
+            string currentPath = HttpContext.Current?.Request?.Url?.PathAndQuery ?? string.Empty;
+            bool isCurrent = string.Equals(currentPath, UrlString, StringComparison.OrdinalIgnoreCase);
+            string liClass = isCurrent ? " class=\"current-page\" aria-current=\"page\" " : string.Empty;
+
+            if (IsTopLevelMenuItem)
+            {
+                int insertPos = anchorTagString.LastIndexOf("</a>", StringComparison.OrdinalIgnoreCase);
+                if (insertPos > -1)
+                {
+                    anchorTagString = anchorTagString.Insert(insertPos, " <span class=\"glyphicon glyphicon-menu-down\"></span><span class=\"sr-only\">Toggle Dropdown</span>");
+                }
+            }
+            return string.Format("{0}<li{2}>{1}</li>", indent, anchorTagString, liClass);
         }
 
         private string RenderMenuWithChildren(string indent)
