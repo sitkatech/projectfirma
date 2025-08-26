@@ -217,7 +217,78 @@
                     </div>
                 </div>
             </div>
-        </div>
+
+        <script type="text/javascript">
+            // <![CDATA[
+            function submitFormWithEnter(myfield, e, numMinChars) {
+                var keycode;
+                if (window.event) {
+                    keycode = window.event.keyCode;
+                }
+                else if (e) {
+                    keycode = e.which;
+                }
+                else {
+                    return true;
+                }
+
+                if (keycode == 13) {
+                    if (myfield.value.trim().length >= numMinChars) {
+                        var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
+                        document.location = searchUrlTemplate
+                            .ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                    }
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+
+            function search(myfield, numMinChars)
+            {
+                if (myfield.value.trim().length >= numMinChars) {
+                    var searchUrlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS()));
+                    document.location =
+                        searchUrlTemplate.ParameterReplace(
+                            "?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                }
+            }
+
+            jQuery(function() {
+                
+                jQuery(".btn-firma").each(function () {
+                    this.addEventListener('click', autoAdvance);
+                });
+
+                function autoAdvance(event) {
+                    var element = jQuery(this);
+
+                    if (element.attr('type') == 'submit') {
+                        jQuery(window).off("beforeunload");
+                        var autoAdvanceValue = element.attr('value') || "true";
+                        jQuery("<input type='hidden' name='AutoAdvance' value=" + autoAdvanceValue + " />").appendTo(this.form);
+                        this.form.submit();
+                    }
+                };
+
+                var pfFinder = jQuery("#@SearchResults.ProjectSearchInputTextboxID");
+                jQuery("#searchButton").on("click",function()
+                {
+                    search(pfFinder[0], 1);
+                });
+
+                jQuery("#@SearchResults.ProjectSearchInputTextboxID")
+                    .autocomplete({
+                        source: "@Html.Raw(ViewDataTyped.ProjectFindUrl)",
+                        minLength: 1,
+                        position: { my: "right top", at: "right bottom" },
+                        select: function (event, ui) {
+                            document.location = ui.item.value;
+                            event.preventDefault();
+                        },
+                        html: true
+                    });
 
         <div id="mainnavandcontent">
             <div class="navbar projectFirmaNavbar">
@@ -234,7 +305,7 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="firma-collapse-navbar">
                         <nav aria-label="Site">
-                            <a href="#mainContent" class="skip-to-main-link">Skip to main content</a>
+                            <a href="#main" class="skip-to-main-link">Skip to main content</a>
                             <ul role="list" class="nav navbar-nav navbar-left">
                                 @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
                                 {
@@ -282,7 +353,9 @@
             </div>
 
             @RenderSection("BeforeBodyContainer", false)
-            @RenderBody()
+            <main id="main" tabindex="-1">
+                @RenderBody()
+            </main>
         </div>
     </div>
 
