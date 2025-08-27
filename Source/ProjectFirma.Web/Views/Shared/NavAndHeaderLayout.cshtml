@@ -290,6 +290,26 @@
                         html: true
                     });
 
+                if ("@(ViewDataTyped.TenantName == "NCRPProjectTracker")" === "True") {
+                    var heightOfTopSections = 0;
+                    jQuery(".optionalContainer").each(function () {
+                        heightOfTopSections = heightOfTopSections + $(this).height();
+                    });
+                    var heightCss = "calc(100vh - " + heightOfTopSections + "px)";
+                    jQuery("#homepageCarousel").css("height", heightCss);
+                    // for small screens, adjust height so "Explore" link does not overlap the Title and Caption
+                    var heightOfTitleAndCaption = jQuery(".main-text").height();
+                    jQuery(".carousel-caption").each(function() {
+                        heightOfTitleAndCaption = heightOfTitleAndCaption + $(this).height();
+                    });
+                    if (jQuery("#homepageCarousel").height() < heightOfTitleAndCaption) {
+                        jQuery("#homepageCarousel").css("height", "calc(100vh + " + jQuery(".carousel-caption").height() + "px)");
+                    }
+                }
+            });
+            // ]]>
+        </script>
+
         <div id="mainnavandcontent">
             <div class="navbar projectFirmaNavbar">
                 <div class="optionalContainer">
