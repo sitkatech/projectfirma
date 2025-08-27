@@ -279,7 +279,7 @@ Source code is available upon request via <support@sitkatech.com>.
             pointToLayer: function(feature, latlng)
             {
                 var featureColor = feature.properties.FeatureColor == null ? points.LayerColor : feature.properties.FeatureColor;
-                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s" }) });
+                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s", alt: "Location" }) });
                 self.bindPopupToFeature(marker, feature);
                 return marker;
             }

@@ -246,6 +246,10 @@ namespace ProjectFirma.Web.Common
             var helpIconImgTag = new TagBuilder("span");
             helpIconImgTag.Attributes.Add("class", "helpicon glyphicon glyphicon-question-sign");
             helpIconImgTag.Attributes.Add("title", string.Format("Click to get help on {0}", labelText));
+            helpIconImgTag.Attributes.Add("tabindex", "0");
+            helpIconImgTag.Attributes.Add("role", "button");
+            helpIconImgTag.Attributes.Add("aria-label", string.Format("Click to get help on {0}", labelText));
+            helpIconImgTag.Attributes.Add("keydown", "(arguments[0]||window.event).cancelBubble=true;");
             AddHelpToolTipPopupToHtmlTag(helpIconImgTag, labelText, urlToContent, popupWidth);
             if (displayStyle == DisplayStyle.AsGridHeader)
             {

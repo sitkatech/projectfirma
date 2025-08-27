@@ -273,11 +273,12 @@ ul.dropdown-menu li a {
   font-family: "Open Sans", sans-serif;
   color: #777;
   background-color: #f8f8f8;
+  text-decoration: underline;
 }
 ul.dropdown-menu li a:hover {
   background-color: #eee;
   color: #777;
-  text-decoration: none;
+  text-decoration: underline;
 }
 ul.dropdown-menu .divider {
   background-color: #e7e7e7;

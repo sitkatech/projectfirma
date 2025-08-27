@@ -116,7 +116,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     }
     <div style="font-weight: bold; margin-top: 10px" id="ClusterLocationsContainer">
-        <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
+        <input aria-label="Cluster Locations" style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
     </div>
     <div id="@ViewDataTyped.MapDivID"></div>
     @if (!ViewDataTyped.LegendAboveMap)
@@ -197,7 +197,7 @@ Source code is available upon request via <support@sitkatech.com>.
             pointToLayer: function(feature, latlng)
             {
                 var legendColor = _.result(_.find(markerColorTable, function(legendItem) { return legendItem.LegendID == feature.properties[firmaMap.mapCustomizationObject.ColorByPropertyName]; }), 'LegendColor');
-                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: legendColor, size: "s" }) });
+                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: legendColor, size: "s", alt: "Location" }) });
                 firmaMap.bindPopupToFeature(marker, feature);
                 return marker;
             },
@@ -240,9 +240,9 @@ Source code is available upon request via <support@sitkatech.com>.
         var allLegendsHtml = "";
         for (var i = 0; i < markerColorTable.length; ++i)
         {
-            var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "s" }),
+            var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "s", alt: 'Location' }),
                 currentLegendAsHtml = currentLegendIcon.options.iconUrl;
-            allLegendsHtml += "<div class=\"mapLegendElement\">" + "<img class='mapLegendIcon' src= '" + currentLegendAsHtml  + "'></img>" + markerColorTable[i].LegendText + "</div>";
+            allLegendsHtml += "<div class=\"mapLegendElement\">" + "<img class='mapLegendIcon' alt='Map Legend Icon' src= '" + currentLegendAsHtml  + "'></img>" + markerColorTable[i].LegendText + "</div>";
         }
         return allLegendsHtml;
     };
