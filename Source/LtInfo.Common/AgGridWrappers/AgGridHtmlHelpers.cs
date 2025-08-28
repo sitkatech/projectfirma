@@ -237,6 +237,16 @@ namespace LtInfo.Common.AgGridWrappers
             //debugger;
             //console.log('cell was clicked', params)
 
+          }},
+          // Add aria-rowindex for accessibility
+          getRowAriaAttributes: params => {{
+            // AG Grid uses zero-based row index, but aria-rowindex should be 1-based and include header row
+            return {{ 'aria-rowindex': params.node ? (params.node.rowIndex + 2) : 1 }};
+          }},
+          // Add aria-colindex for accessibility
+          getCellAriaAttributes: params => {{
+            // AG Grid uses zero-based col index, but aria-colindex should be 1-based
+            return {{ 'aria-colindex': params.column ? (params.column.getInstanceId ? (params.column.getInstanceId() + 1) : (params.column.getColId ? (params.column.getColId() + 1) : 1)) : 1 }};
           }}
         }};
 
