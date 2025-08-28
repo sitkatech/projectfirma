@@ -81,7 +81,7 @@ namespace LtInfo.Common.AgGridWrappers
         <div class=""col-md-5""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
         <div class=""col-md-7 text-right gridDownloadContainer"">{9}<span>{10}</span><a class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</a>{8}</div>
     </div>
-    <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
+    <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}"" tabIndex=""0""></div>
     <script type=""text/javascript"">
 
             function {0}ClearFilters(){{
@@ -196,10 +196,30 @@ namespace LtInfo.Common.AgGridWrappers
           rowSelection: 'multiple', // allow rows to be selected
           animateRows: true, // have rows animate to new positions when sorted
 
+          // Accessibility options
+          suppressCellFocus: false,
+          ensureDomOrder: true,
+          suppressRowClickSelection: false,
+
           dataTypeDefinitions: {{
             dateString: getDateStringDataTypeDefinition()
           }},
 
+
+          onCellFocused: function(event) {{
+            // Focus the first link in the cell if present
+            if (event && event.rowIndex != null && event.column) {{
+              var cell = document.querySelector(
+                '[row-index=""' + event.rowIndex + '""] [col-id=""' + event.column.getId() + '""]'
+              );
+              if (cell) {{
+                var link = cell.querySelector('a');
+                if (link) {{
+                  link.focus();
+                }}
+              }}
+            }}
+          }},
 
           onFilterChanged: function() {{
             document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptionsApi.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}"";
