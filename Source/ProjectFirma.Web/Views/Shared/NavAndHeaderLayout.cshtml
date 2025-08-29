@@ -338,7 +338,7 @@
                                 @if (Request.IsAuthenticated)
                                 {
                                     <li class="dropdown">
-                                        <button class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <button class="dropdown-toggle nav-button" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                         </button>
@@ -353,7 +353,7 @@
                                 else
                                 {
                                     <li class="dropdown joined-buttons">
-                                        <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left"><span class="navigation-root-item-text-wrapper">Log In</span></a>
+                                        <button href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left nav-button"><span class="navigation-root-item-text-wrapper">Log In</span></button>
                                         <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right" aria-labelledby="dropdownMenuUser">
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
