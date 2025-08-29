@@ -84,6 +84,20 @@ namespace LtInfo.Common.AgGridWrappers
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}"" tabIndex=""0""></div>
     <script type=""text/javascript"">
 
+            function setAriaRowCount_{0}() {{
+                var gridDiv = document.getElementById(""{0}DivID"");
+                if (gridDiv) {{
+                    gridDiv.setAttribute('aria-rowcount', {0}TotalRowCount + 1);
+                }}
+            }}
+            function setAriaColCount_{0}() {{
+                var gridDiv = document.getElementById(""{0}DivID"");
+                if (gridDiv && typeof {0}GridOptionsApi !== 'undefined' && {0}GridOptionsApi.getAllGridColumns) {{
+                    var colCount = {0}GridOptionsApi.getAllGridColumns().length;
+                    gridDiv.setAttribute('aria-colcount', colCount);
+                }}
+            }}
+
             function {0}ClearFilters(){{
                 {0}GridOptionsApi.setFilterModel(null);
                 document.getElementById(""{0}ClearFilters"").style.display = ""none"";
@@ -171,6 +185,8 @@ namespace LtInfo.Common.AgGridWrappers
                 // load fetched data into grid
                 {0}GridOptionsApi.setGridOption('rowData', data);
                 {0}TotalRowCount = data.length;
+                setAriaRowCount_{0}();
+                setAriaColCount_{0}();
                 document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptionsApi.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
                 {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
                 var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
@@ -179,6 +195,7 @@ namespace LtInfo.Common.AgGridWrappers
                 }}
                 {0}GridOptionsApi.setGridOption('loading', false);
                 loadGridState({0}GridOptionsApi, '{0}', false);
+                setAriaColCount_{0}();
             }});
            
         }}
