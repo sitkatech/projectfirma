@@ -64,7 +64,7 @@
                 <div class="optionalContainer">
                     <div class="row">
                         <nav aria-label="Utility" class="headerText col-sm-12 col-md-7">
-                            <a href="#main" class="skip-to-main-link">Skip to main content</a>
+                            <a href="#mainContent" class="skip-to-main-link">Skip to main content</a>
 
                             @if (ViewDataTyped.TenantName == "ActionAgendaForPugetSound")
                             {
@@ -327,14 +327,14 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="firma-collapse-navbar">
                         <nav aria-label="Site">
-                            <ul role="menu" class="nav navbar-nav navbar-left">
+                            <ul role="menu" aria-label="Site Nav" class="nav navbar-nav navbar-left">
                                 @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
                                 {
                                     @topLevelMenu.RenderMenu()
                                 }
                             </ul>
 
-                            <ul role="menu" class="nav navbar-nav navbar-right">
+                            <ul role="menu" aria-label="Login" class="nav navbar-nav navbar-right">
                                 @if (Request.IsAuthenticated)
                                 {
                                     <li class="dropdown">
@@ -342,11 +342,11 @@
                                             <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                         </button>
-                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                            <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
                                             <li class="divider"></li>
-                                            <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
                                         </ul>
                                     </li>
                                 }
@@ -354,13 +354,13 @@
                                 {
                                     <li class="dropdown joined-buttons">
                                         <button href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left nav-button"><span class="navigation-root-item-text-wrapper">Log In</span></button>
-                                        <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right" aria-labelledby="dropdownMenuUser">
+                                        <button type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right nav-button" aria-labelledby="dropdownMenuUser">
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
-                                        </a>
-                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
-                                            <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                        </button>
+                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li role="menuitem"><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
                                         </ul>
                                     </li>
 
@@ -373,7 +373,7 @@
             </div>
 
             @RenderSection("BeforeBodyContainer", false)
-            <main id="main" tabindex="-1">
+            <main id="mainContent" tabindex="-1">
                 @RenderBody()
             </main>
         </div>
