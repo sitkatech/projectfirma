@@ -195,7 +195,6 @@ namespace LtInfo.Common.AgGridWrappers
                 }}
                 {0}GridOptionsApi.setGridOption('loading', false);
                 loadGridState({0}GridOptionsApi, '{0}', false);
-                setAriaColCount_{0}();
             }});
            
         }}
