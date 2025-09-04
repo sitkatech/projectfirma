@@ -128,7 +128,7 @@
    </div>
 }
 
-<div class="row" style="margin: 20px 0;">
+<div class="row" style="margin: 20px 0;" aria-hidden="true">
    <div class="col-xs-12" style="padding-left: 0;">
       @for (var i = 0; i < ViewDataTyped.ProjectStages.Count; i++)
       {
@@ -174,7 +174,7 @@
            <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
                <div id="tableOfContentsAffixed" class="navpanel panelFirma">
                    <h2 id="nav-header" data-toc-skip style="margin-top: 0">Contents</h2>
-                   <nav role="region" id="tableOfContents" aria-label="Table of Contents" class="scrollSpy"></nav>
+                   <nav id="tableOfContents" aria-label="Table of Contents" class="scrollSpy"></nav>
                </div>
            </div>
            <div class="col-sm-12 col-md-9 col-lg-10">
