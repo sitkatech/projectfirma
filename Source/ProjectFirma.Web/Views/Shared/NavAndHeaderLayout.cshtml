@@ -59,7 +59,7 @@
 </head>
 <body class="environment-@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
     <div class="expandToFillScreen">
-        <div role="region">
+        <div>
             <div class="header">
                 <div class="optionalContainer">
                     <div class="row">
@@ -337,7 +337,7 @@
                             <ul role="menu" aria-label="Login" class="nav navbar-nav navbar-right">
                                 @if (Request.IsAuthenticated)
                                 {
-                                    <li class="dropdown">
+                                    <li role="menuitem" class="dropdown">
                                         <button class="dropdown-toggle nav-button" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                             <span class="glyphicon glyphicon-menu-down"></span>
@@ -352,7 +352,7 @@
                                 }
                                 else
                                 {
-                                    <li class="dropdown joined-buttons">
+                                    <li role="menuitem" class="dropdown joined-buttons">
                                         <button href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left nav-button"><span class="navigation-root-item-text-wrapper">Log In</span></button>
                                         <button type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right nav-button" aria-labelledby="dropdownMenuUser">
                                             <span class="glyphicon glyphicon-menu-down"></span>

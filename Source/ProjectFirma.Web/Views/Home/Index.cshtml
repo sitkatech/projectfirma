@@ -84,12 +84,12 @@
                         <div class="col-md-12 homepageCarouselFullWidthColumn">
                             @* ReSharper disable once UnknownCssClass *@
                             <div id="homepageCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-                                <ol class="carousel-indicators">
+                                <ol role="list" class="carousel-indicators">
                                     @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
                                     {
                                         for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
                                         {
-                                            <li role="group" title="@(i)" data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
+                                            <li role="listitem" title="@(i)" data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
                                         }
                                     }
                                 </ol>

@@ -369,8 +369,8 @@
 
                @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
                {
-                   <h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
-                   <div class="panel panelFirma" role="region" aria-label="Classification System">
+                   <h2 id="classificationSystem" data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
+                   <div class="panel panelFirma" role="region" aria-labelledby="classificationSystem">
                        <div class="panel-heading panelTitle">
                            @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
                            <h2 class="project-detail-heading">
