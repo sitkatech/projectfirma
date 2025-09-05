@@ -84,12 +84,12 @@
                         <div class="col-md-12 homepageCarouselFullWidthColumn">
                             @* ReSharper disable once UnknownCssClass *@
                             <div id="homepageCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-                                <ol class="carousel-indicators">
+                                <ol role="list" class="carousel-indicators">
                                     @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
                                     {
                                         for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
                                         {
-                                            <li title="@(i)" data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
+                                            <li role="listitem" title="@(i)" data-target="#homepageCarousel" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
                                         }
                                     }
                                 </ol>
@@ -110,14 +110,14 @@
                                 </div>
                                 @if (ViewDataTyped.FirmaHomePageCarouselImages.Count > 1)
                                 {
-                                    <a href="#homepageCarousel" aria-label="left" class="carousel-control left" role="button" data-slide="prev">
+                                    <button href="#homepageCarousel" aria-label="left" class="carousel-control left" role="button" data-slide="prev">
                                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                                         <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a href="#homepageCarousel" aria-label="right" class="carousel-control right" role="button" data-slide="next">
+                                    </button>
+                                    <button href="#homepageCarousel" aria-label="right" class="carousel-control right" role="button" data-slide="next">
                                         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                                         <span class="sr-only">Next</span>
-                                    </a>
+                                    </button>
                                 }
 
                             </div>
@@ -222,7 +222,7 @@
     else
     {
         <div class="row">
-            <div role="main" class="col-md-8 fullWidth">
+            <div class="col-md-8 fullWidth">
                 <div>
                     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageTextViewData); }
                 </div>
