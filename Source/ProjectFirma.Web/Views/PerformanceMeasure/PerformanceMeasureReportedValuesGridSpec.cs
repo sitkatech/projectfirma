@@ -19,13 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirmaModels.Models;
 using LtInfo.Common.AgGridWrappers;
-using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -83,6 +82,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             {
                 Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.Project.GetProjectGeospatialAreaNamesAsHyperlinksForAgGrid(geospatialAreaType), 350, AgGridColumnFilterType.HtmlLinkListJson);
             }
+            Add(FieldDefinitionEnum.ProjectID.ToType().ToGridHeaderString(), x => x.Project.ProjectID.ToString(), 140);
         }
     }
 }

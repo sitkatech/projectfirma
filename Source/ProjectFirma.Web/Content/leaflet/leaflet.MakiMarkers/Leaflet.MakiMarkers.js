@@ -17,11 +17,13 @@
 (function () {
   "use strict";
   L.MakiMarkers = {
-      accessToken: null,
+    accessToken: null,
     defaultColor: "#0a0",
     defaultIcon: "circle-stroked",
     defaultSize: "m",
     apiUrl: "https://api.mapbox.com/v4/marker/",
+    alt: "",
+    ariaLabel: "",
     smallOptions: {
       iconSize: [20, 50],
       popupAnchor: [0,-20]
@@ -51,6 +53,20 @@
       shadowSize: null,
       shadowUrl: null,
       className: "maki-marker"
+     },
+
+    createIcon: function (oldIcon) {
+        var img = L.Icon.prototype.createIcon.call(this, oldIcon);
+
+        if (this.options.alt) {
+            img.alt = this.options.alt;
+        } else if (this.options.ariaLabel) {
+            img.setAttribute('aria-label', this.options.ariaLabel);
+        } else {
+            img.alt = ''; // Decorative if no alt provided
+        }
+
+        return img;
     },
 
     initialize: function(options) {

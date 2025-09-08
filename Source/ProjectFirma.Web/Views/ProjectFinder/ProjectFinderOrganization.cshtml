@@ -78,8 +78,8 @@
                 true);
         }
 
-        var defaultIcon = L.MakiMarkers.icon({ icon: "marker", color: "#7EB1FF", size: "s" });
-        var clickedMarkerIcon = L.MakiMarkers.icon({ icon: "marker", color: "#1774FE", size: "m" });
+        var defaultIcon = L.MakiMarkers.icon({ icon: "marker", color: "#7EB1FF", size: "s", alt: "Default Icon" });
+        var clickedMarkerIcon = L.MakiMarkers.icon({ icon: "marker", color: "#1774FE", size: "m", alt: "Clicked Marker Icon" });
 
         // this is an override for the function in ProjectFirmaMaps.js
         ProjectFirmaMaps.Map.prototype.bindPopupToFeature = function(layer, feature) {
@@ -175,10 +175,10 @@
             var allLegendsHtml = "";
             for (var i = 0; i < markerColorTable.length; ++i) {
                 var currentLegendIcon =
-                        L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "s" }),
+                        L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "s", alt: "Legend Marker" }),
                     currentLegendAsHtml = currentLegendIcon.options.iconUrl;
                 allLegendsHtml += "<div class=\"mapLegendElement\">" +
-                    "<img class='mapLegendIcon' src= '" +
+                    "<img class='mapLegendIcon' alt='Map Legend Icon' src= '" +
                     currentLegendAsHtml +
                     "'></img>" +
                     markerColorTable[i].LegendText +

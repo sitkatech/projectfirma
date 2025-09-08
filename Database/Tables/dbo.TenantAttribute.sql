@@ -56,6 +56,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[AreReportsPublic] [bit] NOT NULL,
 	[ProjectStewardshipVisibilityAdminOnly] [bit] NULL,
 	[AccomplishmentsDashboardVisibilityAdminOnly] [bit] NOT NULL,
+	[DisableProjectStewardOrganizationIndexPage] [bit] NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

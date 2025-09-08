@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="NavAndHeaderLayout.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
-Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
-<author>Environmental Science Associates</author>
-</copyright>
+    <copyright file="NavAndHeaderLayout.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using System.Diagnostics
 @using System.Web.UI.WebControls
 @using ProjectFirma.Web.Common
@@ -59,164 +59,166 @@ Source code is available upon request via <support@sitkatech.com>.
 </head>
 <body class="environment-@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
     <div class="expandToFillScreen">
-        <div class="header">
-            <div class="optionalContainer">
-                <div class="row">
-                    <div class="headerText col-sm-12 col-md-7">
-                        @if (ViewDataTyped.TenantName == "ActionAgendaForPugetSound")
-                        {
-                            <nav class="navbar projectFirmaNavbar actionAgendaCustomSiteExplorer">
-                                <ul class="nav navbar-nav navbar-left">
-                                    <li>
-                                        <a class="siteLink" href="@FirmaWebConfiguration.PsInfoUrl">Puget Sound Info</a>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="true"><span class="glyphicon glyphicon-menu-down"></span></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li class=""><a title="About Puget Sound Info" href="@string.Format("{0}About", FirmaWebConfiguration.PsInfoUrl)" class="navigation-dropdown-item">About Puget Sound Info</a></li>
-                                            <li class="divider"></li>
-                                            <li class=""><a title="Action Agenda" href="@FirmaWebConfiguration.ActionAgendaUrl" class="navigation-dropdown-item">Action Agenda Online</a></li>
-                                            <li class=""><a title="NEP Atlas" href="@FirmaWebConfiguration.NEPAtlasUrl" class="navigation-dropdown-item">NEP Atlas</a></li>
-                                            <li class=""><a title="Ongoing Programs" href="@FirmaWebConfiguration.OngoingProgramsUrl" class="navigation-dropdown-item">Ongoing Programs</a></li>
-                                            <li class=""><a title="PSAR Dashboard" href="@FirmaWebConfiguration.PSARDashboardUrl" class="navigation-dropdown-item">PSAR Dashboard</a></li>
-                                            <li class=""><a title="Vital Signs" href="@FirmaWebConfiguration.VitalSignsUrl" class="navigation-dropdown-item">Vital Signs</a></li>
-                                            <li class=""><a title="Spatial Hub" href="@FirmaWebConfiguration.SpatialHubUrl" class="navigation-dropdown-item">Spatial Hub</a></li>
-                                            <li class="divider"></li>
-                                            <li class=""><a title="Data Center" href="@FirmaWebConfiguration.PsInfoDataCenterUrl" class="navigation-dropdown-item">Data Center</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="menuDivider"></li>
-                                    <li>
-                                        <a class="siteLink" href="@ViewDataTyped.FirmaHomeUrl" title="Action Agenda">Action Agenda</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        }
-                        else if (ViewDataTyped.TenantName == "NCRPProjectTracker")
-                        {
-                            <div style="display: flex; align-items: center; flex-wrap: wrap">
-                                <a href="@FirmaWebConfiguration.NCRPHomeUrl">
-                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
-                                </a>
-                                <div class="menuDivider"></div>
-                                <a href="@ViewDataTyped.FirmaHomeUrl">
-                                    <img class="headerLogo" src="~/Content/img/NCRPProjectTracker/Project-Tracker-Logo.png" alt="@ViewDataTyped.TenantToolDisplayName" />
-                                </a>
-                            </div>
-                        }
-                        else if (ViewDataTyped.TenantName == "SSMPProjectTracker")
-                        {
-                            <div style="display: flex; align-items: center; flex-wrap: wrap">
-                                <a href="@FirmaWebConfiguration.SSMPHomeUrl">
-                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
-                                </a>
-                                <div class="menuDivider"></div>
-                                <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
-                                    <span class="headerLogoContainer"></span><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
-                                </a>
-                            </div>
-                        }
-                        else if (ViewDataTyped.TenantName == "TCSProjectTracker")
-                        {
-                            <div style="display: flex; align-items: center; flex-wrap: wrap">
-                                <a href="@FirmaWebConfiguration.TCSHomeUrl">
-                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
-                                </a>
-                                <div class="menuDivider"></div>
-                                <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
-                                    <span class="headerLogoContainer"></span><span id="headerTenantShortDisplayName">@(ViewDataTyped.TenantShortDisplayName.Replace("TCS", string.Empty).Trim())</span>
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <a href="@ViewDataTyped.FirmaHomeUrl">
-                                <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" /><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
-                            </a>
-                        }
-                    </div>
-                    <div class="col-sm-12 col-md-5">
+        <div>
+            <div class="header">
+                <div class="optionalContainer">
+                    <div class="row">
+                        <nav aria-label="Utility" class="headerText col-sm-12 col-md-7">
+                            <a href="#mainContent" class="skip-to-main-link">Skip to main content</a>
 
-                        @if (ViewDataTyped.ShowEnvironmentLabel)
-                        {
-                            <div class="header-button dropdown">
-                                <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
-                                </button>
-                                @if (ViewDataTyped.ShowEnvironmentDropdown)
-                                {
-                                    <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
-                                        <li><a href="@ViewDataTyped.LocalUrl">Go to LOCAL</a></li>
-                                        <li><a href="@ViewDataTyped.QaUrl">Go to QA</a></li>
-                                        <li><a href="@ViewDataTyped.ProdUrl">Go to PROD</a></li>
+                            @if (ViewDataTyped.TenantName == "ActionAgendaForPugetSound")
+                            {
+                                <nav class="navbar projectFirmaNavbar actionAgendaCustomSiteExplorer">
+                                    <ul class="nav navbar-nav navbar-left">
+                                        <li>
+                                            <a class="siteLink" href="@FirmaWebConfiguration.PsInfoUrl">Puget Sound Info</a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="true"><span class="glyphicon glyphicon-menu-down"></span></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li class=""><a title="About Puget Sound Info" href="@string.Format("{0}About", FirmaWebConfiguration.PsInfoUrl)" class="navigation-dropdown-item">About Puget Sound Info</a></li>
+                                                <li class="divider"></li>
+                                                <li class=""><a title="Action Agenda" href="@FirmaWebConfiguration.ActionAgendaUrl" class="navigation-dropdown-item">Action Agenda Online</a></li>
+                                                <li class=""><a title="NEP Atlas" href="@FirmaWebConfiguration.NEPAtlasUrl" class="navigation-dropdown-item">NEP Atlas</a></li>
+                                                <li class=""><a title="Ongoing Programs" href="@FirmaWebConfiguration.OngoingProgramsUrl" class="navigation-dropdown-item">Ongoing Programs</a></li>
+                                                <li class=""><a title="PSAR Dashboard" href="@FirmaWebConfiguration.PSARDashboardUrl" class="navigation-dropdown-item">PSAR Dashboard</a></li>
+                                                <li class=""><a title="Vital Signs" href="@FirmaWebConfiguration.VitalSignsUrl" class="navigation-dropdown-item">Vital Signs</a></li>
+                                                <li class=""><a title="Spatial Hub" href="@FirmaWebConfiguration.SpatialHubUrl" class="navigation-dropdown-item">Spatial Hub</a></li>
+                                                <li class="divider"></li>
+                                                <li class=""><a title="Data Center" href="@FirmaWebConfiguration.PsInfoDataCenterUrl" class="navigation-dropdown-item">Data Center</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menuDivider"></li>
+                                        <li>
+                                            <a class="siteLink" href="@ViewDataTyped.FirmaHomeUrl" title="Action Agenda">Action Agenda</a>
+                                        </li>
                                     </ul>
-                                }
-                            </div>
-                        }
+                                </nav>
+                            }
+                            else if (ViewDataTyped.TenantName == "NCRPProjectTracker")
+                            {
+                                <div style="display: flex; align-items: center; flex-wrap: wrap">
+                                    <a href="@FirmaWebConfiguration.NCRPHomeUrl">
+                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName"/>
+                                    </a>
+                                    <div class="menuDivider"></div>
+                                    <a href="@ViewDataTyped.FirmaHomeUrl">
+                                        <img class="headerLogo" src="~/Content/img/NCRPProjectTracker/Project-Tracker-Logo.png" alt="@ViewDataTyped.TenantToolDisplayName"/>
+                                    </a>
+                                </div>
+                            }
+                            else if (ViewDataTyped.TenantName == "SSMPProjectTracker")
+                            {
+                                <div style="display: flex; align-items: center; flex-wrap: wrap">
+                                    <a href="@FirmaWebConfiguration.SSMPHomeUrl">
+                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName"/>
+                                    </a>
+                                    <div class="menuDivider"></div>
+                                    <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
+                                        <span class="headerLogoContainer"></span><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
+                                    </a>
+                                </div>
+                            }
+                            else if (ViewDataTyped.TenantName == "TCSProjectTracker")
+                            {
+                                <div style="display: flex; align-items: center; flex-wrap: wrap">
+                                    <a href="@FirmaWebConfiguration.TCSHomeUrl">
+                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName"/>
+                                    </a>
+                                    <div class="menuDivider"></div>
+                                    <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
+                                        <span class="headerLogoContainer"></span><span id="headerTenantShortDisplayName">@(ViewDataTyped.TenantShortDisplayName.Replace("TCS", string.Empty).Trim())</span>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <a href="@ViewDataTyped.FirmaHomeUrl">
+                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName"/><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
+                                </a>
+                            }
+                        </nav>
+                        <div class="col-sm-12 col-md-5">
 
-                        @if (ViewDataTyped.ShowTenantDropdown)
-                        {
-                            <div class="header-button dropdown">
-                                <button class=" btn btn-sm dropdown-toggle" type="button" title="Switch Tenant" id="tenantDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="glyphicon glyphicon-th"></span>
+                            @if (ViewDataTyped.ShowEnvironmentLabel)
+                            {
+                                <div class="header-button dropdown">
+                                    <button class="btn btn-sm btn-warning dropdown-toggle" type="button" id="envDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Environment: <strong>@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString().ToUpper()</strong>
+                                    </button>
+                                    @if (ViewDataTyped.ShowEnvironmentDropdown)
+                                    {
+                                        <ul class="dropdown-menu" aria-labelledby="envDropdownMenu">
+                                            <li><a href="@ViewDataTyped.LocalUrl">Go to LOCAL</a></li>
+                                            <li><a href="@ViewDataTyped.QaUrl">Go to QA</a></li>
+                                            <li><a href="@ViewDataTyped.ProdUrl">Go to PROD</a></li>
+                                        </ul>
+                                    }
+                                </div>
+                            }
+
+                            @if (ViewDataTyped.ShowTenantDropdown)
+                            {
+                                <div class="header-button dropdown">
+                                    <button class=" btn btn-sm dropdown-toggle" type="button" title="Switch Tenant" id="tenantDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="glyphicon glyphicon-th"></span>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tenantDropdownMenu">
+                                        @foreach (var tenant in ViewDataTyped.TenantSimples)
+                                        {
+                                            if (tenant.TenantID == Tenant.SSMPProjectTracker.TenantID)
+                                            {
+                                                // Add "SSMP" to Tenant Name so it does not look so generic
+                                                <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)" /></span>SSMP @tenant.TenantName</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)" /></span> @tenant.TenantName</a></li>
+                                            }
+                                        }
+                                        @if (FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Qa)
+                                        {
+                                            // 11/4/21 TK -- Seems a little hacky but works for now. Just adding Reclamation(an externally hosted tenant) into the tenant switcher dropdown.
+                                            <li><a href="https://bor.qa.projectfirma.com"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="~/Content/img/Reclamation_logo_icon.png" /></span> Reclamation</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+
+                            @if (ViewDataTyped.TenantName == "SSMPProjectTracker")
+                            {
+                                <div id="google_translate_element" class="header-button" role="region" aria-label="Google Translate"></div>
+
+                                <script type="text/javascript">
+                                    function googleTranslateElementInit() {
+                                        new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+                                    }
+                                </script>
+                                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                                <style>
+                                    div#google_translate_element .goog-te-gadget-simple img {
+                                        height: 19px;
+                                        margin: 0 2px 0 2px;
+                                    }
+                                </style>
+                            }
+
+                            <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
+                                <label for="@SearchResults.ProjectSearchInputTextboxID" class="sr-only">Search</label>
+                                <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
+                                       name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 1)"
+                                       placeholder="@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Name or Description"
+                                       style="margin-right: -5px; max-width: 300px; margin-left: auto;" />
+                                <button id="searchButton" type="button" class="btn btn-default">
+                                    <span class="sr-only">Search</span>
+                                    <span class="glyphicon glyphicon-search"></span>
                                 </button>
-
-                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tenantDropdownMenu">
-                                    @foreach (var tenant in ViewDataTyped.TenantSimples)
-                                    {
-                                        if (tenant.TenantID == Tenant.SSMPProjectTracker.TenantID)
-                                        {
-                                            // Add "SSMP" to Tenant Name so it does not look so generic
-                                            <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)" /></span>SSMP @tenant.TenantName</a></li>
-                                        }
-                                        else
-                                        {
-                                            <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="@tenant.GetTenantSquareLogoUrlForEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType)" /></span> @tenant.TenantName</a></li>
-                                        }
-                                    }
-                                    @if (FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Qa)
-                                    {
-                                        // 11/4/21 TK -- Seems a little hacky but works for now. Just adding Reclamation(an externally hosted tenant) into the tenant switcher dropdown.
-                                        <li><a href="https://bor.qa.projectfirma.com"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"><img style="max-height: 20px; width: auto; max-width: 30px" src="~/Content/img/Reclamation_logo_icon.png" /></span> Reclamation</a></li>
-                                    }
-                                </ul>
-                            </div>
-                        }
-
-                        @if (ViewDataTyped.TenantName == "SSMPProjectTracker")
-                        {
-                            <div id="google_translate_element" class="header-button"></div>
-
-                            <script type="text/javascript">
-                                function googleTranslateElementInit() {
-                                    new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-                                }
-                            </script>
-                            <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-                            <style>
-                                div#google_translate_element .goog-te-gadget-simple img {
-                                    height: 19px;
-                                    margin: 0 2px 0 2px;
-                                }
-                            </style>
-                        }
-
-                        <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
-                            <label for="@SearchResults.ProjectSearchInputTextboxID" class="sr-only">Search</label>
-                            <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
-                                   name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 1)"
-                                   placeholder="@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Name or Description"
-                                   style="margin-right: -5px; max-width: 300px; margin-left: auto;" />
-                            <button id="searchButton" type="button" class="btn btn-default">
-                                <span class="sr-only">Search</span>
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-        </div>
 
         <script type="text/javascript">
             // <![CDATA[
@@ -311,8 +313,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </script>
 
         <div id="mainnavandcontent">
-
-            <nav class="navbar projectFirmaNavbar">
+            <div class="navbar projectFirmaNavbar">
                 <div class="optionalContainer">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
@@ -325,81 +326,122 @@ Source code is available upon request via <support@sitkatech.com>.
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="firma-collapse-navbar">
-                        <ul class="nav navbar-nav navbar-left">
-                            @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
-                            {
-                                @topLevelMenu.RenderMenu()
-                            }
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            @if (Request.IsAuthenticated)
-                            {
-                                <li class="dropdown">
-                                    <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span class="navigation-root-item-text-wrapper">
-                                                    Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()
-                                        </span>
-                                        <span class="glyphicon glyphicon-menu-down"></span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                        <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                        <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">
-                                            My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
-                                        </a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
-                                    </ul>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="dropdown joined-buttons">
-                                    <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left"><span class="navigation-root-item-text-wrapper">Log In</span></a>
-                                    <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right">
-                                        <span class="glyphicon glyphicon-menu-down"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                        <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
-                                        <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
-                                    </ul>
-                                </li>
-                                
-                            }
-                            @ViewDataTyped.HelpMenu.RenderMenu()
-                        </ul>
+                        <nav aria-label="Site">
+                            <ul role="menu" aria-label="Site Nav" class="nav navbar-nav navbar-left">
+                                @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
+                                {
+                                    @topLevelMenu.RenderMenu()
+                                }
+                            </ul>
+
+                            <ul role="menu" aria-label="Login" class="nav navbar-nav navbar-right">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <li role="menuitem" class="dropdown">
+                                        <button class="dropdown-toggle nav-button" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
+                                            <span class="glyphicon glyphicon-menu-down"></span>
+                                        </button>
+                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                            <li class="divider"></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li role="menuitem" class="dropdown joined-buttons">
+                                        <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left nav-button"><span class="navigation-root-item-text-wrapper">Log In</span></a>
+                                        <button type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right nav-button" aria-labelledby="dropdownMenuUser">
+                                            <span class="glyphicon glyphicon-menu-down"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li role="menuitem"><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                        </ul>
+                                    </li>
+
+                                }
+                                @ViewDataTyped.HelpMenu.RenderMenu()
+                            </ul>
+                        </nav>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
-            </nav>
-            
+            </div>
+
             @RenderSection("BeforeBodyContainer", false)
-
-            @RenderBody()
+            <main id="mainContent" tabindex="-1">
+                @RenderBody()
+            </main>
         </div>
     </div>
 
-<footer id="footer">
-    <div class="container">
-        <div class="text-center">
-            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomFooterViewData.ViewPageContentViewData); }
+    <footer id="footer">
+        <div class="container">
+            <div class="text-center">
+                @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomFooterViewData.ViewPageContentViewData); }
+            </div>
         </div>
-    </div>
-    <div class="container">
-        <p class="text-center">
-            <a href="https://esassoc.com/services/technology/esa-software-platforms/">ProjectFirma</a> is a service provided by Environmental Science Associates (ESA), which builds on the Tahoe Regional Planning Agency's <a href="https://eip.laketahoeinfo.org">EIP Project Tracker</a>.
-            This program is free software; you can redistribute it and/or modify it under the terms of the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License</a> as published by the <a href="https://www.fsf.org/">Free Software Foundation</a>.
-            Source code is available on <a href="https://github.com/sitkatech/projectfirma">GitHub</a>.
-        </p>
-        <p class="text-center">
-           @*Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://esassoc.com">ESA</a> | Version @FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | Compiled @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id*@
-           Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://esassoc.com">ESA</a> | Code last updated (compiled) at @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss"). @ViewDataTyped.CustomFooterViewData.OptionalSQLDatabaseBackupFromProductionDateString
-        </p>
+        <div class="container">
+            <p class="text-center">
+                <a href="https://esassoc.com/services/technology/esa-software-platforms/">ProjectFirma</a> is a service provided by Environmental Science Associates (ESA), which builds on the Tahoe Regional Planning Agency's <a href="https://eip.laketahoeinfo.org">EIP Project Tracker</a>.
+                This program is free software; you can redistribute it and/or modify it under the terms of the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License</a> as published by the <a href="https://www.fsf.org/">Free Software Foundation</a>.
+                Source code is available on <a href="https://github.com/sitkatech/projectfirma">GitHub</a>.
+            </p>
+            <p class="text-center">
+                @*Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://esassoc.com">ESA</a> | Version @FirmaWebConfiguration.WebApplicationVersionInfo.Value.ApplicationVersion | Compiled @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss") | PID @Process.GetCurrentProcess().Id*@
+                Copyright (C) @ViewDataTyped.CustomFooterViewData.CopyrightCalendarYear <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://esassoc.com">ESA</a> | Code last updated (compiled) at @FirmaWebConfiguration.WebApplicationVersionInfo.Value.DateCompiled.ToString("yyyy-MM-dd HH:mm:ss"). @ViewDataTyped.CustomFooterViewData.OptionalSQLDatabaseBackupFromProductionDateString
+            </p>
 
-    </div>
-</footer>
+        </div>
+    </footer>
 
     @{ Html.RenderRazorSitkaPartial<FirmaLateLoadingIncludes>(); }
 
 </body>
 </html>
+
+
+
+<style>
+    .skip-to-main-link {
+        position: absolute;
+        left: -999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        z-index: 1000;
+        background: #fff;
+        color: #007bff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: underline;
+    }
+
+    .skip-to-main-link:focus {
+        left: 16px;
+        top: 16px;
+        width: auto;
+        height: auto;
+        outline: 2px solid #007bff;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    a {
+        text-decoration: underline;
+    }
+    .current-page > a,
+    .current-page > a:visited {
+        font-weight: bold;
+        color: #02374e !important;
+        background-color: #fff;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+</style>
+
 

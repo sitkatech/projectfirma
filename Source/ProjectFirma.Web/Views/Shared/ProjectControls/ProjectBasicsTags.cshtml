@@ -37,7 +37,7 @@ Source code is available upon request via <support@sitkatech.com>.
         projectTags.tags({
             values: @Html.Raw(JArray.FromObject(ViewDataTyped.TagHelper.Tags)),
             templates: {
-                pill: "<div class='btn btn-sm btn-tag' style='margin: 0 5px 5px 0; display:inline-block; position: relative' data-tag-id='{1}'>{0}</div>",
+                pill: "<div class='btn btn-sm btn-tag' aria-label='Tag Helper' style='margin: 0 5px 5px 0; display:inline-block; position: relative' data-tag-id='{1}'>{0}</div>",
                 delete_icon: "<span class='glyphicon glyphicon-remove'></span>",
                 input_pill: "<div class='btn btn-sm btn-tag' style='display: block; max-width: 200px;'></div>",
                 ok_icon: "<span class='glyphicon glyphicon-plus'></span>",

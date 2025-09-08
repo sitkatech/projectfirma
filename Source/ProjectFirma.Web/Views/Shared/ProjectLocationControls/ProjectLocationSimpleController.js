@@ -164,6 +164,7 @@
                             icon: "marker",
                             color: $scope.selectedStyle.color,
                             size: "m"
+                            alt: "Selected Point"
                         })
                     });
                

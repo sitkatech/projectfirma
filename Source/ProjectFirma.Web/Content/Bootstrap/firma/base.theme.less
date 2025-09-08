@@ -286,6 +286,16 @@ form {
     }
 }
 
+.nav-button {
+    color: #333;
+    font-family: "Source Sans Pro", sans-serif;
+    background-color: transparent;
+    border: none;
+    text-transform: capitalize;
+    padding: 1rem;
+    text-decoration: none;
+}
+
 .navbar-nav {
     .joined-buttons {
         a {
@@ -521,8 +531,9 @@ footer {
 }
 
 a.btn-firma {
-  color: @firma-buttonText-color;
-  background-color: @firma-buttonBackground-color;
+    color: @firma-buttonText-color;
+    background-color: @firma-buttonBackground-color;
+    text-decoration: none;
 }
 
 // tagging / tags
@@ -957,6 +968,12 @@ a.gridButton:hover {
 a.excelbutton {
     background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;    
     padding: 0 0 0 15px;
+}
+
+button.excelbutton {
+    background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
+    padding: 0 0 0 15px;
+    border: none;
 }
 
 .onlyOnPrint {
@@ -1404,6 +1421,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 #homepageCarousel .carousel-control {
     z-index: 10;
+    border: none;
 }
 
 #homepageCarousel .carousel-inner .item {

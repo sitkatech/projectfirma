@@ -2,7 +2,7 @@
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/sourcesanspro/v21/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7g.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/sourcesanspro/v22/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7g.ttf) format('truetype');
 }
 html,
 body {
@@ -453,7 +453,7 @@ a.gridButton:hover {
   color: #fff;
 }
 .helpicon {
-  font-size: 12px;
+  font-size: 18px;
   cursor: pointer;
   margin-right: 2px;
   color: #6c91a4;
