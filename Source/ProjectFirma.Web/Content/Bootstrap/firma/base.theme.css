@@ -237,6 +237,14 @@ form .form-group-condensed {
   color: #777;
   font-family: "Open Sans", sans-serif;
 }
+.nav-button {
+  color: #333;
+  font-family: "Source Sans Pro", sans-serif;
+  background-color: transparent;
+  border: none;
+  text-transform: capitalize;
+  padding: 1rem;
+}
 .navbar-nav .joined-buttons a {
   display: inline-block;
 }
@@ -422,6 +430,7 @@ footer p {
 a.btn-firma {
   color: #fff;
   background-color: #337ab7;
+  text-decoration: none;
 }
 .btn-tag {
   color: black;
@@ -1181,6 +1190,7 @@ td.stage {
 }
 #homepageCarousel .carousel-control {
   z-index: 10;
+  border: none;
 }
 #homepageCarousel .carousel-inner .item {
   background-size: cover;

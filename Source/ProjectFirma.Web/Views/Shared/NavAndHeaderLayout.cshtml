@@ -59,11 +59,13 @@
 </head>
 <body class="environment-@FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType.ToString()">
     <div class="expandToFillScreen">
-        <div role="region">
+        <div>
             <div class="header">
                 <div class="optionalContainer">
                     <div class="row">
-                        <div class="headerText col-sm-12 col-md-7">
+                        <nav aria-label="Utility" class="headerText col-sm-12 col-md-7">
+                            <a href="#mainContent" class="skip-to-main-link">Skip to main content</a>
+
                             @if (ViewDataTyped.TenantName == "ActionAgendaForPugetSound")
                             {
                                 <nav class="navbar projectFirmaNavbar actionAgendaCustomSiteExplorer">
@@ -97,11 +99,11 @@
                             {
                                 <div style="display: flex; align-items: center; flex-wrap: wrap">
                                     <a href="@FirmaWebConfiguration.NCRPHomeUrl">
-                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
+                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName"/>
                                     </a>
                                     <div class="menuDivider"></div>
                                     <a href="@ViewDataTyped.FirmaHomeUrl">
-                                        <img class="headerLogo" src="~/Content/img/NCRPProjectTracker/Project-Tracker-Logo.png" alt="@ViewDataTyped.TenantToolDisplayName" />
+                                        <img class="headerLogo" src="~/Content/img/NCRPProjectTracker/Project-Tracker-Logo.png" alt="@ViewDataTyped.TenantToolDisplayName"/>
                                     </a>
                                 </div>
                             }
@@ -109,7 +111,7 @@
                             {
                                 <div style="display: flex; align-items: center; flex-wrap: wrap">
                                     <a href="@FirmaWebConfiguration.SSMPHomeUrl">
-                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
+                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName"/>
                                     </a>
                                     <div class="menuDivider"></div>
                                     <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
@@ -121,7 +123,7 @@
                             {
                                 <div style="display: flex; align-items: center; flex-wrap: wrap">
                                     <a href="@FirmaWebConfiguration.TCSHomeUrl">
-                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
+                                        <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName"/>
                                     </a>
                                     <div class="menuDivider"></div>
                                     <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
@@ -132,10 +134,10 @@
                             else
                             {
                                 <a href="@ViewDataTyped.FirmaHomeUrl">
-                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" /><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
+                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName"/><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
                                 </a>
                             }
-                        </div>
+                        </nav>
                         <div class="col-sm-12 col-md-5">
 
                             @if (ViewDataTyped.ShowEnvironmentLabel)
@@ -186,7 +188,7 @@
 
                             @if (ViewDataTyped.TenantName == "SSMPProjectTracker")
                             {
-                                <div id="google_translate_element" class="header-button"></div>
+                                <div id="google_translate_element" class="header-button" role="region" aria-label="Google Translate"></div>
 
                                 <script type="text/javascript">
                                     function googleTranslateElementInit() {
@@ -325,42 +327,40 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="firma-collapse-navbar">
                         <nav aria-label="Site">
-                            <a href="#main" class="skip-to-main-link">Skip to main content</a>
-                            <ul role="list" class="nav navbar-nav navbar-left">
+                            <ul role="menu" aria-label="Site Nav" class="nav navbar-nav navbar-left">
                                 @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
                                 {
                                     @topLevelMenu.RenderMenu()
                                 }
                             </ul>
-                        </nav>
-                        <nav aria-label="Utility">
-                            <ul role="list" class="nav navbar-nav navbar-right">
+
+                            <ul role="menu" aria-label="Login" class="nav navbar-nav navbar-right">
                                 @if (Request.IsAuthenticated)
                                 {
-                                    <li class="dropdown">
-                                        <button class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <li role="menuitem" class="dropdown">
+                                        <button class="dropdown-toggle nav-button" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                         </button>
-                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                            <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
                                             <li class="divider"></li>
-                                            <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
                                         </ul>
                                     </li>
                                 }
                                 else
                                 {
-                                    <li class="dropdown joined-buttons">
-                                        <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left"><span class="navigation-root-item-text-wrapper">Log In</span></a>
-                                        <a type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right" aria-labelledby="dropdownMenuUser">
+                                    <li role="menuitem" class="dropdown joined-buttons">
+                                        <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left nav-button"><span class="navigation-root-item-text-wrapper">Log In</span></a>
+                                        <button type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right nav-button" aria-labelledby="dropdownMenuUser">
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
-                                        </a>
-                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
-                                            <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                        </button>
+                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li role="menuitem"><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                            <li role="menuitem"><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
                                         </ul>
                                     </li>
 
@@ -373,7 +373,7 @@
             </div>
 
             @RenderSection("BeforeBodyContainer", false)
-            <main id="main" tabindex="-1">
+            <main id="mainContent" tabindex="-1">
                 @RenderBody()
             </main>
         </div>
