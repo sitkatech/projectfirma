@@ -211,6 +211,7 @@ namespace ProjectFirma.Web.Common
             {
                 case DisplayStyle.AsGridHeader:
                     var divTag = new TagBuilder("div");
+                    divTag.Attributes.Add("aria-label", string.Format("{0}", labelText));
                     divTag.Attributes.Add("style", "display:table; vertical-align: top");
                     labelTag.Attributes.Add("style", "display:table-cell");
                     divTag.InnerHtml = string.Format("{0}{1}", helpIconImgTag, labelTag.ToString(TagRenderMode.Normal));
