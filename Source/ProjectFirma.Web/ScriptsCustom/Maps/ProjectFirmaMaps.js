@@ -97,6 +97,11 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
 
     // Initialize the map
     firmaMap.map = L.map(firmaMap.MapDivId, options);
+    // Hide map from accessibility tree
+    var mapDiv = document.getElementById(firmaMap.MapDivId);
+    if (mapDiv) {
+        mapDiv.setAttribute('aria-hidden', 'true');
+    }
 
     // Add layers and map controls
 
