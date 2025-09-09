@@ -97,10 +97,14 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
 
     // Initialize the map
     firmaMap.map = L.map(firmaMap.MapDivId, options);
-    // Hide map from accessibility tree
+    // Hide map from accessibility tree and prevent keyboard access
     var mapDiv = document.getElementById(firmaMap.MapDivId);
     if (mapDiv) {
         mapDiv.setAttribute('aria-hidden', 'true');
+        mapDiv.setAttribute('tabindex', '-1');
+        mapDiv.addEventListener('keydown', function(e) { e.stopPropagation(); e.preventDefault(); }, true);
+        mapDiv.addEventListener('keypress', function(e) { e.stopPropagation(); e.preventDefault(); }, true);
+        mapDiv.addEventListener('keyup', function(e) { e.stopPropagation(); e.preventDefault(); }, true);
     }
 
     // Add layers and map controls
