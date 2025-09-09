@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Web.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
@@ -38,6 +39,7 @@ namespace ProjectFirma.Web.Views.Results
         public string ProjectLocationsUrl { get; }
         public string FilteredProjectsWithLocationAreasUrl { get; }
         public bool HasProjectsWithoutSimpleLocations { get; }
+        public string ProjectGridUrl { get; }
 
         public ProjectMapViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
@@ -46,7 +48,7 @@ namespace ProjectFirma.Web.Views.Results
                 projectLocationFilterTypesAndValues, string projectLocationsUrl,
             string filteredProjectsWithLocationAreasUrl, List<ProjectColorByType> projectColorByTypes,
             ProjectFirmaModels.Models.FieldDefinition fieldDefinitionForInitialColorByType,
-            bool hasProjectsWithoutSimpleLocation) : base(currentFirmaSession, firmaPage)
+            bool hasProjectsWithoutSimpleLocation, string projectGridUrl) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
@@ -57,6 +59,7 @@ namespace ProjectFirma.Web.Views.Results
             ProjectColorByTypes = projectColorByTypes;
             FieldDefinitionForInitialColorByType = fieldDefinitionForInitialColorByType;
             HasProjectsWithoutSimpleLocations = hasProjectsWithoutSimpleLocation;
+            ProjectGridUrl = projectGridUrl;
         }
 
         public List<ProjectColorByType> ProjectColorByTypes { get; }
