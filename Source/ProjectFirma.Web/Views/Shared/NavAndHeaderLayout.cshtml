@@ -327,22 +327,22 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="firma-collapse-navbar">
                         <nav aria-label="Site">
-                            <ul role="list" aria-label="Site Nav" class="nav navbar-nav navbar-left">
+                            <ul id="siteNav" role="list" aria-label="Site Nav" class="nav navbar-nav navbar-left">
                                 @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
                                 {
-                                    @topLevelMenu.RenderMenu()
+                                    @topLevelMenu.RenderMenu("siteNav")
                                 }
                             </ul>
 
-                            <ul role="list" aria-label="Login" class="nav navbar-nav navbar-right">
+                            <ul role="list" id="Login" aria-label="Login" class="nav navbar-nav navbar-right">
                                 @if (Request.IsAuthenticated)
                                 {
-                                    <li class="dropdown">
+                                    <li class="dropdown"  aria-controls="Login">
                                         <button class="dropdown-toggle nav-button" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                         </button>
-                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <ul id="Profile" role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
                                             <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
                                             <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
                                             <li class="divider"></li>
@@ -352,13 +352,13 @@
                                 }
                                 else
                                 {
-                                    <li class="dropdown joined-buttons">
+                                    <li aria-controls="Login" class="dropdown joined-buttons">
                                         <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left nav-button"><span class="navigation-root-item-text-wrapper">Log In</span></a>
                                         <button type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right nav-button" aria-labelledby="dropdownMenuUser">
                                             <span class="glyphicon glyphicon-menu-down" aria-expanded="false"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
-                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <ul id="help" role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
                                             <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
                                             <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
                                         </ul>

@@ -118,12 +118,12 @@ namespace ProjectFirma.Web.Views
             get { return ChildMenus.Where(mi => mi.ShouldShow).ToList(); }
         }
 
-        public HtmlString RenderMenu()
+        public HtmlString RenderMenu(string id="")
         {
-            return new HtmlString(RenderMenu(Indent));
+            return new HtmlString(RenderMenu(Indent, id));
         }
 
-        public string RenderMenu(string indent)
+        public string RenderMenu(string indent, string id)
         {
             if (RawString != null)
             {
@@ -135,7 +135,7 @@ namespace ProjectFirma.Web.Views
             }
             if (ChildenMenuItemsSecurityFiltered.Any())
             {
-                return RenderMenuWithChildren(indent);
+                return RenderMenuWithChildren(indent, id);
             }
 
             var extraCssClassesDictionary = ExtraTopLevelMenuCssClasses.Any() ? new Dictionary<string, string> {{"class", string.Join(" ", ExtraTopLevelMenuCssClasses)}} : null;
@@ -157,17 +157,17 @@ namespace ProjectFirma.Web.Views
             return string.Format("{0}<li{2}>{1}</li>", indent, anchorTagString, liClass);
         }
 
-        private string RenderMenuWithChildren(string indent)
+        private string RenderMenuWithChildren(string indent, string id)
         {
             var childMenuItems = new List<string>();
             var childIndent = string.Format("{0}{1}", Indent, indent);
-            childMenuItems.Add(string.Format("{0}<ul class=\"dropdown-menu\" role=\"list\" aria-expanded=\"false\">", childIndent));
+            childMenuItems.Add(string.Format("{0}<ul class=\"dropdown-menu\" role=\"list\" aria-expanded=\"false\" aria-controls=\"{1}\">", childIndent, id));
 
             var menuGroups = ChildenMenuItemsAndDividersSecurityFiltered.GroupBy(x => x.MenuGroupName).ToList();
             var currentIndent = string.Format("{0}{1}", Indent, childIndent);
             foreach (var menuGroup in menuGroups)
             {
-                childMenuItems.AddRange(menuGroup.Select(childMenuItem => childMenuItem.RenderMenu(currentIndent)).ToList());
+                childMenuItems.AddRange(menuGroup.Select(childMenuItem => childMenuItem.RenderMenu(currentIndent, id)).ToList());
                 if (menuGroups.Count > 1 && menuGroup != menuGroups.Last())
                 {
                     childMenuItems.Add(CreateDivider(currentIndent));
