@@ -118,7 +118,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div style="font-weight: bold; margin-top: 10px" id="ClusterLocationsContainer">
         <input aria-label="Cluster Locations" style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
     </div>
-    <div id="@ViewDataTyped.MapDivID" aria-label="Project Locations Map" inert></div>
+    <div id="@ViewDataTyped.MapDivID" aria-label="Project Locations Map" aria-hidden="true" tabindex="-1"></div>
     @if (!ViewDataTyped.LegendAboveMap)
     {
         <div class="mapLegendContainer">
