@@ -327,40 +327,40 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="firma-collapse-navbar">
                         <nav aria-label="Site">
-                            <ul role="menu" aria-label="Site Nav" class="nav navbar-nav navbar-left">
+                            <ul role="list" aria-label="Site Nav" class="nav navbar-nav navbar-left">
                                 @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
                                 {
                                     @topLevelMenu.RenderMenu()
                                 }
                             </ul>
 
-                            <ul role="menu" aria-label="Login" class="nav navbar-nav navbar-right">
+                            <ul role="list" aria-label="Login" class="nav navbar-nav navbar-right">
                                 @if (Request.IsAuthenticated)
                                 {
-                                    <li role="menuitem" class="dropdown">
+                                    <li class="dropdown">
                                         <button class="dropdown-toggle nav-button" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                         </button>
                                         <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                            <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
+                                            <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
                                             <li class="divider"></li>
-                                            <li role="menuitem"><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                            <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
                                         </ul>
                                     </li>
                                 }
                                 else
                                 {
-                                    <li role="menuitem" class="dropdown joined-buttons">
+                                    <li class="dropdown joined-buttons">
                                         <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left nav-button"><span class="navigation-root-item-text-wrapper">Log In</span></a>
                                         <button type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right nav-button" aria-labelledby="dropdownMenuUser">
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
-                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li role="menuitem"><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
-                                            <li role="menuitem"><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                        <ul role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                            <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                            <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
                                         </ul>
                                     </li>
 
