@@ -137,14 +137,25 @@ namespace ProjectFirma.Web.Views
             {
                 return RenderMenuWithChildren(indent, id);
             }
-
-            var extraCssClassesDictionary = ExtraTopLevelMenuCssClasses.Any() ? new Dictionary<string, string> {{"class", string.Join(" ", ExtraTopLevelMenuCssClasses)}} : null;
-            string anchorTagString = UrlTemplate.MakeHrefString(UrlString, MenuItemName, extraCssClassesDictionary)?.ToHtmlString();
-
             // Visual indicator for current page
             string currentPath = HttpContext.Current?.Request?.Url?.PathAndQuery ?? string.Empty;
             bool isCurrent = string.Equals(currentPath, UrlString, StringComparison.OrdinalIgnoreCase);
-            string liClass = isCurrent ? " class=\"current-page\" aria-current=\"page\" " : string.Empty;
+            string liClass = isCurrent ? " class=\"current-page\" " : string.Empty;
+
+            var extraCssClassesDictionary = ExtraTopLevelMenuCssClasses.Any() ? new Dictionary<string, string> {{"class", string.Join(" ", ExtraTopLevelMenuCssClasses)}} : null;
+            string anchorTagString = "";
+
+            if (isCurrent)
+            {
+                anchorTagString = UrlTemplate
+                    .MakeHrefStringWithCurrentPage(UrlString, MenuItemName, null, extraCssClassesDictionary)?.ToHtmlString();
+            }
+            else
+            {
+                anchorTagString = UrlTemplate.MakeHrefString(UrlString, MenuItemName, extraCssClassesDictionary)?.ToHtmlString();
+            }
+
+
 
             if (IsTopLevelMenuItem)
             {
