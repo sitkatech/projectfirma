@@ -161,7 +161,7 @@ namespace ProjectFirma.Web.Views
         {
             var childMenuItems = new List<string>();
             var childIndent = string.Format("{0}{1}", Indent, indent);
-            childMenuItems.Add(string.Format("{0}<ul class=\"dropdown-menu\" role=\"list\">", childIndent));
+            childMenuItems.Add(string.Format("{0}<ul class=\"dropdown-menu\" role=\"list\" aria-expanded=\"false\">", childIndent));
 
             var menuGroups = ChildenMenuItemsAndDividersSecurityFiltered.GroupBy(x => x.MenuGroupName).ToList();
             var currentIndent = string.Format("{0}{1}", Indent, childIndent);
