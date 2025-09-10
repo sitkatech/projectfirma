@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.Ajax.Utilities;
+using System.Data.Entity;
 
 namespace ProjectFirma.Web.Models
 {
@@ -210,6 +211,27 @@ namespace ProjectFirma.Web.Models
                 Check.RequireNotNullThrowNotFound(person, email);
             }
             return person;
+        }
+
+        public static Person GetPersonByAuth0Id(this IQueryable<Person> people, string auth0Id)
+        {
+            return people.SingleOrDefault(x => x.Auth0ID == auth0Id);
+        }
+
+        public static Person GetPersonByAuth0Id(this IQueryable<Person> people, string auth0Id, bool requireRecordFound)
+        {
+            var person = people.SingleOrDefault(x => x.Auth0ID == auth0Id);
+            if (requireRecordFound)
+            {
+                Check.RequireNotNullThrowNotFound(person, auth0Id);
+            }
+            return person;
+        }
+
+        public static Person GetPersonByEmailAndRCDProjectTrackerTenant(this IQueryable<Person> people, string email, int targetTenantId)
+        {
+            return people
+                .SingleOrDefault(x => x.Email == email && x.TenantID == targetTenantId);
         }
 
         public static Person GetPersonByPersonGuid(this IQueryable<Person> people, Guid personGuid)

@@ -92,11 +92,10 @@ namespace ProjectFirma.Web.Auth
                 return local;
             }
         }
-
         public static T GetOpenIDUserFromPrincipal<T>(
             IPrincipal principal,
             T anonymousSitkaUser,
-            Func<Guid, T> getUserByGuid)
+            Func<string, T> getUserByAuth0Id)
             where T : IAuth0User
         {
             try
@@ -109,7 +108,7 @@ namespace ProjectFirma.Web.Auth
                         return anonymousSitkaUser;
                 }
                 IAuth0UserClaims openIdClaims = Auth0ClaimsHelpers.ParseOpenIDClaims(principal.Identity);
-                T userFromPrincipal = getUserByGuid(openIdClaims.UserGuid);
+                T userFromPrincipal = getUserByAuth0Id(openIdClaims.Subject);
                 if ((object)userFromPrincipal == null)
                     return anonymousSitkaUser;
                 userFromPrincipal.SetAuth0UserClaims(openIdClaims);

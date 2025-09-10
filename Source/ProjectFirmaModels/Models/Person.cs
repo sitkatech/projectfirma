@@ -102,5 +102,48 @@ namespace ProjectFirmaModels.Models
 
             
         }
+
+        /// <summary>
+        /// JH - 9/8/2025 - Keeping legacy constructor prior to the Auth0 update to keep the Keystone code happy.
+        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
+        /// </summary>
+        public Person(Guid personGuid, string firstName, string lastName, string email, int roleID, DateTime createDate, bool isActive, int organizationID, bool receiveSupportEmails, string loginName) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+
+            this.PersonGuid = personGuid;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.RoleID = roleID;
+            this.CreateDate = createDate;
+            this.IsActive = isActive;
+            this.OrganizationID = organizationID;
+            this.ReceiveSupportEmails = receiveSupportEmails;
+            this.LoginName = loginName;
+        }
+
+        /// <summary>
+        /// JH - 9/8/2025 - Keeping legacy constructor prior to the Auth0 update to keep the Keystone code happy.
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public Person(Guid personGuid, string firstName, string lastName, string email, Role role, DateTime createDate, bool isActive, Organization organization, bool receiveSupportEmails, string loginName) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PersonGuid = personGuid;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.RoleID = role.RoleID;
+            this.CreateDate = createDate;
+            this.IsActive = isActive;
+            this.OrganizationID = organization.OrganizationID;
+            this.Organization = organization;
+            organization.People.Add(this);
+            this.ReceiveSupportEmails = receiveSupportEmails;
+            this.LoginName = loginName;
+        }
     }
 }

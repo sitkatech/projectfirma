@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Keystone.Common.OpenID;
 using LtInfo.Common;
 using LtInfo.Common.Email;
@@ -169,14 +170,31 @@ namespace ProjectFirma.Web.Auth
             var sendNewUserNotification = false;
             //var sendNewOrganizationNotification = false;
             //var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(auth0UserClaims.UserGuid);
-            var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmail(auth0UserClaims.Email, false);
+            var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByAuth0Id(auth0UserClaims.Subject, false);
 
             // It can be useful to have the EXACT same time when looking for/at records later.
             var currentDateTime = DateTime.Now;
 
             if (person == null)
             {
-                person = handleNewUser(auth0UserClaims, currentDateTime, out sendNewUserNotification);
+                var personWithSameEmail = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmailAndRCDProjectTrackerTenant(auth0UserClaims.Email, Tenant.RCDProjectTracker.TenantID);
+                if (personWithSameEmail != null)
+                {
+                    if (personWithSameEmail.Auth0ID == null)
+                    {
+                        person = personWithSameEmail;
+                        person.Auth0ID = auth0UserClaims.Subject;
+                    }
+                    else
+                    {
+                        throw new Exception(
+                            "Cannot create user. A user with the same email address is already in the system.");
+                    }
+                }
+                else
+                {
+                    person = handleNewUser(auth0UserClaims, currentDateTime, out sendNewUserNotification);
+                }
             }
             else
             {
@@ -187,7 +205,7 @@ namespace ProjectFirma.Web.Auth
             person.FirstName = auth0UserClaims.FirstName;
             person.LastName = auth0UserClaims.LastName;
             person.Email = auth0UserClaims.Email;
-            person.LoginName = auth0UserClaims.LoginName;
+            person.LoginName = auth0UserClaims.Email;
 
             FirmaOwinStartup.MakeFirmaSessionForPersonLoggingIn(person, currentDateTime);
 
@@ -261,7 +279,6 @@ namespace ProjectFirma.Web.Auth
                 "In SyncLocalAccountStore - creating local profile for User '{0}'", auth0UserClaims.UserGuid);
             var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
             person = new Person(
-                auth0UserClaims.UserGuid,
                 auth0UserClaims.FirstName,
                 auth0UserClaims.LastName,
                 auth0UserClaims.Email,
@@ -271,6 +288,7 @@ namespace ProjectFirma.Web.Auth
                 unknownOrganization.OrganizationID,
                 false,
                 auth0UserClaims.LoginName);
+            person.Auth0ID = auth0UserClaims.Subject;
             person.TenantID = HttpRequestStorage.Tenant.TenantID;
             HttpRequestStorage.DatabaseEntities.AllPeople.Add(person);
             sendNewUserNotification = true;

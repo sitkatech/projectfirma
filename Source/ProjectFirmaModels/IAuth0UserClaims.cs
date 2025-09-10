@@ -3,6 +3,8 @@ namespace ProjectFirmaModels
 {
     public interface IAuth0UserClaims
     {
+        String Subject { get; set; }
+
         Guid UserGuid { get; }
 
         string DisplayName { get; }

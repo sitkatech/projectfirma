@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
                     case AuthenticationType.Auth0Auth:
                         personFromClaimsIdentity = Auth0ClaimsHelpers.GetOpenIDUserFromPrincipal(
                             authenticationManager.User, anonymousSitkaUser,
-                            HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
+                            HttpRequestStorage.DatabaseEntities.People.GetPersonByAuth0Id);
                         break;
                     case AuthenticationType.LocalAuth:
                         personFromClaimsIdentity = GetPersonFromLocalClaims(authenticationManager);
