@@ -335,12 +335,15 @@ namespace ProjectFirma.Web.Controllers
             projectsWithNoSimpleLocation.AddRange(ProjectMapCustomization.GetProjectsWithPrivateLocations());
             var hasProjectsWithoutSimpleLocation = projectsWithNoSimpleLocation.Any();
 
+            var projectGridUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlFromExpression(x => x.Index());
+
             var viewData = new ProjectMapViewData(CurrentFirmaSession,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
-                projectLocationsUrl, filteredProjectsWithLocationAreasUrl, projectColorByTypes, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), hasProjectsWithoutSimpleLocation);
+                projectLocationsUrl, filteredProjectsWithLocationAreasUrl, projectColorByTypes, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), hasProjectsWithoutSimpleLocation,
+                projectGridUrl);
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
