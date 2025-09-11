@@ -256,7 +256,7 @@ namespace ProjectFirma.Web.Common
             {
                 // this cancels the sort even on the dhtmlxgrid
                 helpIconImgTag.Attributes.Add("onclick", "(arguments[0]||window.event).cancelBubble=true;");
-                helpIconImgTag.Attributes.Add("style", "display:table-cell; padding-right:2px");
+                helpIconImgTag.Attributes.Add("style", "display:table-cell; padding-right:2px;background-color:transparent;border:none;");
             }
             else
             {
