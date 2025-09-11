@@ -194,7 +194,7 @@ namespace ProjectFirma.Web.Views
             }
 
             return string.Format(@"{0}<li {1}>
-{0}<button href=""#"" class=""{2} nav-button"" data-toggle=""dropdown"" role=""button"" aria-expanded=""false"" aria-label=""{3}""><span class=""navigation-root-item-text-wrapper"">{3}</span> <span class=""glyphicon glyphicon-menu-down""></span></button>
+{0}<button href=""#"" class=""{2} nav-button"" data-toggle=""dropdown"" role=""button"" aria-expanded=""false"" aria-label=""{3}""><span class=""navigation-root-item-text-wrapper"">{3}</span> </button>
 {4}
 {0}</li>", indent, "class=\"dropdown\"", childMenuItemCssClasses, MenuItemName, string.Format("{0}\r\n{1}", string.Join("\r\n", childMenuItems), indent));
         }
