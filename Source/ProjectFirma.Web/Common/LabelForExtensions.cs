@@ -244,7 +244,7 @@ namespace ProjectFirma.Web.Common
 
         public static string GenerateHelpIconImgTag(string labelText, HtmlString fieldDefinitionDefinition, string urlToContent, int popupWidth, DisplayStyle displayStyle)
         {
-            var helpIconImgTag = new TagBuilder("span");
+            var helpIconImgTag = new TagBuilder("button");
             helpIconImgTag.Attributes.Add("class", "helpicon glyphicon glyphicon-question-sign");
             helpIconImgTag.Attributes.Add("title", string.Format("Click to get help on {0}", labelText));
             helpIconImgTag.Attributes.Add("tabindex", "0");
@@ -257,6 +257,10 @@ namespace ProjectFirma.Web.Common
                 // this cancels the sort even on the dhtmlxgrid
                 helpIconImgTag.Attributes.Add("onclick", "(arguments[0]||window.event).cancelBubble=true;");
                 helpIconImgTag.Attributes.Add("style", "display:table-cell; padding-right:2px");
+            }
+            else
+            {
+                helpIconImgTag.Attributes.Add("style", "background-color:transparent;border:none;");
             }
             return helpIconImgTag.ToString(TagRenderMode.Normal);
         }
