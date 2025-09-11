@@ -28,16 +28,16 @@
 @if (ViewDataTyped.FundingSourceExpenditures.Any())
 {
     <div class="table-responsive tableFixHeader" style="max-height: 450px;">
-        <table class="table table-condensed table-bordered">
+        <table class="table table-condensed table-bordered" role="presentation">
             <tr>
-                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderBy(x => x.CalendarYear))
                 {
-                    <th class="text-right">
+                    <th class="text-right" scope="col">
                         @calendarYear.CalendarYearDisplay
                     </th>
                 }
-                <th class="text-right">Total</th>
+                <th class="text-right" scope="col">Total</th>
             </tr>
             @foreach (var fundingSourceExpenditure in ViewDataTyped.FundingSourceExpenditures.OrderBy(x => x.FundingSourceName))
             {
@@ -51,12 +51,12 @@
             </tr>
             }
             <tr>
-                <th style="text-align:left">Grand Total</th>
+                <td style="text-align:left">Grand Total</td>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderBy(x => x.CalendarYear))
                 {
-                    <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToStringCurrency()</th>
+                    <td class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToStringCurrency()</td>
                 }
-                <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</th>
+                <td class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</td>
             </tr>
         </table>
     </div>
@@ -68,9 +68,9 @@ else
 }
 
 <hr />
-<table class="summaryLayout">
+<table class="summaryLayout" role="presentation">
     <tr>
-        <th>Note:</th>
+        <th scope="col">Note:</th>
         @if (ViewDataTyped.ExpendituresNote == null)
         {
             <td style="font-style: italic">None provided</td>

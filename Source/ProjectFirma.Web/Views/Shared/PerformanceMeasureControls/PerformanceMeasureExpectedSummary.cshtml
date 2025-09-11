@@ -26,11 +26,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @if (ViewDataTyped.PerformanceMeasureExpecteds.Any())
 {
-    <table class="summaryLayout table table-borderless">
+    <table class="summaryLayout table table-borderless" role="presentation">
         <tr>
-            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure.ToType())</th>
-            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType())</th>
-            <th style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ExpectedValue.ToType())</th>
+            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure.ToType())</th>
+            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType())</th>
+            <th scope="col" style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ExpectedValue.ToType())</th>
         </tr>
         @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds)
         {
