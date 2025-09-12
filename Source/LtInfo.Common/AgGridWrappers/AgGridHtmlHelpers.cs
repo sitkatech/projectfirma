@@ -81,7 +81,7 @@ namespace LtInfo.Common.AgGridWrappers
         <div class=""col-md-5""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
         <div class=""col-md-7 text-right gridDownloadContainer"">{9}<span>{10}</span><button class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</button>{8}</div>
     </div>
-    <div id=""{0}DivID"" role=""grid"" class=""ag-theme-alpine"" style=""{6}"" tabIndex=""0""></div>
+    <div id=""{0}DivID"" aria-label=""{0}"" role=""grid"" class=""ag-theme-alpine"" style=""{6}"" tabIndex=""0""></div>
     <script type=""text/javascript"">
 
             function setAriaRowCount_{0}() {{
