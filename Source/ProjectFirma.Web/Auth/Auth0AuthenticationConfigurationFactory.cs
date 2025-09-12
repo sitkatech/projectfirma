@@ -177,7 +177,8 @@ namespace ProjectFirma.Web.Auth
 
             if (person == null)
             {
-                var personWithSameEmail = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmailAndRCDProjectTrackerTenant(auth0UserClaims.Email, Tenant.RCDProjectTracker.TenantID);
+                var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
+                var personWithSameEmail = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmailAndTenant(auth0UserClaims.Email, firmaPageByPageTypeHomePage.TenantID);
                 if (personWithSameEmail != null)
                 {
                     if (personWithSameEmail.Auth0ID == null)

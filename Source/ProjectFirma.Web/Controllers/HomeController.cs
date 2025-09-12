@@ -32,6 +32,8 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -50,6 +52,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
+
+            UpdateAuth0Configuration();
 
             var firmaPageByPageTypeHomePageAdditionalInfo = FirmaPageTypeEnum.HomeAdditionalInfo.GetFirmaPage();
 
@@ -82,6 +86,34 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new IndexViewData(CurrentFirmaSession, firmaPageByPageTypeHomePage, firmaPageByPageTypeHomePageAdditionalInfo, firmaPageByPageTypeHomePageMapInfo, featuredProjectsViewData, projectLocationsMapViewData, projectLocationsMapInitJson, firmaHomePageImages);
             return RazorView<Index, IndexViewData>(viewData);
+        }
+
+        private void UpdateAuth0Configuration()
+        {
+            string absoluteUri = Request.Url.AbsoluteUri;
+            var redirectUri = absoluteUri + "Account/LogOn";
+            var postLogoutRedirectUri = absoluteUri + "Account/LogOff"; ;
+            UpdateAppSetting("auth0:RedirectUri", redirectUri);
+            UpdateAppSetting("auth0:PostLogoutRedirectUri", postLogoutRedirectUri);
+        }
+
+        private void UpdateAppSetting(string key, string value)
+        {
+            Configuration config = WebConfigurationManager.OpenWebConfiguration("~");
+            if (config.AppSettings.Settings[key] != null)
+            {
+                config.AppSettings.Settings[key].Value = value;
+            }
+            else
+            {
+                config.AppSettings.Settings.Add(key, value);
+            }
+
+            // Save the changes
+            config.Save(ConfigurationSaveMode.Modified);
+
+            // Refresh the AppSettings section
+            ConfigurationManager.RefreshSection("appSettings");
         }
 
         [AnonymousUnclassifiedFeature]

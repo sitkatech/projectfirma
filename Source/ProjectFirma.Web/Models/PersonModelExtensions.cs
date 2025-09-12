@@ -228,7 +228,7 @@ namespace ProjectFirma.Web.Models
             return person;
         }
 
-        public static Person GetPersonByEmailAndRCDProjectTrackerTenant(this IQueryable<Person> people, string email, int targetTenantId)
+        public static Person GetPersonByEmailAndTenant(this IQueryable<Person> people, string email, int targetTenantId)
         {
             return people
                 .SingleOrDefault(x => x.Email == email && x.TenantID == targetTenantId);
