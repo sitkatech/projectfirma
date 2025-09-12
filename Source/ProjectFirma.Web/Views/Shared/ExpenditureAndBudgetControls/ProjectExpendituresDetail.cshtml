@@ -28,7 +28,7 @@
 @if (ViewDataTyped.FundingSourceExpenditures.Any())
 {
     <div class="table-responsive tableFixHeader" style="max-height: 450px;">
-        <table class="table table-condensed table-bordered" role="presentation">
+        <table class="table table-condensed table-bordered" role="presentation" tabindex="0">
             <tr>
                 <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderBy(x => x.CalendarYear))

@@ -30,7 +30,7 @@
     @if (ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Any())
     {
         <div class="table-responsive tableFixHeader">
-            <table class="table table-condensed table-bordered" role="presentation">
+            <table class="table table-condensed table-bordered" role="presentation" tabindex="0">
                 <tr>
                     <th scope="col" style="width: 390px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
                     <th scope="col" class="text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>

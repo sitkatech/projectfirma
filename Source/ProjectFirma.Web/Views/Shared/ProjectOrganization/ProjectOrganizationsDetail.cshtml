@@ -28,10 +28,10 @@
    
 @if (ViewDataTyped.AllProjectOrganizations.Any() || !string.IsNullOrWhiteSpace(ViewDataTyped.OtherPartners))
 {
-    <table class="summaryLayout table table-condensed table-striped" role="presentation">
+    <table class="summaryLayout table table-condensed table-striped" role="presentation" tabindex="0">
         <tr>
-            <th class="col-sm-3" scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>
-            <th class="col-sm-9" scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>
+            <th class="col-sm-3" scope="col" aria-description="Project Organization Relationship Type">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>
+            <th class="col-sm-9" scope="col" aria-description="Organization">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>
         </tr>
         @if (ViewDataTyped.AllProjectOrganizations.Any())
         {
@@ -62,7 +62,7 @@
 
                     </tr>
                 }
-                
+
             }
         }
         @if (!string.IsNullOrWhiteSpace(ViewDataTyped.OtherPartners))
