@@ -37,7 +37,7 @@
         var subcategoryCount = performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Count;
         var pmUnits = performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.LegendDisplayName : string.Empty;
         var colspanForPerformanceMeasureDisplayName = showTotalColumn ? subcategoryCount + ViewDataTyped.CalendarYearsForPerformanceMeasures.Count + 2 : subcategoryCount + ViewDataTyped.CalendarYearsForPerformanceMeasures.Count + 1;
-        <table class="summaryLayout performanceMeasureTable table table-responsive table-striped" style="margin-bottom: 20px; @ViewDataTyped.HideByDefaultStyle();" role="presentation" tabindex="0">
+        <table class="summaryLayout performanceMeasureTable table table-responsive table-striped" style="margin-bottom: 20px; @ViewDataTyped.HideByDefaultStyle();">
             <tr style="">
                 <th scope="col" colspan="@(colspanForPerformanceMeasureDisplayName)">
                     @performanceMeasureCalendarYearReportedValue.PerformanceMeasureDisplayNameAsUrl
@@ -46,7 +46,7 @@
             @if (!performanceMeasureCalendarYearReportedValue.HasRealSubcategories)
             {
             <tr>
-                <th scope="col"></th>
+                <td></td>
                 @if (showTotalColumn)
                 {
                     <th scope="col" style="@fixedWidthStyleForYearTotalAndUnits text-align: right; vertical-align: bottom">Total</th>
@@ -62,7 +62,7 @@
                 foreach (var subcategoriesReportedValue in performanceMeasureCalendarYearReportedValue.SubcategoriesReportedValues)
                 {
                 <tr>
-                    <th scope="row"></th>
+                    <td></td>
                     @if (showTotalColumn)
                     {
                         <td style="@fixedWidthStyleForYearTotalAndUnits text-align: right">@((performanceMeasureCalendarYearReportedValue.MeasurementUnitType == MeasurementUnitType.Dollars ? MeasurementUnitType.Dollars.LegendDisplayName : string.Empty) + subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value).ToGroupedNumeric())</td>
