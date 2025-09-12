@@ -28,9 +28,9 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <table class="summaryLayout table table-borderless" role="presentation" tabindex="0">
         <tr>
-            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure.ToType())</th>
-            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType())</th>
-            <th scope="col" style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ExpectedValue.ToType())</th>
+            <th scope="col" aria-label="Activities & Outcomes">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure.ToType())</th>
+            <th scope="col" aria-label="Subcategory">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType())</th>
+            <th scope="col" aria-label="Planned Value" style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ExpectedValue.ToType())</th>
         </tr>
         @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds)
         {

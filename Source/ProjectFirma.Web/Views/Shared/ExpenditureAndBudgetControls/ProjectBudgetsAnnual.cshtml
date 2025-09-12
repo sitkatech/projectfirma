@@ -32,9 +32,9 @@
         <div class="table-responsive tableFixHeader">
             <table class="table table-condensed table-bordered" role="presentation" tabindex="0">
                 <tr>
-                    <th scope="col" style="width: 390px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
-                    <th scope="col" class="text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
-                    <th scope="col" class="text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th scope="col" style="width: 390px;" aria-label="Funding Source">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                    <th scope="col" class="text-right" aria-label="Secured Funding">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th scope="col" class="text-right" aria-label="Targeted Funding">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
                     <th scope="col" class="text-right">Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
                 </tr>
                 @foreach (var projectFundingSourceBudget in ViewDataTyped.ProjectFundingSourceBudgetsAnnual.OrderBy(x => x.FundingSource.GetDisplayName()))
