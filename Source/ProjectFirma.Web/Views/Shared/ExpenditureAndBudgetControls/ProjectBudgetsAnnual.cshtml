@@ -41,16 +41,16 @@
                 {
                     <tr>
                         <td>@Html.Raw(projectFundingSourceBudget.FundingSource.GetDisplayNameAsUrl())</td>
-                        <td class="text-right">@projectFundingSourceBudget.SecuredAmount.ToStringCurrency()</td>
-                        <td class="text-right">@projectFundingSourceBudget.TargetedAmount.ToStringCurrency()</td>
-                        <td class="text-right">@(((projectFundingSourceBudget.TargetedAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</td>
+                        <td class="text-right" style="font-weight: bold;">@projectFundingSourceBudget.SecuredAmount.ToStringCurrency()</td>
+                        <td class="text-right" style="font-weight: bold;">@projectFundingSourceBudget.TargetedAmount.ToStringCurrency()</td>
+                        <td class="text-right" style="font-weight: bold;">@(((projectFundingSourceBudget.TargetedAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</td>
                     </tr>
                 }
                 <tr>
-                    <td>Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</td>
-                    <td class="text-right">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount).ToStringCurrency()</td>
-                    <td class="text-right">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount).ToStringCurrency()</td>
-                    <td class="text-right">@((ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount) + ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount)).ToStringCurrency())</td>
+                    <td style="font-weight: bold;">Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</td>
+                    <td class="text-right" style="font-weight: bold;">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount).ToStringCurrency()</td>
+                    <td class="text-right" style="font-weight: bold;">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount).ToStringCurrency()</td>
+                    <td class="text-right" style="font-weight: bold;">@((ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount) + ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount)).ToStringCurrency())</td>
                 </tr>
             </table>
         </div>

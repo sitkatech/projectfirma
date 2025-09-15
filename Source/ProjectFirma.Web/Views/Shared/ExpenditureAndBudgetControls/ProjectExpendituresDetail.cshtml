@@ -51,12 +51,12 @@
             </tr>
             }
             <tr>
-                <td style="text-align:left">Grand Total</td>
+                <td style="text-align: left; font-weight: bold;">Grand Total</td>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderBy(x => x.CalendarYear))
                 {
-                    <td class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToStringCurrency()</td>
+                    <td class="text-right" style="font-weight: bold;">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToStringCurrency()</td>
                 }
-                <td class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</td>
+                <td class="text-right" style="font-weight: bold;">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Sum(x => x.Value).ToStringCurrency()</td>
             </tr>
         </table>
     </div>
