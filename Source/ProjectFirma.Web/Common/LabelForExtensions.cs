@@ -250,7 +250,7 @@ namespace ProjectFirma.Web.Common
             helpIconImgTag.Attributes.Add("id", labelText.Replace(" ", ""));
             helpIconImgTag.Attributes.Add("tabindex", "0");
             helpIconImgTag.Attributes.Add("role", "button");
-            helpIconImgTag.Attributes.Add("aria-label", string.Format("Click to get help on {0}", labelText));
+            helpIconImgTag.Attributes.Add("aria-label", labelText);
             AddHelpToolTipPopupToHtmlTag(helpIconImgTag, labelText, urlToContent, popupWidth);
             if (displayStyle == DisplayStyle.AsGridHeader)
             {
