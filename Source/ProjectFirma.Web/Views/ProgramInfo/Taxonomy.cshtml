@@ -129,7 +129,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="clear: both">
             @foreach (var taxonomyTier in ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes)
             {
-                <table id="@(string.Format("projecttaxonomytree{0}", taxonomyTier.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @taxonomyTier.ThemeColor">
+                <table role="presentation" id="@(string.Format("projecttaxonomytree{0}", taxonomyTier.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @taxonomyTier.ThemeColor">
                     <colgroup>
                         <col />
                         <col style="width: 80px;" />
