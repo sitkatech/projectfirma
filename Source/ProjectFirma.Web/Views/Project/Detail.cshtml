@@ -86,6 +86,17 @@
    .panel-heading .helpicon.glyphicon-question-sign {
       color: #fff !important;
    }
+
+   /* Always show TOC submenus */
+   #tableOfContents ul,
+   #tableOfContents ol {
+      display: block !important;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+   }
 </style>
 @if (ViewDataTyped.Project.ExternalID != null)
 {
