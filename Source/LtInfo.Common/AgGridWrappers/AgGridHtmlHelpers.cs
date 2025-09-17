@@ -81,22 +81,8 @@ namespace LtInfo.Common.AgGridWrappers
         <div class=""col-md-5""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
         <div class=""col-md-7 text-right gridDownloadContainer"">{9}<span>{10}</span><button class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</button>{8}</div>
     </div>
-    <div id=""{0}DivID"" aria-label=""{0}"" role=""grid"" class=""ag-theme-alpine"" style=""{6}"" tabIndex=""0""></div>
+    <div id=""{0}DivID"" aria-label=""{0}"" class=""ag-theme-alpine"" style=""{6}"" tabIndex=""0""></div>
     <script type=""text/javascript"">
-
-            function setAriaRowCount_{0}() {{
-                var gridDiv = document.getElementById(""{0}DivID"");
-                if (gridDiv) {{
-                    gridDiv.setAttribute('aria-rowcount', {0}TotalRowCount + 1);
-                }}
-            }}
-            function setAriaColCount_{0}() {{
-                var gridDiv = document.getElementById(""{0}DivID"");
-                if (gridDiv && typeof {0}GridOptionsApi !== 'undefined' && {0}GridOptionsApi.getAllGridColumns) {{
-                    var colCount = {0}GridOptionsApi.getAllGridColumns().length;
-                    gridDiv.setAttribute('aria-colcount', colCount);
-                }}
-            }}
 
             function {0}ClearFilters(){{
                 {0}GridOptionsApi.setFilterModel(null);
@@ -185,8 +171,6 @@ namespace LtInfo.Common.AgGridWrappers
                 // load fetched data into grid
                 {0}GridOptionsApi.setGridOption('rowData', data);
                 {0}TotalRowCount = data.length;
-                setAriaRowCount_{0}();
-                setAriaColCount_{0}();
                 document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptionsApi.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
                 {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
                 var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
@@ -322,7 +306,7 @@ namespace LtInfo.Common.AgGridWrappers
                 columnDefinitionStringBuilder.Append(
                     "<span data-ref=\\\"eSortNone\\\" class=\\\"ag-header-icon ag-sort-none-icon\\\" ></span>");
                 columnDefinitionStringBuilder.Append(
-                    "<span data-ref=\\\"eText2\\\" class=\\\"ag-header-cell-text\\\" role=\\\"columnheader\\\">");
+                    "<span data-ref=\\\"eText2\\\" class=\\\"ag-header-cell-text\\\">");
                 // 7/31/2023 TK - Not sure if I like this, it works with the current setup of helpers but feels a bit hacky
                 //todo: come up with a better method to get field definition popups in header cells
                 columnDefinitionStringBuilder.AppendFormat("{0}</span>", columnSpec.ColumnName.ToJSON());
