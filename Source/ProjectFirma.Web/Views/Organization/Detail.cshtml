@@ -1147,3 +1147,20 @@
         $('#organizationDetailsTabs a[href="#@ViewDataTyped.ActiveTab.ToString()"]').tab('show');
     });
 </script>
+<script type="text/javascript">
+    jQuery(function () {
+        // Main organization boundary map
+        var $map = jQuery('#@ViewDataTyped.MapInitJson.MapDivID');
+        $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.on('focus', function() { this.blur(); });
+
+        // Area of Interest map (if present)
+        var $aoiMap = jQuery('#@ViewDataTyped.AreaOfInterestMapInitJson?.MapDivID');
+        if ($aoiMap.length) {
+            $aoiMap.attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $aoiMap.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $aoiMap.on('focus', function() { this.blur(); });
+        }
+    });
+</script>
