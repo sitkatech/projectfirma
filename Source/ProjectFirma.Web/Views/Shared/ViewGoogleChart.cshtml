@@ -112,8 +112,10 @@
     @if (ViewDataTyped.CanBeChartedCumulatively && ViewDataTyped.HasData)
     {
         <div class="cumulativeToggleSelector col-md-5" id="cumulativeToggleSelectorFor@(ViewDataTyped.ChartUniqueName)" style="margin-top: 5px; font-size: 12px; font-weight: 700;">
-            <strong>@(string.IsNullOrWhiteSpace(ViewDataTyped.CumulativeCheckboxLabel) ? "Cumulative" : ViewDataTyped.CumulativeCheckboxLabel): </strong>
-            <input id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" @*data-toggle="toggle" data-size="mini"*@ style="vertical-align: middle; margin-top: 0;"/>
+            <label for="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)">
+                <strong>@(string.IsNullOrWhiteSpace(ViewDataTyped.CumulativeCheckboxLabel) ? "Cumulative" : ViewDataTyped.CumulativeCheckboxLabel): </strong>
+            </label>
+            <input aria-label="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" title="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" @*data-toggle="toggle" data-size="mini"*@ style="vertical-align: middle; margin-top: 0;"/>
         </div>
     }
 </div>
@@ -162,7 +164,7 @@
                         </ul>
                     </div>
                 </div>
-                <div id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
+                <div role="img" title="@googleChartJson.ChartContainerID" id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
                     <!-- Actual chart goes here-->
                 </div>
                 @if (ViewDataTyped.LastUpdatedDate.HasValue)
