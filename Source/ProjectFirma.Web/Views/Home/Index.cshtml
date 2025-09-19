@@ -281,6 +281,11 @@
 
             jQuery('.leaflet-container').css('cursor', 'pointer');
 
+            // Prevent map focus trap
+            var $map = jQuery('#@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID');
+            $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $map.on('focus', function() { this.blur(); });
         })
     </script>
 </div>
