@@ -212,35 +212,35 @@
 
 <div class="container-fluid">
     <div class="row">
-        <ul class="nav nav-tabs" id="organizationDetailsTabs" style="border-bottom: none;">
-            <li class="active">
-                <a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
+        <ul class="nav nav-tabs" id="organizationDetailsTabs" style="border-bottom: none;" role="tablist">
+            <li class="active" role="tab">
+                <a href="#organizationOverview" aria-controls="organizationOverview" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
             
             @if (ViewDataTyped.ShouldShowBackgroundTab)
             {
-                <li>
-                    <a href="#background" aria-controls="background" role="tab" data-toggle="tab" id="backgroundTab">Background</a>
+                <li role="tab">
+                    <a href="#background" aria-controls="background" data-toggle="tab" id="backgroundTab">Background</a>
                 </li>
             }
             @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
             {
-                <li>
-                    <a href="#expenditures" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
+                <li role="tab">
+                    <a href="#expenditures" aria-controls="fundingAndProjects" data-toggle="tab" id="expendituresTab">Expenditures</a>
                 </li>
             }
 
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
-                <li>
-                    <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
+                <li role="tab">
+                    <a href="#accomplishments" aria-controls="results" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
                 </li>
             }
 
             @if (ViewDataTyped.ShowMatchmakerProfileTab)
             {
-                <li>
-                    <a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="profileTab">Matchmaker Profile</a>
+                <li role="tab">
+                    <a href="#Profile" aria-controls="Profile" data-toggle="tab" id="profileTab">Matchmaker Profile</a>
                 </li>
             }
         </ul>
