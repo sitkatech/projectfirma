@@ -140,24 +140,24 @@
                 <!-- Expand / Save / Configure controls, based on current ChartViewMode -->
                 <div class="firmaChartControls noPrint">
                     <div class="dropdown">
-                        <button id="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" class="btn btn-default btn-xs" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
+                        <button role="menu" id="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" class="btn btn-default btn-xs" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
                             Options
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labeledby="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" style="list-style: none; background: #fff;">
-                            <li>
+                        <ul role="menu" class="dropdown-menu dropdown-menu-right" aria-labeledby="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" style="list-style: none; background: #fff;">
+                            <li role="menuitem" tabindex="0">
                                 <a onclick="GoogleCharts.enlargeChart(@((googleChartJson.ChartContainerID + "_enlargeChartDataForm").ToJS()))" style="cursor: pointer">
                                     <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
                                 </a>
                             </li>
-                            <li>
+                            <li role="menuitem" tabindex="0">
                                 <a style="cursor: pointer" onclick="document.getElementById('@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm').submit();">
                                     <span class="glyphicon glyphicon-download" style="margin-right: 5px;"></span>Download Chart Data
                                 </a>
                             </li>
                             @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.SaveConfigurationUrl))
                             {
-                                <li>
+                                <li role="menuitem" tabindex="0">
                                     <a style="cursor: pointer" onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl', this)">
                                         <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
                                     </a>
@@ -165,7 +165,7 @@
                             }
                             @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.OptionalResetConfigurationUrl))
                             {
-                                <li>
+                                <li role="menuitem" tabindex="0">
                                     @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-refresh' style='margin-right: 5px'></span>Reset Chart", @googleChartJson.OptionalResetConfigurationUrl, "Reset Chart Configuration?", 600, "Reset", "Cancel", null, null, null)
                                 </li>
                             }
