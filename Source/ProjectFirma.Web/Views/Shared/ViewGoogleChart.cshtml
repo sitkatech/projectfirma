@@ -31,7 +31,6 @@
 
 <style>
 
-
     .toggle-on, .toggle-off {
         font-size: 12px;
     }
@@ -47,6 +46,15 @@
         pointer-events: none
     }
 
+    /* Make the cumulative toggle checkbox 24px by 24px */
+    .cumulativeToggleSelector input[type="checkbox"].cumulativeToggle {
+        width: 24px;
+        height: 24px;
+    }
+    /* Make the label for the cumulative toggle checkbox 24px font size */
+    .cumulativeToggleSelector label {
+        font-size: 20px;
+    }
 </style>
 
 @* Removing because bootstrap-toggle is broken if script is included more than once, and ViewGoogleChart can be added as a partial multiple times to a page. Consider adding to FirmaIncludes?  *@
