@@ -140,11 +140,11 @@
                 <!-- Expand / Save / Configure controls, based on current ChartViewMode -->
                 <div class="firmaChartControls noPrint">
                     <div class="dropdown">
-                        <button role="menu" id="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" class="btn btn-default btn-xs" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
+                        <button id="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" class="btn btn-default btn-xs" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">
                             Options
                             <span class="caret"></span>
                         </button>
-                        <ul role="menu" class="dropdown-menu dropdown-menu-right" aria-labeledby="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" style="list-style: none; background: #fff;">
+                        <ul role="menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" style="list-style: none; background: #fff;">
                             <li role="menuitem" tabindex="0">
                                 <a onclick="GoogleCharts.enlargeChart(@((googleChartJson.ChartContainerID + "_enlargeChartDataForm").ToJS()))" style="cursor: pointer">
                                     <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
