@@ -164,7 +164,7 @@
                         </ul>
                     </div>
                 </div>
-                <div role="img" title="@googleChartJson.ChartContainerID" id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
+                <div role="img" aria-label="@ViewDataTyped.ChartTitle" title="@googleChartJson.ChartContainerID" id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
                     <!-- Actual chart goes here-->
                 </div>
                 @if (ViewDataTyped.LastUpdatedDate.HasValue)
