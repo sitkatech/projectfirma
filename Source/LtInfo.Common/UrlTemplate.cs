@@ -625,6 +625,11 @@ namespace LtInfo.Common
             return new HtmlString(string.Format("<a title=\"{2}\" href=\"{0}\"{3}>{1}</a>", url, linkText, titleText, BuildAttributeString(attributeDict)));
         }
 
+        public static HtmlString MakeHrefStringWithCurrentPage(string url, string linkText, string titleText, Dictionary<string, string> attributeDict)
+        {
+            return new HtmlString(string.Format("<a aria-current=\"page\" title=\"{2}\" href=\"{0}\"{3}>{1}</a>", url, linkText, titleText, BuildAttributeString(attributeDict)));
+        }
+
         private static string BuildAttributeString(Dictionary<string, string> attributeDict)
         {
             if (attributeDict == null || !attributeDict.Any())

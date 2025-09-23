@@ -327,40 +327,40 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="firma-collapse-navbar">
                         <nav aria-label="Site">
-                            <ul role="menu" aria-label="Site Nav" class="nav navbar-nav navbar-left">
+                            <ul id="siteNav" role="list" aria-label="Site Nav" class="nav navbar-nav navbar-left">
                                 @foreach (var topLevelMenu in ViewDataTyped.TopLevelLtInfoMenuItems)
                                 {
-                                    @topLevelMenu.RenderMenu()
+                                    @topLevelMenu.RenderMenu("siteNav")
                                 }
                             </ul>
 
-                            <ul role="menu" aria-label="Login" class="nav navbar-nav navbar-right">
+                            <ul role="list" id="Login" aria-label="Login" class="nav navbar-nav navbar-right">
                                 @if (Request.IsAuthenticated)
                                 {
-                                    <li role="menuitem" class="dropdown">
-                                        <button class="dropdown-toggle nav-button" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <li class="dropdown"  aria-controls="Login">
+                                        <button class="dropdown-toggle nav-button" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-label="Welcome">
                                             <span class="navigation-root-item-text-wrapper">Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                             <span class="glyphicon glyphicon-menu-down"></span>
                                         </button>
-                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
-                                            <li role="menuitem"><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
+                                        <ul id="Profile" aria-label="Profile" role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser" aria-expanded="false">
+                                            <li><a href="@ViewDataTyped.CurrentPerson.GetDetailUrl()">My Account</a></li>
+                                            <li><a href="@ViewDataTyped.CurrentPerson.Organization.GetDetailUrl()">My @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</a></li>
                                             <li class="divider"></li>
-                                            <li role="menuitem"><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
+                                            <li><a href="@ViewDataTyped.LogOutUrl">Log Out</a></li>
                                         </ul>
                                     </li>
                                 }
                                 else
                                 {
-                                    <li role="menuitem" class="dropdown joined-buttons">
+                                    <li aria-controls="Login" class="dropdown joined-buttons">
                                         <a href="@ViewDataTyped.LogInUrl" title="Log In" class="join-button-left nav-button"><span class="navigation-root-item-text-wrapper">Log In</span></a>
-                                        <button type="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="join-button-right nav-button" aria-labelledby="dropdownMenuUser">
-                                            <span class="glyphicon glyphicon-menu-down"></span>
+                                        <button type="button" href="#" data-toggle="dropdown" aria-haspopup="true" class="join-button-right nav-button" aria-labelledby="dropdownMenuUser">
+                                            <span class="glyphicon glyphicon-menu-down" aria-label="accountOptions"></span>
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
-                                        <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                                            <li role="menuitem"><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
-                                            <li role="menuitem"><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
+                                        <ul id="help" role="list" class="dropdown-menu" aria-labelledby="dropdownMenuUser" aria-expanded="false">
+                                            <li><a href="@ViewDataTyped.ForgotPasswordUrl">Forgot Password</a></li>
+                                            <li><a href="@ViewDataTyped.RegisterAccountUrl">Request Account</a></li>
                                         </ul>
                                     </li>
 
@@ -441,6 +441,16 @@
         background-color: #fff;
         border-radius: 4px;
         text-decoration: none;
+    }
+
+    /* Ensure nav buttons show focus */
+    .navbar .nav-button:focus,
+    .navbar .dropdown-toggle:focus,
+    .navbar .btn:focus {
+        outline: 2px solid #007bff !important;
+        outline-offset: 2px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        z-index: 2;
     }
 </style>
 

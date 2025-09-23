@@ -60,7 +60,7 @@
 </style>
 
 <div id="@(ViewDataTyped.ViewGoogleChartViewData.ChartUniqueName)" class="panel">
-    <div class="panel-body">
+    <div class="panel-body" aria-label="@(ViewDataTyped.ViewGoogleChartViewData.ChartUniqueName)">
         @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
 
         @if (ViewDataTyped.ChartTotal != null && ViewDataTyped.PerformanceMeasure.IsSummable)

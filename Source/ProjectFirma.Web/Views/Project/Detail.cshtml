@@ -81,6 +81,22 @@
    .projectCustomAttributes {
       margin-bottom: 5px;
    }
+
+   /* Make help icon white in panel headings */
+   .panel-heading .helpicon.glyphicon-question-sign {
+      color: #fff !important;
+   }
+
+   /* Always show TOC submenus */
+   #tableOfContents ul,
+   #tableOfContents ol {
+      display: block !important;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+   }
 </style>
 @if (ViewDataTyped.Project.ExternalID != null)
 {
@@ -168,24 +184,24 @@
       }
    </div>
 </div>
-<div data-spy="scroll" data-target="#toc">
+<div data-spy="scroll" data-target="#toc" tabindex="0">
    <div id="contentForTOC" class="container-fluid">
        <div class="row">
            <a href="#panels" class="skip-to-main-link">Skip to main content</a>
            <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
                <div id="tableOfContentsAffixed" class="navpanel panelFirma">
                    <h2 id="nav-header" data-toc-skip style="margin-top: 0">Contents</h2>
-                   <nav id="tableOfContents" aria-label="Table of Contents" class="scrollSpy"></nav>
+                   <nav id="tableOfContents" aria-label="Project" class="scrollSpy"></nav>
                </div>
            </div>
            <div class="col-sm-12 col-md-9 col-lg-10">
-               <h2 class="sectionHeader" id="panels">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Overview</h2>
+               <h2 class="sectionHeader" id="panels" aria-label="Project Overview">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Overview</h2>
                <div class="row" role="region">
                    <div class="col-md-12 col-lg-7">
                        <div class="panel panelFirma" role="region" aria-label="Basics">
                            <div class="panel-heading panelTitle">
                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit Basics for {0}", ViewDataTyped.Project.GetDisplayName()), 950, ViewDataTyped.UserHasEditProjectPermissions)
-                               <h3 class="project-detail-heading">
+                               <h3 class="project-detail-heading" aria-label="Basics">
                                    Basics
                                </h3>
                            </div>
@@ -198,7 +214,7 @@
                            <div class="panel panelFirma">
                                <div class="panel-heading panelTitle" role="region" aria-label="Project Attributes">
                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectCustomAttributesUrl, string.Format("Edit {0} Attributes", @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, ViewDataTyped.UserHasEditProjectPermissions)
-                                   <h3 class="project-detail-heading">
+                                   <h3 class="project-detail-heading" aria-label="Project Attributes">
                                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
                                    </h3>
                                </div>
@@ -215,7 +231,7 @@
                                @if (ViewDataTyped.UserHasEditProjectPermissions)
                                {
                                    <a id="editLocationDropdownButton" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
-                                       <h3>
+                                       <h3 aria-label="Location">
                                            @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")
                                            Location
                                            <span class="caret"></span>
@@ -235,7 +251,7 @@
                                }
                                else
                                {
-                                   <h3>Location</h3>
+                                   <h3 aria-label="Location">Location</h3>
                                }
                            </div>
                            <div class="panel-body">
@@ -258,7 +274,7 @@
                <div class="panel panelFirma" role="region" aria-label="Organizations">
                    <div class="panel-heading panelTitle">
                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
-                       <h3 class="project-detail-heading">
+                       <h3 class="project-detail-heading" aria-label="Organizations">
 
                            @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
                        </h3>
@@ -271,7 +287,7 @@
                <div class="panel panelFirma" role="region" aria-label="Contacts">
                    <div class="panel-heading panelTitle">
                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
-                       <h3 class="project-detail-heading">
+                       <h3 class="project-detail-heading"  aria-label="Contacts">
                            Contacts
                        </h3>
                    </div>
@@ -285,7 +301,7 @@
                    <div class="panel panelFirma" role="region" aria-label="Expected Performance">
                        <div class="panel-heading panelTitle">
                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                           <h3 class="project-detail-heading">
+                           <h3 class="project-detail-heading" aria-label="Expected Performance">
                                Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
                            </h3>
                        </div>
@@ -296,7 +312,7 @@
                    <div class="panel panelFirma" role="region" aria-label="Reported Performance">
                        <div class="panel-heading panelTitle">
                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
-                           <h3 class="project-detail-heading">
+                           <h3 class="project-detail-heading" aria-label="Reported Performance">
                                Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
                            </h3>
                        </div>
@@ -370,7 +386,7 @@
                @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
                {
                    <h2 id="classificationSystem" data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
-                   <div class="panel panelFirma" role="region" aria-labelledby="classificationSystem">
+                   <div class="panel panelFirma" role="region" aria-label="@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)">
                        <div class="panel-heading panelTitle">
                            @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
                            <h2 class="project-detail-heading">
@@ -421,7 +437,7 @@
                    </div>
                }
 
-               <h2 class="sectionHeader">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</h2>
+               <h2 class="sectionHeader" aria-label="Project Details">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</h2>
 
                <div class="panel panelFirma" role="region" aria-label="Attachments">
                    <div class="panel-heading panelTitle">
@@ -453,7 +469,7 @@
                <div class="panel panelFirma" role="region" aria-label="External Links">
                    <div class="panel-heading panelTitle">
                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
-                       <h3 class="project-detail-heading">
+                       <h3 class="project-detail-heading" aria-label="External Links">
                            @Html.LabelWithSugarFor(FieldDefinitionEnum.ExternalLinks.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabel()
                        </h3>
                    </div>
@@ -546,7 +562,7 @@
 
                    <div class="panel panelFirma" role="region" aria-label="Project Update History">
                        <div class="panel-heading panelTitle">
-                           <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
+                           <h3 aria-label="Project Update History">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
                        </div>
                        <div class="panel-body">
                            @Html.AgGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())

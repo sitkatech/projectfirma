@@ -131,7 +131,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="mapCustomizations" style="display: inline-block; vertical-align: middle; margin-top: 10px">
         <span style="font-weight: bold">Filter @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by:</span>
-        <select id="FilterPropertyName" name="FilterPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
+        <select id="FilterPropertyName" name="FilterPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none" aria-label="Filter Property Name">
             @{
                 var displayGroup = -1;
                 foreach (var plft in ViewDataTyped.ProjectLocationFilterTypesAndValues.Keys.OrderBy(p => p.DisplayGroup * p.SortOrder))
@@ -155,7 +155,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
 
         <span style="font-weight: bold; margin-left: 10px;">Color @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by:</span>
-        <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
+        <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none" aria-label="Color Property Name">
             @foreach (var colorByType in ViewDataTyped.ProjectColorByTypes)
             {
                 <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@Html.LabelWithSugarFor(colorByType.GetDisplayNameFieldDefinition(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToString()">@colorByType.GetDisplayName()</option>
@@ -173,6 +173,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </a>
             </div>
         </header>
+        <a href="@ViewDataTyped.ProjectGridUrl">View all projects in a table</a>
         <div class="row" style="vertical-align: top;">
             <div class="col-md-12" id="mapPanel">
                 @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
@@ -336,6 +337,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 filterPropertyValueDropdown.attr("data-selected-text-format", "count>1");
                 filterPropertyValueDropdown.attr("data-count-selected-text", "{0} of {1} selected");
                 filterPropertyValueDropdown.attr("data-actions-box", "true");
+                filterPropertyValueDropdown.attr("aria-label", "Map Customization MultiSelect");
                 filterPropertyValueDropdown.addClass("mapCustomizationMultiSelect");
 
                 filterPropertyValueDropdown.selectpicker('hide');
@@ -420,6 +422,10 @@ Source code is available upon request via <support@sitkatech.com>.
                 projectFirmaMap.map.invalidateSize();
             });
 
-            
+            // Prevent map focus trap
+            var $map = jQuery('#@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID');
+            $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $map.on('focus', function() { this.blur(); });
         });
     </script>

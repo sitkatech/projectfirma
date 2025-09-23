@@ -30,8 +30,8 @@
 {
     <table class="summaryLayout table table-condensed table-striped">
         <tr>
-            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>
-            <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>
+            <th class="col-sm-3" scope="col" aria-label="Organization Role on Project">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>
+            <th class="col-sm-9" scope="col" aria-label="Organization">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>
         </tr>
         @if (ViewDataTyped.AllProjectOrganizations.Any())
         {
@@ -62,7 +62,7 @@
 
                     </tr>
                 }
-                
+
             }
         }
         @if (!string.IsNullOrWhiteSpace(ViewDataTyped.OtherPartners))

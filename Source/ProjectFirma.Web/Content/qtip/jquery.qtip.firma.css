@@ -33,5 +33,10 @@
 .ui-tooltip-help {
     background-color: #F5F5F5;
 	border-color: #84AFD3;
-    font-size: 11px;
+    font-size: 16px;
+}
+
+.qtip-icon .ui-icon {
+	width: 24px;
+	height: 24px;
 }

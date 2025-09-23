@@ -212,35 +212,33 @@
 
 <div class="container-fluid">
     <div class="row">
-        <ul class="nav nav-tabs" id="organizationDetailsTabs" style="border-bottom: none;">
-            <li class="active">
-                <a href="#organizationOverview" aria-controls="organizationOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
+        <ul class="nav nav-tabs" id="organizationDetailsTabs" style="border-bottom: none;" role="list">
+            <li class="active" role="listitem">
+                <a href="#organizationOverview" aria-controls="organizationOverview" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
             
             @if (ViewDataTyped.ShouldShowBackgroundTab)
             {
-                <li>
-                    <a href="#background" aria-controls="background" role="tab" data-toggle="tab" id="backgroundTab">Background</a>
+                <li role="listitem">
+                    <a href="#background" aria-controls="background" data-toggle="tab" id="backgroundTab">Background</a>
                 </li>
             }
             @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
             {
-                <li>
-                    <a href="#expenditures" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="expendituresTab">Expenditures</a>
+                <li role="listitem">
+                    <a href="#expenditures" aria-controls="fundingAndProjects" data-toggle="tab" id="expendituresTab">Expenditures</a>
                 </li>
             }
-
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
-                <li>
-                    <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
+                <li role="listitem">
+                    <a href="#accomplishments" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
                 </li>
             }
-
             @if (ViewDataTyped.ShowMatchmakerProfileTab)
             {
-                <li>
-                    <a href="#Profile" aria-controls="Profile" role="tab" data-toggle="tab" id="profileTab">Matchmaker Profile</a>
+                <li role="listitem">
+                    <a href="#Profile" aria-controls="Profile" data-toggle="tab" id="profileTab">Matchmaker Profile</a>
                 </li>
             }
         </ul>
@@ -385,8 +383,8 @@
                                     <div class="col-xs-12">
                                         @if (ViewDataTyped.HasSpatialData)
                                         {
-                                            <div style="font-weight: bold; margin-top: 10px">
-                                    <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
+                                            <div style="font-weight: bold; margin-top: 10px" id="ClusterLocationsContainer">
+                                                <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label for="ClusterLocations">Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
                                             </div>
                                             <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 600px; margin: 5px 0 5px 0">
                                             </div>
@@ -1145,5 +1143,22 @@
 <script>
     jQuery(function() {
         $('#organizationDetailsTabs a[href="#@ViewDataTyped.ActiveTab.ToString()"]').tab('show');
+    });
+</script>
+<script type="text/javascript">
+    jQuery(function () {
+        // Main organization boundary map
+        var $map = jQuery('#@ViewDataTyped.MapInitJson.MapDivID');
+        $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.on('focus', function() { this.blur(); });
+
+        // Area of Interest map (if present)
+        var $aoiMap = jQuery('#@ViewDataTyped.AreaOfInterestMapInitJson?.MapDivID');
+        if ($aoiMap.length) {
+            $aoiMap.attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $aoiMap.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $aoiMap.on('focus', function() { this.blur(); });
+        }
     });
 </script>
