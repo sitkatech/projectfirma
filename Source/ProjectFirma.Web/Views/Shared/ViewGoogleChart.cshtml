@@ -31,7 +31,6 @@
 
 <style>
 
-
     .toggle-on, .toggle-off {
         font-size: 12px;
     }
@@ -47,6 +46,15 @@
         pointer-events: none
     }
 
+    /* Make the cumulative toggle checkbox 24px by 24px */
+    .cumulativeToggleSelector input[type="checkbox"].cumulativeToggle {
+        width: 24px;
+        height: 24px;
+    }
+    /* Make the label for the cumulative toggle checkbox 24px font size */
+    .cumulativeToggleSelector label {
+        font-size: 20px;
+    }
 </style>
 
 @* Removing because bootstrap-toggle is broken if script is included more than once, and ViewGoogleChart can be added as a partial multiple times to a page. Consider adding to FirmaIncludes?  *@
@@ -112,8 +120,10 @@
     @if (ViewDataTyped.CanBeChartedCumulatively && ViewDataTyped.HasData)
     {
         <div class="cumulativeToggleSelector col-md-5" id="cumulativeToggleSelectorFor@(ViewDataTyped.ChartUniqueName)" style="margin-top: 5px; font-size: 12px; font-weight: 700;">
-            <strong>@(string.IsNullOrWhiteSpace(ViewDataTyped.CumulativeCheckboxLabel) ? "Cumulative" : ViewDataTyped.CumulativeCheckboxLabel): </strong>
-            <input id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" @*data-toggle="toggle" data-size="mini"*@ style="vertical-align: middle; margin-top: 0;"/>
+            <label for="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)">
+                <strong>@(string.IsNullOrWhiteSpace(ViewDataTyped.CumulativeCheckboxLabel) ? "Cumulative" : ViewDataTyped.CumulativeCheckboxLabel): </strong>
+            </label>
+            <input aria-label="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" title="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" @*data-toggle="toggle" data-size="mini"*@ style="vertical-align: middle; margin-top: 0;"/>
         </div>
     }
 </div>
@@ -134,20 +144,20 @@
                             Options
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-right" aria-labeledby="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" style="list-style: none; background: #fff;">
-                            <li>
+                        <ul role="menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="@(ViewDataTyped.ChartUniqueName)_optionsDropdown" style="list-style: none; background: #fff;">
+                            <li role="menuitem" tabindex="0">
                                 <a onclick="GoogleCharts.enlargeChart(@((googleChartJson.ChartContainerID + "_enlargeChartDataForm").ToJS()))" style="cursor: pointer">
                                     <span class="glyphicon glyphicon-fullscreen" style="margin-right: 5px"></span>Enlarge
                                 </a>
                             </li>
-                            <li>
+                            <li role="menuitem" tabindex="0">
                                 <a style="cursor: pointer" onclick="document.getElementById('@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm').submit();">
                                     <span class="glyphicon glyphicon-download" style="margin-right: 5px;"></span>Download Chart Data
                                 </a>
                             </li>
                             @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.SaveConfigurationUrl))
                             {
-                                <li>
+                                <li role="menuitem" tabindex="0">
                                     <a style="cursor: pointer" onclick="GoogleCharts.configureChart('@googleChartJson.ChartContainerID', '@googleChartJson.SaveConfigurationUrl', this)">
                                         <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>Configure
                                     </a>
@@ -155,14 +165,14 @@
                             }
                             @if (ViewDataTyped.CanConfigureChart && !string.IsNullOrWhiteSpace(googleChartJson.OptionalResetConfigurationUrl))
                             {
-                                <li>
+                                <li role="menuitem" tabindex="0">
                                     @ModalDialogFormHelper.ModalDialogFormLink("<span class='glyphicon glyphicon-refresh' style='margin-right: 5px'></span>Reset Chart", @googleChartJson.OptionalResetConfigurationUrl, "Reset Chart Configuration?", 600, "Reset", "Cancel", null, null, null)
                                 </li>
                             }
                         </ul>
                     </div>
                 </div>
-                <div id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
+                <div role="img" aria-label="@ViewDataTyped.ChartTitle" title="@googleChartJson.ChartContainerID" id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
                     <!-- Actual chart goes here-->
                 </div>
                 @if (ViewDataTyped.LastUpdatedDate.HasValue)
