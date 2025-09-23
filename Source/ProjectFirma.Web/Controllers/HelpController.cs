@@ -82,7 +82,6 @@ namespace ProjectFirma.Web.Controllers
 
         [AnonymousUnclassifiedFeature]
         [HttpPost]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult RequestSupport(RequestSupportViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -93,7 +92,19 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(supportRequestLog, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
             SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
-            SetMessageForDisplay("Message sent. Thank you for contacting us.");
+            SetMessageForDisplay("Support request sent.");
+            if (CurrentFirmaSession.IsAnonymousUser())
+            {
+                // This is a rare place in the system where an anonymous user writes to the DB.
+                // If this becomes more commonplace we can work out a more general solution.
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
+            }
+            else
+            {
+                // Logged in user, normal audit trail on save
+                SitkaDbContext.SaveChanges();
+            }
+
             var returnUrl = viewModel.ReturnUrl ?? SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
             return Redirect(returnUrl);
         }
@@ -157,7 +168,7 @@ namespace ProjectFirma.Web.Controllers
             var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentFirmaSession);
             viewModel.UpdateModel(supportRequestLog, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
-            SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
+            //SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
             SetMessageForDisplay("Support request sent.");
             if (CurrentFirmaSession.IsAnonymousUser())
             {
