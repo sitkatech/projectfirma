@@ -174,7 +174,7 @@ h4 {
 
     .nav li {
 
-        a {
+        a, button {
             font-family: @firma-menu-font;
             color: @firma-navText-color;
             text-transform: uppercase;
@@ -183,7 +183,7 @@ h4 {
 
 
 
-        a:hover, a:focus, a:active {
+        a:hover, a:focus, a:active, button:hover, button:focus, button:active {
             color: @firma-navText-color;
             background-color: @firma-navBackground-color;
         }
@@ -206,9 +206,18 @@ h4 {
                 }
             }
         }
+
+        .current-page > a,
+        .current-page > a:visited {
+            font-weight: bold;
+            color: @firma-navItemText-color-hover;
+            background-color: @firma-navItemBackground-color-hover;
+            border-radius: 4px;
+            text-decoration: none;
+        }
     }
 
-    a .navigation-root-item-text-wrapper {
+    a .navigation-root-item-text-wrapper, button .navigation-root-item-text-wrapper {
         border-bottom: 1px dotted @firma-navText-color;
     }
 }
