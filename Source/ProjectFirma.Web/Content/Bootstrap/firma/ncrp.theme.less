@@ -255,18 +255,19 @@ label, .control-label {
         font-size: 14px;
         text-transform: uppercase;
 
-        a {
+        a, button {
             color: @firma-navText-color;
             font-family: @firma-menu-font;
+            text-transform: uppercase;
         }
 
-        a:hover, a:focus, a:active {
+        a:hover, a:focus, a:active, button:hover, button:focus, button:active {
             color: @firma-navItemText-color-hover;
             background-color: @firma-navBackground-color;
             text-decoration: none;
         }
 
-        p a:hover {
+        p a:hover, p button:hover {
             background-color: transparent;
         }
 
@@ -275,7 +276,7 @@ label, .control-label {
             font-family: @firma-menu-font;
         }
 
-        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus, .nav .open > button, .nav .open > button:hover, .nav .open > button:focus {
             background-color: @firma-navItemBackground-color-hover;
             border-color: @firma-navBorder-color;
         }
@@ -289,14 +290,14 @@ label, .control-label {
             transition: opacity 0.25s;
 
             li {
-                a {
+                a, button {
                     font-weight: 400;
                     font-family: @firma-menu-font;
                     color: @firma-navItemDropdownText-color;
                     background-color: @firma-navItemDropdownBackground-color;
                 }
 
-                a:hover, a:active, a:focus {
+                a:hover, a:active, a:focus, button:hover, button:active, button:focus {
                     color: @firma-navItemDropdownText-color-hover;
                     background-color: @firma-navItemDropdownBackground-color-hover;
                     text-decoration: none;
@@ -307,6 +308,15 @@ label, .control-label {
                 background-color: @PrimaryGray;
                 margin: 9px 9px;
             }
+        }
+
+        .current-page > a,
+        .current-page > a:visited {
+            font-weight: bold;
+            color: rgba(222, 112, 118, 1);// @firma-navItemDropdownText-color-hover as rgba with opacity 1;
+            background-color: @firma-navItemDropdownBackground-color-hover;
+            border-radius: 4px;
+            text-decoration: none;
         }
     }
 

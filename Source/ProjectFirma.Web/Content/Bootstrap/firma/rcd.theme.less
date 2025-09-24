@@ -147,18 +147,19 @@ h4 {
         font-weight: 600;
         text-transform: uppercase;
 
-        a {
+        a, button {
             color: @firma-navText-color;
             font-family: @firma-menu-font;
+            text-transform: uppercase;
         }
 
-        a:hover, a:focus, a:active {
+        a:hover, a:focus, a:active, button:hover, button:focus, button:active {
             color: @firma-navItemText-color-hover;
             background-color: @firma-navItemBackground-color-hover;
             text-decoration: none;
         }
 
-        p a:hover {
+        p a:hover, p button:hover {
             background-color: transparent;
         }
 
@@ -167,7 +168,7 @@ h4 {
             font-family: @firma-menu-font;
         }
 
-        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus, .nav .open > button, .nav .open > button:hover, .nav .open > button:focus {
             background-color: @firma-navItemBackground-color-hover;
             border-color: @firma-navBorder-color;
         }
@@ -194,6 +195,15 @@ h4 {
             .divider {
                 background-color: @firma-navBorder-color;
             }
+        }
+
+        .current-page > a,
+        .current-page > a:visited {
+            font-weight: bold;
+            color: @firma-navItemText-color-hover;
+            background-color: @firma-navItemBackground-color-hover;
+            border-radius: 4px;
+            text-decoration: none;
         }
     }
 }
