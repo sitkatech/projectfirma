@@ -313,7 +313,8 @@ label, .control-label {
         .current-page > a,
         .current-page > a:visited {
             font-weight: bold;
-            color: rgba(222, 112, 118, 1);// @firma-navItemDropdownText-color-hover as rgba with opacity 1;
+            // @firma-navItemDropdownText-color is @PrimaryGray: rgba(75, 68, 81, 0.7); The opacity of 0.7 is persisting, so using !important
+            color: @firma-navItemDropdownText-color-hover !important;
             background-color: @firma-navItemDropdownBackground-color-hover;
             border-radius: 4px;
             text-decoration: none;

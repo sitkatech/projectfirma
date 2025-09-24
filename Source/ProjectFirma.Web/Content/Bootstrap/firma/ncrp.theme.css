@@ -196,7 +196,7 @@ label,
 .projectFirmaNavbar .nav li .current-page > a,
 .projectFirmaNavbar .nav li .current-page > a:visited {
   font-weight: bold;
-  color: #de7076;
+  color: #de7076 !important;
   background-color: #e6e7e9;
   border-radius: 4px;
   text-decoration: none;
