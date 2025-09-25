@@ -34,6 +34,9 @@ Source code is available upon request via <support@sitkatech.com>.
             text-decoration: underline;
             cursor: pointer;
         }
+        .fancytree-expander {
+            display: none !important;
+        }
 
         .fancytree-ext-filter span.fancytree-childcounter {
             height: auto;
@@ -103,8 +106,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <button id="btnExpandLevel" class="btn btn-sm btn-primary">Expand Level</button>
-        <button id="btnCollapseLevel" class="btn btn-sm btn-primary">Collapse Level</button>
         <input name="search" placeholder="Search..." autocomplete="on">
         <button id="btnResetSearch" class="btn btn-xs btn-primary">&times;</button>
         <span id="matches"></span>
@@ -129,7 +130,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="clear: both">
             @foreach (var taxonomyTier in ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes)
             {
-                <table role="presentation" id="@(string.Format("projecttaxonomytree{0}", taxonomyTier.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @taxonomyTier.ThemeColor">
+                <table id="@(string.Format("projecttaxonomytree{0}", taxonomyTier.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @taxonomyTier.ThemeColor">
                     <colgroup>
                         <col />
                         <col style="width: 80px;" />
@@ -192,74 +193,18 @@ Source code is available upon request via <support@sitkatech.com>.
                     mode: "dimm" // "dimm": Grayout unmatched nodes, "hide": remove unmatched nodes
                 },
                 renderColumns: function(event, data) { renderFancyTreeColumns(event, data) },
-                source: [currentTreeSource]
+                source: [currentTreeSource],
+                clickFolderMode: 4 // disables expand/collapse on click
+            });
+            // Expand all nodes after tree is initialized
+            var tree = currentTreeDiv.fancytree("getTree");
+            tree.visit(function(node) {
+                node.setExpanded(true);
             });
         }
 
-        var expandLevelButton = jQuery('#btnExpandLevel');
-        var collapseLevelButton = jQuery('#btnCollapseLevel');
         var searchButton = jQuery("input[name=search]");
         var resetButton = jQuery("button#btnResetSearch");
-
-        expandLevelButton.click(function()
-        {
-            var maximumExpansion = 1;
-            for (var i = 0; i < treeSources.length; ++i)
-            {
-                var currentTreeSource = treeSources[i];
-                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
-                tree.visit(function(node)
-                {
-                    if (node.isVisible())
-                    {
-                        maximumExpansion = Math.max(maximumExpansion, node.getLevel());
-                    }
-                });
-            }
-            for (var i = 0; i < treeSources.length; ++i)
-            {
-                var currentTreeSource = treeSources[i];
-                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");                
-                tree.visit(function(node)
-                {
-                    if (node.getLevel() <= maximumExpansion)
-                    {
-                        node.setExpanded(true);
-                    }
-                });
-            }
-        });
-
-        collapseLevelButton.click(function()
-        {
-            var maximumExpansion = 1;
-
-            for (var i = 0; i < treeSources.length; ++i)
-            {
-                var currentTreeSource = treeSources[i];
-                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
-                tree.visit(function(node)
-                {
-                    if (node.isExpanded())
-                    {
-                        maximumExpansion = Math.max(maximumExpansion, node.getLevel());
-                    }
-                });
-            }
-
-            for (var i = 0; i < treeSources.length; ++i)
-            {
-                var currentTreeSource = treeSources[i];
-                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
-                tree.visit(function(node)
-                {
-                    if (node.getLevel() == maximumExpansion)
-                    {
-                        node.setExpanded(false);
-                    }
-                });
-            }
-        });
 
         searchButton.keyup(function(e)
         {
