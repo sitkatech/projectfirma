@@ -258,9 +258,9 @@ Source code is available upon request via <support@sitkatech.com>.
         numberOfProjectsColumn.css("border-top-color", node.data.ThemeColor);
         
         if (!Sitka.Methods.isUndefinedNullOrEmpty(node.data.MapUrl)) {
-            mapColumn.html("<a class='btn btn-sm' style='color:white; text-decoration:none; background-color:" +
+            mapColumn.html("<a role='button' aria-label='Map' class='btn btn-sm' style='color:white; text-decoration:none; background-color:" +
                 node.data.ThemeColor + "' href='" + node.data.MapUrl +
-                "'>Map <span class='glyphicon glyphicon-map-marker'></span></button>");
+                "'>Map <span class='glyphicon glyphicon-map-marker' alt='Map Marker'></span></button>");
         }
     }
 </script>
