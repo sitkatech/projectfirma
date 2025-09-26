@@ -167,7 +167,7 @@ namespace ProjectFirma.Web.Controllers
             var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentFirmaSession);
             viewModel.UpdateModel(supportRequestLog, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
-            //SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
+            SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
             SetMessageForDisplay("Support request sent.");
             if (CurrentFirmaSession.IsAnonymousUser())
             {
