@@ -97,6 +97,13 @@ Source code is available upon request via <support@sitkatech.com>.
         table.fancytree-ext-table span.fancytree-title {
             display: table-cell;
         }
+
+        .map-link:focus {
+            outline: 3px solid #1976d2;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 2px #90caf9;
+            background-color: #1565c0 !important;
+        }
     </style>
 }
 
@@ -138,9 +145,9 @@ Source code is available upon request via <support@sitkatech.com>.
                     </colgroup>
                     <thead>
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Map</th>
+                            <th scope="col"># Projects</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -249,18 +256,31 @@ Source code is available upon request via <support@sitkatech.com>.
         var titleColumn = $tdList.eq(0);
         var mapColumn = $tdList.eq(1);
         var numberOfProjectsColumn = $tdList.eq(2);
-        if (node.data.NumberOfProjects != null)
-        {
+
+        // Add scope="row" to the first td for accessibility
+        titleColumn.attr("scope", "row");
+
+        // Clear previous content
+        titleColumn.empty();
+        mapColumn.empty();
+        numberOfProjectsColumn.empty();
+
+        // Title
+        titleColumn.html(node.title);
+        titleColumn.css("border-top-color", node.data.ThemeColor);
+
+        // Map link
+        if (!Sitka.Methods.isUndefinedNullOrEmpty(node.data.MapUrl)) {
+            var aHtml = "<a href='" + node.data.MapUrl + "' tabindex='0' role='button' aria-label='Map' class='btn btn-sm map-link' style='color:white; text-decoration:none; background-color:" +
+                node.data.ThemeColor +
+                "'>Map <span class='glyphicon glyphicon-map-marker' aria-hidden='true'></span></a>";
+            mapColumn.html(aHtml);
+        }
+
+        // Project count
+        if (node.data.NumberOfProjects != null) {
             numberOfProjectsColumn.text(node.data.NumberOfProjects);
         }
-        titleColumn.css("border-top-color", node.data.ThemeColor);
-        mapColumn.css("border-top-color", node.data.ThemeColor);
         numberOfProjectsColumn.css("border-top-color", node.data.ThemeColor);
-        
-        if (!Sitka.Methods.isUndefinedNullOrEmpty(node.data.MapUrl)) {
-            mapColumn.html("<a role='button' aria-label='Map' class='btn btn-sm' style='color:white; text-decoration:none; background-color:" +
-                node.data.ThemeColor + "' href='" + node.data.MapUrl +
-                "'>Map <span class='glyphicon glyphicon-map-marker' alt='Map Marker'></span></button>");
-        }
-    }
+}
 </script>
