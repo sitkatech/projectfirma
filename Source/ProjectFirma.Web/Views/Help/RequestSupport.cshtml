@@ -20,18 +20,102 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Help
 @using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @inherits RequestSupport
 
-@{ SupportForm.RenderPartialView(Html, ViewDataTyped.SupportFormViewData, Model); }
-<hr>
-<div class="row">
-    <div class="col-xs-12" style="text-align: right">
-        <button class="btn btn-firma" style="display: inline-block;" onclick="submitRequestSupportForm()">
-            Submit Request
-        </button>
-        <a href="@ViewDataTyped.CancelUrl" class="btn btn-firma" style="display: inline-block;">Cancel</a>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { role = "form" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.RequestPersonName)
+            </div>
+            <div class="col-sm-9">
+                @if (ViewDataTyped.IsUserAnonymous)
+                {
+                    @Html.TextBoxFor(x => x.RequestPersonName, new { style = "width:100%" })
+                    @Html.ValidationMessageFor(x => x.RequestPersonName)
+                }
+                else
+                {
+                    @Model.RequestPersonName
+                    @Html.HiddenFor(x => x.RequestPersonName)
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.RequestPersonEmail)
+            </div>
+            <div class="col-sm-9">
+                @if (ViewDataTyped.IsUserAnonymous)
+                {
+                    @Html.TextBoxFor(x => x.RequestPersonEmail, new { style = "width:100%" })
+                    @Html.ValidationMessageFor(x => x.RequestPersonEmail)
+                }
+                else
+                {
+                    @Model.RequestPersonEmail
+                    @Html.HiddenFor(x => x.RequestPersonEmail)
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.RequestPersonOrganization) (optional)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(x => x.RequestPersonOrganization, new { style = "width:100%" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.RequestPersonPhone) (optional)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(x => x.RequestPersonPhone)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.SupportRequestTypeEnum)
+            </div>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(x => x.SupportRequestTypeEnum, ViewDataTyped.SupportRequestTypes, new { style = "width:100%" })
+                @Html.ValidationMessageFor(x => x.SupportRequestTypeEnum)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.RequestDescription)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(x => x.RequestDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
+                @Html.ValidationMessageFor(x => x.RequestDescription)
+            </div>
+        </div>
+        @Html.HiddenFor(x => x.CurrentPageUrl)
+
+        @if (ViewDataTyped.IsUserAnonymous)
+        {
+        <div style="margin-bottom: 5px">
+            This question is testing whether you are a human visitor and to prevent automated spam submissions:
+        </div>
+        SitkaRecaptcha.RenderPartialView(Html);
+        }
     </div>
-</div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12" style="text-align: right">
+            <button class="btn btn-firma" style="display: inline-block;" onclick="submitRequestSupportForm()">
+                Submit Request
+            </button>
+            <a href="@ViewDataTyped.CancelUrl" class="btn btn-firma" style="display: inline-block;">Cancel</a>
+        </div>
+    </div>
+}
 
 <script type="text/javascript">
     function submitRequestSupportForm() { jQuery("form").submit(); }

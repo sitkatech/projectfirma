@@ -164,9 +164,8 @@ namespace ProjectFirma.Web.Views
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
 
             HelpMenu = new LtInfoMenuItem("Help");
-            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Request Support",
-                ModalDialogFormHelper.ModalDialogFormLink("Request Support", RequestSupportUrl, "Request Support", 800,
-                    "Submit Request", "Cancel", new List<string>(), null, null).ToString(), "ToolHelp"));
+            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HelpController>(c => c.RequestSupport()),
+                currentFirmaSession, "Request Support", "ToolHelp"));
             HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c=>c.Training()), currentFirmaSession, "Training", "ToolHelp"));
             HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.InternalSetupNotes()), currentFirmaSession, "Internal Setup Notes", "ToolHelp"));
             HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.ReleaseNotes()), currentFirmaSession, "Release Notes", "ToolHelp"));
