@@ -263,15 +263,21 @@ Source code is available upon request via <support@sitkatech.com>.
         numberOfProjectsColumn.empty();
 
         // Title
-        titleColumn.html(node.title);
+        titleColumn.html("<h2>" + node.title + "</h2>");
         titleColumn.css("border-top-color", node.data.ThemeColor);
 
         // Map link
         if (!Sitka.Methods.isUndefinedNullOrEmpty(node.data.MapUrl)) {
+            titleColumn.html("<h2>" + node.title + "</h2>");
+            titleColumn.css("border-top-color", node.data.ThemeColor);
             var aHtml = "<a href='" + node.data.MapUrl + "' tabindex='0' role='button' aria-label='Map' class='btn btn-sm map-link' style='color:white; text-decoration:none; background-color:" +
                 node.data.ThemeColor +
                 "'>Map <span class='glyphicon glyphicon-map-marker' aria-hidden='true'></span></a>";
             mapColumn.html(aHtml);
+        }
+        else {
+            titleColumn.html(node.title);
+            titleColumn.css("border-top-color", node.data.ThemeColor);
         }
 
         // Project count
