@@ -9,14 +9,14 @@
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v43/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 600;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v43/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Montserrat';
@@ -48,13 +48,13 @@
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v31/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v32/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
 }
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v31/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v32/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
 }
 html,
 body {
@@ -111,7 +111,6 @@ h6 {
 }
 .rightFloatingInfo {
   float: right;
-  margin-top: 20px;
 }
 .hoverEditButton {
   position: absolute;
@@ -221,30 +220,38 @@ form .form-group-condensed {
 .nav li {
   font-weight: 600;
 }
-.nav li a {
+.nav li a,
+.nav li button {
   color: #777;
   font-family: "Open Sans", sans-serif;
 }
-.nav li a:hover {
+.nav li a:hover,
+.nav li button:hover {
   color: #777;
   background-color: #eee;
   text-decoration: none;
 }
-.nav li p a:hover {
+.nav li p a:hover,
+.nav li p button:hover {
   background-color: transparent;
 }
 .nav li .navbar-text {
   color: #777;
   font-family: "Open Sans", sans-serif;
 }
+.nav li .current-page > a,
+.nav li .current-page > a:visited {
+  font-weight: bold;
+  background-color: #eee;
+  color: #777;
+  border-radius: 4px;
+  text-decoration: none;
+}
 .nav-button {
-  color: #333;
-  font-family: "Source Sans Pro", sans-serif;
   background-color: transparent;
   border: none;
+  padding: 15px;
   text-transform: capitalize;
-  padding: 1rem;
-  text-decoration: none;
 }
 .navbar-nav .joined-buttons a {
   display: inline-block;
