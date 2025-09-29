@@ -89,6 +89,14 @@
         color: white;
     }
 
+    .classification .box-header {
+        color: white;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 20px;
+        font-family: "Open Sans", sans-serif;
+    }
+
    .classification:hover .visibleText {
         opacity: 0;
     }
@@ -110,6 +118,11 @@
 
     .classification:hover .overlay {
         opacity: 1;
+    }
+
+    .classification:hover {
+        border: 3px solid #1976d2;
+        box-sizing: border-box;
     }
 </style>
 
@@ -153,11 +166,11 @@ else
                 }
 
                 <div class="visibleText">
-                    <h3>@classification.GetDisplayName()</h3>
+                    <p class="box-header">@classification.GetDisplayName()</p>
                     <p>@classification.GetAssociatedProjects(ViewDataTyped.CurrentFirmaSession).Count() @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</p> 
                 </div>
                 <div class="overlay" style="background-color: @classification.ThemeColor">
-                    <h3>@classification.GetDisplayName()</h3>
+                    <p class="box-header">@classification.GetDisplayName()</p>
                     @if (string.IsNullOrEmpty(classification.ClassificationDescription))
                     {
                         <p>@classification.GetAssociatedProjects(ViewDataTyped.CurrentFirmaSession).Count() @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</p> 
