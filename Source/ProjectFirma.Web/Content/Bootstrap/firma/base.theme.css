@@ -111,7 +111,6 @@ h6 {
 }
 .rightFloatingInfo {
   float: right;
-  margin-top: 20px;
 }
 .hoverEditButton {
   position: absolute;
@@ -252,6 +251,7 @@ form .form-group-condensed {
   background-color: transparent;
   border: none;
   padding: 15px;
+  text-transform: capitalize;
 }
 .navbar-nav .joined-buttons a {
   display: inline-block;

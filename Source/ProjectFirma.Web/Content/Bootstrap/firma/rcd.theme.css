@@ -1,4 +1,8 @@
-﻿@font-face {
+﻿@import url(https://fonts.googleapis.com/css?family=Basic);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+@import url(https://fonts.googleapis.com/css?family=Bree+Serif);
+@import url(https://fonts.googleapis.com/css?family=Crimson+Text);
+@font-face {
   font-family: 'Basic';
   font-style: normal;
   font-weight: 400;
@@ -64,6 +68,7 @@ h4 {
 .firmaContent {
   background-color: #fff;
   border: 1px solid #fff;
+  padding-bottom: 20px;
 }
 .expandToFillScreen {
   min-height: 100%;
@@ -349,7 +354,9 @@ table.summaryLayout th,
 }
 .panelFirma .panelTitle,
 .panelFirma .panelTitle h2,
-.panelFirma .panelTitle h3 {
+.panelFirma .panelTitle h3,
+.panelFirma .panelTitle h2 label, 
+.panelFirma .panelTitle h3 label {
   color: #fff;
   background-color: #546B7D;
   border-color: #ddd;
@@ -365,6 +372,11 @@ table.summaryLayout th,
 .panelFirma .panelTitle h2 a,
 .panelFirma .panelTitle h3 a {
   color: #fff;
+}
+.panelFirma .panelTitle .dropdown-menu a,
+.panelFirma .panelTitle .dropdown-menu h2 a,
+.panelFirma .panelTitle .dropdown-menu h3 a {
+  color: #777;
 }
 .panelFirma .panelTitle a .glyphicon {
   color: white;

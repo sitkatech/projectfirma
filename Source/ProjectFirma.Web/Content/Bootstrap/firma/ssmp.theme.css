@@ -113,13 +113,11 @@ a:visited {
 }
 .projectFirmaNavbar .nav li {
   font-weight: 600;
-  text-transform: uppercase;
 }
 .projectFirmaNavbar .nav li a,
 .projectFirmaNavbar .nav li button {
   color: #333333;
   font-family: "Source Sans Pro", sans-serif;
-  text-transform: uppercase;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
