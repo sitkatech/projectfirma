@@ -8,8 +8,8 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Keystone.Common.OpenID;
+using System.Web;
+
 using LtInfo.Common;
 using LtInfo.Common.Email;
 using Microsoft.IdentityModel.Protocols;
@@ -22,6 +22,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
+using SameSiteMode = Microsoft.Owin.SameSiteMode;
 
 namespace ProjectFirma.Web.Auth
 {
@@ -50,8 +51,6 @@ namespace ProjectFirma.Web.Auth
             // Configure Auth0 parameters
             string auth0Domain = ConfigurationManager.AppSettings["auth0:Domain"];
             string auth0ClientId = ConfigurationManager.AppSettings["auth0:ClientId"];
-            string auth0RedirectUri = ConfigurationManager.AppSettings["auth0:RedirectUri"];
-            string auth0PostLogoutRedirectUri = ConfigurationManager.AppSettings["auth0:PostLogoutRedirectUri"];
 
             return new OpenIdConnectAuthenticationOptions
             {
@@ -59,8 +58,6 @@ namespace ProjectFirma.Web.Auth
                 AuthenticationType = "Auth0",
                 Authority = $"https://{auth0Domain}",
                 ClientId = auth0ClientId,
-                RedirectUri = auth0RedirectUri,
-                PostLogoutRedirectUri = auth0PostLogoutRedirectUri,
                 Scope = "openid profile email",
                 TokenValidationParameters = new TokenValidationParameters
                 {
@@ -96,8 +93,6 @@ namespace ProjectFirma.Web.Auth
                 },
                 SecurityTokenValidated = n =>
                 {
-                    //TODO
-                    //HttpRequestStorage.Tenant = tenant;
                     SitkaHttpApplication.Logger.Info(
                         $"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}, AuthType:{FirmaWebConfiguration.AuthenticationType}");
 
@@ -126,14 +121,25 @@ namespace ProjectFirma.Web.Auth
 
                     return Task.FromResult(0);
                 },
+
                 RedirectToIdentityProvider = notification =>
                 {
-                    // Inject the organization ID into the Auth0 login request
-                    string auth0OrganizationID = ConfigurationManager.AppSettings["auth0:OrganizationID"];
-                    //notification.ProtocolMessage.SetParameter("organization", auth0OrganizationID);
+                    var request = notification.Request;
+                    var response = notification.Response;
+                    string redirectUri = GetCookieValue(notification.Request, "UserSettings", "redirectUri");
+                    string postLogoutRedirectUri = GetCookieValue(notification.Request, "UserSettings", "postLogoutRedirectUri");
 
-                    // Only when the RequestType is OpenIdConnectRequestType.Logout should we configure the logout URL.
-                    // Any other RequestType means a different kind of interaction with Auth0 that isn't logging out.
+                    if (!string.IsNullOrEmpty(redirectUri))
+                    {
+                        notification.ProtocolMessage.RedirectUri = redirectUri;
+                    }
+
+                    if (!string.IsNullOrEmpty(redirectUri))
+                    {
+                        notification.ProtocolMessage.PostLogoutRedirectUri = postLogoutRedirectUri;
+                    }
+
+                    // Handle logout
                     if (notification.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
                     {
                         var logoutUri = $"https://{auth0Domain}/v2/logout?client_id={auth0ClientId}";
@@ -143,15 +149,13 @@ namespace ProjectFirma.Web.Auth
                         {
                             if (postLogoutUri.StartsWith("/"))
                             {
-                                // transform to absolute
-                                var request = notification.Request;
-                                postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase +
-                                                postLogoutUri;
+                                postLogoutUri = $"{request.Scheme}://{request.Host}{request.PathBase}{postLogoutUri}";
                             }
 
                             logoutUri += $"&returnTo={Uri.EscapeDataString(postLogoutUri)}";
                         }
-                        notification.Response.Redirect(logoutUri);
+
+                        response.Redirect(logoutUri);
                         notification.HandleResponse();
                     }
 
@@ -160,25 +164,43 @@ namespace ProjectFirma.Web.Auth
             };
         }
 
+
+        /// <summary>
+        /// Gets a value from a named cookie using a specified key.
+        /// </summary>
+        public static string GetCookieValue(IOwinRequest request, string cookieName, string key)
+        {
+            if (request == null || string.IsNullOrEmpty(cookieName) || string.IsNullOrEmpty(key))
+                return null;
+
+            var cookie = request.Cookies[cookieName];
+            if (string.IsNullOrEmpty(cookie))
+                return null;
+
+            var parsed = HttpUtility.ParseQueryString(cookie);
+            return parsed[key];
+        }
+        
         public static IAuth0User SyncLocalAccountStore(IAuth0UserClaims auth0UserClaims,
             IIdentity userIdentity)
         {
-            SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - User '{0}', Authenticated = '{1}'",
+            SitkaHttpApplication.Logger.DebugFormat(
+                "In SyncLocalAccountStore - User '{0}', Authenticated = '{1}'",
                 userIdentity.Name,
                 userIdentity.IsAuthenticated);
 
             var sendNewUserNotification = false;
-            //var sendNewOrganizationNotification = false;
-            //var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(auth0UserClaims.UserGuid);
-            var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByAuth0Id(auth0UserClaims.Subject, false);
+            
+            int tenantId = HttpRequestStorage.Tenant.TenantID;
+
+            Person person = HttpRequestStorage.DatabaseEntities.People.GetPersonByAuth0IdAndTenant(auth0UserClaims.Subject, tenantId, false);
 
             // It can be useful to have the EXACT same time when looking for/at records later.
             var currentDateTime = DateTime.Now;
-
             if (person == null)
             {
-                var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
-                var personWithSameEmail = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmailAndTenant(auth0UserClaims.Email, firmaPageByPageTypeHomePage.TenantID);
+                
+                var personWithSameEmail = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmailAndTenant(auth0UserClaims.Email, tenantId);
                 if (personWithSameEmail != null)
                 {
                     if (personWithSameEmail.Auth0ID == null)

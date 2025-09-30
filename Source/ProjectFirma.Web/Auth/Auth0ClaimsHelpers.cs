@@ -26,7 +26,6 @@ namespace ProjectFirma.Web.Auth
                     (Func<IGrouping<string, Claim>, string>)(x => x.First<Claim>().Value));
 
             openIdClaims.Subject = Auth0ClaimsHelpers.GetStringClaimValue((IReadOnlyDictionary<string, string>)dictionary, Auth0OpenIDClaimTypes.Subject);
-            //openIdClaims.UserGuid = Auth0ClaimsHelpers.GetGuidClaimValue((IReadOnlyDictionary<string, string>)dictionary, Auth0OpenIDClaimTypes.LegacyUserId);
             openIdClaims.DisplayName = Auth0ClaimsHelpers.GetStringClaimValue((IReadOnlyDictionary<string, string>)dictionary, Auth0OpenIDClaimTypes.Name);
             openIdClaims.LastName = Auth0ClaimsHelpers.GetStringClaimValue((IReadOnlyDictionary<string, string>)dictionary, Auth0OpenIDClaimTypes.FamilyName);
             openIdClaims.FirstName = Auth0ClaimsHelpers.GetStringClaimValue((IReadOnlyDictionary<string, string>)dictionary, Auth0OpenIDClaimTypes.GivenName);

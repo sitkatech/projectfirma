@@ -218,9 +218,9 @@ namespace ProjectFirma.Web.Models
             return people.SingleOrDefault(x => x.Auth0ID == auth0Id);
         }
 
-        public static Person GetPersonByAuth0Id(this IQueryable<Person> people, string auth0Id, bool requireRecordFound)
+        public static Person GetPersonByAuth0IdAndTenant(this IQueryable<Person> people, string auth0Id, int targetTenantId, bool requireRecordFound)
         {
-            var person = people.SingleOrDefault(x => x.Auth0ID == auth0Id);
+            var person = people.SingleOrDefault(x => x.Auth0ID == auth0Id && x.TenantID == targetTenantId);
             if (requireRecordFound)
             {
                 Check.RequireNotNullThrowNotFound(person, auth0Id);

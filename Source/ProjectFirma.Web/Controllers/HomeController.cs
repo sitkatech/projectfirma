@@ -32,8 +32,8 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
-using System.Configuration;
-using System.Web.Configuration;
+using LtInfo.Common;
+
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -53,8 +53,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
 
-            UpdateAuth0Configuration();
-
+            UpdateUserSettings();
             var firmaPageByPageTypeHomePageAdditionalInfo = FirmaPageTypeEnum.HomeAdditionalInfo.GetFirmaPage();
 
             var firmaPageByPageTypeHomePageMapInfo = FirmaPageTypeEnum.HomeMapInfo.GetFirmaPage();
@@ -88,32 +87,16 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        private void UpdateAuth0Configuration()
+        private void UpdateUserSettings()
         {
+            var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
             string absoluteUri = Request.Url.AbsoluteUri;
             var redirectUri = absoluteUri + "Account/LogOn";
-            var postLogoutRedirectUri = absoluteUri + "Account/LogOff"; ;
-            UpdateAppSetting("auth0:RedirectUri", redirectUri);
-            UpdateAppSetting("auth0:PostLogoutRedirectUri", postLogoutRedirectUri);
-        }
+            var postLogoutRedirectUri = absoluteUri + "Account/LogOff";
 
-        private void UpdateAppSetting(string key, string value)
-        {
-            Configuration config = WebConfigurationManager.OpenWebConfiguration("~");
-            if (config.AppSettings.Settings[key] != null)
-            {
-                config.AppSettings.Settings[key].Value = value;
-            }
-            else
-            {
-                config.AppSettings.Settings.Add(key, value);
-            }
-
-            // Save the changes
-            config.Save(ConfigurationSaveMode.Modified);
-
-            // Refresh the AppSettings section
-            ConfigurationManager.RefreshSection("appSettings");
+            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "redirectUri", redirectUri);
+            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "postLogoutRedirectUri", postLogoutRedirectUri);
+            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "tenantId", firmaPageByPageTypeHomePage.TenantID);
         }
 
         [AnonymousUnclassifiedFeature]
