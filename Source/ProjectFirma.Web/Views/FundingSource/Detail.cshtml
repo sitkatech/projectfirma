@@ -121,13 +121,13 @@
     <div class="row">
         <ul class="nav nav-tabs" id="fundingSourceDetailsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#overview" aria-controls="overview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
+                <a href="#overview" aria-controls="overview" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
 
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
                 <li>
-                    <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
+                    <a href="#accomplishments" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
                 </li>
             }
         </ul>
