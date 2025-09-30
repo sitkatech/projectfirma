@@ -137,7 +137,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="col-lg-5 col-sm-6 col-xs-12">
             <div style="margin-right: 10px">
-                <a class="gallery" href="@ViewDataTyped.Classification.KeyImageFileResourceInfo.GetFileResourceUrl()"><img src="@ViewDataTyped.Classification.GetKeyImageUrlLarge()" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
+                <a class="gallery" aria-label="@ViewDataTyped.Classification.GetDisplayName()" href="@ViewDataTyped.Classification.KeyImageFileResourceInfo.GetFileResourceUrl()"><img src="@ViewDataTyped.Classification.GetKeyImageUrlLarge()" alt="" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
             </div>
         </div>
     }
@@ -147,12 +147,12 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <ul class="nav nav-tabs" id="classificationDetailsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#classificationOverview" aria-controls="classificationOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
+                <a href="#classificationOverview" aria-controls="classificationOverview" id="overviewTab" data-toggle="tab">Overview</a>
             </li>
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
                 <li>
-                    <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Accomplishments</a>
+                    <a href="#performanceMeasures" data-toggle="tab" id="resultsTab">Accomplishments</a>
                 </li>
             }
         </ul>
