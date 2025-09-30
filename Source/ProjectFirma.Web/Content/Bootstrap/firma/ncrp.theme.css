@@ -3,13 +3,14 @@
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v36/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+  font-stretch: normal;
+  src: url(https://fonts.gstatic.com/s/roboto/v49/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmUiA8.ttf) format('truetype');
 }
 html,
 body {
@@ -131,18 +132,24 @@ label,
   font-size: 14px;
   text-transform: uppercase;
 }
-.projectFirmaNavbar .nav li a {
+.projectFirmaNavbar .nav li a,
+.projectFirmaNavbar .nav li button {
   color: rgba(75, 68, 81, 0.7);
   font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
-.projectFirmaNavbar .nav li a:active {
+.projectFirmaNavbar .nav li a:active,
+.projectFirmaNavbar .nav li button:hover,
+.projectFirmaNavbar .nav li button:focus,
+.projectFirmaNavbar .nav li button:active {
   color: #de7076;
   background-color: #e6e7e9;
   text-decoration: none;
 }
-.projectFirmaNavbar .nav li p a:hover {
+.projectFirmaNavbar .nav li p a:hover,
+.projectFirmaNavbar .nav li p button:hover {
   background-color: transparent;
 }
 .projectFirmaNavbar .nav li .navbar-text {
@@ -151,7 +158,10 @@ label,
 }
 .projectFirmaNavbar .nav li .nav .open > a,
 .projectFirmaNavbar .nav li .nav .open > a:hover,
-.projectFirmaNavbar .nav li .nav .open > a:focus {
+.projectFirmaNavbar .nav li .nav .open > a:focus,
+.projectFirmaNavbar .nav li .nav .open > button,
+.projectFirmaNavbar .nav li .nav .open > button:hover,
+.projectFirmaNavbar .nav li .nav .open > button:focus {
   background-color: #e6e7e9;
   border-color: #e6e7e9;
 }
@@ -162,7 +172,8 @@ label,
   border-radius: 0px;
   transition: opacity 0.25s;
 }
-.projectFirmaNavbar .nav li ul.dropdown-menu li a {
+.projectFirmaNavbar .nav li ul.dropdown-menu li a,
+.projectFirmaNavbar .nav li ul.dropdown-menu li button {
   font-weight: 400;
   font-family: "Roboto", sans-serif;
   color: rgba(75, 68, 81, 0.7);
@@ -170,7 +181,10 @@ label,
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
-.projectFirmaNavbar .nav li ul.dropdown-menu li a:focus {
+.projectFirmaNavbar .nav li ul.dropdown-menu li a:focus,
+.projectFirmaNavbar .nav li ul.dropdown-menu li button:hover,
+.projectFirmaNavbar .nav li ul.dropdown-menu li button:active,
+.projectFirmaNavbar .nav li ul.dropdown-menu li button:focus {
   color: #de7076;
   background-color: #e6e7e9;
   text-decoration: none;
@@ -178,6 +192,14 @@ label,
 .projectFirmaNavbar .nav li ul.dropdown-menu .divider {
   background-color: rgba(75, 68, 81, 0.7);
   margin: 9px 9px;
+}
+.projectFirmaNavbar .nav li .current-page > a,
+.projectFirmaNavbar .nav li .current-page > a:visited {
+  font-weight: bold;
+  color: #de7076 !important;
+  background-color: #e6e7e9;
+  border-radius: 4px;
+  text-decoration: none;
 }
 .projectFirmaNavbar .glyphicon-menu-hamburger {
   color: rgba(75, 68, 81, 0.7);

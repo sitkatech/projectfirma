@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Web.Mvc;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
@@ -27,13 +29,25 @@ namespace ProjectFirma.Web.Views.Help
     public class RequestSupportViewData : FirmaViewData
     {
         public string CancelUrl { get; }
-        public SupportFormViewData SupportFormViewData { get; }
+        public string SuccessMessage { get; }
+        public bool IsUserAnonymous { get; }
+        public IEnumerable<SelectListItem> SupportRequestTypes { get; }
+        public List<SupportRequestTypeSimple> SupportRequestTypeSimples { get; }
 
-        public RequestSupportViewData(FirmaSession currentFirmaSession, SupportFormViewData supportFormViewData, string cancelUrl) : base(currentFirmaSession)
+        public RequestSupportViewData(
+            FirmaSession currentFirmaSession,
+            string successMessage,
+            bool isUserAnonymous,
+            IEnumerable<SelectListItem> supportRequestTypes,
+            List<SupportRequestTypeSimple> supportRequestTypeSimples,
+            string cancelUrl) : base(currentFirmaSession)
         {
             PageTitle = "Request Support";
             CancelUrl = cancelUrl;
-            SupportFormViewData = supportFormViewData;
+            SuccessMessage = successMessage;
+            IsUserAnonymous = isUserAnonymous;
+            SupportRequestTypes = supportRequestTypes;
+            SupportRequestTypeSimples = supportRequestTypeSimples;
         }
     }
 }

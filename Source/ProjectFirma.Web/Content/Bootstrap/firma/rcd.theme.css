@@ -1,32 +1,38 @@
-﻿@font-face {
+﻿@import url(https://fonts.googleapis.com/css?family=Basic);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+@import url(https://fonts.googleapis.com/css?family=Bree+Serif);
+@import url(https://fonts.googleapis.com/css?family=Crimson+Text);
+@font-face {
   font-family: 'Basic';
   font-style: normal;
   font-weight: 400;
-  src: local('Basic Regular'), local('Basic-Regular'), url(https://fonts.gstatic.com/s/basic/v9/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/basic/v18/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0e.ttf) format('truetype');
+  font-stretch: normal;
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 600;
-  src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url(https://fonts.gstatic.com/s/opensans/v17/mem5YaGs126MiZpBA-UNirkOUuhs.ttf) format('truetype');
+  font-stretch: normal;
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Bree Serif';
   font-style: normal;
   font-weight: 400;
-  src: local('Bree Serif Regular'), local('BreeSerif-Regular'), url(https://fonts.gstatic.com/s/breeserif/v9/4UaHrEJCrhhnVA3DgluA96rp4g.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/breeserif/v18/4UaHrEJCrhhnVA3DgluA96rp4g.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Crimson Text';
   font-style: normal;
   font-weight: 400;
-  src: local('Crimson Text Regular'), local('CrimsonText-Regular'), url(https://fonts.gstatic.com/s/crimsontext/v10/wlp2gwHKFkZgtmSR3NB0oRJfbwhW.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/crimsontext/v19/wlp2gwHKFkZgtmSR3NB0oRJfbwhW.ttf) format('truetype');
 }
 html,
 body {
@@ -62,6 +68,7 @@ h4 {
 .firmaContent {
   background-color: #fff;
   border: 1px solid #fff;
+  padding-bottom: 20px;
 }
 .expandToFillScreen {
   min-height: 100%;
@@ -106,18 +113,24 @@ h4 {
   font-weight: 600;
   text-transform: uppercase;
 }
-.projectFirmaNavbar .nav li a {
+.projectFirmaNavbar .nav li a,
+.projectFirmaNavbar .nav li button {
   color: #fff;
   font-family: "Open Sans", sans-serif;
+  text-transform: uppercase;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
-.projectFirmaNavbar .nav li a:active {
+.projectFirmaNavbar .nav li a:active,
+.projectFirmaNavbar .nav li button:hover,
+.projectFirmaNavbar .nav li button:focus,
+.projectFirmaNavbar .nav li button:active {
   color: #0B90D1;
   background-color: #ecf7fb;
   text-decoration: none;
 }
-.projectFirmaNavbar .nav li p a:hover {
+.projectFirmaNavbar .nav li p a:hover,
+.projectFirmaNavbar .nav li p button:hover {
   background-color: transparent;
 }
 .projectFirmaNavbar .nav li .navbar-text {
@@ -126,7 +139,10 @@ h4 {
 }
 .projectFirmaNavbar .nav li .nav .open > a,
 .projectFirmaNavbar .nav li .nav .open > a:hover,
-.projectFirmaNavbar .nav li .nav .open > a:focus {
+.projectFirmaNavbar .nav li .nav .open > a:focus,
+.projectFirmaNavbar .nav li .nav .open > button,
+.projectFirmaNavbar .nav li .nav .open > button:hover,
+.projectFirmaNavbar .nav li .nav .open > button:focus {
   background-color: #ecf7fb;
   border-color: #fff;
 }
@@ -149,6 +165,14 @@ h4 {
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu .divider {
   background-color: #fff;
+}
+.projectFirmaNavbar .nav li .current-page > a,
+.projectFirmaNavbar .nav li .current-page > a:visited {
+  font-weight: bold;
+  color: #0B90D1;
+  background-color: #ecf7fb;
+  border-radius: 4px;
+  text-decoration: none;
 }
 footer {
   position: relative;
@@ -330,7 +354,9 @@ table.summaryLayout th,
 }
 .panelFirma .panelTitle,
 .panelFirma .panelTitle h2,
-.panelFirma .panelTitle h3 {
+.panelFirma .panelTitle h3,
+.panelFirma .panelTitle h2 label, 
+.panelFirma .panelTitle h3 label {
   color: #fff;
   background-color: #546B7D;
   border-color: #ddd;
@@ -346,6 +372,11 @@ table.summaryLayout th,
 .panelFirma .panelTitle h2 a,
 .panelFirma .panelTitle h3 a {
   color: #fff;
+}
+.panelFirma .panelTitle .dropdown-menu a,
+.panelFirma .panelTitle .dropdown-menu h2 a,
+.panelFirma .panelTitle .dropdown-menu h3 a {
+  color: #777;
 }
 .panelFirma .panelTitle a .glyphicon {
   color: white;
