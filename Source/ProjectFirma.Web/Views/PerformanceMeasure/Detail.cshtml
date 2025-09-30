@@ -96,16 +96,16 @@
     <div class="row">
         <ul class="nav nav-tabs" id="performanceMeasuresDetailsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#Overview" aria-controls="performanceMeasureOverview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
+                <a href="#Overview" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
 
             <li>
-                <a href="#ReportingGuidance" aria-controls="fundingAndProjects" role="tab" data-toggle="tab" id="reportingGuidanceTab">Reporting Guidance</a>
+                <a href="#ReportingGuidance" data-toggle="tab" id="reportingGuidanceTab">Reporting Guidance</a>
             </li>
             @if (MultiTenantHelpers.SetTargetsByGeospatialArea())
             {
                 <li>
-                    <a href="#Targets" aria-controls="results" role="tab" data-toggle="tab" id="targetsTab">Targets</a>
+                    <a href="#Targets" data-toggle="tab" id="targetsTab">Targets</a>
                 </li>
             }
 
