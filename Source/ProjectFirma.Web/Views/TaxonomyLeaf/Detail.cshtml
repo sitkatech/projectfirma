@@ -56,7 +56,17 @@ Source code is available upon request via <support@sitkatech.com>.
             window.map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             window.map.initializeProjectLocations(projectLocationsMapInitJson);
             var clusterLocationsCheckbox = jQuery("#ClusterLocations");
-            clusterLocationsCheckbox.on("change",function () { window.map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+            clusterLocationsCheckbox.on("change", function () { window.map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
+
+            map.disableUserInteraction();
+
+            jQuery('.leaflet-container').css('cursor', 'pointer');
+
+            // Prevent map focus trap
+            var $map = jQuery('#@ViewDataTyped.PrimaryProjectLocationsMapViewData.MapDivID');
+            $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+            $map.on('focus', function() { this.blur(); });
         });
         // ]]>
     </script>
@@ -77,7 +87,17 @@ Source code is available upon request via <support@sitkatech.com>.
                 window.secondaryMap.initializeProjectLocations(secondaryProjectLocationsMapInitJson);
                 var clusterLocationsCheckbox = jQuery("#ClusterLocations");
                 clusterLocationsCheckbox.on("change",function () { window.secondaryMap.changeClustering(clusterLocationsCheckbox.is(":checked")); });
-                
+
+                map.disableUserInteraction();
+
+                jQuery('.leaflet-container').css('cursor', 'pointer');
+
+                // Prevent map focus trap
+                var $map = jQuery('#@ViewDataTyped.SecondaryProjectLocationsMapViewData.MapDivID');
+                $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+                $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+                $map.on('focus', function() { this.blur(); });
+
                 setTimeout(function() {
                     leafDataToggle("primary");
                 }, 500);
