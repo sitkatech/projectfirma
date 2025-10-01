@@ -79,6 +79,11 @@ Source code is available upon request via <support@sitkatech.com>.
             margin-top: 6px;
             margin-right: 6px;
         }
+
+        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
+        {
+            height: 320px;
+        }
     </style>
 }
 
@@ -174,15 +179,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <p>
                                     This map displays the location of any @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.ClassificationDisplayName
                                 </p>
-                                <div id="@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
+                                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
+                                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
                                 </div>
                                 <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
-                                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
-                                    <div id="primaryLeafDataMap">
-                                        @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
-                                    </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                     @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
@@ -277,9 +278,19 @@ Source code is available upon request via <support@sitkatech.com>.
         var clusterLocationsCheckbox = jQuery("#ClusterLocations");
         clusterLocationsCheckbox.on("change", function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
-        map.map.fitBounds(map.map.getBounds().pad(.25));
+        //map.map.fitBounds(map.map.getBounds().pad(.25));
         jQuery("#overviewTab").on("shown.bs.tab", function() {
             map.map.invalidateSize();
         });
+
+        map.disableUserInteraction();
+
+        jQuery('.leaflet-container').css('cursor', 'pointer');
+
+        // Prevent map focus trap
+        var $map = jQuery('#@ViewDataTyped.ProjectLocationsMapViewData.MapDivID');
+        $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.on('focus', function() { this.blur(); });
     });
 </script>
