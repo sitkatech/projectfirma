@@ -16,7 +16,7 @@ body {
   line-height: 23.2px;
 }
 input[disabled] {
-  background-color: LightGray;
+  background-color: #777676;
 }
 h1,
 h2,
@@ -457,7 +457,7 @@ a.button:active {
   color: #fff;
 }
 a.gridButton.disabled {
-  background-color: LightGray;
+  background-color: #777676;
 }
 div.gridbox_mm table.hdr td label {
   color: white;
@@ -554,12 +554,12 @@ h2.sectionHeader {
   margin: 0;
 }
 .disabled {
-  color: LightGray;
+  color: #777676;
 }
 a.disabled {
   cursor: not-allowed;
   font-style: italic;
-  color: LightGray;
+  color: #777676;
   background-color: transparent;
 }
 #projectWizardContent textarea[disabled],
@@ -567,7 +567,7 @@ a.disabled {
 #projectWizardContent select[disabled],
 #projectWizardContent .dropdown-toggle[disabled],
 #projectWizardContent .dropdown-menu[disabled] {
-  background-color: LightGray;
+  background-color: #777676;
 }
 @media only screen and (min-width: 768px) {
   .main-text h1 {
