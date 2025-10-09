@@ -58,8 +58,6 @@ Source code is available upon request via <support@sitkatech.com>.
             var clusterLocationsCheckbox = jQuery("#ClusterLocations");
             clusterLocationsCheckbox.on("change", function () { window.map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
-            map.disableUserInteraction();
-
             jQuery('.leaflet-container').css('cursor', 'pointer');
 
             // Prevent map focus trap
@@ -87,8 +85,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 window.secondaryMap.initializeProjectLocations(secondaryProjectLocationsMapInitJson);
                 var clusterLocationsCheckbox = jQuery("#ClusterLocations");
                 clusterLocationsCheckbox.on("change",function () { window.secondaryMap.changeClustering(clusterLocationsCheckbox.is(":checked")); });
-
-                map.disableUserInteraction();
 
                 jQuery('.leaflet-container').css('cursor', 'pointer');
 
