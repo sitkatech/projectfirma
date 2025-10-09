@@ -23,13 +23,18 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.WebServices.Index
 @section JavascriptAndStylesContent
 {
-<script type="text/javascript">
+    <script type="text/javascript">
     function enableWebServicesListLink()
     {
         jQuery("#notHaveWebServiceAccessTokenPanel").hide();
         jQuery("#haveWebServiceAccessTokenPanel").show();
     }
-</script>    
+</script>
+    <style>
+        .disabled {
+            color: #777676;
+        }
+  </style>
 }
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }

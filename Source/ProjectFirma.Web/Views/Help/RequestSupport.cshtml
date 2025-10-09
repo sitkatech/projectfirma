@@ -35,7 +35,7 @@
             <div class="col-sm-9">
                 @if (ViewDataTyped.IsUserAnonymous)
                 {
-                    @Html.TextBoxFor(x => x.RequestPersonName, new { style = "width:100%" })
+                    @Html.TextBoxFor(x => x.RequestPersonName, new { style = "width:100%", @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.RequestPersonName)
                 }
                 else
@@ -52,7 +52,7 @@
             <div class="col-sm-9">
                 @if (ViewDataTyped.IsUserAnonymous)
                 {
-                    @Html.TextBoxFor(x => x.RequestPersonEmail, new { style = "width:100%" })
+                    @Html.TextBoxFor(x => x.RequestPersonEmail, new { style = "width:100%", @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.RequestPersonEmail)
                 }
                 else
@@ -67,7 +67,7 @@
                 @Html.LabelWithSugarFor(x => x.RequestPersonOrganization) (optional)
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(x => x.RequestPersonOrganization, new { style = "width:100%" })
+                @Html.TextBoxFor(x => x.RequestPersonOrganization, new { style = "width:100%", @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
@@ -75,7 +75,7 @@
                 @Html.LabelWithSugarFor(x => x.RequestPersonPhone) (optional)
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(x => x.RequestPersonPhone)
+                @Html.TextBoxFor(x => x.RequestPersonPhone, new { style = "width:auto", @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
@@ -83,7 +83,7 @@
                 @Html.LabelWithSugarFor(x => x.SupportRequestTypeEnum)
             </div>
             <div class="col-sm-9">
-                @Html.DropDownListFor(x => x.SupportRequestTypeEnum, ViewDataTyped.SupportRequestTypes, new { style = "width:100%" })
+                @Html.DropDownListFor(x => x.SupportRequestTypeEnum, ViewDataTyped.SupportRequestTypes, new { style = "width:100%", @class = "form-control" })
                 @Html.ValidationMessageFor(x => x.SupportRequestTypeEnum)
             </div>
         </div>
@@ -92,7 +92,7 @@
                 @Html.LabelWithSugarFor(x => x.RequestDescription)
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(x => x.RequestDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null)
+                @Html.TextAreaWithMaxLengthFor(x => x.RequestDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(x => x.RequestDescription)
             </div>
         </div>
