@@ -80,6 +80,10 @@ Source code is available upon request via <support@sitkatech.com>.
             margin-right: 6px;
         }
 
+        .nav li a, .nav li button {
+            color: #777676;
+        }
+
         #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
         {
             height: 320px;
@@ -282,8 +286,6 @@ Source code is available upon request via <support@sitkatech.com>.
         jQuery("#overviewTab").on("shown.bs.tab", function() {
             map.map.invalidateSize();
         });
-
-        map.disableUserInteraction();
 
         jQuery('.leaflet-container').css('cursor', 'pointer');
 

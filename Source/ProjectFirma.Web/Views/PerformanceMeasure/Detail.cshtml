@@ -78,6 +78,10 @@
             margin: 0;
         }
 
+        .nav li a, .nav li button {
+            color: #777676;
+        }
+
         #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
         {
             height: 420px;
@@ -403,8 +407,6 @@
         clusterLocationsCheckbox.on("change",function () { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
         $('#performanceMeasuresDetailsTabs a[href="#@ViewDataTyped.ActiveTab.ToString()"]').tab('show');
-
-        map.disableUserInteraction();
 
         jQuery('.leaflet-container').css('cursor', 'pointer');
 
