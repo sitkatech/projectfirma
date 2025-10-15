@@ -27,6 +27,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @section JavascriptAndStylesContent
 {
     <script type="text/javascript" src="/Content/fancytree/jquery.fancytree-all.min.js"></script>
+    <script src="~/ScriptsCustom/AAColors.js"></script>
     <link rel="stylesheet" href="/Content/fancytree/skin-bootstrap/ui.fancytree.min.css" type="text/css" />
 
     <style>
@@ -34,6 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
             text-decoration: underline;
             cursor: pointer;
         }
+
         .fancytree-expander {
             display: none !important;
         }
@@ -113,6 +115,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panel-default">
     <div class="panel-heading">
+        <button id="btnExpandLevel" class="btn btn-sm btn-primary">Expand Level</button>
+        <button id="btnCollapseLevel" class="btn btn-sm btn-primary">Collapse Level</button>
         <input name="search" placeholder="Search..." autocomplete="on">
         <button id="btnResetSearch" class="btn btn-xs btn-primary">&times;</button>
         <span id="matches"></span>
@@ -209,9 +213,56 @@ Source code is available upon request via <support@sitkatech.com>.
                 node.setExpanded(true);
             });
         }
-
+        var expandLevelButton = jQuery('#btnExpandLevel');
+        var collapseLevelButton = jQuery('#btnCollapseLevel');
         var searchButton = jQuery("input[name=search]");
         var resetButton = jQuery("button#btnResetSearch");
+
+        expandLevelButton.click(function () {
+            var maximumExpansion = 1;
+            for (var i = 0; i < treeSources.length; ++i) {
+                var currentTreeSource = treeSources[i];
+                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
+                tree.visit(function (node) {
+                    if (node.isVisible()) {
+                        maximumExpansion = Math.max(maximumExpansion, node.getLevel());
+                    }
+                });
+            }
+            for (var i = 0; i < treeSources.length; ++i) {
+                var currentTreeSource = treeSources[i];
+                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
+                tree.visit(function (node) {
+                    if (node.getLevel() <= maximumExpansion) {
+                        node.setExpanded(true);
+                    }
+                });
+            }
+        });
+
+        collapseLevelButton.click(function () {
+            var maximumExpansion = 1;
+
+            for (var i = 0; i < treeSources.length; ++i) {
+                var currentTreeSource = treeSources[i];
+                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
+                tree.visit(function (node) {
+                    if (node.isExpanded()) {
+                        maximumExpansion = Math.max(maximumExpansion, node.getLevel());
+                    }
+                });
+            }
+
+            for (var i = 0; i < treeSources.length; ++i) {
+                var currentTreeSource = treeSources[i];
+                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
+                tree.visit(function (node) {
+                    if (node.getLevel() == maximumExpansion) {
+                        node.setExpanded(false);
+                    }
+                });
+            }
+        });
 
         searchButton.keyup(function(e)
         {
@@ -253,6 +304,12 @@ Source code is available upon request via <support@sitkatech.com>.
         var tr = jQuery(node.tr);
         var $tdList = tr.find(">td");
 
+        if (node.data.ThemeColor != null) {
+            var temp = deriveTokens(node.data.ThemeColor);
+            console.log(temp.accentStrong);
+        }
+        
+
         var titleColumn = $tdList.eq(0);
         var mapColumn = $tdList.eq(1);
         var numberOfProjectsColumn = $tdList.eq(2);
@@ -262,21 +319,29 @@ Source code is available upon request via <support@sitkatech.com>.
         mapColumn.empty();
         numberOfProjectsColumn.empty();
 
-        // Title
-        titleColumn.html("<h2>" + node.title + "</h2>");
-        titleColumn.css("border-top-color", node.data.ThemeColor);
-
-        // Map link
         if (!Sitka.Methods.isUndefinedNullOrEmpty(node.data.MapUrl)) {
-            titleColumn.html("<h2>" + node.title + "</h2>");
+            // Expand/collapse button + title for map link rows
+            var expandCollapseBtn = "<button type='button' class='btn btn-xs btn-default expand-collapse-btn' aria-label='Expand/Collapse' style='margin-right:8px'>" +
+                (node.expanded ? "&#8722;" : "&#43;") +
+                "</button>";
+            titleColumn.html(expandCollapseBtn + "<h2 style='display:inline'>" + node.title + "</h2>");
             titleColumn.css("border-top-color", node.data.ThemeColor);
-            var aHtml = "<a href='" + node.data.MapUrl + "' tabindex='0' role='button' aria-label='Map' class='btn btn-sm map-link' style='color:white; text-decoration:none; background-color:" +
+
+            var aHtml = "<a href='" + node.data.MapUrl + "' tabindex='0' aria-label='Map' class='btn btn-sm map-link' style='color:white; text-decoration:none; background-color:" +
                 node.data.ThemeColor +
                 "'>Map <span class='glyphicon glyphicon-map-marker' aria-hidden='true'></span></a>";
             mapColumn.html(aHtml);
-        }
-        else {
-            titleColumn.html(node.title);
+
+            // Attach click handler after rendering
+            setTimeout(function() {
+                tr.find('.expand-collapse-btn').off('click').on('click', function(e) {
+                    e.stopPropagation();
+                    node.setExpanded(!node.expanded);
+                });
+            }, 0);
+        } else {
+            // Just the title for non-map-link rows, indented
+            titleColumn.html("<div style='display:inline; padding-left: 24px;'>" + node.title + "</div>");
             titleColumn.css("border-top-color", node.data.ThemeColor);
         }
 
@@ -285,5 +350,5 @@ Source code is available upon request via <support@sitkatech.com>.
             numberOfProjectsColumn.text(node.data.NumberOfProjects);
         }
         numberOfProjectsColumn.css("border-top-color", node.data.ThemeColor);
-}
+    }
 </script>
