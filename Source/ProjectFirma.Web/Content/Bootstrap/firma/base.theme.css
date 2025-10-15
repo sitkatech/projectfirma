@@ -68,7 +68,7 @@ body {
   overflow-x: hidden;
 }
 input[disabled] {
-  background-color: LightGray;
+  background-color: #777676;
 }
 input.sitkaCurrency {
   width: 120px;
@@ -799,7 +799,7 @@ a.button:active {
   color: #fff;
 }
 a.gridButton.disabled {
-  background-color: LightGray;
+  background-color: #777676;
 }
 /* STANDARD */
 a.gridButton:hover {
@@ -1002,12 +1002,12 @@ ul.filmStrip li a div.caption {
   color: #888888;
 }
 .disabled {
-  color: LightGray;
+  color: #777676;
 }
 a.disabled {
   cursor: not-allowed;
   font-style: italic;
-  color: LightGray;
+  color: #777676;
   background-color: transparent;
 }
 .project-detail-heading {
@@ -1032,7 +1032,7 @@ a.disabled {
 #projectWizardContent select[disabled],
 #projectWizardContent .dropdown-toggle[disabled],
 #projectWizardContent .dropdown-menu[disabled] {
-  background-color: LightGray;
+  background-color: #777676;
 }
 #projectWizardContent .dropdown-menu.open,
 #projectWizardContent .dropdown-menu.inner {

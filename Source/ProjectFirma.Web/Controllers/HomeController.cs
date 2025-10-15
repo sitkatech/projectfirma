@@ -179,7 +179,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [AnonymousUnclassifiedFeature]
+        [LoggedInUnclassifiedFeature]
         public ViewResult ReleaseNotes()
         {
             var firmaPage = FirmaPageTypeEnum.ReleaseNotes.GetFirmaPage();
