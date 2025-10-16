@@ -69,6 +69,17 @@ Source code is available upon request via <support@sitkatech.com>.
         .treegrid-leaf > .treegrid-expander {
             visibility: hidden;
         }
+        .taxonomy-level-tag {
+            display: inline-block;
+            background: #e3e3e3;
+            color: #333;
+            border-radius: 8px;
+            font-size: 12px;
+            padding: 2px 8px;
+            margin-right: 8px;
+            font-weight: bold;
+            vertical-align: middle;
+        }
         .map-link:focus {
             outline: 3px solid #1976d2;
             outline-offset: 2px;
@@ -116,19 +127,31 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <script>
     var taxonomyData = @Html.Raw(JArray.FromObject(ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes));
+    var taxonomyLevelDisplayNames = {
+        trunk: '@ViewDataTyped.TaxonomyBranchDisplayName',
+        branch: '@ViewDataTyped.TaxonomyLeafDisplayName',
+        leaf: '@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'
+    };
+
+    function getTaxonomyLevelDisplayName(node, level) {
+        if (level === 0) return taxonomyLevelDisplayNames.trunk;
+        if (level === 1) return taxonomyLevelDisplayNames.branch;
+        if (level === 2) return taxonomyLevelDisplayNames.leaf;
+        return 'Level ' + (level + 1);
+    }
 
     function renderTreeGridRow(node, level, parentKey, expanded) {
         var hasChildren = node.children && node.children.length > 0;
         var isLeaf = !hasChildren;
         var rowId = 'row-' + node.key;
         var parentAttr = parentKey ? `data-parent="row-${parentKey}"` : '';
-        // Set initial class and aria-expanded based on expanded param
         var isExpanded = expanded;
         var expanderClass = isLeaf ? 'treegrid-leaf' : (isExpanded ? 'treegrid-expanded' : 'treegrid-collapsed');
         var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
+        var tag = `<span class="taxonomy-level-tag">${getTaxonomyLevelDisplayName(node, level)}</span>`;
         var expander = `<span class="treegrid-expander"></span>`;
         var indent = `<span style="display:inline-block;width:${level * 24}px"></span>`;
-        var titleCell = `<td style="border-top-color:${node.ThemeColor}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${expander}<h2 style="display:inline">${node.title}</h2></td>`;
+        var titleCell = `<td style="border-top-color:${node.ThemeColor}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${tag}${expander}<h2 style="display:inline">${node.title}</h2></td>`;
         var mapCell = `<td style="border-top-color:${node.ThemeColor}">`;
         if (node.MapUrl) {
             mapCell += `<a href="${node.MapUrl}" tabindex="0" aria-label="Map" class="btn btn-sm map-link" style="color:white; text-decoration:none; background-color:${node.ThemeColor}">Map <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a>`;
