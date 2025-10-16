@@ -27,13 +27,10 @@ Source code is available upon request via <support@sitkatech.com>.
 @section JavascriptAndStylesContent
 {
     <script src="~/ScriptsCustom/AAColors.js"></script>
-    @*<link rel="stylesheet" href="/Content/fancytree/skin-bootstrap/ui.fancytree.min.css" type="text/css" />*@
-
     <style>
         table.taxonomy-treegrid {
-            border: 5px solid;
-            border-radius: 12px;
             width: 100%;
+            /* border and border-radius removed */
         }
         table.taxonomy-treegrid thead {
             background: #f5f5f5;
@@ -48,6 +45,14 @@ Source code is available upon request via <support@sitkatech.com>.
         table.taxonomy-treegrid tr:first-child td {
             border-top: 0 none;
         }
+        .taxonomy-trunk-group {
+            border: 5px solid #888;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            background: #fff;
+            overflow: hidden;
+            padding-bottom: 1rem;
+        }
         .treegrid-expander {
             cursor: pointer;
             margin-right: 6px;
@@ -55,10 +60,10 @@ Source code is available upon request via <support@sitkatech.com>.
             font-size: 18px;
             user-select: none;
         }
-        .treegrid-collapsed > .treegrid-expander::before {
+        .taxonomy-treegrid tr.treegrid-collapsed .treegrid-expander::before {
             content: '+';
         }
-        .treegrid-expanded > .treegrid-expander::before {
+        .taxonomy-treegrid tr.treegrid-expanded .treegrid-expander::before {
             content: '\2212'; /* minus sign */
         }
         .treegrid-leaf > .treegrid-expander {
@@ -101,14 +106,7 @@ Source code is available upon request via <support@sitkatech.com>.
             Number of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()
         </div>
         <div style="clear: both">
-            <table id="taxonomyTreeGrid" class="taxonomy-treegrid" role="treegrid" aria-label="Taxonomy Treegrid" style="margin-bottom: 10px; border-color: #888;">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Map</th>
-                        <th># Projects</th>
-                    </tr>
-                </thead>
+            <table id="taxonomyTreeGrid" class="taxonomy-treegrid" role="treegrid" aria-label="Taxonomy Treegrid" style="margin-bottom: 10px;">
                 <tbody>
                 </tbody>
             </table>
@@ -117,51 +115,54 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <script>
-    // Example: you may need to adjust this to match your actual data structure
     var taxonomyData = @Html.Raw(JArray.FromObject(ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes));
 
-    function renderTreeGridRow(node, level, parentKey) {
+    function renderTreeGridRow(node, level, parentKey, expanded) {
         var hasChildren = node.children && node.children.length > 0;
         var isLeaf = !hasChildren;
         var rowId = 'row-' + node.key;
         var parentAttr = parentKey ? `data-parent="row-${parentKey}"` : '';
-        var expanderClass = isLeaf ? 'treegrid-leaf' : 'treegrid-collapsed';
+        // Set initial class and aria-expanded based on expanded param
+        var isExpanded = expanded;
+        var expanderClass = isLeaf ? 'treegrid-leaf' : (isExpanded ? 'treegrid-expanded' : 'treegrid-collapsed');
+        var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
         var expander = `<span class="treegrid-expander"></span>`;
         var indent = `<span style="display:inline-block;width:${level * 24}px"></span>`;
-        var titleCell = `<td style="border-top-color:${node.ThemeColor}" ${parentAttr} data-key="${node.key}" class="${expanderClass}">${indent}${expander}<h2 style="display:inline">${node.title}</h2></td>`;
+        var titleCell = `<td style="border-top-color:${node.ThemeColor}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${expander}<h2 style="display:inline">${node.title}</h2></td>`;
         var mapCell = `<td style="border-top-color:${node.ThemeColor}">`;
         if (node.MapUrl) {
             mapCell += `<a href="${node.MapUrl}" tabindex="0" aria-label="Map" class="btn btn-sm map-link" style="color:white; text-decoration:none; background-color:${node.ThemeColor}">Map <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a>`;
         }
         mapCell += `</td>`;
         var countCell = `<td style="border-top-color:${node.ThemeColor}">${node.NumberOfProjects != null ? node.NumberOfProjects : ''}</td>`;
-        var row = `<tr id="${rowId}" role="row" aria-level="${level + 1}" aria-expanded="false">${titleCell}${mapCell}${countCell}</tr>`;
+        var row = `<tr id="${rowId}" role="row" aria-level="${level + 1}" class="${expanderClass}" ${ariaExpanded}>${titleCell}${mapCell}${countCell}</tr>`;
         var rows = [row];
         if (hasChildren) {
             for (var i = 0; i < node.children.length; ++i) {
-                rows = rows.concat(renderTreeGridRow(node.children[i], level + 1, node.key));
+                rows = rows.concat(renderTreeGridRow(node.children[i], level + 1, node.key, isExpanded));
             }
         }
         return rows;
     }
 
     function renderTreeGrid() {
-        var rows = [];
+        var tbodies = [];
         for (var i = 0; i < taxonomyData.length; ++i) {
-            rows = rows.concat(renderTreeGridRow(taxonomyData[i], 0, null));
+            var trunk = taxonomyData[i];
+            var trunkRows = renderTreeGridRow(trunk, 0, null, true); // Start expanded
+            var trunkColor = trunk.ThemeColor || '#888';
+            tbodies.push(`<tbody class="taxonomy-trunk-group" style="border:5px solid ${trunkColor};border-radius:12px;margin-bottom:10px;padding-bottom:1rem">` + trunkRows.join('') + '</tbody>');
         }
-        $('#taxonomyTreeGrid tbody').html(rows.join(''));
+        $('#taxonomyTreeGrid').html(tbodies.join(''));
     }
 
     function updateExpandCollapse() {
-        // Set up expand/collapse logic
         $('#taxonomyTreeGrid').off('click', '.treegrid-expander').on('click', '.treegrid-expander', function (e) {
             var $row = $(this).closest('tr');
             var key = $row.find('[data-key]').data('key');
-            var expanded = $row.attr('aria-expanded') === 'true';
-            $row.attr('aria-expanded', !expanded);
+            var expanded = $row.hasClass('treegrid-expanded');
             $row.toggleClass('treegrid-expanded', !expanded).toggleClass('treegrid-collapsed', expanded);
-            // Show/hide children
+            $row.attr('aria-expanded', !expanded);
             toggleChildren(key, !expanded);
             e.stopPropagation();
         });
@@ -174,7 +175,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 $(this).show();
             } else {
                 $(this).hide();
-                // Also collapse all descendants
                 var childKey = $(this).find('[data-key]').data('key');
                 toggleChildren(childKey, false);
                 $(this).attr('aria-expanded', false).removeClass('treegrid-expanded').addClass('treegrid-collapsed');
