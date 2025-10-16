@@ -30,6 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <style>
         table.taxonomy-treegrid {
             width: 100%;
+            font-size: 16px;
             /* border and border-radius removed */
         }
         table.taxonomy-treegrid thead {
@@ -151,7 +152,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var tag = `<span class="taxonomy-level-tag">${getTaxonomyLevelDisplayName(node, level)}</span>`;
         var expander = `<span class="treegrid-expander"></span>`;
         var indent = `<span style="display:inline-block;width:${level * 24}px"></span>`;
-        var titleCell = `<td style="border-top-color:${node.ThemeColor}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${tag}${expander}<h2 style="display:inline">${node.title}</h2></td>`;
+        var titleCell = `<td style="border-top-color:${node.ThemeColor}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${expander}${tag}<div style="display:inline">${node.title}</div></td>`;
         var mapCell = `<td style="border-top-color:${node.ThemeColor}">`;
         if (node.MapUrl) {
             mapCell += `<a href="${node.MapUrl}" tabindex="0" aria-label="Map" class="btn btn-sm map-link" style="color:white; text-decoration:none; background-color:${node.ThemeColor}">Map <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a>`;
