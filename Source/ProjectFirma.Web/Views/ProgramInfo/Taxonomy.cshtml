@@ -33,19 +33,24 @@ Source code is available upon request via <support@sitkatech.com>.
             font-size: 16px;
             /* border and border-radius removed */
         }
-        table.taxonomy-treegrid thead {
-            background: #f5f5f5;
-        }
-        table.taxonomy-treegrid th, table.taxonomy-treegrid td {
-            padding: 1px 5px;
-            border-top: 1px dotted #bbb;
-        }
-        table.taxonomy-treegrid th {
-            font-weight: bold;
-        }
-        table.taxonomy-treegrid tr:first-child td {
-            border-top: 0 none;
-        }
+
+            table.taxonomy-treegrid thead {
+                background: #f5f5f5;
+            }
+
+            table.taxonomy-treegrid th, table.taxonomy-treegrid td {
+                padding: 1px 5px;
+                border-top: 1px dotted #bbb;
+            }
+
+            table.taxonomy-treegrid th {
+                font-weight: bold;
+            }
+
+            table.taxonomy-treegrid tr:first-child td {
+                border-top: 0 none;
+            }
+
         .taxonomy-trunk-group {
             border: 2px solid #888;
             border-radius: 20px;
@@ -55,22 +60,29 @@ Source code is available upon request via <support@sitkatech.com>.
             padding-bottom: 1rem;
             margin-top: 8px;
         }
+
         .treegrid-expander {
             cursor: pointer;
             margin-right: 6px;
             font-weight: bold;
             font-size: 18px;
             user-select: none;
+            border: none;
+            background-color: transparent;
         }
+
         .taxonomy-treegrid tr.treegrid-collapsed .treegrid-expander::before {
             content: '\25B6'; /* right-pointing chevron ▶ */
         }
+
         .taxonomy-treegrid tr.treegrid-expanded .treegrid-expander::before {
             content: '\25BC'; /* down-pointing chevron ▼ */
         }
+
         .treegrid-leaf > .treegrid-expander {
             visibility: hidden;
         }
+
         .taxonomy-level-tag {
             display: inline-block;
             color: #fff;
@@ -81,6 +93,7 @@ Source code is available upon request via <support@sitkatech.com>.
             font-weight: bold;
             vertical-align: middle;
         }
+
         .map-link:focus {
             outline: 3px solid #1976d2;
             outline-offset: 2px;
@@ -156,7 +169,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
         var tagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
         var tag = `<span class="${tagClass}" style="background:${colors.accentStrong}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
-        var expander = `<span class="treegrid-expander"></span>`;
+        var expander = `<button class="treegrid-expander"></button>`;
         var indent = `<span style="display:inline-block;width:${level * 24}px"></span>`;
         var titleLink = node.url
             ? `<a href="${node.url}" style="color:inherit;text-decoration:underline;">${node.title}</a>`
@@ -165,7 +178,11 @@ Source code is available upon request via <support@sitkatech.com>.
             ? `<h2 style="display:inline">${titleLink}</h2>`
             : `<div style="display:inline">${titleLink}</div>`;
         var titleCell = `<td style="border-top-color:${colors.accent}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${expander}${tag}${titleContent}</td>`;
-        var countCell = `<td style="border-top-color:${colors.accent}"><span class="taxonomy-level-tag" style="background:${colors.accentStrong};color:${colors.tagText};">${node.NumberOfProjects != null ? node.NumberOfProjects : ''}</span></td>`;
+        var countText = (level === 0 && node.NumberOfProjects != null)
+            ? `${node.NumberOfProjects} Projects`
+            : (node.NumberOfProjects != null ? node.NumberOfProjects : '');
+        var countTagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
+        var countCell = `<td style="border-top-color:${colors.accent}"><span class="${countTagClass}" style="background:${colors.accentStrong};color:${colors.tagText};">${node.NumberOfProjects != null ? countText : ''}</span></td>`;
         var row = `<tr id="${rowId}" role="row" aria-level="${level + 1}" class="${expanderClass}" ${ariaExpanded}>${titleCell}${countCell}</tr>`;
         var rows = [row];
         if (hasChildren) {
