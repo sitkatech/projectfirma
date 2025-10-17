@@ -169,19 +169,20 @@ Source code is available upon request via <support@sitkatech.com>.
         for (var i = 0; i < taxonomyData.length; ++i) {
             var trunk = taxonomyData[i];
             var trunkColors = deriveTokens(trunk.ThemeColor || '#888');
-            var trunkRows = renderTreeGridRow(trunk, 0, null, true, trunkColors).join(''); // Start expanded
-            var trunkColor = trunk.ThemeColor || '#888';
+            var trunkRows = renderTreeGridRow(trunk, 0, null, true, trunkColors);
+            // Wrap trunk rows in a group row for border and background
             trunkGroups.push(
                 `<tr><td colspan="2" style="padding:0; border:none; background:none;">
-                    <div class="taxonomy-trunk-group" style="border:2px solid ${trunkColor};border-radius:20px;margin-bottom:24px;background:#fff;overflow:hidden;padding-bottom:1rem;">
+                    <div class="taxonomy-trunk-group" style="border:2px solid ${trunk.ThemeColor || '#888'};border-radius:20px;margin-bottom:24px;background:#fff;overflow:hidden;padding-bottom:1rem;">
                         <table style="width:100%;border:none;background:none;margin:0;">
-                            <tbody>${trunkRows}</tbody>
+                            <tbody>${trunkRows.join('')}</tbody>
                         </table>
                     </div>
                 </td></tr>`
             );
         }
-        $('#taxonomyTreeGrid').html(trunkGroups.join(''));
+        // Render all trunk groups as rows in the main table
+        $('#taxonomyTreeGrid tbody').html(trunkGroups.join(''));
     }
 
     function updateExpandCollapse() {
