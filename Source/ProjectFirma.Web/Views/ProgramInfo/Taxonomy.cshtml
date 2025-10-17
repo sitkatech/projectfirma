@@ -48,7 +48,7 @@ Source code is available upon request via <support@sitkatech.com>.
             }
 
             table.taxonomy-treegrid tr:first-child td {
-                border-top: 0 none;
+                border-top: 1px dotted #bbb;
             }
 
         .taxonomy-trunk-group {
@@ -146,11 +146,32 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <script>
     var taxonomyData = @Html.Raw(JArray.FromObject(ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes));
-    var taxonomyLevelDisplayNames = {
-        trunk: '@ViewDataTyped.TaxonomyBranchDisplayName',
-        branch: '@ViewDataTyped.TaxonomyLeafDisplayName',
-        leaf: '@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'
-    };
+    var taxonomyLevel = { level: '@ViewDataTyped.TaxonomyLevel.TaxonomyLevelName'};
+    var taxonomyLevelDisplayNames = setLevelDisplayNames();
+
+    function setLevelDisplayNames() {
+        console.log(taxonomyLevel)
+        if (taxonomyLevel.level == "Trunk") {
+            return {
+                trunk: '@ViewDataTyped.TaxonomyBranchDisplayName',
+                branch: '@ViewDataTyped.TaxonomyLeafDisplayName',
+                leaf: '@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'
+            }
+        }
+        else if (taxonomyLevel.level == "Branch") {
+            return {
+                trunk: '@ViewDataTyped.TaxonomyBranchDisplayName',
+                branch: '@ViewDataTyped.TaxonomyLeafDisplayName',
+                leaf: '@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'
+            }
+        }else {
+            return {
+                trunk: '@ViewDataTyped.TaxonomyLeafDisplayName',
+                branch: '@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()',
+                leaf: 'Project'
+            }
+        }
+    }
 
     function getTaxonomyLevelDisplayName(node, level) {
         if (level === 0) return taxonomyLevelDisplayNames.trunk;
