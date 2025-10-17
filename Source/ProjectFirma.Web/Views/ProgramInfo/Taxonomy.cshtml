@@ -177,13 +177,13 @@ Source code is available upon request via <support@sitkatech.com>.
         var titleContent = (level === 0)
             ? `<h2 style="display:inline">${titleLink}</h2>`
             : `<div style="display:inline">${titleLink}</div>`;
-        var titleCell = `<td style="border-top-color:${colors.accent}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${expander}${tag}${titleContent}</td>`;
+        var titleCell = `<td style="border-top-color:${colors.accent}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" >${indent}${expander}${tag}${titleContent}</td>`;
         var countText = (level === 0 && node.NumberOfProjects != null)
             ? `${node.NumberOfProjects} Projects`
             : (node.NumberOfProjects != null ? node.NumberOfProjects : '');
         var countTagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
         var countCell = `<td style="border-top-color:${colors.accent}"><span class="${countTagClass}" style="background:${colors.accentStrong};color:${colors.tagText};">${node.NumberOfProjects != null ? countText : ''}</span></td>`;
-        var row = `<tr id="${rowId}" role="row" aria-level="${level + 1}" class="${expanderClass}" ${ariaExpanded}>${titleCell}${countCell}</tr>`;
+        var row = `<tr id="${rowId}" role="row" class="${expanderClass}">${titleCell}${countCell}</tr>`;
         var rows = [row];
         if (hasChildren) {
             for (var i = 0; i < node.children.length; ++i) {
@@ -220,7 +220,7 @@ Source code is available upon request via <support@sitkatech.com>.
             var key = $row.find('[data-key]').data('key');
             var expanded = $row.hasClass('treegrid-expanded');
             $row.toggleClass('treegrid-expanded', !expanded).toggleClass('treegrid-collapsed', expanded);
-            $row.attr('aria-expanded', !expanded);
+            //$row.attr('aria-expanded', !expanded);
             toggleChildren(key, !expanded);
             e.stopPropagation();
         });
@@ -235,7 +235,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 $(this).hide();
                 var childKey = $(this).find('[data-key]').data('key');
                 toggleChildren(childKey, false);
-                $(this).attr('aria-expanded', false).removeClass('treegrid-expanded').addClass('treegrid-collapsed');
+                $(this).removeClass('treegrid-expanded').addClass('treegrid-collapsed');
             }
         });
     }
@@ -245,7 +245,7 @@ Source code is available upon request via <support@sitkatech.com>.
             var $row = $(this);
             var key = $row.find('[data-key]').data('key');
             if ($row.find('.treegrid-expander').length) {
-                $row.attr('aria-expanded', false).removeClass('treegrid-expanded').addClass('treegrid-collapsed');
+                $row.removeClass('treegrid-expanded').addClass('treegrid-collapsed');
                 toggleChildren(key, false);
             }
         });
@@ -255,7 +255,7 @@ Source code is available upon request via <support@sitkatech.com>.
             var $row = $(this);
             var key = $row.find('[data-key]').data('key');
             if ($row.find('.treegrid-expander').length) {
-                $row.attr('aria-expanded', true).removeClass('treegrid-collapsed').addClass('treegrid-expanded');
+                $row.removeClass('treegrid-collapsed').addClass('treegrid-expanded');
                 toggleChildren(key, true);
             }
         });
