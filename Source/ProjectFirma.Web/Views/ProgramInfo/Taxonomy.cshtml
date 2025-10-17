@@ -62,10 +62,10 @@ Source code is available upon request via <support@sitkatech.com>.
             user-select: none;
         }
         .taxonomy-treegrid tr.treegrid-collapsed .treegrid-expander::before {
-            content: '+';
+            content: '\25B6'; /* right-pointing chevron ▶ */
         }
         .taxonomy-treegrid tr.treegrid-expanded .treegrid-expander::before {
-            content: '\2212'; /* minus sign */
+            content: '\25BC'; /* down-pointing chevron ▼ */
         }
         .treegrid-leaf > .treegrid-expander {
             visibility: hidden;
@@ -73,7 +73,7 @@ Source code is available upon request via <support@sitkatech.com>.
         .taxonomy-level-tag {
             display: inline-block;
             color: #fff;
-            border-radius: 8px;
+            border-radius: 20px;
             font-size: 12px;
             padding: 2px 8px;
             margin-right: 8px;
@@ -149,17 +149,17 @@ Source code is available upon request via <support@sitkatech.com>.
         var isExpanded = expanded;
         var expanderClass = isLeaf ? 'treegrid-leaf' : (isExpanded ? 'treegrid-expanded' : 'treegrid-collapsed');
         var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
-        var tag = `<span class="taxonomy-level-tag" style="background:${node.ThemeColor}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
+        var tag = `<span class="taxonomy-level-tag" style="background:${colors.accentStrong}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
         var expander = `<span class="treegrid-expander"></span>`;
         var indent = `<span style="display:inline-block;width:${level * 24}px"></span>`;
         var titleCell = `<td style="border-top-color:${colors.accent}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${expander}${tag}<div style="display:inline">${node.title}</div></td>`;
-        var mapCell = `<td style="border-top-color:${node.ThemeColor}">`;
+        //var mapCell = `<td style="border-top-color:${node.ThemeColor}">`;
         //if (node.MapUrl) {
         //    mapCell += `<a href="${node.MapUrl}" tabindex="0" aria-label="Map" class="btn btn-sm map-link" style="color:white; text-decoration:none; background-color:${node.ThemeColor}">Map <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></a>`;
         //}
-        mapCell += `</td>`;
-        var countCell = `<td style="border-top-color:${node.ThemeColor}">${node.NumberOfProjects != null ? node.NumberOfProjects : ''}</td>`;
-        var row = `<tr id="${rowId}" role="row" aria-level="${level + 1}" class="${expanderClass}" ${ariaExpanded}>${titleCell}${mapCell}${countCell}</tr>`;
+        //mapCell += `</td>`;
+        var countCell = `<td style="border-top-color:${colors.accentStrong}"><span class="taxonomy-level-tag" style="background:${node.ThemeColor};color:${colors.tagText};">${node.NumberOfProjects != null ? node.NumberOfProjects : ''}</span></td>`;
+        var row = `<tr id="${rowId}" role="row" aria-level="${level + 1}" class="${expanderClass}" ${ariaExpanded}>${titleCell}${countCell}</tr>`;
         var rows = [row];
         if (hasChildren) {
             for (var i = 0; i < node.children.length; ++i) {
