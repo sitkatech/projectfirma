@@ -169,7 +169,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
         var tagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
         var tag = `<span class="${tagClass}" style="background:${colors.accentStrong}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
-        var expander = `<button class="treegrid-expander"></button>`;
+        var expander = `<button aria-label="Expand/Collapse" class="treegrid-expander"></button>`;
         var indent = `<span style="display:inline-block;width:${level * 24}px"></span>`;
         var titleLink = node.url
             ? `<a href="${node.url}" style="color:inherit;text-decoration:underline;">${node.title}</a>`
