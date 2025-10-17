@@ -87,6 +87,11 @@ Source code is available upon request via <support@sitkatech.com>.
             box-shadow: 0 0 0 2px #90caf9;
             background-color: #1565c0 !important;
         }
+
+        .taxonomy-level-tag-large {
+            font-size: 18px;
+            padding: 4px 16px;
+        }
     </style>
 }
 
@@ -149,10 +154,17 @@ Source code is available upon request via <support@sitkatech.com>.
         var isExpanded = expanded;
         var expanderClass = isLeaf ? 'treegrid-leaf' : (isExpanded ? 'treegrid-expanded' : 'treegrid-collapsed');
         var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
-        var tag = `<span class="taxonomy-level-tag" style="background:${colors.accentStrong}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
+        var tagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
+        var tag = `<span class="${tagClass}" style="background:${colors.accentStrong}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
         var expander = `<span class="treegrid-expander"></span>`;
         var indent = `<span style="display:inline-block;width:${level * 24}px"></span>`;
-        var titleCell = `<td style="border-top-color:${colors.accent}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${expander}${tag}<div style="display:inline">${node.title}</div></td>`;
+        var titleLink = node.url
+            ? `<a href="${node.url}" style="color:inherit;text-decoration:underline;">${node.title}</a>`
+            : node.title;
+        var titleContent = (level === 0)
+            ? `<h2 style="display:inline">${titleLink}</h2>`
+            : `<div style="display:inline">${titleLink}</div>`;
+        var titleCell = `<td style="border-top-color:${colors.accent}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpanded}>${indent}${expander}${tag}${titleContent}</td>`;
         var countCell = `<td style="border-top-color:${colors.accent}"><span class="taxonomy-level-tag" style="background:${colors.accentStrong};color:${colors.tagText};">${node.NumberOfProjects != null ? node.NumberOfProjects : ''}</span></td>`;
         var row = `<tr id="${rowId}" role="row" aria-level="${level + 1}" class="${expanderClass}" ${ariaExpanded}>${titleCell}${countCell}</tr>`;
         var rows = [row];
