@@ -45,9 +45,10 @@ namespace ProjectFirma.Web.Views.Results
         public bool ProjectStagesHasData { get; }
         public double ProjectStagesTotal { get; }
         public bool FundingOrganizationsHasData { get; }
+        public int NumberOfTribalProjects { get; }
 
         public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, int disadvantagedCommunityStatusGeospatialAreaTypeID, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
-            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, GoogleChartJson fundingOrganizationGoogleChart)
+            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, GoogleChartJson fundingOrganizationGoogleChart, int numberOfTribalProjects)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             var geospatialAreaTypeIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(disadvantagedCommunityStatusGeospatialAreaTypeID)), "Underserved Community Status");
@@ -89,6 +90,8 @@ namespace ProjectFirma.Web.Views.Results
             var fundingSourcesIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index()), "Funding Organization");
             FundingOrganizationsViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {fundingSourcesIndexUrl}</b>");
             FundingOrganizationsHasData = fundingOrganizationGoogleChart.HasData();
+
+            NumberOfTribalProjects = numberOfTribalProjects;
         }
     }
 }

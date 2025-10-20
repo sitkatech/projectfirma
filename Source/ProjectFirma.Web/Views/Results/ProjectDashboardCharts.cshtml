@@ -215,6 +215,8 @@
     <div class="col-xs-12">
         <div class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByCountyAndTribalLandViewGoogleChartViewData); }
+
+            <strong>Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
         </div>
     </div>
     <div class="col-xs-12">
