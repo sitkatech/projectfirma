@@ -150,12 +150,11 @@ Source code is available upon request via <support@sitkatech.com>.
     var taxonomyLevelDisplayNames = setLevelDisplayNames();
 
     function setLevelDisplayNames() {
-        console.log(taxonomyLevel)
         if (taxonomyLevel.level == "Trunk") {
             return {
-                trunk: '@ViewDataTyped.TaxonomyBranchDisplayName',
-                branch: '@ViewDataTyped.TaxonomyLeafDisplayName',
-                leaf: '@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'
+                trunk: '@ViewDataTyped.TaxonomyTrunkDisplayName',
+                branch: '@ViewDataTyped.TaxonomyBranchDisplayName',
+                leaf: '@ViewDataTyped.TaxonomyLeafDisplayName'
             }
         }
         else if (taxonomyLevel.level == "Branch") {
@@ -177,7 +176,7 @@ Source code is available upon request via <support@sitkatech.com>.
         if (level === 0) return taxonomyLevelDisplayNames.trunk;
         if (level === 1) return taxonomyLevelDisplayNames.branch;
         if (level === 2) return taxonomyLevelDisplayNames.leaf;
-        return 'Level ' + (level + 1);
+        return "Project";
     }
 
     function renderTreeGridRow(node, level, parentKey, expanded, colors) {
