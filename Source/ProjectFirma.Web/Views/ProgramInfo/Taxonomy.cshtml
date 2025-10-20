@@ -197,7 +197,8 @@ Source code is available upon request via <support@sitkatech.com>.
         var titleContent = (level === 0)
             ? `<h2 style="display:inline">${titleLink}</h2>`
             : `<div style="display:inline">${titleLink}</div>`;
-        var titleCell = `<td style="border-top-color:${colors.accent}" ${parentAttr} data-key="${node.key}" class="${expanderClass}" >${indent}${expander}${tag}${titleContent}</td>`;
+        var ariaExpandedAttr = !isLeaf ? `aria-expanded="${isExpanded}"` : '';
+        var titleCell = `<td style="border-top-color:${colors.accent}; position:relative;" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpandedAttr}>${indent}${expander}${tag}${titleContent}</td>`;
         var countText = (level === 0 && node.NumberOfProjects != null)
             ? `${node.NumberOfProjects} Projects`
             : (node.NumberOfProjects != null ? node.NumberOfProjects : '');
