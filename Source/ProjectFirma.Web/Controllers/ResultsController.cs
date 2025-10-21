@@ -838,7 +838,6 @@ namespace ProjectFirma.Web.Controllers
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
-            var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
 
             var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID && x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).ToList();
             var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
@@ -849,7 +848,7 @@ namespace ProjectFirma.Web.Controllers
                 new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID, projectsByOwnerOrgTypeGoogleChart,
                     projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
                     projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
-                    fundingOrganizationGoogleChart, tribalLandProjectCount);
+                    tribalLandProjectCount);
 
 
             var totalLeveraged = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
@@ -1149,7 +1148,6 @@ namespace ProjectFirma.Web.Controllers
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
-            var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
 
             var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID && x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).ToList();
             var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
@@ -1159,7 +1157,7 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID,
                 projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID,
                 TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,
-                projectStagesGoogleChart, fundingOrganizationGoogleChart, tribalLandProjectCount);
+                projectStagesGoogleChart, tribalLandProjectCount);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 
