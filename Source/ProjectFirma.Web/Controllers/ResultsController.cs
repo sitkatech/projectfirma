@@ -851,9 +851,16 @@ namespace ProjectFirma.Web.Controllers
                     projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
                     fundingOrganizationGoogleChart, tribalLandProjectCount);
 
+
+            var totalLeveraged = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == 3771).Sum(x => x.ActualValue);
+
+            var totalJobsCreated = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == 3673).Sum(x => x.ActualValue);
+
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalAwarded, totalMatched, totalInvestment,
-                    projectGridSpec, projectTypes, projectCategories, projectDashboardChartsViewData);
+                    projectGridSpec, projectTypes, projectCategories, projectDashboardChartsViewData, totalLeveraged, totalJobsCreated);
             return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
         }
 
@@ -1148,7 +1155,7 @@ namespace ProjectFirma.Web.Controllers
             var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
             var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
                 .Select(x => x.Project).Distinct().Count();
-
+ 
             var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID,
                 projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID,
                 TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,

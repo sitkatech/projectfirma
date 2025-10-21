@@ -167,6 +167,11 @@
                         <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
                         <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> Total Investment
                     </div>
+                    <div>
+                        <span>$</span><span id="totalLeveraged" class="counter">@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span> Total Leveraged
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span id="jobsCreatedOrMaintained" class="counter">@ViewDataTyped.JobsCreatedOrMaintained.ToGroupedNumeric()</span> Jobs Created or Maintained
+                    </div>
                 </div>
             </div>
         </div>
