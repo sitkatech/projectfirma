@@ -1195,7 +1195,6 @@ namespace ProjectFirma.Web.Controllers
                     .Where(x => projectIdsWithCustomAttributeType.Contains(x.ProjectCustomAttributeID) && projectCategories.Contains(x.AttributeValue))
                     .Select(x => x.ProjectCustomAttribute.ProjectID)
                     .ToList();
-                // You can use projectIdsWithCustomAttributeType for further filtering or logic
                 projects = projects.Where(x => projectCustomAttributeValues.Contains(x.ProjectID)).ToList();
             }
 
