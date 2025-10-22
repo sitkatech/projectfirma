@@ -1003,7 +1003,7 @@ namespace ProjectFirma.Web.Controllers
             // set up Projects by County & Tribal Land column chart
             var projectByCountyChartTitle = "Projects by County";
             var countyChartContainerID = projectByCountyChartTitle.Replace(" ", "");
-            var googleChartAxis = new GoogleChartAxis("County Names and Tribal Land", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxis = new GoogleChartAxis("County Names", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
             var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
 
@@ -1017,17 +1017,17 @@ namespace ProjectFirma.Web.Controllers
             var countyToProjectCounts = projectGeospatialAreas.Where(x => countyIDs.Contains(x.GeospatialAreaID))
                 .GroupBy(x => x.GeospatialArea).OrderBy(x => x.Key.GeospatialAreaName).ToDictionary(x => x.Key, x => x.Count());
 
-            var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
-            var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
-                .Select(x => x.Project).Distinct().Count();
+            //var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
+            //var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
+            //    .Select(x => x.Project).Distinct().Count();
 
-            var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByCountyAndTribalLandGoogleChartDataTable(countyToProjectCounts, tribalLandProjectCount);
+            var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByCountyAndTribalLandGoogleChartDataTable(countyToProjectCounts);
 
             var chartColumns = countyToProjectCounts.Keys.Select(x => x.GeospatialAreaName).ToList();
-            if (tribalLandProjectCount > 0)
-            {
-                chartColumns.Add("Tribal Land As Identified by Federal BIA Map");
-            }
+            //if (tribalLandProjectCount > 0)
+            //{
+            //    chartColumns.Add("Tribal Land As Identified by Federal BIA Map");
+            //}
 
             var countyChartConfig = new GoogleChartConfiguration(projectByCountyChartTitle, true, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly

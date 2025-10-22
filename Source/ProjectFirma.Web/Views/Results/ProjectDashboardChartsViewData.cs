@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.Results
             ProjectsByCountyAndTribalLandViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByCountyAndTribalLandGoogleChart, projectsByCountyAndTribalLandGoogleChart.GoogleChartConfiguration.Title, 350, true);
             var countyIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(countyGeospatialAreaTypeID)), "County");
             var tribalLandIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(tribalLandGeospatialAreaTypeID)), "Tribal Land");
-            ProjectsByCountyAndTribalLandViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {countyIndexUrl} & {tribalLandIndexUrl}</b>");
+            ProjectsByCountyAndTribalLandViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {countyIndexUrl}</b>");
             ProjectsByCountyAndTribalLandHasData = projectsByCountyAndTribalLandGoogleChart.HasData();
 
             ProjectsByProjectTypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByProjectTypeGoogleChart, projectsByProjectTypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
