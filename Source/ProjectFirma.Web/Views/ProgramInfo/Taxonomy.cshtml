@@ -63,23 +63,27 @@ Source code is available upon request via <support@sitkatech.com>.
 
         .treegrid-expander {
             cursor: pointer;
-            margin-right: 6px;
+            margin-right: 12px;
             font-weight: bold;
             font-size: 18px;
             user-select: none;
             border: none;
             background-color: transparent;
+            padding: 3px;
+        }
+
+
+
+        .taxonomy-treegrid tr.treegrid-expanded .treegrid-expander::before {
+            content: '\e259'; /* down-pointing chevron ▼ */
         }
 
         .taxonomy-treegrid tr.treegrid-collapsed .treegrid-expander::before {
-            content: '\25B6'; /* right-pointing chevron ▶ */
+            content: '\e258'; /* right-pointing chevron ▶ */
         }
+        
 
-        .taxonomy-treegrid tr.treegrid-expanded .treegrid-expander::before {
-            content: '\25BC'; /* down-pointing chevron ▼ */
-        }
-
-        .treegrid-leaf > .treegrid-expander {
+        .treegrid-leaf > div > .treegrid-expander {
             visibility: hidden;
         }
 
@@ -92,6 +96,8 @@ Source code is available upon request via <support@sitkatech.com>.
             margin-right: 8px;
             font-weight: bold;
             vertical-align: middle;
+            margin-top: 7px;
+            margin-bottom: 7px;
         }
 
         .map-link:focus {
@@ -104,7 +110,22 @@ Source code is available upon request via <support@sitkatech.com>.
         .taxonomy-level-tag-large {
             font-size: 18px;
             padding: 4px 16px;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
+       
+        .indent-text-wrap {
+            margin-left: 148px;
+        }
+
+            .indent-text-wrap .indent-spacer {
+                margin-left: -148px;
+            }
+
+            .indent-text-wrap .indent-spacer:first-line {
+                margin-left: 0;
+            }
+
     </style>
 }
 
@@ -148,6 +169,7 @@ Source code is available upon request via <support@sitkatech.com>.
     var taxonomyData = @Html.Raw(JArray.FromObject(ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes));
     var taxonomyLevel = { level: '@ViewDataTyped.TaxonomyLevel.TaxonomyLevelName'};
     var taxonomyLevelDisplayNames = setLevelDisplayNames();
+    var projectLevel = getProjectLevel();
 
     function setLevelDisplayNames() {
         if (taxonomyLevel.level == "Trunk") {
@@ -172,6 +194,17 @@ Source code is available upon request via <support@sitkatech.com>.
         }
     }
 
+     function getProjectLevel() {
+         if (taxonomyLevel.level == "Trunk") {
+             return 3;
+         }
+         else if (taxonomyLevel.level == "Branch") {
+             return 2;
+         } else {
+             return 1;
+         }
+     }
+
     function getTaxonomyLevelDisplayName(node, level) {
         if (level === 0) return taxonomyLevelDisplayNames.trunk;
         if (level === 1) return taxonomyLevelDisplayNames.branch;
@@ -182,33 +215,34 @@ Source code is available upon request via <support@sitkatech.com>.
     function renderTreeGridRow(node, level, parentKey, expanded, colors) {
         var hasChildren = node.children && node.children.length > 0;
         var isLeaf = !hasChildren;
-        var rowId = 'row-' + node.key;
+        var rowId = 'row-' + level + '-' + node.key;
         var parentAttr = parentKey ? `data-parent="row-${parentKey}"` : '';
         var isExpanded = expanded;
         var expanderClass = isLeaf ? 'treegrid-leaf' : (isExpanded ? 'treegrid-expanded' : 'treegrid-collapsed');
+        var tdExpanderClass = isLeaf ? 'treegrid-leaf' : '';
         var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
         var tagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
         var tag = `<span class="${tagClass}" style="background:${colors.accentStrong}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
-        var expander = `<button aria-label="Expand/Collapse" class="treegrid-expander"></button>`;
-        var indent = `<span style="display:inline-block;width:${level * 24}px"></span>`;
+        var expander = `<button aria-label="Expand/Collapse" class="glyphicon treegrid-expander"></button>`;
+        var indent = `<span class="indent-spacer" style="display:inline-block;width:${level * 24}px"></span>`;
         var titleLink = node.url
             ? `<a href="${node.url}" style="color:inherit;text-decoration:underline;">${node.title}</a>`
             : node.title;
         var titleContent = (level === 0)
             ? `<h2 style="display:inline">${titleLink}</h2>`
-            : `<div style="display:inline">${titleLink}</div>`;
+            : `<div style="display:inline;">${titleLink}</div>`;
         var ariaExpandedAttr = !isLeaf ? `aria-expanded="${isExpanded}"` : '';
-        var titleCell = `<td style="border-top-color:${colors.accent}; position:relative;" ${parentAttr} data-key="${node.key}" class="${expanderClass}" ${ariaExpandedAttr}>${indent}${expander}${tag}${titleContent}</td>`;
+        var titleCell = `<td style="border-top-color:${colors.accent}; position:relative;" ${parentAttr} data-key="${level}-${node.key}" class="${tdExpanderClass}" ${ariaExpandedAttr}><div class="indent-text-wrap">${indent}${expander}${tag}${titleContent}</div></td>`;
         var countText = (level === 0 && node.NumberOfProjects != null)
             ? `${node.NumberOfProjects} Projects`
             : (node.NumberOfProjects != null ? node.NumberOfProjects : '');
         var countTagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
-        var countCell = `<td style="border-top-color:${colors.accent}"><span class="${countTagClass}" style="background:${colors.accentStrong};color:${colors.tagText};">${node.NumberOfProjects != null ? countText : ''}</span></td>`;
+        var countCell = `<td style="border-top-color:${colors.accent}; width: 15%; text-align: right;"><span class="${countTagClass}" style="background:${colors.accentStrong};color:${colors.tagText};${node.NumberOfProjects != null && level != projectLevel ? '' : 'display: none'}">${node.NumberOfProjects != null && level != projectLevel ? countText : ''}</span></td>`;
         var row = `<tr id="${rowId}" role="row" class="${expanderClass}">${titleCell}${countCell}</tr>`;
         var rows = [row];
         if (hasChildren) {
             for (var i = 0; i < node.children.length; ++i) {
-                rows = rows.concat(renderTreeGridRow(node.children[i], level + 1, node.key, isExpanded, colors));
+                rows = rows.concat(renderTreeGridRow(node.children[i], level + 1, "" + level +"-" +node.key, isExpanded, colors));
             }
         }
         return rows;
