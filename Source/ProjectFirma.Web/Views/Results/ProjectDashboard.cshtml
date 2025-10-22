@@ -83,6 +83,9 @@
             padding-top: 15px;
             padding-bottom: 15px;
         }
+        .counter-label {
+            font-size: 22px;
+        }
     </style>
     <script src="/Scripts/waypoints.min.js"></script>
     <script src="/Scripts/jquery.counterup.min.js"></script>
@@ -156,22 +159,22 @@
                 </div>
                 <div id="counterNumbers">
                     <div style="padding-bottom: 10px;">
-                        <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> Total Projects
+                        <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> <span class="counter-label">Total Projects</span>
                         <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
-                        <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> Project Sponsors
-                    </div>
+                        <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> <span class="counter-label">Project Sponsors</span>
+</div>
+                    <div style="padding-bottom: 10px;">
+                        <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span> <span class="counter-label">Funding for NCRP Projects</span>
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span> <span class="counter-label">Total Matched</span>
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> <span class="counter-label">Total Investment</span>
+</div>
                     <div>
-                        <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span> Funding for NCRP Projects
+                        <span>$</span><span id="totalLeveraged" class="counter">@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span> <span class="counter-label">Total Leveraged</span>
                         <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                        <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span> Total Matched
-                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                        <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> Total Investment
-                    </div>
-                    <div>
-                        <span>$</span><span id="totalLeveraged" class="counter">@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span> Total Leveraged
-                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                        <span id="jobsCreatedOrMaintained" class="counter">@ViewDataTyped.JobsCreatedOrMaintained.ToGroupedNumeric()</span> Jobs Created or Maintained
-                    </div>
+                        <span id="jobsCreatedOrMaintained" class="counter">@ViewDataTyped.JobsCreatedOrMaintained.ToGroupedNumeric()</span> <span class="counter-label">Jobs Created or Maintained</span>
+</div>
                 </div>
             </div>
         </div>
