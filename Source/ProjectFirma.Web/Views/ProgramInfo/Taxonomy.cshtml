@@ -26,76 +26,78 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.ProgramInfo.Taxonomy
 @section JavascriptAndStylesContent
 {
-    <script type="text/javascript" src="/Content/fancytree/jquery.fancytree-all.min.js"></script>
-    <link rel="stylesheet" href="/Content/fancytree/skin-bootstrap/ui.fancytree.min.css" type="text/css" />
-
+    <script src="~/ScriptsCustom/AAColors.js"></script>
     <style>
-        .fancytree-link {
-            text-decoration: underline;
+        table.taxonomy-treegrid {
+            width: 100%;
+            font-size: 16px;
+            /* border and border-radius removed */
+        }
+
+            table.taxonomy-treegrid thead {
+                background: #f5f5f5;
+            }
+
+            table.taxonomy-treegrid th, table.taxonomy-treegrid td {
+                padding: 1px 5px;
+                border-top: 1px dotted #bbb;
+            }
+
+            table.taxonomy-treegrid th {
+                font-weight: bold;
+            }
+
+            table.taxonomy-treegrid tr:first-child td {
+                border-top: 1px dotted #bbb;
+            }
+
+        .taxonomy-trunk-group {
+            border: 2px solid #888;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            background: #fff;
+            overflow: hidden;
+            padding-bottom: 1rem;
+            margin-top: 8px;
+        }
+
+        .treegrid-expander {
             cursor: pointer;
-        }
-        .fancytree-expander {
-            display: none !important;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            user-select: none;
+            border: none;
+            background-color: transparent;
+            padding: 3px;
         }
 
-        .fancytree-ext-filter span.fancytree-childcounter {
-            height: auto;
-            top: 0;
+
+
+        .taxonomy-treegrid tr.treegrid-expanded .treegrid-expander::before {
+            content: '\e259'; /* down-pointing chevron ▼ */
+        }
+
+        .taxonomy-treegrid tr.treegrid-collapsed .treegrid-expander::before {
+            content: '\e258'; /* right-pointing chevron ▶ */
+        }
+        
+
+        .treegrid-leaf > div > .treegrid-expander {
+            visibility: hidden;
+        }
+
+        .taxonomy-level-tag {
+            display: inline-block;
+            color: #fff;
+            border-radius: 20px;
             font-size: 12px;
-            margin-right: 3px;
-            border-radius: 10px;
-            line-height: initial;
-        }
-        .fancytree-match td {
-            background-color: rgba(243, 243, 21, 0.4) !important;
-        }
-
-        table.projecttaxonomytree > tbody > tr.fancytree-active > td
-        {
-            background-color: transparent !important;
-            color: initial !important;
-        }
-
-        table.projecttaxonomytree {
-            border: 5px solid;
-            border-radius: 12px;
-        }
-
-        table.projecttaxonomytree thead {
-            display: none;
-        }
-
-        table.projecttaxonomytree > tbody > tr > td {
-            padding: 1px 5px 1px 5px;
-        }
-
-        table.fancytree-ext-table {
-            border-collapse: separate;
-        }
-
-        table.projecttaxonomytree tbody tr:first-child td {
-            border-top: 0 none;
-        }
-
-        table.projecttaxonomytree tbody tr td {
-            border-top: 1px dotted;
-        }
-
-        table.projecttaxonomytree tbody tr td:last-child {
-            text-align: right;
-        }
-
-        table.fancytree-ext-table span.fancytree-node {
-            display: table;
-        }
-        table.fancytree-ext-table span.fancytree-expander {
-            display: table-cell;
-        }
-        table.fancytree-ext-table span.fancytree-icon {
-            display: table-cell;
-        }
-        table.fancytree-ext-table span.fancytree-title {
-            display: table-cell;
+            padding: 2px 8px;
+            margin-right: 8px;
+            font-weight: bold;
+            vertical-align: middle;
+            margin-top: 7px;
+            margin-bottom: 7px;
         }
 
         .map-link:focus {
@@ -104,6 +106,26 @@ Source code is available upon request via <support@sitkatech.com>.
             box-shadow: 0 0 0 2px #90caf9;
             background-color: #1565c0 !important;
         }
+
+        .taxonomy-level-tag-large {
+            font-size: 18px;
+            padding: 4px 16px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+       
+        .indent-text-wrap {
+            margin-left: 148px;
+        }
+
+            .indent-text-wrap .indent-spacer {
+                margin-left: -148px;
+            }
+
+            .indent-text-wrap .indent-spacer:first-line {
+                margin-left: 0;
+            }
+
     </style>
 }
 
@@ -113,7 +135,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <input name="search" placeholder="Search..." autocomplete="on">
+        <input id="taxonomySearch" name="search" placeholder="Search..." autocomplete="on">
         <button id="btnResetSearch" class="btn btn-xs btn-primary">&times;</button>
         <span id="matches"></span>
     </div>
@@ -126,8 +148,8 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             @if (ViewDataTyped.TaxonomyLevel == TaxonomyLevel.Branch)
             {
-            @ViewDataTyped.TaxonomyBranchDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
-            }            
+                @ViewDataTyped.TaxonomyBranchDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
+            }
             @ViewDataTyped.TaxonomyLeafDisplayName <span class='glyphicon glyphicon-chevron-right'></span>
             @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()
         </div>
@@ -135,155 +157,193 @@ Source code is available upon request via <support@sitkatech.com>.
             Number of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()
         </div>
         <div style="clear: both">
-            @foreach (var taxonomyTier in ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes)
-            {
-                <table id="@(string.Format("projecttaxonomytree{0}", taxonomyTier.Key))" class="table table-hover table-condensed projecttaxonomytree" style="margin-bottom: 10px; border-color: @taxonomyTier.ThemeColor">
-                    <colgroup>
-                        <col />
-                        <col style="width: 80px;" />
-                        <col style="width: 100px;" />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Map</th>
-                            <th scope="col"># Projects</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            }
+            <table id="taxonomyTreeGrid" class="taxonomy-treegrid" role="treegrid" aria-label="Taxonomy Treegrid" style="margin-bottom: 10px;">
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
 <script>
-    jQuery(function()
-    {
-        var glyph_opts = {
-            map: {
-                //doc: "glyphicon glyphicon-file",
-                //docOpen: "glyphicon glyphicon-file",
-                checkbox: "glyphicon glyphicon-unchecked",
-                checkboxSelected: "glyphicon glyphicon-check",
-                checkboxUnknown: "glyphicon glyphicon-share",
-                dragHelper: "glyphicon glyphicon-play",
-                dropMarker: "glyphicon glyphicon-arrow-right",
-                error: "glyphicon glyphicon-warning-sign",
-                expanderClosed: "glyphicon glyphicon-plus",
-                expanderLazy: "glyphicon glyphicon-plus-sign", // glyphicon-expand
-                expanderOpen: "glyphicon glyphicon-minus", // glyphicon-collapse-down
-                folder: "glyphicon glyphicon-folder-close",
-                folderOpen: "glyphicon glyphicon-folder-open",
-                loading: "glyphicon glyphicon-refresh"
+    var taxonomyData = @Html.Raw(JArray.FromObject(ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes));
+    var taxonomyLevel = { level: '@ViewDataTyped.TaxonomyLevel.TaxonomyLevelName'};
+    var taxonomyLevelDisplayNames = setLevelDisplayNames();
+    var projectLevel = getProjectLevel();
+
+    function setLevelDisplayNames() {
+        if (taxonomyLevel.level == "Trunk") {
+            return {
+                trunk: '@ViewDataTyped.TaxonomyTrunkDisplayName',
+                branch: '@ViewDataTyped.TaxonomyBranchDisplayName',
+                leaf: '@ViewDataTyped.TaxonomyLeafDisplayName'
             }
-        };
-        var treeSources = @Html.Raw(JArray.FromObject(ViewDataTyped.TopLevelTaxonomyTierAsFancyTreeNodes));
-        for (var i = 0; i < treeSources.length; ++i)
-        {
-            var currentTreeSource = treeSources[i];
-            var currentTreeDiv = jQuery("#projecttaxonomytree" + currentTreeSource.key);
-            currentTreeDiv.fancytree({
-                extensions: ["glyph", "table", "filter"],
-                quicksearch: true,
-                glyph: glyph_opts,
-                table: {
-                    nodeColumnIdx: 0,
-                    indentation: 30
-                },
-                filter: {
-                    autoExpand: false,
-                    counter: true, // Show a badge with number of matching child nodes near parent icon
-                    fuzzy: false, // Match single characters in order, e.g. 'fb' will match 'FooBar'
-                    hideExpandedCounter: true, // Hide counter badge, when parent is expanded
-                    highlight: true, // Highlight matches by wrapping inside <mark> tags
-                    mode: "dimm" // "dimm": Grayout unmatched nodes, "hide": remove unmatched nodes
-                },
-                renderColumns: function(event, data) { renderFancyTreeColumns(event, data) },
-                source: [currentTreeSource],
-                clickFolderMode: 4 // disables expand/collapse on click
-            });
-            // Expand all nodes after tree is initialized
-            var tree = currentTreeDiv.fancytree("getTree");
-            tree.visit(function(node) {
-                node.setExpanded(true);
-            });
         }
-
-        var searchButton = jQuery("input[name=search]");
-        var resetButton = jQuery("button#btnResetSearch");
-
-        searchButton.keyup(function(e)
-        {
-            var match = jQuery(this).val();
-
-            if (e && e.which === $.ui.keyCode.ESCAPE || match.trim() === "")
-            {
-                resetButton.click();
-                return;
+        else if (taxonomyLevel.level == "Branch") {
+            return {
+                trunk: '@ViewDataTyped.TaxonomyBranchDisplayName',
+                branch: '@ViewDataTyped.TaxonomyLeafDisplayName',
+                leaf: '@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'
             }
-            var n = 0;
-            for (var i = 0; i < treeSources.length; ++i)
-            {
-                var currentTreeSource = treeSources[i];
-                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
-                n += tree.filterNodes(function(node) { return new RegExp(match, "i").test(node.title); });
+        }else {
+            return {
+                trunk: '@ViewDataTyped.TaxonomyLeafDisplayName',
+                branch: '@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()',
+                leaf: 'Project'
             }
-            resetButton.attr("disabled", false);
-            jQuery("span#matches").text("(" + n + " matches)");
-        }).focus();
+        }
+    }
 
-        resetButton.click(function (e) {
-            searchButton.val("");
-            jQuery("span#matches").text("");
-            for (var i = 0; i < treeSources.length; ++i)
-            {
-                var currentTreeSource = treeSources[i];
-                var tree = jQuery("#projecttaxonomytree" + currentTreeSource.key).fancytree("getTree");
-                tree.clearFilter();
+     function getProjectLevel() {
+         if (taxonomyLevel.level == "Trunk") {
+             return 3;
+         }
+         else if (taxonomyLevel.level == "Branch") {
+             return 2;
+         } else {
+             return 1;
+         }
+     }
+
+    function getTaxonomyLevelDisplayName(node, level) {
+        if (level === 0) return taxonomyLevelDisplayNames.trunk;
+        if (level === 1) return taxonomyLevelDisplayNames.branch;
+        if (level === 2) return taxonomyLevelDisplayNames.leaf;
+        return "Project";
+    }
+
+    function renderTreeGridRow(node, level, parentKey, expanded, colors) {
+        var hasChildren = node.children && node.children.length > 0;
+        var isLeaf = !hasChildren;
+        var rowId = 'row-' + level + '-' + node.key;
+        var parentAttr = parentKey ? `data-parent="row-${parentKey}"` : '';
+        var isExpanded = expanded;
+        var expanderClass = isLeaf ? 'treegrid-leaf' : (isExpanded ? 'treegrid-expanded' : 'treegrid-collapsed');
+        var tdExpanderClass = isLeaf ? 'treegrid-leaf' : '';
+        var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
+        var tagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
+        var tag = `<span class="${tagClass}" style="background:${colors.accentStrong}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
+        var expander = `<button aria-label="Expand/Collapse" class="glyphicon treegrid-expander"></button>`;
+        var indent = `<span class="indent-spacer" style="display:inline-block;width:${level * 24}px"></span>`;
+        var titleLink = node.url
+            ? `<a href="${node.url}" style="color:inherit;text-decoration:underline;">${node.title}</a>`
+            : node.title;
+        var titleContent = (level === 0)
+            ? `<h2 style="display:inline">${titleLink}</h2>`
+            : `<div style="display:inline;">${titleLink}</div>`;
+        var ariaExpandedAttr = !isLeaf ? `aria-expanded="${isExpanded}"` : '';
+        var titleCell = `<td style="border-top-color:${colors.accent}; position:relative;" ${parentAttr} data-key="${level}-${node.key}" class="${tdExpanderClass}" ${ariaExpandedAttr}><div class="indent-text-wrap">${indent}${expander}${tag}${titleContent}</div></td>`;
+        var countText = (level === 0 && node.NumberOfProjects != null)
+            ? `${node.NumberOfProjects} Projects`
+            : (node.NumberOfProjects != null ? node.NumberOfProjects : '');
+        var countTagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
+        var countCell = `<td style="border-top-color:${colors.accent}; width: 15%; text-align: right;"><span class="${countTagClass}" style="background:${colors.accentStrong};color:${colors.tagText};${node.NumberOfProjects != null && level != projectLevel ? '' : 'display: none'}">${node.NumberOfProjects != null && level != projectLevel ? countText : ''}</span></td>`;
+        var row = `<tr id="${rowId}" role="row" class="${expanderClass}">${titleCell}${countCell}</tr>`;
+        var rows = [row];
+        if (hasChildren) {
+            for (var i = 0; i < node.children.length; ++i) {
+                rows = rows.concat(renderTreeGridRow(node.children[i], level + 1, "" + level +"-" +node.key, isExpanded, colors));
             }
-        }).attr("disabled", true);
+        }
+        return rows;
+    }
 
-        searchButton.keyup();
+    function renderTreeGrid() {
+        var trunkGroups = [];
+        for (var i = 0; i < taxonomyData.length; ++i) {
+            var trunk = taxonomyData[i];
+            var trunkColors = deriveTokens(trunk.ThemeColor || '#888');
+            var trunkRows = renderTreeGridRow(trunk, 0, null, true, trunkColors);
+            // Wrap trunk rows in a group row for border and background
+            trunkGroups.push(
+                `<tr><td colspan="2" style="padding:0; border:none; background:none;">
+                    <div class="taxonomy-trunk-group" style="border:2px solid ${trunk.ThemeColor || '#888'};border-radius:20px;margin-bottom:24px;background:#fff;overflow:hidden;padding-bottom:1rem;">
+                        <table style="width:100%;border:none;background:none;margin:0;">
+                            <tbody>${trunkRows.join('')}</tbody>
+                        </table>
+                    </div>
+                </td></tr>`
+            );
+        }
+        // Render all trunk groups as rows in the main table
+        $('#taxonomyTreeGrid tbody').html(trunkGroups.join(''));
+    }
+
+    function updateExpandCollapse() {
+        $('#taxonomyTreeGrid').off('click', '.treegrid-expander').on('click', '.treegrid-expander', function (e) {
+            var $row = $(this).closest('tr');
+            var key = $row.find('[data-key]').data('key');
+            var expanded = $row.hasClass('treegrid-expanded');
+            $row.toggleClass('treegrid-expanded', !expanded).toggleClass('treegrid-collapsed', expanded);
+            //$row.attr('aria-expanded', !expanded);
+            toggleChildren(key, !expanded);
+            e.stopPropagation();
+        });
+    }
+
+    function toggleChildren(parentKey, show) {
+        var $children = $(`#taxonomyTreeGrid td[data-parent='row-${parentKey}']`).closest('tr');
+        $children.each(function () {
+            if (show) {
+                $(this).show();
+            } else {
+                $(this).hide();
+                var childKey = $(this).find('[data-key]').data('key');
+                toggleChildren(childKey, false);
+                $(this).removeClass('treegrid-expanded').addClass('treegrid-collapsed');
+            }
+        });
+    }
+
+    function collapseAll() {
+        $('#taxonomyTreeGrid tbody tr').each(function () {
+            var $row = $(this);
+            var key = $row.find('[data-key]').data('key');
+            if ($row.find('.treegrid-expander').length) {
+                $row.removeClass('treegrid-expanded').addClass('treegrid-collapsed');
+                toggleChildren(key, false);
+            }
+        });
+    }
+    function expandAll() {
+        $('#taxonomyTreeGrid tbody tr').each(function () {
+            var $row = $(this);
+            var key = $row.find('[data-key]').data('key');
+            if ($row.find('.treegrid-expander').length) {
+                $row.removeClass('treegrid-collapsed').addClass('treegrid-expanded');
+                toggleChildren(key, true);
+            }
+        });
+    }
+
+    function filterTreeGrid(query) {
+        query = query.trim().toLowerCase();
+        var matchCount = 0;
+        $('#taxonomyTreeGrid tbody tr').each(function () {
+            var $row = $(this);
+            var text = $row.text().toLowerCase();
+            if (query === '' || text.indexOf(query) !== -1) {
+                $row.show();
+                matchCount++;
+            } else {
+                $row.hide();
+            }
+        });
+        $('#matches').text('(' + matchCount + ' matches)');
+    }
+
+    $(function () {
+        renderTreeGrid();
+        updateExpandCollapse();
+        expandAll();
+        $('#btnExpandLevel').on('click', expandAll);
+        $('#btnCollapseLevel').on('click', collapseAll);
+        $('#taxonomySearch').on('keyup', function () {
+            filterTreeGrid($(this).val());
+        });
+        $('#btnResetSearch').on('click', function () {
+            $('#taxonomySearch').val('');
+            filterTreeGrid('');
+        });
     });
-
-    function renderFancyTreeColumns(event, data)
-    {
-        var node = data.node;
-        var tr = jQuery(node.tr);
-        var $tdList = tr.find(">td");
-
-        var titleColumn = $tdList.eq(0);
-        var mapColumn = $tdList.eq(1);
-        var numberOfProjectsColumn = $tdList.eq(2);
-
-        // Clear previous content
-        titleColumn.empty();
-        mapColumn.empty();
-        numberOfProjectsColumn.empty();
-
-        // Title
-        titleColumn.html("<h2>" + node.title + "</h2>");
-        titleColumn.css("border-top-color", node.data.ThemeColor);
-
-        // Map link
-        if (!Sitka.Methods.isUndefinedNullOrEmpty(node.data.MapUrl)) {
-            titleColumn.html("<h2>" + node.title + "</h2>");
-            titleColumn.css("border-top-color", node.data.ThemeColor);
-            var aHtml = "<a href='" + node.data.MapUrl + "' tabindex='0' role='button' aria-label='Map' class='btn btn-sm map-link' style='color:white; text-decoration:none; background-color:" +
-                node.data.ThemeColor +
-                "'>Map <span class='glyphicon glyphicon-map-marker' aria-hidden='true'></span></a>";
-            mapColumn.html(aHtml);
-        }
-        else {
-            titleColumn.html(node.title);
-            titleColumn.css("border-top-color", node.data.ThemeColor);
-        }
-
-        // Project count
-        if (node.data.NumberOfProjects != null) {
-            numberOfProjectsColumn.text(node.data.NumberOfProjects);
-        }
-        numberOfProjectsColumn.css("border-top-color", node.data.ThemeColor);
-}
 </script>
