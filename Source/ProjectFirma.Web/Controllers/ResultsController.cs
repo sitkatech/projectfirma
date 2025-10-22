@@ -37,6 +37,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
@@ -829,9 +830,11 @@ namespace ProjectFirma.Web.Controllers
             var projectTypes = HttpRequestStorage.DatabaseEntities.Classifications.Where(x => x.ClassificationSystemID == ProjectTypeClassificationID).OrderBy(x => x.DisplayName)
                 .ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
 
-            var projectCategories = ProjectCategory.All.ToSelectList(
-                x => x.ProjectCategoryID.ToString(CultureInfo.InvariantCulture), x => x.ProjectCategoryDisplayName);
-
+            var projectCategories =
+                JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
+                        .ProjectCustomAttributeTypes.Single(x =>
+                            x.ProjectCustomAttributeTypeID == 131)?.ProjectCustomAttributeTypeOptionsSchema)
+                    .ToSelectList(x => x, x => x);
             var underservedCommunitiesGoogleChart =
                 GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
@@ -1169,6 +1172,9 @@ namespace ProjectFirma.Web.Controllers
 
             var projects = GetProjectEnumerableWithIncludesForPerformance()
                 .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
+            var projectIDs = projects.Select(x => x.ProjectID).ToList();
+            var projectCustomAttributeCategories = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
+                .Where(x => x.ProjectCustomAttributeTypeID == 131).ToList();
             if (projectTypes.Count > 0)
             {
                 projects = projects.Where(x => x.ProjectClassifications.Any(y =>
@@ -1177,7 +1183,20 @@ namespace ProjectFirma.Web.Controllers
 
             if (projectCategories.Count > 0)
             {
-                projects = projects.Where(x => projectCategories.Contains(x.ProjectCategoryID)).ToList();
+                // Get the project custom attribute type with ID 131 and the project IDs with that custom attribute type
+                var customAttributeTypeId = 131;
+                var projectIdsWithCustomAttributeType = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
+                    .Where(attr => attr.ProjectCustomAttributeTypeID == customAttributeTypeId && projectIDs.Contains(attr.ProjectID))
+                    .Select(attr => attr.ProjectCustomAttributeID)
+                    .Distinct()
+                    .ToList();
+
+                var projectCustomAttributeValues = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeValues
+                    .Where(x => projectIdsWithCustomAttributeType.Contains(x.ProjectCustomAttributeID) && projectCategories.Contains(x.AttributeValue))
+                    .Select(x => x.ProjectCustomAttribute.ProjectID)
+                    .ToList();
+                // You can use projectIdsWithCustomAttributeType for further filtering or logic
+                projects = projects.Where(x => projectCustomAttributeValues.Contains(x.ProjectID)).ToList();
             }
 
             return projects;
@@ -1191,6 +1210,7 @@ namespace ProjectFirma.Web.Controllers
                 .Include(x => x.ProjectTags.Select(y => y.Tag))
                 .Include(x => x.ProjectNoFundingSourceIdentifieds)
                 .Include(x => x.ProjectProjectStatuses)
+                .Include(x => x.ProjectCustomAttributes)
                 .ToList();
 
             return projects.GetActiveProjects();
@@ -1229,17 +1249,18 @@ namespace ProjectFirma.Web.Controllers
             return projectTypeIDs;
         }
 
-        private List<int> GetProjectCategoriesProjectDashboard()
+        private List<string> GetProjectCategoriesProjectDashboard()
         {
-            var categoryIDs = ProjectCategory.All.Select(x => x.ProjectCategoryID).ToList();
-
+            var categories = JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
+                .ProjectCustomAttributeTypes.Single(x =>
+                    x.ProjectCustomAttributeTypeID == 131)?.ProjectCustomAttributeTypeOptionsSchema);
             if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectCategoriesQueryStringParameter]))
             {
                 var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectCategoriesQueryStringParameter]
                     .Split(',');
-                categoryIDs = filterValuesAsString.Select(int.Parse).ToList();
+                categories = filterValuesAsString.ToList();
             }
-            return categoryIDs;
+            return categories;
         }
     }
 }
