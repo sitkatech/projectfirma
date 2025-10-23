@@ -67,7 +67,7 @@
             color: white !important;
         }
 
-        .countyTribeDropdownButton .dropdown-toggle {
+        .projectCategoryDropdownButton .dropdown-toggle {
             background-color: #738c1f !important;
             color: white !important;
         }
@@ -82,6 +82,9 @@
             font-weight: bold;
             padding-top: 15px;
             padding-bottom: 15px;
+        }
+        .counter-label {
+            font-size: 22px;
         }
     </style>
     <script src="/Scripts/waypoints.min.js"></script>
@@ -121,10 +124,10 @@
                     </select>
                 </div>
                 <div class="col-sm-4">
-                    <select id="countyAndTribeDropdown" onchange="" class="selectpicker projectFiltersSelect countyTribeDropdownButton" data-live-search="true" data-width="auto" multiple="multiple">
-                        @foreach (var countyTribe in ViewDataTyped.CountiesAndTribes)
+                    <select id="projectCategoryDropdown" onchange="" class="selectpicker projectFiltersSelect projectCategoryDropdownButton" data-live-search="true" data-width="auto" multiple="multiple">
+                        @foreach (var category in ViewDataTyped.ProjectCategories)
                         {
-                            <option value="@countyTribe.Value">@countyTribe.Text</option>
+                            <option value="@category.Value">@category.Text</option>
                         }
                     </select>
                 </div>
@@ -156,17 +159,22 @@
                 </div>
                 <div id="counterNumbers">
                     <div style="padding-bottom: 10px;">
-                        <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> Total Projects
+                        <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> <span class="counter-label">Total Projects</span>
                         <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
-                        <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> Project Sponsors
-                    </div>
+                        <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> <span class="counter-label">Project Sponsors</span>
+</div>
+                    <div style="padding-bottom: 10px;">
+                        <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span> <span class="counter-label">Funding for NCRP Projects</span>
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span> <span class="counter-label">Total Matched</span>
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> <span class="counter-label">Total Investment</span>
+</div>
                     <div>
-                        <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span> Total Awarded
+                        <span>$</span><span id="totalLeveraged" class="counter">@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span> <span class="counter-label">Total Leveraged</span>
                         <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                        <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span> Total Matched
-                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
-                        <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> Total Investment
-                    </div>
+                        <span id="jobsCreatedOrMaintained" class="counter">@ViewDataTyped.JobsCreatedOrMaintained.ToGroupedNumeric()</span> <span class="counter-label">Jobs Created or Maintained</span>
+</div>
                 </div>
             </div>
         </div>
@@ -196,11 +204,11 @@
     {
         var projectStageIDs = jQuery("#projectStageDropdown").val();
         var projectTypes = jQuery("#projectTypeDropdown").val();
-        var countiesTribes = jQuery("#countyAndTribeDropdown").val();
+        var projectCategories = jQuery("#projectCategoryDropdown").val();
         var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ProjectDashboardSummaryUrl.ToJS());
         var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs)
             .replace("@ProjectDashboardViewData.ProjectTypesQueryStringValuePlaceholder", projectTypes)
-            .replace("@ProjectDashboardViewData.CountiesTribesQueryStringValuePlaceholder", countiesTribes);
+            .replace("@ProjectDashboardViewData.ProjectCategoriesQueryStringValuePlaceholder", projectCategories);
 
         SitkaAjax.get(newUrl, function (result) {
             jQuery("#totalProjects").html(result.ProjectCount);
@@ -217,11 +225,11 @@
     function loadProjectGrid() {
         var projectStageIDs = jQuery("#projectStageDropdown").val();
         var projectTypes = jQuery("#projectTypeDropdown").val();
-        var countiesTribes = jQuery("#countyAndTribeDropdown").val();
+        var projectCategories = jQuery("#projectCategoryDropdown").val();
         var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ReloadProjectGridDataUrl.ToJS());
         var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs)
             .replace("@ProjectDashboardViewData.ProjectTypesQueryStringValuePlaceholder", projectTypes)
-            .replace("@ProjectDashboardViewData.CountiesTribesQueryStringValuePlaceholder", countiesTribes);
+            .replace("@ProjectDashboardViewData.ProjectCategoriesQueryStringValuePlaceholder", projectCategories);
         // reload grid data
         @(ViewDataTyped.ProjectCustomDefaultGridName)LoadGridData(newUrl);
         @(ViewDataTyped.ProjectCustomDefaultGridName)GridOptionsApi.setGridOption("loading", true);
@@ -231,11 +239,11 @@
     {
         var projectStageIDs = jQuery("#projectStageDropdown").val();
         var projectTypes = jQuery("#projectTypeDropdown").val();
-        var countiesTribes = jQuery("#countyAndTribeDropdown").val();
+        var projectCategories = jQuery("#projectCategoryDropdown").val();
         var urlWithPlaceholder = @Html.Raw(ViewDataTyped.ProjectDashboardChartsUrl.ToJS());
         var newUrl = urlWithPlaceholder.replace("@ProjectDashboardViewData.ProjectStagesQueryStringValuePlaceholder", projectStageIDs)
             .replace("@ProjectDashboardViewData.ProjectTypesQueryStringValuePlaceholder", projectTypes)
-            .replace("@ProjectDashboardViewData.CountiesTribesQueryStringValuePlaceholder", countiesTribes);
+            .replace("@ProjectDashboardViewData.ProjectCategoriesQueryStringValuePlaceholder", projectCategories);
 
         SitkaAjax.load(jQuery("#projectDashboardCharts"), newUrl);
     }
@@ -285,26 +293,26 @@
             }
         }
 
-        var countiesTribesSelectpickerOptions = {
+        var projectCategoriesSelectpickerOptions = {
             container: "body",
             width: "100%",
-            noneSelectedText: "Filter by Tribe/County",
+            noneSelectedText: "Filter by Project Categories",
             actionsBox: true,
             selectedTextFormat: "count > 1",
             countSelectedText:  function (numSelected, numTotal) {
                 if (numSelected === numTotal) {
-                    return "All Tribes/Counties";
+                    return "All Project Categories";
                 }
-                return numSelected + " of " + numTotal + " Tribes/Counties";
+                return numSelected + " of " + numTotal + " Project Categories";
             }
         }
 
         var projectStagesDropdown = jQuery("#projectStageDropdown");
         var projectTypesDropdown = jQuery("#projectTypeDropdown");
-        var countyAndTribeDropdown = jQuery("#countyAndTribeDropdown");
+        var projectCategoriesDropdown = jQuery("#projectCategoryDropdown");
         projectStagesDropdown.selectpicker(projectStageSelectpickerOptions);
         projectTypesDropdown.selectpicker(projectTypesSelectpickerOptions);
-        countyAndTribeDropdown.selectpicker(countiesTribesSelectpickerOptions);
+        projectCategoriesDropdown.selectpicker(projectCategoriesSelectpickerOptions);
         $(".selectpicker").selectpicker("refresh");
 
         jQuery(function() {
@@ -318,18 +326,18 @@
         // need to keep track of the state of the drop downs separately
         var lastProjectStageIDs = jQuery("#projectStageDropdown").val();
         var lastProjectTypes = jQuery("#projectTypeDropdown").val();
-        var lastCountiesTribes = jQuery("#countyAndTribeDropdown").val();
+        var lastProjectCategories = jQuery("#projectCategoryDropdown").val();
         $('.bootstrap-select').on('hide.bs.dropdown', function() {
             // check for changed lists
             var currentProjectStageIDs = jQuery("#projectStageDropdown").val();
             var currentProjectTypes = jQuery("#projectTypeDropdown").val();
-            var currentCountiesTribes = jQuery("#countyAndTribeDropdown").val();
-            if (lastProjectStageIDs.toString() !== currentProjectStageIDs.toString() || lastProjectTypes.toString() !== currentProjectTypes.toString() || lastCountiesTribes.toString() !== currentCountiesTribes.toString()) {
+            var currentProjectCategories = jQuery("#projectCategoryDropdown").val();
+            if (lastProjectStageIDs.toString() !== currentProjectStageIDs.toString() || lastProjectTypes.toString() !== currentProjectTypes.toString() || lastProjectCategories.toString() !== currentProjectCategories.toString()) {
                 reloadWithNewDropdowns();
             }
             lastProjectStageIDs = currentProjectStageIDs;
             lastProjectTypes = currentProjectTypes;
-            lastCountiesTribes = currentCountiesTribes;
+            lastProjectCategories = currentProjectCategories;
         });
     });
 

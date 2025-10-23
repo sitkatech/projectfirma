@@ -37,6 +37,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
@@ -801,6 +802,9 @@ namespace ProjectFirma.Web.Controllers
         private static int TribeGeospatialAreaTypeID = 22;
         private static int DisadvantagedCommunityStatusGeospatialAreaTypeID = 23;
         private static int NotTriballyOwnedGeospatialAreaID = 12143;
+        private static int ProjectCategoryCustomAttributeID = 131;
+        private static int GrantsReceivedDollarAmountAwardedPerformanceMeasureID = 3771;
+        private static int JobsCreatedOrRetainedPerformanceMeasureID = 3673;
 
         // Allow admin access only for now
         [AnonymousUnclassifiedFeature]
@@ -829,30 +833,39 @@ namespace ProjectFirma.Web.Controllers
             var projectTypes = HttpRequestStorage.DatabaseEntities.Classifications.Where(x => x.ClassificationSystemID == ProjectTypeClassificationID).OrderBy(x => x.DisplayName)
                 .ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
 
-            var countiesAndTribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                .Where(x =>
-                    (x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID ||
-                     x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) &&
-                    x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).OrderBy(x => x.GeospatialAreaShortName)
-                .ToSelectList(x => x.GeospatialAreaID.ToString(CultureInfo.InvariantCulture),
-                    x => x.GeospatialAreaShortName);
-
+            var projectCategories =
+                JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
+                        .ProjectCustomAttributeTypes.Single(x =>
+                            x.ProjectCustomAttributeTypeID == ProjectCategoryCustomAttributeID)?.ProjectCustomAttributeTypeOptionsSchema)
+                    .ToSelectList(x => x, x => x);
             var underservedCommunitiesGoogleChart =
                 GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
-            var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
+
+            var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID && x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).ToList();
+            var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
+            var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
+                .Select(x => x.Project).Distinct().Count();
+
             var projectDashboardChartsViewData =
                 new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID, projectsByOwnerOrgTypeGoogleChart,
                     projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
                     projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
-                    fundingOrganizationGoogleChart);
+                    tribalLandProjectCount);
+
+
+            var totalLeveraged = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == GrantsReceivedDollarAmountAwardedPerformanceMeasureID).Sum(x => x.ActualValue);
+
+            var totalJobsCreated = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == JobsCreatedOrRetainedPerformanceMeasureID).Sum(x => x.ActualValue);
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalAwarded, totalMatched, totalInvestment,
-                    projectGridSpec, projectTypes, countiesAndTribes, projectDashboardChartsViewData);
+                    projectGridSpec, projectTypes, projectCategories, projectDashboardChartsViewData, totalLeveraged, totalJobsCreated);
             return RazorView<ProjectDashboard, ProjectDashboardViewData>(viewData);
         }
 
@@ -994,9 +1007,9 @@ namespace ProjectFirma.Web.Controllers
         private GoogleChartJson GetProjectsByCountyAndTribalLandChart(List<Project> projects)
         {
             // set up Projects by County & Tribal Land column chart
-            var projectByCountyChartTitle = "Projects by County and Tribal Land";
+            var projectByCountyChartTitle = "Projects by County";
             var countyChartContainerID = projectByCountyChartTitle.Replace(" ", "");
-            var googleChartAxis = new GoogleChartAxis("County Names and Tribal Land", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxis = new GoogleChartAxis("County Names", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
             var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
 
@@ -1010,17 +1023,17 @@ namespace ProjectFirma.Web.Controllers
             var countyToProjectCounts = projectGeospatialAreas.Where(x => countyIDs.Contains(x.GeospatialAreaID))
                 .GroupBy(x => x.GeospatialArea).OrderBy(x => x.Key.GeospatialAreaName).ToDictionary(x => x.Key, x => x.Count());
 
-            var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
-            var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
-                .Select(x => x.Project).Distinct().Count();
+            //var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
+            //var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
+            //    .Select(x => x.Project).Distinct().Count();
 
-            var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByCountyAndTribalLandGoogleChartDataTable(countyToProjectCounts, tribalLandProjectCount);
+            var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByCountyAndTribalLandGoogleChartDataTable(countyToProjectCounts);
 
             var chartColumns = countyToProjectCounts.Keys.Select(x => x.GeospatialAreaName).ToList();
-            if (tribalLandProjectCount > 0)
-            {
-                chartColumns.Add("Tribal Land As Identified by Federal BIA Map");
-            }
+            //if (tribalLandProjectCount > 0)
+            //{
+            //    chartColumns.Add("Tribal Land As Identified by Federal BIA Map");
+            //}
 
             var countyChartConfig = new GoogleChartConfiguration(projectByCountyChartTitle, true, GoogleChartType.BarChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
@@ -1141,11 +1154,16 @@ namespace ProjectFirma.Web.Controllers
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
-            var fundingOrganizationGoogleChart = GetFundingOrganizationChart(projects);
+
+            var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID && x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).ToList();
+            var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
+            var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
+                .Select(x => x.Project).Distinct().Count();
+ 
             var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID,
                 projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID,
                 TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,
-                projectStagesGoogleChart, fundingOrganizationGoogleChart);
+                projectStagesGoogleChart, tribalLandProjectCount);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 
@@ -1153,22 +1171,34 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectStages = GetProjectStagesForProjectDashboard();
             var projectTypes = GetProjectTypesForProjectDashboard();
-            var countiesAndTribes = GetCountiesAndTribesForProjectDashboard();
+            var projectCategories = GetProjectCategoriesProjectDashboard();
 
             var projects = GetProjectEnumerableWithIncludesForPerformance()
                 .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
+            var projectIDs = projects.Select(x => x.ProjectID).ToList();
+            var projectCustomAttributeCategories = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
+                .Where(x => x.ProjectCustomAttributeTypeID == 131).ToList();
             if (projectTypes.Count > 0)
             {
                 projects = projects.Where(x => x.ProjectClassifications.Any(y =>
                     y.Classification.ClassificationSystemID == ProjectTypeClassificationID && projectTypes.Contains(y.ClassificationID))).ToList();
             }
 
-            if (countiesAndTribes.Count > 0)
+            if (projectCategories.Count > 0)
             {
-                projects = projects.Where(x => x.ProjectGeospatialAreas.Any(y =>
-                    (y.GeospatialArea.GeospatialAreaTypeID == CountyGeospatialAreaTypeID || y.GeospatialArea.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) 
-                    && y.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID
-                    && countiesAndTribes.Contains(y.GeospatialAreaID))).ToList();
+                // Get the project custom attribute type with ID 131 and the project IDs with that custom attribute type
+                var customAttributeTypeId = 131;
+                var projectIdsWithCustomAttributeType = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
+                    .Where(attr => attr.ProjectCustomAttributeTypeID == customAttributeTypeId && projectIDs.Contains(attr.ProjectID))
+                    .Select(attr => attr.ProjectCustomAttributeID)
+                    .Distinct()
+                    .ToList();
+
+                var projectCustomAttributeValues = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeValues
+                    .Where(x => projectIdsWithCustomAttributeType.Contains(x.ProjectCustomAttributeID) && projectCategories.Contains(x.AttributeValue))
+                    .Select(x => x.ProjectCustomAttribute.ProjectID)
+                    .ToList();
+                projects = projects.Where(x => projectCustomAttributeValues.Contains(x.ProjectID)).ToList();
             }
 
             return projects;
@@ -1182,6 +1212,7 @@ namespace ProjectFirma.Web.Controllers
                 .Include(x => x.ProjectTags.Select(y => y.Tag))
                 .Include(x => x.ProjectNoFundingSourceIdentifieds)
                 .Include(x => x.ProjectProjectStatuses)
+                .Include(x => x.ProjectCustomAttributes)
                 .ToList();
 
             return projects.GetActiveProjects();
@@ -1220,21 +1251,18 @@ namespace ProjectFirma.Web.Controllers
             return projectTypeIDs;
         }
 
-        private List<int> GetCountiesAndTribesForProjectDashboard()
+        private List<string> GetProjectCategoriesProjectDashboard()
         {
-            var geospatialAreaIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                .Where(x =>
-                    (x.GeospatialAreaTypeID == CountyGeospatialAreaTypeID ||
-                     x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID) &&
-                    x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).Select(x => x.GeospatialAreaID).ToList();
-
-            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.CountiesTribesQueryStringParameter]))
+            var categories = JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
+                .ProjectCustomAttributeTypes.Single(x =>
+                    x.ProjectCustomAttributeTypeID == 131)?.ProjectCustomAttributeTypeOptionsSchema);
+            if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectCategoriesQueryStringParameter]))
             {
-                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.CountiesTribesQueryStringParameter]
+                var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectCategoriesQueryStringParameter]
                     .Split(',');
-                geospatialAreaIDs = filterValuesAsString.Select(int.Parse).ToList();
+                categories = filterValuesAsString.ToList();
             }
-            return geospatialAreaIDs;
+            return categories;
         }
     }
 }
