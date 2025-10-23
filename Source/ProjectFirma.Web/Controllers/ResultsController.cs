@@ -802,6 +802,9 @@ namespace ProjectFirma.Web.Controllers
         private static int TribeGeospatialAreaTypeID = 22;
         private static int DisadvantagedCommunityStatusGeospatialAreaTypeID = 23;
         private static int NotTriballyOwnedGeospatialAreaID = 12143;
+        private static int ProjectCategoryCustomAttributeID = 131;
+        private static int GrantsReceivedDollarAmountAwardedPerformanceMeasureID = 3771;
+        private static int JobsCreatedOrRetainedPerformanceMeasureID = 3673;
 
         // Allow admin access only for now
         [AnonymousUnclassifiedFeature]
@@ -833,7 +836,7 @@ namespace ProjectFirma.Web.Controllers
             var projectCategories =
                 JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
                         .ProjectCustomAttributeTypes.Single(x =>
-                            x.ProjectCustomAttributeTypeID == 131)?.ProjectCustomAttributeTypeOptionsSchema)
+                            x.ProjectCustomAttributeTypeID == ProjectCategoryCustomAttributeID)?.ProjectCustomAttributeTypeOptionsSchema)
                     .ToSelectList(x => x, x => x);
             var underservedCommunitiesGoogleChart =
                 GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
@@ -855,10 +858,10 @@ namespace ProjectFirma.Web.Controllers
 
 
             var totalLeveraged = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                .Where(x => x.PerformanceMeasureID == 3771).Sum(x => x.ActualValue);
+                .Where(x => x.PerformanceMeasureID == GrantsReceivedDollarAmountAwardedPerformanceMeasureID).Sum(x => x.ActualValue);
 
             var totalJobsCreated = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                .Where(x => x.PerformanceMeasureID == 3673).Sum(x => x.ActualValue);
+                .Where(x => x.PerformanceMeasureID == JobsCreatedOrRetainedPerformanceMeasureID).Sum(x => x.ActualValue);
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalAwarded, totalMatched, totalInvestment,
