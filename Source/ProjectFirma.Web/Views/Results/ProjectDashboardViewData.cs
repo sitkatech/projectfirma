@@ -87,6 +87,8 @@ namespace ProjectFirma.Web.Views.Results
             TotalAwarded = totalAwarded;
             TotalMatched = totalMatched;
             TotalInvestment = totalInvestment;
+            TotalLeveraged = (decimal)totalLeveraged;
+            JobsCreatedOrMaintained = (int)totalJobsCreated;
 
             ProjectCustomDefaultGridSpec = projectGridSpec;
             ProjectCustomDefaultGridName = "projectListGrid";
@@ -107,9 +109,6 @@ namespace ProjectFirma.Web.Views.Results
 
 
             ProjectDashboardChartsViewData = projectDashboardChartsViewData;
-
-            TotalLeveraged = (decimal)totalLeveraged;
-            JobsCreatedOrMaintained = (int)totalJobsCreated;
         }
     }
 }
