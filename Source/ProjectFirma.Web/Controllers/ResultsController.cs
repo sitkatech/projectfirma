@@ -18,30 +18,31 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Map;
-using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Results;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
+using ProjectFirma.Web.Views.Reports;
+using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -813,7 +814,9 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.NCRPProjectDashboard.GetFirmaPage();
 
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalAwarded, out var totalMatched, out var totalInvestment);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities,
+                out var totalAwarded, out var totalMatched, out var totalInvestment, out var totalLeveraged,
+                out var totalJobsCreated);
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities
                 .ProjectCustomGridConfigurations
@@ -856,13 +859,6 @@ namespace ProjectFirma.Web.Controllers
                     projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
                     tribalLandProjectCount);
 
-
-            var totalLeveraged = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                .Where(x => x.PerformanceMeasureID == GrantsReceivedDollarAmountAwardedPerformanceMeasureID).Sum(x => x.ActualValue);
-
-            var totalJobsCreated = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                .Where(x => x.PerformanceMeasureID == JobsCreatedOrRetainedPerformanceMeasureID).Sum(x => x.ActualValue);
-
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalAwarded, totalMatched, totalInvestment,
                     projectGridSpec, projectTypes, projectCategories, projectDashboardChartsViewData, totalLeveraged, totalJobsCreated);
@@ -891,7 +887,7 @@ namespace ProjectFirma.Web.Controllers
         public JsonNetJObjectResult ProjectDashboardProjectSummary()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalAwarded, out var totalMatched, out var totalInvestment);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalAwarded, out var totalMatched, out var totalInvestment, out var totalLeveraged, out var totalJobsCreated);
             return new JsonNetJObjectResult(new
             {
                 ProjectCount = projects.Count.ToGroupedNumeric(),
@@ -899,11 +895,13 @@ namespace ProjectFirma.Web.Controllers
                 ProjectsInUnderservedCommunitiesCount = projectsInUnderservedCommunities.Count.ToGroupedNumeric(),
                 TotalAwarded = totalAwarded.ToGroupedNumeric(),
                 TotalMatched = totalMatched.ToGroupedNumeric(),
-                TotalInvestment = totalInvestment.ToGroupedNumeric()
+                TotalInvestment = totalInvestment.ToGroupedNumeric(),
+                TotalLeveraged = totalLeveraged.ToGroupedNumeric(),
+                JobsCreatedOrMaintained = totalJobsCreated.ToGroupedNumeric()
             });
         }
 
-        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities, out decimal totalAwarded, out decimal totalMatched, out decimal totalInvestment)
+        private void GetProjectSummaryData(out List<Project> projects, out List<Organization> projectSponsors, out List<Project> projectsInUnderservedCommunities, out decimal totalAwarded, out decimal totalMatched, out decimal totalInvestment, out double totalLeveraged, out double totalJobsCreated)
         {
             projects = GetProjectsForProjectDashboard();
 
@@ -949,6 +947,22 @@ namespace ProjectFirma.Web.Controllers
                 totalMatched = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0));
                 totalInvestment = totalAwarded + totalMatched;
             }
+            var projectIDs = projects.Select(x => x.ProjectID).ToList();
+            totalLeveraged = 0;
+            totalJobsCreated = 0;
+
+            if (projectIDs.Count != 0)
+            {
+                totalLeveraged = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                    .Where(x => x.PerformanceMeasureID == GrantsReceivedDollarAmountAwardedPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                    .Sum(x => (double?)x.ActualValue) ?? 0;
+
+                totalJobsCreated = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                    .Where(x => x.PerformanceMeasureID == JobsCreatedOrRetainedPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                    .Sum(x => (double?)x.ActualValue) ?? 0; ;
+            }
+                
+
         }
 
         private GoogleChartJson GetUnderservedCommunitiesPieChartForProjectDashboard(List<Project> projects,  List<Project> projectsInUnderservedCommunities)
@@ -1148,7 +1162,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectDashboardCharts()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
-            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalAwarded, out var totalMatched, out var totalInvestment);
+            GetProjectSummaryData(out var projects, out var partners, out var projectsInUnderservedCommunities, out var totalAwarded, out var totalMatched, out var totalInvestment, out var totalLeveraged, out var totalJobsCreated);
             var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
