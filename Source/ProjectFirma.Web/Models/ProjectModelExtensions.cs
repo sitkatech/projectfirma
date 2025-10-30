@@ -1283,13 +1283,13 @@ namespace ProjectFirma.Web.Models
             return orgTypeToAmounts;
         }
 
-        public static GoogleChartDataTable GetProjectsByCountyAndTribalLandGoogleChartDataTable(Dictionary<GeospatialArea, int> countyToProjectCounts, int tribalLandProjectCount)
+        public static GoogleChartDataTable GetProjectsByCountyAndTribalLandGoogleChartDataTable(Dictionary<GeospatialArea, int> countyToProjectCounts)
         {
             var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#3366CC", null, null);
 
             var googleChartColumns = new List<GoogleChartColumn>
             {
-                new GoogleChartColumn("County Names and Tribal Land", GoogleChartColumnDataType.String),
+                new GoogleChartColumn("County Names", GoogleChartColumnDataType.String),
                 //new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
                 new GoogleChartColumn("Number of Projects", "# of Projects", GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
                 new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "style", new GoogleChartProperty())
@@ -1317,14 +1317,14 @@ namespace ProjectFirma.Web.Models
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
             }
 
-            if (tribalLandProjectCount > 0)
-            {
-                // add tribal land column
-                var googleChartRowVsForTribalLand = new List<GoogleChartRowV> { new GoogleChartRowV("Tribal Land As Identified by Federal BIA Map") };
-                googleChartRowVsForTribalLand.Add(new GoogleChartRowV(tribalLandProjectCount, tribalLandProjectCount.ToGroupedNumeric()));
-                googleChartRowVsForTribalLand.Add(new GoogleChartRowV($"color: {CountyOrTribalLandToColor["Tribal Land As Identified by Federal BIA Map"]}"));
-                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVsForTribalLand));
-            }
+            //if (tribalLandProjectCount > 0)
+            //{
+            //    // add tribal land column
+            //    var googleChartRowVsForTribalLand = new List<GoogleChartRowV> { new GoogleChartRowV("Tribal Land As Identified by Federal BIA Map") };
+            //    googleChartRowVsForTribalLand.Add(new GoogleChartRowV(tribalLandProjectCount, tribalLandProjectCount.ToGroupedNumeric()));
+            //    googleChartRowVsForTribalLand.Add(new GoogleChartRowV($"color: {CountyOrTribalLandToColor["Tribal Land As Identified by Federal BIA Map"]}"));
+            //    googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVsForTribalLand));
+            //}
 
 
             var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);

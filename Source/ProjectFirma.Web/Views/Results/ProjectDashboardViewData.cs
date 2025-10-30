@@ -34,11 +34,11 @@ namespace ProjectFirma.Web.Views.Results
         public static string ProjectStagesQueryStringValuePlaceholder = "ProjectStagesPlaceholder";
         public const string ProjectTypesQueryStringParameter = "ProjectTypes";
         public static string ProjectTypesQueryStringValuePlaceholder = "ProjectTypesPlaceholder";
-        public const string CountiesTribesQueryStringParameter = "CountiesAndTribes";
-        public static string CountiesTribesQueryStringValuePlaceholder = "CountiesTribesPlaceholder";
+        public const string ProjectCategoriesQueryStringParameter = "ProjectCategories";
+        public static string ProjectCategoriesQueryStringValuePlaceholder = "ProjectCategoriesPlaceholder";
 
         public IEnumerable<SelectListItem> ProjectTypes { get; }
-        public IEnumerable<SelectListItem> CountiesAndTribes { get; }
+        public IEnumerable<SelectListItem> ProjectCategories { get; }
         public List<ProjectStage> ProjectStages { get; }
         public int TotalProjects { get; }
         public int TotalPartners { get; }
@@ -46,12 +46,15 @@ namespace ProjectFirma.Web.Views.Results
         public decimal TotalMatched { get; }
         public decimal TotalInvestment { get; }
 
+
         public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
         public string ProjectCustomDefaultGridName { get; }
         public string ProjectCustomDefaultGridDataUrl { get; }
         public string ProjectDashboardSummaryUrl { get; }
         public string ReloadProjectGridDataUrl { get; }
         public string ProjectDashboardChartsUrl { get; }
+        public decimal TotalLeveraged { get; }
+        public int JobsCreatedOrMaintained { get; }
 
         public ProjectDashboardChartsViewData ProjectDashboardChartsViewData { get; }
 
@@ -63,8 +66,9 @@ namespace ProjectFirma.Web.Views.Results
             decimal totalInvestment,
             ProjectCustomGridSpec projectGridSpec,
             IEnumerable<SelectListItem> projectTypeSelectListItems,
-            IEnumerable<SelectListItem> countyTribeSelectListItems,
-            ProjectDashboardChartsViewData projectDashboardChartsViewData) : base(currentFirmaSession, firmaPage)
+            IEnumerable<SelectListItem> projectCategories,
+            ProjectDashboardChartsViewData projectDashboardChartsViewData,
+            double totalLeveraged, double totalJobsCreated) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Project Summary Dashboard";
 
@@ -76,13 +80,15 @@ namespace ProjectFirma.Web.Views.Results
                 ProjectStage.Completed
             };
             ProjectTypes = projectTypeSelectListItems;
-            CountiesAndTribes = countyTribeSelectListItems;
+            ProjectCategories = projectCategories;
 
             TotalProjects = projectCount;
             TotalPartners = partnerCount;
             TotalAwarded = totalAwarded;
             TotalMatched = totalMatched;
             TotalInvestment = totalInvestment;
+            TotalLeveraged = (decimal)totalLeveraged;
+            JobsCreatedOrMaintained = (int)totalJobsCreated;
 
             ProjectCustomDefaultGridSpec = projectGridSpec;
             ProjectCustomDefaultGridName = "projectListGrid";
@@ -91,19 +97,18 @@ namespace ProjectFirma.Web.Views.Results
             ProjectDashboardSummaryUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardProjectSummary())}?" +
                                          $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}" +
                                          $"&{ProjectTypesQueryStringParameter}={ProjectTypesQueryStringValuePlaceholder}" +
-                                         $"&{CountiesTribesQueryStringParameter}={CountiesTribesQueryStringValuePlaceholder}";
+                                         $"&{ProjectCategoriesQueryStringParameter}={ProjectCategoriesQueryStringValuePlaceholder}";
             ReloadProjectGridDataUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardProjectsGridJsonData())}?" +
                                        $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}" +
                                        $"&{ProjectTypesQueryStringParameter}={ProjectTypesQueryStringValuePlaceholder}" +
-                                       $"&{CountiesTribesQueryStringParameter}={CountiesTribesQueryStringValuePlaceholder}";
+                                       $"&{ProjectCategoriesQueryStringParameter}={ProjectCategoriesQueryStringValuePlaceholder}";
             ProjectDashboardChartsUrl = $"{SitkaRoute<ResultsController>.BuildUrlFromExpression(p => p.ProjectDashboardCharts())}?" +
                                         $"{ProjectStagesQueryStringParameter}={ProjectStagesQueryStringValuePlaceholder}" +
                                         $"&{ProjectTypesQueryStringParameter}={ProjectTypesQueryStringValuePlaceholder}" +
-                                        $"&{CountiesTribesQueryStringParameter}={CountiesTribesQueryStringValuePlaceholder}";
+                                        $"&{ProjectCategoriesQueryStringParameter}={ProjectCategoriesQueryStringValuePlaceholder}";
 
 
             ProjectDashboardChartsViewData = projectDashboardChartsViewData;
-
         }
     }
 }
