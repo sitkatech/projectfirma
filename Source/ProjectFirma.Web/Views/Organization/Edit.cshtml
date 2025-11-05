@@ -68,6 +68,15 @@
                 @Html.ValidationMessageFor(m => m.OrganizationUrl)
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.Domain)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Domain, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.Domain)
+            </div>
+        </div>
         @if (ViewDataTyped.IsInKeystone && ViewDataTyped.UserHasAdminPermissions)
         {
             <div class="form-group">
@@ -127,16 +136,6 @@
         {
             <hr />
             <h3>ESA Admin Only</h3>
-            <div class="form-group">
-                <div class="col-sm-3 control-label">
-                    @Html.LabelWithSugarFor(m => m.KeystoneOrganizationGuid)
-                </div>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.KeystoneOrganizationGuid, new { @class = "form-control", style = "width:100%" })
-                    @Html.ValidationMessageFor(m => m.KeystoneOrganizationGuid)
-                </div>
-            </div>
-
         }
 
     </div>
