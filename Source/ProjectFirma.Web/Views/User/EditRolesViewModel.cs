@@ -64,7 +64,8 @@ namespace ProjectFirma.Web.Views.User
 
             personBeingEdited.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
             personBeingEdited.ReceiveSupportEmails = ShouldReceiveSupportEmails;
-            personBeingEdited.OrganizationID = OrganizationID ?? 2;
+            var unknownOrganizationId = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization().OrganizationID;
+            personBeingEdited.OrganizationID = OrganizationID ?? unknownOrganizationId;
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(personBeingEdited.PersonID))
             {

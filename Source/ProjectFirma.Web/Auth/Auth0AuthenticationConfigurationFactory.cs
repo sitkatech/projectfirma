@@ -181,7 +181,7 @@ namespace ProjectFirma.Web.Auth
             return parsed[key];
         }
         
-        public static IAuth0User SyncLocalAccountStore(IAuth0UserClaims auth0UserClaims,
+        public IAuth0User SyncLocalAccountStore(IAuth0UserClaims auth0UserClaims,
             IIdentity userIdentity)
         {
             SitkaHttpApplication.Logger.DebugFormat(
@@ -207,6 +207,11 @@ namespace ProjectFirma.Web.Auth
                     {
                         person = personWithSameEmail;
                         person.Auth0ID = auth0UserClaims.Subject;
+                        if (person.Organization == null ||
+                            person.Organization.OrganizationID == GetUnknownOrganizationId())
+                        {
+                            person.OrganizationID = ComputeOrganizationID(auth0UserClaims.Email);
+                        }
                     }
                     else
                     {
@@ -216,7 +221,7 @@ namespace ProjectFirma.Web.Auth
                 }
                 else
                 {
-                    person = handleNewUser(auth0UserClaims, currentDateTime, out sendNewUserNotification);
+                    person = HandleNewUser(auth0UserClaims, currentDateTime, out sendNewUserNotification);
                 }
             }
             else
@@ -238,6 +243,11 @@ namespace ProjectFirma.Web.Auth
             }
 
             return HttpRequestStorage.Person;
+        }
+        private static int GetUnknownOrganizationId()
+        {
+            var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
+            return unknownOrganization.OrganizationID;
         }
 
         private static void HandleUnknownOrganization(Person person)
@@ -293,14 +303,14 @@ namespace ProjectFirma.Web.Auth
             return organization;
         }
 
-        private static Person handleNewUser(IAuth0UserClaims auth0UserClaims, DateTime currentDateTime,
+        private Person HandleNewUser(IAuth0UserClaims auth0UserClaims, DateTime currentDateTime,
             out bool sendNewUserNotification)
         {
             Person person;
             // new user - provision with limited role
             SitkaHttpApplication.Logger.DebugFormat(
                 "In SyncLocalAccountStore - creating local profile for User '{0}'", auth0UserClaims.UserGuid);
-            var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
+            var organizationId = ComputeOrganizationID(auth0UserClaims.Email);
             person = new Person(
                 auth0UserClaims.FirstName,
                 auth0UserClaims.LastName,
@@ -308,7 +318,7 @@ namespace ProjectFirma.Web.Auth
                 Role.Unassigned.RoleID,
                 currentDateTime,
                 true,
-                unknownOrganization.OrganizationID,
+                organizationId,
                 false,
                 auth0UserClaims.LoginName);
             person.Auth0ID = auth0UserClaims.Subject;
@@ -316,6 +326,23 @@ namespace ProjectFirma.Web.Auth
             HttpRequestStorage.DatabaseEntities.AllPeople.Add(person);
             sendNewUserNotification = true;
             return person;
+        }
+
+        private int ComputeOrganizationID(string UserEmail)
+        {
+            var emailDomain = GetDomainFromEmail(UserEmail);
+            var matchedOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByDomain(emailDomain);
+            var organization = matchedOrganization ?? HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
+            return organization.OrganizationID;
+        }
+
+        private static string GetDomainFromEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return null;
+
+            var parts = email.Trim().Split('@');
+            return parts.Length == 2 ? parts[1] : null;
         }
 
         private static void SendNewOrganizationCreatedMessage(Person person, string loginName)
