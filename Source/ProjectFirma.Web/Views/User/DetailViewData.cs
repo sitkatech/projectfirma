@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Views.User
             IsViewingSelf = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == personToView.PersonID;
             EditRolesLink = UserHasAdminPermissions
                 ? ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditRoles(personToView)),
-                    $"Edit Roles for User - {personToView.GetFullNameFirstLast()}",
+                    $"Edit Organization & Roles for User - {personToView.GetFullNameFirstLast()}",
                     true)
                 : new HtmlString(string.Empty);
 

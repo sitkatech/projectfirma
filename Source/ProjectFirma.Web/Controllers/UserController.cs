@@ -139,7 +139,12 @@ namespace ProjectFirma.Web.Controllers
             var rolesAsSelectListItems =
                 roles.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture),
                     x => x.GetRoleDisplayName());
-            var viewData = new EditRolesViewData(rolesAsSelectListItems);
+
+            var organizationsAsSelectListItems =
+                HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations()
+                    .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
+
+            var viewData = new EditRolesViewData(rolesAsSelectListItems, organizationsAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
         }
 

@@ -89,10 +89,6 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.Username.ToType().GetFieldDefinitionLabel()</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.LoginName</div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</div>
-                        <div class="col-xs-8">@ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()</div>
-                    </div>
 
                     @if (ViewDataTyped.UserHasPersonManagePermissions)
                     {
@@ -108,12 +104,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
                     @if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth)
                     {
-                        if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
-                        {
-                            <div class="alert" role="alert">
-                                This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
-                            </div>
-                        }
+
                     }
                     else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.Auth0Auth)
                     {
@@ -150,9 +141,18 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-6">
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        @ViewDataTyped.EditRolesLink Roles
+                        @ViewDataTyped.EditRolesLink Organization & Roles
                     </div>
                     <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-4 fieldLabel text-right">
+                                @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
+                            </div>
+                            <div class="col-xs-8">
+                                @ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-xs-4 fieldLabel text-right">Role</div>
                             <div class="col-xs-8">

@@ -34,6 +34,8 @@ namespace ProjectFirma.Web.Views.User
 
         [Required] [DisplayName("Role")] public int? RoleID { get; set; }
 
+        [Required] [DisplayName("Organization")] public int? OrganizationID { get; set; }
+
         [Required]
         [DisplayName("Should Receive Support Emails?")]
         public bool ShouldReceiveSupportEmails { get; set; }
@@ -49,7 +51,7 @@ namespace ProjectFirma.Web.Views.User
         {
             PersonID = person.PersonID;
             RoleID = person.RoleID;
-
+            OrganizationID = person.OrganizationID;
             ShouldReceiveSupportEmails = person.ReceiveSupportEmails;
         }
 
@@ -62,6 +64,7 @@ namespace ProjectFirma.Web.Views.User
 
             personBeingEdited.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
             personBeingEdited.ReceiveSupportEmails = ShouldReceiveSupportEmails;
+            personBeingEdited.OrganizationID = OrganizationID ?? 2;
 
             if (ModelObjectHelpers.IsRealPrimaryKeyValue(personBeingEdited.PersonID))
             {
