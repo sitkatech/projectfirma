@@ -57,5 +57,11 @@ namespace ProjectFirmaModels.Models
             Check.Ensure(unknownOrg != null, "No Unknown Organization found for current TenantID; please add to Organizations table");
             return unknownOrg;
         }
+
+        public static Organization GetOrganizationByDomain(this IQueryable<Organization> organizations, string domain)
+        {
+            var organization = organizations.SingleOrDefault(x => x.Domain == domain);
+            return organization;
+        }
     }
 }
