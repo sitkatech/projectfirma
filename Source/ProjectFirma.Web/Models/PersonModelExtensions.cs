@@ -212,6 +212,16 @@ namespace ProjectFirma.Web.Models
             }
             return person;
         }
+        public static Person GetFirstPersonByEmail(this IQueryable<Person> people, string targetEmail)
+        {
+            if (!IsExistsPersonByEmail(people, targetEmail)) return null;
+            return people.First(p => p.Email == targetEmail);
+        }
+
+        public static bool IsExistsPersonByEmail(this IQueryable<Person> people, string targetEmail)
+        {
+            return people.Any(p => p.Email == targetEmail);
+        }
 
         public static Person GetPersonByAuth0Id(this IQueryable<Person> people, string auth0Id)
         {

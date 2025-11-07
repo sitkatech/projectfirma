@@ -45,6 +45,7 @@ using IndexViewData = ProjectFirma.Web.Views.User.IndexViewData;
 using Index = ProjectFirma.Web.Views.User.Index;
 using Organization = ProjectFirmaModels.Models.Organization;
 using Person = ProjectFirmaModels.Models.Person;
+using Keystone.Common.OpenID;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -421,7 +422,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         public ActionResult Invite(InviteViewModel viewModel)
         {
-            Check.Require(FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth, "Inviting users only applies to Keystone Authentication");
+            //Check.Require(FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth, "Inviting users only applies to Keystone Authentication");
 
             var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
             var homeUrl = SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
@@ -434,77 +435,84 @@ namespace ProjectFirma.Web.Controllers
                 .Organization.OrganizationName;
             var primaryContactEmail = tenantAttribute.PrimaryContactPerson.Email;
 
-            KeystoneService.KeystoneApiResponse<KeystoneService.KeystoneNewUserModel> keystoneNewUserResponse = null;
+            //KeystoneService.KeystoneApiResponse<KeystoneService.KeystoneNewUserModel> keystoneNewUserResponse = null;
 
-            var theSelectedOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(viewModel.OrganizationID);
-            Check.EnsureNotNull(theSelectedOrganization);
-            bool organizationSelectedIsNotUnknownOrg = !theSelectedOrganization.IsUnknown();
-            if (organizationSelectedIsNotUnknownOrg && theSelectedOrganization.KeystoneOrganizationGuid == null)
-            {
-                // If we pick an Org, it must already be in Keystone, and so the local dbo.Organization must have a valid OrganizationGuid
-                ModelState.AddModelError("OrganizationID", $"Organization is not in Keystone");
-            }
-            else
-            {
-                var inviteModel = new KeystoneService.KeystoneInviteModel
-                {
-                    FirstName = viewModel.FirstName,
-                    LastName = viewModel.LastName,
-                    Email = viewModel.Email,
-                    SiteName = toolDisplayName,
-                    Subject = $"Invitation to {toolDisplayName}",
-                    WelcomeText =
-                        $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
-                    RedirectURL = homeUrl,
-                    SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {primaryContactFullName} at {primaryContactOrganizationName} ({primaryContactEmail})",
-                    OrganizationGuid = theSelectedOrganization.KeystoneOrganizationGuid,
-                    SignatureBlock = $"The {toolDisplayName} team"
-                };
+            //var theSelectedOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(viewModel.OrganizationID);
+            //Check.EnsureNotNull(theSelectedOrganization);
+            //bool organizationSelectedIsNotUnknownOrg = !theSelectedOrganization.IsUnknown();
+            //if (organizationSelectedIsNotUnknownOrg && theSelectedOrganization.KeystoneOrganizationGuid == null)
+            //{
+            //    // If we pick an Org, it must already be in Keystone, and so the local dbo.Organization must have a valid OrganizationGuid
+            //    ModelState.AddModelError("OrganizationID", $"Organization is not in Keystone");
+            //}
+            //else
+            //{
+            //    var inviteModel = new KeystoneService.KeystoneInviteModel
+            //    {
+            //        FirstName = viewModel.FirstName,
+            //        LastName = viewModel.LastName,
+            //        Email = viewModel.Email,
+            //        SiteName = toolDisplayName,
+            //        Subject = $"Invitation to {toolDisplayName}",
+            //        WelcomeText =
+            //            $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
+            //        RedirectURL = homeUrl,
+            //        SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {primaryContactFullName} at {primaryContactOrganizationName} ({primaryContactEmail})",
+            //        OrganizationGuid = theSelectedOrganization.KeystoneOrganizationGuid,
+            //        SignatureBlock = $"The {toolDisplayName} team"
+            //    };
 
-                var keystoneService = new KeystoneService();
-                keystoneNewUserResponse = keystoneService.Invite(inviteModel);
-                if (keystoneNewUserResponse.StatusCode != HttpStatusCode.OK || keystoneNewUserResponse.Error != null)
-                {
-                    ModelState.AddModelError("Email", $"There was a problem inviting the user to Keystone: {keystoneNewUserResponse.Error.Message}.");
-                    if (keystoneNewUserResponse.Error.ModelState != null)
-                    {
-                        foreach (var modelStateKey in keystoneNewUserResponse.Error.ModelState.Keys)
-                        {
-                            foreach (var err in keystoneNewUserResponse.Error.ModelState[modelStateKey])
-                            {
-                                ModelState.AddModelError(modelStateKey, err);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    // Sanity check - did we get back the same Organization GUID we asked for?
-                    // (The GUID could also be null here, for the unknown org, but in that case we'll also get back null so this check is still valid.)
-                    var keystoneUserTmp = keystoneNewUserResponse.Payload.Claims;
-                    if (keystoneUserTmp.OrganizationGuid != inviteModel.OrganizationGuid)
-                    {
-                        string errorMessage = $"There was a problem with the Keystone Organization GUID Invited:{inviteModel.OrganizationGuid} Received back: {keystoneUserTmp.OrganizationGuid}. Please contact Sitka for assistance.";
-                        _logger.Error(errorMessage);
-                        ModelState.AddModelError("OrganizationID", errorMessage);
-                    }
-                }
-            }
+            //    var keystoneService = new KeystoneService();
+            //    keystoneNewUserResponse = keystoneService.Invite(inviteModel);
+            //    if (keystoneNewUserResponse.StatusCode != HttpStatusCode.OK || keystoneNewUserResponse.Error != null)
+            //    {
+            //        ModelState.AddModelError("Email", $"There was a problem inviting the user to Keystone: {keystoneNewUserResponse.Error.Message}.");
+            //        if (keystoneNewUserResponse.Error.ModelState != null)
+            //        {
+            //            foreach (var modelStateKey in keystoneNewUserResponse.Error.ModelState.Keys)
+            //            {
+            //                foreach (var err in keystoneNewUserResponse.Error.ModelState[modelStateKey])
+            //                {
+            //                    ModelState.AddModelError(modelStateKey, err);
+            //                }
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        // Sanity check - did we get back the same Organization GUID we asked for?
+            //        // (The GUID could also be null here, for the unknown org, but in that case we'll also get back null so this check is still valid.)
+            //        var keystoneUserTmp = keystoneNewUserResponse.Payload.Claims;
+            //        if (keystoneUserTmp.OrganizationGuid != inviteModel.OrganizationGuid)
+            //        {
+            //            string errorMessage = $"There was a problem with the Keystone Organization GUID Invited:{inviteModel.OrganizationGuid} Received back: {keystoneUserTmp.OrganizationGuid}. Please contact Sitka for assistance.";
+            //            _logger.Error(errorMessage);
+            //            ModelState.AddModelError("OrganizationID", errorMessage);
+            //        }
+            //    }
+            //}
 
             if (!ModelState.IsValid)
             {
                 return ViewInvite(viewModel);
             }
 
-            var keystoneUser = keystoneNewUserResponse.Payload.Claims;
-            var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
-            if (existingUser != null)
+            //var keystoneUser = keystoneNewUserResponse.Payload.Claims;
+            //var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
+            //if (existingUser != null)
+            //{
+            //    SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.");
+            //    return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
+            //}
+
+            var existingUser = HttpRequestStorage.DatabaseEntities.People.GetFirstPersonByEmail(viewModel.Email);
+            if (existingUser !=  null)
             {
                 SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.");
                 return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
             }
 
-            var newUser = CreateNewFirmaPerson(keystoneUser, keystoneUser.OrganizationGuid);
+            var newUser = CreateNewFirmaPerson(viewModel);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -512,7 +520,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            if (!viewModel.DoNotSendInviteEmailIfExisting && !keystoneNewUserResponse.Payload.Created)
+            if (!viewModel.DoNotSendInviteEmailIfExisting)
             {
                 SendExistingKeystoneUserCreatedMessage(newUser, CurrentPerson);
             }
@@ -521,48 +529,57 @@ namespace ProjectFirma.Web.Controllers
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 
-        private static Person CreateNewFirmaPerson(KeystoneService.KeystoneUserClaims keystoneUser, Guid? organizationGuid)
+        private static Person CreateNewFirmaPerson(InviteViewModel inviteViewModel)
         {
-            Organization organization;
-            if (organizationGuid.HasValue)
-            {
-                organization =
-                    HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByKeystoneOrganizationGuid(organizationGuid
-                        .Value);
+            //Organization organization;
+            //if (organizationGuid.HasValue)
+            //{
+            //    organization =
+            //        HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByKeystoneOrganizationGuid(organizationGuid
+            //            .Value);
 
-                if (organization == null)
-                {
-                    var keystoneClient = new KeystoneDataClient();
-
-
-                    var keystoneOrganization = keystoneClient.GetOrganization(organizationGuid.Value);
+            //    if (organization == null)
+            //    {
+            //        var keystoneClient = new KeystoneDataClient();
 
 
-                    var defaultOrganizationType =
-                        HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
-                    var firmaOrganization =
-                        new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault, false)
-                        {
-                            KeystoneOrganizationGuid = keystoneOrganization.OrganizationGuid,
-                            OrganizationShortName = keystoneOrganization.ShortName,
-                            OrganizationUrl = keystoneOrganization.URL
-                        };
-                    HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
-
-                    HttpRequestStorage.DatabaseEntities.SaveChanges();
-
-                    organization = firmaOrganization;
-                }
-            }
-            else
-            {
-                organization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
-            }
+            //        var keystoneOrganization = keystoneClient.GetOrganization(organizationGuid.Value);
 
 
-            var firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName,
-                keystoneUser.Email, Role.Unassigned, DateTime.Now, true, organization, false,
-                keystoneUser.LoginName);
+            //        var defaultOrganizationType =
+            //            HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
+            //        var firmaOrganization =
+            //            new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault, false)
+            //            {
+            //                KeystoneOrganizationGuid = keystoneOrganization.OrganizationGuid,
+            //                OrganizationShortName = keystoneOrganization.ShortName,
+            //                OrganizationUrl = keystoneOrganization.URL
+            //            };
+            //        HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
+
+            //        HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            //        organization = firmaOrganization;
+            //    }
+            //}
+            //else
+            //{
+            //    organization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
+            //}
+
+            var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(inviteViewModel.OrganizationID);
+
+            var firmaPerson = new Person(
+                Guid.NewGuid(),
+                inviteViewModel.FirstName,
+                inviteViewModel.LastName,
+                inviteViewModel.Email, 
+                Role.Unassigned, 
+                DateTime.Now, 
+                true,
+                organization, 
+                false,
+                inviteViewModel.Email);
             HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
             return firmaPerson;
         }
