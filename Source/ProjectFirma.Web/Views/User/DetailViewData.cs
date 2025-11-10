@@ -34,6 +34,7 @@ namespace ProjectFirma.Web.Views.User
         public string IndexUrl { get; }
         public string EditDetailBasicsUrl { get; }
         public string ChangePasswordUrl { get; }
+        public string UserRequestSupportUrl { get; }
 
         public bool UserHasPersonViewPermissions { get; }
         public bool UserHasPersonManagePermissions { get; }
@@ -68,6 +69,8 @@ namespace ProjectFirma.Web.Views.User
 
             EditPersonOrganizationPrimaryContactUrl = SitkaRoute<PersonOrganizationController>.BuildUrlFromExpression(c => c.EditPersonOrganizationPrimaryContacts(personToView));
             IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
+            UserRequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestSupport());
+
             if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
             {
                 EditDetailBasicsUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.EditUser(personToView.PrimaryKey));

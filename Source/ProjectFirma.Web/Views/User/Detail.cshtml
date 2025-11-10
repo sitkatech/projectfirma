@@ -71,6 +71,12 @@ Source code is available upon request via <support@sitkatech.com>.
                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDetailBasicsUrl, string.Format("Edit User: {0}", ViewDataTyped.Person.GetFullNameFirstLast()), 1000, ViewDataTyped.UserHasPersonManagePermissions)
                     }
                     Basics
+                    @if (ViewDataTyped.IsViewingSelf)
+                    {
+                        <span style="float: right;">
+                            <a class="btn btn-firma" href="@ViewDataTyped.UserRequestSupportUrl">Request Support</a>
+                        </span>
+                    }
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -102,7 +108,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     }
 
-                    @if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth)
+                    @*@if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth)
                     {
 
                     }
@@ -123,7 +129,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @ModalDialogFormHelper.MakeEditIconButton(ViewDataTyped.ChangePasswordUrl, "Change Password", "Change Password", ViewDataTyped.UserHasPersonManagePermissions)
                             </div>
                         }
-                    }
+                    }*@
 
                     @*  Impersonate User Button  *@
                     @if (ViewDataTyped.CurrentPersonCanBeImpersonatedByCurrentUser)
