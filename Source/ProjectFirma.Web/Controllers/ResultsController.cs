@@ -32,7 +32,6 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
-using ProjectFirma.Web.Views.Reports;
 using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -804,8 +803,15 @@ namespace ProjectFirma.Web.Controllers
         private static int DisadvantagedCommunityStatusGeospatialAreaTypeID = 23;
         private static int NotTriballyOwnedGeospatialAreaID = 12143;
         private static int ProjectCategoryCustomAttributeID = 131;
+        private static int ProjectSizeAcresCustomAttributeID = 109;
         private static int GrantsReceivedDollarAmountAwardedPerformanceMeasureID = 3771;
         private static int JobsCreatedOrRetainedPerformanceMeasureID = 3673;
+        private static List<int> TAInvestmentFundingSourceIDs = new List<int> { 9397, 9445, 9345, 9347, 9372, 9373 };
+        private static int WaterQualitySedimentStabilizationPerformanceMeasureID = 3771;
+        private static int WaterSupplyImprovedAFYPerformanceMeasureID = 3771;
+        private static int WaterSupplyImprovedHouseholdsImpactedPerformanceMeasureID = 3771;
+        private static int AvoidedCostsPerformanceMeasureID = 3771;
+        private static int CleanAndAbundantWaterTaxonomyBranchID = 156;
 
         // Allow admin access only for now
         [AnonymousUnclassifiedFeature]
@@ -853,11 +859,34 @@ namespace ProjectFirma.Web.Controllers
             var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
                 .Select(x => x.Project).Distinct().Count();
 
+            var projectIDs = projects.Select(x => x.ProjectID).ToList();
+            var awardedTAAndCapacityEnhancementProjectCount = GetAwardedTAAndCapacityEnhancementProjects(projectIDs).Count;
+            var ncrpTAInvestment = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(TAInvestmentFundingSourceIDs) ?? 0));
+            var acresImpactedViaTAProjects = GetAcresImpactedViaTAProjects(projectIDs);
+
+            var improvedWaterSupplyOrQualityProjectCount = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.TaxonomyBranchID == CleanAndAbundantWaterTaxonomyBranchID).SelectMany(x => x.Projects)
+                .ToList().Count(x => x.IsActiveProject() && projectIDs.Contains(x.ProjectID));
+            var waterQualitySedimentStabilization = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == WaterQualitySedimentStabilizationPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                .Sum(x => (double?)x.ActualValue) ?? 0;
+            var waterSupplyImprovedAFY = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == WaterSupplyImprovedAFYPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                .Sum(x => (double?)x.ActualValue) ?? 0;
+            var waterSupplyImprovedHouseholdsImpacted = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == WaterSupplyImprovedHouseholdsImpactedPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                .Sum(x => (double?)x.ActualValue) ?? 0;
+            var avoidedCosts = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == AvoidedCostsPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                .Sum(x => (double?)x.ActualValue) ?? 0;
+
+
+
             var projectDashboardChartsViewData =
                 new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID, projectsByOwnerOrgTypeGoogleChart,
                     projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
                     projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
-                    tribalLandProjectCount);
+                    tribalLandProjectCount, awardedTAAndCapacityEnhancementProjectCount, ncrpTAInvestment, acresImpactedViaTAProjects, totalLeveraged,
+                    improvedWaterSupplyOrQualityProjectCount, waterQualitySedimentStabilization, waterSupplyImprovedAFY, waterSupplyImprovedHouseholdsImpacted, avoidedCosts);
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalAwarded, totalMatched, totalInvestment,
@@ -1173,11 +1202,33 @@ namespace ProjectFirma.Web.Controllers
             var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
             var tribalLandProjectCount = projects.SelectMany(x => x.ProjectGeospatialAreas).Where(x => tribalIDs.Contains(x.GeospatialAreaID))
                 .Select(x => x.Project).Distinct().Count();
- 
+
+            var projectIDs = projects.Select(x => x.ProjectID).ToList();
+            var awardedTAAndCapacityEnhancementProjectCount = GetAwardedTAAndCapacityEnhancementProjects(projectIDs).Count;
+            var ncrpTAInvestment = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(TAInvestmentFundingSourceIDs) ?? 0));
+            var acresImpactedViaTAProjects = GetAcresImpactedViaTAProjects(projectIDs);
+
+            var improvedWaterSupplyOrQualityProjectCount = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.TaxonomyBranchID == CleanAndAbundantWaterTaxonomyBranchID).SelectMany(x => x.Projects)
+                .ToList().Count(x => x.IsActiveProject() && projectIDs.Contains(x.ProjectID));
+            var waterQualitySedimentStabilization = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == WaterQualitySedimentStabilizationPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                .Sum(x => (double?)x.ActualValue) ?? 0;
+            var waterSupplyImprovedAFY = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == WaterSupplyImprovedAFYPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                .Sum(x => (double?)x.ActualValue) ?? 0;
+            var waterSupplyImprovedHouseholdsImpacted = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == WaterSupplyImprovedHouseholdsImpactedPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                .Sum(x => (double?)x.ActualValue) ?? 0;
+            var avoidedCosts = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == AvoidedCostsPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
+                .Sum(x => (double?)x.ActualValue) ?? 0;
+
             var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID,
                 projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID,
                 TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,
-                projectStagesGoogleChart, tribalLandProjectCount);
+                projectStagesGoogleChart, tribalLandProjectCount,
+                awardedTAAndCapacityEnhancementProjectCount, ncrpTAInvestment, acresImpactedViaTAProjects, totalLeveraged,
+                improvedWaterSupplyOrQualityProjectCount, waterQualitySedimentStabilization, waterSupplyImprovedAFY,waterSupplyImprovedHouseholdsImpacted, avoidedCosts);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 
@@ -1190,8 +1241,7 @@ namespace ProjectFirma.Web.Controllers
             var projects = GetProjectEnumerableWithIncludesForPerformance()
                 .Where(x => projectStages.Contains(x.ProjectStageID)).ToList();
             var projectIDs = projects.Select(x => x.ProjectID).ToList();
-            var projectCustomAttributeCategories = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
-                .Where(x => x.ProjectCustomAttributeTypeID == 131).ToList();
+
             if (projectTypes.Count > 0)
             {
                 projects = projects.Where(x => x.ProjectClassifications.Any(y =>
@@ -1200,19 +1250,18 @@ namespace ProjectFirma.Web.Controllers
 
             if (projectCategories.Count > 0)
             {
-                // Get the project custom attribute type with ID 131 and the project IDs with that custom attribute type
-                var customAttributeTypeId = 131;
-                var projectIdsWithCustomAttributeType = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
-                    .Where(attr => attr.ProjectCustomAttributeTypeID == customAttributeTypeId && projectIDs.Contains(attr.ProjectID))
+                // Get the project custom attribute IDs for Project Category custom attribute type and the project IDs with that custom attribute type
+                var projectCustomAttributeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
+                    .Where(attr => attr.ProjectCustomAttributeTypeID == ProjectCategoryCustomAttributeID && projectIDs.Contains(attr.ProjectID))
                     .Select(attr => attr.ProjectCustomAttributeID)
                     .Distinct()
                     .ToList();
 
-                var projectCustomAttributeValues = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeValues
-                    .Where(x => projectIdsWithCustomAttributeType.Contains(x.ProjectCustomAttributeID) && projectCategories.Contains(x.AttributeValue))
+                var projectIdsWithCustomAttributeType = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeValues
+                    .Where(x => projectCustomAttributeIDs.Contains(x.ProjectCustomAttributeID) && projectCategories.Contains(x.AttributeValue))
                     .Select(x => x.ProjectCustomAttribute.ProjectID)
                     .ToList();
-                projects = projects.Where(x => projectCustomAttributeValues.Contains(x.ProjectID)).ToList();
+                projects = projects.Where(x => projectIdsWithCustomAttributeType.Contains(x.ProjectID)).ToList();
             }
 
             return projects;
@@ -1269,7 +1318,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var categories = JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
                 .ProjectCustomAttributeTypes.Single(x =>
-                    x.ProjectCustomAttributeTypeID == 131)?.ProjectCustomAttributeTypeOptionsSchema);
+                    x.ProjectCustomAttributeTypeID == ProjectCategoryCustomAttributeID)?.ProjectCustomAttributeTypeOptionsSchema);
             if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectCategoriesQueryStringParameter]))
             {
                 var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectCategoriesQueryStringParameter]
@@ -1277,6 +1326,43 @@ namespace ProjectFirma.Web.Controllers
                 categories = filterValuesAsString.ToList();
             }
             return categories;
+        }
+
+        private List<int> GetAwardedTAAndCapacityEnhancementProjects(List<int> projectIDs)
+        {
+            var projectCategories = new List<string>()
+            {
+                "NCRP Technical Assistance Project",
+                "NCRP Funded Technical Assistance Project"
+            };
+            var projectCustomAttributeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
+                .Where(attr => attr.ProjectCustomAttributeTypeID == ProjectCategoryCustomAttributeID && projectIDs.Contains(attr.ProjectID))
+                .Select(attr => attr.ProjectCustomAttributeID)
+                .Distinct()
+                .ToList();
+
+            var projectIdsWithCustomAttributeType = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeValues
+                .Where(x => projectCustomAttributeIDs.Contains(x.ProjectCustomAttributeID) && projectCategories.Contains(x.AttributeValue))
+                .Select(x => x.ProjectCustomAttribute.ProjectID)
+                .ToList();
+            return projectIdsWithCustomAttributeType;
+        }
+
+        private decimal GetAcresImpactedViaTAProjects(List<int> projectIDs)
+        {
+            
+            var projectCustomAttributeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes
+                .Where(attr => attr.ProjectCustomAttributeTypeID == ProjectSizeAcresCustomAttributeID && projectIDs.Contains(attr.ProjectID))
+                .Select(attr => attr.ProjectCustomAttributeID)
+                .Distinct()
+                .ToList();
+
+            var acresImpactedViaTAProjects = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeValues
+                .Where(x => projectCustomAttributeIDs.Contains(x.ProjectCustomAttributeID))
+                .Select(x => x.AttributeValue)
+                .ToList()
+                .Sum(decimal.Parse);
+            return acresImpactedViaTAProjects;
         }
     }
 }
