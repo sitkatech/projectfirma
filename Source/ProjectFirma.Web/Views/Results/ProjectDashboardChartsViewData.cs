@@ -45,10 +45,24 @@ namespace ProjectFirma.Web.Views.Results
         public double ProjectStagesTotal { get; }
         public bool FundingOrganizationsHasData { get; }
         public int NumberOfTribalProjects { get; }
-        
+
+        // capacity enhancement and ta
+        public int AwardedTAAndCapacityEnhancementProjectCount { get; }
+        public decimal TAInvestment { get; }
+        public decimal AcresImpactedViaTAProjects { get; }
+        public double TotalLeveraged { get; }
+
+        // water supply and quality
+        public int ImprovedWaterSupplyOrQualityProjectCount { get; }
+        public double WaterQualitySedimentStabilization { get; }
+        public double WaterSupplyImprovedReliabilityAFY { get; }
+        public double WaterSupplyImprovedReliabilityNumberOfHouseholds { get; }
+        public double AvoidedCosts { get; }
 
         public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, int disadvantagedCommunityStatusGeospatialAreaTypeID, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
-            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, int numberOfTribalProjects)
+            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, int numberOfTribalProjects,
+            int awardedTAAndCapacityEnhancementProjectCount, decimal ncrpTAInvestment, decimal acresImpactedViaTAProjects, double totalLeveraged,
+            int improvedWaterSupplyOrQualityProjectCount, double waterQualitySedimentStabilization, double waterSupplyImprovedAFY, double waterSupplyImprovedHouseholdsImpacted, double avoidedCosts)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             var geospatialAreaTypeIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(disadvantagedCommunityStatusGeospatialAreaTypeID)), "Underserved Community Status");
@@ -87,6 +101,17 @@ namespace ProjectFirma.Web.Views.Results
             }
 
             NumberOfTribalProjects = numberOfTribalProjects;
+            AwardedTAAndCapacityEnhancementProjectCount = awardedTAAndCapacityEnhancementProjectCount;
+            TAInvestment = ncrpTAInvestment;
+            AcresImpactedViaTAProjects = acresImpactedViaTAProjects;
+            TotalLeveraged = totalLeveraged;
+
+            ImprovedWaterSupplyOrQualityProjectCount = improvedWaterSupplyOrQualityProjectCount;
+            WaterQualitySedimentStabilization = waterQualitySedimentStabilization;
+            WaterSupplyImprovedReliabilityAFY = waterSupplyImprovedAFY;
+            WaterSupplyImprovedReliabilityNumberOfHouseholds = waterSupplyImprovedHouseholdsImpacted;
+            AvoidedCosts = avoidedCosts;
+
         }
     }
 }
