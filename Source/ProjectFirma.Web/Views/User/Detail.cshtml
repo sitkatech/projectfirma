@@ -49,6 +49,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
+    @if (ViewDataTyped.IsViewingSelf)
+    {
+        <span style="float: right;">
+            <a class="btn btn-firma" href="@ViewDataTyped.UserRequestSupportUrl">Request Support</a>
+        </span>
+        <br/>
+    }
     @if (ViewDataTyped.UserHasAdminPermissions)
     {
         @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1} User", "<span class='glyphicon glyphicon-edit blue''></span>", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), ViewDataTyped.ActivateInactivateUrl, string.Format("{0} this user?", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), 400, "Continue", "Cancel", null, null, null)
@@ -71,12 +78,6 @@ Source code is available upon request via <support@sitkatech.com>.
                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDetailBasicsUrl, string.Format("Edit User: {0}", ViewDataTyped.Person.GetFullNameFirstLast()), 1000, ViewDataTyped.UserHasPersonManagePermissions)
                     }
                     Basics
-                    @if (ViewDataTyped.IsViewingSelf)
-                    {
-                        <span style="float: right;">
-                            <a class="btn btn-firma" href="@ViewDataTyped.UserRequestSupportUrl">Request Support</a>
-                        </span>
-                    }
                 </div>
                 <div class="panel-body">
                     <div class="row">
