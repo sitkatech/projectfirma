@@ -74,5 +74,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/tcs.theme.css",
     "inputFile": "Content/Bootstrap/firma/tcs.theme.less"
+  },
+  {
+    "outputFile": "Content/Bootstrap/firma/bootstrap.firma.base.css",
+    "inputFile": "Content/Bootstrap/firma/bootstrap.firma.base.less"
   }
 ]
