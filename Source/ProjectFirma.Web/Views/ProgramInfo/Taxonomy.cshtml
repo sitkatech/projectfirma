@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using Newtonsoft.Json.Linq
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
@@ -437,11 +436,13 @@ Source code is available upon request via <support@sitkatech.com>.
             var $targetRow = $visibleRows.eq(newIdx);
             if ($targetRow.length === 0) return;
 
-            // If the target row is a leaf, prefer the anchor; otherwise prefer the expander button.
+            // If the target row is a leaf make the how row temporarily focusable (needed because some project names are not links) ; otherwise prefer the expander button.
             var $target;
+            var removedTabindex = false;
             if ($targetRow.hasClass('treegrid-leaf')) {
-                $target = $targetRow.find('a:visible').first();
-                if (!$target.length) $target = $targetRow.find('.treegrid-expander:visible').first();
+                $targetRow.attr('tabindex', '-1');
+                $target = $targetRow;
+                removedTabindex = true;
             } else {
                 $target = $targetRow.find('.treegrid-expander:visible').first();
                 if (!$target.length) $target = $targetRow.find('a:visible').first();
@@ -449,7 +450,6 @@ Source code is available upon request via <support@sitkatech.com>.
             if (!$target.length) $target = $targetRow.find('button:visible, input:visible, [tabindex]:visible').first();
 
             // If nothing focusable, make the row temporarily focusable
-            var removedTabindex = false;
             if (!$target.length) {
                 $targetRow.attr('tabindex', '-1');
                 $target = $targetRow;
