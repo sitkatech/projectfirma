@@ -134,6 +134,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panel-default">
     <div class="panel-heading">
+        <button id="btnExpandLevel" class="btn btn-firma btn-sm">Expand Level</button>
+        <button id="btnCollapseLevel" class="btn btn-firma btn-sm">Collapse Level</button>
         <input id="taxonomySearch" name="search" placeholder="Search..." autocomplete="on">
         <button id="btnResetSearch" class="btn btn-xs btn-primary">&times;</button>
         <span id="matches"></span>
@@ -321,6 +323,54 @@ Source code is available upon request via <support@sitkatech.com>.
         });
     }
 
+    // Determine the maximum level among visible data rows in the treegrid (level is the first number in data-key: "{level}-{key}").
+    function getVisibleMaxLevel() {
+        var maxLevel = -1;
+        $('#taxonomyTreeGrid').find('td[data-key]').closest('tr').filter(':visible').each(function () {
+            var key = $(this).find('[data-key]').data('key');
+            if (key) {
+                var lvl = parseInt((key + "").split('-')[0], 10);
+                if (!isNaN(lvl)) maxLevel = Math.max(maxLevel, lvl);
+            }
+        });
+        return maxLevel;
+    }
+
+    // Collapse the currently deepest visible level by collapsing their parent rows (level - 1)
+    function collapseLevel() {
+        var visibleMax = getVisibleMaxLevel();
+        if (visibleMax <= 0) return; // nothing to collapse
+        var targetParentLevel = visibleMax - 1;
+        $('#taxonomyTreeGrid').find('td[data-key]').closest('tr').each(function () {
+            var $row = $(this);
+            var key = $row.find('[data-key]').data('key');
+            if (!key) return;
+            var lvl = parseInt((key + "").split('-')[0], 10);
+            if (lvl === targetParentLevel && $row.find('.treegrid-expander').length) {
+                $row.removeClass('treegrid-expanded').addClass('treegrid-collapsed');
+                $row.find('.treegrid-expander').attr('aria-expanded', 'false');
+                toggleChildren(key, false);
+            }
+        });
+    }
+
+    // Expand the next level by expanding visible rows at the current deepest visible level
+    function expandLevel() {
+        var visibleMax = getVisibleMaxLevel();
+        // expand rows that are at level == visibleMax and have children (expander)
+        $('#taxonomyTreeGrid').find('td[data-key]').closest('tr').filter(':visible').each(function () {
+            var $row = $(this);
+            var key = $row.find('[data-key]').data('key');
+            if (!key) return;
+            var lvl = parseInt((key + "").split('-')[0], 10);
+            if (lvl <= visibleMax && $row.find('.treegrid-expander').length) {
+                $row.removeClass('treegrid-collapsed').addClass('treegrid-expanded');
+                $row.find('.treegrid-expander').attr('aria-expanded', 'true');
+                toggleChildren(key, true);
+            }
+        });
+    }
+
     function filterTreeGrid(query, fromResetButton) {
         query = query.trim().toLowerCase();
         var matchCount = 0;
@@ -363,8 +413,9 @@ Source code is available upon request via <support@sitkatech.com>.
         renderTreeGrid();
         updateExpandCollapse();
         expandAll();
-        $('#btnExpandLevel').on('click', expandAll);
-        $('#btnCollapseLevel').on('click', collapseAll);
+        // bind level-based handlers
+        $('#btnExpandLevel').on('click', expandLevel);
+        $('#btnCollapseLevel').on('click', collapseLevel);
         $('#taxonomySearch').on('keyup', function (e) {
             if (e && (e.key === 'Tab' || e.which === 9)) return;
             filterTreeGrid($(this).val());
