@@ -222,8 +222,9 @@ Source code is available upon request via <support@sitkatech.com>.
         var tdExpanderClass = isLeaf ? 'treegrid-leaf' : '';
         var ariaExpanded = isLeaf ? '' : `aria-expanded="${isExpanded}"`;
         var tagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
-        var tag = `<span class="${tagClass}" style="background:${colors.accentStrong}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
-        var expander = `<button aria-label="Expand/Collapse" class="glyphicon treegrid-expander"></button>`;
+        var tag = `<span class="${tagClass}" style="background:${colors.accent}; color:${colors.tagText};">${getTaxonomyLevelDisplayName(node, level)}</span>`;
+        // Make the expander a button with type="button" and set aria-expanded so keyboard users get correct state
+        var expander = `<button type="button" aria-label="Expand/Collapse" aria-expanded="${isExpanded}" class="glyphicon treegrid-expander"></button>`;
         var indent = `<span class="indent-spacer" style="display:inline-block;width:${level * 24}px"></span>`;
         var titleLink = node.url
             ? `<a href="${node.url}" style="color:inherit;text-decoration:underline;">${node.title}</a>`
@@ -237,7 +238,7 @@ Source code is available upon request via <support@sitkatech.com>.
             ? `${node.NumberOfProjects} Projects`
             : (node.NumberOfProjects != null ? node.NumberOfProjects : '');
         var countTagClass = (level === 0) ? "taxonomy-level-tag taxonomy-level-tag-large" : "taxonomy-level-tag";
-        var countCell = `<td style="border-top-color:${colors.accent}; width: 15%; text-align: right;"><span class="${countTagClass}" style="background:${colors.accentStrong};color:${colors.tagText};${node.NumberOfProjects != null && level != projectLevel ? '' : 'display: none'}">${node.NumberOfProjects != null && level != projectLevel ? countText : ''}</span></td>`;
+        var countCell = `<td style="border-top-color:${colors.accent}; width: 15%; text-align: right;"><span class="${countTagClass}" style="background:${colors.accent};color:${colors.tagText};${node.NumberOfProjects != null && level != projectLevel ? '' : 'display: none'}">${node.NumberOfProjects != null && level != projectLevel ? countText : ''}</span></td>`;
         var row = `<tr id="${rowId}" role="row" class="${expanderClass}">${titleCell}${countCell}</tr>`;
         var rows = [row];
         if (hasChildren) {
@@ -257,7 +258,7 @@ Source code is available upon request via <support@sitkatech.com>.
             // Wrap trunk rows in a group row for border and background
             trunkGroups.push(
                 `<tr><td colspan="2" style="padding:0; border:none; background:none;">
-                    <div class="taxonomy-trunk-group" style="border:2px solid ${trunk.ThemeColor || '#888'};border-radius:20px;margin-bottom:24px;background:#fff;overflow:hidden;padding-bottom:1rem;">
+                    <div class="taxonomy-trunk-group" style="border:2px solid ${trunk.ThemeColor || '#888'};border-radius:20px;margin-bottom:24px;background:${trunkColors.sectionBg};overflow:hidden;padding-bottom:1rem;">
                         <table style="width:100%;border:none;background:none;margin:0;">
                             <tbody>${trunkRows.join('')}</tbody>
                         </table>
@@ -275,6 +276,8 @@ Source code is available upon request via <support@sitkatech.com>.
             var key = $row.find('[data-key]').data('key');
             var expanded = $row.hasClass('treegrid-expanded');
             $row.toggleClass('treegrid-expanded', !expanded).toggleClass('treegrid-collapsed', expanded);
+            // keep button aria-expanded in sync with state
+            $(this).attr('aria-expanded', String(!expanded));
             //$row.attr('aria-expanded', !expanded);
             toggleChildren(key, !expanded);
             e.stopPropagation();
@@ -302,6 +305,8 @@ Source code is available upon request via <support@sitkatech.com>.
             if ($row.find('.treegrid-expander').length) {
                 $row.removeClass('treegrid-expanded').addClass('treegrid-collapsed');
                 toggleChildren(key, false);
+                // update ARIA on the expander button(s) in the row if present
+                $row.find('.treegrid-expander').attr('aria-expanded', 'false');
             }
         });
     }
@@ -312,6 +317,7 @@ Source code is available upon request via <support@sitkatech.com>.
             if ($row.find('.treegrid-expander').length) {
                 $row.removeClass('treegrid-collapsed').addClass('treegrid-expanded');
                 toggleChildren(key, true);
+                $row.find('.treegrid-expander').attr('aria-expanded', 'true');
             }
         });
     }
@@ -330,6 +336,21 @@ Source code is available upon request via <support@sitkatech.com>.
             }
         });
         $('#matches').text('(' + matchCount + ' matches)');
+
+        // When a filter is applied, ensure all expand/collapse buttons appear expanded
+        // Update CSS classes and aria-expanded attributes so keyboard/screen reader users see correct state.
+        if (query !== '') {
+            $('#taxonomyTreeGrid tbody tr').each(function () {
+                var $row = $(this);
+                var $expander = $row.find('.treegrid-expander');
+                if ($expander.length) {
+                    // Visually mark row as expanded but do NOT forcibly show children here (filter controls visibility)
+                    $row.removeClass('treegrid-collapsed').addClass('treegrid-expanded');
+                    // Ensure the expander button reflects expanded state for assistive tech
+                    $expander.attr('aria-expanded', 'true');
+                }
+            });
+        }
     }
 
     $(function () {
@@ -338,12 +359,106 @@ Source code is available upon request via <support@sitkatech.com>.
         expandAll();
         $('#btnExpandLevel').on('click', expandAll);
         $('#btnCollapseLevel').on('click', collapseAll);
-        $('#taxonomySearch').on('keyup', function () {
+        $('#taxonomySearch').on('keyup', function (e) {
+            if (e && (e.key === 'Tab' || e.which === 9)) return;
             filterTreeGrid($(this).val());
         });
         $('#btnResetSearch').on('click', function () {
             $('#taxonomySearch').val('');
             filterTreeGrid('');
         });
+
+        // Keyboard handling for left/right arrow keys on the expander button.
+        // Right arrow expands a collapsed node; left arrow collapses an expanded node.
+        $('#taxonomyTreeGrid').on('keydown', '.treegrid-expander', function (e) {
+            var key = e.key || e.keyCode;
+            var isRight = (key === 'ArrowRight' || key === 'Right' || key === 39);
+            var isLeft = (key === 'ArrowLeft' || key === 'Left' || key === 37);
+            if (!isRight && !isLeft) return;
+            e.preventDefault();
+            var $btn = $(this);
+            var $row = $btn.closest('tr');
+            var expanded = $row.hasClass('treegrid-expanded');
+            if (isRight && !expanded) {
+                // expand
+                $btn.trigger('click');
+            } else if (isLeft && expanded) {
+                // collapse
+                $btn.trigger('click');
+            }
+        });
+
+        // Keyboard handling for up/down arrow keys to move between visible rows.
+        // When focus is within the treegrid, ArrowDown/ArrowUp will move focus to the next/previous visible row.
+        $('#taxonomyTreeGrid').on('keydown', function (e) {
+            var key = e.key || e.keyCode;
+            var isDown = (key === 'ArrowDown' || key === 'Down' || key === 40);
+            var isUp = (key === 'ArrowUp' || key === 'Up' || key === 38);
+            if (!isDown && !isUp) return;
+
+            var $active = $(document.activeElement);
+            // Only handle when focus is inside the taxonomy tree grid
+            if ($active.length === 0 || $active.closest('#taxonomyTreeGrid').length === 0) return;
+
+            e.preventDefault();
+
+            // Collect the ordered list of visible data rows (rows that contain a td[data-key]).
+            // Use a find() from the container to preserve document order across nested tables.
+            var $visibleRows = $('#taxonomyTreeGrid').find('td[data-key]').closest('tr').filter(':visible');
+            if ($visibleRows.length === 0) return;
+
+            // Resolve the current data row. Prefer an ancestor data row; otherwise try to find
+            // which data row contains the active element.
+            var $currentRow = $active.closest('tr');
+            if (!$currentRow.find('td[data-key]').length) {
+                $currentRow = $currentRow.parents('tr').filter(function () { return $(this).find('td[data-key]').length > 0; }).first();
+            }
+            if (!$currentRow.length) {
+                $currentRow = $visibleRows.filter(function () { return $(this).has($active).length > 0; }).first();
+            }
+            var idx = $visibleRows.index($currentRow);
+
+            var newIdx;
+            if (idx === -1) {
+                // Focus isn't on a row: move to first (down) or last (up)
+                newIdx = isDown ? 0 : ($visibleRows.length - 1);
+            } else {
+                // Move relative to the current visible row index
+                newIdx = isDown ? Math.min($visibleRows.length - 1, idx + 1) : Math.max(0, idx - 1);
+            }
+
+            var $targetRow = $visibleRows.eq(newIdx);
+            if ($targetRow.length === 0) return;
+
+            // If the target row is a leaf, prefer the anchor; otherwise prefer the expander button.
+            var $target;
+            if ($targetRow.hasClass('treegrid-leaf')) {
+                $target = $targetRow.find('a:visible').first();
+                if (!$target.length) $target = $targetRow.find('.treegrid-expander:visible').first();
+            } else {
+                $target = $targetRow.find('.treegrid-expander:visible').first();
+                if (!$target.length) $target = $targetRow.find('a:visible').first();
+            }
+            if (!$target.length) $target = $targetRow.find('button:visible, input:visible, [tabindex]:visible').first();
+
+            // If nothing focusable, make the row temporarily focusable
+            var removedTabindex = false;
+            if (!$target.length) {
+                $targetRow.attr('tabindex', '-1');
+                $target = $targetRow;
+                removedTabindex = true;
+            }
+
+            $target.focus();
+
+            if (removedTabindex) {
+                $target.on('blur.tempRemoveTabindex', function () {
+                    $target.removeAttr('tabindex');
+                    $target.off('blur.tempRemoveTabindex');
+                });
+            }
+        });
     });
+
+
 </script>
