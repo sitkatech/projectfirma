@@ -446,12 +446,14 @@ Source code is available upon request via <support@sitkatech.com>.
         });
 
         // Keyboard handling for up/down arrow keys to move between visible rows.
-        // When focus is within the treegrid, ArrowDown/ArrowUp will move focus to the next/previous visible row.
+        // When focus is within the treegrid, ArrowDown/ArrowUp/Home/End will move focus appropriately.
         $('#taxonomyTreeGrid').on('keydown', function (e) {
             var key = e.key || e.keyCode;
             var isDown = (key === 'ArrowDown' || key === 'Down' || key === 40);
             var isUp = (key === 'ArrowUp' || key === 'Up' || key === 38);
-            if (!isDown && !isUp) return;
+            var isHome = (key === 'Home' || key === 'home' || key === 36);
+            var isEnd = (key === 'End' || key === 'end' || key === 35);
+            if (!isDown && !isUp && !isHome && !isEnd) return;
 
             var $active = $(document.activeElement);
             // Only handle when focus is inside the taxonomy tree grid
@@ -463,6 +465,41 @@ Source code is available upon request via <support@sitkatech.com>.
             // Use a find() from the container to preserve document order across nested tables.
             var $visibleRows = $('#taxonomyTreeGrid').find('td[data-key]').closest('tr').filter(':visible');
             if ($visibleRows.length === 0) return;
+
+            // Home/End: jump to first or last visible row
+            if (isHome || isEnd) {
+                var $targetRow = isHome ? $visibleRows.eq(0) : $visibleRows.eq($visibleRows.length - 1);
+                if ($targetRow.length === 0) return;
+
+                var $target;
+                var removedTabindex = false;
+                if ($targetRow.hasClass('treegrid-leaf')) {
+                    $targetRow.attr('tabindex', '-1');
+                    $target = $targetRow;
+                    removedTabindex = true;
+                } else {
+                    $target = $targetRow.find('.treegrid-expander:visible').first();
+                    if (!$target.length) $target = $targetRow.find('a:visible').first();
+                }
+                if (!$target.length) $target = $targetRow.find('button:visible, input:visible, [tabindex]:visible').first();
+
+                if (!$target.length) {
+                    $targetRow.attr('tabindex', '-1');
+                    $target = $targetRow;
+                    removedTabindex = true;
+                }
+
+                $target.focus();
+
+                if (removedTabindex) {
+                    $target.on('blur.tempRemoveTabindex', function () {
+                        $target.removeAttr('tabindex');
+                        $target.off('blur.tempRemoveTabindex');
+                    });
+                }
+
+                return;
+            }
 
             // Resolve the current data row. Prefer an ancestor data row; otherwise try to find
             // which data row contains the active element.
@@ -487,7 +524,7 @@ Source code is available upon request via <support@sitkatech.com>.
             var $targetRow = $visibleRows.eq(newIdx);
             if ($targetRow.length === 0) return;
 
-            // If the target row is a leaf make the how row temporarily focusable (needed because some project names are not links) ; otherwise prefer the expander button.
+            // If the target row is a leaf make the whole row temporarily focusable ; otherwise prefer the expander button.
             var $target;
             var removedTabindex = false;
             if ($targetRow.hasClass('treegrid-leaf')) {
@@ -500,7 +537,6 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             if (!$target.length) $target = $targetRow.find('button:visible, input:visible, [tabindex]:visible').first();
 
-            // If nothing focusable, make the row temporarily focusable
             if (!$target.length) {
                 $targetRow.attr('tabindex', '-1');
                 $target = $targetRow;
