@@ -814,7 +814,7 @@ namespace ProjectFirma.Web.Controllers
         private static int CleanAndAbundantWaterTaxonomyBranchID = 156;
 
         // Allow admin access only for now
-        [AnonymousUnclassifiedFeature]
+        [FirmaAdminFeature]
         public ViewResult ProjectDashboard()
         {
             Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProjectDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
