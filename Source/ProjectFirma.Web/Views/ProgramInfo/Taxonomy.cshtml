@@ -322,7 +322,7 @@ Source code is available upon request via <support@sitkatech.com>.
         });
     }
 
-    function filterTreeGrid(query) {
+    function filterTreeGrid(query, fromResetButton) {
         query = query.trim().toLowerCase();
         var matchCount = 0;
         $('#taxonomyTreeGrid tbody tr').each(function () {
@@ -330,16 +330,23 @@ Source code is available upon request via <support@sitkatech.com>.
             var text = $row.text().toLowerCase();
             if (query === '' || text.indexOf(query) !== -1) {
                 $row.show();
-                matchCount++;
+                // Only count matches for actual data rows (rows that represent treegrid rows)
+                if ($row.attr('role') === 'row') {
+                    matchCount++;
+                }
             } else {
                 $row.hide();
             }
         });
-        $('#matches').text('(' + matchCount + ' matches)');
+        if (!fromResetButton) {
+            $('#matches').text('(' + matchCount + ' matches)');
+        } else {
+            $('#matches').text('');
+        }
 
         // When a filter is applied, ensure all expand/collapse buttons appear expanded
         // Update CSS classes and aria-expanded attributes so keyboard/screen reader users see correct state.
-        if (query !== '') {
+        if (query !== '' || fromResetButton) {
             $('#taxonomyTreeGrid tbody tr').each(function () {
                 var $row = $(this);
                 var $expander = $row.find('.treegrid-expander');
@@ -365,7 +372,7 @@ Source code is available upon request via <support@sitkatech.com>.
         });
         $('#btnResetSearch').on('click', function () {
             $('#taxonomySearch').val('');
-            filterTreeGrid('');
+            filterTreeGrid('', true);
         });
 
         // Keyboard handling for left/right arrow keys on the expander button.
