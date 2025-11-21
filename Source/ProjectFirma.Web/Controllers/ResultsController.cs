@@ -23,7 +23,6 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
-using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -813,6 +812,17 @@ namespace ProjectFirma.Web.Controllers
         private static int AvoidedCostsPerformanceMeasureID = 3771;
         private static int CleanAndAbundantWaterTaxonomyBranchID = 156;
 
+        private static Dictionary<string, string> ProjectCategories = new Dictionary<string, string>
+        {
+            {
+                "NCRP Funded Technical Assistance Project",
+                "Technical Assistance Project: NCRP Funded Technical Assistance Project"
+            },
+            { "NCRP Funded Demonstration Project", "Demonstration Project: NCRP Funded Demonstration Project" },
+            { "NCRP Funded Planning Project", "Planning Project: NCRP Funded Planning Project" },
+            { "NCRP Funded Implementation Project", "Implementation Project: NCRP Funded Implementation Project" }
+        };
+
         // Allow admin access only for now
         [FirmaAdminFeature]
         public ViewResult ProjectDashboard()
@@ -842,11 +852,7 @@ namespace ProjectFirma.Web.Controllers
             var projectTypes = HttpRequestStorage.DatabaseEntities.Classifications.Where(x => x.ClassificationSystemID == ProjectTypeClassificationID).OrderBy(x => x.DisplayName)
                 .ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
 
-            var projectCategories =
-                JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
-                        .ProjectCustomAttributeTypes.Single(x =>
-                            x.ProjectCustomAttributeTypeID == ProjectCategoryCustomAttributeID)?.ProjectCustomAttributeTypeOptionsSchema)
-                    .ToSelectList(x => x, x => x);
+            var projectCategories = ProjectCategories.ToSelectList(x => x.Key, x => x.Value);
             var underservedCommunitiesGoogleChart =
                 GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
@@ -1316,9 +1322,7 @@ namespace ProjectFirma.Web.Controllers
 
         private List<string> GetProjectCategoriesProjectDashboard()
         {
-            var categories = JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
-                .ProjectCustomAttributeTypes.Single(x =>
-                    x.ProjectCustomAttributeTypeID == ProjectCategoryCustomAttributeID)?.ProjectCustomAttributeTypeOptionsSchema);
+            var categories = ProjectCategories.Keys.ToList();
             if (!string.IsNullOrEmpty(Request.QueryString[ProjectDashboardViewData.ProjectCategoriesQueryStringParameter]))
             {
                 var filterValuesAsString = Request.QueryString[ProjectDashboardViewData.ProjectCategoriesQueryStringParameter]
