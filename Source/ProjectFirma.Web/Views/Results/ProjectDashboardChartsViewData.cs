@@ -19,13 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
+using System.Web;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData ProjectsByCountyAndTribalLandViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByProjectTypeViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectStagesViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData ProjectsByTATypeViewGoogleChartViewData;
         public bool UnderservedCommunitiesHasData { get; }
         public double UnderservedTotal { get; }
         public bool ProjectsByOwnerOrgTypeHasData { get; }
@@ -62,7 +63,8 @@ namespace ProjectFirma.Web.Views.Results
         public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, int disadvantagedCommunityStatusGeospatialAreaTypeID, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
             GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, int numberOfTribalProjects,
             int awardedTAAndCapacityEnhancementProjectCount, decimal ncrpTAInvestment, decimal acresImpactedViaTAProjects, double totalLeveraged,
-            int improvedWaterSupplyOrQualityProjectCount, double waterQualitySedimentStabilization, double waterSupplyImprovedAFY, double waterSupplyImprovedHouseholdsImpacted, double avoidedCosts)
+            int improvedWaterSupplyOrQualityProjectCount, double waterQualitySedimentStabilization, double waterSupplyImprovedAFY, double waterSupplyImprovedHouseholdsImpacted, double avoidedCosts,
+            GoogleChartJson projectsByTATypeGoogleChart)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             var geospatialAreaTypeIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(disadvantagedCommunityStatusGeospatialAreaTypeID)), "Underserved Community Status");
@@ -111,6 +113,8 @@ namespace ProjectFirma.Web.Views.Results
             WaterSupplyImprovedReliabilityAFY = waterSupplyImprovedAFY;
             WaterSupplyImprovedReliabilityNumberOfHouseholds = waterSupplyImprovedHouseholdsImpacted;
             AvoidedCosts = avoidedCosts;
+
+            ProjectsByTATypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByTATypeGoogleChart, projectsByTATypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
 
         }
     }

@@ -811,7 +811,7 @@ namespace ProjectFirma.Web.Controllers
         private static int WaterSupplyImprovedHouseholdsImpactedPerformanceMeasureID = 3771;
         private static int AvoidedCostsPerformanceMeasureID = 3771;
         private static int CleanAndAbundantWaterTaxonomyBranchID = 156;
-
+        private static int TechnicalAssistanceTypesOfTAPerformanceMeasureSubcategoryID = 3943;
         private static Dictionary<string, string> ProjectCategories = new Dictionary<string, string>
         {
             {
@@ -859,6 +859,7 @@ namespace ProjectFirma.Web.Controllers
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
+            var projectsByTATypeGoogleChart = GetProjectsByTATypeChart(projects);
 
             var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID && x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).ToList();
             var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
@@ -892,7 +893,8 @@ namespace ProjectFirma.Web.Controllers
                     projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
                     projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
                     tribalLandProjectCount, awardedTAAndCapacityEnhancementProjectCount, ncrpTAInvestment, acresImpactedViaTAProjects, totalLeveraged,
-                    improvedWaterSupplyOrQualityProjectCount, waterQualitySedimentStabilization, waterSupplyImprovedAFY, waterSupplyImprovedHouseholdsImpacted, avoidedCosts);
+                    improvedWaterSupplyOrQualityProjectCount, waterQualitySedimentStabilization, waterSupplyImprovedAFY, waterSupplyImprovedHouseholdsImpacted, avoidedCosts,
+                    projectsByTATypeGoogleChart);
 
             var viewData =
                 new ProjectDashboardViewData(CurrentFirmaSession, firmaPage, projects.Count, partners.Count, totalAwarded, totalMatched, totalInvestment,
@@ -1166,6 +1168,73 @@ namespace ProjectFirma.Web.Controllers
 
         }
 
+        private GoogleChartJson GetProjectsByTATypeChart(List<Project> projects)
+        {
+            // set up Projects by County & Tribal Land column chart
+            var projectByTATypeChartTitle = "Capacity Enhancement and Technical Assistance Type";
+            var taTypeChartContainerID = projectByTATypeChartTitle.Replace(" ", "");
+            var googleChartAxisHorizontal = new GoogleChartAxis(string.Empty, null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisVertical = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxisVertical };
+
+            var typesOfTA = HttpRequestStorage.DatabaseEntities.PerformanceMeasureSubcategoryOptions.Where(x => x.PerformanceMeasureSubcategoryID == TechnicalAssistanceTypesOfTAPerformanceMeasureSubcategoryID).ToList();
+            var typesOfTAIDs = typesOfTA.Select(x => x.PerformanceMeasureSubcategoryOptionID).ToList();
+
+            // Build a mapping of PerformanceMeasureSubcategoryOptionID -> distinct ProjectIDs that have that option
+            var optionIdToProjectIds = new Dictionary<int, HashSet<int>>();
+            foreach (var project in projects)
+            {
+                var optionIdsForProject = project.PerformanceMeasureActuals
+                    .SelectMany(a => a.PerformanceMeasureActualSubcategoryOptions)
+                    .Where(o => typesOfTAIDs.Contains(o.PerformanceMeasureSubcategoryOptionID))
+                    .Select(o => o.PerformanceMeasureSubcategoryOptionID)
+                    .Distinct()
+                    .ToList();
+
+                foreach (var optId in optionIdsForProject)
+                {
+                    if (!optionIdToProjectIds.TryGetValue(optId, out var set))
+                    {
+                        set = new HashSet<int>();
+                        optionIdToProjectIds[optId] = set;
+                    }
+                    set.Add(project.ProjectID);
+                }
+            }
+
+            // Create dictionary of option object -> distinct project count
+            var typeOfTAToProjectCount = typesOfTA
+                .OrderBy(x => x.PerformanceMeasureSubcategoryOptionName)
+                .ToDictionary(
+                    opt => opt,
+                    opt => optionIdToProjectIds.ContainsKey(opt.PerformanceMeasureSubcategoryOptionID) ? optionIdToProjectIds[opt.PerformanceMeasureSubcategoryOptionID].Count : 0
+                );
+
+            var taTypeGoogleChartDataTable = ProjectModelExtensions.GetProjectsByTATypeGoogleChartDataTable(typeOfTAToProjectCount);
+
+            var chartColumns = typeOfTAToProjectCount.Keys.Select(x => x.PerformanceMeasureSubcategoryOptionName).ToList();
+
+            var typeOfTAChartConfig = new GoogleChartConfiguration(projectByTATypeChartTitle, false, GoogleChartType.ColumnChart, taTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            typeOfTAChartConfig.SetSeriesIgnoringNullGoogleChartSeries(taTypeGoogleChartDataTable);
+            typeOfTAChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            typeOfTAChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
+            // Column chart displays TA types on the horizontal axis and counts on the vertical axis
+            typeOfTAChartConfig.ChartArea = new GoogleChartConfigurationArea()
+            {
+                Width = "100%",
+                Height = "75%",
+                Left = "8%",
+                Top = 10,
+
+            };
+
+            var typeOfTAGoogleChart = new GoogleChartJson(projectByTATypeChartTitle, taTypeChartContainerID, typeOfTAChartConfig, GoogleChartType.ColumnChart, taTypeGoogleChartDataTable, chartColumns);
+            typeOfTAGoogleChart.CanConfigureChart = false;
+            return typeOfTAGoogleChart;
+        }
+
+
         private GoogleChartJson GetFundingOrganizationChart(List<Project> projects)
         {
 
@@ -1203,6 +1272,7 @@ namespace ProjectFirma.Web.Controllers
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
+            var projectsByTATypeGoogleChart = GetProjectsByTATypeChart(projects);
 
             var tribes = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == TribeGeospatialAreaTypeID && x.GeospatialAreaID != NotTriballyOwnedGeospatialAreaID).ToList();
             var tribalIDs = tribes.Select(x => x.GeospatialAreaID).ToList();
@@ -1234,7 +1304,8 @@ namespace ProjectFirma.Web.Controllers
                 TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,
                 projectStagesGoogleChart, tribalLandProjectCount,
                 awardedTAAndCapacityEnhancementProjectCount, ncrpTAInvestment, acresImpactedViaTAProjects, totalLeveraged,
-                improvedWaterSupplyOrQualityProjectCount, waterQualitySedimentStabilization, waterSupplyImprovedAFY,waterSupplyImprovedHouseholdsImpacted, avoidedCosts);
+                improvedWaterSupplyOrQualityProjectCount, waterQualitySedimentStabilization, waterSupplyImprovedAFY,waterSupplyImprovedHouseholdsImpacted, avoidedCosts,
+                projectsByTATypeGoogleChart);
             return RazorPartialView<ProjectDashboardCharts, ProjectDashboardChartsViewData>(viewData);
         }
 

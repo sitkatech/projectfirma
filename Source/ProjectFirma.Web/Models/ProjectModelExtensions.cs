@@ -1366,6 +1366,32 @@ namespace ProjectFirma.Web.Models
             return googleChartDataTable;
         }
 
+        public static GoogleChartDataTable GetProjectsByTATypeGoogleChartDataTable(Dictionary<PerformanceMeasureSubcategoryOption, int> typeOfTAToProjectCounts)
+        {
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#E0871A", null, null);
+
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Type of TA", GoogleChartColumnDataType.String),
+                //new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn("Number of Projects", "# of Projects", GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+                new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "style", new GoogleChartProperty())
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+            foreach (var projectTypeToProjectCount in typeOfTAToProjectCounts)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(projectTypeToProjectCount.Key.PerformanceMeasureSubcategoryOptionName) };
+                var projectCount = projectTypeToProjectCount.Value;
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(projectCount, projectCount.ToGroupedNumeric()));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
         public static List<GooglePieChartSlice> GetProjectStagesForProjectDashboardPieChartSlices(List<Project> projects)
         {
             var sortOrder = 0;
