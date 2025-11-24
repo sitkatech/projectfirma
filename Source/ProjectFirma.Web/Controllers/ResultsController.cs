@@ -992,9 +992,10 @@ namespace ProjectFirma.Web.Controllers
                     .Where(x => x.PerformanceMeasureID == GrantsReceivedDollarAmountAwardedPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
                     .Sum(x => (double?)x.ActualValue) ?? 0;
 
-                totalJobsCreated = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                    .Where(x => x.PerformanceMeasureID == JobsCreatedOrRetainedPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => (double?)x.ActualValue) ?? 0; ;
+                totalJobsCreated = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                    .Where(x => x.PerformanceMeasureID == JobsCreatedOrRetainedPerformanceMeasureID &&
+                                projectIDs.Contains(x.ProjectID))
+                    .Sum(x => (double?)x.ActualValue) ?? 0);
             }
                 
 
