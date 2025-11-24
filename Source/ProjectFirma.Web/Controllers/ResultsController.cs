@@ -806,10 +806,10 @@ namespace ProjectFirma.Web.Controllers
         private static int GrantsReceivedDollarAmountAwardedPerformanceMeasureID = 3771;
         private static int JobsCreatedOrRetainedPerformanceMeasureID = 3673;
         private static List<int> TAInvestmentFundingSourceIDs = new List<int> { 9397, 9445, 9345, 9347, 9372, 9373 };
-        private static int WaterQualitySedimentStabilizationPerformanceMeasureID = 3771;
-        private static int WaterSupplyImprovedAFYPerformanceMeasureID = 3771;
-        private static int WaterSupplyImprovedHouseholdsImpactedPerformanceMeasureID = 3771;
-        private static int AvoidedCostsPerformanceMeasureID = 3771;
+        private static int WaterQualitySedimentStabilizationPerformanceMeasureID = 3772;
+        private static int WaterSupplyImprovedAFYPerformanceMeasureID = 3669;
+        private static int WaterSupplyImprovedHouseholdsImpactedPerformanceMeasureID = 3668;
+        private static int AvoidedCostsPerformanceMeasureID = 3632;
         private static int CleanAndAbundantWaterTaxonomyBranchID = 156;
         private static int TechnicalAssistanceTypesOfTAPerformanceMeasureSubcategoryID = 3943;
         private static Dictionary<string, string> ProjectCategories = new Dictionary<string, string>
@@ -994,9 +994,10 @@ namespace ProjectFirma.Web.Controllers
                     .Where(x => x.PerformanceMeasureID == GrantsReceivedDollarAmountAwardedPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
                     .Sum(x => (double?)x.ActualValue) ?? 0;
 
-                totalJobsCreated = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                    .Where(x => x.PerformanceMeasureID == JobsCreatedOrRetainedPerformanceMeasureID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => (double?)x.ActualValue) ?? 0; ;
+                totalJobsCreated = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                    .Where(x => x.PerformanceMeasureID == JobsCreatedOrRetainedPerformanceMeasureID &&
+                                projectIDs.Contains(x.ProjectID))
+                    .Sum(x => (double?)x.ActualValue) ?? 0);
             }
                 
 
