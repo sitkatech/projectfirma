@@ -30,7 +30,7 @@
 @section JavascriptAndStylesContent
 {
     @{ AgGridIncludes.RenderPartialView(Html); }
-    <style>
+<style>
         .pageTitle {
             display: none;
         }
@@ -48,7 +48,7 @@
         #accomplishmentsDashboard .counterHeader h4 {
             font-size: 24px;
             color: #2e6580;
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         .projectFilters .dropdown-menu {
@@ -86,12 +86,180 @@
         .counter-label {
             font-size: 22px;
         }
+
+
+        .projectDashboardNavBar {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .stickyHeaderNavBar {
+            text-transform: uppercase;
+            text-align: center;
+            @*display: flex;
+            *@ padding-left: 0;
+            padding-right: 0;
+        }
+
+            .stickyHeaderNavBar ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                float: none;
+            }
+
+        .projectDashboardNavBar .nav li a {
+            color: white;
+            width: 100%
+        }
+
+        .projectDashboardNavBar .nav li {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .projectDashboardNavBar .nav li {
+            background-color: #2e6580;
+            color: white;
+            display: flex;
+            flex-grow: 1;
+            align-self: center;
+            justify-content: center;
+            border: 1px #1C2329 solid;
+        }
+
+            .projectDashboardNavBar .nav li.active {
+                color: #2e6580;
+                background-color: #edf6fb;
+                text-decoration: none;
+            }
+
+                .projectDashboardNavBar .nav li.active a {
+                    color: #2e6580;
+                }
+
+            .projectDashboardNavBar .nav li:hover, .projectDashboardNavBar .nav li:hover a, .projectDashboardNavBar .nav li a:hover {
+                color: #2e6580;
+                background-color: #edf6fb;
+                text-decoration: none;
+            }
+        .scrollHeader {
+            scroll-margin-top: 182px;
+        }
+</style>
+
+    <style type="text/css" media="only screen and (min-width: 1200px)">
+        .stickyHeaderNavBar ul {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .scrollHeader {
+            scroll-margin-top: 60px;
+        }
+    </style>
+    
+    <style type="text/css" media="only screen and (min-width: 992px) and (max-width: 1199px)">
+        .scrollHeader {
+            scroll-margin-top: 80px;
+        }
+    </style>
+    
+    <style type="text/css" media="only screen and (min-width: 768px) and (max-width: 991px)">
+      .scrollHeader {
+          scroll-margin-top: 100px;
+      }
+    </style>
+    
+    <style type="text/css" media="only screen and (min-width: 585px) and (max-width: 767px)">
+   .scrollHeader {
+       scroll-margin-top: 106px;
+   }
+ </style>
+
+    <style type="text/css" media="only screen and (min-width: 1200px)">
+        .nav > li > a.capacityEnhancementNavLink, .navbar-nav > li > a.capacityEnhancementNavLink {
+            padding: 5px 15px 5px 15px;
+        }
+    </style>
+
+    <style type="text/css" media="only screen and (min-width: 992px) and (max-width: 1199px)">
+
+        .nav > li > a.projectSummaryNavLink, .navbar-nav > li > a.projectSummaryNavLink {
+            padding: 25px 10px 25px 10px;
+        }
+    </style>
+    <style type="text/css" media="only screen and (min-width: 691px) and (max-width: 991px)">
+
+        .nav > li > a.capacityEnhancementNavLink, .navbar-nav > li > a.capacityEnhancementNavLink {
+            padding: 5px 15px 5px 15px;
+        }
+
+        .nav > li > a.projectSummaryNavLink, .navbar-nav > li > a.projectSummaryNavLink{
+            padding: 35px 10px 35px 10px;
+        }
+
+        .nav > li > a.waterSupplyAndQualityNavLink, .navbar-nav > li > a.waterSupplyAndQualityNavLink {
+            padding: 25px 10px 25px 10px;
+        }
+    </style>
+
+    <style type="text/css" media="only screen and (min-width: 746px) and (max-width: 767px)">
+
+        .nav > li > a.habitatAndClimateResilienceNavLink, .navbar-nav > li > a.habitatAndClimateResilienceNavLink {
+            padding: 25px 15px 25px 15px;
+        }
+    </style>
+    <style type="text/css" media="only screen and (min-width: 691px) and (max-width: 745px)">
+
+        .nav > li > a.habitatAndClimateResilienceNavLink, .navbar-nav > li > a.habitatAndClimateResilienceNavLink {
+            padding: 15px 15px 15px 15px;
+        }
+    </style>
+    
+    <style type="text/css" media="only screen and (min-width: 585px) and (max-width: 690px)">
+
+        .nav > li > a.projectSummaryNavLink, .navbar-nav > li > a.projectSummaryNavLink {
+            padding: 25px 10px 25px 10px;
+        }
+        .nav > li > a.capacityEnhancementNavLink, .navbar-nav > li > a.capacityEnhancementNavLink {
+            padding: 5px 15px 5px 15px;
+        }
+        .nav > li > a.habitatAndClimateResilienceNavLink, .navbar-nav > li > a.habitatAndClimateResilienceNavLink {
+            padding: 15px 15px 15px 15px;
+        }
+        .nav > li > a.waterSupplyAndQualityNavLink, .navbar-nav > li > a.waterSupplyAndQualityNavLink {
+            padding: 25px 10px 25px 10px;
+        }
+    </style>
+
+    <style type="text/css" media="only screen and  (max-width: 584px)">
+        .projectDashboardNavBar > nav > ul > li {
+            width: 100%;
+        }
     </style>
     <script src="/Scripts/waypoints.min.js"></script>
     <script src="/Scripts/jquery.counterup.min.js"></script>
 }
 
+
+
+
 <div id="accomplishmentsDashboard">
+    
+    <div class="row projectDashboardNavBar container-fluid">
+        <nav class="stickyHeaderNavBar">
+            <ul class="nav navbar-nav ">
+                <li class="col-md-3 col-sm-3 col-xs-3"><a href="#projectSummary" class="projectSummaryNavLink">@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Summary</a></li>
+                <li class="col-md-3 col-sm-3 col-xs-3"><a href="#capacityEnhancementAndTechincalAssistance" class="capacityEnhancementNavLink">Capacity Enhancement & Technical Assistance</a></li>
+                <li class="col-md-3 col-sm-3 col-xs-3"><a href="#habitatAndClimateResilience" class="habitatAndClimateResilienceNavLink">Habitat & Climate Resilience</a></li>
+                <li class="col-md-3 col-sm-3 col-xs-3"><a href="#waterSupplyAndQuality" class="waterSupplyAndQualityNavLink">Water Supply & Quality</a></li>
+            </ul>
+        </nav>
+    </div>
+
     <div class="homepageHeader">
         <div class="row">
             <div class="col-sm-12 col-md-6 col-md-offset-3 text-center">
@@ -112,7 +280,7 @@
             <span style="font-weight: bold">Filter @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() By:</span>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-bottom: 50px">
         <div class="col-sm-11">
             <div class="row">
                 <div class="col-sm-4 col-xs-12">
@@ -145,7 +313,19 @@
             <button type="button" class="btn btn-firma btn-sm" style="background-color: #eee; color: #777;" onclick="clearFilters()">Clear Filters</button>
         </div>
     </div>
-    <div class="row counterHeader">
+
+    @*<div class="row projectDashboardNavBar container-fluid">
+        <nav class="stickyHeaderNavBar">
+            <ul class="nav navbar-nav ">
+                <li class="col-md-3 col-sm-3 col-xs-3"><a href="#projectSummary" class="projectSummaryNavLink">@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Summary</a></li>
+                <li class="col-md-3 col-sm-3 col-xs-3"><a href="#capacityEnhancementAndTechincalAssistance" class="capacityEnhancementNavLink">Capacity Enhancement & Technical Assistance</a></li>
+                <li class="col-md-3 col-sm-3 col-xs-3"><a href="#habitatAndClimateResilience" class="habitatAndClimateResilienceNavLink">Habitat & Climate Resilience</a></li>
+                <li class="col-md-3 col-sm-3 col-xs-3"><a href="#waterSupplyAndQuality" class="waterSupplyAndQualityNavLink">Water Supply & Quality</a></li>
+            </ul>
+        </nav>
+    </div>*@
+
+    <div class="row counterHeader scrollHeader" id="projectSummary">
         <div class="col-xs-12 text-center">
             <h4>@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Summary</h4>
         </div>
@@ -162,23 +342,23 @@
                         <span id="totalProjects" class="counter">@ViewDataTyped.TotalProjects.ToGroupedNumeric()</span> <span class="counter-label">Total Projects</span>
                         <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
                         <span id="totalPartners" class="counter">@ViewDataTyped.TotalPartners.ToGroupedNumeric()</span> <span class="counter-label">Project Sponsors</span>
-</div>
+                    </div>
                     <div style="padding-bottom: 10px;">
                         <span>$</span><span id="totalAwarded" class="counter">@ViewDataTyped.TotalAwarded.ToGroupedNumeric()</span> <span class="counter-label">Funding for NCRP Projects</span>
-                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
                         <span>$</span><span id="totalMatched" class="counter">@ViewDataTyped.TotalMatched.ToGroupedNumeric()</span> <span class="counter-label">Total Matched</span>
-                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
                         <span>$</span><span id="totalInvestment" class="counter">@ViewDataTyped.TotalInvestment.ToGroupedNumeric()</span> <span class="counter-label">Total Investment</span>
-</div>
+                    </div>
                     <div>
                         <span>$</span><span id="totalLeveraged" class="counter">@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span> <span class="counter-label">Total Leveraged</span>
-                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
+                        <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break"/>
                         <span id="jobsCreatedOrMaintained" class="counter">@ViewDataTyped.JobsCreatedOrMaintained.ToGroupedNumeric()</span> <span class="counter-label">Jobs Created or Maintained</span>
-</div>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
         <div id="projectDashboardCharts" class="contentWrapper">
             @{ ProjectDashboardCharts.RenderPartialView(Html, ViewDataTyped.ProjectDashboardChartsViewData); }
         </div>
