@@ -870,7 +870,7 @@ namespace ProjectFirma.Web.Models
             if (shouldOfferFactSheetLink)
             {
                 string factSheetUrl = project.GetFactSheetUrl();
-                titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, project.ProjectName);
+                titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectName}");
             }
 
             var fancyTreeNode = new FancyTreeNode(titleHtml, project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };

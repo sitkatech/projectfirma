@@ -183,7 +183,7 @@ namespace ProjectFirma.Web.Models
 
         public static FancyTreeNode ToFancyTreeNode(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
         {
-            var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyLeaf.GetDetailUrl(), taxonomyLeaf.GetDisplayName())}",
+            var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyLeaf.GetDetailUrl(), taxonomyLeaf.GetDisplayName(), $"{FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()} {taxonomyLeaf.GetDisplayName()}")}",
                 taxonomyLeaf.TaxonomyLeafID.ToString(), false)
             {
                 ThemeColor = String.IsNullOrWhiteSpace(taxonomyLeaf.ThemeColor) ? taxonomyLeaf.TaxonomyBranch.ThemeColor : taxonomyLeaf.ThemeColor,

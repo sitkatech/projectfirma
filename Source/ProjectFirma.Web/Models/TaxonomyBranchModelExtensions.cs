@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
 
         public static FancyTreeNode ToFancyTreeNode(this TaxonomyBranch taxonomyBranch, FirmaSession currentFirmaSession)
         {
-            var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyBranch.GetDetailUrl(), taxonomyBranch.GetDisplayName())}", taxonomyBranch.TaxonomyBranchID.ToString(), false)
+            var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyBranch.GetDetailUrl(), taxonomyBranch.GetDisplayName(), $"{FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel()} {taxonomyBranch.GetDisplayName()}")}", taxonomyBranch.TaxonomyBranchID.ToString(), false)
             {
                 ThemeColor = string.IsNullOrWhiteSpace(taxonomyBranch.ThemeColor) ? taxonomyBranch.TaxonomyTrunk.ThemeColor : taxonomyBranch.ThemeColor,
                 MapUrl = taxonomyBranch.GetCustomizedMapUrl(),

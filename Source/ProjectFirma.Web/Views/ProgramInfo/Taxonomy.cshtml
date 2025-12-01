@@ -73,14 +73,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 
-        .taxonomy-treegrid tr.treegrid-expanded .treegrid-expander::before {
-            content: '\e259'; /* down-pointing chevron ▼ */
-        }
-
         .taxonomy-treegrid tr.treegrid-collapsed .treegrid-expander::before {
             content: '\e258'; /* right-pointing chevron ▶ */
         }
-        
+        .taxonomy-treegrid tr.treegrid-expanded .treegrid-expander::before {
+            content: '\e259'; /* down-pointing chevron ▼ */
+        }
 
         .treegrid-leaf > div > .treegrid-expander {
             visibility: hidden;
@@ -412,7 +410,8 @@ Source code is available upon request via <support@sitkatech.com>.
     $(function () {
         renderTreeGrid();
         updateExpandCollapse();
-        expandAll();
+        collapseAll();
+        expandLevel();
         // bind level-based handlers
         $('#btnExpandLevel').on('click', expandLevel);
         $('#btnCollapseLevel').on('click', collapseLevel);
