@@ -866,11 +866,11 @@ namespace ProjectFirma.Web.Models
         public static FancyTreeNode ToFancyTreeNode(this Project project, FirmaSession currentFirmaSession)
         {
             bool shouldOfferFactSheetLink = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
-            HtmlString titleHtml = new HtmlString(project.ProjectName);
+            HtmlString titleHtml = new HtmlString($"<span aria-label=\"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectName}\">{project.ProjectName}</span>");
             if (shouldOfferFactSheetLink)
             {
                 string factSheetUrl = project.GetFactSheetUrl();
-                titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectName}");
+                titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, project.ProjectName, new Dictionary<string, string>{{"aria-label", $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectName}"}});
             }
 
             var fancyTreeNode = new FancyTreeNode(titleHtml, project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
