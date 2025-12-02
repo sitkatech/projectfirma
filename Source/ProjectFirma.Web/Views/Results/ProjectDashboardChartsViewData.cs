@@ -36,7 +36,6 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData ProjectsByCountyAndTribalLandViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByProjectTypeViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectStagesViewGoogleChartViewData;
-        public readonly ViewGoogleChartViewData FundingOrganizationsViewGoogleChartViewData;
         public bool UnderservedCommunitiesHasData { get; }
         public double UnderservedTotal { get; }
         public bool ProjectsByOwnerOrgTypeHasData { get; }
@@ -45,9 +44,25 @@ namespace ProjectFirma.Web.Views.Results
         public bool ProjectStagesHasData { get; }
         public double ProjectStagesTotal { get; }
         public bool FundingOrganizationsHasData { get; }
+        public int NumberOfTribalProjects { get; }
+
+        // capacity enhancement and ta
+        public int AwardedTAAndCapacityEnhancementProjectCount { get; }
+        public decimal TAInvestment { get; }
+        public decimal AcresImpactedViaTAProjects { get; }
+        public double TotalLeveraged { get; }
+
+        // water supply and quality
+        public int ImprovedWaterSupplyOrQualityProjectCount { get; }
+        public double WaterQualitySedimentStabilization { get; }
+        public double WaterSupplyImprovedReliabilityAFY { get; }
+        public double WaterSupplyImprovedReliabilityNumberOfHouseholds { get; }
+        public double AvoidedCosts { get; }
 
         public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, int disadvantagedCommunityStatusGeospatialAreaTypeID, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
-            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, GoogleChartJson fundingOrganizationGoogleChart)
+            GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, int numberOfTribalProjects,
+            int awardedTAAndCapacityEnhancementProjectCount, decimal ncrpTAInvestment, decimal acresImpactedViaTAProjects, double totalLeveraged,
+            int improvedWaterSupplyOrQualityProjectCount, double waterQualitySedimentStabilization, double waterSupplyImprovedAFY, double waterSupplyImprovedHouseholdsImpacted, double avoidedCosts)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             var geospatialAreaTypeIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(disadvantagedCommunityStatusGeospatialAreaTypeID)), "Underserved Community Status");
@@ -68,7 +83,7 @@ namespace ProjectFirma.Web.Views.Results
             ProjectsByCountyAndTribalLandViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByCountyAndTribalLandGoogleChart, projectsByCountyAndTribalLandGoogleChart.GoogleChartConfiguration.Title, 350, true);
             var countyIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(countyGeospatialAreaTypeID)), "County");
             var tribalLandIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(tribalLandGeospatialAreaTypeID)), "Tribal Land");
-            ProjectsByCountyAndTribalLandViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {countyIndexUrl} & {tribalLandIndexUrl}</b>");
+            ProjectsByCountyAndTribalLandViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {countyIndexUrl}</b>");
             ProjectsByCountyAndTribalLandHasData = projectsByCountyAndTribalLandGoogleChart.HasData();
 
             ProjectsByProjectTypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByProjectTypeGoogleChart, projectsByProjectTypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
@@ -85,10 +100,18 @@ namespace ProjectFirma.Web.Views.Results
                 ProjectStagesTotal += slice.Value;
             }
 
-            FundingOrganizationsViewGoogleChartViewData = new ViewGoogleChartViewData(fundingOrganizationGoogleChart, fundingOrganizationGoogleChart.GoogleChartConfiguration.Title, 350, true);
-            var fundingSourcesIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index()), "Funding Organization");
-            FundingOrganizationsViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {fundingSourcesIndexUrl}</b>");
-            FundingOrganizationsHasData = fundingOrganizationGoogleChart.HasData();
+            NumberOfTribalProjects = numberOfTribalProjects;
+            AwardedTAAndCapacityEnhancementProjectCount = awardedTAAndCapacityEnhancementProjectCount;
+            TAInvestment = ncrpTAInvestment;
+            AcresImpactedViaTAProjects = acresImpactedViaTAProjects;
+            TotalLeveraged = totalLeveraged;
+
+            ImprovedWaterSupplyOrQualityProjectCount = improvedWaterSupplyOrQualityProjectCount;
+            WaterQualitySedimentStabilization = waterQualitySedimentStabilization;
+            WaterSupplyImprovedReliabilityAFY = waterSupplyImprovedAFY;
+            WaterSupplyImprovedReliabilityNumberOfHouseholds = waterSupplyImprovedHouseholdsImpacted;
+            AvoidedCosts = avoidedCosts;
+
         }
     }
 }

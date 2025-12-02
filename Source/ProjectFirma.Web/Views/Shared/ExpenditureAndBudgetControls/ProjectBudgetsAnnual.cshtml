@@ -30,27 +30,27 @@
     @if (ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Any())
     {
         <div class="table-responsive tableFixHeader">
-            <table class="table table-condensed table-bordered">
+            <table class="table table-condensed table-bordered" tabindex="0">
                 <tr>
-                    <th style="width: 390px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
-                    <th class="text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
-                    <th class="text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
-                    <th class="text-right">Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th scope="col" style="width: 390px;" aria-label="Funding Source">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                    <th scope="col" class="text-right" aria-label="Secured Funding">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th scope="col" class="text-right" aria-label="Targeted Funding">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th scope="col" class="text-right">Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
                 </tr>
                 @foreach (var projectFundingSourceBudget in ViewDataTyped.ProjectFundingSourceBudgetsAnnual.OrderBy(x => x.FundingSource.GetDisplayName()))
                 {
                     <tr>
                         <td>@Html.Raw(projectFundingSourceBudget.FundingSource.GetDisplayNameAsUrl())</td>
-                        <th class="text-right">@projectFundingSourceBudget.SecuredAmount.ToStringCurrency()</th>
-                        <th class="text-right">@projectFundingSourceBudget.TargetedAmount.ToStringCurrency()</th>
-                        <th class="text-right">@(((projectFundingSourceBudget.TargetedAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</th>
+                        <td class="text-right" style="font-weight: bold;">@projectFundingSourceBudget.SecuredAmount.ToStringCurrency()</td>
+                        <td class="text-right" style="font-weight: bold;">@projectFundingSourceBudget.TargetedAmount.ToStringCurrency()</td>
+                        <td class="text-right" style="font-weight: bold;">@(((projectFundingSourceBudget.TargetedAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</td>
                     </tr>
                 }
                 <tr>
-                    <th>Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
-                    <th class="text-right">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount).ToStringCurrency()</th>
-                    <th class="text-right">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount).ToStringCurrency()</th>
-                    <th class="text-right">@((ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount) + ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount)).ToStringCurrency())</th>
+                    <td style="font-weight: bold;">Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</td>
+                    <td class="text-right" style="font-weight: bold;">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount).ToStringCurrency()</td>
+                    <td class="text-right" style="font-weight: bold;">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount).ToStringCurrency()</td>
+                    <td class="text-right" style="font-weight: bold;">@((ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount) + ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount)).ToStringCurrency())</td>
                 </tr>
             </table>
         </div>

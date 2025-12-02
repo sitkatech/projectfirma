@@ -33,21 +33,20 @@
         font-size: 12px;
     }
 
-        .googleTooltipDiv p {
-            margin-bottom: 8px;
-            margin-left: 5px;
-        }
-
+    .googleTooltipDiv p {
+        margin-bottom: 8px;
+        margin-left: 5px;
+    }
 
     table.googleTooltipTable {
         margin-bottom: 5px;
     }
 
-        table.googleTooltipTable tr td {
-            margin: 0;
-            padding: 2px 4px;
-            white-space: nowrap;
-        }
+    table.googleTooltipTable tr td {
+        margin: 0;
+        padding: 2px 4px;
+        white-space: nowrap;
+    }
 
     .googleTooltipTableTotalRow {
         border-top: solid 2px #666;
@@ -64,10 +63,9 @@
     .chartPanel {
         padding-top: 50px;
     }
-    
+
     .chartWithOverlay {
         position: relative;
-
     }
 
     .overlay {
@@ -130,6 +128,72 @@
     .completedLegend {
         background-color: #94c5e3;
     }
+
+    /* New dashboard statistic boxes */
+    /* Use flex so all stat boxes match height and respect bootstrap breakpoints */
+    .statRow {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -15px;
+        margin-right: -15px;
+        align-items: stretch; /* ensure columns match height */
+    }
+
+    .statCol {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 40px;
+        box-sizing: border-box;
+        display: flex; /* allow child to stretch vertically */
+        flex-direction: column;
+    }
+
+    .dashboardStat {
+        color: #ffffff;
+        padding: 18px 12px;
+        border-radius: 4px;
+        text-align: center;
+        width: 100%;
+        /* fill the available height provided by parent */
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 130px;
+    }
+
+    .dashboardStat .statValue {
+        display: block;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 12px; /* space between value and label */
+    }
+
+    .dashboardStat .statLabel {
+        display: block;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 0 6px; /* little horizontal padding to avoid wrap overflow */
+    }
+
+    @@media (min-width: 992px) {
+        .statColFirstRowOffset {
+            margin-left: 12.5%;
+        }
+        .statColSecondRowOffset {
+            margin-left: 25%;
+        }
+    }
+
+    @@media (min-width: 768px and max-width: 991px) {
+        .statColLastRowOffset {
+             margin-left: 25%;
+        }
+    }
+}
+
 </style>
 
 <div class="row">
@@ -215,6 +279,8 @@
     <div class="col-xs-12">
         <div class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByCountyAndTribalLandViewGoogleChartViewData); }
+
+            <strong class="chartHeader">Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
         </div>
     </div>
     <div class="col-xs-12">
@@ -222,9 +288,77 @@
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByProjectTypeViewGoogleChartViewData); }
         </div>
     </div>
+</div>
+
+<div class="row counterHeader">
+    <div class="col-xs-12 text-center">
+        <h4>Thematic Benefits</h4>
+    </div>
+</div>
+<div class="row">
     <div class="col-xs-12">
-        <div class="chartPanel">
-            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.FundingOrganizationsViewGoogleChartViewData); }
+        <strong class="chartHeader">Capacity Enhancement and Technical Assistance</strong>
+        <div class="row statRow" style="margin-top:10px;">
+            <div class="statCol col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboardStat" style="background-color: #4B5B13;">
+                    <span class="statValue">@ViewDataTyped.AwardedTAAndCapacityEnhancementProjectCount</span>
+                    <span class="statLabel">Awarded TA &amp; Capacity Enhancement Projects</span>
+                </div>
+            </div>
+            <div class="statCol col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboardStat" style="background-color: #4B5B13;">
+                    <span class="statValue"><span>$</span>@ViewDataTyped.TAInvestment.ToGroupedNumeric()</span>
+                    <span class="statLabel">NCRP TA Investment</span>
+                </div>
+            </div>
+            <div class="statCol col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboardStat" style="background-color: #4B5B13;">
+                    <span class="statValue">@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span>
+                    <span class="statLabel">Amount leveraged by TA investment</span>
+                </div>
+            </div>
+            <div class="statCol col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboardStat" style="background-color: #4B5B13;">
+                    <span class="statValue">@ViewDataTyped.AcresImpactedViaTAProjects.ToGroupedNumeric()</span>
+                    <span class="statLabel">Acres impacted via TA Projects</span>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    <div class="col-xs-12" style="margin-top:15px;">
+        <strong class="chartHeader">Water Supply and Quality</strong>
+        <div class="row statRow" style="margin-top:10px;">
+            <div class="statCol col-xs-12 col-sm-6 col-md-3 col-md-offset-1 statColFirstRowOffset">
+                <div class="dashboardStat" style="background-color: #156082;">
+                    <span class="statValue">@ViewDataTyped.ImprovedWaterSupplyOrQualityProjectCount</span>
+                    <span class="statLabel">Improved water supply or quality projects</span>
+                </div>
+            </div>
+            <div class="statCol col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboardStat" style="background-color: #156082;">
+                    <span class="statValue">@ViewDataTyped.WaterQualitySedimentStabilization.ToGroupedNumeric()</span> 
+                    <span class="statLabel">Water quality: sediment stabilization (tons)</span>
+                </div>
+            </div>
+            <div class="statCol col-xs-12 col-sm-6 col-md-3">
+                <div class="dashboardStat" style="background-color: #156082;">
+                    <span class="statValue">@ViewDataTyped.WaterSupplyImprovedReliabilityAFY.ToGroupedNumeric()</span>
+                    <span class="statLabel">Water supply: improved reliability (AFY)</span>
+                </div>
+            </div>
+            <div class="statCol col-xs-12 col-sm-6 col-md-3 statColSecondRowOffset">
+                <div class="dashboardStat" style="background-color: #156082;">
+                    <span class="statValue">@ViewDataTyped.WaterSupplyImprovedReliabilityNumberOfHouseholds.ToGroupedNumeric()</span>
+                    <span class="statLabel">Water supply: improved reliability (no. of households)</span>
+                </div>
+            </div>
+            <div class="statCol col-xs-12 col-sm-6 col-md-3 statColLastRowOffset">
+                <div class="dashboardStat" style="background-color: #156082;">
+                    <span class="statValue"><span>$</span>@ViewDataTyped.AvoidedCosts.ToGroupedNumeric()</span>
+                    <span class="statLabel">Avoided Costs</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -97,6 +97,15 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
 
     // Initialize the map
     firmaMap.map = L.map(firmaMap.MapDivId, options);
+    // Hide map from accessibility tree and prevent keyboard access
+    var mapDiv = document.getElementById(firmaMap.MapDivId);
+    if (mapDiv) {
+        mapDiv.setAttribute('aria-hidden', 'true');
+        mapDiv.setAttribute('tabindex', '-1');
+        mapDiv.addEventListener('keydown', function(e) { e.stopPropagation(); e.preventDefault(); }, true);
+        mapDiv.addEventListener('keypress', function(e) { e.stopPropagation(); e.preventDefault(); }, true);
+        mapDiv.addEventListener('keyup', function(e) { e.stopPropagation(); e.preventDefault(); }, true);
+    }
 
     // Add layers and map controls
 
@@ -252,7 +261,7 @@ ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayL
     var layerGeoJson = L.geoJson(currentLayer.GeoJsonFeatureCollection, {
         pointToLayer: function (feature, latlng) {
             var featureColor = feature.properties.FeatureColor == null ? currentLayer.LayerColor : feature.properties.FeatureColor;
-            var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s" }) });
+            var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s", alt: "Location" }) });
             return marker;
         },
         style: function (feature) {

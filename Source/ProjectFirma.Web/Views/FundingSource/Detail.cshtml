@@ -82,6 +82,10 @@
             color: #e0ffff;
             font-weight: 900;
         }
+
+        .nav li a, .nav li button {
+            color: #777676;
+        }
     </style>
     <style type="text/css" media="only screen and (min-width: 768px)">
         .dl-horizontal dd {
@@ -121,13 +125,13 @@
     <div class="row">
         <ul class="nav nav-tabs" id="fundingSourceDetailsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#overview" aria-controls="overview" role="tab" data-toggle="tab" id="overviewTab">Overview</a>
+                <a href="#overview" aria-controls="overview" data-toggle="tab" id="overviewTab">Overview</a>
             </li>
 
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
                 <li>
-                    <a href="#accomplishments" aria-controls="results" role="tab" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
+                    <a href="#accomplishments" data-toggle="tab" id="accomplishmentsTab">Accomplishments</a>
                 </li>
             }
         </ul>
@@ -294,7 +298,8 @@
                                                                             icon: L.MakiMarkers.icon({
                                                                                 icon: "marker",
                                                                                 color: featureColor,
-                                                                                size: "s"
+                                                                                size: "s",
+                                                                                alt: "Location"
                                                                             })
                                                                         });
                                                                     firmaMap.bindPopupToFeature(marker, feature);

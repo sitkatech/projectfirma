@@ -79,9 +79,9 @@ namespace LtInfo.Common.AgGridWrappers
     {12}
     <div class=""row"">
         <div class=""col-md-5""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
-        <div class=""col-md-7 text-right gridDownloadContainer"">{9}<span>{10}</span><a class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</a>{8}</div>
+        <div class=""col-md-7 text-right gridDownloadContainer"">{9}<span>{10}</span><button class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</button>{8}</div>
     </div>
-    <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
+    <div id=""{0}DivID"" aria-label=""{0}"" class=""ag-theme-alpine"" style=""{6}"" tabIndex=""0""></div>
     <script type=""text/javascript"">
 
             function {0}ClearFilters(){{
@@ -196,10 +196,30 @@ namespace LtInfo.Common.AgGridWrappers
           rowSelection: 'multiple', // allow rows to be selected
           animateRows: true, // have rows animate to new positions when sorted
 
+          // Accessibility options
+          suppressCellFocus: false,
+          ensureDomOrder: true,
+          suppressRowClickSelection: false,
+
           dataTypeDefinitions: {{
             dateString: getDateStringDataTypeDefinition()
           }},
 
+
+          onCellFocused: function(event) {{
+            // Focus the first link in the cell if present
+            if (event && event.rowIndex != null && event.column) {{
+              var cell = document.querySelector(
+                '[row-index=""' + event.rowIndex + '""] [col-id=""' + event.column.getId() + '""]'
+              );
+              if (cell) {{
+                var link = cell.querySelector('a');
+                if (link) {{
+                  link.focus();
+                }}
+              }}
+            }}
+          }},
 
           onFilterChanged: function() {{
             document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptionsApi.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}"";
@@ -217,6 +237,16 @@ namespace LtInfo.Common.AgGridWrappers
             //debugger;
             //console.log('cell was clicked', params)
 
+          }},
+          // Add aria-rowindex for accessibility
+          getRowAriaAttributes: params => {{
+            // AG Grid uses zero-based row index, but aria-rowindex should be 1-based and include header row
+            return {{ 'aria-rowindex': params.node ? (params.node.rowIndex + 2) : 1 }};
+          }},
+          // Add aria-colindex for accessibility
+          getCellAriaAttributes: params => {{
+            // AG Grid uses zero-based col index, but aria-colindex should be 1-based
+            return {{ 'aria-colindex': params.column ? (params.column.getInstanceId ? (params.column.getInstanceId() + 1) : (params.column.getColId ? (params.column.getColId() + 1) : 1)) : 1 }};
           }}
         }};
 
@@ -260,13 +290,13 @@ namespace LtInfo.Common.AgGridWrappers
                 columnDefinitionStringBuilder.AppendFormat(", \"headerName\": \"{0}\"", columnSpec.ColumnNameInnerText);
 
                 columnDefinitionStringBuilder.Append(
-                    ", \"headerComponentParams\": { \"template\": \"<div class=\\\"ag-cell-label-container\\\" role=\\\"presentation\\\">");
+                    ", \"headerComponentParams\": { \"template\": \"<div class=\\\"ag-cell-label-container\\\">");
                 columnDefinitionStringBuilder.Append(
                     "<span data-ref=\\\"eMenu\\\" class=\\\"ag-header-icon ag-header-cell-menu-button\\\"></span>");
                 columnDefinitionStringBuilder.Append(
                     "<span data-ref=\\\"eFilterButton\\\" class=\\\"ag-header-icon ag-header-cell-filter-button\\\"></span>");
                 columnDefinitionStringBuilder.Append(
-                    "<div data-ref=\\\"eLabel\\\" class=\\\"ag-header-cell-label\\\" role=\\\"presentation\\\">");
+                    "<div data-ref=\\\"eLabel\\\" class=\\\"ag-header-cell-label\\\">");
                 columnDefinitionStringBuilder.Append(
                     "<span data-ref=\\\"eSortOrder\\\" class=\\\"ag-header-icon ag-sort-order\\\" ></span>");
                 columnDefinitionStringBuilder.Append(
@@ -276,7 +306,7 @@ namespace LtInfo.Common.AgGridWrappers
                 columnDefinitionStringBuilder.Append(
                     "<span data-ref=\\\"eSortNone\\\" class=\\\"ag-header-icon ag-sort-none-icon\\\" ></span>");
                 columnDefinitionStringBuilder.Append(
-                    "<span data-ref=\\\"eText2\\\" class=\\\"ag-header-cell-text\\\" role=\\\"columnheader\\\">");
+                    "<span data-ref=\\\"eText2\\\" class=\\\"ag-header-cell-text\\\">");
                 // 7/31/2023 TK - Not sure if I like this, it works with the current setup of helpers but feels a bit hacky
                 //todo: come up with a better method to get field definition popups in header cells
                 columnDefinitionStringBuilder.AppendFormat("{0}</span>", columnSpec.ColumnName.ToJSON());

@@ -118,23 +118,13 @@ namespace ProjectFirma.Web.Views
             get { return ChildMenus.Where(mi => mi.ShouldShow).ToList(); }
         }
 
-        public HtmlString RenderMenu()
+        public HtmlString RenderMenu(string id="")
         {
-            return new HtmlString(RenderMenu(Indent));
+            return new HtmlString(RenderMenu(Indent, id));
         }
 
-        public string RenderMenu(string indent)
+        public string RenderMenu(string indent, string id)
         {
-            // Example:
-            //    <li><a href="@ViewDataTyped.HomeUrl">Home</a></li>
-            //    <li><a href="@ViewDataTyped.OverviewUrl">About</a>
-            //        <ul>
-            //            <li><a href="@ViewDataTyped.OverviewUrl">Overview</a></li>
-            //            <li><a href="@ViewDataTyped.HistoryUrl">History</a></li>
-            //            <li><a href="@ViewDataTyped.PartnersUrl">Partners</a></li>
-            //            <li><a href="@ViewDataTyped.FaqUrl">FAQ</a></li>
-            //        </ul>
-            //    </li> 
             if (RawString != null)
             {
                 return $"<li>{RawString}</li>";
@@ -145,25 +135,50 @@ namespace ProjectFirma.Web.Views
             }
             if (ChildenMenuItemsSecurityFiltered.Any())
             {
-                return RenderMenuWithChildren(indent);
+                return RenderMenuWithChildren(indent, id);
             }
+            // Visual indicator for current page
+            string currentPath = HttpContext.Current?.Request?.Url?.PathAndQuery ?? string.Empty;
+            bool isCurrent = string.Equals(currentPath, UrlString, StringComparison.OrdinalIgnoreCase);
+            string liClass = isCurrent ? " class=\"current-page\" " : string.Empty;
 
             var extraCssClassesDictionary = ExtraTopLevelMenuCssClasses.Any() ? new Dictionary<string, string> {{"class", string.Join(" ", ExtraTopLevelMenuCssClasses)}} : null;
-            var anchorTagString = UrlTemplate.MakeHrefString(UrlString, MenuItemName, extraCssClassesDictionary);
-            return string.Format("{0}<li class=\"\">{1}</li>", indent, anchorTagString);
+            string anchorTagString = "";
+
+            if (isCurrent)
+            {
+                anchorTagString = UrlTemplate
+                    .MakeHrefStringWithCurrentPage(UrlString, MenuItemName, null, extraCssClassesDictionary)?.ToHtmlString();
+            }
+            else
+            {
+                anchorTagString = UrlTemplate.MakeHrefString(UrlString, MenuItemName, extraCssClassesDictionary)?.ToHtmlString();
+            }
+
+
+
+            if (IsTopLevelMenuItem)
+            {
+                int insertPos = anchorTagString.LastIndexOf("</a>", StringComparison.OrdinalIgnoreCase);
+                if (insertPos > -1)
+                {
+                    anchorTagString = anchorTagString.Insert(insertPos, " <span class=\"glyphicon glyphicon-menu-down\"></span><span class=\"sr-only\">Toggle Dropdown</span>");
+                }
+            }
+            return string.Format("{0}<li{2}>{1}</li>", indent, anchorTagString, liClass);
         }
 
-        private string RenderMenuWithChildren(string indent)
+        private string RenderMenuWithChildren(string indent, string id)
         {
             var childMenuItems = new List<string>();
             var childIndent = string.Format("{0}{1}", Indent, indent);
-            childMenuItems.Add(string.Format("{0}<ul class=\"dropdown-menu\" role=\"menu\">", childIndent));
+            childMenuItems.Add(string.Format("{0}<ul class=\"dropdown-menu\" role=\"list\" aria-expanded=\"false\" aria-controls=\"{1}\">", childIndent, id));
 
             var menuGroups = ChildenMenuItemsAndDividersSecurityFiltered.GroupBy(x => x.MenuGroupName).ToList();
             var currentIndent = string.Format("{0}{1}", Indent, childIndent);
             foreach (var menuGroup in menuGroups)
             {
-                childMenuItems.AddRange(menuGroup.Select(childMenuItem => childMenuItem.RenderMenu(currentIndent)).ToList());
+                childMenuItems.AddRange(menuGroup.Select(childMenuItem => childMenuItem.RenderMenu(currentIndent, id)).ToList());
                 if (menuGroups.Count > 1 && menuGroup != menuGroups.Last())
                 {
                     childMenuItems.Add(CreateDivider(currentIndent));
@@ -179,7 +194,7 @@ namespace ProjectFirma.Web.Views
             }
 
             return string.Format(@"{0}<li {1}>
-{0}<a href=""#"" class=""{2}"" data-toggle=""dropdown"" role=""button"" aria-expanded=""false""><span class=""navigation-root-item-text-wrapper"">{3}</span> <span class=""glyphicon glyphicon-menu-down""></span></a>
+{0}<button href=""#"" class=""{2} nav-button"" data-toggle=""dropdown"" role=""button"" aria-expanded=""false"" aria-label=""{3}""><span class=""navigation-root-item-text-wrapper"">{3}</span> <span class=""glyphicon glyphicon-menu-down""></span></button>
 {4}
 {0}</li>", indent, "class=\"dropdown\"", childMenuItemCssClasses, MenuItemName, string.Format("{0}\r\n{1}", string.Join("\r\n", childMenuItems), indent));
         }

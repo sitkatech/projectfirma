@@ -2,57 +2,59 @@
   font-family: 'Basic';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/basic/v17/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/basic/v18/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 600;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aX8.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aX8.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aX8.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Mu4mxP.ttf) format('truetype');
+  font-stretch: normal;
+  src: url(https://fonts.gstatic.com/s/roboto/v49/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmUiA8.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/roboto/v32/KFOlCnqEu92Fr1MmWUlfBBc9.ttf) format('truetype');
+  font-stretch: normal;
+  src: url(https://fonts.gstatic.com/s/roboto/v49/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjalmUiA8.ttf) format('truetype');
 }
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v27/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v32/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
 }
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v27/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v32/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
 }
 html,
 body {
@@ -66,7 +68,7 @@ body {
   overflow-x: hidden;
 }
 input[disabled] {
-  background-color: LightGray;
+  background-color: #777676;
 }
 input.sitkaCurrency {
   width: 120px;
@@ -109,7 +111,6 @@ h6 {
 }
 .rightFloatingInfo {
   float: right;
-  margin-top: 20px;
 }
 .hoverEditButton {
   position: absolute;
@@ -219,21 +220,38 @@ form .form-group-condensed {
 .nav li {
   font-weight: 600;
 }
-.nav li a {
+.nav li a,
+.nav li button {
   color: #777;
   font-family: "Open Sans", sans-serif;
 }
-.nav li a:hover {
+.nav li a:hover,
+.nav li button:hover {
   color: #777;
   background-color: #eee;
   text-decoration: none;
 }
-.nav li p a:hover {
+.nav li p a:hover,
+.nav li p button:hover {
   background-color: transparent;
 }
 .nav li .navbar-text {
   color: #777;
   font-family: "Open Sans", sans-serif;
+}
+.nav li .current-page > a,
+.nav li .current-page > a:visited {
+  font-weight: bold;
+  background-color: #eee;
+  color: #777;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.nav-button {
+  background-color: transparent;
+  border: none;
+  padding: 15px;
+  text-transform: capitalize;
 }
 .navbar-nav .joined-buttons a {
   display: inline-block;
@@ -420,6 +438,7 @@ footer p {
 a.btn-firma {
   color: #fff;
   background-color: #337ab7;
+  text-decoration: none;
 }
 .btn-tag {
   color: black;
@@ -780,7 +799,7 @@ a.button:active {
   color: #fff;
 }
 a.gridButton.disabled {
-  background-color: LightGray;
+  background-color: #777676;
 }
 /* STANDARD */
 a.gridButton:hover {
@@ -790,6 +809,11 @@ a.gridButton:hover {
 a.excelbutton {
   background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
   padding: 0 0 0 15px;
+}
+button.excelbutton {
+  background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
+  padding: 0 0 0 15px;
+  border: none;
 }
 .onlyOnPrint {
   display: none;
@@ -978,12 +1002,12 @@ ul.filmStrip li a div.caption {
   color: #888888;
 }
 .disabled {
-  color: LightGray;
+  color: #777676;
 }
 a.disabled {
   cursor: not-allowed;
   font-style: italic;
-  color: LightGray;
+  color: #777676;
   background-color: transparent;
 }
 .project-detail-heading {
@@ -1008,7 +1032,7 @@ a.disabled {
 #projectWizardContent select[disabled],
 #projectWizardContent .dropdown-toggle[disabled],
 #projectWizardContent .dropdown-menu[disabled] {
-  background-color: LightGray;
+  background-color: #777676;
 }
 #projectWizardContent .dropdown-menu.open,
 #projectWizardContent .dropdown-menu.inner {
@@ -1174,6 +1198,7 @@ td.stage {
 }
 #homepageCarousel .carousel-control {
   z-index: 10;
+  border: none;
 }
 #homepageCarousel .carousel-inner .item {
   background-size: cover;

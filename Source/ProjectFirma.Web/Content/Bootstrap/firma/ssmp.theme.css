@@ -2,7 +2,7 @@
   font-family: 'Source Sans Pro';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/sourcesanspro/v21/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7g.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7g.ttf) format('truetype');
 }
 html,
 body {
@@ -16,7 +16,7 @@ body {
   line-height: 23.2px;
 }
 input[disabled] {
-  background-color: LightGray;
+  background-color: #777676;
 }
 h1,
 h2,
@@ -113,20 +113,24 @@ a:visited {
 }
 .projectFirmaNavbar .nav li {
   font-weight: 600;
-  text-transform: uppercase;
 }
-.projectFirmaNavbar .nav li a {
+.projectFirmaNavbar .nav li a,
+.projectFirmaNavbar .nav li button {
   color: #333333;
   font-family: "Source Sans Pro", sans-serif;
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
-.projectFirmaNavbar .nav li a:active {
+.projectFirmaNavbar .nav li a:active,
+.projectFirmaNavbar .nav li button:hover,
+.projectFirmaNavbar .nav li button:focus,
+.projectFirmaNavbar .nav li button:active {
   color: #446A7C;
   background-color: #EDF6FB;
   text-decoration: none;
 }
-.projectFirmaNavbar .nav li p a:hover {
+.projectFirmaNavbar .nav li p a:hover,
+.projectFirmaNavbar .nav li p button:hover {
   background-color: transparent;
 }
 .projectFirmaNavbar .nav li .navbar-text {
@@ -135,7 +139,10 @@ a:visited {
 }
 .projectFirmaNavbar .nav li .nav .open > a,
 .projectFirmaNavbar .nav li .nav .open > a:hover,
-.projectFirmaNavbar .nav li .nav .open > a:focus {
+.projectFirmaNavbar .nav li .nav .open > a:focus,
+.projectFirmaNavbar .nav li .nav .open > button,
+.projectFirmaNavbar .nav li .nav .open > button:hover,
+.projectFirmaNavbar .nav li .nav .open > button:focus {
   background-color: #EDF6FB;
   border-color: #D5DDE1;
 }
@@ -159,11 +166,21 @@ a:visited {
 .projectFirmaNavbar .nav li ul.dropdown-menu .divider {
   background-color: #D5DDE1;
 }
-.projectFirmaNavbar .nav li.dropdown a {
+.projectFirmaNavbar .nav li .current-page > a,
+.projectFirmaNavbar .nav li .current-page > a:visited {
+  font-weight: bold;
+  color: #02374e;
+  background-color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.projectFirmaNavbar .nav li.dropdown a,
+.projectFirmaNavbar .nav li.dropdown button {
   padding-top: 5px;
 }
 @media only screen and (min-width: 768px) {
-  .projectFirmaNavbar .nav li.dropdown a {
+  .projectFirmaNavbar .nav li.dropdown a,
+  .projectFirmaNavbar .nav li.dropdown button {
     padding-top: 10px;
   }
 }
@@ -181,8 +198,9 @@ a:visited {
   display: block;
   margin: 0 auto;
 }
-.projectFirmaNavbar .nav .open > a {
-  background-color: #fff;
+.projectFirmaNavbar .nav .open > a,
+.projectFirmaNavbar .nav .open > button {
+  background-color: #EDF6FB;
 }
 @media only screen and (min-width: 768px) {
   .projectFirmaNavbar .nav.navbar-nav.navbar-right::before {
@@ -271,8 +289,8 @@ table.summaryLayout th,
   color: #fff;
 }
 .singleArrow.default {
-  background-color: #E2DFDA;
-  border-left-color: #E2DFDA;
+  background-color: #777676;
+  border-left-color: #777676;
   color: #fff;
 }
 /* First arrow */
@@ -286,8 +304,8 @@ table.summaryLayout th,
   color: #fff;
 }
 .firstArrow.default {
-  background-color: #E2DFDA;
-  border-left-color: #E2DFDA;
+  background-color: #777676;
+  border-left-color: #777676;
   color: #fff;
 }
 .firstArrow:after {
@@ -314,8 +332,8 @@ table.summaryLayout th,
   color: #fff;
 }
 .middleArrow.default {
-  background-color: #E2DFDA;
-  border-left-color: #E2DFDA;
+  background-color: #777676;
+  border-left-color: #777676;
   color: #fff;
 }
 .middleArrow:before {
@@ -360,8 +378,8 @@ table.summaryLayout th,
   color: #fff;
 }
 .lastArrow.default {
-  background-color: #E2DFDA;
-  border-left-color: #E2DFDA;
+  background-color: #777676;
+  border-left-color: #777676;
   color: #fff;
 }
 .lastArrow:before {
@@ -439,7 +457,7 @@ a.button:active {
   color: #fff;
 }
 a.gridButton.disabled {
-  background-color: LightGray;
+  background-color: #777676;
 }
 div.gridbox_mm table.hdr td label {
   color: white;
@@ -453,7 +471,7 @@ a.gridButton:hover {
   color: #fff;
 }
 .helpicon {
-  font-size: 12px;
+  font-size: 18px;
   cursor: pointer;
   margin-right: 2px;
   color: #6c91a4;
@@ -536,12 +554,12 @@ h2.sectionHeader {
   margin: 0;
 }
 .disabled {
-  color: LightGray;
+  color: #777676;
 }
 a.disabled {
   cursor: not-allowed;
   font-style: italic;
-  color: LightGray;
+  color: #777676;
   background-color: transparent;
 }
 #projectWizardContent textarea[disabled],
@@ -549,7 +567,7 @@ a.disabled {
 #projectWizardContent select[disabled],
 #projectWizardContent .dropdown-toggle[disabled],
 #projectWizardContent .dropdown-menu[disabled] {
-  background-color: LightGray;
+  background-color: #777676;
 }
 @media only screen and (min-width: 768px) {
   .main-text h1 {

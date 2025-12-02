@@ -81,6 +81,10 @@ Source code is available upon request via <support@sitkatech.com>.
             color: #e0ffff;
             font-weight: 900;
         }
+
+        .nav li a, .nav li button {
+            color: #777676;
+        }
     </style>
 }
 
@@ -121,12 +125,12 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <ul class="nav nav-tabs" id="geospatialAreaDetailsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#geospatialAreaOverview" aria-controls="geospatialAreaOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
+                <a href="#geospatialAreaOverview" aria-controls="geospatialAreaOverview" id="overviewTab" data-toggle="tab">Overview</a>
             </li>
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
                 <li>
-                    <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Accomplishments</a>
+                    <a href="#performanceMeasures" data-toggle="tab" id="resultsTab">Accomplishments</a>
                 </li>
             }
         </ul>
@@ -147,7 +151,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     This map displays the location of any @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.GeospatialAreaTypeName
                                 </p>
                                 <div style="font-weight: bold; margin-top: 10px">
-                                    <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label>Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
+                                    <input style="margin-right: 5px" type="checkbox" id="ClusterLocations" checked="checked" /><label for="ClusterLocations">Cluster @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()</label>
                                 </div>
                                 <div id="@ViewDataTyped.MapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
                                 </div>
@@ -279,7 +283,7 @@ Source code is available upon request via <support@sitkatech.com>.
             pointToLayer: function(feature, latlng)
             {
                 var featureColor = feature.properties.FeatureColor == null ? points.LayerColor : feature.properties.FeatureColor;
-                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s" }) });
+                var marker = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: featureColor, size: "s", alt: "Location" }) });
                 self.bindPopupToFeature(marker, feature);
                 return marker;
             }
@@ -316,5 +320,11 @@ Source code is available upon request via <support@sitkatech.com>.
         jQuery("#overviewTab").on("shown.bs.tab", function() {
             map.map.invalidateSize();
         });
+
+        // Prevent map focus trap
+        var $map = jQuery('#@ViewDataTyped.MapInitJson.MapDivID');
+        $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.on('focus', function() { this.blur(); });
     });
 </script>

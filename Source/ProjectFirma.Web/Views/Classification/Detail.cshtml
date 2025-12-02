@@ -79,6 +79,15 @@ Source code is available upon request via <support@sitkatech.com>.
             margin-top: 6px;
             margin-right: 6px;
         }
+
+        .nav li a, .nav li button {
+            color: #777676;
+        }
+
+        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
+        {
+            height: 320px;
+        }
     </style>
 }
 
@@ -137,7 +146,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="col-lg-5 col-sm-6 col-xs-12">
             <div style="margin-right: 10px">
-                <a class="gallery" href="@ViewDataTyped.Classification.KeyImageFileResourceInfo.GetFileResourceUrl()"><img src="@ViewDataTyped.Classification.GetKeyImageUrlLarge()" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
+                <a class="gallery" aria-label="@ViewDataTyped.Classification.GetDisplayName()" href="@ViewDataTyped.Classification.KeyImageFileResourceInfo.GetFileResourceUrl()"><img src="@ViewDataTyped.Classification.GetKeyImageUrlLarge()" alt="" style="max-height: 250px; padding: 20px 10px; margin: auto; display: block"/></a>
             </div>
         </div>
     }
@@ -147,12 +156,12 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <ul class="nav nav-tabs" id="classificationDetailsTabs" style="border-bottom: none;">
             <li class="active">
-                <a href="#classificationOverview" aria-controls="classificationOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
+                <a href="#classificationOverview" aria-controls="classificationOverview" id="overviewTab" data-toggle="tab">Overview</a>
             </li>
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
                 <li>
-                    <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">Accomplishments</a>
+                    <a href="#performanceMeasures" data-toggle="tab" id="resultsTab">Accomplishments</a>
                 </li>
             }
         </ul>
@@ -174,15 +183,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <p>
                                     This map displays the location of any @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.ClassificationDisplayName
                                 </p>
-                                <div id="@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
+                                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
+                                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
                                 </div>
                                 <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
-                                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
-                                    <div id="primaryLeafDataMap">
-                                        @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
-                                    </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                     @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
@@ -277,9 +282,17 @@ Source code is available upon request via <support@sitkatech.com>.
         var clusterLocationsCheckbox = jQuery("#ClusterLocations");
         clusterLocationsCheckbox.on("change", function() { map.changeClustering(clusterLocationsCheckbox.is(":checked")); });
 
-        map.map.fitBounds(map.map.getBounds().pad(.25));
+        //map.map.fitBounds(map.map.getBounds().pad(.25));
         jQuery("#overviewTab").on("shown.bs.tab", function() {
             map.map.invalidateSize();
         });
+
+        jQuery('.leaflet-container').css('cursor', 'pointer');
+
+        // Prevent map focus trap
+        var $map = jQuery('#@ViewDataTyped.ProjectLocationsMapViewData.MapDivID');
+        $map.attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.find('a, button, input, select, textarea, [tabindex]').attr('tabindex', '-1').attr('aria-hidden', 'true');
+        $map.on('focus', function() { this.blur(); });
     });
 </script>

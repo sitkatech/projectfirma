@@ -42,7 +42,8 @@ ProjectFirmaMaps.SelectableMap.prototype.setLayerSelected = function(layer) {
                         icon: L.MakiMarkers.icon({
                             icon: "marker",
                             color: "#ff0",
-                            size: "m"
+                            size: "m",
+                            alt: "Selected Marker",
                         }),
                         riseOnHover: true
                     });

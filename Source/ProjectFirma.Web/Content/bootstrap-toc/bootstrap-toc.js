@@ -47,7 +47,7 @@
             },
 
             createNavList: function () {
-                return $('<ul class="nav"></ul>');
+                return $('<ul role="list" aria-label="Nav" class="nav"></ul>');
             },
 
             createChildNavList: function ($parent) {
@@ -60,7 +60,7 @@
                 var $a = $('<a></a>');
                 $a.attr('href', '#' + anchor);
                 $a.text(text);
-                var $li = $('<li></li>');
+                var $li = $('<li role="listitem"></li>');
                 $li.append($a);
                 return $li;
             },

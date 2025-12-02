@@ -37,13 +37,13 @@
 </div>
 
 <div class="row">
-    <h3>Videos</h3>
+    <h2>Videos</h2>
     @foreach (var video in ViewDataTyped.TrainingVideos)
     {
         <div class="col-md-6" style="margin-bottom: 20px;">
             <div style="background: #eee; border: 1px solid #ccc; padding: 5px 10px;"><strong>@video.VideoName</strong></div>
             <div style="background: #eee; border: 1px solid #ccc; padding: 5px 10px">
-                <iframe src="@video.VideoURL" allowfullscreen="" width="100%" height="344" frameborder="0"></iframe>
+                <iframe title="@video.VideoName" src="@video.VideoURL" allowfullscreen="" width="100%" height="344" frameborder="0"></iframe>
                 <p>@Html.Raw(video.VideoDescription) </p>
                 <p>Uploaded on @video.VideoUploadDate.ToShortDateString()</p>
             </div>
@@ -75,7 +75,7 @@
     <div class="col-md-4" style="margin-bottom: 20px;">
         <div style="background: #eee; border: 1px solid #ccc; padding: 5px 10px;"><strong>Connecting to ProjectFirma Geospatial Services with Desktop GIS</strong></div>
         <div style="background: #eee; border: 1px solid #ccc; padding: 5px 10px;">
-            <a href="/Content/Training/ProjectFirmaTrainingDocument_DesktopGIS_WEB.pdf" target="_blank">
+            <a href="/Content/Training/ProjectFirmaTrainingDocument_DesktopGIS_WEB_2025.pdf" target="_blank">
                 <img src="/Content/Training/training-desktopGIS.jpg" class="img-responsive" alt="Connecting to ProjectFirma Geospatial Services with Desktop GIS Document" style="margin-bottom: 5px;" />
                 <p>View/Download the Connecting to ProjectFirma Geospatial Services with Desktop GIS document</p>
             </a>

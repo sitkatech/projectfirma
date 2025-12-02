@@ -64,23 +64,40 @@
 }
 
 <style type="text/css">
-   /*Hack to get scrollspy to select sections with no content*/
-   footer {
-      height: 600px;
-   }
+    /*Hack to get scrollspy to select sections with no content*/
+    footer {
+        height: 600px;
+    }
 
-   #editLocationDropdownButton:focus {
-      text-decoration: none;
-   }
+    #editLocationDropdownButton:focus {
+        text-decoration: none;
+    }
 
-   dt.projectCustomAttributes {
-      white-space: normal;
-      text-align: left;
-   }
+    dt.projectCustomAttributes {
+        white-space: normal;
+        text-align: left;
+    }
 
-   .projectCustomAttributes {
-      margin-bottom: 5px;
-   }
+    .projectCustomAttributes {
+        margin-bottom: 5px;
+    }
+
+    /* Make help icon white in panel headings */
+    .panel-heading .helpicon.glyphicon-question-sign {
+        color: #fff !important;
+    }
+
+    /* Always show TOC submenus */
+    #tableOfContents ul,
+    #tableOfContents ol {
+        display: block !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
 </style>
 @if (ViewDataTyped.Project.ExternalID != null)
 {
@@ -112,7 +129,7 @@
     @if (ViewDataTyped.QuickAccessAttachment != null)
     {
         <div style="float: right; text-align: right">
-            <a href="@ViewDataTyped.QuickAccessAttachment.Attachment.GetFileResourceUrl()">
+            <a lang="es" href="@ViewDataTyped.QuickAccessAttachment.Attachment.GetFileResourceUrl()">
                 @ViewDataTyped.QuickAccessAttachment.DisplayName
                 @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
             </a>
@@ -128,448 +145,459 @@
    </div>
 }
 
-<div class="row" style="margin: 20px 0;">
+<div class="row" style="margin: 20px 0;" aria-hidden="true">
    <div class="col-xs-12" style="padding-left: 0;">
       @for (var i = 0; i < ViewDataTyped.ProjectStages.Count; i++)
       {
-         var stage = ViewDataTyped.ProjectStages[i];
+          var stage = ViewDataTyped.ProjectStages[i];
 
-         var isCurrentStage = stage == ViewDataTyped.Project.ProjectStage;
+          var isCurrentStage = stage == ViewDataTyped.Project.ProjectStage;
 
-         var stateName = "default";
-         if (isCurrentStage)
-         {
-            stateName = "current";
-         }
+          var stateName = "default";
+          if (isCurrentStage)
+          {
+              stateName = "current";
+          }
 
-         var arrowClass = "middleArrow";
-         if (i == 0)
-         {
-            arrowClass = "firstArrow";
-         }
-         else if (i == ViewDataTyped.ProjectStages.Count - 1)
-         {
-            arrowClass = "lastArrow";
-         }
-         else if (i == 0 && ViewDataTyped.ProjectStages.Count == 0)
-         {
-            arrowClass = "singleArrow";
-         }
+          var arrowClass = "middleArrow";
+          if (i == 0)
+          {
+              arrowClass = "firstArrow";
+          }
+          else if (i == ViewDataTyped.ProjectStages.Count - 1)
+          {
+              arrowClass = "lastArrow";
+          }
+          else if (i == 0 && ViewDataTyped.ProjectStages.Count == 0)
+          {
+              arrowClass = "singleArrow";
+          }
 
-         <div class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.GetProjectStageDisplayName()</div>
+          if (stateName == "current")
+          {
+              <div aria-current="step" aria-description="@stage.GetProjectStageDisplayName()" title="@stage.GetProjectStageDisplayName()" class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.GetProjectStageDisplayName()</div>
+
+          }
+          else
+          {
+              <div aria-description="@stage.GetProjectStageDisplayName()" title="@stage.GetProjectStageDisplayName()" class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.GetProjectStageDisplayName()</div>
+          }
       }
    </div>
 </div>
-<div data-spy="scroll" data-target="#toc">
+<div data-spy="scroll" data-target="#toc" tabindex="0">
    <div id="contentForTOC" class="container-fluid">
-      <div class="row">
-         <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
-            <div id="tableOfContentsAffixed" class="navpanel panelFirma">
-               <h4 data-toc-skip style="margin-top: 0">Contents</h4>
-               <nav id="tableOfContents" class="scrollSpy"></nav>
-            </div>
-         </div>
-         <div class="col-sm-12 col-md-9 col-lg-10">
-             <h2 class="sectionHeader">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Overview</h2>
-             <div class="row">
-                 <div class="col-md-12 col-lg-7">
-                     <div class="panel panelFirma">
-                         <div class="panel-heading panelTitle">
-                             @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit Basics for {0}", ViewDataTyped.Project.GetDisplayName()), 950, ViewDataTyped.UserHasEditProjectPermissions)
-                             <h3 class="project-detail-heading">
-                                 Basics
-                             </h3>
-                         </div>
-                         <div class="panel-body">
-                             @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
-                         </div>
-                     </div>
-                     @if (ViewDataTyped.DisplayProjectCustomAttributeTypesViewData.ProjectCustomAttributeTypes.Any())
-                     {
-                         <div class="panel panelFirma">
-                             <div class="panel-heading panelTitle">
-                                 @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectCustomAttributesUrl, string.Format("Edit {0} Attributes", @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, ViewDataTyped.UserHasEditProjectPermissions)
-                                 <h3 class="project-detail-heading">
-                                     @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
-                                 </h3>
-                             </div>
-                             <div class="panel-body">
-                                 @{ProjectCustomAttributes.RenderPartialView(Html, ViewDataTyped.DisplayProjectCustomAttributeTypesViewData);}
-                             </div>
-                         </div>
-                     }
-                 </div>
-                 <div class="col-md-12 col-lg-5">
-                     <div class="panel panelFirma">
-                         <div class="panel-heading panelTitle">
-                             @if (ViewDataTyped.UserHasEditProjectPermissions)
-                             {
-                                 <a id="editLocationDropdownButton" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
-                                     <h3>
-                                         @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")
-                                         Location
-                                         <span class="caret"></span>
-                                     </h3>
-                                 </a>
-                                 <ul class="dropdown-menu" aria-labelledby="editLocationDropdownButton" style="top: 36px; left: auto;">
-                                     <li>@ModalDialogFormHelper.ModalDialogFormLink("Simple", ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
-                                     <li>@ModalDialogFormHelper.ModalDialogFormLink("Detailed", ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
+       <div class="row">
+           <a href="#panels" class="skip-to-main-link">Skip to main content</a>
+           <div data-target="#tableofcontents" id="scrollSpyContent" class="col-lg-2 col-md-3 hidden-sm hidden-xs hidden-print">
+               <div id="tableOfContentsAffixed" class="navpanel panelFirma">
+                   <h2 id="nav-header" data-toc-skip style="margin-top: 0">Contents</h2>
+                   <nav id="tableOfContents" aria-label="Project" class="scrollSpy"></nav>
+               </div>
+           </div>
+           <div class="col-sm-12 col-md-9 col-lg-10">
+               <h2 class="sectionHeader" id="panels" aria-label="Project Overview">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Overview</h2>
+               <div class="row" role="region">
+                   <div class="col-md-12 col-lg-7">
+                       <div class="panel panelFirma" role="region" aria-label="Basics">
+                           <div class="panel-heading panelTitle">
+                               @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit Basics for {0}", ViewDataTyped.Project.GetDisplayName()), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                               <h3 class="project-detail-heading" aria-label="Basics">
+                                   Basics
+                               </h3>
+                           </div>
+                           <div class="panel-body">
+                               @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
+                           </div>
+                       </div>
+                       @if (ViewDataTyped.DisplayProjectCustomAttributeTypesViewData.ProjectCustomAttributeTypes.Any())
+                       {
+                           <div class="panel panelFirma">
+                               <div class="panel-heading panelTitle" role="region" aria-label="Project Attributes">
+                                   @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectCustomAttributesUrl, string.Format("Edit {0} Attributes", @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                   <h3 class="project-detail-heading" aria-label="Project Attributes">
+                                       @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
+                                   </h3>
+                               </div>
+                               <div class="panel-body">
+                                   @{ ProjectCustomAttributes.RenderPartialView(Html, ViewDataTyped.DisplayProjectCustomAttributeTypesViewData); }
+                               </div>
+                           </div>
+                       }
+                   </div>
 
-                                     @foreach (var geospatialAreaType in ViewDataTyped.GeospatialAreaTypes)
-                                     {
-                                         <li>@ModalDialogFormHelper.ModalDialogFormLink(geospatialAreaType.GeospatialAreaTypeNamePluralized, geospatialAreaType.GetEditGeospatialAreasUrl(ViewDataTyped.Project), string.Format("Edit {0}", geospatialAreaType.GeospatialAreaTypeNamePluralized), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectGeospatialAreaFormID)</li>
-                                     }
+                   <div class="col-md-12 col-lg-5">
+                       <div class="panel panelFirma">
+                           <div class="panel-heading panelTitle" role="region" aria-label="Location">
+                               @if (ViewDataTyped.UserHasEditProjectPermissions)
+                               {
+                                   <a id="editLocationDropdownButton" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
+                                       <h3 aria-label="Location">
+                                           @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")
+                                           Location
+                                           <span class="caret"></span>
+                                       </h3>
+                                   </a>
+                                   <ul class="dropdown-menu" aria-labelledby="editLocationDropdownButton" style="top: 36px; left: auto;">
+                                       <li>@ModalDialogFormHelper.ModalDialogFormLink("Simple", ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
+                                       <li>@ModalDialogFormHelper.ModalDialogFormLink("Detailed", ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
 
-                                     <li>@ModalDialogFormHelper.ModalDialogFormLink("Map Extent", ViewDataTyped.EditProjectBoundingBoxUrl, string.Format("Edit {0} - Map Extent", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectBoundingBoxFormID)</li>
-                                 </ul>
-                             }
-                             else
-                             {
-                                 <h3>Location</h3>
-                             }
-                         </div>
-                         <div class="panel-body">
-                             @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
-                         </div>
-                     </div>
-                     @if (ViewDataTyped.UserHasProjectAdminPermissions)
-                     {
-                         <div class="panel panelFirma">
-                             <div class="panel-heading panelTitle">
-                                 <h3>Tags</h3>
-                             </div>
-                             <div class="panel-body">
-                                 @{ ProjectBasicsTags.RenderPartialView(Html, ViewDataTyped.ProjectBasicsTagsViewData); }
-                             </div>
-                         </div>
-                     }
-                 </div>
-             </div>
-             <div class="panel panelFirma">
-                 <div class="panel-heading panelTitle">
-                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
-                     <h3 class="project-detail-heading">
+                                       @foreach (var geospatialAreaType in ViewDataTyped.GeospatialAreaTypes)
+                                       {
+                                           <li>@ModalDialogFormHelper.ModalDialogFormLink(geospatialAreaType.GeospatialAreaTypeNamePluralized, geospatialAreaType.GetEditGeospatialAreasUrl(ViewDataTyped.Project), string.Format("Edit {0}", geospatialAreaType.GeospatialAreaTypeNamePluralized), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectGeospatialAreaFormID)</li>
+                                       }
 
-                         @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
-                     </h3>
-                 </div>
-                 <div class="panel-body">
-                     @{ ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData); }
-                 </div>
-             </div>
+                                       <li>@ModalDialogFormHelper.ModalDialogFormLink("Map Extent", ViewDataTyped.EditProjectBoundingBoxUrl, string.Format("Edit {0} - Map Extent", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectBoundingBoxFormID)</li>
+                                   </ul>
+                               }
+                               else
+                               {
+                                   <h3 aria-label="Location">Location</h3>
+                               }
+                           </div>
+                           <div class="panel-body">
+                               @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
+                           </div>
+                       </div>
+                       @if (ViewDataTyped.UserHasProjectAdminPermissions)
+                       {
+                           <div class="panel panelFirma" role="region" aria-label="Tags">
+                               <div class="panel-heading panelTitle">
+                                   <h3>Tags</h3>
+                               </div>
+                               <div class="panel-body">
+                                   @{ ProjectBasicsTags.RenderPartialView(Html, ViewDataTyped.ProjectBasicsTagsViewData); }
+                               </div>
+                           </div>
+                       }
+                   </div>
+               </div>
+               <div class="panel panelFirma" role="region" aria-label="Organizations">
+                   <div class="panel-heading panelTitle">
+                       @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
+                       <h3 class="project-detail-heading" aria-label="Organizations">
 
-             <div class="panel panelFirma">
-                 <div class="panel-heading panelTitle">
-                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
-                     <h3 class="project-detail-heading">
-                         Contacts
-                     </h3>
-                 </div>
-                 <div class="panel-body">
-                     @{ ProjectContactsDetail.RenderPartialView(Html, ViewDataTyped.ProjectContactsDetailViewData); }
-                 </div>
-             </div>
-             @if (MultiTenantHelpers.TrackAccomplishments())
-             {
-                 <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                         <h3 class="project-detail-heading">
-                             Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
-                         </h3>
-                     </div>
-                     <div class="panel-body">
-                         @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
-                     </div>
-                 </div>
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
-                         <h3 class="project-detail-heading">
-                             Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
-                         </h3>
-                     </div>
-                     <div class="panel-body">
-                         @if (ViewDataTyped.Project.IsProposal())
-                         {
-                             <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.Proposal.GetProjectStageDisplayName() stage.</p>
-                         }
-                         else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
-                         {
-                             <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.PlanningDesign.GetProjectStageDisplayName() stage.</p>
-                         }
-                         else
-                         {
-                             PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
-                         }
-                     </div>
-                 </div>
-             }
+                           @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
+                       </h3>
+                   </div>
+                   <div class="panel-body">
+                       @{ ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData); }
+                   </div>
+               </div>
 
-             @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
-             {
-                 <h2 class="sectionHeader">Financials</h2>
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Budget", 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                         <h3 class="project-detail-heading">
-                             Budget
-                         </h3>
-                     </div>
-                     <div class="panel-body">
-                         @{
-                             ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
-                         }
-                         @if (ViewDataTyped.ReportFinancialsByCostType)
-                         {
-                             ProjectBudgetsAnnualByCostType.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualByCostTypeViewData);
-                         }
-                         else
-                         {
-                             ProjectBudgetsAnnual.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualViewData);
-                         }
+               <div class="panel panelFirma" role="region" aria-label="Contacts">
+                   <div class="panel-heading panelTitle">
+                       @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
+                       <h3 class="project-detail-heading"  aria-label="Contacts">
+                           Contacts
+                       </h3>
+                   </div>
+                   <div class="panel-body">
+                       @{ ProjectContactsDetail.RenderPartialView(Html, ViewDataTyped.ProjectContactsDetailViewData); }
+                   </div>
+               </div>
+               @if (MultiTenantHelpers.TrackAccomplishments())
+               {
+                   <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
+                   <div class="panel panelFirma" role="region" aria-label="Expected Performance">
+                       <div class="panel-heading panelTitle">
+                           @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                           <h3 class="project-detail-heading" aria-label="Expected Performance">
+                               Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
+                           </h3>
+                       </div>
+                       <div class="panel-body">
+                           @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
+                       </div>
+                   </div>
+                   <div class="panel panelFirma" role="region" aria-label="Reported Performance">
+                       <div class="panel-heading panelTitle">
+                           @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
+                           <h3 class="project-detail-heading" aria-label="Reported Performance">
+                               Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
+                           </h3>
+                       </div>
+                       <div class="panel-body">
+                           @if (ViewDataTyped.Project.IsProposal())
+                           {
+                               <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.Proposal.GetProjectStageDisplayName() stage.</p>
+                           }
+                           else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
+                           {
+                               <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.PlanningDesign.GetProjectStageDisplayName() stage.</p>
+                           }
+                           else
+                           {
+                               PerformanceMeasureReportedValuesGrouped.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureReportedValuesGroupedViewData);
+                           }
+                       </div>
+                   </div>
+               }
 
-                     </div>
-                 </div>
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                         <h3 class="project-detail-heading">
-                             @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
-                         </h3>
-                     </div>
-                     <div class="panel-body">
-                         @if (ViewDataTyped.Project.IsProposal())
-                         {
-                             <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.Proposal.GetProjectStageDisplayName() stage.</p>
-                         }
-                         else if (ViewDataTyped.ReportFinancialsByCostType)
-                         {
-                             ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
-                         }
-                         else
-                         {
-                             ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
-                         }
-                     </div>
-                 </div>
-             }
+               @if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+               {
+                   <h2 class="sectionHeader">Financials</h2>
+                   <div class="panel panelFirma" role="region" aria-label="Budget">
+                       <div class="panel-heading panelTitle">
+                           @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Budget", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                           <h3 class="project-detail-heading">
+                               Budget
+                           </h3>
+                       </div>
+                       <div class="panel-body">
+                           @{
+                               ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
+                           }
+                           @if (ViewDataTyped.ReportFinancialsByCostType)
+                           {
+                               ProjectBudgetsAnnualByCostType.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualByCostTypeViewData);
+                           }
+                           else
+                           {
+                               ProjectBudgetsAnnual.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualViewData);
+                           }
 
-
-             @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
-             {
-                 <h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
-                         <h2 class="project-detail-heading">
-                             @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)
-                         </h2>
-                     </div>
-                     <div class="panel-body">
-                         @{ var projectClassifications = ViewDataTyped.Project.ProjectClassifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
-                         @if (projectClassifications.Count > 0)
-                         {
-                             // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
-                             foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x => x.Classification.GetDisplayName()).Batch(3))
-                             {
-                                 <div class="row" style="padding-top: 10px;">
-                                     @foreach (var projectClassification in projectClassificationBatch)
-                                     {
-                                         <div class="col-md-4">
-                                             <label>@projectClassification.Classification.GetDisplayNameAsUrl()</label>
-
-                                             <div>@projectClassification.ProjectClassificationNotes</div>
-                                         </div>
-                                     }
-                                 </div>
-                             }
-                         }
-                         else
-                         {
-                             <p class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
-                         }
-                     </div>
-                 </div>
-
-             }
-
-             @*Partner Finder Panel*@
-             @if (ViewDataTyped.ProjectPotentialPartnerDetailViewData.ShouldShowMatchMakerPotentialPartnerPanel)
-             {
-                 <h2 class="sectionHeader">Partner Finder</h2>
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         <h3 data-toc-skip>Partner Finder</h3>
-                     </div>
-                     <div class="panel-body">
-                         <div>
-                             @{ ProjectPotentialPartnerDetail.RenderPartialView(Html, ViewDataTyped.ProjectPotentialPartnerDetailViewData); }
-                         </div>
-                     </div>
-                 </div>
-             }
-
-             <h2 class="sectionHeader">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</h2>
-
-             <div class="panel panelFirma">
-                 <div class="panel-heading panelTitle">
-                     <h3>Attachments</h3>
-                 </div>
-                 <div class="panel-body">
-                     @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
-                 </div>
-             </div>
-
-             <div class="panel panelFirma">
-                 <div class="panel-heading panelTitle">
-                     <h3>Notes</h3>
-                 </div>
-                 <div class="panel-body">
-                     @if (ViewDataTyped.UserHasEditProjectPermissions)
-                     {
-                         <strong>Public Notes</strong>
-                     }
-                     @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.ProjectNotesViewData); }
-                     @if (ViewDataTyped.UserHasEditProjectPermissions)
-                     {
-                         <hr />
-                         <strong>Internal Notes</strong>
-                         EntityNotes.RenderPartialView(Html, ViewDataTyped.InternalNotesViewData);
-                     }
-                 </div>
-             </div>
-             <div class="panel panelFirma">
-                 <div class="panel-heading panelTitle">
-                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
-                     <h3 class="project-detail-heading">
-                         @Html.LabelWithSugarFor(FieldDefinitionEnum.ExternalLinks.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabel()
-                     </h3>
-                 </div>
-                 <div class="panel-body">
-                     @{ EntityExternalLinks.RenderPartialView(Html, ViewDataTyped.EntityExternalLinksViewData); }
-                 </div>
-             </div>
-
-             <h2 data-toc-skip class="sectionHeader">Photos</h2>
-             <div class="panel panelFirma">
-                 <div class="panel-heading panelTitle">
-                     <h2>Photos</h2>
-                 </div>
-                 <div class="panel-body">
-                     @{
-                         ImageGallery.RenderPartialView(Html, ViewDataTyped.ImageGalleryViewData);
-                     }
-                 </div>
-             </div>
-             @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
-             {
-                 <h2 class="sectionHeader">Timeline</h2>
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         <h3 class="project-detail-heading">
-                             @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() History
-                         </h3>
-                     </div>
-                     <div class="panel-body">
-                         @{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }
-                     </div>
-                 </div>
-             }
-             @if (ViewDataTyped.UserHasProjectAdminPermissions)
-             {
-                 <h2 class="sectionHeader">Administrative</h2>
-
-                 if (MultiTenantHelpers.UsesEvaluations())
-                 {
-                     <div class="panel panelFirma">
-                         <div class="panel-heading panelTitle">
-                             <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
-                         </div>
-                         <div class="panel-body">
-                             @if (ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
-                             {
-                                 <table class="summaryLayout table table-condensed table-striped">
-                                     <tbody>
-                                         <tr>
-                                             <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationName.ToType())</th>
-                                             <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStatus.ToType())</th>
-                                             <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStartDate.ToType())</th>
-                                             <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationEndDate.ToType())</th>
-                                             <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationCriteria.ToType())</th>
-                                             <th scope="col">Comments</th>
-                                         </tr>
-                                         @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
-                                         {
-                                             <tr>
-                                                 <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
-                                                 <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
-                                                 <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
-                                                 <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
-                                                 <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
-                                                 <td>@projectEvaluation.Comments</td>
-                                             </tr>
-                                         }
-                                     </tbody>
-                                 </table>
-
-                                 if (ViewDataTyped.Project.ProjectEvaluations.Count > ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Count)
-                                 {
-                                     <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has additional @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() that you do not have permission to view.</p>
-                                 }
-
-                             }
-                             else if (ViewDataTyped.Project.ProjectEvaluations.Any() && !ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
-                             {
-                                 <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), but you do not have permission to view any of them.</p>
-                             }
-                             else
-                             {
-                                 <p class="systemText">There are no @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
-                             }
-                         </div>
-                     </div>
-                 }
+                       </div>
+                   </div>
+                   <div class="panel panelFirma" role="region" aria-label="Reported Expenditure">
+                       <div class="panel-heading panelTitle">
+                           @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                           <h3 class="project-detail-heading">
+                               @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
+                           </h3>
+                       </div>
+                       <div class="panel-body">
+                           @if (ViewDataTyped.Project.IsProposal())
+                           {
+                               <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.Proposal.GetProjectStageDisplayName() stage.</p>
+                           }
+                           else if (ViewDataTyped.ReportFinancialsByCostType)
+                           {
+                               ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
+                           }
+                           else
+                           {
+                               ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
+                           }
+                       </div>
+                   </div>
+               }
 
 
+               @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
+               {
+                   <h2 id="classificationSystem" data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
+                   <div class="panel panelFirma" role="region" aria-label="@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)">
+                       <div class="panel-heading panelTitle">
+                           @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
+                           <h2 class="project-detail-heading">
+                               @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)
+                           </h2>
+                       </div>
+                       <div class="panel-body">
+                           @{ var projectClassifications = ViewDataTyped.Project.ProjectClassifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
+                           @if (projectClassifications.Count > 0)
+                           {
+                               // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
+                               foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x => x.Classification.GetDisplayName()).Batch(3))
+                               {
+                                   <div class="row" style="padding-top: 10px;">
+                                       @foreach (var projectClassification in projectClassificationBatch)
+                                       {
+                                           <div class="col-md-4">
+                                               <label>@projectClassification.Classification.GetDisplayNameAsUrl()</label>
 
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
-                     </div>
-                     <div class="panel-body">
-                         @Html.AgGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
-                     </div>
-                 </div>
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         <h3>System Communications</h3>
-                     </div>
-                     <div class="panel-body">
-                         @Html.AgGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
-                     </div>
-                 </div>
+                                               <div>@projectClassification.ProjectClassificationNotes</div>
+                                           </div>
+                                       }
+                                   </div>
+                               }
+                           }
+                           else
+                           {
+                               <p class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                           }
+                       </div>
+                   </div>
 
-                 <div class="panel panelFirma">
-                     <div class="panel-heading panelTitle">
-                         <h3>Audit Log</h3>
-                     </div>
-                     <div class="panel-body">
-                         @if (ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
-                         {
-                             <div style="text-align: right; margin-bottom: 10px;">
-                                 @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.RevertApprovedProjectButtonText, ViewDataTyped.RevertApprovedProjectUrl, ViewDataTyped.RevertApprovedProjectButtonText, 500, "Confirm", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
+               }
 
-                             </div>
-                         }
+               @*Partner Finder Panel*@
+               @if (ViewDataTyped.ProjectPotentialPartnerDetailViewData.ShouldShowMatchMakerPotentialPartnerPanel)
+               {
+                   <h2 class="sectionHeader">Partner Finder</h2>
+                   <div class="panel panelFirma" role="region" aria-label="Partner Finder">
+                       <div class="panel-heading panelTitle">
+                           <h3 data-toc-skip>Partner Finder</h3>
+                       </div>
+                       <div class="panel-body">
+                           <div>
+                               @{ ProjectPotentialPartnerDetail.RenderPartialView(Html, ViewDataTyped.ProjectPotentialPartnerDetailViewData); }
+                           </div>
+                       </div>
+                   </div>
+               }
 
-                         @Html.AgGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
-                     </div>
-                 </div>
-             }
-         </div>
-      </div>
+               <h2 class="sectionHeader" aria-label="Project Details">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</h2>
+
+               <div class="panel panelFirma" role="region" aria-label="Attachments">
+                   <div class="panel-heading panelTitle">
+                       <h3>Attachments</h3>
+                   </div>
+                   <div class="panel-body">
+                       @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
+                   </div>
+               </div>
+
+               <div class="panel panelFirma" role="region" aria-label="Notes">
+                   <div class="panel-heading panelTitle">
+                       <h3>Notes</h3>
+                   </div>
+                   <div class="panel-body">
+                       @if (ViewDataTyped.UserHasEditProjectPermissions)
+                       {
+                           <strong>Public Notes</strong>
+                       }
+                       @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.ProjectNotesViewData); }
+                       @if (ViewDataTyped.UserHasEditProjectPermissions)
+                       {
+                           <hr />
+                           <strong>Internal Notes</strong>
+                           EntityNotes.RenderPartialView(Html, ViewDataTyped.InternalNotesViewData);
+                       }
+                   </div>
+               </div>
+               <div class="panel panelFirma" role="region" aria-label="External Links">
+                   <div class="panel-heading panelTitle">
+                       @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
+                       <h3 class="project-detail-heading" aria-label="External Links">
+                           @Html.LabelWithSugarFor(FieldDefinitionEnum.ExternalLinks.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabel()
+                       </h3>
+                   </div>
+                   <div class="panel-body">
+                       @{ EntityExternalLinks.RenderPartialView(Html, ViewDataTyped.EntityExternalLinksViewData); }
+                   </div>
+               </div>
+
+               <h2 data-toc-skip class="sectionHeader">Photos</h2>
+               <div class="panel panelFirma" role="region" aria-label="Photos">
+                   <div class="panel-heading panelTitle">
+                       <h2>Photos</h2>
+                   </div>
+                   <div class="panel-body">
+                       @{
+                           ImageGallery.RenderPartialView(Html, ViewDataTyped.ImageGalleryViewData);
+                       }
+                   </div>
+               </div>
+               @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
+               {
+                   <h2 class="sectionHeader">Timeline</h2>
+                   <div class="panel panelFirma" role="region" aria-label="Project History">
+                       <div class="panel-heading panelTitle">
+                           <h3 class="project-detail-heading">
+                               @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() History
+                           </h3>
+                       </div>
+                       <div class="panel-body">
+                           @{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }
+                       </div>
+                   </div>
+               }
+               @if (ViewDataTyped.UserHasProjectAdminPermissions)
+               {
+                   <h2 class="sectionHeader">Administrative</h2>
+
+                   if (MultiTenantHelpers.UsesEvaluations())
+                   {
+                       <div class="panel panelFirma" role="region" aria-label="Project Evaluation">
+                           <div class="panel-heading panelTitle">
+                               <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
+                           </div>
+                           <div class="panel-body">
+                               @if (ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
+                               {
+                                   <table class="summaryLayout table table-condensed table-striped">
+                                       <tbody>
+                                           <tr>
+                                               <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationName.ToType())</th>
+                                               <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStatus.ToType())</th>
+                                               <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStartDate.ToType())</th>
+                                               <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationEndDate.ToType())</th>
+                                               <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationCriteria.ToType())</th>
+                                               <th scope="col">Comments</th>
+                                           </tr>
+                                           @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
+                                           {
+                                               <tr>
+                                                   <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
+                                                   <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
+                                                   <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
+                                                   <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
+                                                   <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
+                                                   <td>@projectEvaluation.Comments</td>
+                                               </tr>
+                                           }
+                                       </tbody>
+                                   </table>
+
+                                   if (ViewDataTyped.Project.ProjectEvaluations.Count > ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Count)
+                                   {
+                                       <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has additional @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() that you do not have permission to view.</p>
+                                   }
+
+                               }
+                               else if (ViewDataTyped.Project.ProjectEvaluations.Any() && !ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
+                               {
+                                   <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), but you do not have permission to view any of them.</p>
+                               }
+                               else
+                               {
+                                   <p class="systemText">There are no @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                               }
+                           </div>
+                       </div>
+                   }
+
+
+
+                   <div class="panel panelFirma" role="region" aria-label="Project Update History">
+                       <div class="panel-heading panelTitle">
+                           <h3 aria-label="Project Update History">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
+                       </div>
+                       <div class="panel-body">
+                           @Html.AgGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
+                       </div>
+                   </div>
+                   <div class="panel panelFirma" role="region">
+                       <div class="panel-heading panelTitle">
+                           <h3>System Communications</h3>
+                       </div>
+                       <div class="panel-body">
+                           @Html.AgGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
+                       </div>
+                   </div>
+
+                   <div class="panel panelFirma" role="region" aria-label="Audit Log">
+                       <div class="panel-heading panelTitle">
+                           <h3>Audit Log</h3>
+                       </div>
+                       <div class="panel-body">
+                           @if (ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
+                           {
+                               <div style="text-align: right; margin-bottom: 10px;">
+                                   @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.RevertApprovedProjectButtonText, ViewDataTyped.RevertApprovedProjectUrl, ViewDataTyped.RevertApprovedProjectButtonText, 500, "Confirm", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
+
+                               </div>
+                           }
+
+                           @Html.AgGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit, !ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
+                       </div>
+                   </div>
+               }
+           </div>
+       </div>
+      
    </div>
 </div>
 
@@ -580,6 +608,8 @@
                 $nav: jQuery('#tableOfContents'),
                 $scope: jQuery('#contentForTOC')
             });
+            jQuery('#contentForTOC .collapse').addClass('in').css('height', 'auto');
+
 
             jQuery('body').scrollspy({
                 target: '#tableOfContents'

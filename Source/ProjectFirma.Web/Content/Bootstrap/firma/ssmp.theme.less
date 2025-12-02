@@ -66,11 +66,11 @@
 
 @firma-white: #fff;
 @firma-active-arrow-color: @SecondaryBlue;
-@firma-inactive-arrow-color: #E2DFDA;
+@firma-inactive-arrow-color: #777676;
 
 @z-index-arrow: 900;
 
-@disabled-color: LightGray;
+@disabled-color: #777676;
 
 // Global
 html, body {
@@ -207,20 +207,19 @@ a, a:visited {
 .projectFirmaNavbar {
     .nav li {
         font-weight: 600;
-        text-transform: uppercase;
 
-        a {
+        a, button {
             color: @firma-navText-color;
             font-family: @firma-menu-font;
         }
 
-        a:hover, a:focus, a:active {
+        a:hover, a:focus, a:active, button:hover, button:focus, button:active {
             color: @firma-navText-color-hover;
             background-color: @firma-navBackground-color-hover;
             text-decoration: none;
         }
 
-        p a:hover {
+        p a:hover, p button:hover {
             background-color: transparent;
         }
 
@@ -229,7 +228,7 @@ a, a:visited {
             font-family: @firma-menu-font;
         }
 
-        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus, .nav .open > button, .nav .open > button:hover, .nav .open > button:focus {
             background-color: @firma-navBackground-color-hover;
             border-color: @firma-navBorder-color;
         }
@@ -257,14 +256,23 @@ a, a:visited {
                 background-color: @firma-navBorder-color;
             }
         }
+
+        .current-page > a,
+        .current-page > a:visited {
+            font-weight: bold;
+            color: #02374e;
+            background-color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+        }
     }
 
-    .nav li.dropdown a {
+    .nav li.dropdown a, .nav li.dropdown button {
         padding-top: 5px
     }
 
     @media only screen and (min-width: 768px) {
-        .nav li.dropdown a {
+        .nav li.dropdown a, .nav li.dropdown button {
             padding-top: 10px
         }
     }
@@ -285,8 +293,8 @@ a, a:visited {
         margin: 0 auto;
     }
 
-    .nav .open > a {
-        background-color: @firma-navItemBackground-color-hover;
+    .nav .open > a, .nav .open > button {
+        background-color: @firma-navBackground-color;
     }
 
     @media only screen and (min-width: 768px) {
@@ -614,7 +622,7 @@ a.gridButton:hover {
 
 // Field Definitions
 .helpicon {
-    font-size: 12px;
+    font-size: 18px;
     cursor: pointer;
     margin-right: 2px;
     color: @firma-helpIcon-color;

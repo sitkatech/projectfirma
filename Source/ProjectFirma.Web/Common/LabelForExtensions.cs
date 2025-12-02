@@ -211,6 +211,7 @@ namespace ProjectFirma.Web.Common
             {
                 case DisplayStyle.AsGridHeader:
                     var divTag = new TagBuilder("div");
+                    divTag.Attributes.Add("aria-label", string.Format("{0}", labelText));
                     divTag.Attributes.Add("style", "display:table; vertical-align: top");
                     labelTag.Attributes.Add("style", "display:table-cell");
                     divTag.InnerHtml = string.Format("{0}{1}", helpIconImgTag, labelTag.ToString(TagRenderMode.Normal));
@@ -243,15 +244,24 @@ namespace ProjectFirma.Web.Common
 
         public static string GenerateHelpIconImgTag(string labelText, HtmlString fieldDefinitionDefinition, string urlToContent, int popupWidth, DisplayStyle displayStyle)
         {
-            var helpIconImgTag = new TagBuilder("span");
+            var helpIconImgTag = new TagBuilder("button");
             helpIconImgTag.Attributes.Add("class", "helpicon glyphicon glyphicon-question-sign");
             helpIconImgTag.Attributes.Add("title", string.Format("Click to get help on {0}", labelText));
+            helpIconImgTag.Attributes.Add("id", $"{labelText.Replace(" ", "")}FieldDefinition");
+            helpIconImgTag.Attributes.Add("tabindex", "0");
+            helpIconImgTag.Attributes.Add("role", "button");
+            helpIconImgTag.Attributes.Add("type", "button");
+            helpIconImgTag.Attributes.Add("aria-label", labelText);
             AddHelpToolTipPopupToHtmlTag(helpIconImgTag, labelText, urlToContent, popupWidth);
             if (displayStyle == DisplayStyle.AsGridHeader)
             {
                 // this cancels the sort even on the dhtmlxgrid
                 helpIconImgTag.Attributes.Add("onclick", "(arguments[0]||window.event).cancelBubble=true;");
-                helpIconImgTag.Attributes.Add("style", "display:table-cell; padding-right:2px");
+                helpIconImgTag.Attributes.Add("style", "display:table-cell; padding-right:2px; font-size:18px;background-color:transparent;border:none;");
+            }
+            else
+            {
+                helpIconImgTag.Attributes.Add("style", "font-size:18px; padding:4px;background-color:transparent;border:none;");
             }
             return helpIconImgTag.ToString(TagRenderMode.Normal);
         }

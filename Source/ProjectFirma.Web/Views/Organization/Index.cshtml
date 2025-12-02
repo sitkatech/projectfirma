@@ -40,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
 <div>
-    Show:
+    <label for="ShowOnlyActiveOrAll">Show:</label>
     @Html.DropDownList("ShowOnlyActiveOrBothActiveAndInactive", ViewDataTyped.ActiveOrAllOrganizationsSelectListItems, new { id = @ViewDataTyped.ShowOnlyActiveOrAll, onchange = "changeGridUrl()", })
 </div>
 

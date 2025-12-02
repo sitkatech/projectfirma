@@ -163,7 +163,8 @@
                         icon: L.MakiMarkers.icon({
                             icon: "marker",
                             color: $scope.selectedStyle.color,
-                            size: "m"
+                            size: "m",
+                            alt: "Selected Point"
                         })
                     });
                

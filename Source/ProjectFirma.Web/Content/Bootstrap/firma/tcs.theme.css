@@ -3,27 +3,27 @@
   font-family: 'Basic';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/basic/v17/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/basic/v18/xfu_0WLxV2_XKTNw6FQ.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 600;
   font-stretch: normal;
-  src: url(https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1x4gaVc.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Bree Serif';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/breeserif/v17/4UaHrEJCrhhnVA3DgluA96rp4g.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/breeserif/v18/4UaHrEJCrhhnVA3DgluA96rp4g.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Crimson Text';
@@ -117,7 +117,8 @@ h4 {
 .projectFirmaNavbar .joined-buttons .glyphicon {
   display: inline-block;
 }
-.projectFirmaNavbar .nav li a {
+.projectFirmaNavbar .nav li a,
+.projectFirmaNavbar .nav li button {
   font-family: "Azo Sans", sans-serif;
   color: #fff;
   text-transform: uppercase;
@@ -125,7 +126,10 @@ h4 {
 }
 .projectFirmaNavbar .nav li a:hover,
 .projectFirmaNavbar .nav li a:focus,
-.projectFirmaNavbar .nav li a:active {
+.projectFirmaNavbar .nav li a:active,
+.projectFirmaNavbar .nav li button:hover,
+.projectFirmaNavbar .nav li button:focus,
+.projectFirmaNavbar .nav li button:active {
   color: #fff;
   background-color: #25949E;
 }
@@ -143,7 +147,16 @@ h4 {
   color: #fff;
   background-color: #89A6AD;
 }
-.projectFirmaNavbar a .navigation-root-item-text-wrapper {
+.projectFirmaNavbar .nav li .current-page > a,
+.projectFirmaNavbar .nav li .current-page > a:visited {
+  font-weight: bold;
+  color: #fff;
+  background-color: #89A6AD;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.projectFirmaNavbar a .navigation-root-item-text-wrapper,
+.projectFirmaNavbar button .navigation-root-item-text-wrapper {
   border-bottom: 1px dotted #fff;
 }
 .main-text {

@@ -57,7 +57,7 @@
 
 @z-index-arrow: 900;
 
-@disabled-color: LightGray;
+@disabled-color: #777676;
 
 @firma-workflow-background: #efefef;
 
@@ -127,7 +127,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .rightFloatingInfo {
     float: right;
-    margin-top: 20px;
 }
 
 // firma page edit
@@ -265,18 +264,18 @@ form {
 .nav li {
     font-weight: 600;
 
-    a {
+    a, button {
         color: @firma-navText-color;
         font-family: @firma-menu-font;
     }
-    
-    a:hover {
+
+    a:hover, button:hover {
         color: @firma-navItemText-color-hover;
         background-color: @firma-navItemBackground-color-hover;
         text-decoration: none;
     }
 
-    p a:hover {
+    p a:hover, p button:hover {
         background-color: transparent;
     }
 
@@ -284,6 +283,22 @@ form {
         color: @firma-navText-color;
         font-family: @firma-menu-font;
     }
+
+    .current-page > a,
+    .current-page > a:visited {
+        font-weight: bold;
+        background-color: @firma-navItemBackground-color-hover;
+        color: @firma-navText-color;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+}
+
+.nav-button {
+    background-color: transparent;
+    border: none;
+    padding: 15px;
+    text-transform: capitalize;
 }
 
 .navbar-nav {
@@ -521,8 +536,9 @@ footer {
 }
 
 a.btn-firma {
-  color: @firma-buttonText-color;
-  background-color: @firma-buttonBackground-color;
+    color: @firma-buttonText-color;
+    background-color: @firma-buttonBackground-color;
+    text-decoration: none;
 }
 
 // tagging / tags
@@ -957,6 +973,12 @@ a.gridButton:hover {
 a.excelbutton {
     background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;    
     padding: 0 0 0 15px;
+}
+
+button.excelbutton {
+    background: url(/Content/img/button_icon_excel.png) no-repeat scroll 0 0 transparent;
+    padding: 0 0 0 15px;
+    border: none;
 }
 
 .onlyOnPrint {
@@ -1404,6 +1426,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 #homepageCarousel .carousel-control {
     z-index: 10;
+    border: none;
 }
 
 #homepageCarousel .carousel-inner .item {

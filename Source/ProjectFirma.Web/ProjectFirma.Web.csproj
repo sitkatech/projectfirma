@@ -787,6 +787,7 @@
     <Content Include="Content\Training\ProjectFirma-Example.gdb.zip" />
     <Content Include="Content\Bootstrap\firma\ncrp.theme.less" />
     <Content Include="Content\Bootstrap\firma\ssmp.theme.less" />
+    <Content Include="Content\Training\training-desktopGIS.jpg" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -840,6 +841,8 @@
     <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.ttf" />
     <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.woff" />
     <Content Include="Content\fonts\azosans\AzoSans-ThinItalic.woff2" />
+    <Content Include="Content\Training\ProjectFirmaTrainingDocument_DesktopGIS_WEB_2025.pdf" />
+    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_2021.pdf" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="ScriptsCustom\agGrid\esa-ag-grid.css" />
     <Content Include="ScriptsCustom\agGrid\esa-ag-grid.js" />
@@ -848,6 +851,7 @@
     <Content Include="ScriptsCustom\agGrid\HtmlFilterComponent.js" />
     <Content Include="ScriptsCustom\agGrid\HtmlLinkListDropdownFilterComponent.js" />
     <Content Include="ScriptsCustom\agGrid\HtmlLinkListJsonRenderer.js" />
+    <Content Include="ScriptsCustom\AAColors.js" />
     <Content Include="Scripts\agGrid\ag-grid-community.min.noStyle.js" />
     <Content Include="Scripts\agGrid\ag-grid.css" />
     <Content Include="Scripts\agGrid\ag-theme-alpine.css" />
@@ -2319,7 +2323,7 @@
     <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Owin.Security.OpenIdConnect.3.1.0\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
