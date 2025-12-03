@@ -64,6 +64,15 @@
         padding-top: 50px;
     }
 
+    .thematicBenefitschartPanel {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+    }
+    .thematicBenefitschartPanel .chartTitle {
+        text-align: center;
+    }
+
     .chartWithOverlay {
         position: relative;
     }
@@ -280,7 +289,7 @@
         <div class="chartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByCountyAndTribalLandViewGoogleChartViewData); }
 
-            <strong class="chartHeader">Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
+            <strong class="chartHeader chartTitle">Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
         </div>
     </div>
     <div class="col-xs-12">
@@ -297,7 +306,7 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <strong class="chartHeader">Capacity Enhancement and Technical Assistance</strong>
+        <strong class="chartHeader scrollHeader" id="capacityEnhancementAndTechincalAssistance">Capacity Enhancement and Technical Assistance</strong>
         <div class="row statRow" style="margin-top:10px;">
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #4B5B13;">
@@ -326,12 +335,18 @@
         </div>
     </div>
     <div class="col-xs-12">
-        <div class="chartPanel">
+        <div class="thematicBenefitschartPanel">
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByTATypeViewGoogleChartViewData); }
         </div>
     </div>
+    <div class="col-xs-12">
+        <strong class="chartHeader scrollHeader" id="habitatAndClimateResilience">Habitat and Climate Resilience & Nature Based Solutions Improvement</strong>
+        <div class="thematicBenefitschartPanel">
+            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.AcresCompletedViaImplementationProjectsViewGoogleChartViewData); }
+        </div>
+    </div>
     <div class="col-xs-12" style="margin-top:15px;">
-        <strong class="chartHeader">Water Supply and Quality</strong>
+        <strong class="chartHeader scrollHeader" id="waterSupplyAndQuality">Water Supply and Quality</strong>
         <div class="row statRow" style="margin-top:10px;">
             <div class="statCol col-xs-12 col-sm-6 col-md-3 col-md-offset-1 statColFirstRowOffset">
                 <div class="dashboardStat" style="background-color: #156082;">

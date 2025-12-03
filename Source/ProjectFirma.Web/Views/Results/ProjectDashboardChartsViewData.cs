@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData ProjectsByProjectTypeViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectStagesViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByTATypeViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData AcresCompletedViaImplementationProjectsViewGoogleChartViewData;
         public bool UnderservedCommunitiesHasData { get; }
         public double UnderservedTotal { get; }
         public bool ProjectsByOwnerOrgTypeHasData { get; }
@@ -64,7 +65,7 @@ namespace ProjectFirma.Web.Views.Results
             GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, int numberOfTribalProjects,
             int awardedTAAndCapacityEnhancementProjectCount, decimal ncrpTAInvestment, decimal acresImpactedViaTAProjects, double totalLeveraged,
             int improvedWaterSupplyOrQualityProjectCount, double waterQualitySedimentStabilization, double waterSupplyImprovedAFY, double waterSupplyImprovedHouseholdsImpacted, double avoidedCosts,
-            GoogleChartJson projectsByTATypeGoogleChart)
+            GoogleChartJson projectsByTATypeGoogleChart, GoogleChartJson acresCompletedViaImplementationProjectsChart)
         {
             UnderservedCommunitiesViewGoogleChartViewData = new ViewGoogleChartViewData(underservedCommunitiesGoogleChart, underservedCommunitiesGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             var geospatialAreaTypeIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(disadvantagedCommunityStatusGeospatialAreaTypeID)), "Underserved Community Status");
@@ -115,6 +116,7 @@ namespace ProjectFirma.Web.Views.Results
             AvoidedCosts = avoidedCosts;
 
             ProjectsByTATypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByTATypeGoogleChart, projectsByTATypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
+            AcresCompletedViaImplementationProjectsViewGoogleChartViewData = new ViewGoogleChartViewData(acresCompletedViaImplementationProjectsChart, acresCompletedViaImplementationProjectsChart.GoogleChartConfiguration.Title, 350, true);
 
         }
     }
