@@ -323,7 +323,11 @@
                     <span class="statLabel">Acres impacted via TA Projects</span>
                 </div>
             </div>
-           
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="chartPanel">
+            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByTATypeViewGoogleChartViewData); }
         </div>
     </div>
     <div class="col-xs-12" style="margin-top:15px;">
@@ -337,7 +341,7 @@
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #156082;">
-                    <span class="statValue">@ViewDataTyped.WaterQualitySedimentStabilization.ToGroupedNumeric()</span> 
+                    <span class="statValue">@ViewDataTyped.WaterQualitySedimentStabilization.ToGroupedNumeric()</span>
                     <span class="statLabel">Water quality: sediment stabilization (tons)</span>
                 </div>
             </div>
