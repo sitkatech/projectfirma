@@ -210,7 +210,7 @@ namespace LtInfo.Common.AgGridWrappers
             // Focus the first link in the cell if present
             if (event && event.rowIndex != null && event.column) {{
               var cell = document.querySelector(
-                '[row-index=""' + event.rowIndex + '""] [col-id=""' + event.column.getId() + '""]'
+                '#{0}DivID [row-index=""' + event.rowIndex + '""] [col-id=""' + event.column.getId() + '""]'
               );
               if (cell) {{
                 var link = cell.querySelector('a');
