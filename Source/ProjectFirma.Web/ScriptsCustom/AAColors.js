@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 // ------- Color utilities (hex <-> hsl, contrast) -------
-function clamp (v, min, max) { return Math.min(Math.max(v, min), max);}
+function clamp(v, min, max) { return Math.min(Math.max(v, min), max); }
 
 function hexToRgb(hex) {
     let h = hex.replace('#', '').trim();
@@ -112,32 +112,31 @@ function deriveTokens(accentHex) {
     // Darken light accents; lighten dark accents. Keep hue; moderate saturation.
     const lStrong = clamp(isLightAccent ? l - 0.35 : l + 0.35, 0.18, 0.85);
     const sStrong = clamp(isLightAccent ? s * 1.10 : s * 0.90, 0.35, 1.00);
-    const accentStrong = hslToHex(h, sStrong, lStrong);
+    const accent = accentHex.toUpperCase();
 
     // --- Tag text (same hue first), then nudge lightness for AA ---
     let lText = isLightAccent ? clamp(lStrong - 0.45, 0.15, 0.95) : clamp(lStrong + 0.45, 0.05, 0.95);
     let sText = clamp(isLightAccent ? sStrong * 1.10 : sStrong * 0.90, 0.20, 1.00);
     let tagText = hslToHex(h, sText, lText);
 
-    let cr = contrastRatio(tagText, accentStrong);
+    let cr = contrastRatio(tagText, accent);
     let tries = 0;
     while (cr < 4.5 && tries < 10) {
         lText += isLightAccent ? -0.05 : 0.05;     // push lightness away from bg
         lText = clamp(lText, 0.08, 0.95);
         tagText = hslToHex(h, sText, lText);
-        cr = contrastRatio(tagText, accentStrong);
+        cr = contrastRatio(tagText, accent);
         tries++;
     }
     if (cr < 4.5) {
         // last-resort fallback
-        const blackCR = contrastRatio('#000000', accentStrong);
-        const whiteCR = contrastRatio('#FFFFFF', accentStrong);
+        const blackCR = contrastRatio('#000000', accent);
+        const whiteCR = contrastRatio('#FFFFFF', accent);
         tagText = blackCR >= 4.5 ? '#000000' : '#FFFFFF';
     }
 
     return {
         accent: accentHex.toUpperCase(),
-        accentStrong,
         tagText,
         sectionBg
     };
@@ -145,7 +144,6 @@ function deriveTokens(accentHex) {
 
 function applyTokens(el, t) {
     el.style.setProperty('--accent', t.accent);
-    el.style.setProperty('--accent-strong', t.accentStrong);
     el.style.setProperty('--tag-text', t.tagText);
     el.style.setProperty('--section-bg', t.sectionBg);
 }

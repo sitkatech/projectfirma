@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Models
 
         public static FancyTreeNode ToFancyTreeNode(this TaxonomyTrunk taxonomyTrunk, FirmaSession currentFirmaSession)
         {
-            var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyTrunk.GetDetailUrl(), taxonomyTrunk.GetDisplayName())}",
+            var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyTrunk.GetDetailUrl(), taxonomyTrunk.GetDisplayName(), new Dictionary<string, string> { { "aria-label", $"{FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} {taxonomyTrunk.GetDisplayName()}" } })}",
                 taxonomyTrunk.TaxonomyTrunkID.ToString(), true)
             {
                 ThemeColor = taxonomyTrunk.ThemeColor,

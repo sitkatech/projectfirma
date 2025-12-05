@@ -121,7 +121,10 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 @section RightOfPageTitle
 {
-    
+    <a href="@ViewDataTyped.ProjectGridUrl" style="margin-right: 24px">View all projects in a table</a>
+    <a id="customUrlPopover" data-container="body" data-toggle="popover" data-trigger="click" data-placement="top" data-html="true" href="javascript:void(0)">
+        <span class="glyphicon glyphicon-share"></span> Link to this filtered map
+    </a>
 }
 
 <div id="mainContent" aria-label="Main content">
@@ -165,15 +168,6 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     <div role="region" aria-label="Project Map">
-        <header>
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
-                <h2 style="margin: 0;">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Map</h2>
-                <a id="customUrlPopover" data-container="body" data-toggle="popover" data-trigger="click" data-placement="top" data-html="true" href="javascript:void(0)">
-                    <span class="glyphicon glyphicon-share"></span> Link to this filtered map
-                </a>
-            </div>
-        </header>
-        <a href="@ViewDataTyped.ProjectGridUrl">View all projects in a table</a>
         <div class="row" style="vertical-align: top;">
             <div class="col-md-12" id="mapPanel">
                 @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }

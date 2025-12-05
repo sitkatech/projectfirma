@@ -866,11 +866,11 @@ namespace ProjectFirma.Web.Models
         public static FancyTreeNode ToFancyTreeNode(this Project project, FirmaSession currentFirmaSession)
         {
             bool shouldOfferFactSheetLink = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
-            HtmlString titleHtml = new HtmlString(project.ProjectName);
+            HtmlString titleHtml = new HtmlString($"<span aria-label=\"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectName}\">{project.ProjectName}</span>");
             if (shouldOfferFactSheetLink)
             {
                 string factSheetUrl = project.GetFactSheetUrl();
-                titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, project.ProjectName);
+                titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, project.ProjectName, new Dictionary<string, string>{{"aria-label", $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectName}"}});
             }
 
             var fancyTreeNode = new FancyTreeNode(titleHtml, project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
@@ -1365,6 +1365,156 @@ namespace ProjectFirma.Web.Models
             var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
             return googleChartDataTable;
         }
+
+        public static GoogleChartDataTable GetProjectsByTATypeGoogleChartDataTable(Dictionary<PerformanceMeasureSubcategoryOption, int> typeOfTAToProjectCounts)
+        {
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#E0871A", null, null);
+
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Type of TA", GoogleChartColumnDataType.String),
+                //new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn("Number of Projects", "# of Projects", GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+                new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "style", new GoogleChartProperty())
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+            foreach (var projectTypeToProjectCount in typeOfTAToProjectCounts)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(projectTypeToProjectCount.Key.PerformanceMeasureSubcategoryOptionName) };
+                var projectCount = projectTypeToProjectCount.Value;
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(projectCount, projectCount.ToGroupedNumeric()));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static GoogleChartDataTable GetAcresCompletedViaImplementationProjectsGoogleChartDataTable(Dictionary<PerformanceMeasure, Tuple<double, double>> pmToExpectedAndReportedValues, int habitatRestorationNumberOfPlantsPerformanceMeasureID)
+        {
+            var expectedAcresSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#156082", null, null);
+            var reportedAcresSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#4B5B13", null, null);
+            var expectedPlantCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Secondary, "#156082", null, null);
+            var reportedPlantCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Secondary, "#4B5B13", null, null);
+
+            var expectedAcresLabel = "Expected Value (acres)";
+            var reportedAcresLabel = "Reported Value (acres)";
+            var expectedPlantCountLabel = "Expected Value (# of plants)";
+            var reportedPlantCountLabel = "Reported Value (# of plants)";
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Performance Measure", GoogleChartColumnDataType.String),
+                // new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+
+                new GoogleChartColumn(expectedAcresLabel, expectedAcresLabel, GoogleChartColumnDataType.Number.ToString(), expectedAcresSeries),
+                new GoogleChartColumn(reportedAcresLabel, reportedAcresLabel, GoogleChartColumnDataType.Number.ToString(), reportedAcresSeries),
+                new GoogleChartColumn(expectedPlantCountLabel, expectedPlantCountLabel, GoogleChartColumnDataType.Number.ToString(), expectedPlantCountSeries),
+                new GoogleChartColumn(reportedPlantCountLabel, reportedPlantCountLabel, GoogleChartColumnDataType.Number.ToString(), reportedPlantCountSeries),
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+
+            // var labels = new List<string> { projectCountLabel, fundingAmountLabel };
+            foreach (var keyValuePair in pmToExpectedAndReportedValues)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(keyValuePair.Key.PerformanceMeasureDisplayName) };
+                var expectedAndReportedValue = pmToExpectedAndReportedValues[keyValuePair.Key];
+                // add custom tool tip hover
+                // googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(amounts, orgToAmount.Key, labels)));
+                // add data
+                if (keyValuePair.Key.PerformanceMeasureID == habitatRestorationNumberOfPlantsPerformanceMeasureID)
+                {
+                    googleChartRowVs.Add(new GoogleChartRowV(null));
+                    googleChartRowVs.Add(new GoogleChartRowV(null));
+                    googleChartRowVs.Add(new GoogleChartRowV(expectedAndReportedValue.Item1, expectedAndReportedValue.Item1.ToGroupedNumeric()));
+                    googleChartRowVs.Add(new GoogleChartRowV(expectedAndReportedValue.Item2, expectedAndReportedValue.Item2.ToGroupedNumeric()));
+                }
+                else
+                {
+                    googleChartRowVs.Add(new GoogleChartRowV(expectedAndReportedValue.Item1, expectedAndReportedValue.Item1.ToGroupedNumeric()));
+                    googleChartRowVs.Add(new GoogleChartRowV(expectedAndReportedValue.Item2, expectedAndReportedValue.Item2.ToGroupedNumeric()));
+                    googleChartRowVs.Add(new GoogleChartRowV(null));
+                    googleChartRowVs.Add(new GoogleChartRowV(null));
+                }
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        // Alternate version with all data on one y-axis
+        //public static GoogleChartDataTable GetAcresCompletedViaImplementationProjectsGoogleChartDataTable(
+        //    Dictionary<PerformanceMeasure, Tuple<double, double>> pmToExpectedAndReportedValues,
+        //    int habitatRestorationNumberOfPlantsPerformanceMeasureID // now unused; kept to avoid changing callers
+        //)
+        //{
+        //    // Two series only, both on the primary axis
+        //    var expectedSeries = new GoogleChartSeries(
+        //        GoogleChartType.ColumnChart,
+        //        GoogleChartAxisType.Primary,
+        //        "#156082",
+        //        null,
+        //        null
+        //    );
+
+        //    var reportedSeries = new GoogleChartSeries(
+        //        GoogleChartType.ColumnChart,
+        //        GoogleChartAxisType.Primary,
+        //        "#4B5B13",
+        //        null,
+        //        null
+        //    );
+
+        //    var expectedLabel = "Expected Value";
+        //    var reportedLabel = "Reported Value";
+
+        //    var googleChartColumns = new List<GoogleChartColumn>
+        //    {
+        //        new GoogleChartColumn("Performance Measure", GoogleChartColumnDataType.String),
+
+        //        // One numeric column per series
+        //        new GoogleChartColumn(expectedLabel, expectedLabel,
+        //            GoogleChartColumnDataType.Number.ToString(), expectedSeries),
+
+        //        new GoogleChartColumn(reportedLabel, reportedLabel,
+        //            GoogleChartColumnDataType.Number.ToString(), reportedSeries)
+        //    };
+
+        //    var googleChartRowCs = new List<GoogleChartRowC>();
+
+        //    foreach (var keyValuePair in pmToExpectedAndReportedValues)
+        //    {
+        //        var pm = keyValuePair.Key;
+        //        var expectedAndReportedValue = keyValuePair.Value;
+
+        //        var googleChartRowVs = new List<GoogleChartRowV>
+        //        {
+        //            // Category label
+        //            new GoogleChartRowV(pm.PerformanceMeasureDisplayName),
+
+        //            // Expected
+        //            new GoogleChartRowV(
+        //                expectedAndReportedValue.Item1,
+        //                expectedAndReportedValue.Item1.ToGroupedNumeric()
+        //            ),
+
+        //            // Reported
+        //            new GoogleChartRowV(
+        //                expectedAndReportedValue.Item2,
+        //                expectedAndReportedValue.Item2.ToGroupedNumeric()
+        //            )
+        //        };
+
+        //        googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+        //    }
+
+        //    var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+        //    return googleChartDataTable;
+        //}
+
 
         public static List<GooglePieChartSlice> GetProjectStagesForProjectDashboardPieChartSlices(List<Project> projects)
         {
