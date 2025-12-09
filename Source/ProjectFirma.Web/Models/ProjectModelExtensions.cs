@@ -1392,17 +1392,17 @@ namespace ProjectFirma.Web.Models
             return googleChartDataTable;
         }
 
-        public static GoogleChartDataTable GetAcresCompletedViaImplementationProjectsGoogleChartDataTable(Dictionary<PerformanceMeasure, Tuple<double, double>> pmToExpectedAndReportedValues, int habitatRestorationNumberOfPlantsPerformanceMeasureID)
+        public static GoogleChartDataTable GetAcresCompletedViaImplementationProjectsGoogleChartDataTableOne(Dictionary<PerformanceMeasure, Tuple<double, double>> pmToExpectedAndReportedValues, int habitatRestorationNumberOfPlantsPerformanceMeasureID)
         {
             var expectedAcresSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#156082", null, null);
             var reportedAcresSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#4B5B13", null, null);
             var expectedPlantCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Secondary, "#156082", null, null);
             var reportedPlantCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Secondary, "#4B5B13", null, null);
 
-            var expectedAcresLabel = "Expected Value (acres)";
-            var reportedAcresLabel = "Reported Value (acres)";
-            var expectedPlantCountLabel = "Expected Value (# of plants)";
-            var reportedPlantCountLabel = "Reported Value (# of plants)";
+            var expectedAcresLabel = "Expected Value";
+            var reportedAcresLabel = "Reported Value";
+            //var expectedPlantCountLabel = "Expected Value (# of plants)";
+            //var reportedPlantCountLabel = "Reported Value (# of plants)";
             var googleChartColumns = new List<GoogleChartColumn>
             {
                 new GoogleChartColumn("Performance Measure", GoogleChartColumnDataType.String),
@@ -1410,8 +1410,8 @@ namespace ProjectFirma.Web.Models
 
                 new GoogleChartColumn(expectedAcresLabel, expectedAcresLabel, GoogleChartColumnDataType.Number.ToString(), expectedAcresSeries),
                 new GoogleChartColumn(reportedAcresLabel, reportedAcresLabel, GoogleChartColumnDataType.Number.ToString(), reportedAcresSeries),
-                new GoogleChartColumn(expectedPlantCountLabel, expectedPlantCountLabel, GoogleChartColumnDataType.Number.ToString(), expectedPlantCountSeries),
-                new GoogleChartColumn(reportedPlantCountLabel, reportedPlantCountLabel, GoogleChartColumnDataType.Number.ToString(), reportedPlantCountSeries),
+                new GoogleChartColumn("", "", GoogleChartColumnDataType.Number.ToString(), expectedPlantCountSeries),
+                new GoogleChartColumn("", "", GoogleChartColumnDataType.Number.ToString(), reportedPlantCountSeries),
             };
 
             var googleChartRowCs = new List<GoogleChartRowC>();
@@ -1446,74 +1446,72 @@ namespace ProjectFirma.Web.Models
         }
 
         // Alternate version with all data on one y-axis
-        //public static GoogleChartDataTable GetAcresCompletedViaImplementationProjectsGoogleChartDataTable(
-        //    Dictionary<PerformanceMeasure, Tuple<double, double>> pmToExpectedAndReportedValues,
-        //    int habitatRestorationNumberOfPlantsPerformanceMeasureID // now unused; kept to avoid changing callers
-        //)
-        //{
-        //    // Two series only, both on the primary axis
-        //    var expectedSeries = new GoogleChartSeries(
-        //        GoogleChartType.ColumnChart,
-        //        GoogleChartAxisType.Primary,
-        //        "#156082",
-        //        null,
-        //        null
-        //    );
+        public static GoogleChartDataTable GetAcresCompletedViaImplementationProjectsGoogleChartDataTableTwo(
+            Dictionary<PerformanceMeasure, Tuple<double, double>> pmToExpectedAndReportedValues)
+        {
+            // Two series only, both on the primary axis
+            var expectedSeries = new GoogleChartSeries(
+                GoogleChartType.ColumnChart,
+                GoogleChartAxisType.Primary,
+                "#156082",
+                null,
+                null
+            );
 
-        //    var reportedSeries = new GoogleChartSeries(
-        //        GoogleChartType.ColumnChart,
-        //        GoogleChartAxisType.Primary,
-        //        "#4B5B13",
-        //        null,
-        //        null
-        //    );
+            var reportedSeries = new GoogleChartSeries(
+                GoogleChartType.ColumnChart,
+                GoogleChartAxisType.Primary,
+                "#4B5B13",
+                null,
+                null
+            );
 
-        //    var expectedLabel = "Expected Value";
-        //    var reportedLabel = "Reported Value";
+            var expectedLabel = "Expected Value";
+            var reportedLabel = "Reported Value";
 
-        //    var googleChartColumns = new List<GoogleChartColumn>
-        //    {
-        //        new GoogleChartColumn("Performance Measure", GoogleChartColumnDataType.String),
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Performance Measure", GoogleChartColumnDataType.String),
 
-        //        // One numeric column per series
-        //        new GoogleChartColumn(expectedLabel, expectedLabel,
-        //            GoogleChartColumnDataType.Number.ToString(), expectedSeries),
+                // One numeric column per series
+                new GoogleChartColumn(expectedLabel, expectedLabel,
+                    GoogleChartColumnDataType.Number.ToString(), expectedSeries),
 
-        //        new GoogleChartColumn(reportedLabel, reportedLabel,
-        //            GoogleChartColumnDataType.Number.ToString(), reportedSeries)
-        //    };
+                new GoogleChartColumn(reportedLabel, reportedLabel,
+                    GoogleChartColumnDataType.Number.ToString(), reportedSeries)
+            };
 
-        //    var googleChartRowCs = new List<GoogleChartRowC>();
+            var googleChartRowCs = new List<GoogleChartRowC>();
 
-        //    foreach (var keyValuePair in pmToExpectedAndReportedValues)
-        //    {
-        //        var pm = keyValuePair.Key;
-        //        var expectedAndReportedValue = keyValuePair.Value;
+            foreach (var keyValuePair in pmToExpectedAndReportedValues)
+            {
+                var pm = keyValuePair.Key;
+                var expectedAndReportedValue = keyValuePair.Value;
 
-        //        var googleChartRowVs = new List<GoogleChartRowV>
-        //        {
-        //            // Category label
-        //            new GoogleChartRowV(pm.PerformanceMeasureDisplayName),
+                var googleChartRowVs = new List<GoogleChartRowV>
+                {
+                    // Category label
+                    new GoogleChartRowV(pm.PerformanceMeasureDisplayName),
 
-        //            // Expected
-        //            new GoogleChartRowV(
-        //                expectedAndReportedValue.Item1,
-        //                expectedAndReportedValue.Item1.ToGroupedNumeric()
-        //            ),
+                    // Expected
+                    new GoogleChartRowV(
+                        expectedAndReportedValue.Item1,
+                        expectedAndReportedValue.Item1.ToGroupedNumeric()
+                    ),
 
-        //            // Reported
-        //            new GoogleChartRowV(
-        //                expectedAndReportedValue.Item2,
-        //                expectedAndReportedValue.Item2.ToGroupedNumeric()
-        //            )
-        //        };
+                    // Reported
+                    new GoogleChartRowV(
+                        expectedAndReportedValue.Item2,
+                        expectedAndReportedValue.Item2.ToGroupedNumeric()
+                    )
+                };
 
-        //        googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
-        //    }
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
 
-        //    var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
-        //    return googleChartDataTable;
-        //}
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
 
 
         public static List<GooglePieChartSlice> GetProjectStagesForProjectDashboardPieChartSlices(List<Project> projects)

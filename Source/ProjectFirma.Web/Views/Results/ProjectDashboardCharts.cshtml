@@ -19,7 +19,9 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.ProjectDashboardCharts
 
 <style>
@@ -287,9 +289,8 @@
     </div>
     <div class="col-xs-12">
         <div class="chartPanel">
-            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByCountyAndTribalLandViewGoogleChartViewData); }
-
             <strong class="chartHeader chartTitle">Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
+            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByCountyAndTribalLandViewGoogleChartViewData); }
         </div>
     </div>
     <div class="col-xs-12">
@@ -322,7 +323,7 @@
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #4B5B13;">
-                    <span class="statValue">@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span>
+                    <span class="statValue"><span>$</span>@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span>
                     <span class="statLabel">Amount leveraged by TA investment</span>
                 </div>
             </div>
@@ -342,7 +343,21 @@
     <div class="col-xs-12">
         <strong class="chartHeader scrollHeader" id="habitatAndClimateResilience">Habitat and Climate Resilience & Nature Based Solutions Improvement</strong>
         <div class="thematicBenefitschartPanel">
-            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.AcresCompletedViaImplementationProjectsViewGoogleChartViewData); }
+            <div class="chartTitle">
+                <b>Completed Via Implementation @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</b>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="">
+                        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.AcresCompletedViaImplementationProjectsOneViewGoogleChartViewData); }
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="">
+                        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.AcresCompletedViaImplementationProjectsTwoViewGoogleChartViewData); }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-xs-12" style="margin-top:15px;">
