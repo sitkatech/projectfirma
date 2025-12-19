@@ -68,18 +68,21 @@ namespace ProjectFirma.Web.Views.ProjectStageCustomLabel
         {
             var validationResults = new List<ValidationResult>();
 
-            var defaultProjectStageLabels = ProjectStage.All.Where(x => x.ProjectStageID != ProjectStageID).Select(x => x.ProjectStageDisplayName.ToLower());
-            if (defaultProjectStageLabels.Contains(ProjectStageCustomLabel.ToLower()))
+            if (!string.IsNullOrEmpty(ProjectStageCustomLabel))
             {
-                validationResults.Add(new ValidationResult($"This label is already used as a default label for a different {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}. To prevent confusion, you cannot label this stage the same thing as a system default label for a different stage."));
-            }
+                var defaultProjectStageLabels = ProjectStage.All.Where(x => x.ProjectStageID != ProjectStageID).Select(x => x.ProjectStageDisplayName.ToLower());
+                if (defaultProjectStageLabels.Contains(ProjectStageCustomLabel.ToLower()))
+                {
+                    validationResults.Add(new ValidationResult($"This label is already used as a default label for a different {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}. To prevent confusion, you cannot label this stage the same thing as a system default label for a different stage."));
+                }
 
-            var customProjectStageLabels =
-                HttpRequestStorage.DatabaseEntities.ProjectStageCustomLabels.Where(x => x.ProjectStageID != ProjectStageID).Select(x => x.ProjectStageLabel.ToLower());
-            if (customProjectStageLabels.Contains(ProjectStageCustomLabel.ToLower()))
-            {
-                validationResults.Add(new ValidationResult($"This label is already used as a custom label for a different {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}. To prevent confusion, you cannot label this stage the same thing as a custom label for a different stage."));
+                var customProjectStageLabels =
+                    HttpRequestStorage.DatabaseEntities.ProjectStageCustomLabels.Where(x => x.ProjectStageID != ProjectStageID).Select(x => x.ProjectStageLabel.ToLower());
+                if (customProjectStageLabels.Contains(ProjectStageCustomLabel.ToLower()))
+                {
+                    validationResults.Add(new ValidationResult($"This label is already used as a custom label for a different {FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()}. To prevent confusion, you cannot label this stage the same thing as a custom label for a different stage."));
 
+                }
             }
 
             return validationResults;
