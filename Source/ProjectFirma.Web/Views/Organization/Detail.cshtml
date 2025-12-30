@@ -280,9 +280,14 @@
                                             <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-9")">@ViewDataTyped.Organization.OrganizationShortName</div>
                                         </div>
                                         <div class="row">
-                                            <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.Label("Home Page")</div>
+                                            <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.Label("Website")</div>
                                             <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-9")">
                                                 <a class="wrapLongString" href="@ViewDataTyped.Organization.OrganizationUrl">@ViewDataTyped.Organization.OrganizationUrl</a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.Label("Domain")</div>
+                                            <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-9")">@ViewDataTyped.Organization.Domain
                                             </div>
                                         </div>
                                         <hr />
@@ -302,12 +307,8 @@
                                         </div>
                                         @if (ViewDataTyped.UserHasESAAdminPermissions)
                                         {
-                                            <div class="row">
-                                                <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationKeystoneGuid.ToType())</div>
-                                                <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-9")">@(ViewDataTyped.OrganizationKeystoneGuidDisplayString)</div>
-                                            </div>
-                                        }
 
+                                        }
 
                                         <div class="row">
                                             <div class="@(ViewDataTyped.ShowFundingSources ? "col-xs-6" : "col-xs-3") fieldLabel text-right">@Html.Label("Is Active?")</div>

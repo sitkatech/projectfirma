@@ -69,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken, string loginName) : this()
+        public Person(int personID, Guid? personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken, string loginName, string auth0ID) : this()
         {
             this.PersonID = personID;
             this.PersonGuid = personGuid;
@@ -87,17 +87,17 @@ namespace ProjectFirmaModels.Models
             this.ReceiveSupportEmails = receiveSupportEmails;
             this.WebServiceAccessToken = webServiceAccessToken;
             this.LoginName = loginName;
+            this.Auth0ID = auth0ID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, int roleID, DateTime createDate, bool isActive, int organizationID, bool receiveSupportEmails, string loginName) : this()
+        public Person(string firstName, string lastName, string email, int roleID, DateTime createDate, bool isActive, int organizationID, bool receiveSupportEmails, string loginName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.PersonGuid = personGuid;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
@@ -112,11 +112,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Person(Guid personGuid, string firstName, string lastName, string email, Role role, DateTime createDate, bool isActive, Organization organization, bool receiveSupportEmails, string loginName) : this()
+        public Person(string firstName, string lastName, string email, Role role, DateTime createDate, bool isActive, Organization organization, bool receiveSupportEmails, string loginName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.PersonGuid = personGuid;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
@@ -135,7 +134,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static Person CreateNewBlank(Role role, Organization organization)
         {
-            return new Person(default(Guid), default(string), default(string), default(string), role, default(DateTime), default(bool), organization, default(bool), default(string));
+            return new Person(default(string), default(string), default(string), role, default(DateTime), default(bool), organization, default(bool), default(string));
         }
 
         /// <summary>
@@ -578,7 +577,7 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int PersonID { get; set; }
         public int TenantID { get; set; }
-        public Guid PersonGuid { get; set; }
+        public Guid? PersonGuid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -593,6 +592,7 @@ namespace ProjectFirmaModels.Models
         public bool ReceiveSupportEmails { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public string LoginName { get; set; }
+        public string Auth0ID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
@@ -649,6 +649,7 @@ namespace ProjectFirmaModels.Models
             public const int Phone = 30;
             public const int PasswordPdfK2SaltHash = 1000;
             public const int LoginName = 128;
+            public const int Auth0ID = 100;
         }
     }
 }

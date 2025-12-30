@@ -11,4 +11,4 @@ insert dbo.SupportRequestType (SupportRequestTypeID, SupportRequestTypeName, Sup
 (7, 'Other', 'Other', 100),
 (8, 'RequestProjectPrimaryContactChange', 'Request a change to a Project''s primary contact', 10),
 (9, 'RequestPermissionToAddProjects', 'Request permission to add projects', 11),
-(10, 'AddOrganizationToKeystone', 'Request an Organization be added to Keystone', 5)
+(10, 'RequestUserOrganizationChange', 'Request a change to my organization assignment', 5)

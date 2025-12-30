@@ -32,14 +32,21 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <div class="form-horizontal">
         <div class="form-group">
-            @Html.LabelFor(m => m.RoleID, new {@class = "col-xs-12 col-sm-3 control-label"})
+            @Html.LabelFor(m => m.OrganizationID, new {@class = "col-xs-12 col-sm-3 control-label"})
             <div class="col-xs-12 col-sm-9">
-                @Html.DropDownListFor(m => m.RoleID, ViewDataTyped.Roles, new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.OrganizationID, ViewDataTyped.Organizations, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.OrganizationID)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.RoleID, new { @class = "col-xs-12 col-sm-3 control-label" })
+            <div class="col-xs-12 col-sm-9">
+                @Html.DropDownListFor(m => m.RoleID, ViewDataTyped.Roles, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.RoleID)
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.ShouldReceiveSupportEmails, new {@class = "col-xs-12 col-sm-3 control-label"})
+            @Html.LabelFor(m => m.ShouldReceiveSupportEmails, new { @class = "col-xs-12 col-sm-3 control-label" })
             <div class="col-xs-12 col-sm-9">
                 <div class="radio-inline">
                     <label>

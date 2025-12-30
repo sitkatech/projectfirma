@@ -44,7 +44,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? keystoneOrganizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool useOrganizationBoundaryForMatchmaker, bool? matchmakerCash, bool? matchmakerInKindServices, bool? matchmakerCommercialServices, string matchmakerCashDescription, string matchmakerInKindServicesDescription, string matchmakerCommercialServicesDescription, string matchmakerConstraints, string matchmakerAdditionalInformation, bool isUnknownOrUnspecified) : this()
+        public Organization(int organizationID, Guid? keystoneOrganizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool useOrganizationBoundaryForMatchmaker, bool? matchmakerCash, bool? matchmakerInKindServices, bool? matchmakerCommercialServices, string matchmakerCashDescription, string matchmakerInKindServicesDescription, string matchmakerCommercialServicesDescription, string matchmakerConstraints, string matchmakerAdditionalInformation, bool isUnknownOrUnspecified, string domain) : this()
         {
             this.OrganizationID = organizationID;
             this.KeystoneOrganizationGuid = keystoneOrganizationGuid;
@@ -68,6 +68,7 @@ namespace ProjectFirmaModels.Models
             this.MatchmakerConstraints = matchmakerConstraints;
             this.MatchmakerAdditionalInformation = matchmakerAdditionalInformation;
             this.IsUnknownOrUnspecified = isUnknownOrUnspecified;
+            this.Domain = domain;
         }
 
         /// <summary>
@@ -326,6 +327,7 @@ namespace ProjectFirmaModels.Models
         public string MatchmakerConstraints { get; set; }
         public string MatchmakerAdditionalInformation { get; set; }
         public bool IsUnknownOrUnspecified { get; set; }
+        public string Domain { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
@@ -358,6 +360,7 @@ namespace ProjectFirmaModels.Models
             public const int MatchmakerCommercialServicesDescription = 300;
             public const int MatchmakerConstraints = 300;
             public const int MatchmakerAdditionalInformation = 300;
+            public const int Domain = 255;
         }
     }
 }

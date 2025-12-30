@@ -68,19 +68,15 @@
                 @Html.ValidationMessageFor(m => m.OrganizationUrl)
             </div>
         </div>
-        @if (ViewDataTyped.IsInKeystone && ViewDataTyped.UserHasAdminPermissions)
-        {
-            <div class="form-group">
-                <div class="col-sm-3 control-label">
-                </div>
-                <div class="col-sm-9">
-                    <button class="btn btn-firma" type="button" onclick="syncWithKeystone()" title="Sync Short Name and Home Page values with the values stored in Keystone for this Organization.">
-                        Sync with Keystone
-                    </button>
-                </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.Domain)
             </div>
-        }
-        <hr />
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.Domain, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.Domain)
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
@@ -123,21 +119,6 @@
                 @Html.ValidationMessageFor(m => m.IsActive)
             </div>
         </div>
-        @if (ViewDataTyped.IsSitkaAdmin)
-        {
-            <hr />
-            <h3>ESA Admin Only</h3>
-            <div class="form-group">
-                <div class="col-sm-3 control-label">
-                    @Html.LabelWithSugarFor(m => m.KeystoneOrganizationGuid)
-                </div>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.KeystoneOrganizationGuid, new { @class = "form-control", style = "width:100%" })
-                    @Html.ValidationMessageFor(m => m.KeystoneOrganizationGuid)
-                </div>
-            </div>
-
-        }
 
     </div>
     @Html.HiddenFor(m => m.OrganizationID)
@@ -145,32 +126,6 @@
 
 
 <script type="text/javascript">
-
-    function syncWithKeystone() {
-        var organizationGuid = "@Html.Raw(ViewDataTyped.OrganizationGuid.ToString())";
-        var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.SyncWithKeystoneUrl.ToJS()));
-        var newUrl = urlTemplate.ParameterReplace(organizationGuid);
-
-        var successHandler = function(result) {
-            var shortNameInput = jQuery("#@Html.IdFor(x => x.OrganizationShortName)");
-            var urlInput = jQuery("#@Html.IdFor(x => x.OrganizationUrl)");
-            shortNameInput.val(result.OrganizationShortName);
-            urlInput.val(result.URL);
-
-            jQuery("#keystoneParagraph").prepend("<div class=\"alert alert-info\" role=\"alert\">" +
-                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>" +
-                "Sync with Keystone successfully replaced the Short Name and Home Page in this editor. You must save changes to update this Organization.</div>");
-        };
-
-        var errorHandler = function(error) {
-            jQuery("#keystoneParagraph").prepend("<div class=\"alert alert-danger\" role=\"alert\">" +
-                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>" +
-                "Cannot sync with Keystone. Organization not found in Keystone or unable to connect to Keystone.</div>");
-        };
-
-        SitkaAjax.get(newUrl, successHandler, errorHandler);
-    }
-
     jQuery(function ()
     {
         HookupCheckIfFormIsDirty(undefined, ".submitProject");

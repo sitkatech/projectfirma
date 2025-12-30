@@ -17,7 +17,7 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.PersonID);
             Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
-            Property(x => x.PersonGuid).HasColumnName(@"PersonGuid").HasColumnType("uniqueidentifier").IsRequired();
+            Property(x => x.PersonGuid).HasColumnName(@"PersonGuid").HasColumnType("uniqueidentifier").IsOptional();
             Property(x => x.FirstName).HasColumnName(@"FirstName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.LastName).HasColumnName(@"LastName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.Email).HasColumnName(@"Email").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
@@ -32,6 +32,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ReceiveSupportEmails).HasColumnName(@"ReceiveSupportEmails").HasColumnType("bit").IsRequired();
             Property(x => x.WebServiceAccessToken).HasColumnName(@"WebServiceAccessToken").HasColumnType("uniqueidentifier").IsOptional();
             Property(x => x.LoginName).HasColumnName(@"LoginName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(128);
+            Property(x => x.Auth0ID).HasColumnName(@"Auth0ID").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
 
             // Foreign keys
             HasRequired(a => a.Organization).WithMany(b => b.People).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_Person_Organization_OrganizationID

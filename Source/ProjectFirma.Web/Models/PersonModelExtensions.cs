@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.Ajax.Utilities;
+using System.Data.Entity;
 
 namespace ProjectFirma.Web.Models
 {
@@ -126,6 +127,14 @@ namespace ProjectFirma.Web.Models
             }
             return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
         }
+        public static string GetAuth0EditLink(this Person person)
+        {
+            if (person == null)
+            {
+                return "[No Auth0 Edit Link]";
+            }
+            return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
+        }
 
         /// <summary>
         /// List of Projects for which this Person is the primary contact
@@ -202,6 +211,37 @@ namespace ProjectFirma.Web.Models
                 Check.RequireNotNullThrowNotFound(person, email);
             }
             return person;
+        }
+        public static Person GetFirstPersonByEmail(this IQueryable<Person> people, string targetEmail)
+        {
+            if (!IsExistsPersonByEmail(people, targetEmail)) return null;
+            return people.First(p => p.Email == targetEmail);
+        }
+
+        public static bool IsExistsPersonByEmail(this IQueryable<Person> people, string targetEmail)
+        {
+            return people.Any(p => p.Email == targetEmail);
+        }
+
+        public static Person GetPersonByAuth0Id(this IQueryable<Person> people, string auth0Id)
+        {
+            return people.SingleOrDefault(x => x.Auth0ID == auth0Id);
+        }
+
+        public static Person GetPersonByAuth0IdAndTenant(this IQueryable<Person> people, string auth0Id, int targetTenantId, bool requireRecordFound)
+        {
+            var person = people.SingleOrDefault(x => x.Auth0ID == auth0Id && x.TenantID == targetTenantId);
+            if (requireRecordFound)
+            {
+                Check.RequireNotNullThrowNotFound(person, auth0Id);
+            }
+            return person;
+        }
+
+        public static Person GetPersonByEmailAndTenant(this IQueryable<Person> people, string email, int targetTenantId)
+        {
+            return people
+                .SingleOrDefault(x => x.Email == email && x.TenantID == targetTenantId);
         }
 
         public static Person GetPersonByPersonGuid(this IQueryable<Person> people, Guid personGuid)

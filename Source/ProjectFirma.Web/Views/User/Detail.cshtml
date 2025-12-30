@@ -49,6 +49,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
+    @if (ViewDataTyped.IsViewingSelf)
+    {
+        <span style="float: right;">
+            <a class="btn btn-firma" href="@ViewDataTyped.UserRequestSupportUrl">Request Support</a>
+        </span>
+        <br/>
+    }
     @if (ViewDataTyped.UserHasAdminPermissions)
     {
         @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1} User", "<span class='glyphicon glyphicon-edit blue''></span>", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), ViewDataTyped.ActivateInactivateUrl, string.Format("{0} this user?", ViewDataTyped.Person.IsActive ? "Inactivate" : "Activate"), 400, "Continue", "Cancel", null, null, null)
@@ -89,10 +96,6 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.Username.ToType().GetFieldDefinitionLabel()</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.LoginName</div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</div>
-                        <div class="col-xs-8">@ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()</div>
-                    </div>
 
                     @if (ViewDataTyped.UserHasPersonManagePermissions)
                     {
@@ -106,15 +109,20 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     }
 
-                    @if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth)
+                    @*@if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.KeystoneAuth)
+                    {
+
+                    }
+                    else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.Auth0Auth)
                     {
                         if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
                         {
-                            <div class="alert" role="alert">
-                                This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
-                            </div>
+                        <div class="alert" role="alert">
+                            This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetAuth0EditLink()">edited here</a>
+                        </div>
                         }
-                    }else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
+                    }
+                    else if (FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth)
                     {
                         if (ViewDataTyped.UserHasPersonManagePermissions)
                         {
@@ -122,7 +130,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @ModalDialogFormHelper.MakeEditIconButton(ViewDataTyped.ChangePasswordUrl, "Change Password", "Change Password", ViewDataTyped.UserHasPersonManagePermissions)
                             </div>
                         }
-                    }
+                    }*@
 
                     @*  Impersonate User Button  *@
                     @if (ViewDataTyped.CurrentPersonCanBeImpersonatedByCurrentUser)
@@ -140,9 +148,18 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-6">
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        @ViewDataTyped.EditRolesLink Roles
+                        @ViewDataTyped.EditRolesLink Organization & Roles
                     </div>
                     <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-4 fieldLabel text-right">
+                                @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
+                            </div>
+                            <div class="col-xs-8">
+                                @ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-xs-4 fieldLabel text-right">Role</div>
                             <div class="col-xs-8">

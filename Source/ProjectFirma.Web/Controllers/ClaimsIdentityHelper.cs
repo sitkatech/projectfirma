@@ -9,6 +9,7 @@ using LtInfo.Common.DesignByContract;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using ProjectFirma.Web.Auth;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -34,6 +35,11 @@ namespace ProjectFirma.Web.Controllers
                         personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
                             authenticationManager.User, anonymousSitkaUser,
                             HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
+                        break;
+                    case AuthenticationType.Auth0Auth:
+                        personFromClaimsIdentity = Auth0ClaimsHelpers.GetOpenIDUserFromPrincipal(
+                            authenticationManager.User, anonymousSitkaUser,
+                            HttpRequestStorage.DatabaseEntities.People.GetPersonByAuth0Id);
                         break;
                     case AuthenticationType.LocalAuth:
                         personFromClaimsIdentity = GetPersonFromLocalClaims(authenticationManager);

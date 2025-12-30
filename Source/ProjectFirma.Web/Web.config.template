@@ -6,6 +6,11 @@
     <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
   </configSections>
   <appSettings>
+    <add key="auth0:Domain" value="${auth0-domain}" />
+    <add key="auth0:ClientId" value="${auth0-clientId}" />
+    <add key="auth0:RedirectUri" value="${auth0-redirectUri}" />
+    <add key="auth0:PostLogoutRedirectUri" value="${auth0-postLogoutRedirectUri}" />
+    <add key="auth0:OrganizationID" value="${auth0-organizationId}" />
     <add key="FirmaEnvironment" value="${environment}"/>
     <add key="vs:EnableBrowserLink" value="false"/>
     <add key="webpages:Version" value="3.0.0.0"/>

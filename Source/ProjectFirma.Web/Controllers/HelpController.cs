@@ -246,7 +246,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         public PartialViewResult RequestOrganizationAddedToKeystone()
         {
-            return ViewSupport(SupportRequestTypeEnum.AddOrganizationToKeystone, string.Empty);
+            return ViewSupport(SupportRequestTypeEnum.RequestUserOrganizationChange, string.Empty);
         }
 
         [AnonymousUnclassifiedFeature]

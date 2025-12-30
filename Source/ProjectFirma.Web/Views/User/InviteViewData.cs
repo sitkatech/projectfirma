@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.User
         public IEnumerable<SelectListItem> OrganizationsSelectList { get; }
         public string CancelUrl { get; }
         public string IndexUrl { get; }
+        public string OrganizationIndexUrl { get; }
 
         public InviteViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage psInfoPage) : base(currentFirmaSession, psInfoPage)
         {
@@ -44,6 +45,7 @@ namespace ProjectFirma.Web.Views.User
 
             CancelUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
             IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
+            OrganizationIndexUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Index());
 
             // ReSharper disable once ConvertClosureToMethodGroup
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.OrganizationName).ToList();

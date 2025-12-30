@@ -24,6 +24,8 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using LtInfo.Common.DesignByContract;
@@ -221,6 +223,7 @@ namespace LtInfo.Common
 
         private static string GetUrlResponse(WebRequest request, bool throwOnError, out HttpStatusCode statusCode, out HttpWebResponse response)
         {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
             Exception innerException = null;
             try
             {

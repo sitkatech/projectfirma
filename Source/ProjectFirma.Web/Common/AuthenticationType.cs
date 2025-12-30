@@ -8,7 +8,8 @@ namespace ProjectFirma.Web.Common
     public enum AuthenticationType
     {
         KeystoneAuth,
-        LocalAuth
+        LocalAuth,
+        Auth0Auth
 
     }
 }
