@@ -433,12 +433,12 @@ namespace ProjectFirma.Web.Models
                 : 0;
         }
 
-        public static double GetTotalActualsForActiveProjectsForPerformanceMeasureSubcategoryOption(this PerformanceMeasure performanceMeasure, int subcategoryOptionID)
+        public static double GetTotalActualsForActiveProjectsForPerformanceMeasureSubcategoryOption(this PerformanceMeasure performanceMeasure, int subcategoryOptionID, ProjectStage projectStage)
         {
             return performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x =>
-                x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID && x.PerformanceMeasureActual.Project.IsActiveProject())
+                x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID && x.PerformanceMeasureActual.Project.IsActiveProject() && x.PerformanceMeasureActual.Project.ProjectStageID == projectStage.ProjectStageID)
                 ? performanceMeasure.PerformanceMeasureActualSubcategoryOptions
-                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID && x.PerformanceMeasureActual.Project.IsActiveProject())
+                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID && x.PerformanceMeasureActual.Project.IsActiveProject() && x.PerformanceMeasureActual.Project.ProjectStageID == projectStage.ProjectStageID)
                     .Sum(x => x.PerformanceMeasureActual.ActualValue)
                 : 0;
         }
