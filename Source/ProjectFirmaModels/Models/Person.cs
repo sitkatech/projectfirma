@@ -23,10 +23,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Keystone.Common.OpenID;
+using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class Person : IAuditableEntity, IKeystoneUser
+    public partial class Person : IAuditableEntity, IKeystoneUser, IAuth0User
     {
         public const int AnonymousPersonID = -999;
 
@@ -66,6 +67,10 @@ namespace ProjectFirmaModels.Models
         }
 
         public IEnumerable<string> RoleNames { get { return GetRoleNames(); } }
+        public void SetAuth0UserClaims(IAuth0UserClaims auth0Claims)
+        {
+            // intentionally left blank
+        }
 
         public void SetKeystoneUserClaims(IKeystoneUserClaims keystoneUserClaims)
         {
@@ -96,6 +101,49 @@ namespace ProjectFirmaModels.Models
             }
 
             
+        }
+
+        /// <summary>
+        /// JH - 9/8/2025 - Keeping legacy constructor prior to the Auth0 update to keep the Keystone code happy.
+        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
+        /// </summary>
+        public Person(Guid personGuid, string firstName, string lastName, string email, int roleID, DateTime createDate, bool isActive, int organizationID, bool receiveSupportEmails, string loginName) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+
+            this.PersonGuid = personGuid;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.RoleID = roleID;
+            this.CreateDate = createDate;
+            this.IsActive = isActive;
+            this.OrganizationID = organizationID;
+            this.ReceiveSupportEmails = receiveSupportEmails;
+            this.LoginName = loginName;
+        }
+
+        /// <summary>
+        /// JH - 9/8/2025 - Keeping legacy constructor prior to the Auth0 update to keep the Keystone code happy.
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public Person(Guid personGuid, string firstName, string lastName, string email, Role role, DateTime createDate, bool isActive, Organization organization, bool receiveSupportEmails, string loginName) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.PersonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PersonGuid = personGuid;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.RoleID = role.RoleID;
+            this.CreateDate = createDate;
+            this.IsActive = isActive;
+            this.OrganizationID = organization.OrganizationID;
+            this.Organization = organization;
+            organization.People.Add(this);
+            this.ReceiveSupportEmails = receiveSupportEmails;
+            this.LoginName = loginName;
         }
     }
 }

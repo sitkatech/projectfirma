@@ -58,7 +58,10 @@ namespace ProjectFirma.Web.Common
             var logInUrl = string.Empty;
             switch (FirmaWebConfiguration.AuthenticationType)
             {
-                case AuthenticationType.KeystoneAuth:
+                case AuthenticationType.KeystoneAuth: 
+                    logInUrl = SitkaRoute<AccountController>.BuildUrlFromExpression(c => c.LogOn());
+                    break;
+                case AuthenticationType.Auth0Auth:
                     logInUrl = SitkaRoute<AccountController>.BuildUrlFromExpression(c => c.LogOn());
                     break;
                 case AuthenticationType.LocalAuth:
@@ -77,6 +80,9 @@ namespace ProjectFirma.Web.Common
             switch (FirmaWebConfiguration.AuthenticationType)
             {
                 case AuthenticationType.KeystoneAuth:
+                    logInUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn());
+                    break;
+                case AuthenticationType.Auth0Auth:
                     logInUrl = SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn());
                     break;
                 case AuthenticationType.LocalAuth:

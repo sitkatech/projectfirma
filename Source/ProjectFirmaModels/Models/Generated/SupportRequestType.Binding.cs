@@ -28,7 +28,7 @@ namespace ProjectFirmaModels.Models
         public static readonly SupportRequestTypeOther Other = SupportRequestTypeOther.Instance;
         public static readonly SupportRequestTypeRequestProjectPrimaryContactChange RequestProjectPrimaryContactChange = SupportRequestTypeRequestProjectPrimaryContactChange.Instance;
         public static readonly SupportRequestTypeRequestPermissionToAddProjects RequestPermissionToAddProjects = SupportRequestTypeRequestPermissionToAddProjects.Instance;
-        public static readonly SupportRequestTypeAddOrganizationToKeystone AddOrganizationToKeystone = SupportRequestTypeAddOrganizationToKeystone.Instance;
+        public static readonly SupportRequestTypeRequestUserOrganizationChange RequestUserOrganizationChange = SupportRequestTypeRequestUserOrganizationChange.Instance;
 
         public static readonly List<SupportRequestType> All;
         public static readonly ReadOnlyDictionary<int, SupportRequestType> AllLookupDictionary;
@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static SupportRequestType()
         {
-            All = new List<SupportRequestType> { ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, ProvideFeedback, RequestOrganizationNameChange, Other, RequestProjectPrimaryContactChange, RequestPermissionToAddProjects, AddOrganizationToKeystone };
+            All = new List<SupportRequestType> { ReportBug, HelpWithProjectUpdate, ForgotLoginInfo, NewOrganizationOrFundingSource, ProvideFeedback, RequestOrganizationNameChange, Other, RequestProjectPrimaryContactChange, RequestPermissionToAddProjects, RequestUserOrganizationChange };
             AllLookupDictionary = new ReadOnlyDictionary<int, SupportRequestType>(All.ToDictionary(x => x.SupportRequestTypeID));
         }
 
@@ -110,8 +110,6 @@ namespace ProjectFirmaModels.Models
         {
             switch (enumValue)
             {
-                case SupportRequestTypeEnum.AddOrganizationToKeystone:
-                    return AddOrganizationToKeystone;
                 case SupportRequestTypeEnum.ForgotLoginInfo:
                     return ForgotLoginInfo;
                 case SupportRequestTypeEnum.HelpWithProjectUpdate:
@@ -130,6 +128,8 @@ namespace ProjectFirmaModels.Models
                     return RequestPermissionToAddProjects;
                 case SupportRequestTypeEnum.RequestProjectPrimaryContactChange:
                     return RequestProjectPrimaryContactChange;
+                case SupportRequestTypeEnum.RequestUserOrganizationChange:
+                    return RequestUserOrganizationChange;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -147,7 +147,7 @@ namespace ProjectFirmaModels.Models
         Other = 7,
         RequestProjectPrimaryContactChange = 8,
         RequestPermissionToAddProjects = 9,
-        AddOrganizationToKeystone = 10
+        RequestUserOrganizationChange = 10
     }
 
     public partial class SupportRequestTypeReportBug : SupportRequestType
@@ -204,9 +204,9 @@ namespace ProjectFirmaModels.Models
         public static readonly SupportRequestTypeRequestPermissionToAddProjects Instance = new SupportRequestTypeRequestPermissionToAddProjects(9, @"RequestPermissionToAddProjects", @"Request permission to add projects", 11);
     }
 
-    public partial class SupportRequestTypeAddOrganizationToKeystone : SupportRequestType
+    public partial class SupportRequestTypeRequestUserOrganizationChange : SupportRequestType
     {
-        private SupportRequestTypeAddOrganizationToKeystone(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
-        public static readonly SupportRequestTypeAddOrganizationToKeystone Instance = new SupportRequestTypeAddOrganizationToKeystone(10, @"AddOrganizationToKeystone", @"Request an Organization be added to Keystone", 5);
+        private SupportRequestTypeRequestUserOrganizationChange(int supportRequestTypeID, string supportRequestTypeName, string supportRequestTypeDisplayName, int supportRequestTypeSortOrder) : base(supportRequestTypeID, supportRequestTypeName, supportRequestTypeDisplayName, supportRequestTypeSortOrder) {}
+        public static readonly SupportRequestTypeRequestUserOrganizationChange Instance = new SupportRequestTypeRequestUserOrganizationChange(10, @"RequestUserOrganizationChange", @"Request a change to my organization assignment", 5);
     }
 }

@@ -57,8 +57,19 @@ namespace ProjectFirma.Web.Views.Organization
         public int? PrimaryContactPersonID { get; set; }
 
         [Url]
-        [DisplayName("Home Page")]
+        [DisplayName("Website")]
         public string OrganizationUrl { get; set; }
+
+        [StringLength(ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationShortName)]
+        [RegularExpression(@"^[a-zA-Z0-9.-]*$", ErrorMessage = "Only letters, digits, hyphens, and dots are allowed.")]
+        [DisplayName("Domain")]
+        public string Domain
+        {
+            get => _domain;
+            set => _domain = value?.Trim();
+        }
+        private string _domain;
+
 
         [DisplayName("Is Active")]
         public bool IsActive { get; set; }
@@ -85,6 +96,7 @@ namespace ProjectFirma.Web.Views.Organization
             OrganizationTypeID = organization.OrganizationTypeID;
             PrimaryContactPersonID = organization.PrimaryContactPerson?.PersonID;
             OrganizationUrl = organization.OrganizationUrl;
+            Domain = organization.Domain;
             IsActive = organization.IsActive;
             KeystoneOrganizationGuid = organization.KeystoneOrganizationGuid;
         }
@@ -97,6 +109,7 @@ namespace ProjectFirma.Web.Views.Organization
             organization.IsActive = IsActive;
             organization.PrimaryContactPersonID = PrimaryContactPersonID;
             organization.OrganizationUrl = OrganizationUrl;
+            organization.Domain = Domain;
             if (LogoFileResourceData != null)
             {
                 var oldLogoFileResourceInfo = organization.LogoFileResourceInfo;

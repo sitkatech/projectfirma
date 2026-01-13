@@ -199,6 +199,7 @@
     <Compile Include="BootstrapWrappers\BootstrapHtmlHelpers.cs" />
     <Compile Include="CommonUtility.cs" />
     <Compile Include="CommonUtilityTest.cs" />
+    <Compile Include="Auth0CookieHelper.cs" />
     <Compile Include="CrossAreaRouteAttribute.cs" />
     <Compile Include="Crypto.cs" />
     <Compile Include="DataTableExtensions.cs" />

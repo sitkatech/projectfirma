@@ -32,6 +32,8 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using LtInfo.Common;
+
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -51,6 +53,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
 
+            UpdateUserSettings();
             var firmaPageByPageTypeHomePageAdditionalInfo = FirmaPageTypeEnum.HomeAdditionalInfo.GetFirmaPage();
 
             var firmaPageByPageTypeHomePageMapInfo = FirmaPageTypeEnum.HomeMapInfo.GetFirmaPage();
@@ -82,6 +85,18 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new IndexViewData(CurrentFirmaSession, firmaPageByPageTypeHomePage, firmaPageByPageTypeHomePageAdditionalInfo, firmaPageByPageTypeHomePageMapInfo, featuredProjectsViewData, projectLocationsMapViewData, projectLocationsMapInitJson, firmaHomePageImages);
             return RazorView<Index, IndexViewData>(viewData);
+        }
+
+        private void UpdateUserSettings()
+        {
+            var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
+            string absoluteUri = Request.Url.AbsoluteUri;
+            var redirectUri = absoluteUri + "Account/LogOn";
+            var postLogoutRedirectUri = absoluteUri + "Account/LogOff";
+
+            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "redirectUri", redirectUri);
+            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "postLogoutRedirectUri", postLogoutRedirectUri);
+            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "tenantId", firmaPageByPageTypeHomePage.TenantID);
         }
 
         [AnonymousUnclassifiedFeature]

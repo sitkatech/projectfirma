@@ -49,6 +49,12 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Auth\Auth0AuthenticationConfigurationFactory.cs" />
+    <Compile Include="Auth\Auth0ClaimNotFoundException.cs" />
+    <Compile Include="Auth\Auth0ClaimsHelpers.cs" />
+    <Compile Include="Auth\Auth0OpenIDClaimTypes.cs" />
+    <Compile Include="Auth\Auth0OpenIDUtilities.cs" />
+    <Compile Include="Auth\Auth0UserClaims.cs" />
     <Compile Include="Common\AuthenticationType.cs" />
     <Compile Include="Common\FieldDefinitionHelpers.cs" />
     <Compile Include="Common\FirmaDateUtilities.cs" />
@@ -85,6 +91,7 @@
     <Compile Include="GridToExcel\ExcelXmlParser.cs" />
     <Compile Include="GridToExcel\RGBColor.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
+    <Compile Include="Auth\KeystoneAuthenticationConfigurationFactory.cs" />
     <Compile Include="Models\ExternalMapLayerSimple.cs" />
     <Compile Include="Models\PendingProjectBasicsStageImport.cs" />
     <Compile Include="Models\PendingProjectBasicsStageImportModelExtensions.cs" />
@@ -267,6 +274,7 @@
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
+    <Compile Include="Auth\SameSiteCookieManager.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
     <Compile Include="ScheduledJobs\SyncProjectImagesForTscProjectTrackerBackgroundJob.cs" />
     <Compile Include="ScheduledJobs\SyncProjectsForTscProjectTrackerBackgroundJob.cs" />

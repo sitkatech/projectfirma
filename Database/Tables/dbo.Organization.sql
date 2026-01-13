@@ -26,6 +26,7 @@ CREATE TABLE [dbo].[Organization](
 	[MatchmakerConstraints] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[MatchmakerAdditionalInformation] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[IsUnknownOrUnspecified] [bit] NOT NULL,
+	[Domain] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
@@ -49,6 +50,17 @@ CREATE UNIQUE NONCLUSTERED INDEX [AK_Organization_KeystoneOrganizationGuid_Tenan
 	[TenantID] ASC
 )
 WHERE ([KeystoneOrganizationGuid] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Organization_TenantId_Domain] ON [dbo].[Organization]
+(
+	[TenantID] ASC,
+	[Domain] ASC
+)
+WHERE ([Domain] IS NOT NULL)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_FileResourceInfo_LogoFileResourceInfoID_FileResourceInfoID] FOREIGN KEY([LogoFileResourceInfoID])

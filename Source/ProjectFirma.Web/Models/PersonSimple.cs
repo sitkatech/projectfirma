@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public int PersonID { get; set; }
-        public Guid PersonGuid { get; set; }
+        public Guid? PersonGuid { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullNameWithOrgShortName { get; set; }

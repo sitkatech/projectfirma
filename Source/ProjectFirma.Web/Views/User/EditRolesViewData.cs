@@ -27,9 +27,12 @@ namespace ProjectFirma.Web.Views.User
     {
         public readonly IEnumerable<SelectListItem> Roles;
 
-        public EditRolesViewData(IEnumerable<SelectListItem> roles)
+        public readonly IEnumerable<SelectListItem> Organizations;
+
+        public EditRolesViewData(IEnumerable<SelectListItem> roles, IEnumerable<SelectListItem> organizations)
         {
             Roles = roles;
+            Organizations = organizations;
         }
     }
 }

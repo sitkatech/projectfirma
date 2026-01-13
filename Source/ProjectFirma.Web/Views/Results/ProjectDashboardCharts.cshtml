@@ -19,7 +19,9 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.ProjectDashboardCharts
 
 <style>
@@ -62,6 +64,15 @@
 
     .chartPanel {
         padding-top: 50px;
+    }
+
+    .thematicBenefitschartPanel {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+    }
+    .thematicBenefitschartPanel .chartTitle {
+        text-align: center;
     }
 
     .chartWithOverlay {
@@ -278,9 +289,8 @@
     </div>
     <div class="col-xs-12">
         <div class="chartPanel">
+            <strong class="chartHeader chartTitle">Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByCountyAndTribalLandViewGoogleChartViewData); }
-
-            <strong class="chartHeader">Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
         </div>
     </div>
     <div class="col-xs-12">
@@ -297,7 +307,7 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <strong class="chartHeader">Capacity Enhancement and Technical Assistance</strong>
+        <strong class="chartHeader scrollHeader" id="capacityEnhancementAndTechincalAssistance">Capacity Enhancement and Technical Assistance</strong>
         <div class="row statRow" style="margin-top:10px;">
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #4B5B13;">
@@ -313,7 +323,7 @@
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #4B5B13;">
-                    <span class="statValue">@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span>
+                    <span class="statValue"><span>$</span>@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span>
                     <span class="statLabel">Amount leveraged by TA investment</span>
                 </div>
             </div>
@@ -323,11 +333,35 @@
                     <span class="statLabel">Acres impacted via TA Projects</span>
                 </div>
             </div>
-           
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="thematicBenefitschartPanel">
+            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByTATypeViewGoogleChartViewData); }
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <strong class="chartHeader scrollHeader" id="habitatAndClimateResilience">Habitat and Climate Resilience & Nature Based Solutions Improvement</strong>
+        <div class="thematicBenefitschartPanel">
+            <div class="chartTitle">
+                <b>Completed Via Implementation @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</b>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="">
+                        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.AcresCompletedViaImplementationProjectsOneViewGoogleChartViewData); }
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="">
+                        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.AcresCompletedViaImplementationProjectsTwoViewGoogleChartViewData); }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-xs-12" style="margin-top:15px;">
-        <strong class="chartHeader">Water Supply and Quality</strong>
+        <strong class="chartHeader scrollHeader" id="waterSupplyAndQuality">Water Supply and Quality</strong>
         <div class="row statRow" style="margin-top:10px;">
             <div class="statCol col-xs-12 col-sm-6 col-md-3 col-md-offset-1 statColFirstRowOffset">
                 <div class="dashboardStat" style="background-color: #156082;">
@@ -337,7 +371,7 @@
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #156082;">
-                    <span class="statValue">@ViewDataTyped.WaterQualitySedimentStabilization.ToGroupedNumeric()</span> 
+                    <span class="statValue">@ViewDataTyped.WaterQualitySedimentStabilization.ToGroupedNumeric()</span>
                     <span class="statLabel">Water quality: sediment stabilization (tons)</span>
                 </div>
             </div>
