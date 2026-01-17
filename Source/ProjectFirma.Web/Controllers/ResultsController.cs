@@ -1247,9 +1247,8 @@ namespace ProjectFirma.Web.Controllers
             var acresCompletedChartTitle = $"Completed Via Implementation {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
             var acresCompletedChartContainerID = acresCompletedChartTitle.Replace(" ", "");
             var googleChartAxisHorizontal = new GoogleChartAxis(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-            var googleChartAxisVerticalExpectedValue = new GoogleChartAxis("Acres", null, GoogleChartAxisLabelFormat.Decimal);
-            var googleChartAxisVerticalReportedValue = new GoogleChartAxis("# of Plants", null, GoogleChartAxisLabelFormat.Decimal);
-            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxisVerticalExpectedValue, googleChartAxisVerticalReportedValue };
+            var googleChartAxisVerticalExpectedValue = new GoogleChartAxis("Acres / # of Plants", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxisVerticalExpectedValue };
 
             var performanceMeasureToExpectedAndReportedValues = new Dictionary<PerformanceMeasure, Tuple<double, double>>();
             var pmIDs = new List<int>
@@ -1260,17 +1259,17 @@ namespace ProjectFirma.Web.Controllers
             foreach (var pmID in pmIDs)
             {
                 // get expected and reported values for each performance measure summed across all projects and all years
-                var expectedValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds
+                var expectedValue = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds
                     .Where(x => x.PerformanceMeasureID == pmID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => x.ExpectedValue) ?? 0;
-                var reportedValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                    .Sum(x => x.ExpectedValue) ?? 0);
+                var reportedValue = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
                     .Where(x => x.PerformanceMeasureID == pmID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => (double?)x.ActualValue) ?? 0;
+                    .Sum(x => (double?)x.ActualValue) ?? 0);
                 var performanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == pmID);
                 performanceMeasureToExpectedAndReportedValues[performanceMeasure] = new Tuple<double, double>(expectedValue, reportedValue);
             }
 
-            var dataTable = ProjectModelExtensions.GetAcresCompletedViaImplementationProjectsGoogleChartDataTableOne(performanceMeasureToExpectedAndReportedValues, HabitatRestorationNumberOfPlantsPerformanceMeasureID);
+            var dataTable = ProjectModelExtensions.GetAcresCompletedViaImplementationProjectsGoogleChartDataTableOne(performanceMeasureToExpectedAndReportedValues);
 
             var acresCompletedChartConfig = new GoogleChartConfiguration(acresCompletedChartTitle, false, GoogleChartType.ColumnChart, dataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
@@ -1279,9 +1278,9 @@ namespace ProjectFirma.Web.Controllers
             acresCompletedChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.Top);
             acresCompletedChartConfig.ChartArea = new GoogleChartConfigurationArea()
             {
-                Width = "70%",
+                Width = "100%",
                 Height = "75%",
-                Left = "15%",
+                Left = "20%",
                 Top = 10,
 
             };
@@ -1320,13 +1319,13 @@ namespace ProjectFirma.Web.Controllers
             var projectIDs = projects.Select(x => x.ProjectID).ToList();
             foreach (var pmID in pmIDs)
             {
-                var expectedValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds
+                var expectedValue = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds
                     .Where(x => x.PerformanceMeasureID == pmID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => x.ExpectedValue) ?? 0;
+                    .Sum(x => x.ExpectedValue) ?? 0);
 
-                var reportedValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                var reportedValue = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
                     .Where(x => x.PerformanceMeasureID == pmID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => (double?)x.ActualValue) ?? 0;
+                    .Sum(x => (double?)x.ActualValue) ?? 0);
 
                 var performanceMeasure =
                     HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == pmID);
