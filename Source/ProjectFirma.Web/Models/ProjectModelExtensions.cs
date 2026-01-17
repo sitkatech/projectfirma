@@ -1331,6 +1331,41 @@ namespace ProjectFirma.Web.Models
             return googleChartDataTable;
         }
 
+        public static GoogleChartDataTable GetProjectsByTribalRegionGoogleChartDataTable(Dictionary<string, int> tribalRegionToProjectCounts)
+        {
+            var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#3366CC", null, null);
+
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Tribal Regions", GoogleChartColumnDataType.String),
+                new GoogleChartColumn("Number of Projects", "# of Projects", GoogleChartColumnDataType.Number.ToString(), projectCountSeries),
+                new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "style", new GoogleChartProperty())
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+            var unusedColorIndex = 3;
+            foreach (var tribalRegionToProjectCount in tribalRegionToProjectCounts)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(tribalRegionToProjectCount.Key) };
+                var projectCount = tribalRegionToProjectCount.Value;
+
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(projectCount, projectCount.ToGroupedNumeric()));
+                var color = TribalRegionToColor.ContainsKey(tribalRegionToProjectCount.Key)
+                    ? TribalRegionToColor[tribalRegionToProjectCount.Key]
+                    : ColorSeriesForProjectByOwnerOrgType[unusedColorIndex % ColorSeriesForProjectByOwnerOrgType.Count];
+                if (!CountyOrTribalLandToColor.ContainsKey(tribalRegionToProjectCount.Key))
+                {
+                    unusedColorIndex++;
+                }
+                googleChartRowVs.Add(new GoogleChartRowV($"color: {color}"));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
         public static GoogleChartDataTable GetProjectsByProjectTypeGoogleChartDataTable(Dictionary<Classification, int> projectTypeToProjectCounts)
         {
             var projectCountSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#3366CC", null, null);
@@ -1595,6 +1630,13 @@ namespace ProjectFirma.Web.Models
             {"Tribal Land As Identified by Federal BIA Map", "#738c1f"},
             {"Trinity", "#424142"},
             {"Lake", "#94c5e3"}
+        };
+
+        public static Dictionary<string, string> TribalRegionToColor = new Dictionary<string, string>()
+        {
+            {"Central", "#e0871a"},
+            {"North", "#738c1f"},
+            {"South", "#94c5e3"}
         };
 
         public static Dictionary<string, string> ProjectTypeToColor = new Dictionary<string, string>()
