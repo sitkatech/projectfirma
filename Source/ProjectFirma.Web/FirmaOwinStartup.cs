@@ -90,7 +90,7 @@ namespace ProjectFirma.Web
                             // Set Cookies as default authentication type
                             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
                             app.UseCookieAuthentication(auth0Factory.CreateAuth0CookieAuthenticationOptions());
-                            branch.UseOpenIdConnectAuthentication(auth0Factory.CreateAuth0OpenIdConnectAuthenticationOptions());
+                            branch.UseOpenIdConnectAuthentication(auth0Factory.CreateAuth0OpenIdConnectAuthenticationOptions(canonicalHostNameForEnvironment));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

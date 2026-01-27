@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
 
-            UpdateUserSettings();
+            //UpdateUserSettings();
             var firmaPageByPageTypeHomePageAdditionalInfo = FirmaPageTypeEnum.HomeAdditionalInfo.GetFirmaPage();
 
             var firmaPageByPageTypeHomePageMapInfo = FirmaPageTypeEnum.HomeMapInfo.GetFirmaPage();
@@ -87,17 +87,17 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        private void UpdateUserSettings()
-        {
-            var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
-            string absoluteUri = Request.Url.AbsoluteUri;
-            var redirectUri = absoluteUri + "Account/LogOn";
-            var postLogoutRedirectUri = absoluteUri + "Account/LogOff";
+        //private void UpdateUserSettings()
+        //{
+        //    var firmaPageByPageTypeHomePage = FirmaPageTypeEnum.HomePage.GetFirmaPage();
+        //    string absoluteUri = Request.Url.AbsoluteUri;
+        //    var redirectUri = absoluteUri + "Account/LogOn";
+        //    var postLogoutRedirectUri = absoluteUri + "Account/LogOff";
 
-            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "redirectUri", redirectUri);
-            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "postLogoutRedirectUri", postLogoutRedirectUri);
-            Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "tenantId", firmaPageByPageTypeHomePage.TenantID);
-        }
+        //    Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "redirectUri", redirectUri);
+        //    Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "postLogoutRedirectUri", postLogoutRedirectUri);
+        //    Auth0CookieHelper.SetCookieProperty(Request, Response, "UserSettings", "tenantId", firmaPageByPageTypeHomePage.TenantID);
+        //}
 
         [AnonymousUnclassifiedFeature]
         public ViewResult Error()
