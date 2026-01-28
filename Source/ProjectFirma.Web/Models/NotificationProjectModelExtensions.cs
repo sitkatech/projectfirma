@@ -58,14 +58,12 @@ namespace ProjectFirma.Web.Models
             var emailsToSendTo = peopleToNotify.Select(x => x.Email).ToList();
             var subject = $"The update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} was submitted";
             var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project));
-            // use a link to a public facing page until the auth0 log in issue from emails is resolved
-            var projectDetailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(projectUpdateBatch.Project));
             var message = $@"
 <p>The update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} on {
                     latestProjectUpdateHistorySubmitted.TransitionDate.ToStringDate()
                 } was just submitted by {submitterPerson.GetFullNameFirstLastAndOrg()}.</p>
 <p>Please review and Approve or Return it at your earliest convenience.<br />
-<a href=""{projectDetailUrl}"">View this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}</a></p>
+<a href=""{instructionsUrl}"">View this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update</a></p>
 {$"- {MultiTenantHelpers.GetToolDisplayName()} team"}<br/><br/><img src=""cid:tool-logo"" width=""160"" />
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
@@ -143,8 +141,6 @@ Thank you for keeping your {FieldDefinitionEnum.Project.ToType().GetFieldDefinit
             var personNames = string.Join(" and ", notificationPeople.Select(x => x.GetFullNameFirstLast()));
             var returnerPerson = projectUpdateBatch.GetLatestProjectUpdateHistoryReturned().UpdatePerson;
             var instructionsUrl = SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Instructions(projectUpdateBatch.Project));
-            // use a link to a public facing page until the auth0 log in issue from emails is resolved
-            var projectDetailUrl = SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Detail(projectUpdateBatch.Project));
             var message = $@"
 Dear {personNames},
 <p>
@@ -155,7 +151,7 @@ Dear {personNames},
                 }.
 </p>
 <p>
-    <a href=""{projectDetailUrl}"">View this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}</a>
+    <a href=""{instructionsUrl}"">View this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update</a>
 </p>
 <p>
     Please review this update and address the comments that {
