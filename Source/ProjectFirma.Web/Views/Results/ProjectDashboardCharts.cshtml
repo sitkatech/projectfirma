@@ -289,8 +289,13 @@
     </div>
     <div class="col-xs-12">
         <div class="chartPanel">
-            <strong class="chartHeader chartTitle">Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
             @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByCountyAndTribalLandViewGoogleChartViewData); }
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="chartPanel">
+            <strong class="chartHeader chartTitle">Tribal Projects: @(ViewDataTyped.NumberOfTribalProjects)</strong>
+            @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ProjectsByTribalRegionViewGoogleChartViewData); }
         </div>
     </div>
     <div class="col-xs-12">
@@ -307,7 +312,9 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <strong class="chartHeader scrollHeader" id="capacityEnhancementAndTechincalAssistance">Capacity Enhancement and Technical Assistance</strong>
+        <div style="text-align: center">
+            <strong class="chartHeader scrollHeader" id="capacityEnhancementAndTechincalAssistance">Capacity Enhancement and Technical Assistance</strong>
+        </div>
         <div class="row statRow" style="margin-top:10px;">
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #4B5B13;">
@@ -317,19 +324,19 @@
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #4B5B13;">
-                    <span class="statValue"><span>$</span>@ViewDataTyped.TAInvestment.ToGroupedNumeric()</span>
+                    <span class="statValue"><span>$</span>@Math.Round(ViewDataTyped.TAInvestment).ToGroupedNumeric()</span>
                     <span class="statLabel">NCRP TA Investment</span>
                 </div>
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #4B5B13;">
-                    <span class="statValue"><span>$</span>@ViewDataTyped.TotalLeveraged.ToGroupedNumeric()</span>
+                    <span class="statValue"><span>$</span>@Math.Round(ViewDataTyped.TotalLeveraged).ToGroupedNumeric()</span>
                     <span class="statLabel">Amount leveraged by TA investment</span>
                 </div>
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #4B5B13;">
-                    <span class="statValue">@ViewDataTyped.AcresImpactedViaTAProjects.ToGroupedNumeric()</span>
+                    <span class="statValue">@Math.Round(ViewDataTyped.AcresImpactedViaTAProjects).ToGroupedNumeric()</span>
                     <span class="statLabel">Acres impacted via TA Projects</span>
                 </div>
             </div>
@@ -341,10 +348,11 @@
         </div>
     </div>
     <div class="col-xs-12">
-        <strong class="chartHeader scrollHeader" id="habitatAndClimateResilience">Habitat and Climate Resilience & Nature Based Solutions Improvement</strong>
+        <div style="text-align: center">
+            <strong class="chartHeader scrollHeader" id="habitatAndClimateResilience">Watershed and Climate Resilience & Nature Based Solutions Improvement</strong>        </div>
         <div class="thematicBenefitschartPanel">
             <div class="chartTitle">
-                <b>Completed Via Implementation @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</b>
+                <b>Implementation @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</b>
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-6">
@@ -361,7 +369,9 @@
         </div>
     </div>
     <div class="col-xs-12" style="margin-top:15px;">
-        <strong class="chartHeader scrollHeader" id="waterSupplyAndQuality">Water Supply and Quality</strong>
+        <div style="text-align: center">
+            <strong class="chartHeader scrollHeader" id="waterSupplyAndQuality">Water Supply and Quality</strong>
+        </div>
         <div class="row statRow" style="margin-top:10px;">
             <div class="statCol col-xs-12 col-sm-6 col-md-3 col-md-offset-1 statColFirstRowOffset">
                 <div class="dashboardStat" style="background-color: #156082;">
@@ -371,25 +381,25 @@
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #156082;">
-                    <span class="statValue">@ViewDataTyped.WaterQualitySedimentStabilization.ToGroupedNumeric()</span>
+                    <span class="statValue">@Math.Round(ViewDataTyped.WaterQualitySedimentStabilization).ToGroupedNumeric()</span>
                     <span class="statLabel">Water quality: sediment stabilization (tons)</span>
                 </div>
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3">
                 <div class="dashboardStat" style="background-color: #156082;">
-                    <span class="statValue">@ViewDataTyped.WaterSupplyImprovedReliabilityAFY.ToGroupedNumeric()</span>
+                    <span class="statValue">@Math.Round(ViewDataTyped.WaterSupplyImprovedReliabilityAFY).ToGroupedNumeric()</span>
                     <span class="statLabel">Water supply: improved reliability (AFY)</span>
                 </div>
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3 statColSecondRowOffset">
                 <div class="dashboardStat" style="background-color: #156082;">
-                    <span class="statValue">@ViewDataTyped.WaterSupplyImprovedReliabilityNumberOfHouseholds.ToGroupedNumeric()</span>
+                    <span class="statValue">@Math.Round(ViewDataTyped.WaterSupplyImprovedReliabilityNumberOfHouseholds).ToGroupedNumeric()</span>
                     <span class="statLabel">Water supply: improved reliability (no. of households)</span>
                 </div>
             </div>
             <div class="statCol col-xs-12 col-sm-6 col-md-3 statColLastRowOffset">
                 <div class="dashboardStat" style="background-color: #156082;">
-                    <span class="statValue"><span>$</span>@ViewDataTyped.AvoidedCosts.ToGroupedNumeric()</span>
+                    <span class="statValue"><span>$</span>@Math.Round(ViewDataTyped.AvoidedCosts).ToGroupedNumeric()</span>
                     <span class="statLabel">Avoided Costs</span>
                 </div>
             </div>

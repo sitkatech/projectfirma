@@ -23,6 +23,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -802,6 +803,7 @@ namespace ProjectFirma.Web.Controllers
         private static int DisadvantagedCommunityStatusGeospatialAreaTypeID = 23;
         private static int NotTriballyOwnedGeospatialAreaID = 12143;
         private static int ProjectCategoryCustomAttributeID = 131;
+        private static int TribalRegionCustomAttributeID = 139;
         private static int ProjectSizeAcresCustomAttributeID = 109;
         private static int GrantsReceivedDollarAmountAwardedPerformanceMeasureID = 3771;
         private static int JobsCreatedOrRetainedPerformanceMeasureID = 3673;
@@ -861,6 +863,7 @@ namespace ProjectFirma.Web.Controllers
                 GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
+            var projectsByTribalRegionGoogleChart = GetProjectsByTrialRegionChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
             var projectsByTATypeGoogleChart = GetProjectsByTATypeChart(projects);
@@ -896,7 +899,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectDashboardChartsViewData =
                 new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID, projectsByOwnerOrgTypeGoogleChart,
-                    projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
+                    projectsByCountyAndTribalLandGoogleChart, projectsByTribalRegionGoogleChart, CountyGeospatialAreaTypeID, TribeGeospatialAreaTypeID,
                     projectsByProjectTypeGoogleChart, ProjectTypeClassificationID, projectStagesGoogleChart,
                     tribalLandProjectCount, awardedTAAndCapacityEnhancementProjectCount, ncrpTAInvestment, acresImpactedViaTAProjects, totalLeveraged,
                     improvedWaterSupplyOrQualityProjectCount, waterQualitySedimentStabilization, waterSupplyImprovedAFY, waterSupplyImprovedHouseholdsImpacted, avoidedCosts,
@@ -1112,6 +1115,50 @@ namespace ProjectFirma.Web.Controllers
             return countyAndTribalLandGoogleChart;
         }
 
+        private GoogleChartJson GetProjectsByTrialRegionChart(List<Project> projects)
+        {
+            // set up Projects by Tribal Region column chart
+            var projectByTribalRegionChartTitle = "Projects by Tribal Region";
+            var tribalRegionChartContainerID = projectByTribalRegionChartTitle.Replace(" ", "");
+            var googleChartAxis = new GoogleChartAxis("Tribal Regions", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisHorizontal = new GoogleChartAxis("Number of Projects", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+
+            var tribalRegions =
+                JsonConvert.DeserializeObject<List<string>>(HttpRequestStorage.DatabaseEntities
+                        .ProjectCustomAttributeTypes.Single(x =>
+                            x.ProjectCustomAttributeTypeID == TribalRegionCustomAttributeID)?.ProjectCustomAttributeTypeOptionsSchema)
+                    .ToList();
+
+            var projectCustomAttributes = projects.SelectMany(x => x.ProjectCustomAttributes.SelectMany(y => y.ProjectCustomAttributeValues)).ToList();
+
+            var tribalRegionToProjectCounts = projectCustomAttributes.Where(x => tribalRegions.Contains(x.AttributeValue))
+                .GroupBy(x => x.AttributeValue).OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Count());
+
+
+            var projectsByTribalRegionGoogleChartDataTable = ProjectModelExtensions.GetProjectsByTribalRegionGoogleChartDataTable(tribalRegionToProjectCounts);
+
+            var chartColumns = tribalRegionToProjectCounts.Keys.Select(x => x).ToList();
+
+            var tribalRegionChartConfig = new GoogleChartConfiguration(projectByTribalRegionChartTitle, true, GoogleChartType.BarChart, projectsByTribalRegionGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            tribalRegionChartConfig.SetSeriesIgnoringNullGoogleChartSeries(projectsByTribalRegionGoogleChartDataTable);
+            tribalRegionChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            tribalRegionChartConfig.Tooltip = new GoogleChartTooltip { ShowColorCode = false };
+            tribalRegionChartConfig.SeriesType = "bars";
+            tribalRegionChartConfig.ChartArea = new GoogleChartConfigurationArea()
+            {
+                Width = "100%",
+                Height = "80%",
+                Left = "40%",
+                Top = 10
+            };
+
+            var countyAndTribalLandGoogleChart = new GoogleChartJson(projectByTribalRegionChartTitle, tribalRegionChartContainerID, tribalRegionChartConfig, GoogleChartType.BarChart, projectsByTribalRegionGoogleChartDataTable, chartColumns);
+            countyAndTribalLandGoogleChart.CanConfigureChart = false;
+            return countyAndTribalLandGoogleChart;
+        }
+
         private GoogleChartJson GetProjectsByProjectTypeChart(List<Project> projects)
         {
             // set up Projects by County & Tribal Land column chart
@@ -1247,9 +1294,8 @@ namespace ProjectFirma.Web.Controllers
             var acresCompletedChartTitle = $"Completed Via Implementation {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
             var acresCompletedChartContainerID = acresCompletedChartTitle.Replace(" ", "");
             var googleChartAxisHorizontal = new GoogleChartAxis(FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-            var googleChartAxisVerticalExpectedValue = new GoogleChartAxis("Acres", null, GoogleChartAxisLabelFormat.Decimal);
-            var googleChartAxisVerticalReportedValue = new GoogleChartAxis("# of Plants", null, GoogleChartAxisLabelFormat.Decimal);
-            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxisVerticalExpectedValue, googleChartAxisVerticalReportedValue };
+            var googleChartAxisVerticalExpectedValue = new GoogleChartAxis("Acres / # of Plants", null, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxisVerticalExpectedValue };
 
             var performanceMeasureToExpectedAndReportedValues = new Dictionary<PerformanceMeasure, Tuple<double, double>>();
             var pmIDs = new List<int>
@@ -1260,17 +1306,17 @@ namespace ProjectFirma.Web.Controllers
             foreach (var pmID in pmIDs)
             {
                 // get expected and reported values for each performance measure summed across all projects and all years
-                var expectedValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds
+                var expectedValue = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds
                     .Where(x => x.PerformanceMeasureID == pmID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => x.ExpectedValue) ?? 0;
-                var reportedValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                    .Sum(x => x.ExpectedValue) ?? 0);
+                var reportedValue = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
                     .Where(x => x.PerformanceMeasureID == pmID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => (double?)x.ActualValue) ?? 0;
+                    .Sum(x => (double?)x.ActualValue) ?? 0);
                 var performanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == pmID);
                 performanceMeasureToExpectedAndReportedValues[performanceMeasure] = new Tuple<double, double>(expectedValue, reportedValue);
             }
 
-            var dataTable = ProjectModelExtensions.GetAcresCompletedViaImplementationProjectsGoogleChartDataTableOne(performanceMeasureToExpectedAndReportedValues, HabitatRestorationNumberOfPlantsPerformanceMeasureID);
+            var dataTable = ProjectModelExtensions.GetAcresCompletedViaImplementationProjectsGoogleChartDataTableOne(performanceMeasureToExpectedAndReportedValues);
 
             var acresCompletedChartConfig = new GoogleChartConfiguration(acresCompletedChartTitle, false, GoogleChartType.ColumnChart, dataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
@@ -1279,9 +1325,9 @@ namespace ProjectFirma.Web.Controllers
             acresCompletedChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.Top);
             acresCompletedChartConfig.ChartArea = new GoogleChartConfigurationArea()
             {
-                Width = "70%",
+                Width = "100%",
                 Height = "75%",
-                Left = "15%",
+                Left = "20%",
                 Top = 10,
 
             };
@@ -1320,13 +1366,13 @@ namespace ProjectFirma.Web.Controllers
             var projectIDs = projects.Select(x => x.ProjectID).ToList();
             foreach (var pmID in pmIDs)
             {
-                var expectedValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds
+                var expectedValue = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds
                     .Where(x => x.PerformanceMeasureID == pmID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => x.ExpectedValue) ?? 0;
+                    .Sum(x => x.ExpectedValue) ?? 0);
 
-                var reportedValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                var reportedValue = Math.Round(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
                     .Where(x => x.PerformanceMeasureID == pmID && projectIDs.Contains(x.ProjectID))
-                    .Sum(x => (double?)x.ActualValue) ?? 0;
+                    .Sum(x => (double?)x.ActualValue) ?? 0);
 
                 var performanceMeasure =
                     HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == pmID);
@@ -1399,6 +1445,7 @@ namespace ProjectFirma.Web.Controllers
             var underservedCommunitiesGoogleChart = GetUnderservedCommunitiesPieChartForProjectDashboard(projects, projectsInUnderservedCommunities);
             var projectsByOwnerOrgTypeGoogleChart = GetProjectsByOwnerOrgTypeChart(projects);
             var projectsByCountyAndTribalLandGoogleChart = GetProjectsByCountyAndTribalLandChart(projects);
+            var projectsByTribalRegionGoogleChart = GetProjectsByTrialRegionChart(projects);
             var projectsByProjectTypeGoogleChart = GetProjectsByProjectTypeChart(projects);
             var projectStagesGoogleChart = GetProjectStagesPieChartForProjectDashboard(projects);
             var projectsByTATypeGoogleChart = GetProjectsByTATypeChart(projects);
@@ -1431,7 +1478,7 @@ namespace ProjectFirma.Web.Controllers
                 .Sum(x => (double?)x.ActualValue) ?? 0;
 
             var viewData = new ProjectDashboardChartsViewData(underservedCommunitiesGoogleChart, DisadvantagedCommunityStatusGeospatialAreaTypeID,
-                projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, CountyGeospatialAreaTypeID,
+                projectsByOwnerOrgTypeGoogleChart, projectsByCountyAndTribalLandGoogleChart, projectsByTribalRegionGoogleChart, CountyGeospatialAreaTypeID,
                 TribeGeospatialAreaTypeID, projectsByProjectTypeGoogleChart, ProjectTypeClassificationID,
                 projectStagesGoogleChart, tribalLandProjectCount,
                 awardedTAAndCapacityEnhancementProjectCount, ncrpTAInvestment, acresImpactedViaTAProjects, totalLeveraged,

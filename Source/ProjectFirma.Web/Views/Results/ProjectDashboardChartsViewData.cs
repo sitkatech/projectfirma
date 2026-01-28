@@ -34,6 +34,7 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData UnderservedCommunitiesViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByOwnerOrgTypeViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByCountyAndTribalLandViewGoogleChartViewData;
+        public readonly ViewGoogleChartViewData ProjectsByTribalRegionViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByProjectTypeViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectStagesViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData ProjectsByTATypeViewGoogleChartViewData;
@@ -62,7 +63,7 @@ namespace ProjectFirma.Web.Views.Results
         public double WaterSupplyImprovedReliabilityNumberOfHouseholds { get; }
         public double AvoidedCosts { get; }
 
-        public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, int disadvantagedCommunityStatusGeospatialAreaTypeID, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
+        public ProjectDashboardChartsViewData(GoogleChartJson underservedCommunitiesGoogleChart, int disadvantagedCommunityStatusGeospatialAreaTypeID, GoogleChartJson projectsByOwnerOrgTypeGoogleChart, GoogleChartJson projectsByCountyAndTribalLandGoogleChart, GoogleChartJson projectsByTribalRegionGoogleChart, int countyGeospatialAreaTypeID, int tribalLandGeospatialAreaTypeID,
             GoogleChartJson projectsByProjectTypeGoogleChart, int projectTypeClassificationSystemID, GoogleChartJson projectStagesGoogleChart, int numberOfTribalProjects,
             int awardedTAAndCapacityEnhancementProjectCount, decimal ncrpTAInvestment, decimal acresImpactedViaTAProjects, double totalLeveraged,
             int improvedWaterSupplyOrQualityProjectCount, double waterQualitySedimentStabilization, double waterSupplyImprovedAFY, double waterSupplyImprovedHouseholdsImpacted, double avoidedCosts,
@@ -89,6 +90,9 @@ namespace ProjectFirma.Web.Views.Results
             var tribalLandIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(c => c.Index(tribalLandGeospatialAreaTypeID)), "Tribal Land");
             ProjectsByCountyAndTribalLandViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by {countyIndexUrl}</b>");
             ProjectsByCountyAndTribalLandHasData = projectsByCountyAndTribalLandGoogleChart.HasData();
+
+            ProjectsByTribalRegionViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByTribalRegionGoogleChart, projectsByTribalRegionGoogleChart.GoogleChartConfiguration.Title, 350, true);
+            ProjectsByTribalRegionViewGoogleChartViewData.ChartTitleWithLink = new HtmlString($"<b>{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} by Tribal Region</b>");
 
             ProjectsByProjectTypeViewGoogleChartViewData = new ViewGoogleChartViewData(projectsByProjectTypeGoogleChart, projectsByProjectTypeGoogleChart.GoogleChartConfiguration.Title, 350, true);
             var projectTypesIndexUrl = UrlTemplate.MakeHrefString(SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(projectTypeClassificationSystemID)), "Project Types");

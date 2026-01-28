@@ -1,4 +1,17 @@
-﻿using System;
+﻿using LtInfo.Common;
+using LtInfo.Common.Email;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.Owin;
+using Microsoft.Owin.Host.SystemWeb;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.Owin.Security.Provider;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
+using System;
 using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.IO;
@@ -9,19 +22,6 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
-
-using LtInfo.Common;
-using LtInfo.Common.Email;
-using Microsoft.IdentityModel.Protocols;
-using Microsoft.Owin;
-using Microsoft.Owin.Host.SystemWeb;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OpenIdConnect;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels;
-using ProjectFirmaModels.Models;
 using SameSiteMode = Microsoft.Owin.SameSiteMode;
 
 namespace ProjectFirma.Web.Auth
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Auth
             };
         }
 
-        public OpenIdConnectAuthenticationOptions CreateAuth0OpenIdConnectAuthenticationOptions()
+        public OpenIdConnectAuthenticationOptions CreateAuth0OpenIdConnectAuthenticationOptions(string canonicalHostNameForEnvironment)
         {
             // Configure Auth0 parameters
             string auth0Domain = ConfigurationManager.AppSettings["auth0:Domain"];
@@ -70,11 +70,11 @@ namespace ProjectFirma.Web.Auth
                 //BackchannelCertificateValidator = new AllowAllCertificatesValidator(),
                 // Configure Auth0's Logout URL by hooking into the RedirectToIdentityProvider notification, 
                 // which is getting triggered before any redirect to Auth0 happens.
-                Notifications = CreateAuth0OpenIdConnectAuthenticationNotifications(auth0Domain, auth0ClientId)
+                Notifications = CreateAuth0OpenIdConnectAuthenticationNotifications(auth0Domain, auth0ClientId, canonicalHostNameForEnvironment)
             };
         }
 
-        private OpenIdConnectAuthenticationNotifications CreateAuth0OpenIdConnectAuthenticationNotifications(string auth0Domain, string auth0ClientId)
+        private OpenIdConnectAuthenticationNotifications CreateAuth0OpenIdConnectAuthenticationNotifications(string auth0Domain, string auth0ClientId, string canonicalHostNameForEnvironment)
         {
             return new OpenIdConnectAuthenticationNotifications
             {
@@ -126,8 +126,8 @@ namespace ProjectFirma.Web.Auth
                 {
                     var request = notification.Request;
                     var response = notification.Response;
-                    string redirectUri = GetCookieValue(notification.Request, "UserSettings", "redirectUri");
-                    string postLogoutRedirectUri = GetCookieValue(notification.Request, "UserSettings", "postLogoutRedirectUri");
+                    string redirectUri = $"https://{canonicalHostNameForEnvironment}/Account/LogOn"; // this has to match the keystone client redirect uri;
+                    string postLogoutRedirectUri = $"https://{canonicalHostNameForEnvironment}/Account/LogOff";
 
                     if (!string.IsNullOrEmpty(redirectUri))
                     {
@@ -159,11 +159,21 @@ namespace ProjectFirma.Web.Auth
                         notification.HandleResponse();
                     }
 
+                    var httpContextBase = GetHttpContext(notification);
+                    var referrer = httpContextBase.Request.UrlReferrer;
+                    if (referrer != null && referrer.Host?.ToLower() == canonicalHostNameForEnvironment.ToLower())
+                    {
+                        notification.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
+                    }
+
                     return Task.FromResult(0);
                 }
             };
         }
-
+        private static HttpContextBase GetHttpContext(BaseContext<OpenIdConnectAuthenticationOptions> n)
+        {
+            return (HttpContextBase)n.OwinContext.Environment["System.Web.HttpContextBase"];
+        }
 
         /// <summary>
         /// Gets a value from a named cookie using a specified key.
