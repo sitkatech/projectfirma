@@ -161,7 +161,7 @@ namespace ProjectFirma.Web.Auth
 
                     var httpContextBase = GetHttpContext(notification);
                     var referrer = httpContextBase.Request.UrlReferrer;
-                    if (referrer != null && referrer.Host == canonicalHostNameForEnvironment)
+                    if (referrer != null && referrer.Host?.ToLower() == canonicalHostNameForEnvironment.ToLower())
                     {
                         notification.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
                     }
