@@ -169,8 +169,8 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         var firmaMap = this;
         // zoom level at or above which the detailed location polygons layer is shown;
-        // 9 approximates the 1:1,000,000 scale threshold discussed with the client (PF-2829)
-        var detailedLocationsDisclosureZoomLevel = 9;
+        // 10 approximates the 1:500,000 scale threshold requested by the client (PF-2829)
+        var detailedLocationsDisclosureZoomLevel = 10;
         var syncDetailedLocationsToZoom = function()
         {
             if (Sitka.Methods.isUndefinedNullOrEmpty(projectDetailedLocationsLayer))
